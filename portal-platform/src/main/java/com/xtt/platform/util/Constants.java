@@ -23,4 +23,6 @@ public class Constants {
 
 	/** 分隔符 */
 	public static final String SPLIT = ",";
+	/** 默认系统租户id */
+	public static final int DEFAULT_SYS_TENANT_ID = 10000;
 }

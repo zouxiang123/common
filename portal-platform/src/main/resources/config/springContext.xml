@@ -27,6 +27,15 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="aspectBean" class="com.lt.platform.framework.core.interceptor.MyBaitsInsertInterceptor" />  
+	<aop:config>  
+        <aop:aspect id="TestAspect" ref="aspectBean">  
+            <!--配置com.spring.service包下所有类或接口的所有方法-->  
+            <aop:pointcut id="businessService" expression="execution(* com.lt.dao.mapper..*.insert*(..))" />  
+            <aop:before pointcut-ref="businessService" method="doBefore"/>  
+            <aop:after-throwing pointcut-ref="businessService" method="doThrowing" throwing="ex"/>  
+        </aop:aspect>  
+    </aop:config>
     <context:component-scan base-package="com.xtt" />
 	
 </beans>
