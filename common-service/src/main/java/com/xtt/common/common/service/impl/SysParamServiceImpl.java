@@ -20,6 +20,7 @@ import com.xtt.common.dao.mapper.SysParamMapper;
 import com.xtt.common.dao.model.SysParam;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.constants.CommonConstants;
 import com.xtt.common.util.user.UserUtil;
@@ -41,6 +42,7 @@ public class SysParamServiceImpl implements ISysParamService {
 
 	@Override
 	public List<SysParamPO> getByTenantId(Integer tenantId) {
+		String projectName = HttpServletUtil.getContextAttrByName(CommonConstants.PROJECT_NAME).toString();
 		return sysParamMapper.selectByTenantId(tenantId);
 	}
 

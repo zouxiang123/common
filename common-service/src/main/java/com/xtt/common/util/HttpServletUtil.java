@@ -13,11 +13,14 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -179,5 +182,18 @@ public class HttpServletUtil {
 			}
 		}
 		return cookieMap;
+	}
+
+	/**
+	 * 获取ServletContext属性的名称获取属性的值
+	 * 
+	 * @Title: getContextAttrByName
+	 * @return
+	 *
+	 */
+	public static Object getContextAttrByName(String name) {
+		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
+		ServletContext servletContext = webApplicationContext.getServletContext();
+		return servletContext.getAttribute(name);
 	}
 }

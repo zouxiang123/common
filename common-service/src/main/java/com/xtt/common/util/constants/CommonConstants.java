@@ -81,6 +81,10 @@ public class CommonConstants {
 	public static final String OPERATION_ADD = "add";
 	public static final String OPERATION_SELECT = "select";
 
+	/** 项目名称 */
+	public static final String PROJECT_NAME = "projectName";
+	public static final String PROJECT_PD = "PD";
+
 	// 申明获取字典的三种策略
 	public static enum MethodEnum {
 		HTTPSESSION, MEMORY, CACHE, DATABASE;
