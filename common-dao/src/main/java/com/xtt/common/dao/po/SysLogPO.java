@@ -1,6 +1,6 @@
 /**   
  * @Title: SysLogPO.java 
- * @Package com.lt.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月14日 下午8:35:49 

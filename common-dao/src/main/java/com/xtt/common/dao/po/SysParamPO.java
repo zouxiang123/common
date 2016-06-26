@@ -1,6 +1,6 @@
 /**   
  * @Title: SysParamPO.java 
- * @Package com.lt.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月4日 下午5:38:52 
