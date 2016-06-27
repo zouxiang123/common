@@ -61,7 +61,7 @@ public interface SysParamMapper {
 	 * @return
 	 *
 	 */
-	SysParam selectByName(@Param("name") String name, @Param("tenantId") Integer tenantId);
+	SysParam selectByName(@Param("name") String name, @Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 查询该租户下所有的自定义参数数据
@@ -71,5 +71,5 @@ public interface SysParamMapper {
 	 * @return
 	 *
 	 */
-	List<SysParamPO> selectByTenantId(Integer tenantId);
+	List<SysParamPO> selectByTenantId(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 }

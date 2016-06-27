@@ -61,7 +61,7 @@ public interface SysUserMapper {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> searchPersonByName(@Param("name") String name, @Param("tenantId") Integer tenantId);
+	List<SysUserPO> searchPersonByName(@Param("name") String name, @Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 根据租户id和角色id获取该角色下所有的对象
@@ -69,10 +69,12 @@ public interface SysUserMapper {
 	 * @Title: selectByParentRoleIds
 	 * @param tenantId
 	 * @param roleIds
+	 * @param sysOwner所属系统
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> selectByParentRoleIds(@Param("tenantId") Integer tenantId, @Param("roleIds") String[] roleIds);
+	List<SysUserPO> selectByParentRoleIds(@Param("tenantId") Integer tenantId, @Param("roleIds") String[] roleIds,
+					@Param("sysOwner") String sysOwner);
 
 	/**
 	 * 根据id查询对象
@@ -92,7 +94,7 @@ public interface SysUserMapper {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> selectAllUserByTenantId(Integer tenantId);
+	List<SysUserPO> selectAllUserByTenantId(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 根据查询条件查询所有用户
@@ -102,7 +104,7 @@ public interface SysUserMapper {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> selectUserWithFilter(SysUserPO user);
+	List<SysUserPO> selectUserWithFilter(SysUser user);
 
 	/**
 	 * 根据租户id和账户名称查询数据
@@ -113,7 +115,7 @@ public interface SysUserMapper {
 	 * @return
 	 * 
 	 */
-	SysUser selectUserByAccount(@Param("account") String account, @Param("tenantId") Integer tenantId);
+	SysUser selectUserByAccount(@Param("account") String account, @Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 
 	SysUserPO login(@Param("account") String account, @Param("password") String password, @Param("tenantId") Integer tenantId,
 					@Param("sysOwner") String sysOwner);
@@ -123,10 +125,11 @@ public interface SysUserMapper {
 	 * 
 	 * @Title: selectRolesCount
 	 * @param tenantId
+	 * @param string
 	 * @return
 	 * 
 	 */
-	List<Map<String, Object>> selectRolesCount(Integer tenantId);
+	List<Map<String, Object>> selectRolesCount(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 重置用户密码

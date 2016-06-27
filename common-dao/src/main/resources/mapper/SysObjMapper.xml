@@ -270,11 +270,14 @@
   		#{item}
   	</foreach>
   	<if test="types != null">
-  		and type in
+  		and so.type in
   		<foreach collection="types" item="item" index="index" open="("  close=")" separator=",">
   			#{item}
   		</foreach>
   	</if>
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},so.sys_owner)
+    </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
   
@@ -286,6 +289,9 @@
   			#{item}
   		</foreach>
   	</if>
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
   	ORDER BY p_code,code ASC
   </select>
   
@@ -300,6 +306,9 @@
    	<if test="types != null">
   		AND so.type in <foreach collection="types" item="item" index="index" open="("  close=")" separator=",">#{item}</foreach>
   	</if>
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},so.sys_owner)
+    </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
   
@@ -311,6 +320,9 @@
   			#{item}
   		</foreach>
   	</if>
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
   </select>
   
   <delete id="deleteMenuByIds">

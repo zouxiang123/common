@@ -222,11 +222,17 @@
   	select * from sys_param
   	where param_name = #{name}
   	and fk_tenant_id = #{tenantId}
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
   </select>
   
-  <select id="selectByTenantId" parameterType="java.lang.Integer" resultMap="POResultMap">
+  <select id="selectByTenantId" resultMap="POResultMap">
   	select * from sys_param
  	where fk_tenant_id = #{tenantId}
+ 	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
   </select>
   
 </mapper>

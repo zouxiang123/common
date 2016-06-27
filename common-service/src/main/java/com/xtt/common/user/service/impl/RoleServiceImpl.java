@@ -24,6 +24,7 @@ import com.xtt.common.dao.model.SysRole2obj;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.constants.CommonConstants;
 import com.xtt.common.util.user.UserUtil;
@@ -41,17 +42,18 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<SysRole> getRoleListByTenantId(Integer tenantId) {
-		return sysRoleMapper.selectSysRoleByTenantId(tenantId);
+		return sysRoleMapper.selectSysRoleByTenantId(tenantId, HttpServletUtil.getProjectName());
 	}
 
 	@Override
 	public List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types) {
-		return sysObjMapper.selectMenuListByRoleId(roleId, types);
+		return sysObjMapper.selectMenuListByRoleId(roleId, types, HttpServletUtil.getProjectName());
 	}
 
 	@Override
 	public List<SysObj> getAllMenuList(String[] types) {
-		return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName("version"), UserUtil.getTenantId(), types);
+		return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName("version"), UserUtil.getTenantId(), types,
+						HttpServletUtil.getProjectName());
 	}
 
 	@Override
@@ -102,6 +104,7 @@ public class RoleServiceImpl implements IRoleService {
 				if (sr.getId() == null) {
 					sr.setFkTenantId(UserUtil.getTenantId());
 					DataUtil.setSystemFieldValue(sr);
+					sr.setSysOwner(HttpServletUtil.getProjectName());
 					sysRoleMapper.insertSelective(sr);
 				} else {
 					DataUtil.setSystemFieldValue(sr);
@@ -127,19 +130,21 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<SysObj> getNotChecked(Long[] roleIds, String[] types) {
-		return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName("version"), UserUtil.getTenantId(), roleIds, types);
+		return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName("version"), UserUtil.getTenantId(), roleIds, types,
+						HttpServletUtil.getProjectName());
 	}
 
 	@Override
 	public String addMenu(SysObj obj) {
 		String[] types = { "api" };
-		if (sysObjMapper.selectByKey(obj.getKey(), types) != null)
+		if (sysObjMapper.selectByKey(obj.getKey(), types, HttpServletUtil.getProjectName()) != null)
 			return CommonConstants.WARNING;
 		obj.setVersion(SysParamUtil.getValueByName("version"));
 		obj.setFkTenantId(UserUtil.getTenantId());
 		obj.setType("api");
 		DataUtil.setSystemFieldValue(obj);
 		obj.setId(null);
+		obj.setSysOwner(HttpServletUtil.getProjectName());
 		sysObjMapper.insertSelective(obj);
 		return CommonConstants.SUCCESS;
 	}
@@ -153,7 +158,7 @@ public class RoleServiceImpl implements IRoleService {
 	@Override
 	public SysRole getByConstant(int constantType, Integer tenantId) {
 		int[] constantTypes = { constantType };
-		List<SysRole> list = sysRoleMapper.selectByConstant(constantTypes, tenantId);
+		List<SysRole> list = sysRoleMapper.selectByConstant(constantTypes, tenantId, HttpServletUtil.getProjectName());
 		if (list != null && list.size() > 0)
 			return list.get(0);
 		else
@@ -188,6 +193,6 @@ public class RoleServiceImpl implements IRoleService {
 
 	@Override
 	public List<SysRole> getByConstants(int[] constantTypes, Integer tenantId) {
-		return sysRoleMapper.selectByConstant(constantTypes, tenantId);
+		return sysRoleMapper.selectByConstant(constantTypes, tenantId, HttpServletUtil.getProjectName());
 	}
 }

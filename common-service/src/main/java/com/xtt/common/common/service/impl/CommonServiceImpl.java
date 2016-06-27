@@ -70,6 +70,7 @@ public class CommonServiceImpl implements ICommonService {
 
 	@Override
 	public SysLog selectSysLog(SysLogPO record) {
+		record.setSysOwner(HttpServletUtil.getProjectName());
 		List<SysLog> list = sysLogMapper.selectSysLog(record);
 		record.setResults(list);
 		return record;
@@ -86,15 +87,17 @@ public class CommonServiceImpl implements ICommonService {
 		sysLog.setLogType(type);
 		sysLog.setLogInfo(logInfo);
 		sysLog.setLogTime(now);
-		sysLog.setSysOwner(HttpServletUtil.getProjectName());
 		sysLog.setOperatorId(UserUtil.getLoginUserId());
 		sysLog.setFkTenantId(UserUtil.getTenantId());
+		sysLog.setSysOwner(HttpServletUtil.getProjectName());
 		DataUtil.setSystemFieldValue(sysLog);
+		sysLog.setSysOwner(HttpServletUtil.getProjectName());
 		return sysLogMapper.insert(sysLog);
 	}
 
 	@Override
 	public int saveFeedback(Feedback feedback) {
+		feedback.setSysOwner(HttpServletUtil.getProjectName());
 		return feedbackMapper.insert(feedback);
 	}
 

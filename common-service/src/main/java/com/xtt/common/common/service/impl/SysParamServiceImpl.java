@@ -32,18 +32,17 @@ public class SysParamServiceImpl implements ISysParamService {
 
 	@Override
 	public SysParam getByName(String name) {
-		return sysParamMapper.selectByName(name, UserUtil.getTenantId());
+		return sysParamMapper.selectByName(name, UserUtil.getTenantId(), HttpServletUtil.getProjectName());
 	}
 
 	@Override
 	public SysParam getByName(String name, Integer tenantId) {
-		return sysParamMapper.selectByName(name, tenantId);
+		return sysParamMapper.selectByName(name, tenantId, HttpServletUtil.getProjectName());
 	}
 
 	@Override
 	public List<SysParamPO> getByTenantId(Integer tenantId) {
-		String projectName = HttpServletUtil.getContextAttrByName(CommonConstants.PROJECT_NAME).toString();
-		return sysParamMapper.selectByTenantId(tenantId);
+		return sysParamMapper.selectByTenantId(tenantId, HttpServletUtil.getProjectName());
 	}
 
 	@Override
@@ -54,6 +53,7 @@ public class SysParamServiceImpl implements ISysParamService {
 			}
 			param.setFkTenantId(UserUtil.getTenantId());
 			DataUtil.setSystemFieldValue(param);
+			param.setSysOwner(HttpServletUtil.getProjectName());
 			sysParamMapper.insert(param);
 		} else {
 			param.setUpdateUserId(UserUtil.getLoginUserId());

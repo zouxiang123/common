@@ -90,8 +90,8 @@ public class CommonConstants {
 		HTTPSESSION, MEMORY, CACHE, DATABASE;
 	}
 
-	public static String DEFUALT_METHOD = MethodEnum.MEMORY.name();// 默认使用数据库策略
-	public static String DEFUALT_SESSION_METHOD = MethodEnum.HTTPSESSION.name();// 默认使用session策略
+	public static final String DEFUALT_METHOD = MethodEnum.MEMORY.name();// 默认使用数据库策略
+	public static final String DEFUALT_SESSION_METHOD = MethodEnum.HTTPSESSION.name();// 默认使用session策略
 
 	// 申明获取字典的三种策略
 	// static enum SessionAndCacheEnum {

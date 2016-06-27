@@ -60,7 +60,7 @@ public interface SysRoleMapper {
 	 * @return
 	 * 
 	 */
-	List<SysRole> selectSysRoleByTenantId(int tenantId);
+	List<SysRole> selectSysRoleByTenantId(@Param("tenantId") int tenantId, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 根据roleIds 批量删除角色数据
@@ -89,5 +89,6 @@ public interface SysRoleMapper {
 	 * @return
 	 *
 	 */
-	List<SysRole> selectByConstant(@Param("constantTypes") int[] constantTypes, @Param("tenantId") Integer tenantId);
+	List<SysRole> selectByConstant(@Param("constantTypes") int[] constantTypes, @Param("tenantId") Integer tenantId,
+					@Param("sysOwner") String sysOwner);
 }

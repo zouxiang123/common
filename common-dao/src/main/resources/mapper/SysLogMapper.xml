@@ -205,7 +205,7 @@
 	<!-- 自定义 -->
 	<resultMap id="ExtendResultMap" type="com.xtt.common.dao.po.SysLogPO" extends="BaseResultMap"/>
 
-	<select id="selectSysLog" parameterType="com.xtt.common.dao.po.SysLogPO" resultMap="ExtendResultMap">
+	<select id="selectSysLog" parameterType="com.xtt.common.dao.model.SysLog" resultMap="ExtendResultMap">
 		select
 			sl.*,su.name
 		from sys_log sl left join sys_user su on sl.operator_id=su.id
@@ -219,6 +219,9 @@
 	      <if test="endDate != null and endDate != ''">
 	        and log_time &lt;= concat(#{endDate},' 23:59:59')
 	      </if>
+	     <if test="sysOwner != null and sysOwner != ''" >
+	    	AND find_in_set(#{sysOwner},sys_owner)
+	    </if> 
 		order by log_time desc
 	</select>
 	

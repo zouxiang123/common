@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.SysLog;
-import com.xtt.common.dao.po.SysLogPO;
 
 @Repository
 public interface SysLogMapper {
@@ -51,5 +50,5 @@ public interface SysLogMapper {
 	 */
 	int updateByPrimaryKey(SysLog record);
 
-	List<SysLog> selectSysLog(SysLogPO record);
+	List<SysLog> selectSysLog(SysLog record);
 }

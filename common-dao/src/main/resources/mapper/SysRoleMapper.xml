@@ -203,8 +203,13 @@
   </update>
   
   <!-- 自定义 -->
-  <select id="selectSysRoleByTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	SELECT * FROM sys_role WHERE fk_tenant_id = #{tenantId,jdbcType=INTEGER} ORDER BY parent_id ASC;
+  <select id="selectSysRoleByTenantId" resultMap="BaseResultMap">
+  	SELECT * FROM sys_role 
+  	WHERE fk_tenant_id = #{tenantId,jdbcType=INTEGER} 
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
+  	ORDER BY parent_id ASC
   </select>
   
   <delete id="batchDeleteByRoleIds">
@@ -215,7 +220,7 @@
   </delete>
   
   <insert id="batchInsert">
-    insert into sys_role (id,parent_id, name, description,  fk_tenant_id, create_time, create_user_id,  update_time, update_user_id)
+    insert into sys_role (id,parent_id, name, description,  fk_tenant_id,sys_owner, create_time, create_user_id,  update_time, update_user_id)
     <foreach collection="list" index="index" item="item" separator=" union all ">
     	select 
     	#{item.id},
@@ -223,6 +228,7 @@
         #{item.name},
         #{item.description},
         #{item.fkTenantId},
+        #{item.sysOwner},
         #{item.createTime},
         #{item.createUserId},
         #{item.updateTime},
@@ -237,5 +243,8 @@
   	<foreach collection="constantTypes" item="item" open="(" separator="," close=")">
   	    #{item}
   	</foreach>
+  	<if test="sysOwner != null and sysOwner != ''" >
+    	AND find_in_set(#{sysOwner},sys_owner)
+    </if> 
   </select>
 </mapper>

@@ -60,7 +60,7 @@ public interface SysObjMapper {
 	 * @return
 	 *
 	 */
-	List<SysObj> selectMenuListByRoleId(@Param("roleIds") Long[] roleIds, @Param("types") String[] types);
+	List<SysObj> selectMenuListByRoleId(@Param("roleIds") Long[] roleIds, @Param("types") String[] types, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 查询当前租户该版本下所有菜单
@@ -72,7 +72,8 @@ public interface SysObjMapper {
 	 * @return
 	 *
 	 */
-	List<SysObj> selectAllMenuList(@Param("version") String version, @Param("tenantId") Integer tenantId, @Param("types") String[] types);
+	List<SysObj> selectAllMenuList(@Param("version") String version, @Param("tenantId") Integer tenantId, @Param("types") String[] types,
+					@Param("sysOwner") String sysOwner);
 
 	/**
 	 * 查询当前租户以及版本没有选中的菜单
@@ -85,7 +86,7 @@ public interface SysObjMapper {
 	 *
 	 */
 	List<SysObj> selectNotChecked(@Param("version") String version, @Param("tenantId") Integer tenantId, @Param("roleIds") Long[] roleIds,
-					@Param("types") String[] types);
+					@Param("types") String[] types, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 通过type和key 查询对象
@@ -96,7 +97,7 @@ public interface SysObjMapper {
 	 * @return
 	 *
 	 */
-	SysObj selectByKey(@Param("key") String key, @Param("types") String[] types);
+	SysObj selectByKey(@Param("key") String key, @Param("types") String[] types, @Param("sysOwner") String sysOwner);
 
 	/**
 	 * 通过id删除menu
