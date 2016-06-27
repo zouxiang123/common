@@ -115,7 +115,8 @@ public interface SysUserMapper {
 	 */
 	SysUser selectUserByAccount(@Param("account") String account, @Param("tenantId") Integer tenantId);
 
-	SysUserPO login(@Param("account") String account, @Param("password") String password, @Param("tenantId") Integer tenantId);
+	SysUserPO login(@Param("account") String account, @Param("password") String password, @Param("tenantId") Integer tenantId,
+					@Param("sysOwner") String sysOwner);
 
 	/**
 	 * 获取所有角色对应数目
