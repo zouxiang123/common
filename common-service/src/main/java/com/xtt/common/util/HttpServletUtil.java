@@ -196,4 +196,8 @@ public class HttpServletUtil {
 		ServletContext servletContext = webApplicationContext.getServletContext();
 		return servletContext.getAttribute(name);
 	}
+
+	public static String getProjectName() {
+		return getContextAttrByName(CommonConstants.PROJECT_NAME).toString();
+	}
 }

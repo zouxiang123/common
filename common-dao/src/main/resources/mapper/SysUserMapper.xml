@@ -403,7 +403,7 @@
 		and u.password=#{password,jdbcType=VARCHAR} 
 		and u.fk_tenant_id=#{tenantId,jdbcType=INTEGER}
 		<if test="sysOwner != null and sysOwner != ''" >
-			and find_in_set(#{sysOwner},u.sys_owner)=1
+			and find_in_set(#{sysOwner},u.sys_owner)
 		</if>
 	</select>
 	

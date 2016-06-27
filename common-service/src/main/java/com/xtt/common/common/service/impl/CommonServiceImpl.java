@@ -30,6 +30,7 @@ import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.common.dao.po.SysLogPO;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.user.UserUtil;
 
 /**
@@ -85,6 +86,7 @@ public class CommonServiceImpl implements ICommonService {
 		sysLog.setLogType(type);
 		sysLog.setLogInfo(logInfo);
 		sysLog.setLogTime(now);
+		sysLog.setSysOwner(HttpServletUtil.getProjectName());
 		sysLog.setOperatorId(UserUtil.getLoginUserId());
 		sysLog.setFkTenantId(UserUtil.getTenantId());
 		DataUtil.setSystemFieldValue(sysLog);

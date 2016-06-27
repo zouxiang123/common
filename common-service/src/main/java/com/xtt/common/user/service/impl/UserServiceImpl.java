@@ -15,14 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
-import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
@@ -31,20 +28,18 @@ import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.constants.CommonConstants;
 import com.xtt.common.util.user.UserUtil;
 import com.xtt.platform.util.security.MD5Util;
 
 @Service
 public class UserServiceImpl implements IUserService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	@Autowired
 	private SysUser2roleMapper sysUser2roleMapper;
-	@Autowired
-	private ICommonService commonService;
 
 	@Override
 	public List<SysUserPO> getDoctors(Integer tenantId) {
@@ -163,7 +158,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public SysUserPO login(String account, String password, Integer tenantId) {
-		return sysUserMapper.login(account, password, tenantId);
+		return sysUserMapper.login(account, password, tenantId, HttpServletUtil.getProjectName());
 	}
 
 	@Override
