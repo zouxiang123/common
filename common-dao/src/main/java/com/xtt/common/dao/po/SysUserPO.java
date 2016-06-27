@@ -17,6 +17,7 @@ public class SysUserPO extends SysUser {
 	private String sexShow;
 	private String parentRoleId;
 	private String positionShow;
+	@SuppressWarnings("unused")
 	private String mobileShow;
 
 	public String getRoleName() {
