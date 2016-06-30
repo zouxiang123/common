@@ -12,8 +12,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +27,7 @@ import com.xtt.common.dao.model.Feedback;
 import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.common.dao.po.SysLogPO;
+import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.user.UserUtil;
@@ -42,8 +41,6 @@ import com.xtt.common.util.user.UserUtil;
  */
 @Service
 public class CommonServiceImpl implements ICommonService {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommonServiceImpl.class);
 
 	@Autowired
 	SysTenantMapper sysTenantMapper;
@@ -99,6 +96,12 @@ public class CommonServiceImpl implements ICommonService {
 	public int saveFeedback(Feedback feedback) {
 		feedback.setSysOwner(HttpServletUtil.getProjectName());
 		return feedbackMapper.insert(feedback);
+	}
+
+	@Override
+	public List<SysUserPO> searchPersonByName(String name, Integer tenantId) {
+		List<SysUserPO> list = sysUserMapper.searchPersonByName(name, tenantId, HttpServletUtil.getProjectName());
+		return list;
 	}
 
 }
