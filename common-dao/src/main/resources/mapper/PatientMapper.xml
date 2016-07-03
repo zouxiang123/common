@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xtt.pd.dao.mapper.PatientMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.pd.dao.model.Patient">
+<mapper namespace="com.xtt.common.dao.mapper.PatientMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.Patient">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -47,6 +50,9 @@
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
   <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     id, account, name, initial, spell_initials, password, id_type, id_number, sex, birthday, 
     image_path, work_unit, profession, mobile, emergency_contacts, emergency_mobile, 
     emergency_contacts2, emergency_mobile2, emergency_contacts3, emergency_mobile3, province, 
@@ -56,16 +62,25 @@
     update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     select 
     <include refid="Base_Column_List" />
     from patient
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     delete from patient
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xtt.pd.dao.model.Patient">
+  <insert id="insert" parameterType="com.xtt.common.dao.model.Patient">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     insert into patient (id, account, name, 
       initial, spell_initials, password, 
       id_type, id_number, sex, 
@@ -97,7 +112,10 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.xtt.pd.dao.model.Patient">
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     insert into patient
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -362,7 +380,10 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.pd.dao.model.Patient">
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.Patient">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     update patient
     <set>
       <if test="account != null">
@@ -494,7 +515,10 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xtt.pd.dao.model.Patient">
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.Patient">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     update patient
     set account = #{account,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -541,18 +565,19 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+
 	<!-- 自定义 -->
-	<resultMap id="ExtendResultMap" extends="BaseResultMap" type="com.xtt.common.dao.po.PatientPO">
+	<resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.PatientPO">
 	  <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
 	  <result column="age" jdbcType="VARCHAR" property="age" />
 	  
-	  <result column="fk_dialysis_campaign_id" property="fkDialysisCampaignId" jdbcType="BIGINT" />
-	  <result column="last_step" property="lastStep" jdbcType="INTEGER" />
-	  <result column="is_emergency" property="isEmergency" jdbcType="BIT" />
+	  <result column="fk_dialysis_campaign_id" jdbcType="BIGINT" property="fkDialysisCampaignId" />
+	  <result column="last_step" jdbcType="INTEGER" property="lastStep" />
+	  <result column="is_emergency" jdbcType="BIT" property="isEmergency" />
 	  
-	  <result column="bedCode" property="bedCode"/>
-	  <result column="areaCode" property="areaCode"/>
+	  <result column="bedCode" property="bedCode" />
+	  <result column="areaCode" property="areaCode" />
 	</resultMap>
 	<!-- 根据流程ID查询对应的患者 -->
 	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
@@ -623,7 +648,7 @@
 		LEFT JOIN (
 			SELECT DISTINCT pds.fk_patient_id
 			FROM patient_drug_stock pds
-			INNER JOIN drug dr ON dr.id = pds.fk_drug_id AND dr.is_enable = 0 AND dr.pid > 0
+			INNER JOIN drug dr ON dr.id = pds.fk_drug_id AND dr.is_enable = 0 AND dr.pid &gt; 0
 			WHERE dr.fk_tenant_id = #{fkTenantId}
 			AND dr.stock_flag = 1
 			GROUP BY pds.fk_patient_id, dr.pid HAVING SUM(stock) &lt; (SELECT param_value from sys_param where param_name='drugWarning')
@@ -691,7 +716,7 @@
 		LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = p.id AND DATE_FORMAT(dc.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
 		<if test="ids != null and ids.size() != 0">
 		WHERE p.id NOT IN 
-			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+			<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">#{item}</foreach>
 		</if>
 		GROUP BY p.id
 	</select>
@@ -708,7 +733,7 @@
 		LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = p.id AND DATE_FORMAT(dc.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
 		<if test="ids != null and ids.size() != 0">
 		WHERE p.id NOT IN 
-			<foreach collection="ids" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>
+			<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">#{item}</foreach>
 		</if>
 		GROUP BY p.id
 	</select>
@@ -754,7 +779,7 @@
 				GROUP BY
 					dc.fk_patient_id
 			) AS t
-			where t.create_time >= #{startDate}
+			where t.create_time &gt;= #{startDate}
 		<choose>
 			<when test="dateType == 3">
 				GROUP BY DATE_FORMAT(t.create_time, '%Y-%m')
@@ -826,7 +851,7 @@
 		where dc.id=#{dcId} and p.fk_tenant_id = #{tenantId,jdbcType=INTEGER} and p.del_flag = 0
 	</select>
 	
-	<resultMap id="manageResultMap" extends="BaseResultMap" type="com.xtt.common.dao.po.PatientManagePO"></resultMap>
+	<resultMap extends="BaseResultMap" id="manageResultMap" type="com.xtt.common.dao.po.PatientManagePO" />
 	
 	<select id="selectListForPatientManage" parameterType="com.xtt.common.dao.model.Patient" resultMap="manageResultMap">
 		select pa.* 
@@ -932,7 +957,7 @@
 		WHERE pa.fk_tenant_id = ${fkTenantId}
 		<if test="categoryIds != null">
 			AND dr.pid in
-			<foreach collection="categoryIds" item="item" open="(" separator="," close=")">
+			<foreach close=")" collection="categoryIds" item="item" open="(" separator=",">
 				#{item}
 			</foreach>
 		</if>

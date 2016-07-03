@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientHistoryMapper">
   <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     <result column="id" jdbcType="BIGINT" property="id" />
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -47,6 +50,9 @@
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
   <insert id="insert" parameterType="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     insert into patient_history (id, account, name, 
       initial, spell_initials, password, 
       id_type, id_number, sex, 
@@ -79,6 +85,9 @@
       #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
     insert into patient_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
