@@ -1,4 +1,5 @@
 package com.xtt.platform.util;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,7 +23,8 @@ import java.util.Scanner;
 public class HardwareUtil {
 
 	public static String getProcessorId() throws IOException {
-		Process process = Runtime.getRuntime().exec(new String[] { "wmic", "cpu", "get", "ProcessorId" });
+		// Process process = Runtime.getRuntime().exec(new String[] { "wmic", "cpu", "get", "ProcessorId" });
+		Process process = new ProcessBuilder(new String[] { "wmic", "cpu", "get", "ProcessorId" }).start();
 		process.getOutputStream().close();
 		Scanner sc = new Scanner(process.getInputStream());
 		String property = sc.next();
