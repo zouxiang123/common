@@ -220,7 +220,7 @@
 	        and log_time &lt;= concat(#{endDate},' 23:59:59')
 	      </if>
 	     <if test="sysOwner != null and sysOwner != ''" >
-	    	AND find_in_set(#{sysOwner},sys_owner)
+	    	AND find_in_set(#{sysOwner},sl.sys_owner)
 	    </if> 
 		order by log_time desc
 	</select>
