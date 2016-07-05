@@ -1,4 +1,4 @@
-package com.xtt.platform.exception.controller;
+package com.xtt.platform.exception;
 
 import java.io.PrintWriter;
 

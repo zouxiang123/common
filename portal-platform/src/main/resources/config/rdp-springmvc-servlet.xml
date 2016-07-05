@@ -61,7 +61,7 @@
 	</bean> -->
 
 	<!--Web异常解析处理 -->
-	<bean class="com.xtt.platform.exception.controller.RdpHandlerExceptionResolver">
+	<bean class="com.xtt.platform.exception.RdpHandlerExceptionResolver">
 		<property name="order" value="0" />
 		<!-- 定义默认的异常处理页面，当该异常类型的注册时使用 -->
 		<property name="defaultErrorView" value="resource:error/500" />
@@ -70,7 +70,7 @@
 		<!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常也页名作为值 -->
 		<property name="exceptionMappings">
 			<util:map>
-				<entry key="com.xtt.platform.exception.controller.JsonResponseException"
+				<entry key="com.xtt.platform.exception.JsonResponseException"
 					value="resource:/view/error/500" />
 				<entry key="org.springframework.validation.BindException"
 					value="resource:/view/error/500" />
