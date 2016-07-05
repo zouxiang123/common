@@ -13,6 +13,12 @@ public class CmPatientDiagnosis {
     private Long id;
 
     /**
+     * 诊断配置编号
+     * cm_patient_diagnosis.fk_dianosis_conf_id
+     */
+    private Long fkDianosisConfId;
+
+    /**
      * 记录id
      * cm_patient_diagnosis.fk_patient_id
      */
@@ -66,6 +72,20 @@ public class CmPatientDiagnosis {
      */
     public void setId(Long id) {
         this.id = id;
+    }
+
+    /**
+     * 诊断配置编号
+     */
+    public Long getFkDianosisConfId() {
+        return fkDianosisConfId;
+    }
+
+    /**
+     * 诊断配置编号
+     */
+    public void setFkDianosisConfId(Long fkDianosisConfId) {
+        this.fkDianosisConfId = fkDianosisConfId;
     }
 
     /**

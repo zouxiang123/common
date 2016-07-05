@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xtt.common.dao.mapper.CmPatientDiagnosisMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmPatientDiagnosis">
+<mapper namespace="com.xtt.common.dao.mapper.CmDiagnosisConfMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="fk_dianosis_conf_id" jdbcType="BIGINT" property="fkDianosisConfId" />
-    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
-    <result column="step" jdbcType="VARCHAR" property="step" />
+    <result column="p_item_code" jdbcType="VARCHAR" property="pItemCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -19,8 +22,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_dianosis_conf_id, fk_patient_id, step, fk_tenant_id, create_time, create_user_id, 
-    update_time, update_user_id
+    id, p_item_code, item_code, is_leaf, order_by, sys_owner, is_enable, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -28,46 +31,57 @@
     -->
     select 
     <include refid="Base_Column_List" />
-    from cm_patient_diagnosis
+    from cm_diagnosis_conf
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    delete from cm_patient_diagnosis
+    delete from cm_diagnosis_conf
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xtt.common.dao.model.CmPatientDiagnosis">
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into cm_patient_diagnosis (id, fk_dianosis_conf_id, fk_patient_id, 
-      step, fk_tenant_id, create_time, 
+    insert into cm_diagnosis_conf (id, p_item_code, item_code, 
+      is_leaf, order_by, sys_owner, 
+      is_enable, fk_tenant_id, create_time, 
       create_user_id, update_time, update_user_id
       )
-    values (#{id,jdbcType=BIGINT}, #{fkDianosisConfId,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, 
-      #{step,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
+      #{isLeaf,jdbcType=BIT}, #{orderBy,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{isEnable,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosis">
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into cm_patient_diagnosis
+    insert into cm_diagnosis_conf
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="fkDianosisConfId != null">
-        fk_dianosis_conf_id,
+      <if test="pItemCode != null">
+        p_item_code,
       </if>
-      <if test="fkPatientId != null">
-        fk_patient_id,
+      <if test="itemCode != null">
+        item_code,
       </if>
-      <if test="step != null">
-        step,
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -89,14 +103,23 @@
       <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="fkDianosisConfId != null">
-        #{fkDianosisConfId,jdbcType=BIGINT},
+      <if test="pItemCode != null">
+        #{pItemCode,jdbcType=VARCHAR},
       </if>
-      <if test="fkPatientId != null">
-        #{fkPatientId,jdbcType=BIGINT},
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
       </if>
-      <if test="step != null">
-        #{step,jdbcType=VARCHAR},
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=BIT},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -115,20 +138,29 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosis">
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update cm_patient_diagnosis
+    update cm_diagnosis_conf
     <set>
-      <if test="fkDianosisConfId != null">
-        fk_dianosis_conf_id = #{fkDianosisConfId,jdbcType=BIGINT},
+      <if test="pItemCode != null">
+        p_item_code = #{pItemCode,jdbcType=VARCHAR},
       </if>
-      <if test="fkPatientId != null">
-        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
       </if>
-      <if test="step != null">
-        step = #{step,jdbcType=VARCHAR},
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=BIT},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -148,14 +180,17 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmPatientDiagnosis">
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update cm_patient_diagnosis
-    set fk_dianosis_conf_id = #{fkDianosisConfId,jdbcType=BIGINT},
-      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
-      step = #{step,jdbcType=VARCHAR},
+    update cm_diagnosis_conf
+    set p_item_code = #{pItemCode,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      is_leaf = #{isLeaf,jdbcType=BIT},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
