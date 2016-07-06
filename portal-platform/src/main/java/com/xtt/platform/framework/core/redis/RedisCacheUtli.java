@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,7 +16,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public class RedisCacheUtli {
 
-	private static RedisTemplate<Object, T> redisTemplate;
+	private static RedisTemplate redisTemplate;
 
 	/*	static{
 			redisTemplate = (RedisTemplate)SpringUtil.getBean("redisCache");
@@ -30,12 +29,12 @@ public class RedisCacheUtli {
 	 * @param str
 	 * @return
 	 */
-	public static void setString(String key, T str) {
+	public static void setString(String key, String str) {
 		redisTemplate.opsForValue().set(key, str);
 	}
 
-	public static T getString(String key) {
-		return (T) redisTemplate.opsForValue().get(key);
+	public static String getString(String key) {
+		return (String) redisTemplate.opsForValue().get(key);
 	}
 
 	/**
@@ -45,7 +44,7 @@ public class RedisCacheUtli {
 	 * @param obj
 	 * @return
 	 */
-	public static void setObject(String key, T obj) {
+	public static void setObject(String key, Object obj) {
 		redisTemplate.opsForValue().set(key, obj);
 	}
 
@@ -69,12 +68,12 @@ public class RedisCacheUtli {
 	 * @param listValue
 	 * @return
 	 */
-	public static void setList(String key, T listValue) {
+	public static void setList(String key, List listValue) {
 		redisTemplate.opsForList().leftPush(key, listValue);
 	}
 
-	public static List<T> getList(String key) {
-		return (List<T>) redisTemplate.opsForList().range(key, 0, -1);
+	public static List getList(String key) {
+		return (List) redisTemplate.opsForList().range(key, 0, -1);
 	}
 
 	public static void delList(String key) {
@@ -88,11 +87,11 @@ public class RedisCacheUtli {
 	 * @param mapValue
 	 * @return
 	 */
-	public static void setMap(String key, Map<? extends Object, ? extends Object> mapValue) {
+	public static void setMap(String key, Map mapValue) {
 		redisTemplate.opsForHash().putAll(key, mapValue);
 	}
 
-	public static Map<? extends Object, ? extends Object> getMap(String key) {
+	public static Map getMap(String key) {
 		return redisTemplate.opsForHash().entries(key);
 	}
 
@@ -107,23 +106,23 @@ public class RedisCacheUtli {
 	 * @param setValue
 	 * @return
 	 */
-	public static void setSet(String key, T setValue) {
+	public static void setSet(String key, Set setValue) {
 		redisTemplate.opsForSet().add(key, setValue);
 	}
 
-	public static Set<T> getSet(String key) {
-		return redisTemplate.opsForSet().members(key);
+	public static Set getSet(String key) {
+		return (Set) redisTemplate.opsForSet().members(key);
 	}
 
 	public static void delSet(String key) {
 		redisTemplate.delete(key);
 	}
 
-	public static RedisTemplate<Object, T> getRedisTemplate() {
+	public static RedisTemplate getRedisTemplate() {
 		return redisTemplate;
 	}
 
-	public static void setRedisTemplate(RedisTemplate<Object, T> redisTemplate) {
+	public static void setRedisTemplate(RedisTemplate redisTemplate) {
 		RedisCacheUtli.redisTemplate = redisTemplate;
 	}
 
@@ -155,7 +154,7 @@ public class RedisCacheUtli {
 		System.out.println(cache.getList("demoList1"));*/
 
 		/*测试Map*/
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map map = new HashMap();
 		map.put("key1", "ni");
 		map.put("key2", new User("map", 1000));
 		cache.setMap("demoMap1", map);
