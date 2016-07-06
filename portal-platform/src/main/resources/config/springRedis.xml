@@ -34,7 +34,7 @@
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory" >
 	</bean>
 	
-	<bean id="redisCache" class="com.xtt.platform.framework.core.redis.RedisCacheUtli">
+	<bean id="redisCache" class="com.xtt.platform.framework.core.redis.RedisCacheUtil">
 		<property name="redisTemplate" ref="redisTemplate"></property>
 	</bean>
 

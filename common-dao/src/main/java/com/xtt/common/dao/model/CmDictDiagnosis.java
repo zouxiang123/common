@@ -31,7 +31,7 @@ public class CmDictDiagnosis {
     private String itemName;
 
     /**
-     * 项目类型（HD：血透 PD：腹透）
+     * 组件类型(checkbox、input、textarea等)
      * cm_dict_diagnosis.item_type
      */
     private String itemType;
@@ -77,18 +77,6 @@ public class CmDictDiagnosis {
      * cm_dict_diagnosis.is_enable
      */
     private Boolean isEnable;
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
-     * cm_dict_diagnosis.sys_owner
-     */
-    private String sysOwner;
-
-    /**
-     * 租户id
-     * cm_dict_diagnosis.fk_tenant_id
-     */
-    private Integer fkTenantId;
 
     /**
      * 创建时间
@@ -171,14 +159,14 @@ public class CmDictDiagnosis {
     }
 
     /**
-     * 项目类型（HD：血透 PD：腹透）
+     * 组件类型(checkbox、input、textarea等)
      */
     public String getItemType() {
         return itemType;
     }
 
     /**
-     * 项目类型（HD：血透 PD：腹透）
+     * 组件类型(checkbox、input、textarea等)
      */
     public void setItemType(String itemType) {
         this.itemType = itemType;
@@ -280,34 +268,6 @@ public class CmDictDiagnosis {
      */
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
-     */
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
-     */
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
-    }
-
-    /**
-     * 租户id
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     * 租户id
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
     }
 
     /**

@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  * 
  * @author wolf.yansl
  */
-public class RedisCacheUtli {
+public class RedisCacheUtil {
 
 	private static RedisTemplate redisTemplate;
 
@@ -123,13 +123,13 @@ public class RedisCacheUtli {
 	}
 
 	public static void setRedisTemplate(RedisTemplate redisTemplate) {
-		RedisCacheUtli.redisTemplate = redisTemplate;
+		RedisCacheUtil.redisTemplate = redisTemplate;
 	}
 
 	public static void main(String[] args) {
 		ApplicationContext factory = new ClassPathXmlApplicationContext("config/springRedis.xml");
 		/*System.out.println(factory.getType("redisCache"));*/
-		RedisCacheUtli cache = (RedisCacheUtli) factory.getBean("redisCache");
+		RedisCacheUtil cache = (RedisCacheUtil) factory.getBean("redisCache");
 
 		/*测试String*/
 		/*cache.setString("demoString1", "demoStringValue1");
