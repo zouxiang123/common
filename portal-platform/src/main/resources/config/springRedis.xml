@@ -32,6 +32,18 @@
 	
 	<!--模板类： -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate" p:connection-factory-ref="jedisConnectionFactory" >
+		  <property name="keySerializer">  
+	          <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>  
+	      </property>  
+	      <property name="valueSerializer">  
+	          <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"></bean>  
+	      </property>    
+		  <property name="hashKeySerializer">  
+	          <bean class="org.springframework.data.redis.serializer.StringRedisSerializer"></bean>  
+	      </property>  
+	      <property name="hashValueSerializer">  
+	          <bean class="org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer"></bean>  
+	      </property>    
 	</bean>
 	
 	<bean id="redisCache" class="com.xtt.platform.framework.core.redis.RedisCacheUtil">
