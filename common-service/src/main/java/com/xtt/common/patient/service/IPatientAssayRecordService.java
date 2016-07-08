@@ -6,7 +6,7 @@
  * @date: 2016年1月29日 上午9:38:24 
  *
  */
-package com.xtt.common.patient;
+package com.xtt.common.patient.service;
 
 import java.util.Date;
 import java.util.List;

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.dao.mapper.PatientAssayResultMapper;
 import com.xtt.common.dao.model.PatientAssayResult;
 import com.xtt.common.dao.po.PatientAssayResultPO;
-import com.xtt.common.patient.IPatientAssayResultService;
+import com.xtt.common.patient.service.IPatientAssayResultService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.user.UserUtil;
 

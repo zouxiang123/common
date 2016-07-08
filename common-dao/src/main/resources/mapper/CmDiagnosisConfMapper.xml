@@ -10,6 +10,8 @@
     <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="item_path" jdbcType="VARCHAR" property="itemPath" />
+    <result column="item_level" jdbcType="INTEGER" property="itemLevel" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
@@ -22,8 +24,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, p_item_code, item_code, is_leaf, order_by, sys_owner, is_enable, fk_tenant_id, 
-    create_time, create_user_id, update_time, update_user_id
+    id, p_item_code, item_code, is_leaf, order_by, item_path, item_level, sys_owner, 
+    is_enable, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -46,15 +48,15 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into cm_diagnosis_conf (id, p_item_code, item_code, 
-      is_leaf, order_by, sys_owner, 
-      is_enable, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      is_leaf, order_by, item_path, 
+      item_level, sys_owner, is_enable, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
-      #{isLeaf,jdbcType=BIT}, #{orderBy,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
-      #{isEnable,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{isLeaf,jdbcType=BIT}, #{orderBy,jdbcType=INTEGER}, #{itemPath,jdbcType=VARCHAR}, 
+      #{itemLevel,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDiagnosisConf">
     <!--
@@ -76,6 +78,12 @@
       </if>
       <if test="orderBy != null">
         order_by,
+      </if>
+      <if test="itemPath != null">
+        item_path,
+      </if>
+      <if test="itemLevel != null">
+        item_level,
       </if>
       <if test="sysOwner != null">
         sys_owner,
@@ -114,6 +122,12 @@
       </if>
       <if test="orderBy != null">
         #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="itemPath != null">
+        #{itemPath,jdbcType=VARCHAR},
+      </if>
+      <if test="itemLevel != null">
+        #{itemLevel,jdbcType=INTEGER},
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
@@ -156,6 +170,12 @@
       <if test="orderBy != null">
         order_by = #{orderBy,jdbcType=INTEGER},
       </if>
+      <if test="itemPath != null">
+        item_path = #{itemPath,jdbcType=VARCHAR},
+      </if>
+      <if test="itemLevel != null">
+        item_level = #{itemLevel,jdbcType=INTEGER},
+      </if>
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
@@ -189,6 +209,8 @@
       item_code = #{itemCode,jdbcType=VARCHAR},
       is_leaf = #{isLeaf,jdbcType=BIT},
       order_by = #{orderBy,jdbcType=INTEGER},
+      item_path = #{itemPath,jdbcType=VARCHAR},
+      item_level = #{itemLevel,jdbcType=INTEGER},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       is_enable = #{isEnable,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},

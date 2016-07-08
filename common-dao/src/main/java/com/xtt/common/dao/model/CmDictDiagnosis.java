@@ -56,9 +56,9 @@ public class CmDictDiagnosis {
 
     /**
      * 树状层级
-     * cm_dict_diagnosis.level
+     * cm_dict_diagnosis.item_level
      */
-    private Integer level;
+    private Integer itemLevel;
 
     /**
      * 排序
@@ -217,15 +217,15 @@ public class CmDictDiagnosis {
     /**
      * 树状层级
      */
-    public Integer getLevel() {
-        return level;
+    public Integer getItemLevel() {
+        return itemLevel;
     }
 
     /**
      * 树状层级
      */
-    public void setLevel(Integer level) {
-        this.level = level;
+    public void setItemLevel(Integer itemLevel) {
+        this.itemLevel = itemLevel;
     }
 
     /**

@@ -30,7 +30,7 @@ import com.xtt.common.dao.model.PatientHistory;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientManagePO;
 import com.xtt.common.dao.po.PatientPO;
-import com.xtt.common.patient.IPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;

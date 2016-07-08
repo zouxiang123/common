@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.po.DictHospitalLabPO;
-import com.xtt.common.patient.IDictHospitalLabService;
+import com.xtt.common.patient.service.IDictHospitalLabService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.constants.CommonConstants;
 import com.xtt.common.util.user.UserUtil;

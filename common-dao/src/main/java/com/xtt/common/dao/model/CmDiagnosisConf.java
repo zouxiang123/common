@@ -37,6 +37,18 @@ public class CmDiagnosisConf {
     private Integer orderBy;
 
     /**
+     * 节点路径，以,分隔
+     * cm_diagnosis_conf.item_path
+     */
+    private String itemPath;
+
+    /**
+     * 节点层级
+     * cm_diagnosis_conf.item_level
+     */
+    private Integer itemLevel;
+
+    /**
      * 所属系统（HD：血透 PD：腹透）多系统","分割
      * cm_diagnosis_conf.sys_owner
      */
@@ -146,6 +158,34 @@ public class CmDiagnosisConf {
      */
     public void setOrderBy(Integer orderBy) {
         this.orderBy = orderBy;
+    }
+
+    /**
+     * 节点路径，以,分隔
+     */
+    public String getItemPath() {
+        return itemPath;
+    }
+
+    /**
+     * 节点路径，以,分隔
+     */
+    public void setItemPath(String itemPath) {
+        this.itemPath = itemPath;
+    }
+
+    /**
+     * 节点层级
+     */
+    public Integer getItemLevel() {
+        return itemLevel;
+    }
+
+    /**
+     * 节点层级
+     */
+    public void setItemLevel(Integer itemLevel) {
+        this.itemLevel = itemLevel;
     }
 
     /**

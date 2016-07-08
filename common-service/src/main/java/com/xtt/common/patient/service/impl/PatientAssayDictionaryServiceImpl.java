@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.dao.mapper.PatientAssayDictionaryMapper;
 import com.xtt.common.dao.po.PatientAssayDictionaryPO;
-import com.xtt.common.patient.IPatientAssayDictionaryService;
+import com.xtt.common.patient.service.IPatientAssayDictionaryService;
 
 @Service
 public class PatientAssayDictionaryServiceImpl implements IPatientAssayDictionaryService {

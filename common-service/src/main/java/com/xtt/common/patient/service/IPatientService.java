@@ -6,7 +6,7 @@
  * @date: 2015年9月17日 上午10:01:26 
  *
  */
-package com.xtt.common.patient;
+package com.xtt.common.patient.service;
 
 import java.util.List;
 import java.util.Map;
