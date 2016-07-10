@@ -8,7 +8,8 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_dianosis_conf_id" jdbcType="BIGINT" property="fkDianosisConfId" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
-    <result column="step" jdbcType="VARCHAR" property="step" />
+    <result column="last_step" jdbcType="INTEGER" property="lastStep" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -19,8 +20,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_dianosis_conf_id, fk_patient_id, step, fk_tenant_id, create_time, create_user_id, 
-    update_time, update_user_id
+    id, fk_dianosis_conf_id, fk_patient_id, last_step, sys_owner, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -43,13 +44,13 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into cm_patient_diagnosis (id, fk_dianosis_conf_id, fk_patient_id, 
-      step, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      last_step, sys_owner, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{fkDianosisConfId,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, 
-      #{step,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{lastStep,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosis">
     <!--
@@ -66,8 +67,11 @@
       <if test="fkPatientId != null">
         fk_patient_id,
       </if>
-      <if test="step != null">
-        step,
+      <if test="lastStep != null">
+        last_step,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -95,8 +99,11 @@
       <if test="fkPatientId != null">
         #{fkPatientId,jdbcType=BIGINT},
       </if>
-      <if test="step != null">
-        #{step,jdbcType=VARCHAR},
+      <if test="lastStep != null">
+        #{lastStep,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -127,8 +134,11 @@
       <if test="fkPatientId != null">
         fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
       </if>
-      <if test="step != null">
-        step = #{step,jdbcType=VARCHAR},
+      <if test="lastStep != null">
+        last_step = #{lastStep,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -155,7 +165,8 @@
     update cm_patient_diagnosis
     set fk_dianosis_conf_id = #{fkDianosisConfId,jdbcType=BIGINT},
       fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
-      step = #{step,jdbcType=VARCHAR},
+      last_step = #{lastStep,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

@@ -285,6 +285,6 @@
         and cdd.is_enable = #{isEnable,jdbcType=BIT}
       </if>
   	</where>
-  	order by cdd.p_item_code,cdd.item_code
+  	order by cdd.p_item_code,cdd.order_by
   </select>
 </mapper>

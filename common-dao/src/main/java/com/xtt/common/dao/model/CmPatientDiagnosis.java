@@ -25,10 +25,16 @@ public class CmPatientDiagnosis {
     private Long fkPatientId;
 
     /**
-     * 当前步骤
-     * cm_patient_diagnosis.step
+     * 最后操作步骤
+     * cm_patient_diagnosis.last_step
      */
-    private String step;
+    private Integer lastStep;
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * cm_patient_diagnosis.sys_owner
+     */
+    private String sysOwner;
 
     /**
      * 租户id
@@ -103,17 +109,31 @@ public class CmPatientDiagnosis {
     }
 
     /**
-     * 当前步骤
+     * 最后操作步骤
      */
-    public String getStep() {
-        return step;
+    public Integer getLastStep() {
+        return lastStep;
     }
 
     /**
-     * 当前步骤
+     * 最后操作步骤
      */
-    public void setStep(String step) {
-        this.step = step;
+    public void setLastStep(Integer lastStep) {
+        this.lastStep = lastStep;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     */
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     */
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 
     /**

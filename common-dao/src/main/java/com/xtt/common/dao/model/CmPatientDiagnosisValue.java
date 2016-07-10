@@ -1,42 +1,42 @@
 package com.xtt.common.dao.model;
 
 /**
- * cm_patient_diagnosis_item
+ * cm_patient_diagnosis_value
  */
-public class CmPatientDiagnosisItem {
+public class CmPatientDiagnosisValue {
     /**
      * 物理主键
-     * cm_patient_diagnosis_item.id
+     * cm_patient_diagnosis_value.id
      */
     private Long id;
 
     /**
      * 诊断主表
-     * cm_patient_diagnosis_item.fk_patient_diagnosis_id
+     * cm_patient_diagnosis_value.fk_patient_diagnosis_id
      */
     private Long fkPatientDiagnosisId;
 
     /**
      * 记录id
-     * cm_patient_diagnosis_item.fk_patient_id
+     * cm_patient_diagnosis_value.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
      * 诊断字典编号
-     * cm_patient_diagnosis_item.fk_diagnosis_code
+     * cm_patient_diagnosis_value.item_code
      */
-    private String fkDiagnosisCode;
+    private String itemCode;
 
     /**
      * 检测项的值
-     * cm_patient_diagnosis_item.item_value
+     * cm_patient_diagnosis_value.item_value
      */
     private String itemValue;
 
     /**
      * 租户id
-     * cm_patient_diagnosis_item.fk_tenant_id
+     * cm_patient_diagnosis_value.fk_tenant_id
      */
     private Integer fkTenantId;
 
@@ -85,15 +85,15 @@ public class CmPatientDiagnosisItem {
     /**
      * 诊断字典编号
      */
-    public String getFkDiagnosisCode() {
-        return fkDiagnosisCode;
+    public String getItemCode() {
+        return itemCode;
     }
 
     /**
      * 诊断字典编号
      */
-    public void setFkDiagnosisCode(String fkDiagnosisCode) {
-        this.fkDiagnosisCode = fkDiagnosisCode;
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     /**

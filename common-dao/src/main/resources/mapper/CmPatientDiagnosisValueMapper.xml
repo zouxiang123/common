@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xtt.common.dao.mapper.CmPatientDiagnosisItemMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmPatientDiagnosisItem">
+<mapper namespace="com.xtt.common.dao.mapper.CmPatientDiagnosisValueMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmPatientDiagnosisValue">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_patient_diagnosis_id" jdbcType="BIGINT" property="fkPatientDiagnosisId" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
-    <result column="fk_diagnosis_code" jdbcType="VARCHAR" property="fkDiagnosisCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
     <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
   </resultMap>
@@ -16,7 +16,7 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_patient_diagnosis_id, fk_patient_id, fk_diagnosis_code, item_value, fk_tenant_id
+    id, fk_patient_diagnosis_id, fk_patient_id, item_code, item_value, fk_tenant_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -24,32 +24,32 @@
     -->
     select 
     <include refid="Base_Column_List" />
-    from cm_patient_diagnosis_item
+    from cm_patient_diagnosis_value
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    delete from cm_patient_diagnosis_item
+    delete from cm_patient_diagnosis_value
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisItem">
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisValue">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into cm_patient_diagnosis_item (id, fk_patient_diagnosis_id, fk_patient_id, 
-      fk_diagnosis_code, item_value, fk_tenant_id
+    insert into cm_patient_diagnosis_value (id, fk_patient_diagnosis_id, fk_patient_id, 
+      item_code, item_value, fk_tenant_id
       )
     values (#{id,jdbcType=BIGINT}, #{fkPatientDiagnosisId,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, 
-      #{fkDiagnosisCode,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}
+      #{itemCode,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisItem">
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisValue">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into cm_patient_diagnosis_item
+    insert into cm_patient_diagnosis_value
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -60,8 +60,8 @@
       <if test="fkPatientId != null">
         fk_patient_id,
       </if>
-      <if test="fkDiagnosisCode != null">
-        fk_diagnosis_code,
+      <if test="itemCode != null">
+        item_code,
       </if>
       <if test="itemValue != null">
         item_value,
@@ -80,8 +80,8 @@
       <if test="fkPatientId != null">
         #{fkPatientId,jdbcType=BIGINT},
       </if>
-      <if test="fkDiagnosisCode != null">
-        #{fkDiagnosisCode,jdbcType=VARCHAR},
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
       </if>
       <if test="itemValue != null">
         #{itemValue,jdbcType=VARCHAR},
@@ -91,11 +91,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisItem">
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisValue">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update cm_patient_diagnosis_item
+    update cm_patient_diagnosis_value
     <set>
       <if test="fkPatientDiagnosisId != null">
         fk_patient_diagnosis_id = #{fkPatientDiagnosisId,jdbcType=BIGINT},
@@ -103,8 +103,8 @@
       <if test="fkPatientId != null">
         fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
       </if>
-      <if test="fkDiagnosisCode != null">
-        fk_diagnosis_code = #{fkDiagnosisCode,jdbcType=VARCHAR},
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
       </if>
       <if test="itemValue != null">
         item_value = #{itemValue,jdbcType=VARCHAR},
@@ -115,16 +115,41 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisItem">
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmPatientDiagnosisValue">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update cm_patient_diagnosis_item
+    update cm_patient_diagnosis_value
     set fk_patient_diagnosis_id = #{fkPatientDiagnosisId,jdbcType=BIGINT},
       fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
-      fk_diagnosis_code = #{fkDiagnosisCode,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
       item_value = #{itemValue,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <!-- 自定义 -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisConfPO" />
+  
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.po.CmDiagnosisConfPO" resultMap="POResultMap">
+  	select *
+  	from cm_patient_diagnosis_value cpdc
+  	<where>
+      <if test="fkPatientDiagnosisId != null">
+        AND fk_patient_diagnosis_id = #{fkPatientDiagnosisId,jdbcType=BIGINT}
+      </if>
+      <if test="fkPatientId != null">
+        AND fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+      </if>
+      <if test="itemCode != null">
+        AND item_code = #{itemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemValue != null">
+        AND item_value = #{itemValue,jdbcType=VARCHAR}
+      </if>
+      <if test="fkTenantId != null">
+        AND fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+      </if>
+  	</where>
+  </select>
 </mapper>

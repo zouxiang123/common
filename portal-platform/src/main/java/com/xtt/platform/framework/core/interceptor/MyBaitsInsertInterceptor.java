@@ -1,5 +1,7 @@
 package com.xtt.platform.framework.core.interceptor;
 
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
 
 import com.xtt.platform.util.PrimaryKeyUtil;
@@ -8,7 +10,15 @@ public class MyBaitsInsertInterceptor {
 
 	public void doBefore(JoinPoint jp) {
 		Object entity = jp.getArgs()[0];
-		setPrimaryKey(entity, entity.getClass());
+		if (entity instanceof List) {
+			@SuppressWarnings("unchecked")
+			List<Object> list = (List<Object>) entity;
+			for (Object obj : list) {
+				setPrimaryKey(obj, obj.getClass());
+			}
+		} else {
+			setPrimaryKey(entity, entity.getClass());
+		}
 	}
 
 	public void doThrowing(JoinPoint jp, Throwable ex) {
