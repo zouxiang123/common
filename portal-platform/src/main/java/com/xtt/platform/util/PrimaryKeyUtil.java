@@ -58,16 +58,16 @@ public class PrimaryKeyUtil {
 	 * 根据table名称和租户id获取主键id
 	 * 
 	 * @Title: getPrimaryKey
-	 * @param tableName
+	 * @param modelName
 	 * @param tenantId
 	 * @return primaryKey
 	 *
 	 */
-	public static synchronized Long getPrimaryKey(String tableName, Integer tenantId) {
-		if (StringUtils.isBlank(tableName)) {
+	public static synchronized Long getPrimaryKey(String modelName, Integer tenantId) {
+		if (StringUtils.isBlank(modelName)) {
 			return null;
 		}
-		String id = (tenantId == null ? Constants.DEFAULT_SYS_TENANT_ID : tenantId) + tableName;
+		String id = (tenantId == null ? Constants.DEFAULT_SYS_TENANT_ID : tenantId) + modelName;
 		Long current = null;
 		try {
 			current = (Long) DBUtil.getSingle("select getPrimaryKey('" + id + "') from dual;");
