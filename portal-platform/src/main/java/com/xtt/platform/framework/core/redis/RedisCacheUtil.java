@@ -1,6 +1,8 @@
 package com.xtt.platform.framework.core.redis;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +18,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 public class RedisCacheUtil {
 
-	private static RedisTemplate redisTemplate;
+	private static RedisTemplate<String, Object> redisTemplate;
 
 	/*	static{
 			redisTemplate = (RedisTemplate)SpringUtil.getBean("redisCache");
@@ -68,12 +70,12 @@ public class RedisCacheUtil {
 	 * @param listValue
 	 * @return
 	 */
-	public static void setList(String key, List listValue) {
+	public static void setList(String key, List<?> listValue) {
 		redisTemplate.opsForList().leftPush(key, listValue);
 	}
 
-	public static List getList(String key) {
-		return (List) redisTemplate.opsForList().range(key, 0, -1);
+	public static List<?> getList(String key) {
+		return (List<?>) redisTemplate.opsForList().range(key, 0, -1);
 	}
 
 	public static void delList(String key) {
@@ -87,11 +89,11 @@ public class RedisCacheUtil {
 	 * @param mapValue
 	 * @return
 	 */
-	public static void setMap(String key, Map mapValue) {
+	public static void setMap(String key, Map<Object, Object> mapValue) {
 		redisTemplate.opsForHash().putAll(key, mapValue);
 	}
 
-	public static Map getMap(String key) {
+	public static Map<Object, Object> getMap(String key) {
 		return redisTemplate.opsForHash().entries(key);
 	}
 
@@ -106,68 +108,70 @@ public class RedisCacheUtil {
 	 * @param setValue
 	 * @return
 	 */
-	public static void setSet(String key, Set setValue) {
+	public static void setSet(String key, Set<?> setValue) {
 		redisTemplate.opsForSet().add(key, setValue);
 	}
 
-	public static Set getSet(String key) {
-		return (Set) redisTemplate.opsForSet().members(key);
+	public static Set<?> getSet(String key) {
+		return (Set<?>) redisTemplate.opsForSet().members(key);
 	}
 
 	public static void delSet(String key) {
 		redisTemplate.delete(key);
 	}
 
-	public static RedisTemplate getRedisTemplate() {
+	public static RedisTemplate<String, Object> getRedisTemplate() {
 		return redisTemplate;
 	}
 
-	public static void setRedisTemplate(RedisTemplate redisTemplate) {
+	public static void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
 		RedisCacheUtil.redisTemplate = redisTemplate;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(String[] args) {
+		@SuppressWarnings({ "unused", "resource" })
 		ApplicationContext factory = new ClassPathXmlApplicationContext("config/springRedis.xml");
 		/*System.out.println(factory.getType("redisCache"));*/
-		RedisCacheUtil cache = (RedisCacheUtil) factory.getBean("redisCache");
+		// RedisCacheUtil cache = (RedisCacheUtil) factory.getBean("redisCache");
 
 		/*测试String*/
-		/*cache.setString("demoString1", "demoStringValue1");
-		  cache.setString("demoString2", "demoStringValue2");
-		System.out.println(cache.getString("demoString1"));*/
+		RedisCacheUtil.setString("demoString1", "demoStringValue1");
+		RedisCacheUtil.setString("demoString2", "demoStringValue2");
+		System.out.println(RedisCacheUtil.getString("demoString1"));
 
-		/*测试Object
-		cache.setObject("demoObject1", new String("demoObject1"));
-		cache.setObject("demoObject2", new HashMap<String,String>().put("hashKey", "hashvalue"));
-		cache.setObject("demoObject3", new User("uDemo", 100));
-		System.out.println(cache.getObject("demoObject1"));
-		System.out.println(cache.getObject("demoObject2"));
-		System.out.println(cache.getObject("demoObject3"));*/
+		// 测试Object
+		RedisCacheUtil.setObject("demoObject1", new String("demoObject1"));
+		RedisCacheUtil.setObject("demoObject2", new HashMap<String, String>().put("hashKey", "hashvalue"));
+		RedisCacheUtil.setObject("demoObject3", new User("uDemo", 100));
+		System.out.println(RedisCacheUtil.getObject("demoObject1"));
+		System.out.println(RedisCacheUtil.getObject("demoObject2"));
+		System.out.println(RedisCacheUtil.getObject("demoObject3"));
 
-		/*测试List 不能持久保存*/
-		/*List list1 = new ArrayList();
+		// 测试List 不能持久保存
+		List list1 = new ArrayList();
 		list1.add(1);
 		list1.add("String");
 		list1.add(new HashMap().put("key", "value"));
-		list1.add(new User("ulist",500));
-		cache.setList("demoList1", list1);
-		System.out.println(cache.getList("demoList1"));*/
+		list1.add(new User("ulist", 500));
+		RedisCacheUtil.setList("demoList1", list1);
+		System.out.println(RedisCacheUtil.getList("demoList1"));
 
 		/*测试Map*/
-		Map map = new HashMap();
+		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("key1", "ni");
 		map.put("key2", new User("map", 1000));
-		cache.setMap("demoMap1", map);
-		System.out.println(cache.getMap("demoMap1"));
+		RedisCacheUtil.setMap("demoMap1", map);
+		System.out.println(RedisCacheUtil.getMap("demoMap1"));
 
 		/*测试Set 不能持久保存*/
-		/*Set list1 = new HashSet();
-		list1.add(1);
-		list1.add("String");
-		list1.add(new HashMap().put("key", "value"));
-		list1.add(new User("uSET",500));
-		cache.setSet("demoSet1", list1);*/
-		/*System.out.println(cache.getSet("demoSet1"));*/
+		Set set1 = new HashSet();
+		set1.add(1);
+		set1.add("String");
+		set1.add(new HashMap().put("key", "value"));
+		set1.add(new User("uSET", 500));
+		RedisCacheUtil.setSet("demoSet1", set1);
+		System.out.println(RedisCacheUtil.getSet("demoSet1"));
 
 	}
 }
