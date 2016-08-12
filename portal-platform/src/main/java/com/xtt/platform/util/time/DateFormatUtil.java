@@ -197,4 +197,16 @@ public class DateFormatUtil extends DateFormatUtils {
 	public static String getEndTime(String endDateStr) {
 		return endDateStr + END_TIME_SUF;
 	}
+
+	public static Date getStartTime(Date date) {
+		String startDateStr = convertDateToStr(date);
+		startDateStr = getStartTime(startDateStr);
+		return convertStrToDate(startDateStr, FORMAT_TIME1);
+	}
+
+	public static Date getEndTime(Date date) {
+		String endDateStr = convertDateToStr(date);
+		endDateStr = getEndTime(endDateStr);
+		return convertStrToDate(endDateStr, FORMAT_TIME1);
+	}
 }

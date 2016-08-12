@@ -1,6 +1,6 @@
 /**   
  * @Title: DBUtil.java 
- * @Package com.lt.platform
+ * @Package com.xtt.platform
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年6月22日 上午11:24:50 

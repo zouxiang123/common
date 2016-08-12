@@ -1,6 +1,6 @@
 /**   
  * @Title: PrimaryKeyUtil.java 
- * @Package com.lt.platform.util
+ * @Package com.xtt.platform.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年6月16日 下午12:49:10 
