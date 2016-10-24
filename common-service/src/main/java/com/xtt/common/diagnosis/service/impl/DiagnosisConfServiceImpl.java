@@ -17,13 +17,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.HttpServletUtil;
+import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.CmDiagnosisConfMapper;
 import com.xtt.common.dao.po.CmDiagnosisConfPO;
 import com.xtt.common.diagnosis.service.IDiagnosisConfService;
 import com.xtt.common.patient.service.IPatientDiagnosisValueService;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.user.UserUtil;
 
 /**
  * @ClassName: DiagnosisConfServiceImpl

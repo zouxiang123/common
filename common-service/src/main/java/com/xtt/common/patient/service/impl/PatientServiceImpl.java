@@ -20,7 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xtt.common.common.constants.CommonConstants;
 import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.util.BusinessCommonUtil;
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.UserUtil;
+import com.xtt.common.common.util.QRCode.QRCodeUtil;
 import com.xtt.common.dao.mapper.PatientCardMapper;
 import com.xtt.common.dao.mapper.PatientHistoryMapper;
 import com.xtt.common.dao.mapper.PatientMapper;
@@ -31,11 +36,6 @@ import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientManagePO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.patient.service.IPatientService;
-import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.QRCode.QRCodeUtil;
-import com.xtt.common.util.constants.CommonConstants;
-import com.xtt.common.util.user.UserUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
 /**

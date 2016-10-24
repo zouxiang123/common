@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.CmFormBaseItemsMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmFormBaseItems">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="p_item_code" jdbcType="VARCHAR" property="pItemCode" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="need_score" jdbcType="BIT" property="needScore" />
+    <result column="score" jdbcType="DECIMAL" property="score" />
+    <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
+    <result column="is_fixed" jdbcType="BIT" property="isFixed" />
+    <result column="fk_code" jdbcType="VARCHAR" property="fkCode" />
+    <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, p_item_code, item_code, item_name, item_desc, item_type, unit, need_score, score, 
+    is_leaf, is_fixed, fk_code, data_type, sys_owner, is_enable, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from cm_form_base_items
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_form_base_items
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmFormBaseItems">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_form_base_items (id, p_item_code, item_code, 
+      item_name, item_desc, item_type, 
+      unit, need_score, score, 
+      is_leaf, is_fixed, fk_code, data_type, 
+      sys_owner, is_enable, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{needScore,jdbcType=BIT}, #{score,jdbcType=DECIMAL}, 
+      #{isLeaf,jdbcType=BIT}, #{isFixed,jdbcType=BIT}, #{fkCode,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{sysOwner,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmFormBaseItems">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_form_base_items
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="pItemCode != null">
+        p_item_code,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="itemDesc != null">
+        item_desc,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="needScore != null">
+        need_score,
+      </if>
+      <if test="score != null">
+        score,
+      </if>
+      <if test="isLeaf != null">
+        is_leaf,
+      </if>
+      <if test="isFixed != null">
+        is_fixed,
+      </if>
+      <if test="fkCode != null">
+        fk_code,
+      </if>
+      <if test="dataType != null">
+        data_type,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="pItemCode != null">
+        #{pItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null">
+        #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="needScore != null">
+        #{needScore,jdbcType=BIT},
+      </if>
+      <if test="score != null">
+        #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="isLeaf != null">
+        #{isLeaf,jdbcType=BIT},
+      </if>
+      <if test="isFixed != null">
+        #{isFixed,jdbcType=BIT},
+      </if>
+      <if test="fkCode != null">
+        #{fkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmFormBaseItems">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_form_base_items
+    <set>
+      <if test="pItemCode != null">
+        p_item_code = #{pItemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null">
+        item_desc = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="needScore != null">
+        need_score = #{needScore,jdbcType=BIT},
+      </if>
+      <if test="score != null">
+        score = #{score,jdbcType=DECIMAL},
+      </if>
+      <if test="isLeaf != null">
+        is_leaf = #{isLeaf,jdbcType=BIT},
+      </if>
+      <if test="isFixed != null">
+        is_fixed = #{isFixed,jdbcType=BIT},
+      </if>
+      <if test="fkCode != null">
+        fk_code = #{fkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null">
+        data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmFormBaseItems">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_form_base_items
+    set p_item_code = #{pItemCode,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_desc = #{itemDesc,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
+      unit = #{unit,jdbcType=VARCHAR},
+      need_score = #{needScore,jdbcType=BIT},
+      score = #{score,jdbcType=DECIMAL},
+      is_leaf = #{isLeaf,jdbcType=BIT},
+      is_fixed = #{isFixed,jdbcType=BIT},
+      fk_code = #{fkCode,jdbcType=VARCHAR},
+      data_type = #{dataType,jdbcType=VARCHAR},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+    <!-- use defined -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmFormBaseItemsPO" />
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.CmFormBaseItems" resultMap="POResultMap">
+  	SELECT fbi.* from cm_form_base_items fbi
+  	<where>
+	  <if test="pItemCode != null">
+        fbi.p_item_code = #{pItemCode}
+      </if>
+      <if test="itemCode != null">
+        and fbi.item_code = #{itemCode}
+      </if>
+      <if test="itemName != null">
+        and fbi.item_name = #{itemName}
+      </if>
+      <if test="itemType != null">
+        and fbi.item_type = #{itemType}
+      </if>
+      <if test="unit != null">
+        and fbi.unit = #{unit}
+      </if>
+      <if test="needScore != null">
+        and fbi.need_score = #{needScore}
+      </if>
+      <if test="sysOwner != null">
+        and fbi.sys_owner = #{sysOwner}
+      </if>
+      <if test="score != null">
+        and fbi.score = #{score}
+      </if>
+      <if test="isLeaf != null">
+        and fbi.is_leaf = #{isLeaf}
+      </if>
+      <if test="isFixed != null">
+        and fbi.is_fixed = #{isFixed}
+      </if>
+      <if test="fkCode != null">
+        and fbi.fk_code = #{fkCode}
+      </if>
+      <if test="dataType != null">
+        and fbi.data_type = #{dataType}
+      </if>
+      <if test="isEnable != null">
+        and fbi.is_enable = #{isEnable}
+      </if>
+      <if test="fkTenantId != null">
+        and fbi.fk_tenant_id = #{fkTenantId}
+      </if>
+  	</where>
+  	ORDER BY fbi.p_item_code,fbi.item_code
+  </select>
+</mapper>

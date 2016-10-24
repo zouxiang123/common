@@ -20,17 +20,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xtt.common.common.constants.CommonConstants;
+import com.xtt.common.common.util.BusinessCommonUtil;
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.HttpServletUtil;
+import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.constants.CommonConstants;
-import com.xtt.common.util.user.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 

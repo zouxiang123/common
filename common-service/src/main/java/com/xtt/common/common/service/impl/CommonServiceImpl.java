@@ -16,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.HttpServletUtil;
+import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.CountyMapper;
 import com.xtt.common.dao.mapper.FeedbackMapper;
 import com.xtt.common.dao.mapper.ProvinceMapper;
@@ -28,9 +31,6 @@ import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.common.dao.po.SysLogPO;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.user.UserUtil;
 
 /**
  * 

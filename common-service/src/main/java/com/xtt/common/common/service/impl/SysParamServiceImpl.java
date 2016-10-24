@@ -15,15 +15,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.common.constants.CommonConstants;
 import com.xtt.common.common.service.ISysParamService;
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.HttpServletUtil;
+import com.xtt.common.common.util.SysParamUtil;
+import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.SysParamMapper;
 import com.xtt.common.dao.model.SysParam;
 import com.xtt.common.dao.po.SysParamPO;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.SysParamUtil;
-import com.xtt.common.util.constants.CommonConstants;
-import com.xtt.common.util.user.UserUtil;
 
 @Service
 public class SysParamServiceImpl implements ISysParamService {

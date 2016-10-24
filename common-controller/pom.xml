@@ -5,7 +5,13 @@
     <artifactId>portal</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>com.xtt.common</groupId>
   <artifactId>common-controller</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <dependencies>
+  	<!-- service -->
+	<dependency>
+        <groupId>com.xtt.common</groupId>
+        <artifactId>common-service</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 </project>

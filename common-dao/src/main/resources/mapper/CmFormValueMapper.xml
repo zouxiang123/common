@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.CmFormValueMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmFormValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_record_id" jdbcType="BIGINT" property="fkRecordId" />
+    <result column="fk_form_id" jdbcType="BIGINT" property="fkFormId" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_record_id, fk_form_id, item_code, item_value, fk_tenant_id, sys_owner
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from cm_form_value
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_form_value
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmFormValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_form_value (id, fk_record_id, fk_form_id, 
+      item_code, item_value, fk_tenant_id, 
+      sys_owner)
+    values (#{id,jdbcType=BIGINT}, #{fkRecordId,jdbcType=BIGINT}, #{fkFormId,jdbcType=BIGINT}, 
+      #{itemCode,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{sysOwner,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmFormValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_form_value
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkRecordId != null">
+        fk_record_id,
+      </if>
+      <if test="fkFormId != null">
+        fk_form_id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemValue != null">
+        item_value,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkRecordId != null">
+        #{fkRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="fkFormId != null">
+        #{fkFormId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmFormValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_form_value
+    <set>
+      <if test="fkRecordId != null">
+        fk_record_id = #{fkRecordId,jdbcType=BIGINT},
+      </if>
+      <if test="fkFormId != null">
+        fk_form_id = #{fkFormId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        item_value = #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmFormValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_form_value
+    set fk_record_id = #{fkRecordId,jdbcType=BIGINT},
+      fk_form_id = #{fkFormId,jdbcType=BIGINT},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_value = #{itemValue,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- use define -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmFormValuePO" />
+  
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.CmFormValue" resultMap="POResultMap">
+  	select fv.* 
+  	from cm_form_value fv
+  	<where>
+  	  <if test="fkRecordId != null">
+        fv.fk_record_id = #{fkRecordId}
+      </if>
+      <if test="fkFormId != null">
+      	AND fv.fk_form_id = #{fkFormId}
+      </if>
+      <if test="itemCode != null">
+        AND fv.item_code = #{itemCode}
+      </if>
+      <if test="itemValue != null">
+        AND fv.item_value = #{itemValue}
+      </if>
+      <if test="fkTenantId != null">
+        AND fv.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="sysOwner != null">
+        AND fv.sys_owner = #{sysOwner}
+      </if>
+  	</where>
+  	ORDER BY fv.item_code
+  </select>
+  
+  <delete id="deleteByRecordId">
+  	DELETE FROM cm_form_value WHERE sys_owner = #{sysOwner} AND fk_record_id = #{fkRecordId}
+  </delete>
+</mapper>

@@ -14,6 +14,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.common.constants.CommonConstants;
+import com.xtt.common.common.util.DataUtil;
+import com.xtt.common.common.util.HttpServletUtil;
+import com.xtt.common.common.util.SysParamUtil;
+import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.SysObjMapper;
 import com.xtt.common.dao.mapper.SysRole2objMapper;
 import com.xtt.common.dao.mapper.SysRoleMapper;
@@ -23,11 +28,6 @@ import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysRole2obj;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.user.service.IRoleService;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.SysParamUtil;
-import com.xtt.common.util.constants.CommonConstants;
-import com.xtt.common.util.user.UserUtil;
 
 @Service
 public class RoleServiceImpl implements IRoleService {
