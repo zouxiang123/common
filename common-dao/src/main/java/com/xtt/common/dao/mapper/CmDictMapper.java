@@ -21,6 +21,7 @@ public interface CmDictMapper {
 
 	int updateByPrimaryKey(CmDict record);
 
+	/*user define*/
 	/**
 	 * 根据条件查询数据
 	 * 
@@ -29,5 +30,15 @@ public interface CmDictMapper {
 	 * @return
 	 *
 	 */
-	List<CmDictPO> selectByCondition(CmDictPO record);
+	List<CmDictPO> selectByCondition(CmDict record);
+
+	/**
+	 * 查询字典表类别
+	 * 
+	 * @Title: selectDictionaryCategory
+	 * @param record
+	 * @return
+	 *
+	 */
+	List<CmDictPO> selectDictCategory(CmDict record);
 }

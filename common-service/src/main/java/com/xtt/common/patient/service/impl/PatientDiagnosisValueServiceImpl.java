@@ -14,10 +14,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.CmPatientDiagnosisValueMapper;
 import com.xtt.common.dao.po.CmPatientDiagnosisValuePO;
 import com.xtt.common.patient.service.IPatientDiagnosisValueService;
+import com.xtt.common.util.UserUtil;
 
 /**
  * @ClassName: PatientDiagnosisValueService

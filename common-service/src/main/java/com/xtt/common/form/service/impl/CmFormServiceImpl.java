@@ -11,26 +11,22 @@ package com.xtt.common.form.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.common.constants.CommonConstants;
-import com.xtt.common.common.util.DataUtil;
-import com.xtt.common.common.util.UserUtil;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.CmFormMapper;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.form.service.ICmFormItemsSerivce;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.form.service.ICmFormValueService;
+import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class CmFormServiceImpl implements ICmFormService {
 	@Autowired
 	private CmFormMapper cmFormMapper;
-	@Autowired
-	private ICmFormValueService cmFormValueService;
 	@Autowired
 	private ICmFormItemsSerivce cmFormConfSerivce;
 
@@ -79,9 +75,6 @@ public class CmFormServiceImpl implements ICmFormService {
 
 	@Override
 	public String delById(Long id) {
-		if (CollectionUtils.isNotEmpty(cmFormValueService.selectByFormId(id))) {
-			return CommonConstants.WARNING;
-		}
 		cmFormConfSerivce.deleteByFormId(id);
 		cmFormMapper.deleteByPrimaryKey(id);
 		return CommonConstants.SUCCESS;

@@ -30,19 +30,9 @@ public class Patient extends MyBatisSuperModel {
 	private String initial;
 
 	/**
-	 * 姓名全称首字母（多个） patient.spell_initials
-	 */
-	private String spellInitials;
-
-	/**
 	 * 密码 patient.password
 	 */
 	private String password;
-
-	/**
-	 * 证件类型 1：身份证 2：护照 patient.id_type
-	 */
-	private String idType;
 
 	/**
 	 * 身份证号 patient.id_number
@@ -80,34 +70,9 @@ public class Patient extends MyBatisSuperModel {
 	private String mobile;
 
 	/**
-	 * 紧急联系人 patient.emergency_contacts
-	 */
-	private String emergencyContacts;
-
-	/**
 	 * 紧急联系方式 patient.emergency_mobile
 	 */
 	private String emergencyMobile;
-
-	/**
-	 * 紧急联系人2 patient.emergency_contacts2
-	 */
-	private String emergencyContacts2;
-
-	/**
-	 * 紧急联系方式3 patient.emergency_mobile2
-	 */
-	private String emergencyMobile2;
-
-	/**
-	 * 紧急联系人3 patient.emergency_contacts3
-	 */
-	private String emergencyContacts3;
-
-	/**
-	 * 紧急联系方式3 patient.emergency_mobile3
-	 */
-	private String emergencyMobile3;
 
 	/**
 	 * 省、市 patient.province
@@ -130,69 +95,9 @@ public class Patient extends MyBatisSuperModel {
 	private BigDecimal dryWeight;
 
 	/**
-	 * 患者体重偏移量 patient.offset
-	 */
-	private BigDecimal offset;
-
-	/**
-	 * 患者余额 patient.balance
+	 * patient.balance
 	 */
 	private BigDecimal balance;
-
-	/**
-	 * 医保卡号 patient.medicare_card
-	 */
-	private String medicareCard;
-
-	/**
-	 * 医保卡类别 patient.medicare_card_type
-	 */
-	private String medicareCardType;
-
-	/**
-	 * 住院号 patient.admission_number
-	 */
-	private String admissionNumber;
-
-	/**
-	 * 门诊号 patient.outpatient_number
-	 */
-	private String outpatientNumber;
-
-	/**
-	 * 是否临时患者 patient.is_temp
-	 */
-	private Boolean isTemp;
-
-	/**
-	 * 透析次数 patient.dialysis_times
-	 */
-	private Integer dialysisTimes;
-
-	/**
-	 * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他） patient.civil_state
-	 */
-	private String civilState;
-
-	/**
-	 * 教育程度 patient.education_level
-	 */
-	private String educationLevel;
-
-	/**
-	 * 邮编 patient.zip_code
-	 */
-	private String zipCode;
-
-	/**
-	 * E-mail patient.email
-	 */
-	private String email;
-
-	/**
-	 * 电话 patient.tel
-	 */
-	private String tel;
 
 	/**
 	 * 删除标记 patient.del_flag
@@ -223,6 +128,96 @@ public class Patient extends MyBatisSuperModel {
 	 * 更新人 patient.update_user_id
 	 */
 	private Long updateUserId;
+
+	/**
+	 * 医保卡号 patient.medicare_card
+	 */
+	private String medicareCard;
+
+	/**
+	 * 医保卡类别 patient.medicare_card_type
+	 */
+	private String medicareCardType;
+
+	/**
+	 * 住院号 patient.admission_number
+	 */
+	private String admissionNumber;
+
+	/**
+	 * 姓名全拼首字母 patient.spell_initials
+	 */
+	private String spellInitials;
+
+	/**
+	 * 门诊号 patient.outpatient_number
+	 */
+	private String outpatientNumber;
+
+	/**
+	 * 证件类型 1：身份证 2：护照 patient.id_type
+	 */
+	private String idType;
+
+	/**
+	 * 紧急联系人 patient.emergency_contacts
+	 */
+	private String emergencyContacts;
+
+	/**
+	 * 紧急联系方式2 patient.emergency_mobile2
+	 */
+	private String emergencyMobile2;
+
+	/**
+	 * 紧急联系方式3 patient.emergency_mobile3
+	 */
+	private String emergencyMobile3;
+
+	/**
+	 * 体重偏移量 patient.offset
+	 */
+	private BigDecimal offset;
+
+	/**
+	 * 是否临时患者 patient.is_temp
+	 */
+	private Boolean isTemp;
+
+	/**
+	 * 透析次数 patient.dialysis_times
+	 */
+	private Integer dialysisTimes;
+
+	/**
+	 * 患者类型 1：门诊 2：住院 patient.patient_type
+	 */
+	private String patientType;
+
+	/**
+	 * ABO血型 patient.blood_abo
+	 */
+	private String bloodAbo;
+
+	/**
+	 * RH(D)血型 1=阳性 0= 阴性 patient.blood_rh
+	 */
+	private String bloodRh;
+
+	/**
+	 * 二维码路径 patient.barcode_path
+	 */
+	private String barcodePath;
+
+	/**
+	 * 身高（cm） patient.height
+	 */
+	private BigDecimal height;
+
+	/**
+	 * 体重（kg） patient.weight
+	 */
+	private BigDecimal weight;
 
 	/**
 	 */
@@ -279,20 +274,6 @@ public class Patient extends MyBatisSuperModel {
 	}
 
 	/**
-	 * 姓名全称首字母（多个）
-	 */
-	public String getSpellInitials() {
-		return spellInitials;
-	}
-
-	/**
-	 * 姓名全称首字母（多个）
-	 */
-	public void setSpellInitials(String spellInitials) {
-		this.spellInitials = spellInitials;
-	}
-
-	/**
 	 * 密码
 	 */
 	public String getPassword() {
@@ -304,20 +285,6 @@ public class Patient extends MyBatisSuperModel {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	/**
-	 * 证件类型 1：身份证 2：护照
-	 */
-	public String getIdType() {
-		return idType;
-	}
-
-	/**
-	 * 证件类型 1：身份证 2：护照
-	 */
-	public void setIdType(String idType) {
-		this.idType = idType;
 	}
 
 	/**
@@ -419,20 +386,6 @@ public class Patient extends MyBatisSuperModel {
 	}
 
 	/**
-	 * 紧急联系人
-	 */
-	public String getEmergencyContacts() {
-		return emergencyContacts;
-	}
-
-	/**
-	 * 紧急联系人
-	 */
-	public void setEmergencyContacts(String emergencyContacts) {
-		this.emergencyContacts = emergencyContacts;
-	}
-
-	/**
 	 * 紧急联系方式
 	 */
 	public String getEmergencyMobile() {
@@ -444,62 +397,6 @@ public class Patient extends MyBatisSuperModel {
 	 */
 	public void setEmergencyMobile(String emergencyMobile) {
 		this.emergencyMobile = emergencyMobile;
-	}
-
-	/**
-	 * 紧急联系人2
-	 */
-	public String getEmergencyContacts2() {
-		return emergencyContacts2;
-	}
-
-	/**
-	 * 紧急联系人2
-	 */
-	public void setEmergencyContacts2(String emergencyContacts2) {
-		this.emergencyContacts2 = emergencyContacts2;
-	}
-
-	/**
-	 * 紧急联系方式3
-	 */
-	public String getEmergencyMobile2() {
-		return emergencyMobile2;
-	}
-
-	/**
-	 * 紧急联系方式3
-	 */
-	public void setEmergencyMobile2(String emergencyMobile2) {
-		this.emergencyMobile2 = emergencyMobile2;
-	}
-
-	/**
-	 * 紧急联系人3
-	 */
-	public String getEmergencyContacts3() {
-		return emergencyContacts3;
-	}
-
-	/**
-	 * 紧急联系人3
-	 */
-	public void setEmergencyContacts3(String emergencyContacts3) {
-		this.emergencyContacts3 = emergencyContacts3;
-	}
-
-	/**
-	 * 紧急联系方式3
-	 */
-	public String getEmergencyMobile3() {
-		return emergencyMobile3;
-	}
-
-	/**
-	 * 紧急联系方式3
-	 */
-	public void setEmergencyMobile3(String emergencyMobile3) {
-		this.emergencyMobile3 = emergencyMobile3;
 	}
 
 	/**
@@ -559,185 +456,15 @@ public class Patient extends MyBatisSuperModel {
 	}
 
 	/**
-	 * 患者体重偏移量
-	 */
-	public BigDecimal getOffset() {
-		return offset;
-	}
-
-	/**
-	 * 患者体重偏移量
-	 */
-	public void setOffset(BigDecimal offset) {
-		this.offset = offset;
-	}
-
-	/**
-	 * 患者余额
 	 */
 	public BigDecimal getBalance() {
 		return balance;
 	}
 
 	/**
-	 * 患者余额
 	 */
 	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
-	}
-
-	/**
-	 * 医保卡号
-	 */
-	public String getMedicareCard() {
-		return medicareCard;
-	}
-
-	/**
-	 * 医保卡号
-	 */
-	public void setMedicareCard(String medicareCard) {
-		this.medicareCard = medicareCard;
-	}
-
-	/**
-	 * 医保卡类别
-	 */
-	public String getMedicareCardType() {
-		return medicareCardType;
-	}
-
-	/**
-	 * 医保卡类别
-	 */
-	public void setMedicareCardType(String medicareCardType) {
-		this.medicareCardType = medicareCardType;
-	}
-
-	/**
-	 * 住院号
-	 */
-	public String getAdmissionNumber() {
-		return admissionNumber;
-	}
-
-	/**
-	 * 住院号
-	 */
-	public void setAdmissionNumber(String admissionNumber) {
-		this.admissionNumber = admissionNumber;
-	}
-
-	/**
-	 * 门诊号
-	 */
-	public String getOutpatientNumber() {
-		return outpatientNumber;
-	}
-
-	/**
-	 * 门诊号
-	 */
-	public void setOutpatientNumber(String outpatientNumber) {
-		this.outpatientNumber = outpatientNumber;
-	}
-
-	/**
-	 * 是否临时患者
-	 */
-	public Boolean getIsTemp() {
-		return isTemp;
-	}
-
-	/**
-	 * 是否临时患者
-	 */
-	public void setIsTemp(Boolean isTemp) {
-		this.isTemp = isTemp;
-	}
-
-	/**
-	 * 透析次数
-	 */
-	public Integer getDialysisTimes() {
-		return dialysisTimes;
-	}
-
-	/**
-	 * 透析次数
-	 */
-	public void setDialysisTimes(Integer dialysisTimes) {
-		this.dialysisTimes = dialysisTimes;
-	}
-
-	/**
-	 * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他）
-	 */
-	public String getCivilState() {
-		return civilState;
-	}
-
-	/**
-	 * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他）
-	 */
-	public void setCivilState(String civilState) {
-		this.civilState = civilState;
-	}
-
-	/**
-	 * 教育程度
-	 */
-	public String getEducationLevel() {
-		return educationLevel;
-	}
-
-	/**
-	 * 教育程度
-	 */
-	public void setEducationLevel(String educationLevel) {
-		this.educationLevel = educationLevel;
-	}
-
-	/**
-	 * 邮编
-	 */
-	public String getZipCode() {
-		return zipCode;
-	}
-
-	/**
-	 * 邮编
-	 */
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
-	}
-
-	/**
-	 * E-mail
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * E-mail
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
-	 * 电话
-	 */
-	public String getTel() {
-		return tel;
-	}
-
-	/**
-	 * 电话
-	 */
-	public void setTel(String tel) {
-		this.tel = tel;
 	}
 
 	/**
@@ -822,5 +549,257 @@ public class Patient extends MyBatisSuperModel {
 	 */
 	public void setUpdateUserId(Long updateUserId) {
 		this.updateUserId = updateUserId;
+	}
+
+	/**
+	 * 医保卡号
+	 */
+	public String getMedicareCard() {
+		return medicareCard;
+	}
+
+	/**
+	 * 医保卡号
+	 */
+	public void setMedicareCard(String medicareCard) {
+		this.medicareCard = medicareCard;
+	}
+
+	/**
+	 * 医保卡类别
+	 */
+	public String getMedicareCardType() {
+		return medicareCardType;
+	}
+
+	/**
+	 * 医保卡类别
+	 */
+	public void setMedicareCardType(String medicareCardType) {
+		this.medicareCardType = medicareCardType;
+	}
+
+	/**
+	 * 住院号
+	 */
+	public String getAdmissionNumber() {
+		return admissionNumber;
+	}
+
+	/**
+	 * 住院号
+	 */
+	public void setAdmissionNumber(String admissionNumber) {
+		this.admissionNumber = admissionNumber;
+	}
+
+	/**
+	 * 姓名全拼首字母
+	 */
+	public String getSpellInitials() {
+		return spellInitials;
+	}
+
+	/**
+	 * 姓名全拼首字母
+	 */
+	public void setSpellInitials(String spellInitials) {
+		this.spellInitials = spellInitials;
+	}
+
+	/**
+	 * 门诊号
+	 */
+	public String getOutpatientNumber() {
+		return outpatientNumber;
+	}
+
+	/**
+	 * 门诊号
+	 */
+	public void setOutpatientNumber(String outpatientNumber) {
+		this.outpatientNumber = outpatientNumber;
+	}
+
+	/**
+	 * 证件类型 1：身份证 2：护照
+	 */
+	public String getIdType() {
+		return idType;
+	}
+
+	/**
+	 * 证件类型 1：身份证 2：护照
+	 */
+	public void setIdType(String idType) {
+		this.idType = idType;
+	}
+
+	/**
+	 * 紧急联系人
+	 */
+	public String getEmergencyContacts() {
+		return emergencyContacts;
+	}
+
+	/**
+	 * 紧急联系人
+	 */
+	public void setEmergencyContacts(String emergencyContacts) {
+		this.emergencyContacts = emergencyContacts;
+	}
+
+	/**
+	 * 紧急联系方式2
+	 */
+	public String getEmergencyMobile2() {
+		return emergencyMobile2;
+	}
+
+	/**
+	 * 紧急联系方式2
+	 */
+	public void setEmergencyMobile2(String emergencyMobile2) {
+		this.emergencyMobile2 = emergencyMobile2;
+	}
+
+	/**
+	 * 紧急联系方式3
+	 */
+	public String getEmergencyMobile3() {
+		return emergencyMobile3;
+	}
+
+	/**
+	 * 紧急联系方式3
+	 */
+	public void setEmergencyMobile3(String emergencyMobile3) {
+		this.emergencyMobile3 = emergencyMobile3;
+	}
+
+	/**
+	 * 体重偏移量
+	 */
+	public BigDecimal getOffset() {
+		return offset;
+	}
+
+	/**
+	 * 体重偏移量
+	 */
+	public void setOffset(BigDecimal offset) {
+		this.offset = offset;
+	}
+
+	/**
+	 * 是否临时患者
+	 */
+	public Boolean getIsTemp() {
+		return isTemp;
+	}
+
+	/**
+	 * 是否临时患者
+	 */
+	public void setIsTemp(Boolean isTemp) {
+		this.isTemp = isTemp;
+	}
+
+	/**
+	 * 透析次数
+	 */
+	public Integer getDialysisTimes() {
+		return dialysisTimes;
+	}
+
+	/**
+	 * 透析次数
+	 */
+	public void setDialysisTimes(Integer dialysisTimes) {
+		this.dialysisTimes = dialysisTimes;
+	}
+
+	/**
+	 * 患者类型 1：门诊 2：住院
+	 */
+	public String getPatientType() {
+		return patientType;
+	}
+
+	/**
+	 * 患者类型 1：门诊 2：住院
+	 */
+	public void setPatientType(String patientType) {
+		this.patientType = patientType;
+	}
+
+	/**
+	 * ABO血型
+	 */
+	public String getBloodAbo() {
+		return bloodAbo;
+	}
+
+	/**
+	 * ABO血型
+	 */
+	public void setBloodAbo(String bloodAbo) {
+		this.bloodAbo = bloodAbo;
+	}
+
+	/**
+	 * RH(D)血型 1=阳性 0= 阴性
+	 */
+	public String getBloodRh() {
+		return bloodRh;
+	}
+
+	/**
+	 * RH(D)血型 1=阳性 0= 阴性
+	 */
+	public void setBloodRh(String bloodRh) {
+		this.bloodRh = bloodRh;
+	}
+
+	/**
+	 * 二维码路径
+	 */
+	public String getBarcodePath() {
+		return barcodePath;
+	}
+
+	/**
+	 * 二维码路径
+	 */
+	public void setBarcodePath(String barcodePath) {
+		this.barcodePath = barcodePath;
+	}
+
+	/**
+	 * 身高（cm）
+	 */
+	public BigDecimal getHeight() {
+		return height;
+	}
+
+	/**
+	 * 身高（cm）
+	 */
+	public void setHeight(BigDecimal height) {
+		this.height = height;
+	}
+
+	/**
+	 * 体重（kg）
+	 */
+	public BigDecimal getWeight() {
+		return weight;
+	}
+
+	/**
+	 * 体重（kg）
+	 */
+	public void setWeight(BigDecimal weight) {
+		this.weight = weight;
 	}
 }

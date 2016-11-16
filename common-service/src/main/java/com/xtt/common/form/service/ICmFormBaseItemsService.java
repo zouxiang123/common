@@ -33,7 +33,7 @@ public interface ICmFormBaseItemsService {
 	List<CmFormBaseItemsPO> selectByCondition(CmFormBaseItemsPO record);
 
 	/** 根据item编号查询数据 */
-	CmFormBaseItemsPO selectByItemCode(String itemCode);
+	CmFormBaseItemsPO selectByItemCode(String itemCode, String sysOwner);
 
 	/**
 	 * 保存item数据
@@ -50,7 +50,8 @@ public interface ICmFormBaseItemsService {
 	 * 
 	 * @Title: deleteByItemCode
 	 * @param itemCode
+	 * @param sysOwner
 	 *
 	 */
-	String deleteByItemCode(String itemCode);
+	String deleteByItemCode(String itemCode, String sysOwner);
 }

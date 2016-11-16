@@ -8,23 +8,19 @@
  */
 package com.xtt.common.form.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.common.util.DataUtil;
-import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.CmFormItemsMapper;
 import com.xtt.common.dao.po.CmFormItemsPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.form.service.ICmFormItemsSerivce;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.form.service.ICmFormValueService;
+import com.xtt.common.util.UserUtil;
 
 @Service
 public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
@@ -32,8 +28,6 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 	private CmFormItemsMapper cmFormConfMapper;
 	@Autowired
 	private ICmFormService cmFormService;
-	@Autowired
-	private ICmFormValueService cmFormValueService;
 
 	@Override
 	public List<CmFormItemsPO> selectAll() {
@@ -77,7 +71,6 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 				}
 				record.setFkFormId(form.getId());
 				record.setFkTenantId(tenantId);
-				DataUtil.setSystemFieldValue(record);
 				cmFormConfMapper.insert(record);
 			}
 		}
@@ -85,9 +78,10 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 	}
 
 	@Override
-	public List<CmFormItemsPO> selectByItemCode(String itemCode) {
+	public List<CmFormItemsPO> selectByItemCode(String itemCode, String sysOwner) {
 		CmFormItemsPO record = new CmFormItemsPO();
 		record.setItemCode(itemCode);
+		record.setSysOwner(sysOwner);
 		return selectByCondition(record);
 	}
 
@@ -95,18 +89,8 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 	public Map<String, Object> deleteConf(CmFormItemsPO[] records) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if (records != null && records.length > 0) {
-			List<String> errorList = new ArrayList<String>();
 			for (CmFormItemsPO record : records) {
-				if (CollectionUtils.isNotEmpty(cmFormValueService.selectByItemCode(record.getItemCode(), record.getFkFormId()))) {
-					errorList.add(String.format("删除失败，项目'%s'已被使用", record.getItemName()));
-				}
-			}
-			if (!errorList.isEmpty()) {// 如果存在已被使用项目，删除失败
-				resultMap.put("errorList", errorList);
-			} else {
-				for (CmFormItemsPO record : records) {
-					this.cmFormConfMapper.deleteByPrimaryKey(record.getId());
-				}
+				this.cmFormConfMapper.deleteByPrimaryKey(record.getId());
 			}
 		}
 		return resultMap;

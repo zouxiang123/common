@@ -12,6 +12,7 @@
     <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
     <result column="order_by" jdbcType="INTEGER" property="orderBy" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="operator_id" jdbcType="BIGINT" property="operatorId" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -23,8 +24,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, p_item_code, item_code, item_name, item_desc, order_by, is_enable, operator_id, 
-    fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+    id, p_item_code, item_code, item_name, item_desc, order_by, is_enable, sys_owner, 
+    operator_id, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -48,14 +49,14 @@
     -->
     insert into cm_dict (id, p_item_code, item_code, 
       item_name, item_desc, order_by, 
-      is_enable, operator_id, fk_tenant_id, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
+      is_enable, sys_owner, operator_id, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
-      #{isEnable,jdbcType=BIT}, #{operatorId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{isEnable,jdbcType=BIT}, #{sysOwner,jdbcType=VARCHAR}, #{operatorId,jdbcType=BIGINT}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDict">
     <!--
@@ -83,6 +84,9 @@
       </if>
       <if test="isEnable != null">
         is_enable,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
       </if>
       <if test="operatorId != null">
         operator_id,
@@ -124,6 +128,9 @@
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="operatorId != null">
         #{operatorId,jdbcType=BIGINT},
@@ -169,6 +176,9 @@
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
       </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
       <if test="operatorId != null">
         operator_id = #{operatorId,jdbcType=BIGINT},
       </if>
@@ -201,6 +211,7 @@
       item_desc = #{itemDesc,jdbcType=VARCHAR},
       order_by = #{orderBy,jdbcType=INTEGER},
       is_enable = #{isEnable,jdbcType=BIT},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
       operator_id = #{operatorId,jdbcType=BIGINT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -235,7 +246,23 @@
       <if test="fkTenantId != null">
         AND d.fk_tenant_id = #{fkTenantId}
       </if>
+      <if test="sysOwner != null and sysOwner != ''">
+         AND (d.sys_owner = #{sysOwner} OR d.sys_owner = 'CM' )
+      </if>
      </where>
      ORDER BY d.p_item_code,d.order_by
+  </select>
+  
+  <select id="selectDictCategory" parameterType="com.xtt.common.dao.model.CmDict" resultMap="POResultMap">
+  	select  d.* from cm_dict d
+    <where>
+	    <if test="fkTenantId != null">
+	      d.fk_tenant_id = #{fkTenantId}
+	    </if>
+	    <if test="sysOwner != null and sysOwner != ''">
+	       AND (d.sys_owner = #{sysOwner} OR d.sys_owner = 'CM' )
+        </if>
+    </where>
+    GROUP BY d.p_item_code ORDER BY d.id DESC
   </select>
 </mapper>

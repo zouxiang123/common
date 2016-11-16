@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.CmFormNodesMapper">
    <!-- 自定义 -->
-  <resultMap id="ResultMap" type="com.xtt.common.dao.po.CmFormNodes" >
+  <resultMap id="ResultMap" type="com.xtt.common.dto.FormNodesDto" >
     <!-- basic items -->
     <result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
@@ -12,6 +12,10 @@
     <result column="is_fixed" jdbcType="BIT" property="isFixed" />
     <result column="fk_code" jdbcType="VARCHAR" property="fkCode" />
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+ 	<result column="min_value" jdbcType="DECIMAL" property="minValue" />
+    <result column="max_value" jdbcType="DECIMAL" property="maxValue" />
+    <result column="display_cols" jdbcType="INTEGER" property="displayCols" />
+    <result column="group_tag" jdbcType="VARCHAR" property="groupTag" />
   	<!-- form items -->
   	<result column="fk_form_id" jdbcType="BIGINT" property="fkFormId" />
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
@@ -24,15 +28,12 @@
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
-    <!-- form value -->
-    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
-    <result column="fk_record_id" jdbcType="BIGINT" property="fkRecordId" />
   </resultMap>
   
-  <select id="selectByCondition" parameterType="com.xtt.common.dao.po.CmFormNodes" resultMap="ResultMap">
+  <select id="selectByCondition" parameterType="com.xtt.common.dto.FormNodesDto" resultMap="ResultMap">
   	SELECT 
 		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id
-		,fbi.item_type,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type
+		,fbi.item_type,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type,fbi.min_value,fbi.max_value,fbi.display_cols,fbi.group_tag
 	FROM cm_form_items fi 
 	LEFT JOIN cm_form_base_items fbi ON fbi.item_code = fi.item_code AND fbi.fk_tenant_id = fi.fk_tenant_id and fbi.sys_owner = fi.sys_owner
   	<where>
@@ -88,17 +89,5 @@
 		</if>
   	</where>
   	ORDER BY fi.p_item_code,fi.order_by
-  </select>
-  
-  <select id="selectByRecordId" parameterType="com.xtt.common.dao.po.CmFormNodes" resultMap="ResultMap">
-	SELECT 
-		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id
-		,fbi.item_type,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type
-		,fv.fk_record_id,fv.item_value
-	FROM cm_form_value fv 
-	JOIN cm_form_items fi ON fi.fk_form_id = fv.fk_form_id and fi.sys_owner = fv.sys_owner AND fi.item_code = fv.item_code
-	LEFT JOIN cm_form_base_items fbi ON fbi.item_code = fi.item_code AND fbi.fk_tenant_id = fi.fk_tenant_id and fbi.sys_owner = fi.sys_owner
-	WHERE fv.fk_record_id = #{fkRecordId} AND fv.sys_owner = #{sysOwner}
-	ORDER BY fi.p_item_code,fi.order_by
   </select>
 </mapper>

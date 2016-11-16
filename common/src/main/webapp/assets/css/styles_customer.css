@@ -1,0 +1,56 @@
+.home-page-inner {
+	height: 50px;
+	padding-top: 13px;
+	padding-left: 192px;
+	padding-right: 20px;
+	border-right: 1px solid #F4F4F4;
+}
+
+.home-page-inner img {
+	width: 24px;
+	height: 24px;
+}
+
+.breadcrumb {
+	padding: 14px 15px;
+	margin-bottom: 0px;
+	list-style: outside none none;
+	background-color: #FFF;
+	border-radius: 0px;
+}
+
+.breadcrumb a {
+	color: #31AAFF;
+}
+
+.add-result-input-mo {
+	height: 30px;
+	margin-top: 8px;
+	width: 100%;
+	float: left;
+}
+
+.delete-icon-mo {
+	height: 16px;
+	position: absolute;
+	top: 0;
+	width: 16px;
+}
+
+.group-radio-title-custom, .group-checkbox-title-custom {
+	display: table-cell;
+	vertical-align: top;
+	padding-top: 2px;
+}
+
+.group-radio-content-custom, .group-checkbox-content-custom {
+	display: table-cell;
+}
+
+.input-inline {
+	display: inline-block;
+}
+
+.form-control .input-inline {
+	background-color: #fff;
+}

@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.common.service.ICmFormNodesService;
-import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.CmFormNodesMapper;
-import com.xtt.common.dao.po.CmFormNodes;
+import com.xtt.common.dto.FormNodesDto;
+import com.xtt.common.util.UserUtil;
 
 @Service
 public class CmFormNodesServiceImpl implements ICmFormNodesService {
@@ -24,32 +24,24 @@ public class CmFormNodesServiceImpl implements ICmFormNodesService {
 	private CmFormNodesMapper cmFormNodesMapper;
 
 	@Override
-	public List<CmFormNodes> selectByCondition(CmFormNodes record) {
+	public List<FormNodesDto> selectByCondition(FormNodesDto record) {
 		record.setFkTenantId(UserUtil.getTenantId());
 		return cmFormNodesMapper.selectByCondition(record);
 	}
 
 	@Override
-	public List<CmFormNodes> selectByPItemCode(String itemCode) {
-		CmFormNodes record = new CmFormNodes();
+	public List<FormNodesDto> selectByPItemCode(String itemCode) {
+		FormNodesDto record = new FormNodesDto();
 		record.setpItemCode(itemCode);
 		record.setFkTenantId(UserUtil.getTenantId());
 		return cmFormNodesMapper.selectByCondition(record);
 	}
 
 	@Override
-	public List<CmFormNodes> selectByFormId(Long formId) {
-		CmFormNodes record = new CmFormNodes();
+	public List<FormNodesDto> selectByFormId(Long formId) {
+		FormNodesDto record = new FormNodesDto();
 		record.setFkFormId(formId);
 		return cmFormNodesMapper.selectByCondition(record);
-	}
-
-	@Override
-	public List<CmFormNodes> selectByRecordId(Long recordId, String sysOwner) {
-		CmFormNodes record = new CmFormNodes();
-		record.setFkRecordId(recordId);
-		record.setSysOwner(sysOwner);
-		return cmFormNodesMapper.selectByRecordId(record);
 	}
 
 }

@@ -15,7 +15,6 @@ import com.xtt.common.dao.model.Feedback;
 import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.common.dao.po.SysLogPO;
-import com.xtt.common.dao.po.SysUserPO;
 
 /**
  * @ClassName: ICommonService
@@ -77,15 +76,4 @@ public interface ICommonService {
 	 * 
 	 */
 	public List<County> getCountyList(Integer provinceId);
-
-	/**
-	 * 根据姓名查询患者
-	 * 
-	 * @Title: searchPersonByName
-	 * @param name
-	 * @param tenantId
-	 * @return
-	 *
-	 */
-	public List<SysUserPO> searchPersonByName(String name, Integer tenantId);
 }

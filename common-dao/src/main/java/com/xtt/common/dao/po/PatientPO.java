@@ -15,7 +15,7 @@ public class PatientPO extends Patient {
 	private String birthdayShow;// 出生日期显示用
 	private String provinceName;
 	private String countyName;
-	private String age;
+	private Integer age;
 	private String sexShow;
 	private String tempImagePath;// 创建患者前先上传头像的临时文件
 	private String bedCode;// 床位编号
@@ -107,11 +107,11 @@ public class PatientPO extends Patient {
 		this.countyName = countyName;
 	}
 
-	public String getAge() {
+	public Integer getAge() {
 		return age;
 	}
 
-	public void setAge(String age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 

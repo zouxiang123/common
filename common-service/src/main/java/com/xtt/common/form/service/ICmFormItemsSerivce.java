@@ -39,10 +39,11 @@ public interface ICmFormItemsSerivce {
 	 * 
 	 * @Title: selectByItemCode
 	 * @param itemCode
+	 * @param sysOwner
 	 * @return
 	 *
 	 */
-	List<CmFormItemsPO> selectByItemCode(String itemCode);
+	List<CmFormItemsPO> selectByItemCode(String itemCode, String sysOwner);
 
 	/**
 	 * 批量删除节点

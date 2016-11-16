@@ -13,5 +13,11 @@
         <artifactId>portal-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </dependency>
+  	<!-- common-util -->
+  	<dependency>
+        <groupId>com.xtt.common</groupId>
+        <artifactId>common-util</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

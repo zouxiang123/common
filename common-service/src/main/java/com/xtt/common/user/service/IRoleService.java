@@ -18,10 +18,11 @@ public interface IRoleService {
 	 * 通过租户id获取该租户所有角色
 	 * 
 	 * @Title: selectSysRoleByTenantId
+	 * @param sysOwner
 	 * @return
 	 * 
 	 */
-	List<SysRole> getRoleListByTenantId(Integer tenantId);
+	List<SysRole> getRoleListByTenantId(Integer tenantId, String sysOwner);
 
 	/**
 	 * 根据角色Id获取该角色下所有的菜单
@@ -32,7 +33,7 @@ public interface IRoleService {
 	 * @return
 	 *
 	 */
-	List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types);
+	List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types, String sysOwner);
 
 	/**
 	 * 查询该版本下所有菜单
@@ -41,7 +42,7 @@ public interface IRoleService {
 	 * @return
 	 *
 	 */
-	List<SysObj> getAllMenuList(String[] types);
+	List<SysObj> getAllMenuList(String[] types, String sysOwner);
 
 	/**
 	 * 保存选中的menu
@@ -61,7 +62,7 @@ public interface IRoleService {
 	 * @param roleList
 	 *
 	 */
-	String saveRoleList(Long[] delRoleIds, SysRole[] roles);
+	String saveRoleList(Long[] delRoleIds, SysRole[] roles, String sysOwner);
 
 	/**
 	 * 删除角色
@@ -83,7 +84,7 @@ public interface IRoleService {
 	 * @return
 	 *
 	 */
-	List<SysObj> getNotChecked(Long[] roleIds, String[] types);
+	List<SysObj> getNotChecked(Long[] roleIds, String[] types, String sysOwner);
 
 	/**
 	 * 添加菜单
@@ -112,7 +113,7 @@ public interface IRoleService {
 	 * @return
 	 *
 	 */
-	SysRole getByConstant(int constantType, Integer tenantId);
+	SysRole getByConstant(int constantType, Integer tenantId, String sysOwner);
 
 	/**
 	 * 根据固定角色类型查找当前租户下的对象
@@ -123,6 +124,6 @@ public interface IRoleService {
 	 * @return
 	 *
 	 */
-	List<SysRole> getByConstants(int[] constantTypes, Integer tenantId);
+	List<SysRole> getByConstants(int[] constantTypes, Integer tenantId, String sysOwner);
 
 }

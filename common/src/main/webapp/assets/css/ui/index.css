@@ -1,0 +1,208 @@
+/*布局（.g-）*/
+.g-main {
+    width: 100%;
+    height: auto;
+}
+.g-mainc {
+    width: 76.923%;
+    height: auto;
+    padding: 16px;
+    box-shadow:0px 1px 3px 0px rgba(0,0,0,0.20);
+}
+/*模块（.m-）*/
+.m-head,.m-body{
+    position: relative;
+}
+.m-head.active {
+    background: #fbfbfd;
+    border-top: 1px solid #D9E0E6;
+}
+.m-content {
+    width: 100%;
+    min-height: 38px;
+}
+.m-hot {
+    background: rgba(217,224,230,.3);
+    width: 100%;
+    height: 32px;
+}
+.m-hot > span {
+    display: inline-block;
+    font-size: 14px;
+    color: #000;
+    line-height: 32px;
+}
+.m-subnav {
+    font-size: 14px;
+    color: #000;
+    text-align: left;
+    margin-left: 8px;
+}
+/*元件（.u-）*/
+.u-logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 227px;
+    height: 46px;
+}
+.u-title {
+    color: #000;
+    font-weight: bold;
+    line-height: 46px;
+    font-size: 21px;
+}
+.u-subtitle {
+    color: #000;
+    font-weight: bold;
+    line-height: 32px;
+    font-size: 14px;
+}
+.u-span-1 {
+    opacity: 0.5;
+    font-size: 14px;
+    color: #000;
+}
+.u-span {
+    font-size: 14px;
+    color: #000;
+}
+.u-input {
+    text-align: center;
+    outline: none;
+    width: 158px;
+    height: 27px;
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: 1px solid #D9E0E6;
+    font-size: 14px;
+    color: #000;
+}
+.u-input:hover,
+.u-input:focus {
+    color: #000;
+    border: 1px solid #31AAFF;
+}
+.u-input::-moz-placeholder {
+    color: #D9E0E6;
+    opacity: 1;
+}
+.u-input:-ms-input-placeholder {
+    color: #D9E0E6;
+}
+.u-input::-webkit-input-placeholder {
+    color: #D9E0E6;
+}
+.u-button {
+    background: #fff;
+    text-align: center;
+    outline: none;
+    min-width: 158px;
+    height: 27px;
+    line-height: 14px;
+    vertical-align: top;
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: 1px solid #31AAFF;
+    font-size: 14px;
+    color: #31AAFF;
+}
+.u-button:hover,
+.u-button:focus {
+    background: rgba(49,170,255,.1);
+    color: #31AAFF;
+}
+.u-button1 {
+    background: #31AAFF;
+    text-align: center;
+    outline: none;
+    min-width: 158px;
+    height: 27px;
+    line-height: 14px;
+    vertical-align: top;
+    margin: 0;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: 1px solid #31AAFF;
+    font-size: 14px;
+    color: #fff;
+}
+.f-button-1:hover,
+.f-button-1:focus,
+.u-button1:hover,
+.u-button1:focus {
+    background: rgba(49,170,255,.9);
+    color: #fff;
+}
+.u-delete {
+    cursor: pointer;
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: url('../../img/ui/delete.png') no-repeat;
+    background-position: center right;
+    background-size: 14px 14px;
+}
+.u-tips {
+    font-size: 14px;
+    line-height: 30px;
+    color: #F7587A;
+    padding-left: 4px;
+    height: 38px;
+}
+/*功能（.f-）*/
+.f-span-1 {
+    display: inline-block;
+    text-align: center;
+    min-width: 68px;
+}
+.f-span-2 {
+    display: inline-block;
+    text-align: left;
+    line-height: 27px;
+    margin-left: 8px;
+}
+.f-span-3 {
+    display: inline-block;
+    text-align: left;
+    min-width: 20px;
+    line-height: 27px;
+    margin-left: 14px;
+}
+.f-span-4 {
+    font-size: 42px;
+    min-width: 30px;
+    margin-left: 5px;
+    display: inline-block;
+    color: #de2f54;
+}
+.f-span-5 {
+    display: inline-block;
+    text-align: left;
+    line-height: 27px;
+    min-width: 30px;
+}
+.f-span {
+    display: inline-block;
+    text-align: right;
+    line-height: 27px;
+    min-width: 60px;
+}
+.f-input {
+    width: 60.2%;
+    text-align: left;
+}
+.f-button {
+    border-radius: 3px;
+    min-width: 63px;
+    min-height: 26px;
+}
+.f-button-1 {
+    background: #31AAFF;
+    border-radius: 3px;
+    min-width: 63px;
+    min-height: 26px;
+    color: #fff;
+}

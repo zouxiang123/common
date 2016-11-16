@@ -16,10 +16,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.common.util.UserUtil;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.patient.service.IPatientAssayRecordService;
+import com.xtt.common.util.UserUtil;
 
 @Service
 public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService {

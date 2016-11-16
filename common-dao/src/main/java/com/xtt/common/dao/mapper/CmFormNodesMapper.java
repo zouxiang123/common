@@ -12,7 +12,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.xtt.common.dao.po.CmFormNodes;
+import com.xtt.common.dto.FormNodesDto;
 
 @Repository
 public interface CmFormNodesMapper {
@@ -24,16 +24,6 @@ public interface CmFormNodesMapper {
 	 * @return
 	 *
 	 */
-	public List<CmFormNodes> selectByCondition(CmFormNodes record);
-
-	/**
-	 * 根据value表的记录id查询数据
-	 * 
-	 * @Title: selectByRecordId
-	 * @param record
-	 * @return
-	 *
-	 */
-	public List<CmFormNodes> selectByRecordId(CmFormNodes record);
+	public List<FormNodesDto> selectByCondition(FormNodesDto record);
 
 }

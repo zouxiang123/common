@@ -61,6 +61,24 @@ public class CmFormBaseItems {
     private BigDecimal score;
 
     /**
+     * 最小值
+     * cm_form_base_items.min_value
+     */
+    private BigDecimal minValue;
+
+    /**
+     * 最大值
+     * cm_form_base_items.max_value
+     */
+    private BigDecimal maxValue;
+
+    /**
+     * 一排显示几个
+     * cm_form_base_items.display_cols
+     */
+    private Integer displayCols;
+
+    /**
      * 是否为叶子节点
      * cm_form_base_items.is_leaf
      */
@@ -77,6 +95,12 @@ public class CmFormBaseItems {
      * cm_form_base_items.fk_code
      */
     private String fkCode;
+
+    /**
+     * 组标签
+     * cm_form_base_items.group_tag
+     */
+    private String groupTag;
 
     /**
      * 数据类型
@@ -251,6 +275,48 @@ public class CmFormBaseItems {
     }
 
     /**
+     * 最小值
+     */
+    public BigDecimal getMinValue() {
+        return minValue;
+    }
+
+    /**
+     * 最小值
+     */
+    public void setMinValue(BigDecimal minValue) {
+        this.minValue = minValue;
+    }
+
+    /**
+     * 最大值
+     */
+    public BigDecimal getMaxValue() {
+        return maxValue;
+    }
+
+    /**
+     * 最大值
+     */
+    public void setMaxValue(BigDecimal maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    /**
+     * 一排显示几个
+     */
+    public Integer getDisplayCols() {
+        return displayCols;
+    }
+
+    /**
+     * 一排显示几个
+     */
+    public void setDisplayCols(Integer displayCols) {
+        this.displayCols = displayCols;
+    }
+
+    /**
      * 是否为叶子节点
      */
     public Boolean getIsLeaf() {
@@ -290,6 +356,20 @@ public class CmFormBaseItems {
      */
     public void setFkCode(String fkCode) {
         this.fkCode = fkCode;
+    }
+
+    /**
+     * 组标签
+     */
+    public String getGroupTag() {
+        return groupTag;
+    }
+
+    /**
+     * 组标签
+     */
+    public void setGroupTag(String groupTag) {
+        this.groupTag = groupTag;
     }
 
     /**

@@ -10,18 +10,18 @@ package com.xtt.common.common.service;
 
 import java.util.List;
 
-import com.xtt.common.dao.po.CmFormNodes;
+import com.xtt.common.dto.FormNodesDto;
 
 public interface ICmFormNodesService {
 
 	/** 根据自定义条件查询数据 */
-	List<CmFormNodes> selectByCondition(CmFormNodes record);
+	List<FormNodesDto> selectByCondition(FormNodesDto record);
 
 	/**
 	 * 根据父item_code查询数据
 	 *
 	 */
-	List<CmFormNodes> selectByPItemCode(String itemCode);
+	List<FormNodesDto> selectByPItemCode(String itemCode);
 
 	/**
 	 * 根据formId查询数据
@@ -31,16 +31,5 @@ public interface ICmFormNodesService {
 	 * @return
 	 *
 	 */
-	List<CmFormNodes> selectByFormId(Long formId);
-
-	/**
-	 * 根据记录id查询数据
-	 * 
-	 * @Title: selectByRecordId
-	 * @param recordId
-	 * @param sysOwner
-	 * @return
-	 *
-	 */
-	List<CmFormNodes> selectByRecordId(Long recordId, String sysOwner);
+	List<FormNodesDto> selectByFormId(Long formId);
 }
