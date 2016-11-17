@@ -86,6 +86,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
 	@Override
 	public void cacheSysParam(Integer tenantId) {
+		RedisCacheUtil.deletePattern(SysParamUtil.getKey(tenantId, null));
 		List<SysParamPO> list = sysParamService.getByTenantId(tenantId);
 		if (CollectionUtils.isNotEmpty(list)) {
 			List<SysParamDto> params = new ArrayList<>(list.size());
@@ -102,13 +103,17 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	@Override
 	public void cachePermission(Integer tenantId) {
 		Map<String, List<SysObjDto>> map = new HashMap<>();
-		PermissionCache.cacheAll(map);
+		RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null, null));
 		String[] types = { "1", "2" };
 		map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
 		List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
 		for (SysRole sysRole : list) {
 			Long[] roleIds = { sysRole.getId() };
-			map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
+			String[] owners = sysRole.getSysOwner().split(",");
+			for (String owner : owners) {
+				map.put(PermissionCache.getKey(tenantId, owner, sysRole.getId()),
+								convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, owner)));
+			}
 		}
 		PermissionCache.cacheAll(map);
 	}

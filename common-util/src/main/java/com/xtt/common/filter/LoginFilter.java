@@ -174,8 +174,8 @@ public class LoginFilter implements Filter {
 		}
 		// 检查登陆用户是否等登陆当前系统
 		LoginUser user = (LoginUser) authMap.get(CommonConstants.LOGIN_USER);
-		String projectName = HttpServletUtil.getProjectName();
-		if (projectName != null && user.getSysOwner().indexOf(projectName) == -1) {
+		String sysName = HttpServletUtil.getSysName();
+		if (sysName != null && user.getSysOwner().indexOf(sysName) == -1) {
 			return false;
 		}
 		return true;

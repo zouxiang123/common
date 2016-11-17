@@ -17,12 +17,13 @@ import org.slf4j.LoggerFactory;
 
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 public class SysParamUtil {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SysParamUtil.class);
 
 	public static String getKey(Integer tenantId, String key) {
-		return tenantId + "sysParam" + key;
+		return tenantId + "sysParam" + (StringUtil.isBlank(key) ? "*" : key);
 	}
 
 	/** 加载数据到内存 */

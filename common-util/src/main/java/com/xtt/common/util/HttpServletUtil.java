@@ -196,18 +196,25 @@ public class HttpServletUtil {
 		return getRequest().getParameter(CommonConstants.API_TOKEN);
 	}
 
-	public static String getProjectName() {
-		String projectName = null;
+	/**
+	 * 获取当前系统名称（如：HD血透,PD腹透）
+	 * 
+	 * @Title: getSysName
+	 * @return
+	 *
+	 */
+	public static String getSysName() {
+		String sysName = null;
 		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
 		ServletContext servletContext = webApplicationContext.getServletContext();
-		projectName = (String) servletContext.getAttribute(CommonConstants.PROJECT_NAME);
-		if (StringUtil.isBlank(projectName)) {// 如果从上下文中获取不到项目名称，则从请求中获取
+		sysName = (String) servletContext.getAttribute(CommonConstants.SYS_NAME);
+		if (StringUtil.isBlank(sysName)) {// 如果从上下文中获取不到项目名称，则从请求中获取
 			HttpServletRequest request = getRequest();
 			if (request != null) {
-				projectName = (String) request.getAttribute(CommonConstants.PROJECT_NAME);
+				sysName = getCookieValueByName(CommonConstants.SYS_NAME);
 			}
 		}
-		return projectName;
+		return sysName;
 	}
 
 	public static boolean isAjaxRequest(HttpServletRequest request) {

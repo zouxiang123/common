@@ -50,7 +50,7 @@ public class DiagnosisConfServiceImpl implements IDiagnosisConfService {
 			record = new CmDiagnosisConfPO();
 		}
 		record.setFkTenantId(UserUtil.getTenantId());
-		record.setSysOwner(HttpServletUtil.getProjectName());
+		record.setSysOwner(HttpServletUtil.getSysName());
 		return cmDiagnosisConfMapper.selectByCondition(record);
 	}
 
@@ -60,14 +60,14 @@ public class DiagnosisConfServiceImpl implements IDiagnosisConfService {
 		if (records != null && records.length > 0) {
 			CmDiagnosisConfPO query = new CmDiagnosisConfPO();
 			List<String> errorList = new ArrayList<String>();
-			String sysOwer = HttpServletUtil.getProjectName();
+			String sysOwer = HttpServletUtil.getSysName();
 			for (CmDiagnosisConfPO record : records) {
 				if (record.getId() == null) {
 					query.setItemCode(record.getItemCode());
 					query.setSysOwner(sysOwer);
 					List<CmDiagnosisConfPO> list = selectByCondition(query);
 					if (list == null || list.isEmpty()) {// 检查itemCode是否已存在
-						record.setSysOwner(HttpServletUtil.getProjectName());
+						record.setSysOwner(HttpServletUtil.getSysName());
 						record.setFkTenantId(UserUtil.getTenantId());
 						DataUtil.setSystemFieldValue(record);
 						cmDiagnosisConfMapper.insert(record);
@@ -91,7 +91,7 @@ public class DiagnosisConfServiceImpl implements IDiagnosisConfService {
 	public List<CmDiagnosisConfPO> selectByItemCode(String itemCode) {
 		CmDiagnosisConfPO record = new CmDiagnosisConfPO();
 		record.setItemCode(itemCode);
-		record.setSysOwner(HttpServletUtil.getProjectName());
+		record.setSysOwner(HttpServletUtil.getSysName());
 		record.setFkTenantId(UserUtil.getTenantId());
 		return selectByCondition(record);
 	}

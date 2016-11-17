@@ -122,7 +122,7 @@ public class CmFormItemsController {
 	@ResponseBody
 	public Map<String, Object> refresh(String sysOwner) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		sysOwner = StringUtil.isBlank(sysOwner) ? HttpServletUtil.getProjectName() : sysOwner;
+		sysOwner = StringUtil.isBlank(sysOwner) ? HttpServletUtil.getSysName() : sysOwner;
 		commonCacheService.cacheDynamicFormNode(UserUtil.getTenantId(), sysOwner);
 		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
 		return map;

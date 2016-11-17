@@ -144,7 +144,7 @@ public class RoleServiceImpl implements IRoleService {
 		obj.setType("api");
 		DataUtil.setSystemFieldValue(obj);
 		obj.setId(null);
-		obj.setSysOwner(HttpServletUtil.getProjectName());
+		obj.setSysOwner(HttpServletUtil.getSysName());
 		sysObjMapper.insertSelective(obj);
 		return CommonConstants.SUCCESS;
 	}

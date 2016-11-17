@@ -45,13 +45,13 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<SysUserPO> getDoctors(Integer tenantId) {
 		String[] arr = { CommonConstants.ROLE_DOCTOR };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
 	}
 
 	@Override
 	public List<SysUserPO> getNurses(Integer tenantId) {
 		String[] arr = { CommonConstants.ROLE_NURSE };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class UserServiceImpl implements IUserService {
 			user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
 			user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
 			if (StringUtil.isBlank(user.getSysOwner())) {// 项目名称为空时，默认为当前系统
-				user.setSysOwner(HttpServletUtil.getProjectName());
+				user.setSysOwner(HttpServletUtil.getSysName());
 			}
 			sysUserMapper.insert(user);
 			associationRole(user.getRoleId(), user.getId());// 创建关联数据
@@ -138,7 +138,7 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<SysUserPO> selectByTenantId(Integer tenantId) {
-		return sysUserMapper.selectAllUserByTenantId(tenantId, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectAllUserByTenantId(tenantId, HttpServletUtil.getSysName());
 	}
 
 	@Override
@@ -152,18 +152,18 @@ public class UserServiceImpl implements IUserService {
 
 	@Override
 	public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
-		user.setSysOwner(HttpServletUtil.getProjectName());
+		user.setSysOwner(HttpServletUtil.getSysName());
 		return sysUserMapper.selectUserWithFilter(user);
 	}
 
 	@Override
 	public SysUser getUserByAccount(String account, Integer tenantId) {
-		return sysUserMapper.selectUserByAccount(account, tenantId, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectUserByAccount(account, tenantId, HttpServletUtil.getSysName());
 	}
 
 	@Override
 	public SysUserPO login(String account, String password, Integer tenantId) {
-		return sysUserMapper.login(account, password, tenantId, HttpServletUtil.getProjectName());
+		return sysUserMapper.login(account, password, tenantId, HttpServletUtil.getSysName());
 	}
 
 	@Override
@@ -194,16 +194,16 @@ public class UserServiceImpl implements IUserService {
 	@Override
 	public List<SysUserPO> getOthers(Integer tenantId) {
 		String[] arr = { CommonConstants.ROLE_OTHER, CommonConstants.ROLE_ADMIN };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
 	}
 
 	@Override
 	public List<Map<String, Object>> getRolesCount(Integer tenantId) {
-		return sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getProjectName());
+		return sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getSysName());
 	}
 
 	private Integer getCountByRoleType(Integer tenantId, String roleType) {
-		List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getProjectName());
+		List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getSysName());
 		for (Map<String, Object> m : list) {
 			if (m.get("roleType").equals(roleType)) {
 				return ((Long) m.get("count")).intValue();

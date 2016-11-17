@@ -84,8 +84,8 @@ public class CommonConstants {
 	public static final String OPERATION_SELECT = "select";
 
 	/** 项目名称 */
-	public static final String PROJECT_NAME = "projectName";
-	public static final String PROJECT_PD = "PD";
+	public static final String SYS_NAME = "sysName";
+	public static final String SYS_PD = "PD";
 	/** 公用服务地址 */
 	public static final String COMMON_SERVER_ADDR = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties"))
 					.getProperty("common.server.addr");

@@ -17,14 +17,16 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.xtt.common.dto.SysObjDto;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 public class PermissionCache implements IPermissionFactory {
 	public static final String ALL_SYS_OBJ_KEY = "all_sys_obj_key";
 
-	public static String getKey(Integer tenantId, Long id) {
-		return tenantId + "permission" + id;
+	public static String getKey(Integer tenantId, String owner, Long id) {
+		return tenantId + "permission" + StringUtil.trimToEmpty(owner) + (id == null ? "*" : id);
 	}
 
 	/** 加载数据到内存 */
@@ -71,7 +73,7 @@ public class PermissionCache implements IPermissionFactory {
 		List<SysObjDto> permissionList;
 		Integer tenandId = UserUtil.getTenantId();
 		for (int i = 0; i < roleIds.length; i++) {
-			List<SysObjDto> list = (List<SysObjDto>) RedisCacheUtil.getObject(getKey(tenandId, roleIds[i]));
+			List<SysObjDto> list = (List<SysObjDto>) RedisCacheUtil.getObject(getKey(tenandId, HttpServletUtil.getSysName(), roleIds[i]));
 			if (CollectionUtils.isNotEmpty(list)) {
 				for (int t = 0; t < list.size(); t++) {// 使用map去除重复权限
 					map.put(list.get(t).getKey(), list.get(t));
