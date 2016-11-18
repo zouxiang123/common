@@ -11,23 +11,23 @@
 		<property name="order" value="1" />
 		<property name="locations">
 			<list>
-				<value>file:C:/xtt/config/dbconfig_common.properties</value>
+				<value>file:C:/xtt/config/dbconfig.properties</value>
 			</list>
 		</property>
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 	</bean>
 	<!-- 数据源配置, 使用应用中的druid数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
-		<property name="url" value="${db.url}" />
-		<property name="username" value="${db.username}" />
-		<property name="password" value="${db.password}" />
+		<property name="url" value="${common.url}" />
+		<property name="username" value="${common.username}" />
+		<property name="password" value="${common.password}" />
 		<property name="driverClassName" value="${db.driverClassName}" />
 		<property name="filters" value="${filters}" />
 
-		<property name="maxActive" value="${maxActive}" />
+		<property name="maxActive" value="${common.maxActive}" />
 		<property name="initialSize" value="${initialSize}" />
-		<property name="maxWait" value="${maxWait}" />
-		<property name="minIdle" value="${minIdle}" />
+		<property name="maxWait" value="${common.maxWait}" />
+		<property name="minIdle" value="${common.minIdle}" />
 
 		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
 		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
