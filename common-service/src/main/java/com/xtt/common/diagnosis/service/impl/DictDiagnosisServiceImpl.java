@@ -14,12 +14,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.conf.service.IDiagnosisConfService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.CmDictDiagnosisMapper;
 import com.xtt.common.dao.model.CmDictDiagnosis;
 import com.xtt.common.dao.po.CmDiagnosisConfPO;
 import com.xtt.common.dao.po.CmDictDiagnosisPO;
-import com.xtt.common.diagnosis.service.IDiagnosisConfService;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;

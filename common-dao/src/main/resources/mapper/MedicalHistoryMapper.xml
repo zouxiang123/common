@@ -1,0 +1,808 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.MedicalHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.MedicalHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_diagnosis_id" jdbcType="BIGINT" property="fkPatientDiagnosisId" />
+    <result column="fk_dialysis_campaign_id" jdbcType="BIGINT" property="fkDialysisCampaignId" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="has_cva" jdbcType="BIT" property="hasCva" />
+    <result column="hemorrhage" jdbcType="VARCHAR" property="hemorrhage" />
+    <result column="heart_defects" jdbcType="VARCHAR" property="heartDefects" />
+    <result column="has_vascular_disease" jdbcType="BIT" property="hasVascularDisease" />
+    <result column="has_serious_disease" jdbcType="BIT" property="hasSeriousDisease" />
+    <result column="has_psychosis" jdbcType="BIT" property="hasPsychosis" />
+    <result column="other" jdbcType="VARCHAR" property="other" />
+    <result column="first_dialysis_date" jdbcType="DATE" property="firstDialysisDate" />
+    <result column="is_draft" jdbcType="BIT" property="isDraft" />
+    <result column="operator_id" jdbcType="BIGINT" property="operatorId" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="opt_time" jdbcType="DATE" property="optTime" />
+    <result column="opt_name" jdbcType="VARCHAR" property="optName" />
+    <result column="opt_remark" jdbcType="VARCHAR" property="optRemark" />
+    <result column="xt_start_time" jdbcType="DATE" property="xtStartTime" />
+    <result column="xt_start_reason" jdbcType="VARCHAR" property="xtStartReason" />
+    <result column="xt_start_reason_other" jdbcType="VARCHAR" property="xtStartReasonOther" />
+    <result column="xt_end_time" jdbcType="DATE" property="xtEndTime" />
+    <result column="xt_end_reason" jdbcType="VARCHAR" property="xtEndReason" />
+    <result column="xt_end_reason_other" jdbcType="VARCHAR" property="xtEndReasonOther" />
+    <result column="xt_remark" jdbcType="VARCHAR" property="xtRemark" />
+    <result column="syz_start_time" jdbcType="DATE" property="syzStartTime" />
+    <result column="syz_end_time" jdbcType="DATE" property="syzEndTime" />
+    <result column="syz_end_reason" jdbcType="VARCHAR" property="syzEndReason" />
+    <result column="syz_end_reason_other" jdbcType="VARCHAR" property="syzEndReasonOther" />
+    <result column="syz_remark" jdbcType="VARCHAR" property="syzRemark" />
+    <result column="ft_start_time" jdbcType="DATE" property="ftStartTime" />
+    <result column="ft_start_reason" jdbcType="VARCHAR" property="ftStartReason" />
+    <result column="ft_start_reason_other" jdbcType="VARCHAR" property="ftStartReasonOther" />
+    <result column="ft_end_time" jdbcType="DATE" property="ftEndTime" />
+    <result column="ft_end_reason" jdbcType="VARCHAR" property="ftEndReason" />
+    <result column="ft_end_reason_other" jdbcType="VARCHAR" property="ftEndReasonOther" />
+    <result column="ft_remark" jdbcType="VARCHAR" property="ftRemark" />
+    <result column="gm_enter_time" jdbcType="DATE" property="gmEnterTime" />
+    <result column="gm_resouce" jdbcType="VARCHAR" property="gmResouce" />
+    <result column="gm_resouce_other" jdbcType="VARCHAR" property="gmResouceOther" />
+    <result column="gm_name" jdbcType="VARCHAR" property="gmName" />
+    <result column="gm_remark" jdbcType="VARCHAR" property="gmRemark" />
+    <result column="crb_dia_time" jdbcType="DATE" property="crbDiaTime" />
+    <result column="crb_dia_name" jdbcType="VARCHAR" property="crbDiaName" />
+    <result column="crb_dia_name_other" jdbcType="VARCHAR" property="crbDiaNameOther" />
+    <result column="crb_dia_status" jdbcType="VARCHAR" property="crbDiaStatus" />
+    <result column="crb_case" jdbcType="VARCHAR" property="crbCase" />
+    <result column="crb_case_other" jdbcType="VARCHAR" property="crbCaseOther" />
+    <result column="crb_remark" jdbcType="VARCHAR" property="crbRemark" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="first_dialysis_method" jdbcType="VARCHAR" property="firstDialysisMethod" />
+    <result column="hasCva_remark" jdbcType="VARCHAR" property="hascvaRemark" />
+    <result column="hemorrhage_remark" jdbcType="VARCHAR" property="hemorrhageRemark" />
+    <result column="heart_defects_remark" jdbcType="VARCHAR" property="heartDefectsRemark" />
+    <result column="hasVascularDisease_remark" jdbcType="VARCHAR" property="hasvasculardiseaseRemark" />
+    <result column="hasPsychosis_remark" jdbcType="VARCHAR" property="haspsychosisRemark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_diagnosis_id, fk_dialysis_campaign_id, fk_patient_id, has_cva, hemorrhage, 
+    heart_defects, has_vascular_disease, has_serious_disease, has_psychosis, other, first_dialysis_date, 
+    is_draft, operator_id, version, is_enable, create_time, create_user_id, update_time, 
+    update_user_id, opt_time, opt_name, opt_remark, xt_start_time, xt_start_reason, xt_start_reason_other, 
+    xt_end_time, xt_end_reason, xt_end_reason_other, xt_remark, syz_start_time, syz_end_time, 
+    syz_end_reason, syz_end_reason_other, syz_remark, ft_start_time, ft_start_reason, 
+    ft_start_reason_other, ft_end_time, ft_end_reason, ft_end_reason_other, ft_remark, 
+    gm_enter_time, gm_resouce, gm_resouce_other, gm_name, gm_remark, crb_dia_time, crb_dia_name, 
+    crb_dia_name_other, crb_dia_status, crb_case, crb_case_other, crb_remark, fk_tenant_id, 
+    first_dialysis_method, hasCva_remark, hemorrhage_remark, heart_defects_remark, hasVascularDisease_remark, 
+    hasPsychosis_remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from medical_history
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from medical_history
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.MedicalHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into medical_history (id, fk_patient_diagnosis_id, fk_dialysis_campaign_id, 
+      fk_patient_id, has_cva, hemorrhage, 
+      heart_defects, has_vascular_disease, has_serious_disease, 
+      has_psychosis, other, first_dialysis_date, 
+      is_draft, operator_id, version, 
+      is_enable, create_time, create_user_id, 
+      update_time, update_user_id, opt_time, 
+      opt_name, opt_remark, xt_start_time, 
+      xt_start_reason, xt_start_reason_other, xt_end_time, 
+      xt_end_reason, xt_end_reason_other, xt_remark, 
+      syz_start_time, syz_end_time, syz_end_reason, 
+      syz_end_reason_other, syz_remark, ft_start_time, 
+      ft_start_reason, ft_start_reason_other, ft_end_time, 
+      ft_end_reason, ft_end_reason_other, ft_remark, 
+      gm_enter_time, gm_resouce, gm_resouce_other, 
+      gm_name, gm_remark, crb_dia_time, 
+      crb_dia_name, crb_dia_name_other, crb_dia_status, 
+      crb_case, crb_case_other, crb_remark, 
+      fk_tenant_id, first_dialysis_method, hasCva_remark, 
+      hemorrhage_remark, heart_defects_remark, hasVascularDisease_remark, 
+      hasPsychosis_remark)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientDiagnosisId,jdbcType=BIGINT}, #{fkDialysisCampaignId,jdbcType=BIGINT}, 
+      #{fkPatientId,jdbcType=BIGINT}, #{hasCva,jdbcType=BIT}, #{hemorrhage,jdbcType=VARCHAR}, 
+      #{heartDefects,jdbcType=VARCHAR}, #{hasVascularDisease,jdbcType=BIT}, #{hasSeriousDisease,jdbcType=BIT}, 
+      #{hasPsychosis,jdbcType=BIT}, #{other,jdbcType=VARCHAR}, #{firstDialysisDate,jdbcType=DATE}, 
+      #{isDraft,jdbcType=BIT}, #{operatorId,jdbcType=BIGINT}, #{version,jdbcType=INTEGER}, 
+      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{optTime,jdbcType=DATE}, 
+      #{optName,jdbcType=VARCHAR}, #{optRemark,jdbcType=VARCHAR}, #{xtStartTime,jdbcType=DATE}, 
+      #{xtStartReason,jdbcType=VARCHAR}, #{xtStartReasonOther,jdbcType=VARCHAR}, #{xtEndTime,jdbcType=DATE}, 
+      #{xtEndReason,jdbcType=VARCHAR}, #{xtEndReasonOther,jdbcType=VARCHAR}, #{xtRemark,jdbcType=VARCHAR}, 
+      #{syzStartTime,jdbcType=DATE}, #{syzEndTime,jdbcType=DATE}, #{syzEndReason,jdbcType=VARCHAR}, 
+      #{syzEndReasonOther,jdbcType=VARCHAR}, #{syzRemark,jdbcType=VARCHAR}, #{ftStartTime,jdbcType=DATE}, 
+      #{ftStartReason,jdbcType=VARCHAR}, #{ftStartReasonOther,jdbcType=VARCHAR}, #{ftEndTime,jdbcType=DATE}, 
+      #{ftEndReason,jdbcType=VARCHAR}, #{ftEndReasonOther,jdbcType=VARCHAR}, #{ftRemark,jdbcType=VARCHAR}, 
+      #{gmEnterTime,jdbcType=DATE}, #{gmResouce,jdbcType=VARCHAR}, #{gmResouceOther,jdbcType=VARCHAR}, 
+      #{gmName,jdbcType=VARCHAR}, #{gmRemark,jdbcType=VARCHAR}, #{crbDiaTime,jdbcType=DATE}, 
+      #{crbDiaName,jdbcType=VARCHAR}, #{crbDiaNameOther,jdbcType=VARCHAR}, #{crbDiaStatus,jdbcType=VARCHAR}, 
+      #{crbCase,jdbcType=VARCHAR}, #{crbCaseOther,jdbcType=VARCHAR}, #{crbRemark,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{firstDialysisMethod,jdbcType=VARCHAR}, #{hascvaRemark,jdbcType=VARCHAR}, 
+      #{hemorrhageRemark,jdbcType=VARCHAR}, #{heartDefectsRemark,jdbcType=VARCHAR}, #{hasvasculardiseaseRemark,jdbcType=VARCHAR}, 
+      #{haspsychosisRemark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.MedicalHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into medical_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientDiagnosisId != null">
+        fk_patient_diagnosis_id,
+      </if>
+      <if test="fkDialysisCampaignId != null">
+        fk_dialysis_campaign_id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="hasCva != null">
+        has_cva,
+      </if>
+      <if test="hemorrhage != null">
+        hemorrhage,
+      </if>
+      <if test="heartDefects != null">
+        heart_defects,
+      </if>
+      <if test="hasVascularDisease != null">
+        has_vascular_disease,
+      </if>
+      <if test="hasSeriousDisease != null">
+        has_serious_disease,
+      </if>
+      <if test="hasPsychosis != null">
+        has_psychosis,
+      </if>
+      <if test="other != null">
+        other,
+      </if>
+      <if test="firstDialysisDate != null">
+        first_dialysis_date,
+      </if>
+      <if test="isDraft != null">
+        is_draft,
+      </if>
+      <if test="operatorId != null">
+        operator_id,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="optTime != null">
+        opt_time,
+      </if>
+      <if test="optName != null">
+        opt_name,
+      </if>
+      <if test="optRemark != null">
+        opt_remark,
+      </if>
+      <if test="xtStartTime != null">
+        xt_start_time,
+      </if>
+      <if test="xtStartReason != null">
+        xt_start_reason,
+      </if>
+      <if test="xtStartReasonOther != null">
+        xt_start_reason_other,
+      </if>
+      <if test="xtEndTime != null">
+        xt_end_time,
+      </if>
+      <if test="xtEndReason != null">
+        xt_end_reason,
+      </if>
+      <if test="xtEndReasonOther != null">
+        xt_end_reason_other,
+      </if>
+      <if test="xtRemark != null">
+        xt_remark,
+      </if>
+      <if test="syzStartTime != null">
+        syz_start_time,
+      </if>
+      <if test="syzEndTime != null">
+        syz_end_time,
+      </if>
+      <if test="syzEndReason != null">
+        syz_end_reason,
+      </if>
+      <if test="syzEndReasonOther != null">
+        syz_end_reason_other,
+      </if>
+      <if test="syzRemark != null">
+        syz_remark,
+      </if>
+      <if test="ftStartTime != null">
+        ft_start_time,
+      </if>
+      <if test="ftStartReason != null">
+        ft_start_reason,
+      </if>
+      <if test="ftStartReasonOther != null">
+        ft_start_reason_other,
+      </if>
+      <if test="ftEndTime != null">
+        ft_end_time,
+      </if>
+      <if test="ftEndReason != null">
+        ft_end_reason,
+      </if>
+      <if test="ftEndReasonOther != null">
+        ft_end_reason_other,
+      </if>
+      <if test="ftRemark != null">
+        ft_remark,
+      </if>
+      <if test="gmEnterTime != null">
+        gm_enter_time,
+      </if>
+      <if test="gmResouce != null">
+        gm_resouce,
+      </if>
+      <if test="gmResouceOther != null">
+        gm_resouce_other,
+      </if>
+      <if test="gmName != null">
+        gm_name,
+      </if>
+      <if test="gmRemark != null">
+        gm_remark,
+      </if>
+      <if test="crbDiaTime != null">
+        crb_dia_time,
+      </if>
+      <if test="crbDiaName != null">
+        crb_dia_name,
+      </if>
+      <if test="crbDiaNameOther != null">
+        crb_dia_name_other,
+      </if>
+      <if test="crbDiaStatus != null">
+        crb_dia_status,
+      </if>
+      <if test="crbCase != null">
+        crb_case,
+      </if>
+      <if test="crbCaseOther != null">
+        crb_case_other,
+      </if>
+      <if test="crbRemark != null">
+        crb_remark,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="firstDialysisMethod != null">
+        first_dialysis_method,
+      </if>
+      <if test="hascvaRemark != null">
+        hasCva_remark,
+      </if>
+      <if test="hemorrhageRemark != null">
+        hemorrhage_remark,
+      </if>
+      <if test="heartDefectsRemark != null">
+        heart_defects_remark,
+      </if>
+      <if test="hasvasculardiseaseRemark != null">
+        hasVascularDisease_remark,
+      </if>
+      <if test="haspsychosisRemark != null">
+        hasPsychosis_remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientDiagnosisId != null">
+        #{fkPatientDiagnosisId,jdbcType=BIGINT},
+      </if>
+      <if test="fkDialysisCampaignId != null">
+        #{fkDialysisCampaignId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="hasCva != null">
+        #{hasCva,jdbcType=BIT},
+      </if>
+      <if test="hemorrhage != null">
+        #{hemorrhage,jdbcType=VARCHAR},
+      </if>
+      <if test="heartDefects != null">
+        #{heartDefects,jdbcType=VARCHAR},
+      </if>
+      <if test="hasVascularDisease != null">
+        #{hasVascularDisease,jdbcType=BIT},
+      </if>
+      <if test="hasSeriousDisease != null">
+        #{hasSeriousDisease,jdbcType=BIT},
+      </if>
+      <if test="hasPsychosis != null">
+        #{hasPsychosis,jdbcType=BIT},
+      </if>
+      <if test="other != null">
+        #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="firstDialysisDate != null">
+        #{firstDialysisDate,jdbcType=DATE},
+      </if>
+      <if test="isDraft != null">
+        #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="optTime != null">
+        #{optTime,jdbcType=DATE},
+      </if>
+      <if test="optName != null">
+        #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="optRemark != null">
+        #{optRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="xtStartTime != null">
+        #{xtStartTime,jdbcType=DATE},
+      </if>
+      <if test="xtStartReason != null">
+        #{xtStartReason,jdbcType=VARCHAR},
+      </if>
+      <if test="xtStartReasonOther != null">
+        #{xtStartReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="xtEndTime != null">
+        #{xtEndTime,jdbcType=DATE},
+      </if>
+      <if test="xtEndReason != null">
+        #{xtEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="xtEndReasonOther != null">
+        #{xtEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="xtRemark != null">
+        #{xtRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="syzStartTime != null">
+        #{syzStartTime,jdbcType=DATE},
+      </if>
+      <if test="syzEndTime != null">
+        #{syzEndTime,jdbcType=DATE},
+      </if>
+      <if test="syzEndReason != null">
+        #{syzEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="syzEndReasonOther != null">
+        #{syzEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="syzRemark != null">
+        #{syzRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="ftStartTime != null">
+        #{ftStartTime,jdbcType=DATE},
+      </if>
+      <if test="ftStartReason != null">
+        #{ftStartReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ftStartReasonOther != null">
+        #{ftStartReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="ftEndTime != null">
+        #{ftEndTime,jdbcType=DATE},
+      </if>
+      <if test="ftEndReason != null">
+        #{ftEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ftEndReasonOther != null">
+        #{ftEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="ftRemark != null">
+        #{ftRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmEnterTime != null">
+        #{gmEnterTime,jdbcType=DATE},
+      </if>
+      <if test="gmResouce != null">
+        #{gmResouce,jdbcType=VARCHAR},
+      </if>
+      <if test="gmResouceOther != null">
+        #{gmResouceOther,jdbcType=VARCHAR},
+      </if>
+      <if test="gmName != null">
+        #{gmName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmRemark != null">
+        #{gmRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaTime != null">
+        #{crbDiaTime,jdbcType=DATE},
+      </if>
+      <if test="crbDiaName != null">
+        #{crbDiaName,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaNameOther != null">
+        #{crbDiaNameOther,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaStatus != null">
+        #{crbDiaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="crbCase != null">
+        #{crbCase,jdbcType=VARCHAR},
+      </if>
+      <if test="crbCaseOther != null">
+        #{crbCaseOther,jdbcType=VARCHAR},
+      </if>
+      <if test="crbRemark != null">
+        #{crbRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="firstDialysisMethod != null">
+        #{firstDialysisMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="hascvaRemark != null">
+        #{hascvaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="hemorrhageRemark != null">
+        #{hemorrhageRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="heartDefectsRemark != null">
+        #{heartDefectsRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="hasvasculardiseaseRemark != null">
+        #{hasvasculardiseaseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="haspsychosisRemark != null">
+        #{haspsychosisRemark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.MedicalHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update medical_history
+    <set>
+      <if test="fkPatientDiagnosisId != null">
+        fk_patient_diagnosis_id = #{fkPatientDiagnosisId,jdbcType=BIGINT},
+      </if>
+      <if test="fkDialysisCampaignId != null">
+        fk_dialysis_campaign_id = #{fkDialysisCampaignId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="hasCva != null">
+        has_cva = #{hasCva,jdbcType=BIT},
+      </if>
+      <if test="hemorrhage != null">
+        hemorrhage = #{hemorrhage,jdbcType=VARCHAR},
+      </if>
+      <if test="heartDefects != null">
+        heart_defects = #{heartDefects,jdbcType=VARCHAR},
+      </if>
+      <if test="hasVascularDisease != null">
+        has_vascular_disease = #{hasVascularDisease,jdbcType=BIT},
+      </if>
+      <if test="hasSeriousDisease != null">
+        has_serious_disease = #{hasSeriousDisease,jdbcType=BIT},
+      </if>
+      <if test="hasPsychosis != null">
+        has_psychosis = #{hasPsychosis,jdbcType=BIT},
+      </if>
+      <if test="other != null">
+        other = #{other,jdbcType=VARCHAR},
+      </if>
+      <if test="firstDialysisDate != null">
+        first_dialysis_date = #{firstDialysisDate,jdbcType=DATE},
+      </if>
+      <if test="isDraft != null">
+        is_draft = #{isDraft,jdbcType=BIT},
+      </if>
+      <if test="operatorId != null">
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="optTime != null">
+        opt_time = #{optTime,jdbcType=DATE},
+      </if>
+      <if test="optName != null">
+        opt_name = #{optName,jdbcType=VARCHAR},
+      </if>
+      <if test="optRemark != null">
+        opt_remark = #{optRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="xtStartTime != null">
+        xt_start_time = #{xtStartTime,jdbcType=DATE},
+      </if>
+      <if test="xtStartReason != null">
+        xt_start_reason = #{xtStartReason,jdbcType=VARCHAR},
+      </if>
+      <if test="xtStartReasonOther != null">
+        xt_start_reason_other = #{xtStartReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="xtEndTime != null">
+        xt_end_time = #{xtEndTime,jdbcType=DATE},
+      </if>
+      <if test="xtEndReason != null">
+        xt_end_reason = #{xtEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="xtEndReasonOther != null">
+        xt_end_reason_other = #{xtEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="xtRemark != null">
+        xt_remark = #{xtRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="syzStartTime != null">
+        syz_start_time = #{syzStartTime,jdbcType=DATE},
+      </if>
+      <if test="syzEndTime != null">
+        syz_end_time = #{syzEndTime,jdbcType=DATE},
+      </if>
+      <if test="syzEndReason != null">
+        syz_end_reason = #{syzEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="syzEndReasonOther != null">
+        syz_end_reason_other = #{syzEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="syzRemark != null">
+        syz_remark = #{syzRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="ftStartTime != null">
+        ft_start_time = #{ftStartTime,jdbcType=DATE},
+      </if>
+      <if test="ftStartReason != null">
+        ft_start_reason = #{ftStartReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ftStartReasonOther != null">
+        ft_start_reason_other = #{ftStartReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="ftEndTime != null">
+        ft_end_time = #{ftEndTime,jdbcType=DATE},
+      </if>
+      <if test="ftEndReason != null">
+        ft_end_reason = #{ftEndReason,jdbcType=VARCHAR},
+      </if>
+      <if test="ftEndReasonOther != null">
+        ft_end_reason_other = #{ftEndReasonOther,jdbcType=VARCHAR},
+      </if>
+      <if test="ftRemark != null">
+        ft_remark = #{ftRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="gmEnterTime != null">
+        gm_enter_time = #{gmEnterTime,jdbcType=DATE},
+      </if>
+      <if test="gmResouce != null">
+        gm_resouce = #{gmResouce,jdbcType=VARCHAR},
+      </if>
+      <if test="gmResouceOther != null">
+        gm_resouce_other = #{gmResouceOther,jdbcType=VARCHAR},
+      </if>
+      <if test="gmName != null">
+        gm_name = #{gmName,jdbcType=VARCHAR},
+      </if>
+      <if test="gmRemark != null">
+        gm_remark = #{gmRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaTime != null">
+        crb_dia_time = #{crbDiaTime,jdbcType=DATE},
+      </if>
+      <if test="crbDiaName != null">
+        crb_dia_name = #{crbDiaName,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaNameOther != null">
+        crb_dia_name_other = #{crbDiaNameOther,jdbcType=VARCHAR},
+      </if>
+      <if test="crbDiaStatus != null">
+        crb_dia_status = #{crbDiaStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="crbCase != null">
+        crb_case = #{crbCase,jdbcType=VARCHAR},
+      </if>
+      <if test="crbCaseOther != null">
+        crb_case_other = #{crbCaseOther,jdbcType=VARCHAR},
+      </if>
+      <if test="crbRemark != null">
+        crb_remark = #{crbRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="firstDialysisMethod != null">
+        first_dialysis_method = #{firstDialysisMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="hascvaRemark != null">
+        hasCva_remark = #{hascvaRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="hemorrhageRemark != null">
+        hemorrhage_remark = #{hemorrhageRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="heartDefectsRemark != null">
+        heart_defects_remark = #{heartDefectsRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="hasvasculardiseaseRemark != null">
+        hasVascularDisease_remark = #{hasvasculardiseaseRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="haspsychosisRemark != null">
+        hasPsychosis_remark = #{haspsychosisRemark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.MedicalHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update medical_history
+    set fk_patient_diagnosis_id = #{fkPatientDiagnosisId,jdbcType=BIGINT},
+      fk_dialysis_campaign_id = #{fkDialysisCampaignId,jdbcType=BIGINT},
+      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      has_cva = #{hasCva,jdbcType=BIT},
+      hemorrhage = #{hemorrhage,jdbcType=VARCHAR},
+      heart_defects = #{heartDefects,jdbcType=VARCHAR},
+      has_vascular_disease = #{hasVascularDisease,jdbcType=BIT},
+      has_serious_disease = #{hasSeriousDisease,jdbcType=BIT},
+      has_psychosis = #{hasPsychosis,jdbcType=BIT},
+      other = #{other,jdbcType=VARCHAR},
+      first_dialysis_date = #{firstDialysisDate,jdbcType=DATE},
+      is_draft = #{isDraft,jdbcType=BIT},
+      operator_id = #{operatorId,jdbcType=BIGINT},
+      version = #{version,jdbcType=INTEGER},
+      is_enable = #{isEnable,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      opt_time = #{optTime,jdbcType=DATE},
+      opt_name = #{optName,jdbcType=VARCHAR},
+      opt_remark = #{optRemark,jdbcType=VARCHAR},
+      xt_start_time = #{xtStartTime,jdbcType=DATE},
+      xt_start_reason = #{xtStartReason,jdbcType=VARCHAR},
+      xt_start_reason_other = #{xtStartReasonOther,jdbcType=VARCHAR},
+      xt_end_time = #{xtEndTime,jdbcType=DATE},
+      xt_end_reason = #{xtEndReason,jdbcType=VARCHAR},
+      xt_end_reason_other = #{xtEndReasonOther,jdbcType=VARCHAR},
+      xt_remark = #{xtRemark,jdbcType=VARCHAR},
+      syz_start_time = #{syzStartTime,jdbcType=DATE},
+      syz_end_time = #{syzEndTime,jdbcType=DATE},
+      syz_end_reason = #{syzEndReason,jdbcType=VARCHAR},
+      syz_end_reason_other = #{syzEndReasonOther,jdbcType=VARCHAR},
+      syz_remark = #{syzRemark,jdbcType=VARCHAR},
+      ft_start_time = #{ftStartTime,jdbcType=DATE},
+      ft_start_reason = #{ftStartReason,jdbcType=VARCHAR},
+      ft_start_reason_other = #{ftStartReasonOther,jdbcType=VARCHAR},
+      ft_end_time = #{ftEndTime,jdbcType=DATE},
+      ft_end_reason = #{ftEndReason,jdbcType=VARCHAR},
+      ft_end_reason_other = #{ftEndReasonOther,jdbcType=VARCHAR},
+      ft_remark = #{ftRemark,jdbcType=VARCHAR},
+      gm_enter_time = #{gmEnterTime,jdbcType=DATE},
+      gm_resouce = #{gmResouce,jdbcType=VARCHAR},
+      gm_resouce_other = #{gmResouceOther,jdbcType=VARCHAR},
+      gm_name = #{gmName,jdbcType=VARCHAR},
+      gm_remark = #{gmRemark,jdbcType=VARCHAR},
+      crb_dia_time = #{crbDiaTime,jdbcType=DATE},
+      crb_dia_name = #{crbDiaName,jdbcType=VARCHAR},
+      crb_dia_name_other = #{crbDiaNameOther,jdbcType=VARCHAR},
+      crb_dia_status = #{crbDiaStatus,jdbcType=VARCHAR},
+      crb_case = #{crbCase,jdbcType=VARCHAR},
+      crb_case_other = #{crbCaseOther,jdbcType=VARCHAR},
+      crb_remark = #{crbRemark,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      first_dialysis_method = #{firstDialysisMethod,jdbcType=VARCHAR},
+      hasCva_remark = #{hascvaRemark,jdbcType=VARCHAR},
+      hemorrhage_remark = #{hemorrhageRemark,jdbcType=VARCHAR},
+      heart_defects_remark = #{heartDefectsRemark,jdbcType=VARCHAR},
+      hasVascularDisease_remark = #{hasvasculardiseaseRemark,jdbcType=VARCHAR},
+      hasPsychosis_remark = #{haspsychosisRemark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <!-- 自定义 -->
+	<resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.MedicalHistoryPO">
+		<result column="userName" jdbcType="BIGINT" property="userName" />
+	</resultMap>
+	
+	<select id="selectByPatientId" parameterType="Long" resultMap="ExtendResultMap">
+		select t.*,u.name userName
+		from medical_history t
+			left join sys_user u on t.operator_id=u.id
+		where 
+			t.fk_patient_id=#{patientId}
+		order by
+			t.update_time desc
+	</select>
+	
+	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
+		select *
+		from medical_history
+		where 
+			fk_patient_diagnosis_id=#{dcId}
+			and is_enable=1
+	</select>
+	
+	<select id="selectLastestByPatientId" parameterType="Long" resultMap="BaseResultMap">
+		SELECT * FROM medical_history WHERE fk_patient_id = #{patientId} AND is_draft = 0 ORDER BY id ASC LIMIT 1
+	</select>
+</mapper>

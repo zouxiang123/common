@@ -103,17 +103,13 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	@Override
 	public void cachePermission(Integer tenantId) {
 		Map<String, List<SysObjDto>> map = new HashMap<>();
-		RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null, null));
+		RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
 		String[] types = { "1", "2" };
 		map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
 		List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
 		for (SysRole sysRole : list) {
 			Long[] roleIds = { sysRole.getId() };
-			String[] owners = sysRole.getSysOwner().split(",");
-			for (String owner : owners) {
-				map.put(PermissionCache.getKey(tenantId, owner, sysRole.getId()),
-								convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, owner)));
-			}
+			map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
 		}
 		PermissionCache.cacheAll(map);
 	}
@@ -148,7 +144,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	@Override
 	public void cachePatient(Integer tenantId) {
 		RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-		List<PatientPO> list = patientService.getPatientByTenantId(tenantId);
+		List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
 		if (CollectionUtils.isNotEmpty(list)) {
 			List<PatientDto> cacheObjs = new ArrayList<>(list.size());
 			PatientDto toObj;

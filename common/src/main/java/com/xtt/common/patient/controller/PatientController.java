@@ -30,8 +30,6 @@ import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.CmDictUtil;
-import com.xtt.common.util.HttpServletUtil;
-import com.xtt.common.util.UserUtil;
 
 @Controller
 @RequestMapping("/patient/")
@@ -85,9 +83,6 @@ public class PatientController {
 	@RequestMapping("patientDetail")
 	public ModelAndView patientDetail(Long patientId) throws Exception {
 		ModelAndView model = new ModelAndView("patient/patient_detail");
-		if (!HttpServletUtil.isFromPC() || UserUtil.isNurse()) {
-			model = new ModelAndView("patient/pad/patient_detail");
-		}
 		model.addAllObjects(findPatientApi(patientId));
 		return model;
 	}

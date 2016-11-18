@@ -9,11 +9,8 @@
 package com.xtt.common.patient.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.xtt.common.dao.model.Patient;
-import com.xtt.common.dao.po.PatientCardPO;
-import com.xtt.common.dao.po.PatientManagePO;
 import com.xtt.common.dao.po.PatientPO;
 
 /**
@@ -23,26 +20,16 @@ import com.xtt.common.dao.po.PatientPO;
  * 
  */
 public interface IPatientService {
-
 	/**
-	 * 查询指定患者信息
+	 * 患者登陆
 	 * 
-	 * @Title: selectPatient
-	 * @param id
+	 * @Title: login
+	 * @param account
+	 * @param password
 	 * @return
-	 * 
+	 *
 	 */
-	public PatientPO selectPatient(Long id);
-
-	/**
-	 * 根据姓名模糊查询患者
-	 * 
-	 * @Title: selectPatientList
-	 * @param name
-	 * @return
-	 * 
-	 */
-	public List<Patient> selectPatientList(String name);
+	public Patient login(String account, String password);
 
 	/**
 	 * 验证身份证是否已存在
@@ -60,9 +47,11 @@ public interface IPatientService {
 	 * 
 	 * @Title: savePatient
 	 * @param patient
+	 * @param isImport
+	 *            是否是导入患者
 	 * 
 	 */
-	public void savePatient(Patient patient);
+	public void savePatient(Patient patient, boolean isImport);
 
 	/**
 	 * 更新患者
@@ -74,15 +63,14 @@ public interface IPatientService {
 	public void updatePatient(Patient patient);
 
 	/**
-	 * 取得患者所有诊断信息
+	 * 查询该租户的所有患者
 	 * 
-	 * @Title: getDignosisByPatient
-	 * @param patientId
-	 *            患者ID
+	 * @Title: getPatientByTenantId
+	 * @param tenantId
 	 * @return
 	 * 
 	 */
-	public Map<String, Object> getDignosisByPatient(Long patientId);
+	public List<PatientPO> getPatientByTenantId(Integer tenantId, Boolean delFlag);
 
 	/**
 	 * 查询该租户的所有患者
@@ -92,10 +80,10 @@ public interface IPatientService {
 	 * @return
 	 * 
 	 */
-	public List<PatientPO> getPatientByTenantId(Integer tenantId);
+	public List<PatientPO> getAllPatientByTenantId(Integer tenantId);
 
 	/**
-	 * 获取患者数目
+	 * 获取当前租户下所有患者数目
 	 * 
 	 * @Title: getPatientCount
 	 * @param tenantId
@@ -105,13 +93,12 @@ public interface IPatientService {
 	public Integer getPatientCount(Integer tenantId);
 
 	/**
-	 * 
 	 * @Title: selectById 根据主键查询患者信息
 	 * @param id
 	 * @return
 	 * 
 	 */
-	PatientPO selectById(Long id);
+	public PatientPO selectById(Long id);
 
 	/**
 	 * 根据条件查询患者集合
@@ -124,36 +111,6 @@ public interface IPatientService {
 	List<PatientPO> selectByCondition(Patient patent);
 
 	/**
-	 * 根据临床诊断类型查询患者信息
-	 * 
-	 * @Title: selectPatientByCDRType
-	 * @param type
-	 * @return
-	 * 
-	 */
-	List<PatientPO> selectPatientByCDRType(String CDRType);
-
-	/**
-	 * 根据活动id查询患者
-	 * 
-	 * @Title: getByDcId
-	 * @param dcId
-	 * @return
-	 * 
-	 */
-	PatientPO getByDCId(Long dcId);
-
-	/**
-	 * 根据条件查询患者名单，用于患者管理页面
-	 * 
-	 * @Title: selectListForPatientManage
-	 * @param patientManagePO
-	 * @return
-	 * 
-	 */
-	List<PatientManagePO> selectListForPatientManage(PatientManagePO patientManagePO);
-
-	/**
 	 * 根据身份证号查询患者信息
 	 * 
 	 * @Title: selectPatientByIdNumber
@@ -163,39 +120,23 @@ public interface IPatientService {
 	 */
 	public PatientPO selectPatientByIdNumber(Patient patient);
 
-	/**
-	 * 根据各种组合条件查询患者信息
-	 * 
-	 * @Title: selectPatientEHR
-	 * @param map
-	 * @return
-	 * 
-	 */
-	public List<PatientManagePO> selectPatientEHR(Map<String, Object> map);
+	public void updateByPrimaryKeySelective(Patient patient);
 
 	/**
-	 * 根据患者身份证判断患者是否正确
+	 * 更新是否删除标识
 	 * 
-	 * @Title: selectPatientExistByIdNumber
+	 * @Title: updateDelFlag
 	 * @param id
-	 * @param idNumber
+	 *
+	 */
+	public void updateDelFlag(Long id);
+
+	/**
+	 * 查询未转归患者
+	 * 
+	 * @Title: selectByActive
 	 * @return
-	 * 
+	 *
 	 */
-	boolean selectPatientExistByIdNumber(Long id, String idNumber);
-
-	/**
-	 * 根据是否转归来查询患者信息列表
-	 */
-	List<PatientPO> selectPatientByDelFlag();
-
-	/**
-	 * 保存患者信息多个卡号信息
-	 * 
-	 * @Title: savePatientCard
-	 * @param PatientCardPOList
-	 * @return String msg
-	 * 
-	 */
-	public String savePatientCard(List<PatientCardPO> patient);
+	public List<PatientPO> selectByActive();
 }

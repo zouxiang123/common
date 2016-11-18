@@ -25,6 +25,7 @@
     <result column="balance" jdbcType="DECIMAL" property="balance" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -54,7 +55,7 @@
     -->
     id, account, name, initial, password, id_number, sex, birthday, image_path, work_unit, 
     profession, mobile, emergency_mobile, province, county, address, dry_weight, balance, 
-    del_flag, fk_tenant_id, create_time, create_user_id, update_time, update_user_id, 
+    del_flag, fk_tenant_id, sys_owner, create_time, create_user_id, update_time, update_user_id, 
     medicare_card, medicare_card_type, admission_number, spell_initials, outpatient_number, 
     id_type, emergency_contacts, emergency_mobile2, emergency_mobile3, offset, is_temp, 
     dialysis_times, patient_type, blood_abo, blood_rh, barcode_path, height, weight
@@ -85,30 +86,30 @@
       work_unit, profession, mobile, 
       emergency_mobile, province, county, 
       address, dry_weight, balance, 
-      del_flag, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id, 
-      medicare_card, medicare_card_type, admission_number, 
-      spell_initials, outpatient_number, id_type, 
-      emergency_contacts, emergency_mobile2, emergency_mobile3, 
-      offset, is_temp, dialysis_times, 
-      patient_type, blood_abo, blood_rh, 
-      barcode_path, height, weight
-      )
+      del_flag, fk_tenant_id, sys_owner, 
+      create_time, create_user_id, update_time, 
+      update_user_id, medicare_card, medicare_card_type, 
+      admission_number, spell_initials, outpatient_number, 
+      id_type, emergency_contacts, emergency_mobile2, 
+      emergency_mobile3, offset, is_temp, 
+      dialysis_times, patient_type, blood_abo, 
+      blood_rh, barcode_path, height, 
+      weight)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
       #{workUnit,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{emergencyMobile,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
       #{address,jdbcType=VARCHAR}, #{dryWeight,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}, 
-      #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{medicareCard,jdbcType=VARCHAR}, #{medicareCardType,jdbcType=VARCHAR}, #{admissionNumber,jdbcType=VARCHAR}, 
-      #{spellInitials,jdbcType=VARCHAR}, #{outpatientNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, 
-      #{emergencyContacts,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, 
-      #{offset,jdbcType=DECIMAL}, #{isTemp,jdbcType=BIT}, #{dialysisTimes,jdbcType=INTEGER}, 
-      #{patientType,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, 
-      #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}
-      )
+      #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{medicareCard,jdbcType=VARCHAR}, #{medicareCardType,jdbcType=VARCHAR}, 
+      #{admissionNumber,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{outpatientNumber,jdbcType=VARCHAR}, 
+      #{idType,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, 
+      #{emergencyMobile3,jdbcType=VARCHAR}, #{offset,jdbcType=DECIMAL}, #{isTemp,jdbcType=BIT}, 
+      #{dialysisTimes,jdbcType=INTEGER}, #{patientType,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, 
+      #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, 
+      #{weight,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -175,6 +176,9 @@
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
       </if>
       <if test="createTime != null">
         create_time,
@@ -303,6 +307,9 @@
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -435,6 +442,9 @@
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -528,6 +538,7 @@
       balance = #{balance,jdbcType=DECIMAL},
       del_flag = #{delFlag,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -558,176 +569,140 @@
 	<resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.PatientPO">
 	  <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
-	  <result column="age" jdbcType="VARCHAR" property="age" />
-	  
-	  <result column="fk_dialysis_campaign_id" jdbcType="BIGINT" property="fkDialysisCampaignId" />
-	  <result column="last_step" jdbcType="INTEGER" property="lastStep" />
-	  <result column="is_emergency" jdbcType="BIT" property="isEmergency" />
-	  
-	  <result column="bedCode" property="bedCode" />
-	  <result column="areaCode" property="areaCode" />
+	  <result column="age" jdbcType="Integer" property="age" />
 	</resultMap>
-	<!-- 根据流程ID查询对应的患者 -->
-	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
-		select
-			pv.`name` province_name,
-			county.`name` county_name,
-			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age,
-			p.*
-		from
-			patient_diagnosis pd
-		inner join patient p on pd.fk_patient_id = p.id
-		left join province pv on p.province = pv.id
-		left join county on p.county = county.id
-		where
-			pd.id=#{pdId}
-	</select>
-	
-	<select id="selectForSickbed" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.* from patient pa
-		WHERE pa.del_flag = 0
-		AND pa.fk_tenant_id = #{fkTenantId}
-		AND NOT EXISTS(
-			SELECT * FROM sickbed_record sr
-			WHERE sr.fk_patient_id = pa.id
-			AND dialysis_date = #{dialysisDateStr}
-		)
-	    ORDER BY pa.initial
-	</select>
-	
-	<select id="selectBySrId" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.* 
-		, sr.dialysis_model as dialysisModel
-		from patient pa
-		JOIN sickbed_record sr ON sr.fk_patient_id = pa.id
-		WHERE sr.id = #{sickbedRecordId}
-	</select>
-	
-	<select id="selectForSickbedTemplate" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.* from patient pa
-		WHERE pa.del_flag = 0
-		AND pa.fk_tenant_id = #{fkTenantId}
-		AND NOT EXISTS(
-			SELECT * FROM sickbed_record_template srt
-			WHERE srt.fk_patient_id = pa.id
-			AND srt.day_of_week = #{dayOfWeek}
-			AND srt.week_number = #{weekNumber}
-		)
-	    ORDER BY pa.initial
-	</select>
-	
-	<select id="selectBySrtId" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.* 
-		, srt.dialysis_model as dialysisModel
-		from patient pa
-		JOIN sickbed_record_template srt ON srt.fk_patient_id = pa.id
-		WHERE srt.id = #{sickbedRecordId}
-	</select>
-	
-	<select id="selectForDrugStock" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		SELECT pa.id, pa.account, pa.`name`, pa.sex, pa.image_path
-  			-- , dc.id as fk_dialysis_campaign_id, si.code AS bedCode, sa.`code` as areaCode
-   			, IF(st_pa.fk_patient_id is NULL, 0, 1) as stockWarnFlag
-		FROM patient pa
-		-- LEFT JOIN dialysis_campaign dc on dc.fk_patient_id = pa.id AND dc.end_flag = 0
-		-- LEFT JOIN sickbed_record sr on sr.fk_dialysis_campaign_id = dc.id
-		-- LEFT JOIN sickbed si on si.id = sr.fk_sickbed_id
-		-- LEFT JOIN sickbed_area sa ON sa.id = si.fk_sickbed_area_id
-		LEFT JOIN (
-			SELECT DISTINCT pds.fk_patient_id
-			FROM patient_drug_stock pds
-			INNER JOIN drug dr ON dr.id = pds.fk_drug_id AND dr.is_enable = 0 AND dr.pid &gt; 0
-			WHERE dr.fk_tenant_id = #{fkTenantId}
-			AND dr.stock_flag = 1
-			GROUP BY pds.fk_patient_id, dr.pid HAVING SUM(stock) &lt; (SELECT param_value from sys_param where param_name='drugWarning')
-	
-		) st_pa ON st_pa.fk_patient_id = pa.id
-		WHERE pa.fk_tenant_id = #{fkTenantId}
-		AND pa.del_flag = 0
-		<if test="id != null">
-			AND pa.id = #{id}
-		</if>
-		ORDER BY pa.initial
-	</select>
-	
-	<select id="selectPatientByTenantId" parameterType="java.lang.Integer" resultMap="ExtendResultMap">
-		select *
-			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
-		from patient where fk_tenant_id = #{tenantId,jdbcType=INTEGER} and del_flag = 0 order by initial asc
-	</select>
 	
 	<select id="selectByCondition" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select * from patient 
-		where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-		<if test="id != null">
-			and id like concat(#{id} ,'%')
-		</if>
-		<if test="name != null and name != ''">
-			and name like concat('%', #{name} ,'%')
-		</if>
-		<if test="delFlag != null">
-			and del_flag = #{delFlag}
-		</if>
-		order by initial asc
+		select p.*
+			pv.`name` province_name,
+			county.`name` county_name,
+			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+	 	from patient p
+		left join province pv on p.province = pv.id
+		left join county on p.county = county.id
+		<where>
+		  <if test="name != null and name != ''">
+			p.name like concat('%', #{name} ,'%')
+		  </if>
+		  <if test="account != null">
+	      	AND p.account = #{account,jdbcType=VARCHAR}
+	      </if>
+	      <if test="initial != null">
+	        AND p.initial = #{initial,jdbcType=VARCHAR}
+	      </if>
+	      <if test="idNumber != null">
+	        AND p.id_number = #{idNumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sex != null">
+	        AND p.sex = #{sex,jdbcType=VARCHAR}
+	      </if>
+	      <if test="birthday != null">
+	        AND p.birthday = #{birthday,jdbcType=DATE}
+	      </if>
+	      <if test="mobile != null">
+	        AND p.mobile = #{mobile,jdbcType=VARCHAR}
+	      </if>
+	      <if test="emergencyMobile != null">
+	        AND p.emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR}
+	      </if>
+	      <if test="province != null">
+	        AND p.province = #{province,jdbcType=INTEGER}
+	      </if>
+	      <if test="county != null">
+	        AND p.county = #{county,jdbcType=INTEGER}
+	      </if>
+	      <if test="dryWeight != null">
+	        AND p.dry_weight = #{dryWeight,jdbcType=DECIMAL}
+	      </if>
+	      <if test="delFlag != null">
+	        AND p.del_flag = #{delFlag,jdbcType=BIT}
+	      </if>
+	      <if test="fkTenantId != null">
+	        AND p.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+	      </if>
+	      <if test="sysOwner != null and sysOwner != ''">
+	        AND find_in_set(#{sysOwner},p.sys_owner)&gt;0
+	      </if>
+	      <if test="medicareCard != null">
+	        AND p.medicare_card = #{medicareCard,jdbcType=VARCHAR}
+	      </if>
+	      <if test="medicareCardType != null">
+	        AND p.medicare_card_type = #{medicareCardType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="admissionNumber != null">
+	        AND p.admission_number = #{admissionNumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="spellInitials != null">
+	        AND p.spell_initials = #{spellInitials,jdbcType=VARCHAR}
+	      </if>
+	      <if test="outpatientNumber != null">
+	        AND p.outpatient_number = #{outpatientNumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="idType != null">
+	        AND p.id_type = #{idType,jdbcType=VARCHAR}
+	      </if>
+	      <if test="emergencyContacts != null">
+	        AND p.emergency_contacts = #{emergencyContacts,jdbcType=VARCHAR}
+	      </if>
+	      <if test="emergencyMobile2 != null">
+	        AND p.emergency_mobile2 = #{emergencyMobile2,jdbcType=VARCHAR}
+	      </if>
+	      <if test="emergencyMobile3 != null">
+	        AND p.emergency_mobile3 = #{emergencyMobile3,jdbcType=VARCHAR}
+	      </if>
+	      <if test="offset != null">
+	        AND p.offset = #{offset,jdbcType=DECIMAL}
+	      </if>
+	      <if test="isTemp != null">
+	        AND p.is_temp = #{isTemp,jdbcType=BIT}
+	      </if>
+	      <if test="patientType != null">
+	        AND p.patient_type = #{patientType,jdbcType=VARCHAR}
+	      </if>
+	    </where>
+		ORDER BY p.initial,p.name
 	</select>
 	
-	<select id="selectTodayUserDCOperatedPatients" resultMap="ExtendResultMap">
-		SELECT p.id,p.`name`,p.image_path,p.account,p.sex,p.mobile,dc.id as fk_dialysis_campaign_id,max(dc.last_step) AS last_step,dc.is_emergency
-		FROM
-			process_history ph
-		JOIN dialysis_campaign dc ON dc.id = ph.fk_dialysis_campaign_id
-		JOIN patient p ON p.id = dc.fk_patient_id
-		WHERE ph.operator_id=#{userId}
-		AND DATE_FORMAT(dc.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		GROUP BY p.id
-	</select>
-	
-	<select id="selectTodayUserDiagnosePatients" resultMap="ExtendResultMap">
-		SELECT p.id,p.`name`,p.image_path,p.account,p.sex,p.mobile,pd.id as fk_dialysis_campaign_id,IF(dc.id IS NULL,max(pd.last_step),dc.last_step) AS last_step, 0 as is_emergency
-		FROM (
-			SELECT t.fk_patient_diagnosis_id FROM medical_history t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.fk_patient_diagnosis_id FROM clinical_diagnosis_result t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.fk_patient_diagnosis_id FROM pathologic_diagnosis_result t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.fk_patient_diagnosis_id FROM ckd_stage t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.fk_patient_diagnosis_id FROM cure_symptom_and_condition t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.fk_patient_diagnosis_id FROM other_diagnosis_result t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION 
-			SELECT t.id FROM patient_diagnosis t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d') AND t.last_step=80
-		) AS temp
-		JOIN patient_diagnosis pd ON pd.id=temp.fk_patient_diagnosis_id
-		JOIN patient p ON pd.fk_patient_id=p.id
-		LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = p.id AND DATE_FORMAT(dc.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		<if test="ids != null and ids.size() != 0">
-		WHERE p.id NOT IN 
-			<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">#{item}</foreach>
-		</if>
-		GROUP BY p.id
-	</select>
-	
-	<select id="selectTodayUserBuildPathwayPatients" resultMap="ExtendResultMap">
-		SELECT p.id,p.`name`,p.image_path,p.account,p.sex,p.mobile,pa.id as fk_dialysis_campaign_id,IF(dc.id IS NULL,max(pa.step),dc.last_step) as last_step, 0 as is_emergency
-		FROM (
-			SELECT t.fk_pathway_activity_id FROM pathway_establish_evaluation_result t WHERE t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-			UNION
-			SELECT t.fk_pathway_activity_id FROM pathway t WHERE  t.operator_id = #{userId} AND DATE_FORMAT(t.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		) AS temp
-		JOIN pathway_activity pa ON temp.fk_pathway_activity_id = pa.id
-		JOIN patient p ON p.id=pa.fk_patient_id
-		LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = p.id AND DATE_FORMAT(dc.update_time,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		<if test="ids != null and ids.size() != 0">
-		WHERE p.id NOT IN 
-			<foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">#{item}</foreach>
-		</if>
-		GROUP BY p.id
-	</select>
-	
-	<select id="selectPatientCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-		select count(*) from patient where fk_tenant_id = #{tenantId,jdbcType=INTEGER} and del_flag = 0
+	<select id="selectPatientCount" parameterType="com.xtt.common.dao.model.Patient" resultType="java.lang.Integer">
+		select count(*) from patient 
+		<where>
+		  <if test="name != null and name != ''">
+			p.name like concat('%', #{name} ,'%')
+		  </if>
+		  <if test="account != null">
+	      	AND p.account = #{account,jdbcType=VARCHAR}
+	      </if>
+	      <if test="initial != null">
+	        AND p.initial = #{initial,jdbcType=VARCHAR}
+	      </if>
+	      <if test="idNumber != null">
+	        AND p.id_number = #{idNumber,jdbcType=VARCHAR}
+	      </if>
+	      <if test="sex != null">
+	        AND p.sex = #{sex,jdbcType=VARCHAR}
+	      </if>
+	      <if test="birthday != null">
+	        AND p.birthday = #{birthday,jdbcType=DATE}
+	      </if>
+	      <if test="mobile != null">
+	        AND p.mobile = #{mobile,jdbcType=VARCHAR}
+	      </if>
+	      <if test="delFlag != null">
+	        AND p.del_flag = #{delFlag,jdbcType=BIT}
+	      </if>
+	      <if test="fkTenantId != null">
+	        AND p.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+	      </if>
+	      <if test="sysOwner != null and sysOwner != ''">
+	        AND find_in_set(#{sysOwner},p.sys_owner)&gt;0
+	      </if>
+	      <if test="isTemp != null">
+	        AND p.is_temp = #{isTemp,jdbcType=BIT}
+	      </if>
+	      <if test="patientType != null">
+	        AND p.patient_type = #{patientType,jdbcType=VARCHAR}
+	      </if>
+	    </where>
 	</select>
 	
 	<select id="selectById" parameterType="java.lang.Long" resultMap="ExtendResultMap">
@@ -742,232 +717,25 @@
 	    where p.id = #{id,jdbcType=BIGINT}
 	</select>
 	
-	<select id="selectMakePrescriptionReport" resultType="java.util.Map">
-		SELECT
-			count(t.fk_patient_id) as value,t.create_time as time
-		FROM
-			(
-				SELECT
-					dc.fk_patient_id,
-					temp.create_time
-				FROM
-					dialysis_campaign dc
-				JOIN (
-					SELECT
-						p.fk_dialysis_campaign_id,
-						p.create_time
-					FROM
-						dialysis_prescription p
-					JOIN sys_user u ON u.id = p.operator_id
-					WHERE
-						u.id = #{userId}
-					GROUP BY
-						p.fk_dialysis_campaign_id
-				) AS temp ON temp.fk_dialysis_campaign_id = dc.id
-				GROUP BY
-					dc.fk_patient_id
-			) AS t
-			where t.create_time &gt;= #{startDate}
-		<choose>
-			<when test="dateType == 3">
-				GROUP BY DATE_FORMAT(t.create_time, '%Y-%m')
-			</when>
-			<when test="dateType == 2">
-				GROUP BY DATE_FORMAT(t.create_time, '%d')
-			</when>
-			<when test="dateType == 1">
-				GROUP BY DATE_FORMAT(t.create_time, '%w')
-			</when>
-		</choose>
-		ORDER BY t.create_time ASC
-	</select>
-	
-	<select id="selectPatientByCDRType" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		SELECT pa.*
-		FROM patient pa
-		INNER JOIN clinical_diagnosis_result cdr ON cdr.fk_patient_id = pa.id AND cdr.is_enable = 1 AND cdr.is_draft = 0
-		WHERE pa.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-		AND cdr.type = #{CDRType}
-		AND cdr.id = (select MAX(cdre.id) from clinical_diagnosis_result cdre WHERE cdre.fk_patient_id = cdr.fk_patient_id)
-	</select>
-	
-	<select id="selectPatientByStartCampaign" resultMap="ExtendResultMap">
-		SELECT pa.*, si.`code` as bedCode, sa.`code` as areaCode
-		,sr.shift_number AS shiftNumber
-		FROM patient pa
-		INNER JOIN sickbed_record sr ON sr.fk_patient_id = pa.id
-		INNER JOIN sickbed si ON si.id = sr.fk_sickbed_id
-		INNER JOIN sickbed_area sa ON sa.id = si.fk_sickbed_area_id
-		WHERE pa.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-		AND pa.del_flag = 0
-		AND DATE_FORMAT(sr.dialysis_date,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		AND sr.fk_dialysis_campaign_id is NULL
-		AND NOT EXISTS (SELECT 1 FROM dialysis_campaign dc where dc.end_flag = 0 and dc.fk_patient_id = pa.id)
-		AND sr.shift_number = #{shiftNumber}
-		ORDER BY sr.shift_number, pa.initial
-	</select>
-	
-	<select id="selectPatientByStartCampaignCount" resultType="map">
-		SELECT count(pa.id) as count,GROUP_CONCAT(distinct pa.image_path) AS image_path
-		FROM patient pa
-		INNER JOIN sickbed_record sr ON sr.fk_patient_id = pa.id
-		WHERE pa.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-		AND pa.del_flag = 0
-		AND DATE_FORMAT(sr.dialysis_date,'%Y-%m-%d') = DATE_FORMAT(#{currentDate},'%Y-%m-%d')
-		AND sr.fk_dialysis_campaign_id is NULL
-		AND NOT EXISTS (SELECT 1 FROM dialysis_campaign dc where dc.end_flag = 0 and dc.fk_patient_id = pa.id)
-		AND sr.shift_number = #{shiftNumber}
-	</select>
-	
-	<update id="updateDelFlag" parameterType="java.lang.Long">
-		update patient set del_flag = 1 where id = #{id}
-	</update>
-	
-	<select id="checkPatientExistByIdNumber" resultType="int">
-		SELECT count(*)
-		FROM patient
-		WHERE 
-			fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-			AND id_number = #{idNumber,jdbcType=VARCHAR}
-			<if test="id != null">
-				AND id != #{id}
-			</if>
-	</select>
-	
-	<select id="selectByDCId" resultMap="ExtendResultMap">
-		select p.* from patient p join dialysis_campaign dc on dc.fk_patient_id = p.id 
-		where dc.id=#{dcId} and p.fk_tenant_id = #{tenantId,jdbcType=INTEGER} and p.del_flag = 0
-	</select>
-	
-	<resultMap extends="BaseResultMap" id="manageResultMap" type="com.xtt.common.dao.po.PatientManagePO" />
-	
-	<select id="selectListForPatientManage" parameterType="com.xtt.common.dao.model.Patient" resultMap="manageResultMap">
-		select pa.* 
-		from patient pa
-		<where>
-			pa.fk_tenant_id = #{fkTenantId}
-			<if test="name != null and name != ''">
-				 and name like concat('%', #{name,jdbcType=VARCHAR},'%')
-			</if>
-			<if test="mobile != null and mobile != ''">
-				 and mobile like concat('%', #{mobile,jdbcType=VARCHAR},'%')
-			</if>
-			<if test="sex != null and sex != ''">
-				 and sex = #{sex,jdbcType=VARCHAR}
-			</if>
-			<if test="delFlag != null">
-				 and del_flag = #{delFlag,jdbcType=BIT}
-			</if>
-		</where>
-		order by pa.initial
-	</select>
-	
-	<select id="selectPathwayPatientList" parameterType="java.util.Map" resultMap="manageResultMap">
-		select distinct p.* 
-		from patient p
-		left join pathway_activity pa on p.id = pa.fk_patient_id and pa.end_flag = 0
-		left join pathway pw on pw.fk_pathway_activity_id=pa.id and pw.is_enable = 1
-		<where>
-	      <if test="name != null and name != ''">
-	        and name like concat('%', #{name,jdbcType=VARCHAR},'%')
-	      </if>
-	      <if test="mobile != null and mobile != ''">
-			 and mobile like concat('%', #{mobile,jdbcType=VARCHAR},'%')
-	      </if>
-	      <if test="sex != null and sex != ''">
-	        and sex = #{sex,jdbcType=VARCHAR}
-	      </if>
-	      <if test="delFlag != null">
-	        and del_flag = #{delFlag,jdbcType=BIT}
-	      </if>
-	      <if test="T != null and T != '' or AVF != null and AVF != '' or CVC != null and CVC != '' or AVG != null and AVG != ''">
-	      	and (1=0
-	      </if>
-	      <if test="T != null and T != ''">
-	        or pw.type = #{T,jdbcType=VARCHAR}
-	      </if>
-	      <if test="AVF != null and AVF != ''">
-	        or pw.sub_type = #{AVF,jdbcType=VARCHAR}
-	      </if>
-	      <if test="CVC != null and CVC != ''">
-	        or pw.sub_type = #{CVC,jdbcType=VARCHAR}
-	      </if>
-	      <if test="AVG != null and AVG != ''">
-	        or pw.sub_type = #{AVG,jdbcType=VARCHAR}
-	      </if>
-	      <if test="T != null and T != '' or AVF != null and AVF != '' or CVC != null and CVC != '' or AVG != null and AVG != ''">
-	      	)
-	      </if>
-	      <if test="ageFrom != null and ageFrom != ''">
-	        and DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) &gt;= #{ageFrom}
-	      </if>
-	      <if test="ageTo != null and ageTo != ''">
-	        and DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) &lt;= #{ageTo}
-	      </if>
-		</where>
-		order by p.initial
-	</select>
-	
-	<select id="findById" parameterType="java.lang.Long" resultType="com.xtt.common.dao.model.Patient">
-		select * from patient
-		where id= #{id}
-	</select>
-	
 	<select id="selectPatientByIdNumber" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.*,
+		select p.* 
+			pv.`name` province_name,
+			county.`name` county_name,
 			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
-		from patient pa
-		where
-			pa.id_number = #{idNumber}
-			and pa.fk_tenant_id = #{fkTenantId}
-	</select>
-	
-	<!-- 自定义查询电子病历 -->
-	<select id="selectPatientEHR" parameterType="java.util.Map" resultMap="manageResultMap">
-		<![CDATA[
-		select
-			distinct p.* 
-		from 
-			patient p
-			${dynamicFrom}
-		where 
-			1 = 1
-			${dynamicWhere}
-		order by 
-			p.initial
-		]]>
-	</select>
-	<select id="selectByDrugStock" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
-		select pa.id, pa.`name`, pa.image_path
-		FROM  patient_drug_stock pds
-		LEFT JOIN drug dr ON dr.id = pds.fk_drug_id
-		LEFT JOIN patient pa ON pa.id = pds.fk_patient_id
-		WHERE pa.fk_tenant_id = ${fkTenantId}
-		<if test="categoryIds != null">
-			AND dr.pid in
-			<foreach close=")" collection="categoryIds" item="item" open="(" separator=",">
-				#{item}
-			</foreach>
-		</if>
-		<if test="initial != null and initial != ''">
-			AND pa.initial = #{initial}
-		</if>
-		GROUP BY pa.id, pa.`name`, pa.image_path
-		ORDER BY initial, id
-	</select>
-	<select id="selectPatientExistByIdNumber" parameterType="com.xtt.common.dao.model.Patient" resultType="Integer">
-		SELECT count(*)
-		FROM patient
-		WHERE 
-			fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-			AND id_number = #{idNumber,jdbcType=VARCHAR}
+		from patient p
+			left join province pv on p.province = pv.id
+			left join county on p.county = county.id
+		WHERE
+			p.id_number = #{idNumber}
+			AND p.fk_tenant_id = #{fkTenantId}
 			<if test="id != null">
-				AND id = #{id}
+				AND p.id != #{id}
 			</if>
 	</select>
 	
-	<!-- 根据是否转归来查询患者信息列表 -->
-	<select id="selectPatientByDelFlag" resultMap="ExtendResultMap">
-		select name,sex,birthday,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age from patient where del_flag = 0
+	<select id="login" resultMap="BaseResultMap">
+		select * 
+		from patient p
+		where p.account=#{account} and p.password=#{password}
 	</select>
 </mapper>

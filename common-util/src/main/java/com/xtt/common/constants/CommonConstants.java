@@ -90,4 +90,11 @@ public class CommonConstants {
 	/** 公用服务地址 */
 	public static final String COMMON_SERVER_ADDR = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties"))
 					.getProperty("common.server.addr");
+	// -----------------------------肾病类型--------------------------------------------
+	/** 肾病类型：慢性肾功能衰竭 */
+	public static final String NEPHROSIS_TYPE_CRF = "1";
+	/** 肾病类型：慢性肾功能不全急性加重 */
+	public static final String NEPHROSIS_TYPE_SERIOUS_CRF = "2";
+	/** 肾病类型：急性肾功能衰竭 */
+	public static final String NEPHROSIS_TYPE_ARF = "3";
 }

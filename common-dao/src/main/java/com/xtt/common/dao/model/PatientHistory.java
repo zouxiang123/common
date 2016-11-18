@@ -103,22 +103,10 @@ public class PatientHistory {
     private String emergencyMobile;
 
     /**
-     * 紧急联系人2
-     * patient_history.emergency_contacts2
-     */
-    private String emergencyContacts2;
-
-    /**
      * 紧急联系方式3
      * patient_history.emergency_mobile2
      */
     private String emergencyMobile2;
-
-    /**
-     * 紧急联系人3
-     * patient_history.emergency_contacts3
-     */
-    private String emergencyContacts3;
 
     /**
      * 紧急联系方式3
@@ -151,12 +139,6 @@ public class PatientHistory {
     private BigDecimal dryWeight;
 
     /**
-     * 患者体重偏移量
-     * patient_history.offset
-     */
-    private BigDecimal offset;
-
-    /**
      * 患者余额
      * patient_history.balance
      */
@@ -187,48 +169,6 @@ public class PatientHistory {
     private String outpatientNumber;
 
     /**
-     * 是否临时患者
-     * patient_history.is_temp
-     */
-    private Boolean isTemp;
-
-    /**
-     * 透析次数
-     * patient_history.dialysis_times
-     */
-    private Integer dialysisTimes;
-
-    /**
-     * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他）
-     * patient_history.civil_state
-     */
-    private String civilState;
-
-    /**
-     * 教育程度
-     * patient_history.education_level
-     */
-    private String educationLevel;
-
-    /**
-     * 邮编
-     * patient_history.zip_code
-     */
-    private String zipCode;
-
-    /**
-     * E-mail
-     * patient_history.email
-     */
-    private String email;
-
-    /**
-     * 电话
-     * patient_history.tel
-     */
-    private String tel;
-
-    /**
      * 删除标记
      * patient_history.del_flag
      */
@@ -239,6 +179,12 @@ public class PatientHistory {
      * patient_history.fk_tenant_id
      */
     private Integer fkTenantId;
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     * patient_history.sys_owner
+     */
+    private String sysOwner;
 
     /**
      * 创建时间
@@ -263,6 +209,48 @@ public class PatientHistory {
      * patient_history.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * 体重偏移量
+     * patient_history.offset
+     */
+    private BigDecimal offset;
+
+    /**
+     * 透析次数
+     * patient_history.dialysis_times
+     */
+    private Integer dialysisTimes;
+
+    /**
+     * 是否临时患者
+     * patient_history.is_temp
+     */
+    private Boolean isTemp;
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     * patient_history.patient_type
+     */
+    private String patientType;
+
+    /**
+     *  二维码路径
+     * patient_history.barcode_path
+     */
+    private String barcodePath;
+
+    /**
+     * 身高（cm）
+     * patient_history.height
+     */
+    private BigDecimal height;
+
+    /**
+     * 体重（kg）
+     * patient_history.weight
+     */
+    private BigDecimal weight;
 
     /**
      */
@@ -487,20 +475,6 @@ public class PatientHistory {
     }
 
     /**
-     * 紧急联系人2
-     */
-    public String getEmergencyContacts2() {
-        return emergencyContacts2;
-    }
-
-    /**
-     * 紧急联系人2
-     */
-    public void setEmergencyContacts2(String emergencyContacts2) {
-        this.emergencyContacts2 = emergencyContacts2;
-    }
-
-    /**
      * 紧急联系方式3
      */
     public String getEmergencyMobile2() {
@@ -512,20 +486,6 @@ public class PatientHistory {
      */
     public void setEmergencyMobile2(String emergencyMobile2) {
         this.emergencyMobile2 = emergencyMobile2;
-    }
-
-    /**
-     * 紧急联系人3
-     */
-    public String getEmergencyContacts3() {
-        return emergencyContacts3;
-    }
-
-    /**
-     * 紧急联系人3
-     */
-    public void setEmergencyContacts3(String emergencyContacts3) {
-        this.emergencyContacts3 = emergencyContacts3;
     }
 
     /**
@@ -599,20 +559,6 @@ public class PatientHistory {
     }
 
     /**
-     * 患者体重偏移量
-     */
-    public BigDecimal getOffset() {
-        return offset;
-    }
-
-    /**
-     * 患者体重偏移量
-     */
-    public void setOffset(BigDecimal offset) {
-        this.offset = offset;
-    }
-
-    /**
      * 患者余额
      */
     public BigDecimal getBalance() {
@@ -683,104 +629,6 @@ public class PatientHistory {
     }
 
     /**
-     * 是否临时患者
-     */
-    public Boolean getIsTemp() {
-        return isTemp;
-    }
-
-    /**
-     * 是否临时患者
-     */
-    public void setIsTemp(Boolean isTemp) {
-        this.isTemp = isTemp;
-    }
-
-    /**
-     * 透析次数
-     */
-    public Integer getDialysisTimes() {
-        return dialysisTimes;
-    }
-
-    /**
-     * 透析次数
-     */
-    public void setDialysisTimes(Integer dialysisTimes) {
-        this.dialysisTimes = dialysisTimes;
-    }
-
-    /**
-     * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他）
-     */
-    public String getCivilState() {
-        return civilState;
-    }
-
-    /**
-     * 婚姻状况（□未婚；□已婚；□离异；□丧偶；其他）
-     */
-    public void setCivilState(String civilState) {
-        this.civilState = civilState;
-    }
-
-    /**
-     * 教育程度
-     */
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    /**
-     * 教育程度
-     */
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
-    /**
-     * 邮编
-     */
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    /**
-     * 邮编
-     */
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    /**
-     * E-mail
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * E-mail
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * 电话
-     */
-    public String getTel() {
-        return tel;
-    }
-
-    /**
-     * 电话
-     */
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
-
-    /**
      * 删除标记
      */
     public Boolean getDelFlag() {
@@ -806,6 +654,20 @@ public class PatientHistory {
      */
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     */
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     */
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 
     /**
@@ -862,5 +724,103 @@ public class PatientHistory {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     * 体重偏移量
+     */
+    public BigDecimal getOffset() {
+        return offset;
+    }
+
+    /**
+     * 体重偏移量
+     */
+    public void setOffset(BigDecimal offset) {
+        this.offset = offset;
+    }
+
+    /**
+     * 透析次数
+     */
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    /**
+     * 透析次数
+     */
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
+    }
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     */
+    public String getPatientType() {
+        return patientType;
+    }
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     */
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
+    }
+
+    /**
+     *  二维码路径
+     */
+    public String getBarcodePath() {
+        return barcodePath;
+    }
+
+    /**
+     *  二维码路径
+     */
+    public void setBarcodePath(String barcodePath) {
+        this.barcodePath = barcodePath;
+    }
+
+    /**
+     * 身高（cm）
+     */
+    public BigDecimal getHeight() {
+        return height;
+    }
+
+    /**
+     * 身高（cm）
+     */
+    public void setHeight(BigDecimal height) {
+        this.height = height;
+    }
+
+    /**
+     * 体重（kg）
+     */
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    /**
+     * 体重（kg）
+     */
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
     }
 }
