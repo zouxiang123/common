@@ -256,13 +256,13 @@
 			var tenId = $("[name='tenantId']").val();//租户编号
 			var data = "tenId="+tenId+"&account="+userAccount;
 			$.ajax({
-				url:contextPath+"/showNameAndPictureByInput.shtml",
+				url:ctx+"/showNameAndPictureByInput.shtml",
 				data:encodeURI(data),
 				type:'POST',
 				dataType:'json',
 				success:function(result){
 					$("#userName").text(result.sysUser.name);
-					$("#imagePath").attr("src",contextPath+"/images"+result.sysUser.imagePath);
+					$("#imagePath").attr("src",ctx+"/images"+result.sysUser.imagePath);
 				}
 			});
 		}

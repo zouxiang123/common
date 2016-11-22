@@ -236,6 +236,21 @@ $(function() {
 	});
 
 });
+/**
+ * 使用button 提交 form 避免enter键直接提交
+ * 
+ * @param btn
+ */
+function buttonSubmit(btn) {
+	/* 表单校验 */
+	if ($(btn.form).valid()) {
+		if (isEmpty(btn.form.onsubmit)) {
+			btn.form.submit();
+		} else {
+			btn.form.onsubmit();
+		}
+	}
+}
 
 function checkMedicalHistory() {
 	var date = $("#medicalHistoryForm_firstDialysisDate").val();

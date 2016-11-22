@@ -253,7 +253,7 @@
 			t.update_time desc
 	</select>
 	
-	<select id="selectByPDId" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
 		select *
 		from other_diagnosis_result
 		where 

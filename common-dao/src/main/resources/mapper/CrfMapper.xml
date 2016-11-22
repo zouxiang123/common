@@ -418,7 +418,7 @@
 		ORDER BY crf.update_time DESC
 	</select>
 	
-	<select id="selectByPDId" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
 		select crf.*
 		from clinical_diagnosis_result cdr inner join crf
 			on cdr.is_enable=1 and cdr.type=1 and crf.fk_clinical_diagnosis_result_id=cdr.id

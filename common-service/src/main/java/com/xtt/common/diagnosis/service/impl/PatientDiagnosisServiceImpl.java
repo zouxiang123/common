@@ -1,6 +1,5 @@
 /**   
  * @Title: PatientDiagnosisServiceImpl.java 
- * @Package com.xtt.txgl.doctor.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月30日 下午12:31:26 
@@ -12,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +41,7 @@ import com.xtt.common.dao.model.PatientDiagnosis;
 import com.xtt.common.dao.model.SeriousCrf;
 import com.xtt.common.dao.po.ArfPO;
 import com.xtt.common.dao.po.CkdStagePO;
+import com.xtt.common.dao.po.ClinicalDiagnosisResultPO;
 import com.xtt.common.dao.po.CrfPO;
 import com.xtt.common.dao.po.CureSymptomAndConditionPO;
 import com.xtt.common.dao.po.MedicalHistoryPO;
@@ -116,7 +117,7 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 	}
 
 	@Override
-	public List<ClinicalDiagnosisResult> getClinicalDiagnosisResultByPatientId(Long patientId) {
+	public List<ClinicalDiagnosisResultPO> getClinicalDiagnosisResultByPatientId(Long patientId) {
 		return clinicalDiagnosisResultMapper.selectByPatientId(patientId);
 	}
 
@@ -144,7 +145,7 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 			mh = medicalHistory.get(0);
 		}
 		// 临床诊断
-		List<ClinicalDiagnosisResult> clinicalDiagnosisResult = clinicalDiagnosisResultMapper.selectByPatientId(patientId);
+		List<ClinicalDiagnosisResultPO> clinicalDiagnosisResult = clinicalDiagnosisResultMapper.selectByPatientId(patientId);
 		ClinicalDiagnosisResult cdr = new ClinicalDiagnosisResult();
 		if (clinicalDiagnosisResult != null && !clinicalDiagnosisResult.isEmpty()) {
 			cdr = clinicalDiagnosisResult.get(0);
@@ -207,47 +208,33 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 
 	@Override
 	public Map<String, Object> selectAllDiagnosisInfo(Long pdId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (pdId == null)
+			return map;
 		// 恢复患者入院首次录入信息
 		PatientDiagnosis pd = selectById(pdId);
 		PatientPO patient = patientService.selectById(pd.getFkPatientId());
 		// 询问病史
 		MedicalHistoryPO medicalHistory = medicalHistoryMapper.selectByPDId(pdId);
-		Map<String, Object> map = new HashMap<String, Object>();
 		if (medicalHistory != null) {
-			medicalHistory.setMhrMark("opt");// 手术史
-			List<MedicalHistoryRemarkPO> optList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			medicalHistory.setMhrMark("xt");// 血透史
-			List<MedicalHistoryRemarkPO> xtList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			medicalHistory.setMhrMark("ft");// 腹透史
-			List<MedicalHistoryRemarkPO> ftList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			medicalHistory.setMhrMark("syz");// 肾移植
-			List<MedicalHistoryRemarkPO> syzList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			medicalHistory.setMhrMark("gm");// 过敏
-			List<MedicalHistoryRemarkPO> gmList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			medicalHistory.setMhrMark("crb");// 传染病
-			List<MedicalHistoryRemarkPO> crbList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
-			map.put("meList", optList);
-			map.put("xtList", xtList);
-			map.put("ftList", ftList);
-			map.put("syzList", syzList);
-			map.put("gmList", gmList);
-			map.put("crbList", crbList);
+			// 添加（手术史、 血透史）等多条数据
+			addMedicalHistory(map, medicalHistory);
 			// 临床诊断
-			ClinicalDiagnosisResult clinicalDiagnosisResult = clinicalDiagnosisResultMapper.selectByPDId(pdId);
+			ClinicalDiagnosisResultPO clinicalDiagnosisResult = clinicalDiagnosisResultMapper.selectByPDId(pdId);
 			// 慢性肾功能衰竭
-			Crf crf = crfMapper.selectByPDId(pdId);
+			CrfPO crf = crfMapper.selectByPDId(pdId);
 			// 慢性肾功能不全急性加重
-			SeriousCrf seriousCrf = seriousCrfMapper.selectByPDId(pdId);
+			SeriousCrfPO seriousCrf = seriousCrfMapper.selectByPDId(pdId);
 			// 急性肾功能衰竭
-			Arf arf = arfMapper.selectByPDId(pdId);
+			ArfPO arf = arfMapper.selectByPDId(pdId);
 			// 病理诊断
-			PathologicDiagnosisResult pathologicDiagnosisResult = pathologicDiagnosisResultMapper.selectByPDId(pdId);
+			PathologicDiagnosisResultPO pathologicDiagnosisResult = pathologicDiagnosisResultMapper.selectByPDId(pdId);
 			// CKD/AKI
-			CkdStage ckdStage = ckdStageMapper.selectByPDId(pdId);
+			CkdStagePO ckdStage = ckdStageMapper.selectByPDId(pdId);
 			// 治疗前合并症
-			CureSymptomAndCondition cureSymptomAndCondition = cureSymptomAndConditionMapper.selectByPDId(pdId);
+			CureSymptomAndConditionPO cureSymptomAndCondition = cureSymptomAndConditionMapper.selectByPDId(pdId);
 			// 其它诊断
-			OtherDiagnosisResult otherDiagnosisResult = otherDiagnosisResultMapper.selectByPDId(pdId);
+			OtherDiagnosisResultPO otherDiagnosisResult = otherDiagnosisResultMapper.selectByPDId(pdId);
 
 			map.put("patient", patient);
 			map.put("medicalHistory", medicalHistory);
@@ -261,6 +248,38 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 			map.put("cureSymptomAndCondition", cureSymptomAndCondition);
 			map.put("otherDiagnosisResult", otherDiagnosisResult);
 		}
+		return map;
+	}
+
+	/** 添加（手术史、 血透史）等多条数据 */
+	public Map<String, Object> addMedicalHistory(Map<String, Object> map, MedicalHistoryPO medicalHistory) {
+		if (medicalHistory == null)
+			return map;
+		// 询问病史
+		List<MedicalHistoryRemarkPO> optList = null;
+		List<MedicalHistoryRemarkPO> xtList = null;
+		List<MedicalHistoryRemarkPO> ftList = null;
+		List<MedicalHistoryRemarkPO> syzList = null;
+		List<MedicalHistoryRemarkPO> gmList = null;
+		List<MedicalHistoryRemarkPO> crbList = null;
+		medicalHistory.setMhrMark("opt");// 手术史
+		optList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		medicalHistory.setMhrMark("xt");// 血透史
+		xtList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		medicalHistory.setMhrMark("ft");// 腹透史
+		ftList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		medicalHistory.setMhrMark("syz");// 肾移植
+		syzList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		medicalHistory.setMhrMark("gm");// 过敏
+		gmList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		medicalHistory.setMhrMark("crb");// 传染病
+		crbList = medicalHistoryRemarkMapper.selectRemarkKey(medicalHistory);
+		map.put("meList", optList);
+		map.put("xtList", xtList);
+		map.put("ftList", ftList);
+		map.put("syzList", syzList);
+		map.put("gmList", gmList);
+		map.put("crbList", crbList);
 		return map;
 	}
 
@@ -573,7 +592,7 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 		model.setOperatorId(UserUtil.getLoginUserId());
 		model.setIsEnable(true);
 		model.setIsDraft(true);
-		CureSymptomAndCondition entity = cureSymptomAndConditionMapper.selectByPDId(model.getFkPatientDiagnosisId());
+		CureSymptomAndConditionPO entity = cureSymptomAndConditionMapper.selectByPDId(model.getFkPatientDiagnosisId());
 		if (pd.getIsDraft() && entity != null) {
 			model.setVersion(entity.getVersion() + 1);
 			cureSymptomAndConditionMapper.updateByPrimaryKey(model);
@@ -671,13 +690,13 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 			ckdStageMapper.updateByPrimaryKey(ckdStage);
 		}
 
-		CureSymptomAndCondition cureSymptomAndCondition = cureSymptomAndConditionMapper.selectByPDId(fkPatientDiagnosisId);
+		CureSymptomAndConditionPO cureSymptomAndCondition = cureSymptomAndConditionMapper.selectByPDId(fkPatientDiagnosisId);
 		if (cureSymptomAndCondition != null) {
 			cureSymptomAndCondition.setIsDraft(false);
 			cureSymptomAndConditionMapper.updateByPrimaryKey(cureSymptomAndCondition);
 		}
 
-		OtherDiagnosisResult otherDiagnosisResult = otherDiagnosisResultMapper.selectByPDId(fkPatientDiagnosisId);
+		OtherDiagnosisResultPO otherDiagnosisResult = otherDiagnosisResultMapper.selectByPDId(fkPatientDiagnosisId);
 		if (otherDiagnosisResult != null) {
 			otherDiagnosisResult.setIsDraft(false);
 			otherDiagnosisResultMapper.updateByPrimaryKey(otherDiagnosisResult);
@@ -721,5 +740,48 @@ public class PatientDiagnosisServiceImpl implements IPatientDiagnosisService {
 			pd = patientDiagnosisMapper.selectByPrimaryKey(fkPatientDiagnosisId);
 		}
 		return pd;
+	}
+
+	@Override
+	public Map<String, Object> selectDignosisByPatient(Long patientId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		// 患者基本信息
+		Patient patient = patientService.selectById(patientId);
+		PatientDiagnosis patientDiagnosis = patientDiagnosisMapper.selectByPatientId(patientId, UserUtil.getTenantId());
+		// 询问病史
+		List<MedicalHistoryPO> medicalHistory = medicalHistoryMapper.selectByPatientId(patientId);
+		// 添加（腹透史、血透史）等多条病史数据
+		if (CollectionUtils.isNotEmpty(medicalHistory)) {
+			addMedicalHistory(map, medicalHistory.get(0));
+		}
+		// 临床诊断
+		List<ClinicalDiagnosisResultPO> clinicalDiagnosisResult = clinicalDiagnosisResultMapper.selectByPatientId(patientId);
+		// 慢性肾功能衰竭
+		List<CrfPO> crf = crfMapper.selectByPatientId(patientId);
+		// 慢性肾功能不全急性加重
+		List<SeriousCrfPO> seriousCrf = seriousCrfMapper.selectByPatientId(patientId);
+		// 急性肾功能衰竭
+		List<ArfPO> arf = arfMapper.selectByPatientId(patientId);
+		// 病理诊断
+		List<PathologicDiagnosisResultPO> pathologicDiagnosisResult = pathologicDiagnosisResultMapper.selectByPatientId(patientId);
+		// CKD/AKI
+		List<CkdStagePO> ckdStage = ckdStageMapper.selectByPatientId(patientId);
+		// 治疗前合并症
+		List<CureSymptomAndConditionPO> cureSymptomAndCondition = cureSymptomAndConditionMapper.selectByPatientId(patientId);
+		// 其它诊断
+		List<OtherDiagnosisResultPO> otherDiagnosisResult = otherDiagnosisResultMapper.selectByPatientId(patientId);
+
+		map.put("patient", patient);
+		map.put("patientDiagnosis", patientDiagnosis);
+		map.put("medicalHistory", medicalHistory);
+		map.put("clinicalDiagnosisResult", clinicalDiagnosisResult);
+		map.put("crf", crf);
+		map.put("seriousCrf", seriousCrf);
+		map.put("arf", arf);
+		map.put("ckdStage", ckdStage);
+		map.put("pathologicDiagnosisResult", pathologicDiagnosisResult);
+		map.put("cureSymptomAndCondition", cureSymptomAndCondition);
+		map.put("otherDiagnosisResult", otherDiagnosisResult);
+		return map;
 	}
 }

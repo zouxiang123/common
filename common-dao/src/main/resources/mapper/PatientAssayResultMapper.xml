@@ -286,8 +286,8 @@
 	      <if test="operatorId != null">
 	        and par.operator_id = #{operatorId},
 	      </if>
-	      <if test="isEnabled != null">
-	        and par.is_enabled = #{isEnabled}
+	      <if test="isEnable != null">
+	        and par.is_enable = #{isEnable}
 	      </if>
 	      <if test="fkTenantId != null">
 	        and par.fk_tenant_id = #{fkTenantId}

@@ -569,14 +569,14 @@
 	<resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.PatientPO">
 	  <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
-	  <result column="age" jdbcType="Integer" property="age" />
+	  <result column="age" jdbcType="INTEGER" property="age" />
 	</resultMap>
 	
 	<select id="selectByCondition" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
 		select p.*
-			pv.`name` province_name,
-			county.`name` county_name,
-			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+			,pv.`name` province_name
+			,county.`name` county_name
+			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
 	 	from patient p
 		left join province pv on p.province = pv.id
 		left join county on p.county = county.id
@@ -706,11 +706,10 @@
 	</select>
 	
 	<select id="selectById" parameterType="java.lang.Long" resultMap="ExtendResultMap">
-		select 
-		    p.*,
-			pv.`name` province_name,
-			county.`name` county_name,
-			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+		select p.*
+			,pv.`name` province_name
+			,county.`name` county_name
+			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
 	    from patient p
 			left join province pv on p.province = pv.id
 			left join county on p.county = county.id
@@ -719,9 +718,9 @@
 	
 	<select id="selectPatientByIdNumber" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
 		select p.* 
-			pv.`name` province_name,
-			county.`name` county_name,
-			DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+			,pv.`name` province_name
+			,county.`name` county_name
+			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
 		from patient p
 			left join province pv on p.province = pv.id
 			left join county on p.county = county.id

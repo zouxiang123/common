@@ -73,7 +73,7 @@
 	
 	function isNotNew() {
 		if ($("#name").val() == "新增") {
-			window.location.href = ctx + "/doctor/newPatient.shtml";
+			window.location.href = ctx + "/patient/diagnosis/newPatient.shtml";
 			return false;
 		}
 	}

@@ -28,7 +28,7 @@ $(function() {
 		$("#county").empty();
 		$("#county").append('<option value="0">--</option>');
 		$.ajax({
-			url : contextPath + "/common/getCountyList.shtml",
+			url : ctx + "/common/getCountyList.shtml",
 			data : "provinceId=" + $(this).val(),
 			type : "post",
 			dataType : "json",
@@ -86,7 +86,7 @@ function changeIdNumber() {
 	$("#county").append('<option value="0">--</option>');
 	$.ajax({
 
-		url : contextPath + "/common/getCountyList.shtml",
+		url : ctx + "/common/getCountyList.shtml",
 		data : "provinceId=" + $("#province").val(),
 		type : "post",
 		dataType : "json",
@@ -115,12 +115,12 @@ function uploadImg(form) {
 	}
 	var options = {
 		dataType : "json",
-		url : contextPath + "/doctor/savePatientImage.shtml?id=" + $("#patientId").val(),
+		url : ctx + "/patient/savePatientImage.shtml?id=" + $("#patientId").val(),
 		success : function(data) {// ajax返回的数据
 			if (data) {
 				if (data.status == 1) {
 					$("#tempImagePath").val(data.filepath);
-					$("#nav-patient-photo").attr("src", contextPath + "/common/showImage.shtml?fileName=" + data.filepath + "&rnd=" + new Date());
+					$("#nav-patient-photo").attr("src", ctx + "/common/showImage.shtml?fileName=" + data.filepath + "&rnd=" + new Date());
 					return false;
 				} else if (data.status == 2) {
 					showWarn("请选择上传的文件");
@@ -164,7 +164,7 @@ function addValidate() {
 				isIdNumber : true,
 				required : [ "证件号码" ],
 				remote : {
-					url : basePath + "doctor/checkPatientExistByIdNumber.shtml",
+					url : ctx + "/patient/checkPatientExistByIdNumber.shtml",
 					type : "post",
 					dataType : "json",
 					cache : false,

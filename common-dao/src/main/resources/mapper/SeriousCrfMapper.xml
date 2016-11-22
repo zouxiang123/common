@@ -268,7 +268,7 @@
 			sc.update_time desc
 	</select>
 	
-	<select id="selectByPDId" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectByPDId" parameterType="Long" resultMap="ExtendResultMap">
 		select sc.*
 		from 
 			clinical_diagnosis_result cdr 

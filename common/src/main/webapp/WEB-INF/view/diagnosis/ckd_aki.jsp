@@ -20,8 +20,8 @@
 					<div class="form-checkbox-group padding-left-30">
 						<div class="form-item-box">
 							<c:forEach var="obj" items="${ckd_stage}">
-								<input type="radio" id="ckdStageForm_ckdstage${obj.value}" name="ckdStage" value="${obj.value}" <c:if test="${obj.isChecked}">checked</c:if> />
-								<label for="ckdStageForm_ckdstage${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+								<input type="radio" id="ckdStageForm_ckdstage${obj.itemCode}" name="ckdStage" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked</c:if> />
+								<label for="ckdStageForm_ckdstage${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 							</c:forEach>
 						</div>
 					</div>
@@ -29,24 +29,24 @@
 				<div class="form-checkbox-group padding-left-30" id="divAki">
 					<div class="form-item-box">
 						<c:forEach var="obj" items="${aki_type}">
-							<input id="ckdStageForm_aki${obj.value}" type="radio" name="akiType" value="${obj.value}" <c:if test="${obj.isChecked}">checked</c:if> />
-							<label for="ckdStageForm_aki${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+							<input id="ckdStageForm_aki${obj.itemCode}" type="radio" name="akiType" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked</c:if> />
+							<label for="ckdStageForm_aki${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 						</c:forEach>
 					</div>
 					<div class="form-checkbox-group padding-left-30" id="akiStageRifle">
 						<div class="form-item-box">
 							<c:forEach var="obj" items="${aki_stage_rifle}">
-								<input type="radio" id="ckdStageForm_aki_stage_rifle${obj.value}" name="akiStage" value="${obj.value}"
+								<input type="radio" id="ckdStageForm_aki_stage_rifle${obj.itemCode}" name="akiStage" value="${obj.itemCode}"
 									<c:if test="${obj.isChecked}">checked</c:if> />
-								<label for="ckdStageForm_aki_stage_rifle${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+								<label for="ckdStageForm_aki_stage_rifle${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 							</c:forEach>
 						</div>
 					</div>
 					<div class="form-checkbox-group padding-left-30" id="akiStageAK">
 						<div class="form-item-box">
 							<c:forEach var="obj" items="${aki_stage}">
-								<input type="radio" id="ckdStageForm_aki_stage${obj.value}" name="akiStage" value="${obj.value}" <c:if test="${obj.isChecked}">checked</c:if> />
-								<label for="ckdStageForm_aki_stage${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+								<input type="radio" id="ckdStageForm_aki_stage${obj.itemCode}" name="akiStage" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked</c:if> />
+								<label for="ckdStageForm_aki_stage${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 							</c:forEach>
 						</div>
 					</div>

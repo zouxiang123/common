@@ -239,11 +239,11 @@
   </update>
 
 	<!-- 自定义 -->
-	<resultMap type="com.xtt.common.dao.po.ClinicalDiagnosisResultPO" id="POBaseResultMap" extends="BaseResultMap">
+	<resultMap type="com.xtt.common.dao.po.ClinicalDiagnosisResultPO" id="POResultMap" extends="BaseResultMap">
 		<result property="count" column="count"/>
 	</resultMap>
 	
-	<select id="selectByPatientId" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectByPatientId" parameterType="Long" resultMap="POResultMap">
 		select *
 		from clinical_diagnosis_result 
 		where 
@@ -252,7 +252,7 @@
 		ORDER BY update_time DESC
 	</select>
 	
-	<select id="selectByPDId" parameterType="Long" resultMap="BaseResultMap">
+	<select id="selectByPDId" parameterType="Long" resultMap="POResultMap">
 		select *
 		from clinical_diagnosis_result
 		where 
@@ -260,7 +260,7 @@
 			and is_enable=1
 	</select>
 	
-	<select id="groupByTypeForCount" parameterType="com.xtt.common.dao.model.ClinicalDiagnosisResult" resultMap="POBaseResultMap">
+	<select id="groupByTypeForCount" parameterType="com.xtt.common.dao.model.ClinicalDiagnosisResult" resultMap="POResultMap">
 		select t2.type, COUNT(1) as count from dialysis_campaign t1
 		INNER JOIN clinical_diagnosis_result t2 ON t2.fk_patient_id = t1.fk_patient_id AND t2.is_enable = 1
 		<where>

@@ -60,7 +60,7 @@ public interface CkdStageMapper {
 	 * @return CkdStage
 	 * 
 	 */
-	CkdStage selectByPDId(Long pdId);
+	CkdStagePO selectByPDId(Long pdId);
 
 	/**
 	 * 根据患者ID查询历史记录
@@ -81,5 +81,5 @@ public interface CkdStageMapper {
 	 * @return
 	 *
 	 */
-	CkdStage selectLastestByPatientId(Long patientId);
+	CkdStagePO selectLastestByPatientId(Long patientId);
 }

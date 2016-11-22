@@ -21,14 +21,14 @@
 		<property name="url" value="${common.url}" />
 		<property name="username" value="${common.username}" />
 		<property name="password" value="${common.password}" />
-		<property name="driverClassName" value="${db.driverClassName}" />
-		<property name="filters" value="${filters}" />
+		<!-- <property name="driverClassName" value="${db.driverClassName}" /> -->
 
 		<property name="maxActive" value="${common.maxActive}" />
-		<property name="initialSize" value="${initialSize}" />
+		<property name="initialSize" value="${common.initialSize}" />
 		<property name="maxWait" value="${common.maxWait}" />
 		<property name="minIdle" value="${common.minIdle}" />
 
+		<property name="filters" value="${filters}" />
 		<property name="timeBetweenEvictionRunsMillis" value="${timeBetweenEvictionRunsMillis}" />
 		<property name="minEvictableIdleTimeMillis" value="${minEvictableIdleTimeMillis}" />
 

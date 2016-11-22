@@ -17,10 +17,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${main_symptom}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherSymptom" maxlength="64">${cureSymptomAndCondition.otherSymptom }</textarea>
 					</div>
@@ -55,12 +55,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${gkwzdxwl_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm1${obj.value}" type="checkbox" value="${obj.value}" name="gkwzdxwl"
+					<input id="${obj.pItemCode}cureComplicationForm1${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="gkwzdxwl"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm1${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm1${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="gkwzdxwlOther" maxlength="64">${cureSymptomAndCondition.gkwzdxwlOther}</textarea>
 					</div>
@@ -81,12 +81,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${dfybx_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="dfypx"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="dfypx"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="dfypxOther" maxlength="64">${cureSymptomAndCondition.dfypxOther}</textarea>
 					</div>
@@ -107,12 +107,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${hxxt_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="hxxt" 
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="hxxt" 
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="hxxtOther" maxlength="64">${cureSymptomAndCondition.hxxtOther }</textarea>
 					</div>
@@ -133,12 +133,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${xxgxt_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="xxgxt"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="xxgxt"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="xxgxtOther" maxlength="64">${cureSymptomAndCondition.xxgxtOther }</textarea>
 					</div>
@@ -159,12 +159,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${sjxt_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="sjxt" 
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="sjxt" 
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="sjxtOther" maxlength="64">${cureSymptomAndCondition.sjxtOther }</textarea>
 					</div>
@@ -185,9 +185,9 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<div class="form-item td-radio-margin">
 				<c:forEach var="obj" items="${pfsy_info}">
-					<input id="${obj.type}crfForm${obj.value}" type="radio" name="pfsy" value="${obj.value}"
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="radio" name="pfsy" value="${obj.itemCode}"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="${obj.type}crfForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+					<label for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 			</div>
 		</div>
@@ -205,12 +205,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${xyxt_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="xyxt"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="xyxt"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="xyxtOther" maxlength="64">${cureSymptomAndCondition.xyxtOther }</textarea>
 					</div>
@@ -231,11 +231,11 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${hbzl_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="hbzl"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="hbzl"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					  <label for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					  <label for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="hbzlOther" maxlength="64">${cureSymptomAndCondition.hbzlOther}</textarea>
 					</div>
@@ -256,12 +256,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${hbgr_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="hbgr"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="hbgr"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="hbgrOther" maxlength="64">${cureSymptomAndCondition.hbgrOther }</textarea>
 					</div>
@@ -282,12 +282,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${zsmyxjb_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="zsmyxjb"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="zsmyxjb"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="zsmyxjbOther" maxlength="64">${cureSymptomAndCondition.zsmyxjbOther }</textarea>
 					</div>
@@ -309,12 +309,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${nfmjdxxt_info}">
 				<div class="box-style">
-					<input id="${obj.type}cureComplicationForm${obj.value}" type="checkbox" value="${obj.value}" name="nfmjdxxt"
+					<input id="${obj.pItemCode}cureComplicationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" name="nfmjdxxt"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}cureComplicationForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}cureComplicationForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="nfmjdxxtOther" maxlength="64">${cureSymptomAndCondition.nfmjdxxtOther }</textarea>
 					</div>

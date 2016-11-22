@@ -92,4 +92,13 @@ public class CmDictConstants {
 	// -------------------diagnosis-end----------------------------------------------
 	/** 化验单文本类别 */
 	public static final String ASSAY_TEXT_TYPE = "assay_text_type";
+
+	/** 服务调用 */
+	public static final String URL = "url";
+
+	public static final String DOWN_DB_WS_URL_ALL = "00";
+
+	public static final String DOWN_DB_WS_URL_PT = "01";
+
+	public static final String DOWN_DB_WS_URL_ORDER = "02";
 }

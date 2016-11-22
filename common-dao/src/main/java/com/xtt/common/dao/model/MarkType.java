@@ -1,6 +1,6 @@
 /**   
  * @Title: Sss.java 
- * @Package com.xtt.hd.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: LF   
  * @date: 2016年9月14日 下午3:38:00 

@@ -1,6 +1,5 @@
 /**   
  * @Title: IPatientDiagnosis.java 
- * @Package com.xtt.txgl.doctor.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月30日 下午12:30:11 
@@ -12,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.xtt.common.dao.model.CkdStage;
-import com.xtt.common.dao.model.ClinicalDiagnosisResult;
 import com.xtt.common.dao.model.CureSymptomAndCondition;
 import com.xtt.common.dao.model.MedicalHistory;
 import com.xtt.common.dao.model.OtherDiagnosisResult;
@@ -21,6 +19,7 @@ import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientDiagnosis;
 import com.xtt.common.dao.po.ArfPO;
 import com.xtt.common.dao.po.CkdStagePO;
+import com.xtt.common.dao.po.ClinicalDiagnosisResultPO;
 import com.xtt.common.dao.po.CrfPO;
 import com.xtt.common.dao.po.MedicalHistoryRemarkPO;
 import com.xtt.common.dao.po.SeriousCrfPO;
@@ -57,7 +56,7 @@ public interface IPatientDiagnosisService {
 	 * @return
 	 *
 	 */
-	public List<ClinicalDiagnosisResult> getClinicalDiagnosisResultByPatientId(Long patientId);
+	public List<ClinicalDiagnosisResultPO> getClinicalDiagnosisResultByPatientId(Long patientId);
 
 	/**
 	 * 获取CRF(慢性肾功能衰竭)
@@ -215,4 +214,14 @@ public interface IPatientDiagnosisService {
 	 * 
 	 */
 	public void saveFirstDone(Long fkPatientDiagnosisId);
+
+	/**
+	 * 获取当前患者所有的诊断信息
+	 * 
+	 * @Title: selectDignosisByPatient
+	 * @param patientId
+	 * @return
+	 *
+	 */
+	public Map<String, Object> selectDignosisByPatient(Long patientId);
 }

@@ -17,6 +17,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,23 +25,23 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.Arf;
 import com.xtt.common.dao.model.CkdStage;
-import com.xtt.common.dao.model.ClinicalDiagnosisResult;
 import com.xtt.common.dao.model.County;
-import com.xtt.common.dao.model.Crf;
 import com.xtt.common.dao.model.CureSymptomAndCondition;
-import com.xtt.common.dao.model.MedicalHistory;
 import com.xtt.common.dao.model.OtherDiagnosisResult;
 import com.xtt.common.dao.model.PathologicDiagnosisResult;
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientDiagnosis;
 import com.xtt.common.dao.model.Province;
-import com.xtt.common.dao.model.SeriousCrf;
 import com.xtt.common.dao.po.ArfPO;
+import com.xtt.common.dao.po.CkdStagePO;
+import com.xtt.common.dao.po.ClinicalDiagnosisResultPO;
 import com.xtt.common.dao.po.CrfPO;
+import com.xtt.common.dao.po.CureSymptomAndConditionPO;
 import com.xtt.common.dao.po.MedicalHistoryPO;
 import com.xtt.common.dao.po.MedicalHistoryRemarkPO;
+import com.xtt.common.dao.po.OtherDiagnosisResultPO;
+import com.xtt.common.dao.po.PathologicDiagnosisResultPO;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SeriousCrfPO;
@@ -81,7 +82,7 @@ public class PatientDiagnosisController {
 	 * 
 	 */
 	@RequestMapping("newPatient")
-	public ModelAndView newPatient(Long fkPatientDiagnosisId, Long patientId, String patientName, String tabId) throws Exception {
+	public ModelAndView newPatient(Long fkPatientDiagnosisId, Long patientId, String patientName, String tabId, String sys) throws Exception {
 
 		ModelAndView model = new ModelAndView("diagnosis/new_patient");
 		model.addObject("patientName", patientName);
@@ -97,34 +98,51 @@ public class PatientDiagnosisController {
 			pd = patientDiagnosisService.getPatientDiagnosisByPatientId(patientId);
 			fkPatientDiagnosisId = pd == null ? null : pd.getId();
 		}
-		MedicalHistory mh = new MedicalHistory();
-		ClinicalDiagnosisResult cd = new ClinicalDiagnosisResult();
-		Crf crf = new Crf();
-		SeriousCrf seriousCrf = new SeriousCrf();
-		Arf arf = new Arf();
-		PathologicDiagnosisResult pdr = new PathologicDiagnosisResult();
-		CkdStage ckdStage = new CkdStage();
-		CureSymptomAndCondition cureSymptomAndCondition = new CureSymptomAndCondition();
+		MedicalHistoryPO mh = new MedicalHistoryPO();
+		ClinicalDiagnosisResultPO cd = new ClinicalDiagnosisResultPO();
+		CrfPO crf = new CrfPO();
+		SeriousCrfPO seriousCrf = new SeriousCrfPO();
+		ArfPO arf = new ArfPO();
+		PathologicDiagnosisResultPO pdr = new PathologicDiagnosisResultPO();
+		CkdStagePO ckdStage = new CkdStagePO();
+		CureSymptomAndConditionPO cureSymptomAndCondition = new CureSymptomAndConditionPO();
 
 		Map<String, Object> hisMap = null;
 		// 已录入过部分信息，恢复最后一次操作数据
 		if (fkPatientDiagnosisId != null) {
 			pd = pd == null ? patientDiagnosisService.selectById(fkPatientDiagnosisId) : pd;
 			hisMap = patientDiagnosisService.selectAllDiagnosisInfo(fkPatientDiagnosisId);
-			model.addAllObjects(hisMap);
-			mh = (MedicalHistory) hisMap.get("medicalHistory");
-			cd = (ClinicalDiagnosisResult) hisMap.get("clinicalDiagnosisResult");
-			crf = (Crf) hisMap.get("crf");
-			seriousCrf = (SeriousCrf) hisMap.get("seriousCrf");
-			arf = (Arf) hisMap.get("arf");
-			ckdStage = (CkdStage) hisMap.get("ckdStage");
-			pdr = (PathologicDiagnosisResult) hisMap.get("pathologicDiagnosisResult");
-			cureSymptomAndCondition = (CureSymptomAndCondition) hisMap.get("cureSymptomAndCondition");
+			mh = (MedicalHistoryPO) hisMap.get("medicalHistory");
+			cd = (ClinicalDiagnosisResultPO) hisMap.get("clinicalDiagnosisResult");
+			crf = (CrfPO) hisMap.get("crf");
+			seriousCrf = (SeriousCrfPO) hisMap.get("seriousCrf");
+			arf = (ArfPO) hisMap.get("arf");
+			ckdStage = (CkdStagePO) hisMap.get("ckdStage");
+			pdr = (PathologicDiagnosisResultPO) hisMap.get("pathologicDiagnosisResult");
+			cureSymptomAndCondition = (CureSymptomAndConditionPO) hisMap.get("cureSymptomAndCondition");
 			// 如果患者id不存在，从诊断中获取
 			patientId = patientId == null ? pd.getFkPatientId() : patientId;
+			model.addAllObjects(hisMap);
 		}
+		// 病史信息
+		initMedicalHistory(model.getModelMap(), mh);
+		// 慢性肾病类型
+		model.addObject(CmDictConstants.NEPHROSIS_TYPE, CmDictUtil.getListByType(CmDictConstants.NEPHROSIS_TYPE, cd == null ? null : cd.getType()));
+		// 初始化慢性肾功能衰竭
+		initCrf(model.getModelMap(), crf);
+		// 初始化慢性肾功能不全急性加重
+		initSeriousCrf(model.getModelMap(), seriousCrf);
+		// 初始化急性肾功能衰竭
+		initArf(model.getModelMap(), arf);
+		// 病理诊断信息
+		initPathologicDiagnosisResult(model.getModelMap(), pdr);
+		// 初始化CKD/AKI分期数据
+		initCkdStage(model.getModelMap(), ckdStage);
+		// 治疗前合并症信息
+		initCureSymptomAndCondition(model.getModelMap(), cureSymptomAndCondition);
+		PatientPO patient = null;
 		if (patientId != null) {
-			model.addObject("patient", patientService.selectById(patientId));
+			patient = patientService.selectById(patientId);
 			// 已经添加的患者卡片数据
 			model.addObject("patientCardList", patientCardService.selectByPatientId(patientId));
 		}
@@ -134,7 +152,6 @@ public class PatientDiagnosisController {
 
 		List<Province> provinceList = commonService.getProvinceList();
 		model.addObject("provinceList", provinceList);
-		Patient patient = hisMap == null ? null : (Patient) hisMap.get("patient");
 		List<County> countyList = null;
 		if (patient == null) {
 			countyList = commonService.getCountyList(provinceList.get(0).getId());
@@ -142,109 +159,13 @@ public class PatientDiagnosisController {
 			countyList = commonService.getCountyList(patient.getProvince());
 		}
 		model.addObject("countyList", countyList);
+		if (patient == null) {
+			patient = new PatientPO();
+			patient.setSysOwner(sys);
+		}
+		model.addObject("patient", patient);
 		model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
 						CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
-
-		// ===========从缓存中获取病史相关字典数据
-		model.addObject(CmDictConstants.FIRST_DIALYSIS_METHOD,
-						CmDictUtil.getListByType(CmDictConstants.FIRST_DIALYSIS_METHOD, mh == null ? null : mh.getFirstDialysisMethod()));
-		model.addObject("hasCva", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasCva()));
-		model.addObject("hasVascularDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasVascularDisease()));
-		model.addObject("hasSeriousDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasSeriousDisease()));
-		model.addObject("hasPsychosis", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasPsychosis()));
-		model.addObject(CmDictConstants.HEMORRHAGE, CmDictUtil.getListByType(CmDictConstants.HEMORRHAGE, mh == null ? null : mh.getHemorrhage()));
-		model.addObject(CmDictConstants.HEART_DEFECTS,
-						CmDictUtil.getListByType(CmDictConstants.HEART_DEFECTS, mh == null ? null : mh.getHeartDefects()));
-		// 血透开始原因
-		model.addObject("xtStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getXtStartReason()));
-		// 血透结束原因
-		model.addObject("xtEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getXtEndReason()));
-		// 腹透开始原因
-		model.addObject("ftStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getFtStartReason()));
-		// 腹透结束原因
-		model.addObject("ftEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getFtEndReason()));
-		// 肾移植结束原因
-		model.addObject("syzEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getSyzEndReason()));
-		// 过敏原因
-		model.addObject("gmResouce", CmDictUtil.getListByType(CmDictConstants.BS_GMY, mh == null ? null : mh.getGmResouce()));
-		// 传染病诊断名称
-		model.addObject("bs_crbzdmc", CmDictUtil.getListByType(CmDictConstants.BS_CRBZDMC, mh == null ? null : mh.getCrbDiaName()));
-		// 传染病活动状态
-		model.addObject("bs_crbhdzt", CmDictUtil.getListByType(CmDictConstants.BS_CRBHDZT, mh == null ? null : mh.getCrbDiaStatus()));
-		// 传染病治疗情况
-		model.addObject("bs_crbzlqk", CmDictUtil.getListByType(CmDictConstants.BS_CRBZLQK, mh == null ? null : mh.getCrbCase()));
-
-		model.addObject(CmDictConstants.NEPHROSIS_TYPE, CmDictUtil.getListByType(CmDictConstants.NEPHROSIS_TYPE, cd == null ? null : cd.getType()));
-		model.addObject(CmDictConstants.CLINICAL_PGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_PGN, crf == null ? null : crf.getPgn()));
-		model.addObject(CmDictConstants.CLINICAL_SGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_SGN, crf == null ? null : crf.getSgn()));
-		model.addObject(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY,
-						crf == null ? null : crf.getHereditaryNephropathy()));
-		model.addObject(CmDictConstants.CLINICAL_TIN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_TIN, crf == null ? null : crf.getTin()));
-		model.addObject(CmDictConstants.UN_AND_STONE,
-						CmDictUtil.getListByType(CmDictConstants.UN_AND_STONE, crf == null ? null : crf.getUnAndStone()));
-		model.addObject(CmDictConstants.RENAL_RESECTION,
-						CmDictUtil.getListByType(CmDictConstants.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
-		model.addObject("urologicNeoplasms", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, crf == null ? null : crf.getUrologicNeoplasms()));
-		model.addObject("crfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, crf == null ? null : crf.getUnknownReason()));
-		model.addObject(CmDictConstants.SERIOUS_CRF_REASON,
-						CmDictUtil.getListByType(CmDictConstants.SERIOUS_CRF_REASON, seriousCrf == null ? null : seriousCrf.getReason()));
-		model.addObject(CmDictConstants.ARF_REASON, CmDictUtil.getListByType(CmDictConstants.ARF_REASON, arf == null ? null : arf.getReason()));
-		model.addObject("arfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, arf == null ? null : arf.getUnknownReason()));
-		model.addObject(CmDictConstants.PATHOLOGY_PGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_PGN, pdr == null ? null : pdr.getPgn()));
-		model.addObject(CmDictConstants.PATHOLOGY_SGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_SGN, pdr == null ? null : pdr.getSgn()));
-		model.addObject(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY,
-						pdr == null ? null : pdr.getHereditaryNephropathy()));
-		model.addObject(CmDictConstants.PATHOLOGY_TIN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_TIN, pdr == null ? null : pdr.getTin()));
-		model.addObject(CmDictConstants.CKD_TYPE,
-						CmDictUtil.getListByType(CmDictConstants.CKD_TYPE, ckdStage == null ? null : ckdStage.getCkdType()));
-		model.addObject(CmDictConstants.CKD_STAGE,
-						CmDictUtil.getListByType(CmDictConstants.CKD_STAGE, ckdStage == null ? null : ckdStage.getCkdStage()));
-		model.addObject(CmDictConstants.AKI_TYPE,
-						CmDictUtil.getListByType(CmDictConstants.AKI_TYPE, ckdStage == null ? null : ckdStage.getAkiType()));
-		model.addObject(CmDictConstants.AKI_STAGE_RIFLE,
-						CmDictUtil.getListByType(CmDictConstants.AKI_STAGE_RIFLE, ckdStage == null ? null : ckdStage.getAkiStage()));
-		model.addObject(CmDictConstants.AKI_STAGE,
-						CmDictUtil.getListByType(CmDictConstants.AKI_STAGE, ckdStage == null ? null : ckdStage.getAkiStage()));
-		model.addObject(CmDictConstants.MAIN_SYMPTOM, CmDictUtil.getListByType(CmDictConstants.MAIN_SYMPTOM,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getMainSymptom()));
-
-		// =================================================治疗前合并症
-		model.addObject(CmDictConstants.GKWZDXWL_INFO, CmDictUtil.getListByType(CmDictConstants.GKWZDXWL_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getGkwzdxwl()));// 1:骨矿物质代谢紊乱
-
-		model.addObject(CmDictConstants.DFYBX_INFO, CmDictUtil.getListByType(CmDictConstants.DFYBX_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getDfypx()));// 2:淀粉样变性
-
-		model.addObject(CmDictConstants.HXXT_INFO, CmDictUtil.getListByType(CmDictConstants.HXXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getHxxt()));// 3:呼吸系统
-
-		model.addObject(CmDictConstants.XHXT_INFO, CmDictUtil.getListByType(CmDictConstants.XHXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getXhxt()));// 4:消化系统
-
-		model.addObject(CmDictConstants.XXGXT_INFO, CmDictUtil.getListByType(CmDictConstants.XXGXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getXxgxt()));// 5:心血管系统
-
-		model.addObject(CmDictConstants.SJXT_INFO, CmDictUtil.getListByType(CmDictConstants.SJXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getSjxt()));// 6:神经系统
-
-		model.addObject(CmDictConstants.PFSY_INFO, CmDictUtil.getListByType(CmDictConstants.PFSY_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getPfsy()));// 7:皮肤瘙痒
-
-		model.addObject(CmDictConstants.XYXT_INFO, CmDictUtil.getListByType(CmDictConstants.XYXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getXyxt()));// 8:血液系统
-
-		model.addObject(CmDictConstants.HBZL_INFO, CmDictUtil.getListByType(CmDictConstants.HBZL_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getHbzl()));// 9:合并肿瘤
-
-		model.addObject(CmDictConstants.HBGR_INFO, CmDictUtil.getListByType(CmDictConstants.HBGR_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getHbgr()));// 10:合并感染
-
-		model.addObject(CmDictConstants.ZSMYXJB_INFO, CmDictUtil.getListByType(CmDictConstants.ZSMYXJB_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getZsmyxjb()));// 11:自身免疫性疾病
-
-		model.addObject(CmDictConstants.NFMJDXXT_INFO, CmDictUtil.getListByType(CmDictConstants.NFMJDXXT_INFO,
-						cureSymptomAndCondition == null ? null : cureSymptomAndCondition.getNfmjdxxt()));// 12:内分泌及代谢系统
-		// 13:其他
 		return model;
 	}
 
@@ -259,7 +180,7 @@ public class PatientDiagnosisController {
 	 */
 	@RequestMapping("firstPreview")
 	public ModelAndView firstPreview(Long fkPatientDiagnosisId, Long patientId) throws Exception {
-		ModelAndView model = newPatient(fkPatientDiagnosisId, patientId, null, null);
+		ModelAndView model = newPatient(fkPatientDiagnosisId, patientId, null, null, null);
 		model.setViewName("diagnosis/done");
 		return model;
 	}
@@ -558,4 +479,238 @@ public class PatientDiagnosisController {
 		patientDiagnosisService.saveFirstDone(fkPatientDiagnosisId);
 		return CommonConstants.SUCCESS;
 	}
+
+	/**
+	 * 患者诊断信息
+	 * 
+	 * @Title: diagnosisInfo
+	 * @param patientId
+	 * @return
+	 * @throws Exception
+	 * 
+	 */
+	@RequestMapping("diagnosisInfo")
+	public ModelAndView diagnosisInfo(@RequestParam(required = true) Long patientId) throws Exception {
+		ModelAndView model = new ModelAndView("diagnosis/diagnosis_info");
+		model.addAllObjects(diagnosisInfoApi(patientId));
+		return model;
+	}
+
+	/**
+	 * 患者诊断信息
+	 * 
+	 * @Title: diagnosisInfo
+	 * @param patientId
+	 * @return
+	 * @throws Exception
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("api/diagnosisInfo")
+	@ResponseBody
+	public Map<String, Object> diagnosisInfoApi(@RequestParam(value = "patientId", required = false) Long patientId) throws Exception {
+
+		// API返回用结果用
+		Map<String, Object> retMap = new HashMap<String, Object>();
+
+		Map<String, Object> mapAll = patientDiagnosisService.selectDignosisByPatient(patientId);
+		List<MedicalHistoryPO> mhList = (List<MedicalHistoryPO>) mapAll.get("medicalHistory");
+		List<CrfPO> crfList = (List<CrfPO>) mapAll.get("crf");
+		List<SeriousCrfPO> seriousCrfList = (List<SeriousCrfPO>) mapAll.get("seriousCrf");
+		List<ArfPO> arfList = (List<ArfPO>) mapAll.get("arf");
+		List<CkdStagePO> ckdStageList = (List<CkdStagePO>) mapAll.get("ckdStage");
+		List<PathologicDiagnosisResultPO> pdList = (List<PathologicDiagnosisResultPO>) mapAll.get("pathologicDiagnosisResult");
+		List<CureSymptomAndConditionPO> cureSymptomAndConditionList = (List<CureSymptomAndConditionPO>) mapAll.get("cureSymptomAndCondition");
+		List<OtherDiagnosisResultPO> otherDiagnosisResultList = (List<OtherDiagnosisResultPO>) mapAll.get("otherDiagnosisResult");
+
+		// 病史信息
+		List<Map<String, Object>> medicalHistorys = new ArrayList<Map<String, Object>>();
+		for (MedicalHistoryPO mh : mhList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			// 初始化病史信息
+			initMedicalHistory(map, mh);
+			map.put("medicalHistory", mh);
+			medicalHistorys.add(map);
+		}
+		// 临床诊断信息
+		List<Map<String, Object>> crfs = new ArrayList<Map<String, Object>>();
+		for (CrfPO crf : crfList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initCrf(map, crf);
+			map.put("crf", crf);
+			crfs.add(map);
+		}
+
+		List<Map<String, Object>> seriousCrfs = new ArrayList<Map<String, Object>>();
+		for (SeriousCrfPO seriousCrf : seriousCrfList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initSeriousCrf(map, seriousCrf);
+			map.put("seriousCrf", seriousCrf);
+			seriousCrfs.add(map);
+		}
+
+		List<Map<String, Object>> arfs = new ArrayList<Map<String, Object>>();
+		for (ArfPO arf : arfList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initArf(map, arf);
+			map.put("arf", arf);
+			arfs.add(map);
+		}
+
+		// 病理诊断信息
+		List<Map<String, Object>> pathologicDiagnosisResults = new ArrayList<Map<String, Object>>();
+		for (PathologicDiagnosisResultPO pd : pdList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initPathologicDiagnosisResult(map, pd);
+			map.put("pathologicDiagnosisResult", pd);
+			pathologicDiagnosisResults.add(map);
+		}
+
+		// CKD/AKI信息
+		List<Map<String, Object>> ckdStages = new ArrayList<Map<String, Object>>();
+		for (CkdStagePO ckdStage : ckdStageList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initCkdStage(map, ckdStage);
+			map.put("ckdStage", ckdStage);
+			ckdStages.add(map);
+		}
+
+		// 治疗前合并症信息
+		List<Map<String, Object>> cureSymptomAndConditions = new ArrayList<Map<String, Object>>();
+		for (CureSymptomAndConditionPO cureSymptomAndCondition : cureSymptomAndConditionList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			initCureSymptomAndCondition(map, cureSymptomAndCondition);
+			map.put("cureSymptomAndCondition", cureSymptomAndCondition);
+			cureSymptomAndConditions.add(map);
+		}
+
+		// 其它信息
+		List<Map<String, Object>> otherDiagnosisResults = new ArrayList<Map<String, Object>>();
+		for (OtherDiagnosisResultPO otherDiagnosisResult : otherDiagnosisResultList) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("otherDiagnosisResult", otherDiagnosisResult);
+			otherDiagnosisResults.add(map);
+		}
+		retMap.put("patientId", patientId);
+		retMap.put("patientDiagnosis", mapAll.get("patientDiagnosis"));
+		retMap.put("patient", patientService.selectById(patientId));
+		retMap.put("medicalHistorys", medicalHistorys);
+		retMap.put("crfs", crfs);
+		retMap.put("seriousCrfs", seriousCrfs);
+		retMap.put("arfs", arfs);
+		retMap.put("pathologicDiagnosisResults", pathologicDiagnosisResults);
+		retMap.put("ckdStages", ckdStages);
+		retMap.put("cureSymptomAndConditions", cureSymptomAndConditions);
+		retMap.put("otherDiagnosisResults", otherDiagnosisResults);
+
+		retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
+		return retMap;
+	}
+
+	/** 初始化病史信息 */
+	private void initMedicalHistory(Map<String, Object> map, MedicalHistoryPO mh) {
+
+		map.put(CmDictConstants.FIRST_DIALYSIS_METHOD,
+						CmDictUtil.getListByType(CmDictConstants.FIRST_DIALYSIS_METHOD, mh == null ? null : mh.getFirstDialysisMethod()));
+		map.put("hasCva", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasCva()));
+		map.put("hasVascularDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasVascularDisease()));
+		map.put("hasSeriousDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasSeriousDisease()));
+		map.put("hasPsychosis", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasPsychosis()));
+		map.put(CmDictConstants.HEMORRHAGE, CmDictUtil.getListByType(CmDictConstants.HEMORRHAGE, mh == null ? null : mh.getHemorrhage()));
+		map.put(CmDictConstants.HEART_DEFECTS, CmDictUtil.getListByType(CmDictConstants.HEART_DEFECTS, mh == null ? null : mh.getHeartDefects()));
+
+		// 血透开始原因
+		map.put("xtStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getXtStartReason()));
+		// 血透结束原因
+		map.put("xtEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getXtEndReason()));
+		// 腹透开始原因
+		map.put("ftStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getFtStartReason()));
+		// 腹透结束原因
+		map.put("ftEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getFtEndReason()));
+		// 肾移植结束原因
+		map.put("syzEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getSyzEndReason()));
+		// 过敏原因
+		map.put("gmResouce", CmDictUtil.getListByType(CmDictConstants.BS_GMY, mh == null ? null : mh.getGmResouce()));
+
+		// 传染病诊断名称
+		map.put("bs_crbzdmc", CmDictUtil.getListByType(CmDictConstants.BS_CRBZDMC, mh == null ? null : mh.getCrbDiaName()));
+		// 传染病活动状态
+		map.put("bs_crbhdzt", CmDictUtil.getListByType(CmDictConstants.BS_CRBHDZT, mh == null ? null : mh.getCrbDiaStatus()));
+		// 传染病治疗情况
+		map.put("bs_crbzlqk", CmDictUtil.getListByType(CmDictConstants.BS_CRBZLQK, mh == null ? null : mh.getCrbCase()));
+	}
+
+	/** 初始化慢性肾功能衰竭 */
+	private void initCrf(Map<String, Object> map, CrfPO crf) {
+		map.put(CmDictConstants.CLINICAL_PGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_PGN, crf == null ? null : crf.getPgn()));
+		map.put(CmDictConstants.CLINICAL_SGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_SGN, crf == null ? null : crf.getSgn()));
+		map.put(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY,
+						crf == null ? null : crf.getHereditaryNephropathy()));
+		map.put(CmDictConstants.CLINICAL_TIN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_TIN, crf == null ? null : crf.getTin()));
+		map.put(CmDictConstants.UN_AND_STONE, CmDictUtil.getListByType(CmDictConstants.UN_AND_STONE, crf == null ? null : crf.getUnAndStone()));
+		map.put(CmDictConstants.RENAL_RESECTION,
+						CmDictUtil.getListByType(CmDictConstants.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
+		map.put("urologicNeoplasms", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, crf == null ? null : crf.getUrologicNeoplasms()));
+		map.put("crfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, crf == null ? null : crf.getUnknownReason()));
+	}
+
+	/** 初始化慢性肾功能不全急性加重 */
+	private void initSeriousCrf(Map<String, Object> map, SeriousCrfPO seriousCrf) {
+		map.put(CmDictConstants.SERIOUS_CRF_REASON,
+						CmDictUtil.getListByType(CmDictConstants.SERIOUS_CRF_REASON, seriousCrf == null ? null : seriousCrf.getReason()));
+	}
+
+	/** 初始化急性肾功能衰竭 */
+	private void initArf(Map<String, Object> map, ArfPO arf) {
+		map.put(CmDictConstants.ARF_REASON, CmDictUtil.getListByType(CmDictConstants.ARF_REASON, arf == null ? null : arf.getReason()));
+		map.put("arfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, arf == null ? null : arf.getUnknownReason()));
+	}
+
+	/** 初始化病理诊断 */
+	private void initPathologicDiagnosisResult(Map<String, Object> map, PathologicDiagnosisResultPO pd) {
+		map.put(CmDictConstants.PATHOLOGY_PGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_PGN, pd == null ? null : pd.getPgn()));
+		map.put(CmDictConstants.PATHOLOGY_SGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_SGN, pd == null ? null : pd.getSgn()));
+		map.put(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY,
+						pd == null ? null : pd.getHereditaryNephropathy()));
+		map.put(CmDictConstants.PATHOLOGY_TIN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_TIN, pd == null ? null : pd.getTin()));
+	}
+
+	/** 初始化CKD/AKI分期数据 */
+	private void initCkdStage(Map<String, Object> map, CkdStagePO ckd) {
+		map.put(CmDictConstants.CKD_TYPE, CmDictUtil.getListByType(CmDictConstants.CKD_TYPE, ckd == null ? null : ckd.getCkdType()));
+		map.put(CmDictConstants.CKD_STAGE, CmDictUtil.getListByType(CmDictConstants.CKD_STAGE, ckd == null ? null : ckd.getCkdStage()));
+		map.put(CmDictConstants.AKI_TYPE, CmDictUtil.getListByType(CmDictConstants.AKI_TYPE, ckd == null ? null : ckd.getAkiType()));
+		map.put(CmDictConstants.AKI_STAGE_RIFLE, CmDictUtil.getListByType(CmDictConstants.AKI_STAGE_RIFLE, ckd == null ? null : ckd.getAkiStage()));
+		map.put(CmDictConstants.AKI_STAGE, CmDictUtil.getListByType(CmDictConstants.AKI_STAGE, ckd == null ? null : ckd.getAkiStage()));
+	}
+
+	/** 初始化治疗前合并症 */
+	private void initCureSymptomAndCondition(Map<String, Object> map, CureSymptomAndConditionPO csac) {
+		map.put(CmDictConstants.MAIN_SYMPTOM, CmDictUtil.getListByType(CmDictConstants.MAIN_SYMPTOM, csac == null ? null : csac.getMainSymptom()));
+		// =================================================治疗前合并症
+		map.put(CmDictConstants.GKWZDXWL_INFO, CmDictUtil.getListByType(CmDictConstants.GKWZDXWL_INFO, csac == null ? null : csac.getGkwzdxwl()));// 1:骨矿物质代谢紊乱
+
+		map.put(CmDictConstants.DFYBX_INFO, CmDictUtil.getListByType(CmDictConstants.DFYBX_INFO, csac == null ? null : csac.getDfypx()));// 2:淀粉样变性
+
+		map.put(CmDictConstants.HXXT_INFO, CmDictUtil.getListByType(CmDictConstants.HXXT_INFO, csac == null ? null : csac.getHxxt()));// 3:呼吸系统
+
+		map.put(CmDictConstants.XHXT_INFO, CmDictUtil.getListByType(CmDictConstants.XHXT_INFO, csac == null ? null : csac.getXhxt()));// 4:消化系统
+
+		map.put(CmDictConstants.XXGXT_INFO, CmDictUtil.getListByType(CmDictConstants.XXGXT_INFO, csac == null ? null : csac.getXxgxt()));// 5:心血管系统
+
+		map.put(CmDictConstants.SJXT_INFO, CmDictUtil.getListByType(CmDictConstants.SJXT_INFO, csac == null ? null : csac.getSjxt()));// 6:神经系统
+
+		map.put(CmDictConstants.PFSY_INFO, CmDictUtil.getListByType(CmDictConstants.PFSY_INFO, csac == null ? null : csac.getPfsy()));// 7:皮肤瘙痒
+
+		map.put(CmDictConstants.XYXT_INFO, CmDictUtil.getListByType(CmDictConstants.XYXT_INFO, csac == null ? null : csac.getXyxt()));// 8:血液系统
+
+		map.put(CmDictConstants.HBZL_INFO, CmDictUtil.getListByType(CmDictConstants.HBZL_INFO, csac == null ? null : csac.getHbzl()));// 9:合并肿瘤
+
+		map.put(CmDictConstants.HBGR_INFO, CmDictUtil.getListByType(CmDictConstants.HBGR_INFO, csac == null ? null : csac.getHbgr()));// 10:合并感染
+
+		map.put(CmDictConstants.ZSMYXJB_INFO, CmDictUtil.getListByType(CmDictConstants.ZSMYXJB_INFO, csac == null ? null : csac.getZsmyxjb()));// 11:自身免疫性疾病
+
+		map.put(CmDictConstants.NFMJDXXT_INFO, CmDictUtil.getListByType(CmDictConstants.NFMJDXXT_INFO, csac == null ? null : csac.getNfmjdxxt()));// 12:内分泌及代谢系统
+	}
+
 }

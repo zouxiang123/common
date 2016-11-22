@@ -1,3 +1,6 @@
+var contentEditingItemArr = [];
+var contentEditingItemNavLastStep;
+
 /**
  * 导航栏切换事件注册
  */
@@ -17,6 +20,12 @@ $(document).ready(function() {
 });
 
 function addCommonEvents() {
+
+	// 导航栏切换事件
+	$(".content-editing-bar .content-editing-item").click(function() {
+		tabSwitch($(this).parent().attr("id"), $(this).attr("data-link"), null, null, true);
+	});
+
 	// textarea 自动伸缩事件
 	$("textarea.textarea-auto-height").each(function() {
 		addTextareaAutoHeightEvent(this);
@@ -38,6 +47,126 @@ function addCommonEvents() {
 			}
 		}
 	};
+}
+/**
+ * 导航栏切换
+ * 
+ * @param barId
+ * @param tabId
+ * @param arr
+ * @param last
+ * @param isClick
+ * @returns {Boolean}
+ */
+function tabSwitch(barId, tabId, arr, last, isClick) {
+	if (isEmpty(arr) || arr.length == 0) {
+		arr = contentEditingItemArr;
+	} else {
+		contentEditingItemArr = arr;
+	}
+	var maxLength = $("#" + barId + " .content-editing-item").length;
+	if (isEmpty(barId)) {
+		showWarn("导航ID不能为空");
+		return false;
+	} else if (isEmpty(tabId)) {
+		showWarn("需要激活的tab不能为空");
+		return false;
+	} else if (isEmpty(arr) || arr.length == 0) {
+		showWarn("传入的数组不能为空");
+		return false;
+	}
+	if (!(tabId.substring(0, 1) == "#")) {
+		tabId = "#" + tabId;
+	}
+	var i = 0;
+	var maxDisabled = 0;
+	var isDisabled = false;
+	var lastStep;
+	if (isEmpty(isClick) || !isClick) {
+		lastStep = 0;
+		$("#" + barId + " .content-editing-item").each(function() {
+			if ($(this).attr("data-link") == tabId) {
+				return false;
+			}
+			lastStep++;
+		});
+		if (!isEmpty(last) && lastStep < last) {
+			lastStep = last;
+		}
+		if (isEmpty(contentEditingItemNavLastStep)) {
+			contentEditingItemNavLastStep = lastStep;
+		} else {
+			if (lastStep < contentEditingItemNavLastStep) {
+				lastStep = contentEditingItemNavLastStep;
+			} else {
+				contentEditingItemNavLastStep = lastStep;
+			}
+		}
+	}
+	var isInit = isEmpty(lastStep) ? false : true;
+	$("#" + barId + " .content-editing-item").each(function() {
+		if (isInit) {
+			// 设置宽度
+			var width = (100 / maxLength).toFixed(4) + "";
+			$(this).width(width.substring(0, width.length - 1) + "%");
+			// 隐藏所有
+			$($(this).attr("data-link")).hide();
+		}
+		if ($(this).attr("data-link") == tabId) {
+			if (!isDisabled && $(this).children(".disabled").length > 0) {
+				if (isInit) {
+					if (i < lastStep) {
+						isDisabled = true;
+					}
+				} else {
+					isDisabled = true;
+					return false;
+				}
+			}
+		}
+		i++;
+	});
+	if (!isDisabled) {
+		i = 0;
+		if (!isInit) {
+			$("#" + barId + " .content-editing-item").each(function() {
+				if ($(this).children(".disabled").length > 0) {
+					return false;
+				}
+				maxDisabled++;
+			});
+		} else {
+			maxDisabled = lastStep + 1;
+		}
+		$("#" + barId + " .content-editing-item").each(
+						function() {
+							var $data = $($(this).attr("data-link"));
+							if (i < maxDisabled) {
+								if ($(this).attr("data-link") == tabId) {
+									$data.show();
+									if (i == 0) {
+										$(this).html("<div class='content-editing'>" + arr[i] + "</div><div class='content-editing-ae'></div>");
+									} else if (i == maxLength - 1) {
+										$(this).html("<div class='content-editing-as'></div> <div class='content-editing'>" + arr[i] + "</div>");
+									} else {
+										$(this).html(
+														"<div class='content-editing-as'></div><div class='content-editing'>" + arr[i]
+																		+ "</div><div class='content-editing-ae'></div>");
+									}
+								} else {
+									$data.hide();
+									if (i == maxDisabled - 1) {
+										$(this).html("<span style='margin-top: 0px;'>" + arr[i] + "</span>");
+									} else {
+										$(this).html("<img src='" + ctx + "/assets/img/edit-finish.png'><span>" + arr[i] + "</span>");
+									}
+								}
+							} else {
+								$(this).html("<span class='disabled'>" + arr[i] + "</span>");
+							}
+							i++;
+						});
+	}
 }
 
 /**

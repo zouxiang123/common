@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientAssayRecordPO.java 
- * @Package com.lt.dao.po
+ * @Package com.xtt.hd.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月29日 上午9:46:36 
@@ -54,6 +54,26 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 	private String groupRange;// 分组
 
 	private List<PatientAssayGroupRulePO> ruleList;// 化验规则集合
+
+	private Integer needAssayCount;
+	private Integer hadAssaySum;
+	private String assayClass;
+
+	public Integer getNeedAssayCount() {
+		return needAssayCount;
+	}
+
+	public void setNeedAssayCount(Integer needAssayCount) {
+		this.needAssayCount = needAssayCount;
+	}
+
+	public Integer getHadAssaySum() {
+		return hadAssaySum;
+	}
+
+	public void setHadAssaySum(Integer hadAssaySum) {
+		this.hadAssaySum = hadAssaySum;
+	}
 
 	public BigDecimal getMinValue() {
 		return minValue;
@@ -245,6 +265,14 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
 	public void setMultResultTips(String[] multResultTips) {
 		this.multResultTips = multResultTips;
+	}
+
+	public String getAssayClass() {
+		return assayClass;
+	}
+
+	public void setAssayClass(String assayClass) {
+		this.assayClass = assayClass;
 	}
 
 }

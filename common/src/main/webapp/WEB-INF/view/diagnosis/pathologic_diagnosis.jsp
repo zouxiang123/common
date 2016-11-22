@@ -35,10 +35,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${pathology_pgn}">
 				<div class="box-style">
-					<input id="${obj.type}pathologicDiagnosisForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}pathologicDiagnosisForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherPgn" maxlength="64">${pathologicDiagnosisResult.otherPgn }</textarea>
 					</div>
@@ -59,10 +59,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${pathology_sgn}">
 				<div class="box-style">
-					<input id="${obj.type}pathologicDiagnosisForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}pathologicDiagnosisForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherSgn" maxlength="64">${pathologicDiagnosisResult.otherSgn }</textarea>
 					</div>
@@ -83,10 +83,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${pathology_hereditary_nephropathy}">
 				<div class="box-style">
-					<input id="${obj.type}pathologicDiagnosisForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}pathologicDiagnosisForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherHereditaryNephropathy" maxlength="64">${pathologicDiagnosisResult.otherHereditaryNephropathy }</textarea>
 					</div>
@@ -107,10 +107,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${pathology_tin}">
 				<div class="box-style">
-					<input id="${obj.type}pathologicDiagnosisForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}pathologicDiagnosisForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}pathologicDiagnosisForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherTin" maxlength="64">${pathologicDiagnosisResult.otherTin }</textarea>
 					</div>

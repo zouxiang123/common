@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
 
-<<jsp:include page="../common/daterangepicker_include.jsp"></jsp:include>
+<jsp:include page="../common/daterangepicker_include.jsp"></jsp:include>
 <style type="text/css">
 	.personal-input1 {
 		  font-size: 15px !important;
@@ -56,6 +56,7 @@
 	}
 </style>
 	<input type="hidden" id="id" name="id" value="${patient.id }">
+	<input type="hidden" id="sysOwner" name="sysOwner" value="${patient.sysOwner }"/>
 	<div class="fill-parent">
 		<div class="list-item margin-bottom-20 bg-white">
 			<div class="tab-body">
@@ -83,7 +84,7 @@
 														<td class="personal-value">
 												        	<select class="personal-input2" id="patientForm_CardType" name="patientCardList[0].cardType">
 																	<c:forEach var="obj" items="${medicare_card_type}" varStatus="status">
-																		<option value="${obj.value }" <c:if test="${obj.isChecked }">selected="selected"</c:if> >${obj.name}</option>
+																		<option value="${obj.itemCode }" <c:if test="${obj.isChecked }">selected="selected"</c:if> >${obj.itemName}</option>
 																	</c:forEach>
 															</select>
 												        	<input type="text"  placeholder="请输入卡号 " class="personal-input1" id="cardNo0" name="patientCardList[0].cardNo" value=""  />
@@ -96,13 +97,13 @@
 														</td>
 											        </tr>
 											        
-											   		 <c:forEach var="ptCard" items="${ptCardList}" varStatus="st">
+											   		 <c:forEach var="ptCard" items="${patientCardList}" varStatus="st">
 											   		 		<tr>
 																<td  class="personal-value">
 														   		 		<span class="personal-title" style="min-width:60px"></span>
 														   		 		<select class="personal-input2" id="patientCardList[${ st.index + 10}].cardType" name="patientCardList[${ st.index + 10}].cardType">
 												   		 					<c:forEach var="obj" items="${medicare_card_type}" varStatus="status">
-																				<option value="${obj.value }" <c:if test="${obj.value== ptCard.cardType }">selected="selected"</c:if> >${obj.name}</option>
+																				<option value="${obj.itemCode }" <c:if test="${obj.itemCode== ptCard.cardType }">selected="selected"</c:if> >${obj.itemName}</option>
 																			</c:forEach>
 																		</select> 
 																		<input type="hidden" value="${ptCard.delFlag}" name="patientCardList[${ st.index + 10}].delFlag" >
@@ -330,11 +331,11 @@
 		        	html+='<td class="personal-value">';
 		        	html+='<select class="personal-input2" id="patientForm_CardType" + cards_i + "" name="patientCardList['+cards_i+'].cardType"> ';
 		        	html+='<c:forEach var="obj" items="${medicare_card_type }" varStatus="status">';
-		        	html+='<option value="${obj.value }" <c:if test="${obj.isChecked }">selected="selected"</c:if> >${obj.name }</option></c:forEach></select>';
+		        	html+='<option value="${obj.itemCode }" <c:if test="${obj.isChecked }">selected="selected"</c:if> >${obj.itemName }</option></c:forEach></select>';
 		            html+='&nbsp;<input type="text" placeholder="请输入卡号 " class="personal-input1"  name="patientCardList['+cards_i+'].cardNo" + cards_i + ""/> ';
 		            html+='</td>';
 		            html+='<td align="left">';
-		            html+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="dialog-delete" name ="imgDel_'+ cards_i +'" src="' + contextPath + '/assets/img/dialog-delete.png" onclick="removeAddCardNos(this)"> ';
+		            html+='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="dialog-delete" name ="imgDel_'+ cards_i +'" src="' + ctx + '/assets/img/dialog-delete.png" onclick="removeAddCardNos(this)"> ';
 		            html+='</td>';
 		            html+='</tr>';	
 		            $("#main").append(html);
@@ -346,7 +347,7 @@
         
      	$('#queryPatientInfo').click(function() {
         	$.ajax({
-				url : contextPath + "/doctor/wsQueryPatientInfo.shtml",
+				url : ctx + "/patient/wsQueryPatientInfo.shtml",
 				data : {
 					cardNo: $("#cardNo0").val()
 		        },

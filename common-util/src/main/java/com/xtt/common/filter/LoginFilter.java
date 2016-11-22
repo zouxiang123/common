@@ -84,25 +84,26 @@ public class LoginFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
+
+		String url = request.getScheme().concat("://").concat(request.getServerName()).concat(request.getContextPath());
 		if (needRedirect) {
 			// 校验是否为登入登出操作
-			String redirectUrl = null;
+			String goToUrl = null;
 			if (SSOClientUtil.verifyURLContainPath(request.getServletPath(), "login")) {
-				redirectUrl = "login";
+				goToUrl = "login";
 			} else if (SSOClientUtil.verifyURLContainPath(request.getServletPath(), "logout")) {
-				redirectUrl = "logout";
+				goToUrl = "logout";
 			}
-			if (StringUtil.isNotBlank(redirectUrl)) {
-				String url = request.getScheme().concat("://").concat(request.getServerName()).concat(request.getContextPath()).concat("/");
+			if (StringUtil.isNotBlank(goToUrl)) {
 				if (StringUtil.isNotBlank(homePath)) {
-					url = url.concat(homePath).concat(".shtml");
+					url = url.concat("/").concat(homePath).concat(".shtml");
 				}
 				url = URLEncoder.encode(url, "UTF-8");
-				response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "/" + redirectUrl + ".shtml?redirectUrl=" + url);
+				response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat("/").concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
 				return;
 			}
 		}
-		String url = request.getRequestURL().toString();
+		url = url.concat(request.getServletPath());
 		if (!isLogin(request, authMap)) {
 			if (HttpServletUtil.isAjaxRequest(request)) {// if is ajax request return;
 				response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

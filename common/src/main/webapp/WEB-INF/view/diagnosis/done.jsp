@@ -19,7 +19,7 @@
 				if ($(this).find("img").hasClass("arrow-up")) {
 					$(this).find("span").html("编辑");
 					$(this).parent().find(".tip-line").css("background", "#31AAFF");
-					$(this).find("img").attr("src", contextPath + "/assets/img/arrow-down.png").removeClass("arrow-up").addClass("arrow-down");
+					$(this).find("img").attr("src", ctx + "/assets/img/arrow-down.png").removeClass("arrow-up").addClass("arrow-down");
 					tabBody.show();
 				}
 			}
@@ -49,7 +49,7 @@
 							removeUrlStackLast();
 							parent.showConfirm("确认完成所有的步骤吗？", function() {
 									$.ajax({
-									url : basePath + "doctor/saveFirstDone.shtml",
+									url : ctx + "/patient/diagnosis/saveFirstDone.shtml",
 									data : "fkPatientDiagnosisId=" + $("#fkPatientDiagnosisId").val(),
 									type : "post",
 									dataType : "json",
@@ -58,11 +58,11 @@
 										if (data) {
 											var barLen = window.parent.$('#contentBar').children("div").length;
 											if (barLen == 8) {
-											 	/* window.parent.window.location.href = contextPath + "/patient/getUnfinished.shtml"; */
-												window.parent.window.location.href = basePath + "/patient/diagnosisInfo.shtml?patientId="
+											 	/* window.parent.window.location.href = ctx + "/patient/getUnfinished.shtml"; */
+												window.parent.window.location.href = ctx + "/patient/diagnosis/diagnosisInfo.shtml?patientId="
 												+ window.parent.$("#fkPatientId").val(); 
 											} else if (barLen == 4) {
-											 	window.parent.window.location.href = contextPath + "/patient/diagnosisInfo.shtml?patientId=" + window.parent.$("#fkPatientId").val();
+											 	window.parent.window.location.href = ctx + "/patient/diagnosis/diagnosisInfo.shtml?patientId=" + window.parent.$("#fkPatientId").val();
 											}
 											var tip = "<div id='tip' align='right'><font size='5px;' color='red'>恭喜你，保存成功</font></div>";
 											$("#done").append(tip);
@@ -208,17 +208,17 @@
 
 											<c:forEach var="ptCard" items="${patientCardList}" varStatus="status">
 												<c:forEach var="obj" items="${medicare_card_type}">
-													<c:if test="${obj.value==ptCard.cardType}">
+													<c:if test="${obj.itemCode==ptCard.cardType}">
 														<c:if test="${status.index%2==0 }">
 															<tr>
 																<td width="360"></td>
-																<td width="150" class="personal-key">${obj.name}：</td>
+																<td width="150" class="personal-key">${obj.itemName}：</td>
 																<td width="18"></td>
 																<td width="200" class="personal-value">${ptCard.cardNo}</td>
 														</c:if>
 														<c:if test="${status.index%2!=0 }">
 															<td></td>
-															<td width="150" class="personal-key">${obj.name}：</td>
+															<td width="150" class="personal-key">${obj.itemName}：</td>
 															<td width="18"></td>
 															<td width="200" class="personal-value">${ptCard.cardNo}</td>
 															<td width="300"></td>
@@ -281,7 +281,7 @@
 							<c:forEach var="obj" items="${first_dialysis_method}">
 								<c:if test="${obj.isChecked}">
 									<input type="radio" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
 							</c:forEach>
 						</div>
@@ -302,8 +302,8 @@
 							<c:forEach var="obj" items="${hemorrhage}">
 								<c:if test="${obj.isChecked}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}
-										<c:if test="${ !empty medicalHistory.hemorrhageRemark&&obj.value=='00'}">: ${medicalHistory.hemorrhageRemark}</c:if>
+									<label class="form-span form-checkbox-label">${obj.itemName}
+										<c:if test="${ !empty medicalHistory.hemorrhageRemark&&obj.itemCode=='00'}">: ${medicalHistory.hemorrhageRemark}</c:if>
 									</label>
 								</c:if>
 							</c:forEach>
@@ -315,8 +315,8 @@
 							<c:forEach var="obj" items="${heart_defects}">
 								<c:if test="${obj.isChecked}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}
-										<c:if test="${ !empty medicalHistory.heartDefectsRemark&&obj.value=='00'}">: ${medicalHistory.heartDefectsRemark}</c:if>
+									<label class="form-span form-checkbox-label">${obj.itemName}
+										<c:if test="${ !empty medicalHistory.heartDefectsRemark&&obj.itemCode=='00'}">: ${medicalHistory.heartDefectsRemark}</c:if>
 									</label>
 								</c:if>
 							</c:forEach>
@@ -379,24 +379,24 @@
 										<label class="form-span form-radio-label">开始时间：${ miedical.mhrStartTimeShow}</label>
 										
 										<c:forEach var="obj" items="${xtStartReason}">
-												<c:if test="${!empty miedical.mhrStartreasonOrname&& obj.value==miedical.mhrStartreasonOrname}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname&& obj.itemCode==miedical.mhrStartreasonOrname}">
 													<label class="form-span form-radio-label">开始原因：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label><br/>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label><br/>
 												</c:if>
-												<c:if test="${!empty miedical.mhrStartreasonOrname && miedical.mhrStartreasonOrname == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname && miedical.mhrStartreasonOrname == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他开始原因：${miedical.mhrStartortherreason}</label><br/>
 												</c:if>
 										</c:forEach>
 										<label class="form-span form-radio-label">结束时间：${miedical.mhrEndTimeShow}</label>
 										
 										<c:forEach var="obj" items="${xtEndReason}">
-												<c:if test="${!empty miedical.mhrEndreason && obj.value ==miedical.mhrEndreason}">
+												<c:if test="${!empty miedical.mhrEndreason && obj.itemCode ==miedical.mhrEndreason}">
 													<label class="form-span form-radio-label">结束原因：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label><br/>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label><br/>
 												</c:if>
-												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他结束原因：${miedical.mhrEndotherreason}</label><br/>
 												</c:if>
 										</c:forEach>
@@ -419,12 +419,12 @@
 										<label class="form-span form-radio-label">开始时间：${ miedical.mhrStartTimeShow}</label><br/>
 										
 										<c:forEach var="obj" items="${ftStartReason}">
-												<c:if test="${!empty miedical.mhrStartreasonOrname&& obj.value==miedical.mhrStartreasonOrname}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname&& obj.itemCode==miedical.mhrStartreasonOrname}">
 													<label class="form-span form-radio-label">开始原因：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label><br/>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label><br/>
 												</c:if>
-												<c:if test="${!empty miedical.mhrStartreasonOrname && miedical.mhrStartreasonOrname == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname && miedical.mhrStartreasonOrname == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他开始原因：${miedical.mhrStartortherreason}</label><br/>
 												</c:if>
 										</c:forEach>
@@ -433,12 +433,12 @@
 										<label class="form-span form-radio-label">结束时间：${miedical.mhrEndTimeShow}</label>
 										<br/>
 										<c:forEach var="obj" items="${ftEndReason}">
-												<c:if test="${!empty miedical.mhrEndreason && obj.value ==miedical.mhrEndreason}">
+												<c:if test="${!empty miedical.mhrEndreason && obj.itemCode ==miedical.mhrEndreason}">
 													<label class="form-span form-radio-label">结束原因：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
-												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他结束原因：${ miedical.mhrEndotherreason}</label>
 												</c:if>
 										</c:forEach>
@@ -463,12 +463,12 @@
 										<label class="form-span form-radio-label">结束时间：${miedical.mhrEndTimeShow}</label></br>
 										
 										<c:forEach var="obj" items="${syzEndReason}">
-												<c:if test="${!empty miedical.mhrEndreason && obj.value ==miedical.mhrEndreason}">
+												<c:if test="${!empty miedical.mhrEndreason && obj.itemCode ==miedical.mhrEndreason}">
 													<label class="form-span form-radio-label">结束原因：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
-												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他结束原因：${ miedical.mhrEndotherreason}</label>
 												</c:if>
 										</c:forEach>
@@ -492,12 +492,12 @@
 											<label class="form-span form-radio-label">录入日期：${ miedical.mhrStartTimeShow}</label><br/>
 										
 											<c:forEach var="obj" items="${gmResouce}">
-												<c:if test="${!empty miedical.mhrEndreason && obj.value ==miedical.mhrEndreason}">
+												<c:if test="${!empty miedical.mhrEndreason && obj.itemCode ==miedical.mhrEndreason}">
 													<label class="form-span form-radio-label">过敏源：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
-												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他过敏源：${ miedical.mhrEndotherreason}</label>
 												</c:if>
 											</c:forEach>
@@ -525,30 +525,30 @@
 											
 											<label class="form-span form-radio-label">诊断名称：</label>
 											<c:forEach var="obj" items="${bs_crbzdmc}">
-												<c:if test="${!empty miedical.mhrStartreasonOrname&& fn:contains(miedical.mhrStartreasonOrname,obj.value)}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname&& fn:contains(miedical.mhrStartreasonOrname,obj.itemCode)}">
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
-												<c:if test="${!empty miedical.mhrStartreasonOrname && fn:contains(miedical.mhrStartreasonOrname,'00')&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrStartreasonOrname && fn:contains(miedical.mhrStartreasonOrname,'00')&& obj.itemCode == '00'}">
 													<label class="form-span form-radio-label">其他诊断名称：${ miedical.mhrStartortherreason}</label>
 												</c:if>
 											</c:forEach><br/>
 											
 											<c:forEach var="obj" items="${bs_crbhdzt}">
-												<c:if test="${!empty miedical.activitystatus && obj.value != miedical.activitystatus}">
+												<c:if test="${!empty miedical.activitystatus && obj.itemCode != miedical.activitystatus}">
 													<label class="form-span form-radio-label">活动状态：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
 											</c:forEach><br/>
 											
 											<c:forEach var="obj" items="${bs_crbzlqk}">
-												<c:if test="${!empty miedical.mhrEndreason && obj.value ==miedical.mhrEndreason}">
+												<c:if test="${!empty miedical.mhrEndreason && obj.itemCode ==miedical.mhrEndreason}">
 													<label class="form-span form-radio-label">治疗情况：</label>
 													<input type="checkbox" checked>
-													<label class="form-span form-checkbox-label">${obj.name}</label>
+													<label class="form-span form-checkbox-label">${obj.itemName}</label>
 												</c:if>
-												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.value == '00'}">
+												<c:if test="${!empty miedical.mhrEndotherreason && miedical.mhrEndotherreason == '00'&& obj.itemCode == '00'}">
 													<span class="td-span-margin">其他治疗情况：${ miedical.mhrEndotherreason}</span>
 												</c:if>
 											</c:forEach><br/>
@@ -616,11 +616,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">原发性肾小球疾病：</span>
 								<c:forEach var="obj" items="${clinical_pgn}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherPgn}</span>
 									</c:if>
 								</c:forEach>
@@ -630,11 +630,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">继发性肾小球疾病：</span>
 								<c:forEach var="obj" items="${clinical_sgn}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherSgn}</span>
 									</c:if>
 								</c:forEach>
@@ -644,11 +644,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">遗传性及先天性肾病：</span>
 								<c:forEach var="obj" items="${clinical_hereditary_nephropathy}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherHereditaryNephropathy}</span>
 									</c:if>
 								</c:forEach>
@@ -658,11 +658,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">肾小管间质疾病：</span>
 								<c:forEach var="obj" items="${clinical_tin}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherTin}</span>
 									</c:if>
 								</c:forEach>
@@ -680,11 +680,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">泌尿系统感染和结石：</span>
 								<c:forEach var="obj" items="${un_and_stone}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherUnAndStone}</span>
 									</c:if>
 								</c:forEach>
@@ -694,11 +694,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">肾脏切除术后：</span>
 								<c:forEach var="obj" items="${renal_resection}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ crf.otherRenalResection}</span>
 									</c:if>
 								</c:forEach>
@@ -726,11 +726,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">造成原因：</span>
 								<c:forEach var="obj" items="${serious_crf_reason}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ seriousCrf.otherReason}</span>
 									</c:if>
 								</c:forEach>
@@ -742,11 +742,11 @@
 							<div class="form-item">
 								<span class="form-span form-title width-180 text-right">造成原因：</span>
 								<c:forEach var="obj" items="${arf_reason}">
-									<c:if test="${obj.isChecked && obj.value != '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 										<input type="checkbox" checked>
-										<label class="form-span form-checkbox-label">${obj.name}</label>
+										<label class="form-span form-checkbox-label">${obj.itemName}</label>
 									</c:if>
-									<c:if test="${obj.isChecked && obj.value == '00'}">
+									<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 										<span class="td-span-margin">其他：${ arf.otherReason}</span>
 									</c:if>
 								</c:forEach>
@@ -794,11 +794,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">原发性肾小球疾病：</span>
 							<c:forEach var="obj" items="${pathology_pgn}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${ pathologicDiagnosisResult.otherPgn}</span>
 								</c:if>
 							</c:forEach>
@@ -809,11 +809,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">继发性肾小球疾病：</span>
 							<c:forEach var="obj" items="${pathology_sgn}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${ pathologicDiagnosisResult.otherSgn}</span>
 								</c:if>
 							</c:forEach>
@@ -824,11 +824,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">遗传性及先天性肾病：</span>
 							<c:forEach var="obj" items="${pathology_hereditary_nephropathy}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${ pathologicDiagnosisResult.otherHereditaryNephropathy}</span>
 								</c:if>
 							</c:forEach>
@@ -839,11 +839,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">肾小管间质疾病：</span>
 							<c:forEach var="obj" items="${pathology_tin}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${ pathologicDiagnosisResult.otherTin}</span>
 								</c:if>
 							</c:forEach>
@@ -894,7 +894,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">类型：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -902,7 +902,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">分期：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -917,7 +917,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">分期：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -933,7 +933,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">类型：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -941,7 +941,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">分期：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -949,7 +949,7 @@
 								<c:if test="${obj.isChecked}">
 									<div class="form-item-box">
 										<span class="form-span form-title width-180 text-right">分期：</span>
-										<label class="form-span form-radio-label">${obj.name}</label>
+										<label class="form-span form-radio-label">${obj.itemName}</label>
 									</div>
 								</c:if>
 							</c:forEach>
@@ -971,11 +971,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">骨矿物质代谢紊乱：</span>
 							<c:forEach var="obj" items="${gkwzdxwl_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.gkwzdxwlOther}</span>
 								</c:if>
 							</c:forEach>
@@ -985,11 +985,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">淀粉样变性：</span>
 							<c:forEach var="obj" items="${dfybx_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.dfypxOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1000,11 +1000,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">呼吸系统：</span>
 							<c:forEach var="obj" items="${hxxt_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.hxxtOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1016,11 +1016,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">心血管系统：</span>
 							<c:forEach var="obj" items="${xxgxt_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.xxgxtOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1031,11 +1031,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">神经系统：</span>
 							<c:forEach var="obj" items="${sjxt_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.sjxtOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1053,11 +1053,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">血液系统：</span>
 							<c:forEach var="obj" items="${xyxt_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.xyxtOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1069,11 +1069,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">合并肿瘤:</span>
 							<c:forEach var="obj" items="${hbzl_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.hbzlOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1085,11 +1085,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">合并感染：</span>
 							<c:forEach var="obj" items="${hbgr_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.hbgrOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1101,11 +1101,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">自身免疫性疾病：</span>
 							<c:forEach var="obj" items="${zsmyxjb_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.zsmyxjbOther}</span>
 								</c:if>
 							</c:forEach>
@@ -1117,11 +1117,11 @@
 						<div class="form-item">
 							<span class="form-span form-title width-180 text-right">内分泌及代谢系统：</span>
 							<c:forEach var="obj" items="${nfmjdxxt_info}">
-								<c:if test="${obj.isChecked && obj.value != '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode != '00'}">
 									<input type="checkbox" checked>
-									<label class="form-span form-checkbox-label">${obj.name}</label>
+									<label class="form-span form-checkbox-label">${obj.itemName}</label>
 								</c:if>
-								<c:if test="${obj.isChecked && obj.value == '00'}">
+								<c:if test="${obj.isChecked && obj.itemCode == '00'}">
 									<span class="td-span-margin">其他：${cureSymptomAndCondition.nfmjdxxtOther}</span>
 								</c:if>
 							</c:forEach>

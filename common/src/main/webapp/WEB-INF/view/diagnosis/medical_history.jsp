@@ -43,9 +43,9 @@
 		<div class="fill-parent bg-white content-editing-wrap" style="margin-left:40px">
 			<div class="form-item td-radio-margin">
 				<c:forEach var="obj" items="${first_dialysis_method}" varStatus="status">
-					<input type="radio" id="medicalHistoryForm_firstDialysisMethod_${status.index }" name="firstDialysisMethod" value="${obj.value}"
+					<input type="radio" id="medicalHistoryForm_firstDialysisMethod_${status.index }" name="firstDialysisMethod" value="${obj.itemCode}"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="medicalHistoryForm_firstDialysisMethod_${status.index }" class="form-span form-radio-label">${obj.name}</label>
+					<label for="medicalHistoryForm_firstDialysisMethod_${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 			</div>
 		</div>
@@ -63,9 +63,9 @@
 		<div class="fill-parent bg-white content-editing-wrap" style="margin-left:40px">
 			<div class="form-item td-radio-margin"  id="hasCavRemark">
 				<c:forEach var="obj" items="${hasCva}" varStatus="status">
-					<input type="radio" id="medicalHistoryForm_hasCva_${status.index }" name="hasCva" value="${obj.value}"   onchange="historyRemark()"
+					<input type="radio" id="medicalHistoryForm_hasCva_${status.index }" name="hasCva" value="${obj.itemCode}"   onchange="historyRemark()"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="medicalHistoryForm_hasCva_${status.index }" class="form-span form-radio-label">${obj.name}</label>
+					<label for="medicalHistoryForm_hasCva_${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 				<div  style="display: none" id="hasCavRemarkText">
 					<textarea  rows="1" class="form-control" name="hascvaRemark" maxlength="64" >${medicalHistory.hascvaRemark}</textarea>
@@ -86,11 +86,11 @@
 		<div class="fill-parent bg-white content-editing-wrap" style="margin-left:40px">
 			<c:forEach var="obj" items="${hemorrhage}">
 				<div class="box-style">
-					<input id="${obj.type}medicalHistoryForm${obj.value}" type="checkbox" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.type}medicalHistoryForm${obj.value}"
-						class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}medicalHistoryForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.pItemCode}medicalHistoryForm${obj.itemCode}"
+						class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == '00'}">
+				<c:if test="${obj.itemCode == '00'}">
 						<div class="form-group textarea-margin other hide">
 							<textarea rows="1" class="form-control" name="hemorrhageRemark" maxlength="64">${medicalHistory.hemorrhageRemark}</textarea>
 						</div>
@@ -112,11 +112,11 @@
 		<div class="fill-parent bg-white content-editing-wrap" style="margin-left:40px">
 			<c:forEach var="obj" items="${heart_defects}">
 				<div class="box-style">
-					<input id="${obj.type}medicalHistoryForm${obj.value}" type="checkbox" value="${obj.value}"  onchange="historyRemarkA()"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.type}medicalHistoryForm${obj.value}"
-						class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}medicalHistoryForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}"  onchange="historyRemarkA()"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.pItemCode}medicalHistoryForm${obj.itemCode}"
+						class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == '00'}">
+				<c:if test="${obj.itemCode == '00'}">
 							<div class="form-group textarea-margin other hide">
 								<textarea rows="1" class="form-control" name="heartDefectsRemark" maxlength="64">${medicalHistory.heartDefectsRemark}</textarea>
 							</div>
@@ -138,9 +138,9 @@
 		<div class="fill-parent bg-white content-editing-wrap"  style="margin-left:40px">
 			<div class="form-item td-radio-margin"  id="vascularDisease">
 				<c:forEach var="obj" items="${hasVascularDisease}" varStatus="status">
-					<input type="radio" id="medicalHistoryForm_hasVascularDisease_${status.index }" name="hasVascularDisease" value="${obj.value}"   onchange="historyRemarkA()"
+					<input type="radio" id="medicalHistoryForm_hasVascularDisease_${status.index }" name="hasVascularDisease" value="${obj.itemCode}"   onchange="historyRemarkA()"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="medicalHistoryForm_hasVascularDisease_${status.index }" class="form-span form-radio-label">${obj.name}</label>
+					<label for="medicalHistoryForm_hasVascularDisease_${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 				<div >
 							<textarea rows="1"   style="display: none;" id="vascularDiseaseText"  class="form-control" name="hasvasculardiseaseRemark" maxlength="64">${medicalHistory.hasvasculardiseaseRemark}</textarea>
@@ -161,9 +161,9 @@
 		<div class="fill-parent bg-white content-editing-wrap"  style="margin-left:40px">
 			<div class="form-item td-radio-margin">
 				<c:forEach var="obj" items="${hasSeriousDisease}" varStatus="status">
-					<input type="radio" id="medicalHistoryForm_hasSeriousDisease_${status.index }" name="hasSeriousDisease" value="${obj.value}"
+					<input type="radio" id="medicalHistoryForm_hasSeriousDisease_${status.index }" name="hasSeriousDisease" value="${obj.itemCode}"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="medicalHistoryForm_hasSeriousDisease_${status.index }" class="form-span form-radio-label">${obj.name}</label>
+					<label for="medicalHistoryForm_hasSeriousDisease_${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 			</div>
 		</div>
@@ -181,9 +181,9 @@
 		<div class="fill-parent bg-white content-editing-wrap"  style="margin-left:40px">
 			<div class="form-item td-radio-margin"  id="haspsychosisRemark">
 				<c:forEach var="obj" items="${hasPsychosis}" varStatus="status">
-					<input type="radio" id="medicalHistoryForm_hasPsychosis_${status.index }" name="hasPsychosis" value="${obj.value}"   onchange="historyRemarkB()"
+					<input type="radio" id="medicalHistoryForm_hasPsychosis_${status.index }" name="hasPsychosis" value="${obj.itemCode}"   onchange="historyRemarkB()"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="medicalHistoryForm_hasPsychosis_${status.index }" class="form-span form-radio-label">${obj.name}</label>
+					<label for="medicalHistoryForm_hasPsychosis_${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 				<div >
 					<textarea  style="display: none;" id="haspsychosisRemarkRemarkText"    rows="1" class="form-control" name="haspsychosisRemark" maxlength="64"   id="psychosisRemarkRemarkText">${medicalHistory.haspsychosisRemark}</textarea>
@@ -252,11 +252,11 @@
 							开始原因：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${xtStartReason}"   varStatus="status" >
 								<div class="box-style">
-									  <input  disabled="disabled"   type="radio" value="${obj.value}"  name="mhrMarkType[1].mhrStartreasonOrname${status.index }"  value="${obj.value}" 
-									    <c:if test="${miedical.mhrStartreasonOrname==obj.value}">checked="checked" </c:if>  disabled="disabled"/>
-									  <label for="${obj.type}medicalHistoryForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input  disabled="disabled"   type="radio" value="${obj.itemCode}"  name="mhrMarkType[1].mhrStartreasonOrname${status.index }"  value="${obj.itemCode}" 
+									    <c:if test="${miedical.mhrStartreasonOrname==obj.itemCode}">checked="checked" </c:if>  disabled="disabled"/>
+									  <label for="${obj.pItemCode}medicalHistoryForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea disabled="disabled"  rows="1" class="form-control"   name="xtStartReasonOther" maxlength="64">${miedical.mhrStartortherreason}</textarea>
 									</div>
@@ -273,11 +273,11 @@
 							结束原因：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${xtEndReason}"   varStatus="status">
 								<div class="box-style">
-									  <input disabled="disabled"   type="radio" value="${obj.value}" name="xtEndReason${status.index }"
-									  <c:if test="${miedical.mhrEndreason==obj.value}">checked="checked" </c:if>   disabled="disabled"/>
-									  <label for="${obj.type}medicalHistoryForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input disabled="disabled"   type="radio" value="${obj.itemCode}" name="xtEndReason${status.index }"
+									  <c:if test="${miedical.mhrEndreason==obj.itemCode}">checked="checked" </c:if>   disabled="disabled"/>
+									  <label for="${obj.pItemCode}medicalHistoryForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea disabled="disabled"  rows="1" class="form-control"   name="xtEndReasonOther" maxlength="64">${miedical.mhrEndotherreason}</textarea>
 									</div>
@@ -322,11 +322,11 @@
 							开始原因：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${ftStartReason}"   varStatus="status" >
 								<div class="box-style">
-									  <input  disabled="disabled"   type="radio" value="${obj.value}"  name="mhrMarkType[1].mhrStartreasonOrname${status.index }"  value="${obj.value}" 
-									    <c:if test="${miedical.mhrStartreasonOrname==obj.value}">checked="checked" </c:if>  disabled="disabled"/>
-									  <label for="${obj.type}medicalHistoryForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input  disabled="disabled"   type="radio" value="${obj.itemCode}"  name="mhrMarkType[1].mhrStartreasonOrname${status.index }"  value="${obj.itemCode}" 
+									    <c:if test="${miedical.mhrStartreasonOrname==obj.itemCode}">checked="checked" </c:if>  disabled="disabled"/>
+									  <label for="${obj.pItemCode}medicalHistoryForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea disabled="disabled"  rows="1" class="form-control"   name="xtStartReasonOther" maxlength="64">${miedical.mhrStartortherreason}</textarea>
 									</div>
@@ -343,11 +343,11 @@
 							结束原因：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${ftEndReason}"  varStatus="status">
 								<div class="box-style">
-									  <input  disabled="disabled"   type="radio" value="${obj.value}" name="ftEndReason${status.index }"
-									  <c:if test="${miedical.mhrEndreason==obj.value}">checked="checked"</c:if>  />
-									  <label for="${obj.type}ftEndReason${obj.value}"  class="form-span form-radio-label">${obj.name}</label>
+									  <input  disabled="disabled"   type="radio" value="${obj.itemCode}" name="ftEndReason${status.index }"
+									  <c:if test="${miedical.mhrEndreason==obj.itemCode}">checked="checked"</c:if>  />
+									  <label for="${obj.pItemCode}ftEndReason${obj.itemCode}"  class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea rows="1" class="form-control"   disabled="disabled"   name="ftEndReasonOther" maxlength="64">${miedical.mhrEndotherreason}</textarea>
 									</div>
@@ -397,11 +397,11 @@
 							结束原因：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							 <c:forEach var="obj" items="${syzEndReason}"   varStatus="status">
 								<div class="box-style">
-									  <input    type="radio"  id="${obj.type}syzEndReason${obj.value}"  value="${obj.value}" name="syzEndReason${status.index }"   disabled="disabled" 
-									  <c:if test="${obj.value==miedical.mhrEndreason}">checked="checked"</c:if>   />
-									  <label for="${obj.type}syzEndReason${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input    type="radio"  id="${obj.pItemCode}syzEndReason${obj.itemCode}"  value="${obj.itemCode}" name="syzEndReason${status.index }"   disabled="disabled" 
+									  <c:if test="${obj.itemCode==miedical.mhrEndreason}">checked="checked"</c:if>   />
+									  <label for="${obj.pItemCode}syzEndReason${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea rows="1" class="form-control"   disabled="disabled"    name="syzEndReasonOther" maxlength="64">${miedical.mhrEndotherreason}</textarea>
 									</div>
@@ -446,11 +446,11 @@
 							过敏源：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${gmResouce}"   varStatus="status" >
 								<div class="box-style">
-									  <input  disabled="disabled"  type="radio"   id="${obj.type}gmReason${obj.value}${status.index}"   value="${obj.value}" name="gmResouce${status.index}"
-									  <c:if test="${miedical.mhrEndreason==obj.value}">checked="checked"</c:if> />
-									  <label for="${obj.type}gmReason${obj.value}${status.index}" class="form-span form-radio-label">${obj.name}</label>
+									  <input  disabled="disabled"  type="radio"   id="${obj.pItemCode}gmReason${obj.itemCode}${status.index}"   value="${obj.itemCode}" name="gmResouce${status.index}"
+									  <c:if test="${miedical.mhrEndreason==obj.itemCode}">checked="checked"</c:if> />
+									  <label for="${obj.pItemCode}gmReason${obj.itemCode}${status.index}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea rows="1" class="form-control" name="gmResouceOther"  disabled="disabled"  maxlength="64">${miedical.mhrEndotherreason}</textarea>
 									</div>
@@ -498,11 +498,11 @@
 							诊断名称：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${bs_crbzdmc}"  varStatus="status" >
 								<div class="box-style"   name="crb">
-									  <input id="${obj.type}crbEndReason${obj.value}${status.index}"   type="checkbox" value="${obj.value}"   name="ftEndReason"
-									  <c:if test="${fn:contains(miedical.mhrStartreasonOrname,obj.value)}">checked="checked"</c:if>  disabled="disabled" />
-									  <label for="${obj.type}crbEndReason${obj.value}${status.index}"   class="form-span form-radio-label">${obj.name}</label>
+									  <input id="${obj.pItemCode}crbEndReason${obj.itemCode}${status.index}"   type="checkbox" value="${obj.itemCode}"   name="ftEndReason"
+									  <c:if test="${fn:contains(miedical.mhrStartreasonOrname,obj.itemCode)}">checked="checked"</c:if>  disabled="disabled" />
+									  <label for="${obj.pItemCode}crbEndReason${obj.itemCode}${status.index}"   class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 									<div class="form-group textarea-margin other hide">
 										<textarea rows="1" class="form-control"   maxlength="64">${miedical.mhrStartortherreason}</textarea>
 									</div>
@@ -515,9 +515,9 @@
 							活动状态：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${bs_crbhdzt}"  varStatus="status">
 								<div class="box-style">
-									  <input  type="radio"  id="${obj.type}crbEndReason${obj.value}"  value="${obj.value}" name="crbDiaStatus${status.index }"  
-									  <c:if test="${miedical.activitystatus==obj.value}">checked="checked"</c:if>   disabled="disabled"/>
-									  <label for="${obj.type}crbEndReason${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input  type="radio"  id="${obj.pItemCode}crbEndReason${obj.itemCode}"  value="${obj.itemCode}" name="crbDiaStatus${status.index }"  
+									  <c:if test="${miedical.activitystatus==obj.itemCode}">checked="checked"</c:if>   disabled="disabled"/>
+									  <label for="${obj.pItemCode}crbEndReason${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
 							</c:forEach>
 						</td>
@@ -527,11 +527,11 @@
 							治疗情况：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<c:forEach var="obj" items="${bs_crbzlqk}"  varStatus="status">
 								<div class="box-style">
-									  <input  type="radio"  id="${obj.type}crbEndReason${obj.value}"  value="${obj.value}" name="crbCase${status.index }"  disabled="disabled"
-									  <c:if test="${miedical.mhrEndreason==obj.value}">checked="checked"</c:if> />
-									  <label for="${obj.type}crbEndReason${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+									  <input  type="radio"  id="${obj.pItemCode}crbEndReason${obj.itemCode}"  value="${obj.itemCode}" name="crbCase${status.index }"  disabled="disabled"
+									  <c:if test="${miedical.mhrEndreason==obj.itemCode}">checked="checked"</c:if> />
+									  <label for="${obj.pItemCode}crbEndReason${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 								</div>
-								<c:if test="${obj.value == '00'}">
+								<c:if test="${obj.itemCode == '00'}">
 										<div class="form-group textarea-margin other hide">
 											<textarea rows="1"  class="form-control"  maxlength="64"  disabled="disabled">${miedical.mhrEndotherreason}</textarea>
 										</div>
@@ -569,4 +569,4 @@
 	<button type="button" onclick="checkTime(this);" class="btn btn-def btn-ls center-block" style="margin-top: 20px;">保存并下一步</button>
 </form>
 
-<script src="${ctx }/assets/js/system/medicalHistoryRemark.js?version=${version}"></script>
+<script src="${ctx }/assets/js/diagnosis/medicalHistoryRemark.js?version=${version}"></script>

@@ -96,7 +96,7 @@
 	</div>
 	</div>
 	<script src="${ctx }/framework/echarts/2.2.7/echarts-simple.js"></script>
-	<script src="${ctx }/assets/js/assay/patient_assay_report.js?version=${version}"></script>
 	<script src="${ctx }/assets/js/assay/patient_assay_chart.js?version=${version}"></script>
+	<script src="${ctx }/assets/js/assay/patient_assay_record.js?version=${version}"></script>
 </body>
 </html>

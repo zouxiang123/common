@@ -8,6 +8,7 @@
  */
 package com.xtt.common.patient.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
@@ -29,7 +31,17 @@ import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.FileUtil;
+import com.xtt.common.util.HttpServletUtil;
+import com.xtt.common.util.UserUtil;
+import com.xtt.common.webservice.IWsHisService;
+import com.xtt.common.webservice.WsHisService;
+import com.xtt.platform.util.http.HttpClientResultUtil;
+import com.xtt.platform.util.http.HttpClientUtil;
+import com.xtt.platform.util.io.JsonUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Controller
 @RequestMapping("/patient/")
@@ -62,7 +74,7 @@ public class PatientController {
 			if (patient != null) {
 				cardList = patientCardService.selectByPatientId(patient.getId());
 			}
-			model.addObject("ptCardList", cardList);// 卡号信息
+			model.addObject("patientCardList", cardList);// 卡号信息
 		}
 		model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
 						CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
@@ -109,5 +121,101 @@ public class PatientController {
 						CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
 		retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
 		return retMap;
+	}
+
+	/**
+	 * 验证身份证号码是否存在
+	 * 
+	 * @Title: checkPatientExistByIdNumber
+	 * @param patient
+	 * @return
+	 * 
+	 */
+	@RequestMapping("checkPatientExistByIdNumber")
+	@ResponseBody
+	public HashMap<String, Object> checkPatientExistByIdNumber(Long id, String idNumber) {
+		boolean exist = patientService.checkPatientExistByIdNumber(id, idNumber);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("exist", exist);
+		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+		return map;
+	}
+
+	/**
+	 * 保存患者信息
+	 * 
+	 * @Title: savePatientImage
+	 * @param patient
+	 * @return
+	 * @throws IOException
+	 * @throws IllegalStateException
+	 * 
+	 */
+	@RequestMapping("savePatientImage")
+	@ResponseBody
+	public HashMap<String, Object> savePatientImage(MultipartFile image, String id) throws IllegalStateException, IOException {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/";
+		if (id == null) {
+			String newFilename = "/patient/" + System.currentTimeMillis() + ".png";
+			FileUtil.uploadFile(image, path + newFilename);
+			BusinessCommonUtil.compressPic(path, newFilename);
+			map.put("status", CommonConstants.SUCCESS);
+			map.put("filepath", "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + newFilename);
+		} else {
+			String newFilename = "/patient/" + id + ".png";
+			FileUtil.uploadFile(image, path + newFilename);
+			BusinessCommonUtil.compressPic(path, newFilename);
+			map.put("status", CommonConstants.SUCCESS);
+			map.put("filepath", "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + newFilename);
+		}
+		return map;
+	}
+
+	/**
+	 * 调用第三方接口获取病患基本资料
+	 * 
+	 * @param cardNo
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping("wsQueryPatientInfo")
+	@ResponseBody
+	public HashMap<String, Object> wsQueryPatientInfo(String cardNo) throws Exception {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		String tenantId = HttpServletUtil.getCookieValueByName("tenantId");
+		String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_PT);
+		String json = "";
+		if ("10101".equals(tenantId)) {
+			if (StringUtil.isNotEmpty(cardNo)) {
+				// 1=卡号 2=身份证号
+				int cardType = cardNo.length() != 18 ? 1 : 2;
+				// 传入参数
+				String parm = cardType + "," + cardNo;
+				// 调用webService接口
+				WsHisService gt = new WsHisService();
+				IWsHisService service = gt.getWsHisServicePort();
+				json = service.patientInfo(parm);
+
+			}
+		} else {
+			Map<String, String> qmap = new HashMap<String, String>();
+			qmap.put("cardNo", cardNo);
+			qmap.put("fkTenantId", tenantId);
+
+			HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
+			json = httpClientResultUtil.getContext();
+		}
+
+		PatientPO patient = JsonUtil.AllJsonUtil().fromJson(json, PatientPO.class);
+		if (patient != null) {
+			patient.setIdType("1");
+		}
+		map.put("patient", patient);
+		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+
+		return map;
 	}
 }

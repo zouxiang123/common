@@ -93,6 +93,6 @@
 	  }
 	  /**页面跳转 */
 	  function openPatientUrl(element,url,name){
-		 window.location.href = contextPath +"/"+url+".shtml?patientId=${patientId}";
+		 window.location.href = ctx +"/"+url+".shtml?patientId=${patientId}";
 	  };
 </script>

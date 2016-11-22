@@ -52,17 +52,6 @@ public interface ArfMapper {
 	int updateByPrimaryKey(Arf record);
 
 	/**
-	 * 根据透析活动ID查询最新历史记录
-	 * 
-	 * @Title: selectByDCId
-	 * @param dcId
-	 *            透析活动ID
-	 * @return MedicalHistory
-	 * 
-	 */
-	Arf selectByDCId(Long dcId);
-
-	/**
 	 * 根据透析活动ID取得信息
 	 * 
 	 * @Title: selectByDCId
@@ -71,7 +60,7 @@ public interface ArfMapper {
 	 * @return Arf
 	 * 
 	 */
-	Arf selectByPDId(Long pdId);
+	ArfPO selectByPDId(Long pdId);
 
 	/**
 	 * 根据患者ID查询历史记录

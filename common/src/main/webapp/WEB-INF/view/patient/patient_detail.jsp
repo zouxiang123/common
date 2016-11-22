@@ -139,17 +139,17 @@
 
 											<c:forEach var="ptCard" items="${patientCardList}" varStatus="status">
 												<c:forEach var="obj" items="${medicare_card_type}">
-													<c:if test="${obj.value==ptCard.cardType}">
+													<c:if test="${obj.itemCode==ptCard.cardType}">
 														<c:if test="${status.index%2==0 }">
 															<tr>
 																<td width="360"></td>
-																<td width="150" class="personal-key">${obj.name}：</td>
+																<td width="150" class="personal-key">${obj.itemName}：</td>
 																<td width="18"></td>
 																<td width="200" class="personal-value">${ptCard.cardNo}</td>
 														</c:if>
 														<c:if test="${status.index%2!=0 }">
 															<td></td>
-															<td width="150" class="personal-key">${obj.name}：</td>
+															<td width="150" class="personal-key">${obj.itemName}：</td>
 															<td width="18"></td>
 															<td width="200" class="personal-value">${ptCard.cardNo}</td>
 															<td width="300"></td>

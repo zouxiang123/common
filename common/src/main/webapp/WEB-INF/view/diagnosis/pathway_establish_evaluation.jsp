@@ -16,8 +16,8 @@
 				<div class="dialog-body">
 				<form id="newVahForm" method="post">
 					<c:forEach var="obj" items="${vascular_access_his_type}" varStatus="status">
-						<input id="newVahRadio${status.index }" type="radio" name="vahType" value="${obj.value}" />
-						<label for="newVahRadio${status.index }" class="form-span form-radio-label">${obj.name}</label>
+						<input id="newVahRadio${status.index }" type="radio" name="vahType" value="${obj.itemCode}" />
+						<label for="newVahRadio${status.index }" class="form-span form-radio-label">${obj.itemName}</label>
 					</c:forEach>
 					<div class="group-input">
 					<!-- 	<span>部位：</span> <input type="text" id="vahPosition" name="vahPosition" /><br />  -->
@@ -59,8 +59,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${dominant_side}">
 				<div class="form-item-box margin-bottom-10">
-					<input id="dominantSide${obj.value }" type="radio" name="dominantSide" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="dominantSide${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="dominantSide${obj.itemCode }" type="radio" name="dominantSide" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="dominantSide${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -78,8 +78,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${cardiac_pacemaker_his}">
 				<div class="form-item-box">
-					<input id="cardiacPacemakerHis${obj.value }" type="radio" name="cardiacPacemakerHis" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="cardiacPacemakerHis${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="cardiacPacemakerHis${obj.itemCode }" type="radio" name="cardiacPacemakerHis" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="cardiacPacemakerHis${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -97,8 +97,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasCongHeartFail}">
 				<div class="form-item-box">
-					<input id="hasCongHeartFail${obj.value }" type="radio" name="hasCongHeartFail" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasCongHeartFail${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasCongHeartFail${obj.itemCode }" type="radio" name="hasCongHeartFail" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasCongHeartFail${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -116,8 +116,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasPicc}">
 				<div class="form-item-box">
-					<input id="hasPicc${obj.value }" type="radio" name="hasPicc" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="hasPicc${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasPicc${obj.itemCode }" type="radio" name="hasPicc" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="hasPicc${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -135,8 +135,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasMody}">
 				<div class="form-item-box">
-					<input id="hasMody${obj.value }" type="radio" name="hasMody" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="hasMody${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasMody${obj.itemCode }" type="radio" name="hasMody" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="hasMody${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -154,11 +154,11 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${used_anastaltic}">
 				<div class="form-item-box margin-bottom-10">
-					<input id="${obj.type}pathwayEstablishEvaluationForm${obj.value}" type="checkbox" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.type}pathwayEstablishEvaluationForm${obj.value}"
-						class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}pathwayEstablishEvaluationForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="${obj.pItemCode}pathwayEstablishEvaluationForm${obj.itemCode}"
+						class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="margin-right-16 other <c:if test="${!obj.isChecked}">hide</c:if>">
 						<textarea class="form-control" rows="1" name="otherUsedAnastaltic" maxlength="64">${pathwayEstablishEvaluation.otherUsedAnastaltic}</textarea>
 					</div>
@@ -180,8 +180,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasHypercoagulable}">
 				<div class="form-item-box">
-					<input id="hasHypercoagulable${obj.value }" type="radio" name="hasHypercoagulable" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHypercoagulable${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasHypercoagulable${obj.itemCode }" type="radio" name="hasHypercoagulable" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHypercoagulable${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -199,8 +199,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${combined_disease}">
 				<div class="form-item-box">
-					<input id="combinedDisease${obj.value }" type="radio" name="combinedDisease" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="combinedDisease${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="combinedDisease${obj.itemCode }" type="radio" name="combinedDisease" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="combinedDisease${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -228,8 +228,8 @@
 								<td class="col-time">${obj.createTimeShow}</td>
 								<td width="60" class="col-img"><div class="col-img-line"></div> <img class="user-photo"
 									src="${ctx}/images${obj.imagePath }"></td>
-								<td width="85" class="col-name">${obj.name }</td>
-								<td class="table-line"><span class="td-span-padding margin-top-10">通路类型：${obj.type}</span> 
+								<td width="85" class="col-name">${obj.itemName }</td>
+								<td class="table-line"><span class="td-span-padding margin-top-10">通路类型：${obj.pItemCode}</span> 
 								<%-- <span class="td-span-padding margin-top-10">部位：${obj.position}</span> --%>
 									<span class="td-span-padding margin-top-10">使用时间：${obj.serviceLife}</span>
 									<span class="td-span-padding margin-top-10">流量使用情况：${obj.serviceCondition}</span>
@@ -257,8 +257,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasHvdOrRepair}">
 				<div class="form-item-box">
-					<input id="hasHvdOrRepair${obj.value }" type="radio" name="hasHvdOrRepair" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHvdOrRepair${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasHvdOrRepair${obj.itemCode }" type="radio" name="hasHvdOrRepair" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHvdOrRepair${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -276,8 +276,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${renalTransplant}">
 				<div class="form-item-box">
-					<input id="renalTransplant${obj.value }" type="radio" name="renalTransplant" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="renalTransplant${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="renalTransplant${obj.itemCode }" type="radio" name="renalTransplant" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="renalTransplant${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -295,8 +295,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasAllenTest}">
 				<div class="form-item-box">
-					<input id="hasAllenTest${obj.value }" type="radio" name="hasAllenTest" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasAllenTest${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasAllenTest${obj.itemCode }" type="radio" name="hasAllenTest" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasAllenTest${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -314,8 +314,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${vas_image_exam_type}">
 				<div class="form-item-box">
-					<input id="vasImageExamType${obj.value }" type="radio" name="vasImageExamType" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="vasImageExamType${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="vasImageExamType${obj.itemCode }" type="radio" name="vasImageExamType" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="vasImageExamType${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 			<div class="margin-right-16 margin-top-10">
@@ -353,8 +353,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${edema_evaluation}">
 				<div class="form-item-box">
-					<input id="edemaEvaluation${obj.value }" type="radio" name="edemaEvaluation" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="edemaEvaluation${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="edemaEvaluation${obj.itemCode }" type="radio" name="edemaEvaluation" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="edemaEvaluation${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -372,8 +372,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${up_limb_thickness}">
 				<div class="form-item-box">
-					<input id="upLimbThickness${obj.value }" type="radio" name="upLimbThickness" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="upLimbThickness${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="upLimbThickness${obj.itemCode }" type="radio" name="upLimbThickness" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="upLimbThickness${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -391,8 +391,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${tonqAppearedVein}">
 				<div class="form-item-box">
-					<input id="tonqAppearedVein${obj.value }" type="radio" name="tonqAppearedVein" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="tonqAppearedVein${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="tonqAppearedVein${obj.itemCode }" type="radio" name="tonqAppearedVein" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="tonqAppearedVein${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -410,8 +410,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${collateral_vein_appear}">
 				<div class="form-item-box">
-					<input id="collateralVeinAppear${obj.value }" type="radio" name="collateralVeinAppear" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="collateralVeinAppear${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="collateralVeinAppear${obj.itemCode }" type="radio" name="collateralVeinAppear" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="collateralVeinAppear${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -429,8 +429,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasVenousCannulaSign}">
 				<div class="form-item-box">
-					<input id="hasVenousCannulaSign${obj.value }" type="radio" name="hasVenousCannulaSign" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasVenousCannulaSign${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasVenousCannulaSign${obj.itemCode }" type="radio" name="hasVenousCannulaSign" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasVenousCannulaSign${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>
@@ -481,8 +481,8 @@
 		<div class="form-item margin-left-16">
 			<c:forEach var="obj" items="${hasHeartFailEvidence}">
 				<div class="form-item-box">
-					<input id="hasHeartFailEvidence${obj.value }" type="radio" name="hasHeartFailEvidence" value="${obj.value}"
-						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHeartFailEvidence${obj.value }" class="form-span form-radio-label">${obj.name}</label>
+					<input id="hasHeartFailEvidence${obj.itemCode }" type="radio" name="hasHeartFailEvidence" value="${obj.itemCode}"
+						<c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label for="hasHeartFailEvidence${obj.itemCode }" class="form-span form-radio-label">${obj.itemName}</label>
 				</div>
 			</c:forEach>
 		</div>

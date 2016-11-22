@@ -39,7 +39,7 @@
 			loading : true,
 			success : function(data) {// ajax返回的数据
 				if (data && data.status) {
-					window.location.href = basePath + "/patient/patientDetail.shtml?patientId=" + $("#id").val();
+					window.location.href = ctx + "/patient/patientDetail.shtml?patientId=" + $("#id").val();
 				}
 				return false;
 			}

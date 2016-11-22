@@ -7,8 +7,8 @@
 	<!-- 临床诊断（ 慢性肾功能衰竭，急性肾功能衰竭） -->
 	<div class="form-item" style="margin-left: -4px;">
 		<c:forEach var="obj" items="${nephrosis_type}">
-			<input id="clinical${obj.value}" type="radio" name="type" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> />
-			<label for="clinical${obj.value}" class="form-span form-radio-label"> ${obj.name} </label>
+			<input id="clinical${obj.itemCode}" type="radio" name="type" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> />
+			<label for="clinical${obj.itemCode}" class="form-span form-radio-label"> ${obj.itemName} </label>
 		</c:forEach>
 	</div>
 </div>
@@ -29,12 +29,12 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${clinical_pgn}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}"
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}"
 					 <c:if test="${obj.isChecked}">checked="checked"</c:if> />
 					  <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherPgn" maxlength="64">${crf.otherPgn }</textarea>
 					</div>
@@ -55,10 +55,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${clinical_sgn}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherSgn" maxlength="64">${crf.otherSgn }</textarea>
 					</div>
@@ -79,10 +79,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${clinical_hereditary_nephropathy}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherHereditaryNephropathy" maxlength="64">${crf.otherHereditaryNephropathy }</textarea>
 					</div>
@@ -103,10 +103,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${clinical_tin}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherTin" maxlength="64">${crf.otherTin }</textarea>
 					</div>
@@ -127,9 +127,9 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<div class="form-item td-radio-margin">
 				<c:forEach var="obj" items="${urologicNeoplasms}">
-					<input id="${obj.type}crfForm${obj.value}" type="radio" name="urologicNeoplasms" value="${obj.value}"
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="radio" name="urologicNeoplasms" value="${obj.itemCode}"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="${obj.type}crfForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+					<label for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 			</div>
 		</div>
@@ -147,10 +147,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${un_and_stone}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherUnAndStone" maxlength="64">${crf.otherUnAndStone }</textarea>
 					</div>
@@ -172,10 +172,10 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<c:forEach var="obj" items="${renal_resection}">
 				<div class="box-style">
-					<input id="${obj.type}crfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-						for="${obj.type}crfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+						for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherRenalResection" maxlength="64">${crf.otherRenalResection }</textarea>
 					</div>
@@ -196,9 +196,9 @@
 		<div class="fill-parent bg-white content-editing-wrap">
 			<div class="form-item td-radio-margin">
 				<c:forEach var="obj" items="${crfUnknownReason}">
-					<input id="${obj.type}crfForm${obj.value}" type="radio" name="unknownReason" value="${obj.value}"
+					<input id="${obj.pItemCode}crfForm${obj.itemCode}" type="radio" name="unknownReason" value="${obj.itemCode}"
 						<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="${obj.type}crfForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+					<label for="${obj.pItemCode}crfForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 				</c:forEach>
 			</div>
 		</div>
@@ -239,10 +239,10 @@
 		<div class="fill-parent bg-white content-editing-wrap" style="display: block;">
 			<c:forEach var="obj" items="${serious_crf_reason}">
 				<div class="box-style">
-					<input id="${obj.type}seriousCrfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> />
-					<label for="${obj.type}seriousCrfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+					<input id="${obj.pItemCode}seriousCrfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> />
+					<label for="${obj.pItemCode}seriousCrfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 				</div>
-				<c:if test="${obj.value == 00}">
+				<c:if test="${obj.itemCode == 00}">
 					<div class="form-group textarea-margin other hide">
 						<textarea rows="1" class="form-control" name="otherReason">${seriousCrf.otherReason }</textarea>
 					</div>
@@ -272,10 +272,10 @@
 			<div class="fill-parent bg-white content-editing-wrap">
 				<c:forEach var="obj" items="${arf_reason}">
 					<div class="box-style">
-						<input id="${obj.type}arfForm${obj.value}" type="checkbox" value="${obj.value}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
-							for="${obj.type}arfForm${obj.value}" class="form-span form-checkbox-label">${obj.name}</label>
+						<input id="${obj.pItemCode}arfForm${obj.itemCode}" type="checkbox" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> /> <label
+							for="${obj.pItemCode}arfForm${obj.itemCode}" class="form-span form-checkbox-label">${obj.itemName}</label>
 					</div>
-					<c:if test="${obj.value == 00}">
+					<c:if test="${obj.itemCode == 00}">
 						<div class="form-group textarea-margin other hide">
 							<textarea rows="1" class="form-control" name="otherRenalResection">${arf.otherRenalResection }</textarea>
 						</div>
@@ -296,9 +296,9 @@
 			<div class="fill-parent bg-white content-editing-wrap">
 				<div class="form-item td-radio-margin">
 					<c:forEach var="obj" items="${arfUnknownReason}">
-						<input id="${obj.type}arfForm${obj.value}" type="radio" name="unknownReason" value="${obj.value}"
+						<input id="${obj.pItemCode}arfForm${obj.itemCode}" type="radio" name="unknownReason" value="${obj.itemCode}"
 							<c:if test="${obj.isChecked}">checked="checked"</c:if> />
-						<label for="${obj.type}arfForm${obj.value}" class="form-span form-radio-label">${obj.name}</label>
+						<label for="${obj.pItemCode}arfForm${obj.itemCode}" class="form-span form-radio-label">${obj.itemName}</label>
 					</c:forEach>
 				</div>
 			</div>
