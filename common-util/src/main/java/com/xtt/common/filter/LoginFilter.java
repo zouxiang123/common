@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dto.LoginUser;
 import com.xtt.common.util.ContextAuthUtil;
@@ -30,6 +31,7 @@ import com.xtt.common.util.PermissionUtil;
 import com.xtt.common.util.SSOClientUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.CommonUtil;
+import com.xtt.platform.util.io.JsonUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 public class LoginFilter implements Filter {
@@ -66,6 +68,16 @@ public class LoginFilter implements Filter {
 		// 添加过滤请求
 		long startTime = System.currentTimeMillis();
 		String cookieValue = HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN);
+		cookieValue = StringUtil.isBlank(cookieValue) ? request.getParameter(CommonConstants.COOKIE_TOKEN) : cookieValue;
+		if (StringUtil.isBlank(cookieValue) && request.getContentType() != null && request.getContentType().contains("application/json")) {
+			String jsonStr = HttpServletUtil.getRequestJsonString(request);
+			if (StringUtil.isNotBlank(jsonStr)) {
+				JsonNode jsonNode = JsonUtil.AllJsonUtil().treeFromJson(jsonStr);
+				if (jsonNode.get(CommonConstants.COOKIE_TOKEN) != null) {
+					cookieValue = jsonNode.get(CommonConstants.COOKIE_TOKEN).asText("");
+				}
+			}
+		}
 		if (StringUtil.isNotBlank(cookieValue)) {// cookie 中的token不为空时，将其放到请求中去
 			req.setAttribute(CommonConstants.COOKIE_TOKEN, cookieValue);
 		}

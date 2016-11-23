@@ -72,6 +72,7 @@ public class LoginController {
 		if (CommonConstants.SUCCESS.equals(map.get("status"))) {
 			LOGGER.info("account={} login success,normal submit", account);
 			HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, map.get(CommonConstants.COOKIE_TOKEN).toString(), -1);
+			HttpServletUtil.addCookie(response, "cacheFlag", "0", -1);// 设置权限缓存状态为未缓存
 			if (StringUtils.isNotEmpty(redirectUrl)) {
 				model.setViewName("redirect:" + redirectUrl);
 				return model;
@@ -172,8 +173,8 @@ public class LoginController {
 			model.addObject("account", account);
 			model.addObject("password", password);
 			model.addObject("tenantId", tenantId);
-			model.addObject("redirectUrl", redirectUrl);
 		}
+		model.addObject("redirectUrl", redirectUrl);
 		return model;
 	}
 
@@ -191,4 +192,5 @@ public class LoginController {
 		map.put("sysUser", sysUser);
 		return map;
 	}
+
 }

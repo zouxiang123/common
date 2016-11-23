@@ -150,4 +150,14 @@ public interface PatientAssayRecordMapper {
 	 *
 	 */
 	List<PatientAssayRecordPO> selectByFkDictCode(PatientAssayRecord record);
+
+	/**
+	 * 根据条件查询患者某项目最新的数据
+	 * 
+	 * @Title: selectItemLatestDataByCondition
+	 * @param record
+	 * @return
+	 *
+	 */
+	List<PatientAssayRecordPO> selectItemLatestDataByCondition(PatientAssayRecord record);
 }

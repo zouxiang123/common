@@ -455,3 +455,39 @@ function cloneObject(sObj) {
 	}
 	return s;
 }
+/**
+ * 获取cookie的值
+ * 
+ * @param name
+ * @returns
+ */
+function getCookie(name) {
+	var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+	if (arr = document.cookie.match(reg))
+		return unescape(arr[2]);
+	else
+		return null;
+}
+/**
+ * 设置cookie
+ */
+function setCookie(name, value, path, millisecond) {
+	if (!isEmpty(millisecond)) {
+		var exp = new Date();
+		exp.setTime(exp.getTime() + millisecond);
+	}
+	path = isEmpty(path) ? "/" : path;
+	document.cookie = name + "=" + escape(value) + (isEmpty(millisecond) ? "" : ";expires=" + exp.toGMTString()) + ";path=" + path;
+}
+/**
+ * 删除cookie
+ * 
+ * @param name
+ */
+function delCookie(name) {
+	var exp = new Date();
+	exp.setTime(exp.getTime() - 1);
+	var cval = getCookie(name);
+	if (cval != null)
+		document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+}

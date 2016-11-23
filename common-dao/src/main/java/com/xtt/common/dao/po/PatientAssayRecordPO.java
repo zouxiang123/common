@@ -9,6 +9,7 @@
 package com.xtt.common.dao.po;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -58,6 +59,24 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 	private Integer needAssayCount;
 	private Integer hadAssaySum;
 	private String assayClass;
+	private Collection<String> dictCodes;
+	private Collection<String> itemCodes;
+
+	public Collection<String> getDictCodes() {
+		return dictCodes;
+	}
+
+	public void setDictCodes(Collection<String> dictCodes) {
+		this.dictCodes = dictCodes;
+	}
+
+	public Collection<String> getItemCodes() {
+		return itemCodes;
+	}
+
+	public void setItemCodes(Collection<String> itemCodes) {
+		this.itemCodes = itemCodes;
+	}
 
 	public Integer getNeedAssayCount() {
 		return needAssayCount;

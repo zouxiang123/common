@@ -417,6 +417,9 @@
       <if test="fkDictCode != null and fkDictCode != ''">
         and dhl.fk_dict_code = #{fkDictCode}
       </if>
+      <if test="dictCodes != null">
+        and dhl.fk_dict_code in <foreach collection="dictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+      </if>
       <if test="fkTenantId != null">
         and dhl.fk_tenant_id = #{fkTenantId}
       </if>

@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -137,6 +138,25 @@ public class PatientAssayController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		patientAssayResultService.saveAssayResult(record);
 		map.put("id", record.getId());
+		map.put("status", CommonConstants.SUCCESS);
+		return map;
+	}
+
+	/**
+	 * 
+	 * 根据条件查询患者某项目最新的数据
+	 * 
+	 * @Title: getLatestByCondition
+	 * @param record
+	 * @return
+	 *
+	 */
+	@RequestMapping("selectItemLatestDataByCondition")
+	@ResponseBody
+	public Map<String, Object> selectItemLatestDataByCondition(@RequestBody PatientAssayRecordPO record) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<PatientAssayRecordPO> list = patientAssayRecordService.selectItemLatestDataByCondition(record);
+		map.put("items", list);
 		map.put("status", CommonConstants.SUCCESS);
 		return map;
 	}

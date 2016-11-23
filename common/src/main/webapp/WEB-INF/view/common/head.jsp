@@ -63,9 +63,25 @@
 
 <script type="text/javascript">
 	var ctx = "${ctx}";
-	//没有权限的菜单集合
-	var user_non_permission_list = isEmpty('${user_non_permission}')?"":eval('(${user_non_permission})');
-	var user_permission_list = isEmpty('${user_permission}')?"":eval('(${user_permission})');
+	if(getCookie("cacheFlag")=="0"){
+		$.ajax({
+			  url: ctx+"/system/getUserPermissionData.shtml",
+			  type: "post",
+			  dataType: "json",
+			  async:false,
+			  success:function(data){
+				  alert(JSON.stringify(data));
+				 if(data.status==1){
+					 var storage = window.localStorage;
+					 storage.setItem("user_non_permission_list", convertEmpty(data.user_non_permission));
+					 storage.setItem("user_permission_list",convertEmpty(data.user_permission));
+					 setCookie("cacheFlag","1");
+				 }else{
+					 alert("用户登录信息失效，或登录信息不存在");
+				 }
+			  }
+			});
+	}
 	 if (typeof(loadingShow) == "undefined"){
 	  	var loading_start_time = new Date().getTime();
 		$(window).load(function(){

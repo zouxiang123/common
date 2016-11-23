@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -206,5 +208,23 @@ public class UserController {
 			}
 		}
 		return user;
+	}
+
+	/**
+	 * 获取用户权限数据
+	 */
+	@RequestMapping("getUserPermissionData")
+	@ResponseBody
+	public Map<String, Object> getUserPermissionData() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> authMap = ContextAuthUtil.getAuth();
+		if (MapUtils.isEmpty(authMap)) {
+			map.put(CommonConstants.STATUS, CommonConstants.WARNING);
+			return map;
+		}
+		map.put(CommonConstants.USER_NON_PERMISSION, authMap.get(CommonConstants.USER_NON_PERMISSION));
+		map.put(CommonConstants.USER_PERMISSION, authMap.get(CommonConstants.USER_PERMISSION));
+		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+		return map;
 	}
 }

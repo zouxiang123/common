@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.xtt.common.dao.model.DictHospitalLab;
@@ -82,5 +83,15 @@ public interface IDictHospitalLabService {
 	 * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
 	 */
 	void updateDictHospitalLabSomeValue(DictHospitalLab record);
+
+	/**
+	 * 根据关联code查询数据
+	 * 
+	 * @Title: selectByFkCodes
+	 * @param dictCodes
+	 * @return
+	 *
+	 */
+	List<DictHospitalLabPO> selectByFkCodes(Collection<String> dictCodes);
 
 }

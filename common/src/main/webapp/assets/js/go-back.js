@@ -133,6 +133,7 @@ $(function() {
 
 /** 根据url获取对应的名称 */
 function getUrlNameFormPermission(url) {
+	var user_permission_list = getPermissionList("user_permission_list");
 	for (var i = 0; i < user_permission_list.length; i++) {
 		var tempUrl = user_permission_list[i].url;
 		if (!isEmpty(tempUrl)) {

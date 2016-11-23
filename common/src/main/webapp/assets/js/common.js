@@ -339,16 +339,27 @@ function showConfirm(message, callback) {
 	SystemDialog.modal('show');
 	SystemDialog.callback(callback);
 }
-
+/**
+ * 获取权限集合
+ * 
+ * @param name
+ * @returns
+ */
+function getPermissionList(key) {
+	var permissionStr = window.localStorage.getItem(key);
+	if (isEmpty(permissionStr)) {
+		return new Array();
+	}
+	return eval('(' + permissionStr + ')');
+}
 /**
  * 判断是否有权限
  */
 function hasPermission(val) {
-	if (!isEmptyObject(user_non_permission_list)) {
-		for (var i = 0; i < user_non_permission_list.length; i++) {
-			if (user_non_permission_list[i].key == val) {
-				return false;
-			}
+	var user_non_permission_list = getPermissionList("user_non_permission_list");
+	for (var i = 0; i < user_non_permission_list.length; i++) {
+		if (user_non_permission_list[i].key == val) {
+			return false;
 		}
 	}
 	return true;
@@ -361,11 +372,10 @@ function hasPermission(val) {
  * @returns权限对象
  */
 function getPermissionObjByKey(val) {
-	if (!isEmptyObject(user_permission_list)) {
-		for (var i = 0; i < user_permission_list.length; i++) {
-			if (user_permission_list[i].key == val) {
-				return user_permission_list[i];
-			}
+	var user_permission_list = getPermissionList("user_permission_list");
+	for (var i = 0; i < user_permission_list.length; i++) {
+		if (user_permission_list[i].key == val) {
+			return user_permission_list[i];
 		}
 	}
 }
@@ -378,14 +388,13 @@ function getPermissionObjByKey(val) {
  */
 function getPermissionObjByUrl(url) {
 	var realUrl = getRelativeUrl(url);
-	if (!isEmptyObject(user_permission_list)) {
-		for (var i = 0; i < user_permission_list.length; i++) {
-			if (!isEmpty(user_permission_list[i].url)) {
-				var tempUrls = user_permission_list[i].url.split(",");
-				for (var t = 0; t < tempUrls.length; t++) {
-					if (tempUrls[t] == realUrl) {
-						return user_permission_list[i];
-					}
+	var user_permission_list = getPermissionList("user_permission_list");
+	for (var i = 0; i < user_permission_list.length; i++) {
+		if (!isEmpty(user_permission_list[i].url)) {
+			var tempUrls = user_permission_list[i].url.split(",");
+			for (var t = 0; t < tempUrls.length; t++) {
+				if (tempUrls[t] == realUrl) {
+					return user_permission_list[i];
 				}
 			}
 		}
@@ -418,6 +427,7 @@ function getPermissionUrlByParentCode(code) {
  */
 function getPermissionSiblingsByPcode(code) {
 	var siblings = [];
+	var user_permission_list = getPermissionList("user_permission_list");
 	for (var i = 0; i < user_permission_list.length; i++) {
 		if (user_permission_list[i].pCode == code) {
 			siblings.push(user_permission_list[i]);
@@ -433,6 +443,7 @@ function getPermissionSiblingsByPcode(code) {
  * @returns permission Object
  */
 function getPermissionByParentCode(code) {
+	var user_permission_list = getPermissionList("user_permission_list");
 	for (var i = 0; i < user_permission_list.length; i++) {
 		if (user_permission_list[i].pCode == code) {
 			if (isEmpty(user_permission_list[i].url)) {

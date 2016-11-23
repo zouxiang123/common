@@ -9,6 +9,7 @@
 package com.xtt.common.assay.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -103,5 +104,13 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
 		newRecord.setPersonalMinValue(record.getPersonalMinValue());
 		newRecord.setIsTop(record.getIsTop());
 		dictHospitalLabMapper.updateByPrimaryKey(newRecord);
+	}
+
+	@Override
+	public List<DictHospitalLabPO> selectByFkCodes(Collection<String> dictCodes) {
+		DictHospitalLabPO record = new DictHospitalLabPO();
+		record.setFkTenantId(UserUtil.getTenantId());
+		record.setDictCodes(dictCodes);
+		return dictHospitalLabMapper.selectByCondition(record);
 	}
 }

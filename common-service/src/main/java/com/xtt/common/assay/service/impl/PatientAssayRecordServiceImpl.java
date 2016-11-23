@@ -108,4 +108,10 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 		record.setFkTenantId(UserUtil.getTenantId());
 		return patientAssayRecordMapper.selectByFkDictCode(record);
 	}
+
+	@Override
+	public List<PatientAssayRecordPO> selectItemLatestDataByCondition(PatientAssayRecordPO record) {
+		record.setFkTenantId(UserUtil.getTenantId());
+		return patientAssayRecordMapper.selectItemLatestDataByCondition(record);
+	}
 }
