@@ -22,7 +22,6 @@
 		<property name="username" value="${common.username}" />
 		<property name="password" value="${common.password}" />
 		<!-- <property name="driverClassName" value="${db.driverClassName}" /> -->
-		<property name="filters" value="${filters}" />
 
 		<property name="maxActive" value="${common.maxActive}" />
 		<property name="initialSize" value="${common.initialSize}" />
