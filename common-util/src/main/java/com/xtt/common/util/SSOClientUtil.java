@@ -148,11 +148,11 @@ public class SSOClientUtil {
 				if (StringUtil.isEmpty(requestURI) || requestURI.indexOf(".shtml") == -1) {// 地址无效时不做校验
 					return true;
 				}
-				requestURI = requestURI.substring(1, requestURI.indexOf(".shtml"));
+				requestURI = requestURI.substring(0, requestURI.indexOf(".shtml"));
 				String[] uris = requestURI.split("/");
 				for (int i = 0; i < uris.length; i++) {
-					if (StringUtil.isNotBlank(uris[i])) {
-						return excludePaths.contains(uris[i]);
+					if (StringUtil.isNotBlank(uris[i]) && excludePaths.contains(uris[i])) {
+						return true;
 					}
 				}
 			}

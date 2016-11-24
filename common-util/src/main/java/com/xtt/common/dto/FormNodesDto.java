@@ -33,6 +33,8 @@ public class FormNodesDto {
 	private String itemValue;
 	private Long fkRecordId;
 
+	/*============for display==============*/
+	private String unitShow;
 	/** 子节点列表 */
 	private List<FormNodesDto> childNodes;
 
@@ -242,6 +244,14 @@ public class FormNodesDto {
 
 	public void setGroupTag(String groupTag) {
 		this.groupTag = groupTag;
+	}
+
+	public String getUnitShow() {
+		return unitShow;
+	}
+
+	public void setUnitShow(String unitShow) {
+		this.unitShow = unitShow;
 	}
 
 }

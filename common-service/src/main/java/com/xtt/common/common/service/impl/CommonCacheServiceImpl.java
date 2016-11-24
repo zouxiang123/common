@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
+import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
@@ -44,6 +46,7 @@ import com.xtt.common.form.service.ICmFormService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
+import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
@@ -174,7 +177,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 			String categoryMapKey;
 			for (int c = 0; c < formList.size(); c++) {
 				form = formList.get(c);
-				map.put(DynamicFormUtil.getKey(tenantId, form.getId()), cmFormNodesService.selectByFormId(form.getId()));
+				map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
+								CmDictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
 				// cache category forms
 				categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
 				if (!categoryMap.containsKey(categoryMapKey)) {
@@ -189,6 +193,22 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 			DynamicFormUtil.cacheCategoryForm(categoryMap);
 			DynamicFormUtil.cacheAll(map);
 		}
+	}
+
+	/**
+	 * 初始化动态表单数据
+	 * 
+	 * @return
+	 *
+	 */
+	private List<FormNodesDto> initDynamicFormNode(List<FormNodesDto> nodes, Map<String, String> unitMap) {
+		if (MapUtils.isEmpty(unitMap) || CollectionUtils.isEmpty(nodes)) {
+			return nodes;
+		}
+		for (FormNodesDto node : nodes) {
+			node.setUnitShow(unitMap.get(node.getUnit()));
+		}
+		return nodes;
 	}
 
 	@Override

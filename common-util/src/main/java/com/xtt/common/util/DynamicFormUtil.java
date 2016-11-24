@@ -190,6 +190,15 @@ public class DynamicFormUtil {
 		RedisCacheUtil.batchSetObject(categoryMap);
 	}
 
+	/**
+	 * 根据类别和所属系统获取表单
+	 * 
+	 * @Title: getCategoryForm
+	 * @param sysOwner
+	 * @param itemCode
+	 * @return
+	 *
+	 */
 	public static List<FormDto> getCategoryForm(String sysOwner, String itemCode) {
 		return (List<FormDto>) RedisCacheUtil.getObject(getCategoryFormKey(UserUtil.getTenantId(), sysOwner, itemCode));
 	}
