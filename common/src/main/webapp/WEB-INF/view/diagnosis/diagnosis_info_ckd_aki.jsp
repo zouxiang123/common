@@ -10,7 +10,7 @@
 		<span class="content-select-title"><fmt:formatDate value="${record.ckdStage.updateTime }" pattern="yyyy-MM-dd" />
 			${record.ckdStage.userName }</span>
 		<div class="tab-action2" style="margin-top: 14px;">
-			<span>打开</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+			<span>打开</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 		</div>
 		<div class="tab-line"></div>
 	</div>

@@ -24,36 +24,36 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta content="telephone=no,email=no" name="format-detection" />
 
-<link rel="bookmark" href="${ctx}/assets/img/logo_ico.png">
-<link rel="icon" href="${ctx}/assets/img/logo_ico.png">
+<link rel="bookmark" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
+<link rel="icon" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
 <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="${ctx}/framework/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/bootstrap/3.3.5/css/bootstrap.min.css">
 <!-- styles -->
-<link href="${ctx}/assets/css/styles.css?v=${version }" rel="stylesheet">
-<link href="${ctx}/assets/css/ui/global.css?v=${version }" rel="stylesheet">
-<link href="${ctx}/assets/css/ui/index.css?v=${version }" rel="stylesheet">
-<link href="${ctx}/assets/css/ui/skin.css?v=${version }" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/styles.css?v=${version }" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/ui/global.css?v=${version }" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/ui/index.css?v=${version }" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/ui/skin.css?v=${version }" rel="stylesheet">
 
 <!-- framework JavaScript -->
-<script src="${ctx}/framework/jquery/1.11.3/jquery.min.js"></script>
-<script src="${ctx}/framework/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script src="${ctx}/framework/jquery/1.11.3/jquery.json.min.js"></script>
-<script src="${ctx}/framework/jquery/1.11.3/jquery.validate.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.json.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.validate.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="${ctx}/assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/ie10-viewport-bug-workaround.js"></script>
 <!--[if lte IE 9 ]>
-	<script src="${ctx}/framework/json2/json2.min.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/json2/json2.min.js"></script>
 <![endif]-->
 
 <!-- Custom JavaScript -->
-<script src="${ctx}/assets/js/common-util.js"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-util.js"></script>
 
 <!-- loading div -->
 <div id="loading_center" class="loading center hide">
-	<img src="${ctx}/assets/img/loading.png"><p>正在加载中...</p>
+	<img src="${COMMON_SERVER_ADDR}/assets/img/loading.png"><p>正在加载中...</p>
 </div>
 <div id="loading_other" class="hide" style="position: fixed;top:0px;left:0px;z-index: 9999;width: 100%;height: 100%;">
-	<div class="loading center" style="position: fixed;"><img src="${ctx}/assets/img/loading.png"><p id="loadingMsg"></p></div>
+	<div class="loading center" style="position: fixed;"><img src="${COMMON_SERVER_ADDR}/assets/img/loading.png"><p id="loadingMsg"></p></div>
 </div>
 <script>
   if (typeof(loadingShow) == "undefined") {
@@ -96,12 +96,12 @@
 	  	});
 	 }
 </script>
-<script src="${ctx}/assets/js/common.js?version=${version}"></script>
-<script src="${ctx}/assets/js/common-validate.js"></script>
-<script src="${ctx}/assets/js/common-validate-message-cn.js"></script>
-<script src="${ctx}/assets/js/system-dialog.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/common.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate.js"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate-message-cn.js"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/system-dialog.js?version=${version}"></script>
 
-<script src="${ctx}/assets/js/go-back.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/go-back.js?version=${version}"></script>
 
 <!-- 系统提示dialog -->
     <div class="modal" id="SystemDialog" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">

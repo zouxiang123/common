@@ -18,6 +18,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.xtt.common.common.service.ICommonCacheService;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.platform.util.DBUtil;
 import com.xtt.platform.util.config.SpringUtil;
 
@@ -38,6 +39,7 @@ public class CommonDataInit extends HttpServlet {
 			e.printStackTrace();
 		}
 		servletContext.setAttribute("version", version);
+		servletContext.setAttribute("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
 		commonCacheService.cacheAll();
 	}
 

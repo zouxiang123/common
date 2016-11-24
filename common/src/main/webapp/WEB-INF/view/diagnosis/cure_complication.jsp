@@ -10,7 +10,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">治疗前合并症</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -48,7 +48,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">1.骨矿物质代谢紊乱</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -74,7 +74,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">2.淀粉样变性</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -100,7 +100,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">3.呼吸系统</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx}/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -126,7 +126,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">4.心血管系统</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -152,7 +152,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">5.神经系统</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -178,7 +178,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">6.是否皮肤瘙痒？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -198,7 +198,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">7.血液系统</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -249,7 +249,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">9.合并感染</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -275,7 +275,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">10.自身免疫性疾病</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -302,7 +302,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">11.内分泌及代谢系统</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -328,7 +328,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">12.治疗情况</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>

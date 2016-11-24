@@ -27,7 +27,7 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-12 bg-grey main-wrap margin-top-20" style="padding-right: 16px;" id="mainContent">
 				<div class="fill-parent bg-white text-center" style="height: 733px;">
-					<img class="about-logo" src="${ctx }/assets/img/pad/about-logo.png">
+					<img class="about-logo" src="${COMMON_SERVER_ADDR}/assets/img/pad/about-logo.png">
 					<p class="app-name">学透通®血液透析智能系统</p>
 					<p class="app-version">v1.0</p>
 					<div class="contact-us">

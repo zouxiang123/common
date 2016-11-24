@@ -21,7 +21,7 @@
 						<span>
 							<c:if test="${!patientDiagnosis.isDraft}">新增</c:if> <c:if test="${patientDiagnosis.isDraft}">继续录入</c:if>
 						</span>
-						<img src="${ctx }/assets/img/new-edit.png" class="new-edit">
+						<img src="${COMMON_SERVER_ADDR}/assets/img/new-edit.png" class="new-edit">
 					</div>
 				</div>
 				<ul class="content-editing-bar" style="list-style: none;margin-bottom: 0px;border-bottom: 1px solid #d9e0e6;">

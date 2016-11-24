@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     <div class="row">
-		<img class="logo-pc" src='${ctx}/common/showImage.shtml?fileName=/logo.jpg'></img>
+		<img class="logo-pc" src='${COMMON_SERVER_ADDR}/common/showImage.shtml?fileName=/logo.jpg'></img>
         
 		<div class="sidebar" style="width: 172px;"> 
 			<ul class="nav nav-sidebar new-sidebar">
@@ -28,20 +28,20 @@
                 </li>
 				<li id="homeNav">
                     <div class="new-nav-item" onclick="openBody('/home.shtml');" index="1">
-                        <img src="${ ctx}/assets/img/nav-main.png">
+                        <img src="${COMMON_SERVER_ADDR}/assets/img/nav-main.png">
                         <span>首页</span>
                     </div>
                 </li>
                 <li>
                     <div class="new-nav-item">
-                        <img src="${ ctx}/assets/img/nav-myworkstation.png">
+                        <img src="${COMMON_SERVER_ADDR}/assets/img/nav-myworkstation.png">
                         <span>我的工作站</span>
                         <span class="navbar-more-side" id="workstation" style="display:none;"></span>
                         <div class="pull-right nav-open" style="background: none;"></div>
                     </div>
                     <div>
                         <div class="new-nav-sub-item active" data-permission-key="today_patient"  onclick="getOpenUrl(this,'我的工作站');">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-jrjz.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-jrjz.png">
                             <span class="active">今日就诊</span>
                             <div class="navbar-more-subside" id="nowMedical" style="display:none;"></div>
                            <!--  <div class="pull-right nav-sub-arr"></div>
@@ -57,7 +57,7 @@
                         </div>
 
                         <div class="new-nav-sub-item" data-permission-key="patient_manage" onclick="openBody('/patient/patientEHR.shtml','我的工作站');">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-dzbl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-dzbl.png">
                             <span>电子病历</span>
                             <!-- <div class="pull-right nav-sub-arr"></div>
                             <div class="side-tip-show">
@@ -75,7 +75,7 @@
                         </div>
 
                         <div class="new-nav-sub-item" data-permission-key="data_statistics">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-tj.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-tj.png">
                             <span>报表统计</span>
                             <div class="pull-right nav-sub-arr"></div>
                             <div class="side-tip-show">
@@ -94,7 +94,7 @@
                         </div>
 
                         <div class="new-nav-sub-item" data-permission-key="cost_manage">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-fygl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-fygl.png">
                             <span>费用管理</span>
                             <div class="pull-right nav-sub-arr"></div>
                             <div class="side-tip-show">
@@ -115,15 +115,15 @@
                         </div> -->
 
                         <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="bed_view">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-cwgl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-cwgl.png">
                             <span>床位管理</span>
 	                    </div>
                         <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="dialysis_machine">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-txjgl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-txjgl.png">
                             <span>透析机管理</span>
 	                    </div>
                         <div class="new-nav-sub-item" data-permission-key="water_treatment">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-sclxtgl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-sclxtgl.png">
                             <span>水处理系统管理</span>
                             <div class="pull-right nav-sub-arr"></div>
                             <div class="side-tip-show">
@@ -132,22 +132,22 @@
                             </div>
 	                    </div>
                         <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="bacteria_detection">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-hjxdgl.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-hjxdgl.png">
                             <span>环境消毒管理</span>
 	                    </div>
                         <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="print">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-dy.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-dy.png">
                             <span>打印</span>
 	                    </div>
                         <div class="new-nav-sub-item" onclick="window.open('${ctx}/common/showTV.shtml');" data-permission-key="show_tv">
-                            <img class="main-icon" src="${ ctx}/assets/img/nav-tv.png">
+                            <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-tv.png">
                         	<span>大屏投放</span>
 	                    </div>
                     </div>
                 </li>
                 <li>
                     <div class="new-nav-item" onclick="openBody('/virtual/dialysisCenter.shtml');">
-                        <img src="${ ctx}/assets/img/nav-txcenter.png">
+                        <img src="${COMMON_SERVER_ADDR}/assets/img/nav-txcenter.png">
                         <span>虚拟透析中心</span>
                         <span class="navbar-more-side" style="display:none;" id="virtualCenter"></span>
                         <!-- <div class="pull-right nav-close"></div> -->
@@ -193,7 +193,7 @@
 
                 <li>
                     <div class="new-nav-item" onclick="openBody('/qc.shtml');">
-                        <img src="${ ctx}/assets/img/nav-qc.png">
+                        <img src="${COMMON_SERVER_ADDR}/assets/img/nav-qc.png">
                         <span>质控监管</span>
                     </div>
                 </li>
@@ -326,11 +326,11 @@
 	
   function extendNav() {
         if (isExtend) {
-            $("#main-close img").attr("src", "${ ctx}/assets/img/main-s.png");
+            $("#main-close img").attr("src", "${COMMON_SERVER_ADDR}/assets/img/main-s.png");
             $(".sidebar").css("width", "172px");
             $("#closediv").css("width", "187px");
         } else {
-            $("#main-close img").attr("src", "${ ctx}/assets/img/main-h.png");
+            $("#main-close img").attr("src", "${COMMON_SERVER_ADDR}/assets/img/main-h.png");
             $("#closediv").css("width", "63px");
             $(".sidebar").css("width", "46px");
         }

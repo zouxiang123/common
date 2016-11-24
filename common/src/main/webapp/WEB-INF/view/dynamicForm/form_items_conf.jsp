@@ -4,8 +4,8 @@
 <head>
 <title>角色管理</title>
 <%@ include file="../common/head.jsp"%>
-<link rel="stylesheet" href="${ctx }/framework/ztree/css/metroStyle/metroStyle.css" type="text/css">
-<script type="text/javascript" src="${ctx }/framework/ztree/js/jquery.ztree.all.min.js"></script>
+<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/ztree/css/metroStyle/metroStyle.css" type="text/css">
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.all.min.js"></script>
 <style type="text/css">
 .tree-block {
 	min-width: 250px;

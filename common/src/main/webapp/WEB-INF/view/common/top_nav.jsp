@@ -7,7 +7,7 @@
 		<div id="navbar" class="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><div class="home-page">
-						<a href="${ ctx}/home.shtml"><img src="${ctx }/assets/img/home-page.png" /></a>
+						<a href="${ ctx}/home.shtml"><img src="${COMMON_SERVER_ADDR}/assets/img/home-page.png" /></a>
 					</div></li>
 				<li>
 					<ol class="breadcrumb" id="breadcrumb">
@@ -16,7 +16,7 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<c:if test="${pageContext.request.requestURL.indexOf('home.jsp') == -1 && pageContext.request.requestURL.indexOf('search.jsp') == -1 }">
-					<li><img src="${ctx}/assets/img/bing.png" class="nav-search-input-bing"><input type="search" id="topSearchName" name="name"
+					<li><img src="${COMMON_SERVER_ADDR}/assets/img/bing.png" class="nav-search-input-bing"><input type="search" id="topSearchName" name="name"
 						class="nav-search-input" placeholder="患者/医生/护士" />
 						</li>
 				</c:if>

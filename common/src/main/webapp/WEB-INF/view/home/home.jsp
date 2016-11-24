@@ -5,8 +5,8 @@
 <head>
 <%@ include file="../common/head.jsp"%>
 <script src="${ctx}/assets/js/home/home.js?version=${version}"></script>
-<script src="${ctx}/framework/autocomplete/jquery.autocomplete.js"></script>
-<link rel="stylesheet" type="text/css" href="${ctx}/framework/autocomplete/jquery.autocomplete.css" />
+<script src="${COMMON_SERVER_ADDR}/framework/autocomplete/jquery.autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/framework/autocomplete/jquery.autocomplete.css" />
 
 <title>学透通智能医疗系统</title>
 <script type="text/javascript">
@@ -96,32 +96,32 @@
       <div class="action-item-layout">
 			<div class="action-item" data-permission-key="today_patient">
 				<span class="hand" onclick="openUrl('today_patient');">
-					<img src="${ ctx}/assets/img/today-patients.png"><span class="item-label">今日就诊</span><span class="badge badge-index"></span>
+					<img src="${COMMON_SERVER_ADDR}/assets/img/today-patients.png"><span class="item-label">今日就诊</span><span class="badge badge-index"></span>
 				</span>
 			</div>
 			<div class="action-item" data-permission-key="announcement">
 				<span class="hand" onclick="window.location.href='${ ctx}/system/announcement/center.shtml'">
-					<img src="${ ctx}/assets/img/announcement-center.png"><span class="item-label">公告中心</span><span id="announcementCount" class="badge badge-index"></span>
+					<img src="${COMMON_SERVER_ADDR}/assets/img/announcement-center.png"><span class="item-label">公告中心</span><span id="announcementCount" class="badge badge-index"></span>
 				</span>
 			</div>
 			<div class="action-item" data-permission-key="contacts">
 				<span class="hand" onclick="window.location.href='${ ctx}/system/contacts.shtml'">
-					<img src="${ ctx}/assets/img/mail-list.png"><span class="item-label">通讯录</span><span id="contactsCount" class="badge badge-index"></span>
+					<img src="${COMMON_SERVER_ADDR}/assets/img/mail-list.png"><span class="item-label">通讯录</span><span id="contactsCount" class="badge badge-index"></span>
 				</span>
 			</div>
 			<div class="action-item" data-permission-key="calendar">
 				<span class="hand" onclick="window.location.href='${ctx}/calendar/index.shtml'">
-					<img src="${ ctx}/assets/img/schedule-management.png"><span class="item-label">日历日程</span><span id="calendarCount" class="badge badge-index"></span>
+					<img src="${COMMON_SERVER_ADDR}/assets/img/schedule-management.png"><span class="item-label">日历日程</span><span id="calendarCount" class="badge badge-index"></span>
 				</span>
 			</div>
       </div>
       
       <div class="clearfix time-content-layout content-layout1" style="top: 348px;padding-left: 17px;margin-left:-458px;">
 		<div class="time-content">
-			<div class="user-img-s"></div><div class="user-img-l" style="background: url('${ctx}/assets/img/fk.png') center;"></div>
+			<div class="user-img-s"></div><div class="user-img-l" style="background: url('${COMMON_SERVER_ADDR}/assets/img/fk.png') center;"></div>
         </div>
         <div class="time-content">
-        	<div class="user-img-s"></div><div class="user-img-l" style="background: url('${ctx}/assets/img/yytx.png') center;"></div>
+        	<div class="user-img-s"></div><div class="user-img-l" style="background: url('${COMMON_SERVER_ADDR}/assets/img/yytx.png') center;"></div>
         </div>
         <div class="time-content" id="pg"></div>
         <div class="time-content" id="cfzd"></div>

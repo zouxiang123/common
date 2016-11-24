@@ -10,7 +10,7 @@
 			<div class="selected"></div>
 			<span class="content-select-title">其他诊断内容</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>收起</span><img src="${ctx }/assets/img/arrow-down.png" class="arrow-down">
+				<span>收起</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-down.png" class="arrow-down">
 			</div>
 			<div class="tab-line"></div>
 		</div>

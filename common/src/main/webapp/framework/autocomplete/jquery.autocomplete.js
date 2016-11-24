@@ -254,8 +254,8 @@
 			$input.val(v);
 			hideResultsNow();
 			$input.trigger("result", [ selected.data, selected.value ]);
-			var openUrl = ctx + "/openPersonInfo.shtml?id=" + selected.data.id + "&name=" + encodeURI(encodeURI(selected.data.name)) + "&roleName="
-							+ encodeURI(encodeURI(selected.data.roleName));
+			var openUrl = ctx + "/openPersonInfo.shtml?id=" + selected.data.id + "&name=" + encodeURI(encodeURI(selected.data.name))
+							+ "&roleName=" + encodeURI(encodeURI(selected.data.roleName));
 			window.location.href = openUrl;
 			return true;
 		}

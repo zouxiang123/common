@@ -29,13 +29,13 @@
 									<c:if test="${!patient.delFlag}">
 										<div class="personal-btn" style="margin-right: 5px;" id="btnAdd"
 											onclick="window.location.href='${ctx}/patient/patientInfo.shtml?patientId=${patient.id }';" data-permission-key="edit_patient">
-											<img src="${ctx}/assets/img/change.png"> <br /> <span class="personal-span" style="margin-left: -6px;">编辑</span>
+											<img src="${COMMON_SERVER_ADDR}/assets/img/change.png"> <br /> <span class="personal-span" style="margin-left: -6px;">编辑</span>
 										</div>
 									</c:if>
 									<img class="personal-photo" src="${ctx}/images${patient.imagePath }"> <input type="hidden" name="imagePath"
 										value="${patient.imagePath }">
 									<div class="personal-btn" style="margin-left: 8px;" onclick="$('#barcodeDialog').modal('show');">
-										<img src="${ctx}/assets/img/qrcode.png"> <br /> <span class="personal-span">二维码</span>
+										<img src="${COMMON_SERVER_ADDR}/assets/img/qrcode.png"> <br /> <span class="personal-span">二维码</span>
 									</div>
 								</div>
 								<div class="table-responsive">

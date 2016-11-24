@@ -7118,6 +7118,9 @@ b {
 .border-bottom-line {
   border-bottom: 1px solid #d9e0e6 !important;
 }
+.border-bottom-line2 {
+  border-bottom: 1px dashed #d9e0e6 !important;
+}
 
 .border-top-line {
   border-top: 1px solid #d9e0e6;
@@ -8274,7 +8277,7 @@ tbody > tr > td > a:focus {
   float: left;
   width: 49%;
   margin-bottom: 1%;
-  height: 170px;
+  height: 210px;
   margin-right: 1%;
   background: #fff;
 }
@@ -8301,11 +8304,11 @@ tbody > tr > td > a:focus {
 /*}*/
 
 .bed-card3 .bed-user-name {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .bed-card3 .bed-user-message {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .bed-card3 .bed-user {
@@ -8384,7 +8387,7 @@ tbody > tr > td > a:focus {
     float: left;
     width: 98%;
     margin-bottom: 12px;
-    height: 170px;
+    height: 210px;
     margin-right: 1%;
     background: #fff;
   }
@@ -8402,14 +8405,13 @@ tbody > tr > td > a:focus {
 
 .bed-user {
   position: relative;
-  border-bottom: 1px solid #f7f7f7;
   width: 100%;
   padding: 12px;
   height: 120px;
 }
 
 .bed-user2 {
-  border-bottom: 0px solid #f7f7f7 !important;
+  border-bottom: 0px solid #d9e0e6 !important;
   height: 72px !important;
 }
 
@@ -8591,7 +8593,7 @@ tbody > tr > td > a:focus {
 }
 
 .bed-user-name {
-  font-size: 16px;
+  font-size: 18px;
   color: #484848;
 }
 
@@ -8610,7 +8612,7 @@ tbody > tr > td > a:focus {
 }
 
 .bed-user-sex {
-  font-size: 18px;
+  font-size: 16px;
   color: #484848;
   margin-left: 20px;
 }
@@ -8630,7 +8632,8 @@ tbody > tr > td > a:focus {
 }
 
 .bed-user-message {
-  font-size: 14px;
+  /*opacity:0.5;*/
+  font-size: 13px;
   color: #B2B2B2;
   margin-top: -10px;
 }
@@ -8696,7 +8699,7 @@ tbody > tr > td > a:focus {
   top: 15px;
   position: absolute;
   left: 0;
-  background: #f7f7f7 !important;
+  background: #d9e0e6 !important;
 }
 
 .bed-user-time {
@@ -10896,6 +10899,26 @@ ul.width-500 > li:focus {
   font-size: 16px;
   margin-left: 5px;
   white-space: nowrap;
+  color:#484848;
+}
+.xt-span5 {
+  display: inline-block;
+  font-size: 18px;
+  margin-left: 10px !important;
+  margin-top: 8px;
+  white-space: nowrap;
+  color:#484848;
+}
+.bed-underline {
+  width:88%;
+  border-bottom: 1px dashed #d9e0e6;
+  margin-left:6%;
+}
+.bed-underline2 {
+  height: 42px;
+  width: 100%;
+  padding-left:6%;
+  padding-right:6%;
 }
 
 .col-xt-12,.col-xt-11,.col-xt-10,.col-xt-9,.col-xt-8,.col-xt-7,.col-xt-6,.col-xt-5,.col-xt-4,.col-xt-3,.col-xt-2,.col-xt-1 {
@@ -11263,4 +11286,9 @@ ul.width-500 > li:focus {
   text-align:center;
   width: 100%;
   display:inline-block;
+}
+.bed-follow {
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
 }

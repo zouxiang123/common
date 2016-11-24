@@ -1,6 +1,11 @@
 .min-w-30 {
 	min-width: 30px !important;
 }
+
 .min-w-70 {
 	min-width: 70px !important;
+}
+
+.placeholder {
+	min-height: 1px;	
 }

@@ -110,7 +110,7 @@
 					<div class="fill-parent center">
 						<div id="imgdiv" style="margin-bottom: -12px;">
 							<c:if test="${empty patient.imagePath }">
-								<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${ctx}/assets/img/default-user.png">
+								<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${COMMON_SERVER_ADDR}/assets/img/default-user.png">
 							</c:if>
 							<c:if test="${!empty patient.imagePath }">
 								<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${ctx}/images${patient.imagePath }">
@@ -263,7 +263,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">病史询问</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('medicalHistory')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('medicalHistory')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">
@@ -578,7 +578,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">临床诊断</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('clinicalDiagnosis')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('clinicalDiagnosis')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">
@@ -777,7 +777,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">病理诊断</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('pathologicDiagnosis')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('pathologicDiagnosis')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">
@@ -881,7 +881,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">CKD/AKI</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('ckdAki')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('ckdAki')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">
@@ -963,7 +963,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">治疗前合并症</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('cureComplication')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('cureComplication')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">
@@ -1144,7 +1144,7 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">其他诊断</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
-						<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('otherDiagnosis')">编 辑</span>
+						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('otherDiagnosis')">编 辑</span>
 					</div>
 				</div>
 				<div class="tab-body" style="padding-left: 30px;">

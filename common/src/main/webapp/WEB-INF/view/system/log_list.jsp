@@ -4,9 +4,9 @@
 <head>
 <title>用户管理</title>
 <%@ include file="../common/head.jsp"%>
-<link href="${ctx }/framework/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
-<script type="text/javascript" src="${ctx }/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="${ctx }/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+<link href="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 </head>
 <body>
 	<div class="container-fluid">

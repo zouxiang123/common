@@ -10,7 +10,7 @@
 			<span class="content-select-title"><fmt:formatDate value="${record.cureSymptomAndCondition.updateTime }" pattern="yyyy-MM-dd" />
 				${record.cureSymptomAndCondition.userName }</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>收起</span><img src="${ctx }/assets/img/arrow-down.png" class="arrow-down">
+				<span>收起</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-down.png" class="arrow-down">
 			</div>
 			<div class="tab-line"></div>
 		</div>

@@ -63,12 +63,12 @@
 				<div class="fill-parent center">
 					<div id="imgdiv" style="margin-bottom: -12px;">
 						<c:if test="${empty patient.imagePath }">
-							<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${ctx}/assets/img/default-user.png">
+							<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${COMMON_SERVER_ADDR}/assets/img/default-user.png">
 						</c:if>
 						<c:if test="${!empty patient.imagePath }">
 							<img id="imgShow" class="personal-photo hand" onclick="up_img.click();" src="${ctx}/images${patient.imagePath }">
 						</c:if>
-						<img class="personal-photo camera hand" onclick="up_img.click();" src="${ctx }/assets/img/camera.png">
+						<img class="personal-photo camera hand" onclick="up_img.click();" src="${COMMON_SERVER_ADDR}/assets/img/camera.png">
 					</div>
 					<input type="hidden" value="${patient.imagePath}">
 					<div class="table-responsive">
@@ -91,9 +91,9 @@
 														</td>
 														<td  align="left">
 																&nbsp;&nbsp;&nbsp;
-															<img  id="queryPatientInfo" class="dialog-delete" style="width: 22px;height: 22px;" name ="imgDel_1" src="${ctx }/assets/img/query.png"  />
+															<img  id="queryPatientInfo" class="dialog-delete" style="width: 22px;height: 22px;" name ="imgDel_1" src="${COMMON_SERVER_ADDR}/assets/img/query.png"  />
 																&nbsp;
-															<img  id="addText" class="dialog-delete" style="width: 22px;height: 22px;" name ="imgDel_0" src="${ctx }/assets/img/patient_add.png"  />
+															<img  id="addText" class="dialog-delete" style="width: 22px;height: 22px;" name ="imgDel_0" src="${COMMON_SERVER_ADDR}/assets/img/patient_add.png"  />
 														</td>
 											        </tr>
 											        
@@ -111,7 +111,7 @@
 																		<input type="text"  placeholder="请输入卡号 " class="personal-input1" id="cardNo${ st.index + 10}" name="patientCardList[${ st.index + 10}].cardNo" value="${ptCard.cardNo}"  /> 
 																</td>
 																<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;
-																		<img class="dialog-delete" name ="imgDel_${st.index + 10}" src="${ctx }/assets/img/dialog-delete.png" onclick="removeSaveCardNos(this,${ st.index + 10})" />
+																		<img class="dialog-delete" name ="imgDel_${st.index + 10}" src="${COMMON_SERVER_ADDR}/assets/img/dialog-delete.png" onclick="removeSaveCardNos(this,${ st.index + 10})" />
 																</td>
 													        </tr>										
 													</c:forEach>
@@ -307,9 +307,9 @@
 		</div>
 	</div>
 	
-	<script src="${ctx }/framework/jquery/1.11.3/jquery.form.js"></script>
-	<script src="${ctx }/assets/js/uploadPreview.min.js"></script>
-	<script src="${ctx }/assets/js/birthday.js?version=${version}"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.form.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/uploadPreview.min.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/assets/js/common/birthday.js?version=${version}"></script>
 	<script src="${ctx }/assets/js/patient/edit_patient_basic.js?version=${version}"></script>
 	<script type="text/javascript">
 	var cards_i = 1;

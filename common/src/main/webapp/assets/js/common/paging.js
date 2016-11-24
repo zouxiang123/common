@@ -8,11 +8,13 @@ var paging_obj = {
 			totalPage : 0,
 			defaultPageSize : 20,
 			callback : callback,
+			scrollEl : null,
 			stop : false,
 			init : function(bodyId, btnId, scrollEl, callback, pageSize) {
 				obj.bodyId = bodyId;
 				obj.btnId = btnId;
 				obj.callback = callback;
+				obj.scrollEl = scrollEl;
 				if (!isEmpty(pageSize)) {
 					obj.pageSize = pageSize;
 					obj.defaultPageSize = pageSize;
@@ -75,5 +77,11 @@ var paging_obj = {
 			str : ("pageNo=" + obj.pageNo + "&pageSize=" + obj.pageSize + "&totalPage=" + obj.totalPage)
 		};
 		return result;
+	},
+	scroll : function(bodyId) {
+		var obj = $("#" + bodyId).data("pagingobj");
+		if (!isEmpty(obj.scrollEl)) {
+			$(obj.scrollEl).scroll();
+		}
 	}
 };

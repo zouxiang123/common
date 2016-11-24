@@ -7,19 +7,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link rel="bookmark" href="${ctx}/assets/img/logo_ico.png">
-<link rel="icon" href="${ctx}/assets/img/logo_ico.png">
+<link rel="bookmark" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
+<link rel="icon" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
 
 <!-- Bootstrap core CSS -->
-<link href="${ctx}/framework/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/framework/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Custom styles -->
-<link href="${ctx}/assets/css/print.css" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/print.css" rel="stylesheet">
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-<script src="${ctx}/framework/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="${ctx}/framework/respond.js/1.4.2/respond.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/html5shiv/3.7.2/html5shiv.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 
 <!-- framework JavaScript -->

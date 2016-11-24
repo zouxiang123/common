@@ -3,8 +3,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
 <jsp:include page="../common/report_datepick.jsp" flush="true"></jsp:include>
-<link rel="stylesheet" href="${ctx }/framework/bootstrap/daterangepicker/daterangepicker.css">
-<script type="text/javascript" src="${ctx }/framework/bootstrap/daterangepicker/daterangepicker.js"></script>
+<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/bootstrap/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/daterangepicker/daterangepicker.js"></script>
 <form action="" id="medicalHistoryForm" onsubmit="return formSubmit(this,'clinicalDiagnosis',true);">
 	<input type="hidden" id="medicalHistoryFormId" name="id" value="${medicalHistory.id}" /> <input type="hidden" id="medicalHistoryFormVersion"
 		name="version" value="${medicalHistory.version}" />
@@ -14,7 +14,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">首次透析日期</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -36,7 +36,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">首次透析方式</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -56,7 +56,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">1.有无脑血管意外史？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -79,7 +79,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">2.严重出血或出血倾向</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -105,7 +105,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">3.严重心肺功能不全病史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -131,7 +131,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">4.有无外周血管疾病史？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -154,7 +154,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">5.有无严重感染或血源性传染病史？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -174,7 +174,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">6.有无精神病史？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -197,7 +197,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">7.手术史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -231,7 +231,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">8.血透史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -301,7 +301,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">9.腹透史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -371,7 +371,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">10.肾移植史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -425,7 +425,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">11.过敏史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -477,7 +477,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title" style="vertical-align: top;">12.传染病史</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -555,7 +555,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">13.其它病史？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>

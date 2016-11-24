@@ -6,7 +6,7 @@
 <head>
 <%@ include file="common/head.jsp"%>
 
-<script src="${ctx }/framework/jquery/1.11.3/jquery.cookie.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.cookie.js"></script>
 <title>登录</title>
 </head>
 <body class="bg-white">
@@ -14,7 +14,7 @@
 	<nav class="navbar navbar-fixed-top">
 		<div class="container-fluid clear-padding-margin">
 			<div id="navbar-login" class="navbar-collapse">
-				<a href="${ctx }/feedback.shtml"><img class="login-logo" src="${ctx}/assets/img/login-logo.png"><span class="pull-right login-nav-link">意见反馈</span> </a> 
+				<a href="${ctx }/feedback.shtml"><img class="login-logo" src="${COMMON_SERVER_ADDR}/assets/img/login-logo.png"><span class="pull-right login-nav-link">意见反馈</span> </a> 
 				<a href="${ctx }/about.shtml"><span class="pull-right login-nav-link">关于我们</span></a> 
 			</div>
 		</div>

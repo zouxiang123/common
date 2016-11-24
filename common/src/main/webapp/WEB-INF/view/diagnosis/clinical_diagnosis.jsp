@@ -22,7 +22,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">原发性肾小球疾病</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -48,7 +48,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">继发性肾小球疾病</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -72,7 +72,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">遗传性及先天性肾病</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -96,7 +96,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">肾小管间质疾病</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -120,7 +120,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">有无泌尿系肿瘤？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -140,7 +140,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">泌尿系统感染和结石</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -165,7 +165,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">肾脏切除术后</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -189,7 +189,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">是否原因不明？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -208,7 +208,7 @@
 			<div class="not-selected"></div>
 			<span class="content-select-title">其他病因？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -232,7 +232,7 @@
 			<div class="selected"></div>
 			<span class="content-select-title">造成原因？</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>收起</span><img src="${ctx }/assets/img/arrow-down.png" class="arrow-down">
+				<span>收起</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-down.png" class="arrow-down">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -265,7 +265,7 @@
 				<div class="not-selected"></div>
 				<span class="content-select-title">造成原因？</span>
 				<div class="tab-action2" style="margin-top: 14px;">
-					<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+					<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 				</div>
 				<div class="tab-line"></div>
 			</div>
@@ -289,7 +289,7 @@
 				<div class="not-selected"></div>
 				<span class="content-select-title">是否原因不明？</span>
 				<div class="tab-action2" style="margin-top: 14px;">
-					<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+					<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 				</div>
 				<div class="tab-line"></div>
 			</div>
@@ -308,7 +308,7 @@
 				<div class="not-selected"></div>
 				<span class="content-select-title">其他病因？</span>
 				<div class="tab-action2" style="margin-top: 14px;">
-					<span>编辑</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+					<span>编辑</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 				</div>
 				<div class="tab-line"></div>
 			</div>

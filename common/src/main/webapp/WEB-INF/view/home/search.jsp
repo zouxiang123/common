@@ -51,7 +51,7 @@
 							<c:if test="${obj.roleName eq '医生'}">
 								<tr class="table-default" onclick="openPersonInfo('${obj.id }','${obj.name }','${obj.roleName }')">
 									<td width="18"></td>
-									<td width="58"><img class="user-photo" src="${ctx}/common/showImage.shtml?fileName=${obj.imagePath }"></td>
+									<td width="58"><img class="user-photo" src="${COMMON_SERVER_ADDR}/common/showImage.shtml?fileName=${obj.imagePath }"></td>
 									<td width="212">${obj.name }</td>
 									<td width="280">${obj.id }</td>
 									<td></td>
@@ -68,7 +68,7 @@
 							<c:if test="${obj.roleName eq '护士'}">
 								<tr class="table-default" onclick="openPersonInfo('${obj.id }','${obj.name }','${obj.roleName }')">
 									<td width="18"></td>
-									<td width="58"><img class="user-photo" src="${ctx}/common/showImage.shtml?fileName=${obj.imagePath }"></td>
+									<td width="58"><img class="user-photo" src="${COMMON_SERVER_ADDR}/common/showImage.shtml?fileName=${obj.imagePath }"></td>
 									<td width="212">${obj.name }</td>
 									<td width="280">${obj.id }</td>
 									<td></td>

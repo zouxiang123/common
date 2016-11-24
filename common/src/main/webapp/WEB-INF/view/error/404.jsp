@@ -11,7 +11,7 @@
 			<div id="navbar" class="navbar-collapse">
 				<ul class="nav navbar-nav">
 					<li><div class="home-page">
-							<img src="${ctx }/assets/img/home-page.png" />
+							<img src="${COMMON_SERVER_ADDR}/assets/img/home-page.png" />
 						</div></li>
 					<li>
 						<ol class="breadcrumb">
@@ -44,10 +44,10 @@
 			<jsp:include page="../common/top_nav_inner.jsp" flush="true"></jsp:include>
 			<div class="col-sm-12 col-md-12 main" style="padding-top: 15px; padding-bottom: 15px; padding-left: 7.5%; padding-right: 7.5%;" data-iframe-css="main">
 				<div class="fill-parent bg-white center">
-					<img style="margin-top: 44px;" src="${ctx }/assets/img/404.png">
+					<img style="margin-top: 44px;" src="${COMMON_SERVER_ADDR}/assets/img/404.png">
 
 					<div style="margin-top: 16px;">
-						<img src="${ctx }/assets/img/face.png"> <span
+						<img src="${COMMON_SERVER_ADDR}/assets/img/face.png"> <span
 							style="display: inline-block; margin-left: 18px; font-size: 16px; color: #a3a3a3; margin-bottom: 44px;">很抱歉,您访问地址出错了...</span>
 					</div>
 					<input type="hidden" id="message" value="${message }">

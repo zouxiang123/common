@@ -17,7 +17,7 @@
 	height: 32px;
 	min-width: 180px;
 	text-align: center;
-	background: url("${ctx}/assets/img/arrow.png") no-repeat scroll right center transparent;
+	background: url("${COMMON_SERVER_ADDR}/assets/img/arrow.png") no-repeat scroll right center transparent;
 }
 
 tbody tr.active {
@@ -63,7 +63,7 @@ tbody tr.active td {
 					</div>
 					<div class="tab-action" onclick="refreshMemory();" style="margin: 20px 34px;">
 						<div class="dividing-line"></div>
-						<span>刷新缓存</span><img src="${ctx }/assets/img/refresh.png" class="refresh">
+						<span>刷新缓存</span><img src="${COMMON_SERVER_ADDR}/assets/img/refresh.png" class="refresh">
 					</div>
 				</div>
 				<!-- 字典表 -->
@@ -124,7 +124,7 @@ tbody tr.active td {
 						<div class="tab-body">
 							<div class="col-sm-3 col-md-2 bg-white" style="padding-right: 1px" id="dictionaryCategoryList">
 								<div style="text-align: left; font-size: 14px;" id="dictionaryCategorySearchCount"></div>
-								<img src="${ctx }/assets/img/search-icon.png" class="pad-search-icon" style="position: absolute; top: 37px; left: 36px;"> <input
+								<img src="${COMMON_SERVER_ADDR}/assets/img/search-icon.png" class="pad-search-icon" style="position: absolute; top: 37px; left: 36px;"> <input
 									class="nav-search-input fill-parent" style="width: 88%;" type="search" placeholder="搜 索" id="dictionaryCategorySearch">
 								<div class="fill-parent" id="dictionaryCategorySearchContent" style="height: 397px; overflow-y: auto; overflow-x: hidden;"></div>
 							</div>
@@ -220,7 +220,7 @@ tbody tr.active td {
 			</div>
 		</div>
 	</div>
-	<script src="${ctx }/framework/jquery/jquery.fastLiveFilter.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/jquery/jquery.fastLiveFilter.js"></script>
 	<script type="text/javascript">
 	 	var assayItems = [];
 	 	$(function(){

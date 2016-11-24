@@ -18,7 +18,7 @@
 			<span class="content-select-title"><fmt:formatDate value="${record.crf.updateTime }" pattern="yyyy-MM-dd" /> ${record.crf.userName }
 				慢性肾功能衰竭</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>打开</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>打开</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 		</div>
@@ -166,14 +166,14 @@
 			<span class="content-select-title"><fmt:formatDate value="${record.seriousCrf.updateTime }" pattern="yyyy-MM-dd" />
 				${record.seriousCrf.userName } 慢性肾功能不全急性加重</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>打开</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>打开</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 
 			<c:if test="${empty crfs && status.index==0&&!patient.delFlag}">
 				<div class="tab-def-action">
 					<span id="btnAddCd"> <c:if test="${!record.seriousCrf.isDraft}">新增</c:if> <c:if test="${record.seriousCrf.isDraft}">继续录入</c:if>
-					</span> <img src="${ctx }/assets/img/new-edit.png" class="new-edit">
+					</span> <img src="${COMMON_SERVER_ADDR}/assets/img/new-edit.png" class="new-edit">
 				</div>
 			</c:if>
 			<div class="tab-line"></div>
@@ -211,14 +211,14 @@
 			<span class="content-select-title"><fmt:formatDate value="${record.arf.updateTime }" pattern="yyyy-MM-dd" /> ${record.arf.userName }
 				急性肾功能衰竭</span>
 			<div class="tab-action2" style="margin-top: 14px;">
-				<span>打开</span><img src="${ctx }/assets/img/arrow-right.png" class="arrow-up">
+				<span>打开</span><img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up">
 			</div>
 			<div class="tab-line"></div>
 
 			<c:if test="${empty crfs && empty seriousCrfs &&  status.index==0&&!patient.delFlag}">
 				<div class="tab-def-action">
 					<span id="btnAddCd"> <c:if test="${!record.arf.isDraft}">新增</c:if> <c:if test="${record.arf.isDraft}">继续录入</c:if>
-					</span> <img src="${ctx }/assets/img/new-edit.png" class="new-edit">
+					</span> <img src="${COMMON_SERVER_ADDR}/assets/img/new-edit.png" class="new-edit">
 				</div>
 			</c:if>
 			<div class="tab-line"></div>

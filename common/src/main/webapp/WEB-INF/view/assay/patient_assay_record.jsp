@@ -78,7 +78,7 @@
 						<div class="modal-header">
 							<h4 class="modal-title" id="assayHistoryTitle">历史数据</h4>
 							<div class="dialog-close pull-right m-t--33" data-dismiss="modal">
-								<img src="${ctx }/assets/img/dialog-close.png">
+								<img src="${COMMON_SERVER_ADDR}/assets/img/dialog-close.png">
 							</div>
 						</div>
 						<div class="modal-body">
@@ -95,7 +95,7 @@
 		</div>
 	</div>
 	</div>
-	<script src="${ctx }/framework/echarts/2.2.7/echarts-simple.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/echarts/2.2.7/echarts-simple.js"></script>
 	<script src="${ctx }/assets/js/assay/patient_assay_chart.js?version=${version}"></script>
 	<script src="${ctx }/assets/js/assay/patient_assay_record.js?version=${version}"></script>
 </body>

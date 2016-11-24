@@ -9,7 +9,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title">新增通路历史</h4>
 				<%-- <div class="dialog-close pull-right" data-dismiss="modal">
-					<img src="${ctx}/assets/img/dialog-close.png">
+					<img src="${COMMON_SERVER_ADDR}/assets/img/dialog-close.png">
 				</div> --%>
 			</div>
 			<div class="modal-body">
@@ -52,7 +52,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">病人优势侧</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -71,7 +71,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">心脏起搏器安装史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -90,7 +90,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">严重充血性心力衰竭病史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -109,7 +109,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">有无外周动脉或静脉插管史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -128,7 +128,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">有无糖尿病</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -147,7 +147,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">止血药物使用历史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body" id="usedAnastalticElement">
@@ -173,7 +173,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">有无高凝状态</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -192,7 +192,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">合并疾病</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -211,10 +211,10 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">血管通路历史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color">编 辑</span>
 		</div>
 		<div class="tab-add-action" id="newVahShow">
-			<span>新 增</span><img src="${ctx }/assets/img/new-edit.png" class="new-edit">
+			<span>新 增</span><img src="${COMMON_SERVER_ADDR}/assets/img/new-edit.png" class="new-edit">
 		</div>
 	</div>
 	<div class="tab-body">
@@ -250,7 +250,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">心脏瓣膜疾病或修补术</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -269,7 +269,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">是否准备肾移植</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -288,7 +288,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">有无Allen实验</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -307,7 +307,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">血管影像学检查</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -329,7 +329,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">双侧上肢血压</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -346,7 +346,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">水肿的评价</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -365,7 +365,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">双上肢粗细的比较</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -384,7 +384,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">束止血带显现静脉</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -403,7 +403,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">侧支静脉的显现</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -422,7 +422,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">有无中心静脉或外周静脉插管的迹象</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -441,7 +441,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">上肢、颈部、胸部手术或外伤史</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -457,7 +457,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">上肢、胸部、颈部手术或外伤的体征</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">
@@ -474,7 +474,7 @@
 		<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">检查有无心力衰竭的证据</span>
 		<div class="tab-action toggle">
 			<div class="dividing-line"></div>
-			<img src="${ctx }/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
+			<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"> <span class="pull-right action-name default-color">编 辑</span>
 		</div>
 	</div>
 	<div class="tab-body">

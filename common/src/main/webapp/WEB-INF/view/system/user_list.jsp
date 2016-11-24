@@ -50,7 +50,7 @@
 						<div class="modal-header">
 							<h4 class="modal-title" id="modal-title"></h4>
 							<div class="dialog-close pull-right m-t--33" data-dismiss="modal">
-								<img src="${ctx}/assets/img/dialog-close.png">
+								<img src="${COMMON_SERVER_ADDR}/assets/img/dialog-close.png">
 							</div>
 						</div>
 						<div class="modal-body">
@@ -168,9 +168,9 @@
 			</select>
 		</div>
 	</div>
-	<script src="${ctx }/assets/js/birthday.js?version=${version}"></script>
-	<link href="${ctx }/framework/jquery/scrollbar/perfect-scrollbar.min.css" rel="stylesheet">
-	<script src="${ctx }/framework/jquery/scrollbar/perfect-scrollbar.jquery.min.js" charset="UTF-8"></script>
+	<script src="${COMMON_SERVER_ADDR}/assets/js/common/birthday.js?version=${version}"></script>
+	<link href="${COMMON_SERVER_ADDR}/framework/jquery/scrollbar/perfect-scrollbar.min.css" rel="stylesheet">
+	<script src="${COMMON_SERVER_ADDR}/framework/jquery/scrollbar/perfect-scrollbar.jquery.min.js" charset="UTF-8"></script>
 	<script type="text/javascript">
 		var accountExists = false;
 		var formData;
