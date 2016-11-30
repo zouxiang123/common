@@ -35,7 +35,7 @@ public class CmFormController {
 	@ResponseBody
 	public Map<String, Object> getList(CmFormPO record) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		List<CmFormPO> list = cmFormService.selectByCategory(record.getCategory(), record.getSysOwner());
+		List<CmFormPO> list = cmFormService.selectByCategory(record.getCategory(), record.getSysOwner(), true);
 		map.put("items", list);
 		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
 		return map;

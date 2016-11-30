@@ -28,7 +28,7 @@
 								<div>
 									<c:if test="${!patient.delFlag}">
 										<div class="personal-btn" style="margin-right: 5px;" id="btnAdd"
-											onclick="window.location.href='${ctx}/patient/patientInfo.shtml?patientId=${patient.id }';" data-permission-key="edit_patient">
+											onclick="window.location.href='${ctx}/patient/editPatient.shtml?patientId=${patient.id }';" data-permission-key="edit_patient">
 											<img src="${COMMON_SERVER_ADDR}/assets/img/change.png"> <br /> <span class="personal-span" style="margin-left: -6px;">编辑</span>
 										</div>
 									</c:if>

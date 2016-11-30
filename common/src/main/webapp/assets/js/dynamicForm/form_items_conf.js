@@ -173,7 +173,7 @@ var form_conf_obj = {
 		};
 		$("#itemsTree").data("settings", settings);
 		$("#itemsTree").data("needCategory", false);
-		$("#itemsTree").data("url", ctx + "/dynamicForm/formItems/getBasicItems.shtml");
+		$("#itemsTree").data("url", ctx + "/dynamicForm/formBaseItems/getItems.shtml");
 		// 表单树配置
 		var confTreeEvents = {
 			/** 设置表单配置单树按钮显示 */
@@ -283,6 +283,9 @@ var form_conf_obj = {
 		node.tempId = null;// 清空数据库对应的id
 		node.isNew = true;
 		node.category = category;
+		if (node.itemType == "div") {// 如果是div节点，重新生成id
+			node.id = "div_" + new Date().getTime();
+		}
 		/*node.id = id;*/// 无需重新生成id
 		/*node.orderBy = orderBy;*/
 		if (!isEmptyObject(node.children)) {// 拖拽的节点包含子节点时
@@ -302,8 +305,10 @@ var form_conf_obj = {
 			$.fn.zTree.init($("#" + id), $("#" + id).data("settings"), []);
 			return;
 		}
-
 		var data = "sysOwner=" + sysOwner + "&category=" + category;
+		if (id == "itemsTree") {// 如果是基础数据树，isEnable属性
+			data += "&isEnable=true";
+		}
 		if ($("#category_list tr.active").length > 0) {
 			var formId = $("#category_list tr.active").data("id");
 			data += "&fkFormId=" + formId;
@@ -317,6 +322,17 @@ var form_conf_obj = {
 			// async : false,
 			success : function(data) {
 				var nodes = [];
+				if (id == "itemsTree") {// 如果是基础数据树，添加div节点供拖拽
+					nodes.push(form_conf_obj.convertNode({
+						itemCode : "1",
+						pItemCode : "0",
+						itemName : "div节点",
+						itemType : "div",
+						isEnable : true,
+						sysOwner : sysOwner,
+						title : "div节点，供布局使用"
+					}, true));
+				}
 				for (var i = 0; i < data.items.length; i++) {
 					var item = data.items[i];
 					// 将对象转换为tree对象
@@ -497,5 +513,14 @@ var form_conf_obj = {
 			node[key] = item[key];
 		}
 		return node;
+	},
+	updateSelectedNode : function() {
+		var treeObj = $.fn.zTree.getZTreeObj("confTree");
+		var nodes = treeObj.getSelectedNodes();
+		for (var i = 0; i < nodes.length; i++) {
+			nodes[i].displayStyle = $("#displayStyle").val();
+			treeObj.updateNode(nodes[i]);
+		}
+		showTips("更新成功", 500);
 	}
 };

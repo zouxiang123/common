@@ -16,7 +16,6 @@
     <result column="score" jdbcType="DECIMAL" property="score" />
     <result column="min_value" jdbcType="DECIMAL" property="minValue" />
     <result column="max_value" jdbcType="DECIMAL" property="maxValue" />
-    <result column="display_cols" jdbcType="INTEGER" property="displayCols" />
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="is_fixed" jdbcType="BIT" property="isFixed" />
     <result column="fk_code" jdbcType="VARCHAR" property="fkCode" />
@@ -24,6 +23,7 @@
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="child_value_node" jdbcType="BIT" property="childValueNode" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -35,8 +35,9 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, p_item_code, item_code, item_name, item_desc, item_type, unit, need_score, score, 
-    min_value, max_value, display_cols, is_leaf, is_fixed, fk_code, group_tag, data_type, 
-    sys_owner, is_enable, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+    min_value, max_value, is_leaf, is_fixed, fk_code, group_tag, data_type, sys_owner, 
+    is_enable, child_value_node, fk_tenant_id, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -61,19 +62,21 @@
     insert into cm_form_base_items (id, p_item_code, item_code, 
       item_name, item_desc, item_type, 
       unit, need_score, score, 
-      min_value, max_value, display_cols, 
-      is_leaf, is_fixed, fk_code, group_tag, 
+      min_value, max_value, is_leaf, 
+      is_fixed, fk_code, group_tag, 
       data_type, sys_owner, is_enable, 
-      fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
+      child_value_node, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{needScore,jdbcType=BIT}, #{score,jdbcType=DECIMAL}, 
-      #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{displayCols,jdbcType=INTEGER}, 
-      #{isLeaf,jdbcType=BIT}, #{isFixed,jdbcType=BIT}, #{fkCode,jdbcType=VARCHAR}, #{groupTag,jdbcType=VARCHAR}, 
+      #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{isLeaf,jdbcType=BIT}, 
+      #{isFixed,jdbcType=BIT}, #{fkCode,jdbcType=VARCHAR}, #{groupTag,jdbcType=VARCHAR}, 
       #{dataType,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{childValueNode,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmFormBaseItems">
     <!--
@@ -114,9 +117,6 @@
       <if test="maxValue != null">
         max_value,
       </if>
-      <if test="displayCols != null">
-        display_cols,
-      </if>
       <if test="isLeaf != null">
         is_leaf,
       </if>
@@ -137,6 +137,9 @@
       </if>
       <if test="isEnable != null">
         is_enable,
+      </if>
+      <if test="childValueNode != null">
+        child_value_node,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -188,9 +191,6 @@
       <if test="maxValue != null">
         #{maxValue,jdbcType=DECIMAL},
       </if>
-      <if test="displayCols != null">
-        #{displayCols,jdbcType=INTEGER},
-      </if>
       <if test="isLeaf != null">
         #{isLeaf,jdbcType=BIT},
       </if>
@@ -211,6 +211,9 @@
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="childValueNode != null">
+        #{childValueNode,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -265,9 +268,6 @@
       <if test="maxValue != null">
         max_value = #{maxValue,jdbcType=DECIMAL},
       </if>
-      <if test="displayCols != null">
-        display_cols = #{displayCols,jdbcType=INTEGER},
-      </if>
       <if test="isLeaf != null">
         is_leaf = #{isLeaf,jdbcType=BIT},
       </if>
@@ -288,6 +288,9 @@
       </if>
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="childValueNode != null">
+        child_value_node = #{childValueNode,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -322,7 +325,6 @@
       score = #{score,jdbcType=DECIMAL},
       min_value = #{minValue,jdbcType=DECIMAL},
       max_value = #{maxValue,jdbcType=DECIMAL},
-      display_cols = #{displayCols,jdbcType=INTEGER},
       is_leaf = #{isLeaf,jdbcType=BIT},
       is_fixed = #{isFixed,jdbcType=BIT},
       fk_code = #{fkCode,jdbcType=VARCHAR},
@@ -330,6 +332,7 @@
       data_type = #{dataType,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       is_enable = #{isEnable,jdbcType=BIT},
+      child_value_node = #{childValueNode,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

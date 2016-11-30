@@ -10542,11 +10542,29 @@ table.table-fixedheader>thead tr th, table.table-fixedheader>tbody tr td {
 .p-b-5 {
   padding-bottom: 5px;
 }
+.p-b-4 {
+  padding-bottom: 4px;
+}
+.p-b-3 {
+  padding-bottom: 3px;
+}
+.p-b-2 {
+  padding-bottom: 2px;
+}
+.p-b-1 {
+  padding-bottom: 1px;
+}
 .p-b-8 {
   padding-bottom: 8px;
 }
+.p-t-9 {
+  padding-top: 9px;
+}
 .p-t-8 {
   padding-top: 8px;
+}
+.p-t-7 {
+  padding-top: 7px;
 }
 .p-t-14 {
   padding-top: 14px;

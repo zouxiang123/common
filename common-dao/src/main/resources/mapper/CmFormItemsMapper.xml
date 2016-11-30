@@ -16,6 +16,8 @@
     <result column="item_level" jdbcType="INTEGER" property="itemLevel" />
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="display_style" jdbcType="VARCHAR" property="displayStyle" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -23,7 +25,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, fk_form_id, item_name, p_item_code, item_code, order_by, sys_owner, item_path, 
-    item_level, is_leaf, is_enable, fk_tenant_id
+    item_level, is_leaf, is_enable, display_style, item_type, fk_tenant_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -48,13 +50,13 @@
     insert into cm_form_items (id, fk_form_id, item_name, 
       p_item_code, item_code, order_by, 
       sys_owner, item_path, item_level, 
-      is_leaf, is_enable, fk_tenant_id
-      )
+      is_leaf, is_enable, display_style, 
+      item_type, fk_tenant_id)
     values (#{id,jdbcType=BIGINT}, #{fkFormId,jdbcType=BIGINT}, #{itemName,jdbcType=VARCHAR}, 
       #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
       #{sysOwner,jdbcType=VARCHAR}, #{itemPath,jdbcType=VARCHAR}, #{itemLevel,jdbcType=INTEGER}, 
-      #{isLeaf,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}
-      )
+      #{isLeaf,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, #{displayStyle,jdbcType=VARCHAR}, 
+      #{itemType,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmFormItems">
     <!--
@@ -95,6 +97,12 @@
       <if test="isEnable != null">
         is_enable,
       </if>
+      <if test="displayStyle != null">
+        display_style,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
       </if>
@@ -132,6 +140,12 @@
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="displayStyle != null">
+        #{displayStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=VARCHAR},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -174,6 +188,12 @@
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
       </if>
+      <if test="displayStyle != null">
+        display_style = #{displayStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=VARCHAR},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -195,6 +215,8 @@
       item_level = #{itemLevel,jdbcType=INTEGER},
       is_leaf = #{isLeaf,jdbcType=BIT},
       is_enable = #{isEnable,jdbcType=BIT},
+      display_style = #{displayStyle,jdbcType=VARCHAR},
+      item_type = #{itemType,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

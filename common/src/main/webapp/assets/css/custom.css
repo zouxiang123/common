@@ -9,3 +9,6 @@
 .placeholder {
 	min-height: 1px;	
 }
+.inline-block{
+	display: inline-block;
+}

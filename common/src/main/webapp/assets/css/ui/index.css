@@ -163,6 +163,15 @@
     font-size: 14px;
     color: #000;
 }
+.u-input-none{
+    height:30px;
+    width:100%;
+    padding:0px 5px;
+    border:none;
+    outline: none;
+    line-height:0px !important;
+    background:none;
+}
 .u-input:hover,
 .u-input:focus {
     color: #000;
@@ -420,6 +429,11 @@
     line-height:27px;
     padding:0px 20px;
 }
+.u-btn-46{
+    width:300px;
+    height:48px;
+    line-height:46px;
+}
 .u-select-75{
     width:75px !important;
     height:24px !important;
@@ -436,7 +450,7 @@
 	 height: 27px;
 	 font-size:12px;
 	 width:154px !important;
-	 background-position: 135px 4px !important;
+	 background-position: 135px 6px !important;
 }
 .u-ipt{
     height:24px;
@@ -466,6 +480,18 @@
     height:46px;
     line-height:46px;
     width:100%;
+}
+.u-lst-50{
+    width:300px;
+    height:50px;
+    line-height:50px;
+    border-bottom:1px solid #D9E0E6;
+    color:#a3a3a3;
+}
+.u-a-none:hover{
+    text-decoration: none;
+    color: white;
+    opacity: 0.5;
 }
 /*功能（.f-）*/
 .f-span-1 {
@@ -512,6 +538,19 @@
     text-align: right;
     line-height: 27px;
     min-width: 60px;
+}
+.f-checkbox {
+    width: 18px !important;
+    height: 18px !important;
+    margin-right: 6px !important;
+    background: url('../../img/ui/checkbox.png') !important;
+    background-repeat: no-repeat !important;
+    background-size: 18px 18px !important;
+}
+.f-checkbox:checked {
+    background: url('../../img/ui/checkbox-selected.png') !important;
+    background-repeat: no-repeat !important;
+    background-size: 18px 18px !important;
 }
 .f-input {
     width: 60.2%;
@@ -668,9 +707,26 @@ p.u-span-2.f-span-2:focus {
     background-repeat: no-repeat !important;
     background-size: 13px 13px !important;
 }
+.u-bg-img{
+    height: 100%;
+    height: 100%;
+    background: url('../../img/ui/CB866337-FE86-4714-BCCE-A83272E93205@1x.png') no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.u-img-61{
+    width: 61px;
+    height: 61px;
+    line-height: 55px;
+}
 .u-img-40{
     width: 40px;
     height: 40px;
+}
+.u-img-16{
+    width: 16px;
+    height: 16px;
 }
 .u-img-22{
 	height: 22px;
@@ -682,8 +738,17 @@ p.u-span-2.f-span-2:focus {
 .u-img-32{
 	height: 32px;
     width: 32px;
-    background: url('../../img/avatar.jpg') no-repeat;
-    background-size: 100%;
+}
+.u-logo-zs{
+    width:720px;
+    height:420px;
+    background:rgba(255,255,255,0.9);
+    position: absolute;top:50%;
+    margin-top:-210px;
+    left:50%;
+    margin-left:-360px;
+    padding-top:40px;
+    box-shadow:0px 6px 4px 0px rgba(0,0,0,0.10);
 }
 .u-radio-1:checked {
     background: url('../../img/ui/radio-checked.png') !important;
@@ -700,9 +765,12 @@ p.u-span-2.f-span-2:focus {
 .u-btn:focus{
     background: rgba(217,224,230,0.20);
 }
+.u-btn-46:hover,
+.u-btn-46:focus,
 .u-btn-blue:hover,
 .u-btn-blue:focus,
 .u-btn-red:hover,
 .u-btn-red:focus{
     opacity:0.8;
 }
+

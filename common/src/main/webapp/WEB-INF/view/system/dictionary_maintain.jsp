@@ -86,7 +86,7 @@ tbody tr.active td {
 													<span class="list-group-item-title">类别名称：</span> <input class="input-style width-300" type="text" name="itemDesc" maxlength="127" />
 												</div>
 												<div class="list-group-item">
-													<span class="list-group-item-title">项目编码：</span> <input class="input-style width-300" type="text" name="itemCode" maxlength="10" />
+													<span class="list-group-item-title">项目编码：</span> <input class="input-style width-300" type="text" name="itemCode" maxlength="32" />
 												</div>
 												<div class="list-group-item">
 													<span class="list-group-item-title">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</span> <input class="input-style width-300" type="text"
@@ -612,9 +612,9 @@ tbody tr.active td {
 	   			success : function(data) {
 	   				if(data.status == 1){
 	   					showTips();
-	   					clearTableBody();
-   		 				getTableBody();
 	   					if(needHide){
+	   						clearTableBody();
+   		 					getTableBody();
 							$("#"+dialogId).modal("hide");
 						}
 	   				}else if(data.status == 2){

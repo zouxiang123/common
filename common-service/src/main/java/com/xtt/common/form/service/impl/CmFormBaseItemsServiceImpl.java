@@ -11,6 +11,7 @@ package com.xtt.common.form.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,14 +66,38 @@ public class CmFormBaseItemsServiceImpl implements ICmFormBaseItemsService {
 				return CommonConstants.WARNING;
 			}
 			DataUtil.setSystemFieldValue(record);
+			record.setChildValueNode(false);
 			cmFormBaseItemsMapper.insert(record);
-		} else {
 			CmFormBaseItemsPO parent = selectByItemCode(record.getpItemCode(), record.getSysOwner());
-			if (parent.getIsLeaf()) {// 如果父节点是叶子节点，更新为非叶子节点
+			// 如果父节点是叶子节点，更新为非叶子节点
+			if (parent.getIsLeaf()) {
 				parent.setIsLeaf(false);
-				cmFormBaseItemsMapper.updateByPrimaryKey(parent);
+				// 如果父节点是叶子节点，而且父节点的父节点标识“子节点全是value节点标识”为true，则更新其为false
+				CmFormBaseItemsPO topParent = selectByItemCode(parent.getpItemCode(), parent.getSysOwner());
+				if (topParent.getChildValueNode()) {
+					topParent.setChildValueNode(false);
+					cmFormBaseItemsMapper.updateByPrimaryKey(topParent);
+				}
 			}
+			// 如果父节点的子节点全是叶子节点，则更新“子节点全是value节点标识”为true
+			CmFormBaseItemsPO query = new CmFormBaseItemsPO();
+			query.setpItemCode(parent.getItemCode());
+			query.setSysOwner(parent.getSysOwner());
+			List<CmFormBaseItemsPO> items = selectByCondition(query);
+			boolean allChildIsleaf = true;// 所有的子节点是否为叶子节点
+			if (CollectionUtils.isNotEmpty(items)) {
+				for (CmFormBaseItemsPO item : items) {
+					if (!item.getIsLeaf()) {
+						allChildIsleaf = false;
+						break;
+					}
+				}
+			}
+			parent.setChildValueNode(allChildIsleaf);
+			cmFormBaseItemsMapper.updateByPrimaryKey(parent);
+		} else {
 			CmFormBaseItems old = cmFormBaseItemsMapper.selectByPrimaryKey(record.getId());
+			record.setChildValueNode(old.getChildValueNode());
 			record.setCreateTime(old.getCreateTime());
 			record.setCreateUserId(old.getCreateUserId());
 			record.setUpdateTime(new Date());

@@ -25,7 +25,7 @@ import com.xtt.common.util.UserUtil;
 @Service
 public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 	@Autowired
-	private CmFormItemsMapper cmFormConfMapper;
+	private CmFormItemsMapper cmFormItemsMapper;
 	@Autowired
 	private ICmFormService cmFormService;
 
@@ -41,7 +41,7 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 			record = new CmFormItemsPO();
 		}
 		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormConfMapper.selectByCondition(record);
+		return cmFormItemsMapper.selectByCondition(record);
 	}
 
 	@Override
@@ -62,6 +62,7 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 			form.setSysOwner(sysOwner);
 			form.setVersion(version);
 			form.setIsNew(true);
+			form.setIsEnable(true);
 			cmFormService.insert(form);
 
 			int tenantId = UserUtil.getTenantId();
@@ -71,7 +72,7 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 				}
 				record.setFkFormId(form.getId());
 				record.setFkTenantId(tenantId);
-				cmFormConfMapper.insert(record);
+				cmFormItemsMapper.insert(record);
 			}
 		}
 		return resultMap;
@@ -90,7 +91,7 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if (records != null && records.length > 0) {
 			for (CmFormItemsPO record : records) {
-				this.cmFormConfMapper.deleteByPrimaryKey(record.getId());
+				this.cmFormItemsMapper.deleteByPrimaryKey(record.getId());
 			}
 		}
 		return resultMap;
@@ -98,7 +99,7 @@ public class CmFormConfSerivceImpl implements ICmFormItemsSerivce {
 
 	@Override
 	public void deleteByFormId(Long id) {
-		cmFormConfMapper.deleteByFormId(id);
+		cmFormItemsMapper.deleteByFormId(id);
 	}
 
 }

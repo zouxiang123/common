@@ -11,6 +11,7 @@
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="is_new" jdbcType="BIT" property="isNew" />
     <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -21,8 +22,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, form_name, category, sys_owner, is_new, version, fk_tenant_id, create_time, create_user_id, 
-    update_time, update_user_id
+    id, form_name, category, sys_owner, is_new, version, is_enable, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -46,12 +47,14 @@
     -->
     insert into cm_form (id, form_name, category, 
       sys_owner, is_new, version, 
-      fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
+      is_enable, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{formName,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, 
       #{sysOwner,jdbcType=VARCHAR}, #{isNew,jdbcType=BIT}, #{version,jdbcType=INTEGER}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{isEnable,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmForm">
     <!--
@@ -76,6 +79,9 @@
       </if>
       <if test="version != null">
         version,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -111,6 +117,9 @@
       </if>
       <if test="version != null">
         #{version,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -150,6 +159,9 @@
       <if test="version != null">
         version = #{version,jdbcType=INTEGER},
       </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -178,6 +190,7 @@
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       is_new = #{isNew,jdbcType=BIT},
       version = #{version,jdbcType=INTEGER},
+      is_enable = #{isEnable,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -209,6 +222,9 @@
       </if>
       <if test="fkTenantId != null">
         and f.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="isEnable != null">
+        and f.is_enable = #{isEnable}
       </if>
     </where>
   </select>

@@ -51,6 +51,7 @@ import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class CommonCacheServiceImpl implements ICommonCacheService {
@@ -128,16 +129,17 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	public static List<SysObjDto> convertSysObjList(List<SysObj> list) {
 		List<SysObjDto> tempList = new ArrayList<SysObjDto>();
 		if (list != null && !list.isEmpty()) {
-			SysObjDto CmSysObj;
+			SysObjDto cmSysObj;
 			for (SysObj so : list) {// 缓存有需要的数据
-				CmSysObj = new SysObjDto();
-				CmSysObj.setName(so.getName());
-				CmSysObj.setKey(so.getKey());
-				CmSysObj.setUrl(so.getUrl());
-				CmSysObj.setType(so.getType());
-				CmSysObj.setCode(so.getCode());
-				CmSysObj.setpCode(so.getpCode());
-				tempList.add(CmSysObj);
+				cmSysObj = new SysObjDto();
+				cmSysObj.setName(so.getName());
+				cmSysObj.setKey(so.getKey());
+				cmSysObj.setUrl(so.getUrl());
+				cmSysObj.setType(so.getType());
+				cmSysObj.setCode(so.getCode());
+				cmSysObj.setpCode(so.getpCode());
+				cmSysObj.setSysOwner(so.getSysOwner());
+				tempList.add(cmSysObj);
 			}
 			list.clear();
 		}
@@ -163,7 +165,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	@Override
 	public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
 		// 删除数据
-		RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
+		if (StringUtil.isBlank(sysOwner))
+			RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
 		// 获取所有的表单列表
 		CmFormPO query = new CmFormPO();
 		query.setSysOwner(sysOwner);

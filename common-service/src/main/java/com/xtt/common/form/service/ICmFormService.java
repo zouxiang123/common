@@ -19,10 +19,11 @@ public interface ICmFormService {
 	 * @Title: selectByCategory
 	 * @param category
 	 * @param sysOwner
+	 * @param isEnable
 	 * @return
 	 *
 	 */
-	List<CmFormPO> selectByCategory(String category, String sysOwner);
+	List<CmFormPO> selectByCategory(String category, String sysOwner, boolean isEnable);
 
 	/**
 	 * 根据条件查询数据

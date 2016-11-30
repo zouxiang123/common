@@ -65,12 +65,11 @@
 	var ctx = "${ctx}";
 	if(getCookie("cacheFlag")=="0"){
 		$.ajax({
-			  url: ctx+"/system/getUserPermissionData.shtml",
+			  url: "${COMMON_SERVER_ADDR}/system/getUserPermissionData.shtml",
 			  type: "post",
 			  dataType: "json",
 			  async:false,
 			  success:function(data){
-				  alert(JSON.stringify(data));
 				 if(data.status==1){
 					 var storage = window.localStorage;
 					 storage.setItem("user_non_permission_list", convertEmpty(data.user_non_permission));

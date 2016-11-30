@@ -5,7 +5,6 @@ import java.util.List;
 
 public class FormNodesDto {
 	/*========basic items=========*/
-	private String itemType;
 	private String itemDesc;
 	private String unit;
 	private Boolean needScore;
@@ -15,8 +14,8 @@ public class FormNodesDto {
 	private String dataType;
 	private BigDecimal minValue;
 	private BigDecimal maxValue;
-	private Integer displayCols;
 	private String groupTag;
+	private String childValueNode;
 	/*========Form conf=========*/
 	private Long fkFormId;
 	private String itemName;
@@ -29,6 +28,8 @@ public class FormNodesDto {
 	private Boolean isLeaf;
 	private Boolean isEnable;
 	private Integer fkTenantId;
+	private String itemType;
+	private String displayStyle;
 	/*============form value==============*/
 	private String itemValue;
 	private Long fkRecordId;
@@ -230,14 +231,6 @@ public class FormNodesDto {
 		this.maxValue = maxValue;
 	}
 
-	public Integer getDisplayCols() {
-		return displayCols;
-	}
-
-	public void setDisplayCols(Integer displayCols) {
-		this.displayCols = displayCols;
-	}
-
 	public String getGroupTag() {
 		return groupTag;
 	}
@@ -252,6 +245,22 @@ public class FormNodesDto {
 
 	public void setUnitShow(String unitShow) {
 		this.unitShow = unitShow;
+	}
+
+	public String getChildValueNode() {
+		return childValueNode;
+	}
+
+	public void setChildValueNode(String childValueNode) {
+		this.childValueNode = childValueNode;
+	}
+
+	public String getDisplayStyle() {
+		return displayStyle;
+	}
+
+	public void setDisplayStyle(String displayStyle) {
+		this.displayStyle = displayStyle;
 	}
 
 }

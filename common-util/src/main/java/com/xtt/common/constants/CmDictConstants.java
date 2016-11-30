@@ -30,6 +30,8 @@ public class CmDictConstants {
 	public static final String FORM_MODULE = "form_module";
 	/** 所属系统 */
 	public static final String SYS_OWNER = "sys_owner";
+	/** 表单样式展示方式 */
+	public static final String FORM_DISPLAY_STYLE = "form_display_style";
 	/** 腹透表单类别 */
 	public static final String PD_FORM_CATEGORY = "PD_form_category";
 	/** 腹透随访类别 */

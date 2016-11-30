@@ -58,7 +58,7 @@
 					</select>
 					<div class="tab-action" id="refresh" style="padding: 10px 34px;">
 						<div class="dividing-line"></div>
-						<span>刷新缓存</span><img src="/pd/assets/img/refresh.png" class="refresh">
+						<span>刷新缓存</span><img src="${COMMON_SERVER_ADDR}/assets/img/refresh.png" class="refresh">
 					</div>
 				</div>
 				<div class="fill-parent" id="contentDiv">
@@ -83,19 +83,32 @@
 						</div>
 					</div>
 					<div class="col-sm-4 col-md-4 bg-white tree-block" style="padding-left: 10px;">
-						<div style="margin-top: 10px;">
-							<span><span style="margin-left: 20px;">版本列表</span></span>
-						</div>
-						<div id="category_list" class="ztree" style="margin-top: 10px;">
-							<table class="table table-border">
-								<thead>
-									<th>版本</th>
-									<th>表单名称</th>
-									<th>操作</th>
-								</thead>
-								<tbody>
-								</tbody>
-							</table>
+						<div class="ztree">
+							<div style="margin-top: 10px;">
+								<div class="list-group">
+		                            <div class="list-group-item">
+										<span class="group-title">选中节点样式：</span>
+	                            		<select class="personal-input" style="width: 130px;" id = "displayStyle">
+	                            			<c:forEach var="item" items="${form_display_style }">
+	                            				<option value="${item.itemCode }">${item.itemName }</option>
+	                            			</c:forEach>
+	                            		</select>
+	                            		<button onclick='form_conf_obj.updateSelectedNode();' class='btn btn-def' style='width: 70px;'>更新</button>
+		                            </div>
+								</div>
+							</div>
+							<div id="category_list" style="margin-top: 10px;">
+								<div style="margin-left: 20px;">版本列表</div>
+								<table class="table table-border">
+									<thead>
+										<th>版本</th>
+										<th>表单名称</th>
+										<th>操作</th>
+									</thead>
+									<tbody>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -71,6 +71,18 @@ public class CmFormItems {
     private Boolean isEnable;
 
     /**
+     * 显示样式
+     * cm_form_items.display_style
+     */
+    private String displayStyle;
+
+    /**
+     * 组件类型(checkbox、input、textarea)等等
+     * cm_form_items.item_type
+     */
+    private String itemType;
+
+    /**
      * 租户id
      * cm_form_items.fk_tenant_id
      */
@@ -228,6 +240,34 @@ public class CmFormItems {
      */
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
+    }
+
+    /**
+     * 显示样式
+     */
+    public String getDisplayStyle() {
+        return displayStyle;
+    }
+
+    /**
+     * 显示样式
+     */
+    public void setDisplayStyle(String displayStyle) {
+        this.displayStyle = displayStyle;
+    }
+
+    /**
+     * 组件类型(checkbox、input、textarea)等等
+     */
+    public String getItemType() {
+        return itemType;
+    }
+
+    /**
+     * 组件类型(checkbox、input、textarea)等等
+     */
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
     }
 
     /**

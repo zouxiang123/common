@@ -45,7 +45,7 @@ public class UserController {
 		model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId()));
 		model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
 		model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX));
-		model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER));
+		model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sysOwner));
 		model.addObject(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE));
 		model.addObject(CmDictConstants.NURSE_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE));
 		return model;

@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.CmFormMapper;
+import com.xtt.common.dao.model.CmForm;
 import com.xtt.common.dao.po.CmFormPO;
-import com.xtt.common.form.service.ICmFormItemsSerivce;
 import com.xtt.common.form.service.ICmFormService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
@@ -27,17 +27,16 @@ import com.xtt.platform.util.lang.StringUtil;
 public class CmFormServiceImpl implements ICmFormService {
 	@Autowired
 	private CmFormMapper cmFormMapper;
-	@Autowired
-	private ICmFormItemsSerivce cmFormConfSerivce;
 
 	@Override
-	public List<CmFormPO> selectByCategory(String category, String sysOwner) {
+	public List<CmFormPO> selectByCategory(String category, String sysOwner, boolean isEnable) {
 		if (StringUtil.isBlank(category)) {
 			return new ArrayList<>();
 		}
 		CmFormPO record = new CmFormPO();
 		record.setCategory(category);
 		record.setSysOwner(sysOwner);
+		record.setIsEnable(isEnable);
 		return selectByCondition(record);
 	}
 
@@ -75,8 +74,9 @@ public class CmFormServiceImpl implements ICmFormService {
 
 	@Override
 	public String delById(Long id) {
-		cmFormConfSerivce.deleteByFormId(id);
-		cmFormMapper.deleteByPrimaryKey(id);
+		CmForm form = cmFormMapper.selectByPrimaryKey(id);
+		form.setIsEnable(false);
+		cmFormMapper.updateByPrimaryKey(form);
 		return CommonConstants.SUCCESS;
 	}
 

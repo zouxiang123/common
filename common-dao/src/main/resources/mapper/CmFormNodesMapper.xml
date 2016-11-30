@@ -4,7 +4,6 @@
    <!-- 自定义 -->
   <resultMap id="ResultMap" type="com.xtt.common.dto.FormNodesDto" >
     <!-- basic items -->
-    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="need_score" jdbcType="BIT" property="needScore" />
@@ -14,8 +13,8 @@
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
  	<result column="min_value" jdbcType="DECIMAL" property="minValue" />
     <result column="max_value" jdbcType="DECIMAL" property="maxValue" />
-    <result column="display_cols" jdbcType="INTEGER" property="displayCols" />
     <result column="group_tag" jdbcType="VARCHAR" property="groupTag" />
+    <result column="child_value_node" jdbcType="BIT" property="childValueNode" />
   	<!-- form items -->
   	<result column="fk_form_id" jdbcType="BIGINT" property="fkFormId" />
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
@@ -28,12 +27,14 @@
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="display_style" jdbcType="VARCHAR" property="displayStyle" />
+    <result column="item_type" jdbcType="VARCHAR" property="itemType" />
   </resultMap>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dto.FormNodesDto" resultMap="ResultMap">
   	SELECT 
-		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id
-		,fbi.item_type,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type,fbi.min_value,fbi.max_value,fbi.display_cols,fbi.group_tag
+		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id,fi.display_style,fi.item_type
+		,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type,fbi.min_value,fbi.max_value,fbi.group_tag,fbi.child_value_node
 	FROM cm_form_items fi 
 	LEFT JOIN cm_form_base_items fbi ON fbi.item_code = fi.item_code AND fbi.fk_tenant_id = fi.fk_tenant_id and fbi.sys_owner = fi.sys_owner
   	<where>
@@ -71,10 +72,10 @@
 		<if test="fkTenantId != null">
 		  AND fi.fk_tenant_id = #{fkTenantId}
 		</if>
-		<!-- basic item -->
 		<if test="itemType != null">
-		  AND fbi.item_type = #{itemType}
+		  AND fi.item_type = #{itemType}
 		</if>
+		<!-- basic item -->
 		<if test="unit != null">
 		  AND fbi.unit = #{unit}
 		</if>

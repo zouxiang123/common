@@ -42,6 +42,12 @@ public class CmForm {
     private Integer version;
 
     /**
+     * 是否有效标识
+     * cm_form.is_enable
+     */
+    private Boolean isEnable;
+
+    /**
      * 租户id
      * cm_form.fk_tenant_id
      */
@@ -151,6 +157,20 @@ public class CmForm {
      */
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    /**
+     * 是否有效标识
+     */
+    public Boolean getIsEnable() {
+        return isEnable;
+    }
+
+    /**
+     * 是否有效标识
+     */
+    public void setIsEnable(Boolean isEnable) {
+        this.isEnable = isEnable;
     }
 
     /**

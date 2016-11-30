@@ -107,7 +107,7 @@ public class NutritionCalculateUtil {
 		if (BMI_FORMULA_STANDARD.equals(formulaType)) {
 			// 体重kg/(身高cm/100)2
 			// 默认保留两位小数
-			value = weight.divide(stature.divide(new BigDecimal(100)), 2, BigDecimal.ROUND_HALF_UP);
+			value = weight.divide(stature.divide(new BigDecimal(100)).pow(2), 2, BigDecimal.ROUND_HALF_UP);
 		}
 		return value;
 	}

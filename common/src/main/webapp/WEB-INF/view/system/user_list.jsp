@@ -55,7 +55,7 @@
 						</div>
 						<div class="modal-body">
 							<div class="dialog-body">
-								<form onsubmit="return updateUserInfo(this);" id="userInfoForm">
+								<form onsubmit="return false;" id="userInfoForm">
 								<div class="table-responsive">
 									<table class="personal-table table table-align-left">
 									<input type="hidden" name="id" value="" /> 
@@ -129,6 +129,18 @@
 <!-- 												<input type="text" name="position" maxlength="32"/>
 -->											</td>
 										</tr>
+										<tr>
+											<td width="30" class="personal-title">*&nbsp;&nbsp;所属系统：</td>
+											<td width="10"></td>
+											<td width="150" class="personal-value">
+												<select name="sysOwner" class="selectpicker" value="${user.sysOwner}" >
+													<option value="">--</option>
+													<c:forEach var="item" items="${sys_owner }">
+														<option value="${item.itemCode }">${item.itemName }</option>
+													</c:forEach>
+												</select>									
+											</td>
+										</tr>
 									 </tbody>
 									</table>
 								</div>
@@ -140,7 +152,7 @@
 									<button type="button" class="pull-right btn" style="margin-right: 6px;" data-dismiss="modal">取 消</button>
 								</div>
 								<div class="dialog-btn">
-									<button type="button" class="pull-left btn btn-def" style="margin-left: 27px;" onclick="buttonSubmit(this)">保 存</button>
+									<button type="button" class="pull-left btn btn-def" style="margin-left: 27px;" onclick="updateUserInfo()">保 存</button>
 								</div>
 							</div>
 						</div>
@@ -397,8 +409,8 @@
 			}
 		});
 
-		function updateUserInfo(form) {
-			var currentFormData = $(form).serialize();
+		function updateUserInfo() {
+			var currentFormData = $("#userInfoForm").serialize();
 			if(formData == currentFormData){
 				return false;
 			}

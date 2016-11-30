@@ -73,12 +73,6 @@ public class CmFormBaseItems {
     private BigDecimal maxValue;
 
     /**
-     * 一排显示几个
-     * cm_form_base_items.display_cols
-     */
-    private Integer displayCols;
-
-    /**
      * 是否为叶子节点
      * cm_form_base_items.is_leaf
      */
@@ -119,6 +113,12 @@ public class CmFormBaseItems {
      * cm_form_base_items.is_enable
      */
     private Boolean isEnable;
+
+    /**
+     * 子节点是否是value节点
+     * cm_form_base_items.child_value_node
+     */
+    private Boolean childValueNode;
 
     /**
      * 租户id
@@ -303,20 +303,6 @@ public class CmFormBaseItems {
     }
 
     /**
-     * 一排显示几个
-     */
-    public Integer getDisplayCols() {
-        return displayCols;
-    }
-
-    /**
-     * 一排显示几个
-     */
-    public void setDisplayCols(Integer displayCols) {
-        this.displayCols = displayCols;
-    }
-
-    /**
      * 是否为叶子节点
      */
     public Boolean getIsLeaf() {
@@ -412,6 +398,20 @@ public class CmFormBaseItems {
      */
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
+    }
+
+    /**
+     * 子节点是否是value节点
+     */
+    public Boolean getChildValueNode() {
+        return childValueNode;
+    }
+
+    /**
+     * 子节点是否是value节点
+     */
+    public void setChildValueNode(Boolean childValueNode) {
+        this.childValueNode = childValueNode;
     }
 
     /**

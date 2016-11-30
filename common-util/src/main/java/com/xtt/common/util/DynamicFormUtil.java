@@ -202,4 +202,24 @@ public class DynamicFormUtil {
 	public static List<FormDto> getCategoryForm(String sysOwner, String itemCode) {
 		return (List<FormDto>) RedisCacheUtil.getObject(getCategoryFormKey(UserUtil.getTenantId(), sysOwner, itemCode));
 	}
+
+	/**
+	 * 根据类别和所属系统获取正在使用的表单
+	 * 
+	 * @Title: getEnableCategoryForm
+	 * @param sysOwner
+	 * @param itemCode
+	 * @return
+	 *
+	 */
+	public static List<FormDto> getEnableCategoryForm(String sysOwner, String itemCode) {
+		List<FormDto> list = getCategoryForm(sysOwner, itemCode);
+		if (CollectionUtils.isNotEmpty(list))
+			for (Iterator<FormDto> it = list.iterator(); it.hasNext();) {
+				FormDto form = it.next();
+				if (!form.getIsEnable())
+					it.remove();
+			}
+		return list;
+	}
 }

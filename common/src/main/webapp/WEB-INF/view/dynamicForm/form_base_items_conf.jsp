@@ -57,7 +57,7 @@
 			         </select>
 			         <div class="tab-action" id="refresh" style="padding:10px 34px;">
 						<div class="dividing-line"></div>
-						<span>刷新缓存</span><img src="/pd/assets/img/refresh.png" class="refresh">
+						<span>刷新缓存</span><img src="${COMMON_SERVER_ADDR}/assets/img/refresh.png" class="refresh">
 					</div>
 			    </div>
 			    <div class="fill-parent" id="contentDiv">
@@ -80,15 +80,11 @@
 	                            </div>
 								<div class="list-group-item">
 									<span class="group-title">名称：</span>
-		                            <input type="text" class="personal-input width-300" name="itemName" maxlength="64">
+		                            <input type="text" class="personal-input width-300" name="itemName" maxlength="128">
 	                            </div>
 	                            <div class="list-group-item">
 									<span class="group-title">分组标签：</span>
 									<input type="text" class="personal-input width-300" name="groupTag" maxlength="36">
-	                            </div>
-	                            <div class="list-group-item">
-									<span class="group-title">显示几列：</span>
-									<input type="number" class="personal-input width-300" name="displayCols" step="1" maxlength="9">
 	                            </div>
 	                            <div class="list-group-item">
 									<span class="group-title">控件类型：</span>

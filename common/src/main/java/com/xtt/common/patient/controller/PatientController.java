@@ -63,11 +63,10 @@ public class PatientController {
 	 * 
 	 */
 	@RequestMapping("editPatient")
-	public ModelAndView editPatient(Long patientId) throws Exception {
+	public ModelAndView editPatient(Long patientId, String sys) throws Exception {
 		ModelAndView model = new ModelAndView("patient/edit_patient");
 		PatientPO patient = patientService.selectById(patientId);
 		model.addObject("patientId", patientId);
-		model.addObject("patient", patient);
 		{
 			// 根据id获取该患者的相关卡号
 			List<PatientCardPO> cardList = new ArrayList<PatientCardPO>();
@@ -88,6 +87,9 @@ public class PatientController {
 			countyList = commonService.getCountyList(patient.getProvince());
 		}
 		model.addObject("countyList", countyList);
+		patient = patient == null ? new PatientPO() : patient;
+		patient.setSysOwner(sys);
+		model.addObject("patient", patient);
 
 		return model;
 	}
@@ -216,6 +218,38 @@ public class PatientController {
 		map.put("patient", patient);
 		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
 
+		return map;
+	}
+
+	/**
+	 * 保存患者信息
+	 * 
+	 * @Title: savePatient
+	 * @param patient
+	 * @return
+	 * 
+	 */
+	@RequestMapping("savePatient")
+	@ResponseBody
+	public HashMap<String, Object> savePatient(PatientPO patient) {
+		if (StringUtil.isNotBlank(patient.getTempImagePath())) {
+			patient.setImagePath(patient.getTempImagePath());
+		}
+		patientService.savePatient(patient, false);
+		commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()));
+
+		// 批量保存病患卡号信息
+		List<PatientCardPO> patientCardList = patient.getPatientCardList();
+		List<PatientCardPO> newPatientCardList = new ArrayList<PatientCardPO>();
+		for (PatientCardPO patientCardPO : patientCardList) {
+			patientCardPO.setFkPtId(patient.getId());
+			newPatientCardList.add(patientCardPO);
+		}
+		patientCardService.savePatientCard(newPatientCardList);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("fkPatientId", patient.getId());
+		map.put("status", CommonConstants.SUCCESS);
 		return map;
 	}
 }
