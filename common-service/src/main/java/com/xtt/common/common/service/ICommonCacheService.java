@@ -55,6 +55,16 @@ public interface ICommonCacheService {
 	public void cacheDynamicFormNode(Integer tenantId, String sysOwner);
 
 	/**
+	 * 缓存用户数据
+	 * 
+	 * @Title: cacheUser
+	 * @param tenantId
+	 * @param sysOwner
+	 *
+	 */
+	public void cacheUser(Integer tenantId);
+
+	/**
 	 * 初始化缓存所有数据
 	 * 
 	 * @Title: cacheAll

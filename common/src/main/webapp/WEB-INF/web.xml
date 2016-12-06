@@ -12,10 +12,6 @@
 	    <param-value>commonApp.root</param-value>  
 	</context-param> 
 	<context-param>
-		<param-name>log4jConfigLocation</param-name>
-		<param-value>file:C:/xtt/config/log4j.properties</param-value>
-	</context-param>
-	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath*:config/springContext.xml
@@ -27,6 +23,9 @@
 	</context-param>
 	<!-- context-param definition -->
 	<!-- listener definition -->
+	<listener>
+		<listener-class>com.xtt.common.listener.BusinessContextLoaderListener</listener-class>
+  	</listener>
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
@@ -108,7 +107,7 @@
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>common_data_init</servlet-name>
-		<servlet-class>com.xtt.common.common.init.CommonDataInit</servlet-class>
+		<servlet-class>com.xtt.common.common.init.DataInit</servlet-class>
 		<load-on-startup>3</load-on-startup>
 		<async-supported>true</async-supported>
 	</servlet>

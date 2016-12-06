@@ -32,7 +32,8 @@ public class DynamicFormUtil {
 
 	/** 获取某种类别的表单key */
 	public static String getCategoryFormKey(Integer tenantId, String sysOwner, String itemCode) {
-		return (tenantId + "").concat("DynamicFormCategory").concat(sysOwner).concat(StringUtil.isBlank(itemCode) ? "*" : itemCode);
+		return (tenantId + "").concat("DynamicFormCategory").concat(StringUtil.stripToEmpty(sysOwner))
+						.concat(StringUtil.isBlank(itemCode) ? "*" : itemCode);
 	}
 
 	/**

@@ -365,7 +365,8 @@
 	
 	<select id="selectAllUserByTenantId" resultMap="ExtendResultMap">
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName
+			u.*
+			,GROUP_CONCAT(r.`name`) as roleName,group_concat(r.id) as roleId,group_concat(r.parent_id) as parentRoleId
 		FROM
 			sys_user u
 		JOIN sys_user2role sr ON sr.fk_user_id = u.id
@@ -375,7 +376,7 @@
 		<if test="sysOwner != null and sysOwner != ''" >
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
-		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone
+		GROUP BY u.id
 		ORDER BY u.id ASC
 	</select>
 	

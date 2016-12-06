@@ -1,3 +1,7 @@
+.min-w-0 {
+	min-width: 0px !important;
+}
+
 .min-w-30 {
 	min-width: 30px !important;
 }
@@ -6,9 +10,17 @@
 	min-width: 70px !important;
 }
 
-.placeholder {
-	min-height: 1px;	
+.width-100{
+	width: 100px !important;
 }
-.inline-block{
+
+.placeholder {
+	min-height: 1px;
+}
+
+.inline-block {
 	display: inline-block;
+}
+.inline-table{
+	display: inline-table;
 }

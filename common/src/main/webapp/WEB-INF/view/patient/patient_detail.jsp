@@ -17,7 +17,7 @@
 </script>
 </head>
 <body>
-<body>
+<body class="bg-white">
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-12 col-md-12" style="padding:0px;">

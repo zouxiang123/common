@@ -1,13 +1,23 @@
-var paging_obj = {
-	addPaging : function(bodyId, btnId, scrollEl, callback, pageSize) {
+var pagination = {
+	addPaging : function(param) {
+		var p = {
+			bodyId : null,
+			btnId : null,
+			callback : null,
+			scrollEl : null,
+			pageSize : 20
+		};
+		$.extend(p, param);
+		if (isEmpty(p.bodyId))
+			return false;
 		var obj = {
-			bodyId : bodyId,
-			btnId : btnId,
+			bodyId : null,
+			btnId : null,
 			pageNo : 1,
 			pageSize : 20,
 			totalPage : 0,
 			defaultPageSize : 20,
-			callback : callback,
+			callback : null,
 			scrollEl : null,
 			stop : false,
 			init : function(bodyId, btnId, scrollEl, callback, pageSize) {
@@ -57,8 +67,8 @@ var paging_obj = {
 				obj.callback();
 			}
 		};
-		obj.init(bodyId, btnId, scrollEl, callback, pageSize);
-		$("#" + bodyId).data("pagingobj", obj);
+		obj.init(p.bodyId, p.btnId, p.scrollEl, p.callback, p.pageSize);
+		$("#" + p.bodyId).data("pagingobj", obj);
 	},
 	resetPaging : function(bodyId) {
 		var obj = $("#" + bodyId).data("pagingobj");

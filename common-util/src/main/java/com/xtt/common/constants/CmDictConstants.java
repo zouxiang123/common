@@ -95,6 +95,14 @@ public class CmDictConstants {
 	/** 化验单文本类别 */
 	public static final String ASSAY_TEXT_TYPE = "assay_text_type";
 
+	/*PD catheter*/
+	/** 置管方式 */
+	public static final String PD_CATHETER_WAY = "PD_catheter_way";
+	/** 腹透管类型 */
+	public static final String PD_CATHETER_TYPE = "PD_catheter_type";
+	/** 出口部位 */
+	public static final String PD_CATHETER_EXPORT_PART = "PD_catheter_export_part";
+
 	/** 服务调用 */
 	public static final String URL = "url";
 

@@ -7,11 +7,11 @@
 <jsp:include page="../common/head.jsp"></jsp:include>
 <title>化验检查信息</title>
 </head>
-<body>
+<body class="bg-white">
 	<jsp:include page="../common/report_datepick.jsp" flush="true"></jsp:include>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="fill-parent">
+			<div class="col-xt-12">
 				<form action="#" onsubmit="return false;" id="assayResultForm">
 					<input type="hidden" value="${assayResult.id }" name="id" /> 
 					<input type="hidden" value="${patient.id }" name="fkPatientId" /> 

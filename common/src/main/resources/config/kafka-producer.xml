@@ -9,7 +9,7 @@
 	    <property name="order" value="3" />  
 	    <property name="ignoreUnresolvablePlaceholders" value="true" />  
 	    <property name="location">  
-			<value>file:C:/xtt/config/kafka.properties</value>
+			<value>file:${BASE_PATH}/config/kafka.properties</value>
 	    </property>  
 	</bean>  
 	<!-- 定义producer的参数 -->

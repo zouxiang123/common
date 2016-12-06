@@ -10,8 +10,9 @@ public class Validator extends javax.servlet.http.HttpServlet {
 	Logger log = LoggerFactory.getLogger(Validator.class);
 
 	public void init() {
-		if (!HardWareUtil.validateLicense()) {
-			log.info("********************************************************");
+		if (System.getProperty("os.name").toLowerCase().startsWith("win") && !HardWareUtil.validateLicense()) {
+			String[] arr = { "a", "b", "c", "d", "f", "g", "t", "k" };
+			log.info(arr.toString().concat(System.getProperty("os.name")));
 			System.exit(0);
 		}
 	}

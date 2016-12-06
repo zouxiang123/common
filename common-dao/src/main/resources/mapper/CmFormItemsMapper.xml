@@ -17,6 +17,7 @@
     <result column="is_leaf" jdbcType="BIT" property="isLeaf" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="display_style" jdbcType="VARCHAR" property="displayStyle" />
+    <result column="display_col" jdbcType="INTEGER" property="displayCol" />
     <result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
   </resultMap>
@@ -25,7 +26,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, fk_form_id, item_name, p_item_code, item_code, order_by, sys_owner, item_path, 
-    item_level, is_leaf, is_enable, display_style, item_type, fk_tenant_id
+    item_level, is_leaf, is_enable, display_style, display_col, item_type, fk_tenant_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -51,12 +52,14 @@
       p_item_code, item_code, order_by, 
       sys_owner, item_path, item_level, 
       is_leaf, is_enable, display_style, 
-      item_type, fk_tenant_id)
+      display_col, item_type, fk_tenant_id
+      )
     values (#{id,jdbcType=BIGINT}, #{fkFormId,jdbcType=BIGINT}, #{itemName,jdbcType=VARCHAR}, 
       #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
       #{sysOwner,jdbcType=VARCHAR}, #{itemPath,jdbcType=VARCHAR}, #{itemLevel,jdbcType=INTEGER}, 
       #{isLeaf,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, #{displayStyle,jdbcType=VARCHAR}, 
-      #{itemType,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER})
+      #{displayCol,jdbcType=INTEGER}, #{itemType,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmFormItems">
     <!--
@@ -99,6 +102,9 @@
       </if>
       <if test="displayStyle != null">
         display_style,
+      </if>
+      <if test="displayCol != null">
+        display_col,
       </if>
       <if test="itemType != null">
         item_type,
@@ -143,6 +149,9 @@
       </if>
       <if test="displayStyle != null">
         #{displayStyle,jdbcType=VARCHAR},
+      </if>
+      <if test="displayCol != null">
+        #{displayCol,jdbcType=INTEGER},
       </if>
       <if test="itemType != null">
         #{itemType,jdbcType=VARCHAR},
@@ -191,6 +200,9 @@
       <if test="displayStyle != null">
         display_style = #{displayStyle,jdbcType=VARCHAR},
       </if>
+      <if test="displayCol != null">
+        display_col = #{displayCol,jdbcType=INTEGER},
+      </if>
       <if test="itemType != null">
         item_type = #{itemType,jdbcType=VARCHAR},
       </if>
@@ -216,6 +228,7 @@
       is_leaf = #{isLeaf,jdbcType=BIT},
       is_enable = #{isEnable,jdbcType=BIT},
       display_style = #{displayStyle,jdbcType=VARCHAR},
+      display_col = #{displayCol,jdbcType=INTEGER},
       item_type = #{itemType,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}

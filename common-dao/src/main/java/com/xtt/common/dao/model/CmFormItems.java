@@ -77,6 +77,12 @@ public class CmFormItems {
     private String displayStyle;
 
     /**
+     * 显示的列数（1~12）
+     * cm_form_items.display_col
+     */
+    private Integer displayCol;
+
+    /**
      * 组件类型(checkbox、input、textarea)等等
      * cm_form_items.item_type
      */
@@ -254,6 +260,20 @@ public class CmFormItems {
      */
     public void setDisplayStyle(String displayStyle) {
         this.displayStyle = displayStyle;
+    }
+
+    /**
+     * 显示的列数（1~12）
+     */
+    public Integer getDisplayCol() {
+        return displayCol;
+    }
+
+    /**
+     * 显示的列数（1~12）
+     */
+    public void setDisplayCol(Integer displayCol) {
+        this.displayCol = displayCol;
     }
 
     /**
