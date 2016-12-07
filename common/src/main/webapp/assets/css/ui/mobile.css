@@ -15,8 +15,8 @@
 	width:25px;
 }
 .follow{
-		background:url('../../img/ui/follow.png') no-repeat;
-		background-size: 100%;
+	background:url('../../img/ui/follow.png') no-repeat;
+	background-size: 100%;
 }
 .abnormal{
 	background: url('../../img/ui/abnormal.png') no-repeat;
@@ -70,5 +70,23 @@
 	background: url('../../img/ui/rightslide.png');
 	right: 40px;
 }
-
+.u-input3{
+    height:38px;
+    width:142px;
+    background:none;
+    border:1px solid #D9E0E6;
+    outline:medium;
+}
+.u-shift{
+	display:inline-block;
+	height:37px;
+	width:125px;
+	text-align:center;
+	font-size:17px;
+}
+.u-tab-385{
+	width:385px;
+	height:39px;
+	line-height:37px;
+}
 /*透析区样式*/

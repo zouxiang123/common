@@ -4,8 +4,17 @@
 body {
     font-family:"Helvetica Neue","Microsoft YaHei", Helvetica, Arial, "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Lantinghei SC", "Microsoft YaHei", "PingFang SC", "Wenquanyi Micro Hei", "ST Heiti", sans-serif;
 }
+*{
+    margin:0px;
+    padding: 0px;
+}
 ol, ul {
     list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+.f-v-middle{
+    vertical-align:middle !important;
 }
 .f-w-100{
 	width: 100%;
@@ -228,6 +237,33 @@ p {
 .fs-37{
     font-size: 37px;
 }
+.w-20 {
+    width: 20px;
+}
+.w-30 {
+    width: 30px;
+}
+.w-40 {
+    width: 40px;
+}
+.w-50 {
+    width: 50px;
+}
+.w-60 {
+    width: 60px;
+}
+.w-70 {
+    width: 70px;
+}
+.w-80 {
+    width: 80px;
+}
+.w-90 {
+    width: 90px;
+}
+.w-100 {
+    width: 100px;
+}
 .m-t-4{
     margin-top: 4px;
 }
@@ -238,7 +274,7 @@ p {
     margin-bottom: 6px;
 }
 .m-t-8 {
-    margin-top: 8px;
+    margin-top: 8px !important;
 }
 .m-b-8 {
     margin-bottom: 8px;
@@ -270,6 +306,9 @@ p {
 .m-l-10{
     margin-left: 10px;
 }
+.m-r-10{
+    margin-left: 10px;
+}
 .m-l-18 {
     margin-left: 18px !important;
 }
@@ -281,6 +320,9 @@ p {
 }
 .m-r-8 {
     margin-right: 8px !important;
+}
+.m-l-3{
+    margin-left: 3px;
 }
 .m-l-6{
     margin-left: 6px;
@@ -294,6 +336,9 @@ p {
 .m-l-28{
     margin-left: 28px;
 }
+.m-l-55{
+    margin-left: 55px;
+}
 .m-l-326{
 	margin-left: 326px;
 }
@@ -302,6 +347,9 @@ p {
 }
 .m-l-16{
     margin-left: 16px;
+}
+.m-r-5{
+    margin-right: 5px;
 }
 .m-r-21{
     margin-right: 21px;
@@ -359,9 +407,6 @@ p {
 }
 .m-b-30 {
     margin-bottom: 30px;
-}
-.m-t-8 {
-    margin-top: 8px;
 }
 .m-t-40{
     margin-top: 40px;
@@ -421,7 +466,10 @@ p {
     margin-top: 19px;
 }
 .p-t-15{
-    padding-top: 15px;
+    padding-top: 15px !important;
+}
+.p-b-15{
+    padding-bottom: 15px !important;
 }
 .p-t-12 {
     padding-top: 12px;
@@ -507,11 +555,22 @@ p {
 .p-r-20{
     padding-right: 20px;
 }
+.p-0{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.m-0{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+}
 .p-7{
     padding: 0px 7px;
 }
+.p-12{
+    padding: 0px 12px;
+}
 .p-15{
-    padding:13px 0px;
+    padding:0px 15px;
 }
 .p-20{
 	padding: 0px 20px;
@@ -592,6 +651,9 @@ p {
 	-ms-user-select:none;
 	-khtml-user-select:none;
 }
+.b-l-solid{
+    border-left: 1px solid #D9E0E6;
+}
 .hand {
     cursor: pointer;
 }
@@ -628,9 +690,15 @@ input[type=checkbox] + label:before {
     vertical-align: middle;
     cursor: pointer;
     margin-bottom: 3px;
-    margin-right: 7px;
+    margin-right: 3px;
     content: "";
     background: url('../../img/ui/radio-box.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
+label input[type=checkbox],
+input[type=checkbox] + label:before {
+    background: url('../../img/ui/check-box.png');
     background-repeat: no-repeat;
     background-size: 13px 13px;
 }
@@ -640,6 +708,12 @@ input[type=checkbox]:checked+ label:before {
     content: "";
     vertical-align: middle;
     background: url('../../img/ui/radio-box-checked.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
+label input[type=checkbox]:checked,
+input[type=checkbox]:checked+ label:before {
+    background: url('../../img/ui/check-box-checked.png');
     background-repeat: no-repeat;
     background-size: 13px 13px;
 }
@@ -732,10 +806,126 @@ input[type=checkbox]:focus {
 .dividingline {
     border:1px dashed #d9e0e6;
 }
+.border{
+    border: 1px solid #d9e0e6;
+}
 button[type=button] + button[type=button]{
     margin-left: 10px;
     margin-right: 10px;
 }
 label + label {
     margin: 8px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+}
+/*
+Force table width to 100%
+*/
+table.table-fixedheader {
+  width: 100%;
+}
+/*
+Set table elements to block mode.  (Normally they are inline).
+This allows a responsive table, such as one where columns can be stacked
+if the display is narrow.
+*/
+table.table-fixedheader, table.table-fixedheader>thead, table.table-fixedheader>tbody, table.table-fixedheader>thead>tr, table.table-fixedheader>tbody>tr, table.table-fixedheader>thead>tr>th, table.table-fixedheader>tbody>td {
+  display: block;
+}
+table.table-fixedheader>thead>tr:after, table.table-fixedheader>tbody>tr:after {
+  content:' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+table.table-fixedheader>thead>tr>td, table.table-fixedheader>tbody>tr>td {
+  min-height: 40px;
+}
+/*
+When scrolling the table, actually it is only the tbody portion of the
+table that scrolls (not the entire table: we want the thead to remain
+fixed).  We must specify an explicit height for the tbody.  We include
+100px as a default, but it can be overridden elsewhere.
+
+Also, we force the scrollbar to always be displayed so that the usable
+width for the table contents doesn't change (such as becoming narrower
+when a scrollbar is visible and wider when it is not).
+*/
+table.table-fixedheader>tbody {
+  overflow-y: scroll;
+  /*height: 100px;*/
+  height: auto;
+}
+/*
+We really don't want to scroll the thead contents, but we want to force
+a scrollbar to be displayed anyway so that the usable width of the thead
+will exactly match the tbody.
+*/
+table.table-fixedheader>thead {
+  overflow-y: scroll;
+}
+/*
+For browsers that support it (webkit), we set the background color of
+the unneeded scrollbar in the thead to make it invisible.  (Setting
+visiblity: hidden defeats the purpose, as this alters the usable width
+of the thead.)
+*/
+table.table-fixedheader>thead::-webkit-scrollbar {
+  background-color: inherit;
+}
+table.table-fixedheader>thead>tr>th:after, table.table-fixedheader>tbody>tr>td:after {
+  content:' ';
+  display: table-cell;
+  visibility: hidden;
+  clear: both;
+}/*
+We want to set <th> and <td> elements to float left.
+We also must explicitly set the width for each column (both for the <th>
+and the <td>).  We set to 20% here a default placeholder, but it can be
+overridden elsewhere.
+*/
+table.table-fixedheader>thead tr th, table.table-fixedheader>tbody tr td {
+  float: left;
+  word-wrap:break-word;
+}
+.table-left-17 thead tr th {
+  text-align: left;
+  padding-left: 17px !important;
+}
+
+.table-left-17 tbody tr td {
+  text-align: left;
+  padding-left: 17px;
+}
+.table-border > thead > tr > th,
+.table-border > tbody > tr > td,
+.table-border {
+  border: 1px solid #d9e0e6;
+}
+.table tbody tr td.active {
+    color: #fff;
+    background: #31AAFF;
+    border: 1.5px solid #31AAFF;
+}
+.table tbody tr:hover{
+    background: #e7ecf0 !important;
+}
+.table tbody tr td[rowspan]{
+    background: #fff !important;
+}
+.table > thead > tr > th {
+    font-size: 14px !important;
+    color: #484848;
+    /*border: 0px;*/
+    text-align: left;
+    background: rgba(217,224,230,.4);
+    font-weight: bold;
+}
+.table>thead>tr>th {
+    padding: 12px 0px 6px 17px !important;
+}
+
+.table > tbody .tr:nth-child(odd){
+    background: rgba(217,224,230,0.2);
 }
