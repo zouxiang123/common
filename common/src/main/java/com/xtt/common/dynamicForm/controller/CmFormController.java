@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +31,12 @@ public class CmFormController {
 	private ICmFormService cmFormService;
 	@Autowired
 	private ICommonCacheService commonCacheService;
+
+	@RequestMapping("preview")
+	public String getList(Model model, Long id) {
+		model.addAttribute("id", id);
+		return "dynamicForm/form_preview";
+	}
 
 	@RequestMapping("getList")
 	@ResponseBody

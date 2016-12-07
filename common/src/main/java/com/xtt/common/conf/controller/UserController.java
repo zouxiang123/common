@@ -42,7 +42,7 @@ public class UserController {
 	@RequestMapping("searchUser")
 	public ModelAndView searchUser(String sysOwner) {
 		ModelAndView model = new ModelAndView("system/user_list");
-		model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId()));
+		model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
 		model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
 		model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX));
 		model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sysOwner));
@@ -72,7 +72,7 @@ public class UserController {
 	@RequestMapping("getFullUser")
 	@ResponseBody
 	public SysUserPO getFullUser(@RequestParam(value = "id", required = true) Long id) {
-		return userService.getUserById(id);
+		return userService.selectById(id);
 	}
 
 	@RequestMapping("selectUserWithFilter")
@@ -91,7 +91,7 @@ public class UserController {
 	@RequestMapping("accountSetting")
 	public ModelAndView accountSetting() throws Exception {
 		ModelAndView model = new ModelAndView("system/account_settings");
-		SysUserPO user = userService.getUserById(UserUtil.getLoginUserId());
+		SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
 		model.addObject("user", initUser(user));
 		model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX, user == null ? null : user.getSex()));
 		if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_DOCTOR)) {
@@ -113,7 +113,7 @@ public class UserController {
 			map.put("id", user.getId());
 			map.put("status", CommonConstants.WARNING);
 			return map;
-		} else if (user.getId() == null && userService.getUserByAccount(user.getAccount(), UserUtil.getTenantId()) != null) {
+		} else if (user.getId() == null && userService.getUserByAccount(user.getAccount(), UserUtil.getTenantId(), null) != null) {
 			map.put("id", user.getId());
 			map.put("status", CommonConstants.FAILURE);
 			return map;
@@ -140,7 +140,7 @@ public class UserController {
 	@ResponseBody
 	public Map<String, Object> checkAccountExists(@RequestParam(value = "account", required = true) String account) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.getUserByAccount(account, UserUtil.getTenantId()) == null) {
+		if (userService.getUserByAccount(account, UserUtil.getTenantId(), null) == null) {
 			map.put("status", CommonConstants.SUCCESS);
 			return map;
 		} else {
@@ -152,7 +152,7 @@ public class UserController {
 	@RequestMapping("changePassword")
 	@ResponseBody
 	public Map<String, Object> changePassword(String password, String newPassword) throws Exception {
-		SysUserPO user = userService.getUserById(UserUtil.getLoginUserId());
+		SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (!user.getPassword().equals(MD5Util.md5(password))) {
 			map.put("status", CommonConstants.WARNING);
@@ -182,7 +182,7 @@ public class UserController {
 	@RequestMapping("userInfo")
 	public ModelAndView accountView(Long userId) throws Exception {
 		ModelAndView model = new ModelAndView("system/user_info");
-		model.addObject("user", initUser(userService.getUserById(userId)));
+		model.addObject("user", initUser(userService.selectById(userId)));
 		return model;
 	}
 

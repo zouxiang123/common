@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.PatientCache;
+import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
@@ -36,16 +37,19 @@ import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
+import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
+import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
+import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
@@ -71,6 +75,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	private ICmFormService cmFormService;
 	@Autowired
 	private ISysTenantService sysTenantService;
+	@Autowired
+	private IUserService userService;
 
 	@Override
 	public void cacheDict(Integer tenantId) {
@@ -107,6 +113,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	@Override
 	public void cachePermission(Integer tenantId) {
 		Map<String, List<SysObjDto>> map = new HashMap<>();
+		RedisCacheUtil.delete(tenantId + PermissionCache.ALL_SYS_OBJ_KEY);
 		RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
 		String[] types = { "1", "2" };
 		map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
@@ -153,9 +160,11 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 		if (CollectionUtils.isNotEmpty(list)) {
 			List<PatientDto> cacheObjs = new ArrayList<>(list.size());
 			PatientDto toObj;
+			Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
 			for (PatientPO obj : list) {
 				toObj = new PatientDto();
 				BeanUtils.copyProperties(obj, toObj);
+				toObj.setSexShow(sexMap.get(toObj.getSex()));
 				cacheObjs.add(toObj);
 			}
 			PatientCache.cacheAll(cacheObjs);
@@ -167,6 +176,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 		// 删除数据
 		if (StringUtil.isBlank(sysOwner))
 			RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
+		RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
 		// 获取所有的表单列表
 		CmFormPO query = new CmFormPO();
 		query.setSysOwner(sysOwner);
@@ -215,6 +225,22 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	}
 
 	@Override
+	public void cacheUser(Integer tenantId) {
+		RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
+		List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
+		if (CollectionUtils.isNotEmpty(list)) {
+			SysUserDto cacheUser;
+			List<SysUserDto> cacheList = new ArrayList<>(list.size());
+			for (SysUserPO user : list) {
+				cacheUser = new SysUserDto();
+				BeanUtils.copyProperties(user, cacheUser);
+				cacheList.add(cacheUser);
+			}
+			UserCache.cacheAll(cacheList);
+		}
+	}
+
+	@Override
 	public void cacheAll() {
 		LOGGER.info("******************** start cache data ***********");
 		long start = System.currentTimeMillis();
@@ -234,6 +260,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 				cachePatient(tenant.getId());
 				// cache dynamic form
 				cacheDynamicFormNode(tenant.getId(), null);
+				// cache user data
+				cacheUser(tenant.getId());
 			}
 		}
 		LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);

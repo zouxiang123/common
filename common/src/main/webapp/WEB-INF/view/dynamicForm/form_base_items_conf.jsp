@@ -129,8 +129,8 @@
 	                            <div class="list-group-item">
 									<span class="group-title">是否打分：</span>
 									<div class="group-radio" style="display: inline-block;">
-										<label class="form-radio-label min-width-100"><input type="radio" name="needScore" value="true" checked="checked">是</label>
-										<label class="form-radio-label min-width-100"><input type="radio" name="needScore" value="false">否</label>
+										<label class="form-radio-label min-width-100"><input type="radio" name="needScore" value="true">是</label>
+										<label class="form-radio-label min-width-100"><input type="radio" name="needScore" value="false" checked="checked">否</label>
 									</div>
 	                            </div>
 	                            <div class="list-group-item">

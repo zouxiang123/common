@@ -271,6 +271,9 @@ var form_conf_obj = {
 		var allNodes = treeObj.getNodesByParam("category", category, null);
 		var nodes = treeObj.transformToArray(treeNodes);
 		for (var i = 0; i < nodes.length; i++) {
+			if (nodes[i].itemType == "div") {
+				continue;
+			}
 			for (var t = 0; t < allNodes.length; t++) {
 				if (nodes[i].id == allNodes[t].id)
 					return true;
@@ -437,7 +440,7 @@ var form_conf_obj = {
 							html += "<td>" + item.formName + "</td>";
 							html += "<td>";
 							html += "<button onclick='form_conf_obj.delVersionConf(this);' class='btn btn-def' style='width: 70px;'>删除</button>";
-							// html += "<button onclick='form_conf_obj.getConfDetail(this);' class='btn btn-def' style='width: 70px;'>详情</button>";
+							html += "<button onclick='form_conf_obj.getConfDetail(this);' class='btn btn-def' style='width: 70px;'>详情</button>";
 							html += "</td>";
 							html += "</tr>";
 						}
@@ -450,7 +453,7 @@ var form_conf_obj = {
 	getConfDetail : function(el) {
 		var tr = $(el).parent().parent();
 		var id = tr.data("id");
-		window.open(ctx + "/dynamicForm/formItems/getDetailItems.shtml?fkFormId=" + id);
+		window.open(ctx + "/dynamicForm/form/preview.shtml?id=" + id);
 	},
 	delVersionConf : function(el) {
 		var tr = $(el).parent().parent();
@@ -514,12 +517,30 @@ var form_conf_obj = {
 		}
 		return node;
 	},
-	updateSelectedNode : function() {
+	updateSelectedNode : function(forChild) {
 		var treeObj = $.fn.zTree.getZTreeObj("confTree");
 		var nodes = treeObj.getSelectedNodes();
+		var displayStyle = $("#displayStyle").val();
+		var displayCol = $("#displayCol").val();
+		if (!isEmpty(displayCol) && (displayCol < 1 || displayCol > 12)) {
+			showWarn("显示的列数无效");
+			return;
+		}
 		for (var i = 0; i < nodes.length; i++) {
-			nodes[i].displayStyle = $("#displayStyle").val();
-			treeObj.updateNode(nodes[i]);
+			var node = nodes[i];
+			if (forChild) {
+				if (!nodes[i].isLeaf) {
+					for (var t = 0; t < node.children.length; t++) {
+						node.children[t].displayStyle = displayStyle;
+						node.children[t].displayCol = displayCol;
+						treeObj.updateNode(node.children[t]);
+					}
+				}
+			} else {
+				node.displayStyle = displayStyle;
+				node.displayCol = displayCol;
+				treeObj.updateNode(node);
+			}
 		}
 		showTips("更新成功", 500);
 	}

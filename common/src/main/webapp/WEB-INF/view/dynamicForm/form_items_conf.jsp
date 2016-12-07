@@ -87,13 +87,19 @@
 							<div style="margin-top: 10px;">
 								<div class="list-group">
 		                            <div class="list-group-item">
-										<span class="group-title">选中节点样式：</span>
+										<span class="group-title">样式选择：</span>
 	                            		<select class="personal-input" style="width: 130px;" id = "displayStyle">
 	                            			<c:forEach var="item" items="${form_display_style }">
 	                            				<option value="${item.itemCode }">${item.itemName }</option>
 	                            			</c:forEach>
+	                            			<option value="">无</option>
 	                            		</select>
-	                            		<button onclick='form_conf_obj.updateSelectedNode();' class='btn btn-def' style='width: 70px;'>更新</button>
+	                            		<span class="group-title">占列(1~12)：</span>
+	                            		<input type="number" step="1" min="1" max="12" id ="displayCol"/>
+		                            </div>
+		                            <div class="list-group-item">
+		                            	<button onclick='form_conf_obj.updateSelectedNode();' class='btn btn-def'>更新选中节点</button>
+		                            	<button onclick='form_conf_obj.updateSelectedNode(true);' class='btn btn-def' style="width: 160px;" >更新选中节点的子节点</button>
 		                            </div>
 								</div>
 							</div>

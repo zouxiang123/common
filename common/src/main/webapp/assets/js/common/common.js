@@ -381,6 +381,36 @@ function getPermissionObjByKey(val) {
 }
 
 /**
+ * 通过权限key获取权限url,如果当前权限不存在url，获取其子节点的第一个url
+ * 
+ * @param val
+ * @returns 权限中的url地址
+ */
+function getPermissionUrlByKey(val) {
+	var user_permission_list = getPermissionList("user_permission_list");
+	var obj = null;
+	for (var i = 0; i < user_permission_list.length; i++) {
+		if (user_permission_list[i].key == val) {
+			obj = user_permission_list[i];
+			break;
+		}
+	}
+	if (!isEmptyObject(obj)) {
+		if (!isEmpty(obj.url)) {
+			if (obj.url.indexOf(",") > -1) {// 如果一个权限对应多个url，默认获取第一个
+				var arr = obj.url.split(",");
+				return arr[0];
+			} else {
+				return obj.url;
+			}
+		} else {
+			return getPermissionUrlByParentCode(permissionObj.code);
+		}
+	}
+	return null;
+}
+
+/**
  * 通过url获取权限对象
  * 
  * @param val

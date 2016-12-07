@@ -27,7 +27,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> getDoctors(Integer tenantId);
+	List<SysUserPO> getDoctors(Integer tenantId, String sysOwner);
 
 	/**
 	 * 根据租户id获取所有的护士对象
@@ -38,7 +38,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> getNurses(Integer tenantId);
+	List<SysUserPO> getNurses(Integer tenantId, String sysOwner);
 
 	/**
 	 * 通过用户Id获取用户
@@ -48,7 +48,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	SysUserPO getUserById(Long userId);
+	SysUserPO selectById(Long userId);
 
 	/**
 	 * 更新用户数据
@@ -78,7 +78,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> selectByTenantId(Integer tenantId);
+	List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner);
 
 	/**
 	 * 通过id删除对象
@@ -100,14 +100,14 @@ public interface IUserService {
 	List<SysUserPO> selectUserWithFilter(SysUserPO user);
 
 	/**
-	 * 判断用户名是否存在
+	 * 判断账户名是否存在
 	 * 
 	 * @Title: selectUserWithFilter
 	 * @param user
 	 * @return boolean
 	 * 
 	 */
-	SysUser getUserByAccount(String account, Integer tenantId);
+	SysUser getUserByAccount(String account, Integer tenantId, String sysOwner);
 
 	/**
 	 * 验证登陆
@@ -119,7 +119,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	SysUserPO login(String account, String password, Integer tenantId);
+	SysUserPO login(String account, String password, Integer tenantId, String sysOwner);
 
 	/**
 	 * 获取医生数目
@@ -129,7 +129,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	Integer getDoctorsCount(Integer tenantId);
+	Integer getDoctorsCount(Integer tenantId, String sysOwner);
 
 	/**
 	 * 获取护士数目
@@ -139,7 +139,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	Integer getNursesCount(Integer tenantId);
+	Integer getNursesCount(Integer tenantId, String sysOwner);
 
 	/**
 	 * 更新用户信息
@@ -167,7 +167,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	List<SysUserPO> getOthers(Integer tenantId);
+	List<SysUserPO> getOthers(Integer tenantId, String sysOwner);
 
 	/**
 	 * 获取不同角色下的用户数
@@ -177,7 +177,7 @@ public interface IUserService {
 	 * @return
 	 * 
 	 */
-	List<Map<String, Object>> getRolesCount(Integer tenantId);
+	List<Map<String, Object>> getRolesCount(Integer tenantId, String sysOwner);
 
 	/**
 	 * 更新用户密码

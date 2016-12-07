@@ -14,28 +14,33 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xtt.common.cache.UserCache;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 
 @Service
 public class UserServiceImpl implements IUserService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
 	private SysUserMapper sysUserMapper;
@@ -43,20 +48,43 @@ public class UserServiceImpl implements IUserService {
 	private SysUser2roleMapper sysUser2roleMapper;
 
 	@Override
-	public List<SysUserPO> getDoctors(Integer tenantId) {
+	public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
 		String[] arr = { CommonConstants.ROLE_DOCTOR };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
 	}
 
 	@Override
-	public List<SysUserPO> getNurses(Integer tenantId) {
+	public List<SysUserPO> getNurses(Integer tenantId, String sysOwner) {
 		String[] arr = { CommonConstants.ROLE_NURSE };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
 	}
 
 	@Override
-	public SysUserPO getUserById(Long userId) {
-		return sysUserMapper.selectPOById(userId);
+	public SysUserPO selectById(Long userId) {
+		return selectById(userId, true);
+	}
+
+	/**
+	 * 通过id获取用户数据
+	 * 
+	 * @Title: selectById
+	 * @param id
+	 * @param fromCache是否从缓存获取
+	 * @return
+	 *
+	 */
+	private SysUserPO selectById(Long id, boolean fromCache) {
+		if (fromCache) {
+			SysUserDto user = UserCache.getById(id);
+			if (user == null) {
+				return sysUserMapper.selectPOById(id);
+			}
+			SysUserPO sysUser = new SysUserPO();
+			BeanUtils.copyProperties(user, sysUser);
+			return sysUser;
+		} else {
+			return sysUserMapper.selectPOById(id);
+		}
 	}
 
 	@Override
@@ -69,16 +97,13 @@ public class UserServiceImpl implements IUserService {
 			user.setUpdateUserId(UserUtil.getLoginUserId());
 			if (StringUtils.isNotBlank(user.getPassword()))
 				user.setPassword(MD5Util.md5(user.getPassword()));
-			sysUserMapper.updateByPrimaryKeySelective(user);// 更新用户数据
+			updateByPrimaryKeySelective(user);// 更新用户数据
 		} else {
 			DataUtil.setSystemFieldValue(user);
 			user.setDelFlag(false);
 			user.setFkTenantId(UserUtil.getTenantId());
 			user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
 			user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
-			if (StringUtil.isBlank(user.getSysOwner())) {// 项目名称为空时，默认为当前系统
-				user.setSysOwner(HttpServletUtil.getSysName());
-			}
 			sysUserMapper.insert(user);
 			associationRole(user.getRoleId(), user.getId());// 创建关联数据
 			// 新增用户创建默认头像
@@ -87,7 +112,7 @@ public class UserServiceImpl implements IUserService {
 			String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
 			BusinessCommonUtil.combineImage(name, newFilename);
 			user.setImagePath(newFilename);
-			sysUserMapper.updateByPrimaryKeySelective(user);
+			updateByPrimaryKeySelective(user);
 		}
 		return CommonConstants.SUCCESS;
 	}
@@ -121,69 +146,76 @@ public class UserServiceImpl implements IUserService {
 	public String uploadImage(MultipartFile image) throws IllegalStateException, IOException {
 		String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
 		String imgName = image.getOriginalFilename();
-		String fileName = CommonConstants.USER_IMAGE_FILE_PATH + "/" + String.valueOf(UserUtil.getLoginUserId())
+		SysUser user = selectById(UserUtil.getLoginUserId(), true);
+		String fileName = CommonConstants.USER_IMAGE_FILE_PATH + "/" + String.valueOf(user.getId())
 						+ imgName.substring(imgName.lastIndexOf("."), imgName.length());
 		File f = new File(path + fileName);
 		if (!f.exists()) {
 			f.mkdirs();
 		}
 		image.transferTo(f);
+		try {// save original drawing
+			String originalFileName = CommonConstants.USER_IMAGE_FILE_PATH + "/original/" + String.valueOf(user.getId())
+							+ imgName.substring(imgName.lastIndexOf("."), imgName.length());
+			FileUtils.copyFile(f, new File(path + originalFileName));
+		} catch (Exception e) {
+			LOGGER.info("save original drawing failed,error ms is", e);
+		}
 		BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-		SysUser user = sysUserMapper.selectByPrimaryKey(UserUtil.getLoginUserId());
 		user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
 		user.setUpdateTime(new Date());
-		sysUserMapper.updateByPrimaryKeySelective(user);
+		updateByPrimaryKeySelective(user);
 		return fileName;
 	}
 
 	@Override
-	public List<SysUserPO> selectByTenantId(Integer tenantId) {
-		return sysUserMapper.selectAllUserByTenantId(tenantId, HttpServletUtil.getSysName());
+	public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
+		return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
 	}
 
 	@Override
 	public void deleteUserById(Long id) {
 		sysUser2roleMapper.deleteByUserId(id);
-		SysUser user = sysUserMapper.selectByPrimaryKey(id);
+		SysUser user = selectById(id, true);
 		user.setDelFlag(true);
 		DataUtil.setSystemFieldValue(user);
-		sysUserMapper.updateByPrimaryKey(user);
+		updateByPrimaryKeySelective(user);
 	}
 
 	@Override
 	public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
-		user.setSysOwner(HttpServletUtil.getSysName());
 		return sysUserMapper.selectUserWithFilter(user);
 	}
 
 	@Override
-	public SysUser getUserByAccount(String account, Integer tenantId) {
-		return sysUserMapper.selectUserByAccount(account, tenantId, HttpServletUtil.getSysName());
+	public SysUser getUserByAccount(String account, Integer tenantId, String sysOwner) {
+		return sysUserMapper.selectUserByAccount(account, tenantId, sysOwner);
 	}
 
 	@Override
-	public SysUserPO login(String account, String password, Integer tenantId) {
-		return sysUserMapper.login(account, password, tenantId, HttpServletUtil.getSysName());
+	public SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
+		return sysUserMapper.login(account, password, tenantId, sysOwner);
 	}
 
 	@Override
-	public Integer getDoctorsCount(Integer tenantId) {
-		return getCountByRoleType(tenantId, CommonConstants.ROLE_DOCTOR);
+	public Integer getDoctorsCount(Integer tenantId, String sysOwner) {
+		return getCountByRoleType(tenantId, CommonConstants.ROLE_DOCTOR, sysOwner);
 	}
 
 	@Override
-	public Integer getNursesCount(Integer tenantId) {
-		return getCountByRoleType(tenantId, CommonConstants.ROLE_NURSE);
+	public Integer getNursesCount(Integer tenantId, String sysOwner) {
+		return getCountByRoleType(tenantId, CommonConstants.ROLE_NURSE, sysOwner);
 	}
 
 	@Override
 	public void updateUser(SysUserPO user) {
-		user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
+		if (StringUtils.isNotBlank(user.getName()))
+			user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
 		if (StringUtils.isNotBlank(user.getPassword()))
 			user.setPassword(MD5Util.md5(user.getPassword()));
 		user.setUpdateTime(new Date());
 		user.setUpdateUserId(user.getId());
-		sysUserMapper.updateByPrimaryKeySelective(user);
+		updateByPrimaryKeySelective(user);
 	}
 
 	@Override
@@ -192,18 +224,18 @@ public class UserServiceImpl implements IUserService {
 	}
 
 	@Override
-	public List<SysUserPO> getOthers(Integer tenantId) {
+	public List<SysUserPO> getOthers(Integer tenantId, String sysOwner) {
 		String[] arr = { CommonConstants.ROLE_OTHER, CommonConstants.ROLE_ADMIN };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, HttpServletUtil.getSysName());
+		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
 	}
 
 	@Override
-	public List<Map<String, Object>> getRolesCount(Integer tenantId) {
-		return sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getSysName());
+	public List<Map<String, Object>> getRolesCount(Integer tenantId, String sysOwner) {
+		return sysUserMapper.selectRolesCount(tenantId, sysOwner);
 	}
 
-	private Integer getCountByRoleType(Integer tenantId, String roleType) {
-		List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, HttpServletUtil.getSysName());
+	private Integer getCountByRoleType(Integer tenantId, String roleType, String sysOwner) {
+		List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, sysOwner);
 		for (Map<String, Object> m : list) {
 			if (m.get("roleType").equals(roleType)) {
 				return ((Long) m.get("count")).intValue();
@@ -218,7 +250,15 @@ public class UserServiceImpl implements IUserService {
 		user.setPassword(MD5Util.md5(user.getPassword()));
 		user.setUpdateTime(new Date());
 		user.setUpdateUserId(UserUtil.getLoginUserId());
-		sysUserMapper.updateByPrimaryKeySelective(user);
+		updateByPrimaryKeySelective(user);
 	}
 
+	private void updateByPrimaryKeySelective(SysUser user) {
+		sysUserMapper.updateByPrimaryKeySelective(user);
+		// refresh cache
+		SysUserPO sysUserPO = selectById(user.getId(), false);
+		SysUserDto cacheUser = new SysUserDto();
+		BeanUtils.copyProperties(sysUserPO, cacheUser);
+		UserCache.refresh(cacheUser);
+	}
 }

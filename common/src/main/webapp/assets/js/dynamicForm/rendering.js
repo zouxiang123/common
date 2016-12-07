@@ -30,84 +30,109 @@ var dfr_obj = {
 		if (node.needScore) {
 			commonHtml += '" data-itemscore="' + node.score + '"';
 		}
+		var col = node.displayCol;
 		switch (node.itemType) {
 		case "label":
 			if (node.displayStyle == "label_01") {
-				html += '<div class="col-xt-12 bottomline1 m-t-30"><span class="pull-right fc-blue m-t-6 hand fs-14 p-r-5" data-collapse="">收起</span>';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col)
+								+ ' bottomline1 m-t-30"><span class="pull-right fc-blue m-t-6 hand fs-14 p-r-5" data-collapse="">收起</span>';
 				html += '<p class="u-subtitle text-center fs-16"></p></div>';
 				html += '<div>' + dfr_obj.generateNodes(node.childNodes, pcode) + '</div>';
 			} else if (node.displayStyle == "label_02") {
-				html += '<div class="col-xt-12 bottomline m-t-8 p-l-5"><p class="u-subtitle text-left">' + node.itemName + '</p></div>';
-				html += '<div class="col-xt-12 m-t-12">' + dfr_obj.generateNodes(node.childNodes, pcode) + '</div>';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col) + ' bottomline m-t-8 p-l-5"><p class="u-subtitle text-left">'
+								+ node.itemName + '</p></div>';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col) + ' m-t-12">' + dfr_obj.generateNodes(node.childNodes, pcode) + '</div>';
 			} else if (node.displayStyle == "label_03") {
-				html += '<div class="col-xt-6">';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 6 : col) + '">';
 				html += '<div class="m-head"><p class="m-subnav">' + node.itemName + '</p></div>';
 				html += '<div class="m-body m-b-24">';
 				html += dfr_obj.generateNodes(node.childNodes, pcode);
 				html += '</div>';
 				html += '</div>';
+			} else if (node.displayStyle == "label_04") {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 6 : col) + '">';
+				html += '<div class="m-head inline-block"><p class="m-subnav">' + node.itemName + '</p></div>';
+				html += '<div class="m-body inline-block">';
+				html += dfr_obj.generateNodes(node.childNodes, pcode);
+				html += '</div>';
+				html += '</div>';
 			} else if (node.displayStyle == "label_10") {
-				html += '<div  class="col-xt-12"><p class="u-subtitle fs-16 p-l-5">' + node.itemName;
-				html += '<span class="f-span-4" data-' + node.groupTag + 'span ' + commonHtml + '></span><span class="u-span-1 fs-16">分</span>';
+				html += '<div  class="col-xt-' + (isEmpty(col) ? 12 : col) + '"><p class="u-subtitle fs-16 p-l-5">' + node.itemName;
+				html += '<span class="f-span-4" data-' + node.groupTag + 'span ' + commonHtml + '>' + convertEmpty(node.itemValue)
+								+ '</span><span class="u-span-1 fs-16">分</span>';
 				html += '</p><div>';
 			} else if (node.displayStyle == "label_11") {
-				html += '<span class="u-span-1 p-l-5">' + node.itemName + '</span>';
+				html += '<span class="u-span-1 p-l-5" ' + commonHtml + '>' + node.itemName + '</span>';
 			} else if (node.isLeaf) {
-				html += '<div class="col-xt-4">';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 4 : col) + ' m-t-12 ">';
 				html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
 				html += '<span class="u-span f-span-3" ' + commonHtml + '>' + convertEmpty(node.itemValue) + '</span>';
 				html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+				html += '</div>';
+			} else {
+				html += '<div class="m-head inline-block"><p class="m-subnav">' + node.itemName + '</p></div>';
+				html += '<div class="m-body inline-block">';
+				html += dfr_obj.generateNodes(node.childNodes, pcode);
 				html += '</div>';
 			}
 			needAddChild = false;
 			break;
 		case "checkbox":
 			if (node.displayStyle == "checkbox_01") {
-				html += '<div class="m-t-12">';
+				html += '<div ' + (isEmpty(col) ? "" : ('class="col-xt-' + col + '"')) + '>';
 				html += '<span class="u-span-1 f-span-1">' + (node.needScore ? (node.score + "分") : "") + '</span>';
 				html += '<label><input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" '
 								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '"/>' + node.itemName + '</label>';
 				html += '</div>';
 			} else {
+				html += '<div class="m-t-12 inline-block min-w-0">';
 				html += '<span class="u-span-1 f-span-1">' + (node.needScore ? (node.score + "分") : "") + '</span>';
 				html += '<label><input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" '
 								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '"/>' + node.itemName + '</label>';
+				html += '</div>';
 			}
 			break;
 		case "radio":
 			if (node.displayStyle == "radio_01") {
-				html += '<div class="m-t-12">';
+				html += '<div ' + (isEmpty(col) ? "" : ('class="col-xt-' + col + '"')) + '>';
 				html += '<span class="u-span-1 f-span-1">' + (node.needScore ? (node.score + "分") : "") + '</span>';
-				html += '<label><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
+				html += '<label class="m-t-12"><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
 								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '/>' + node.itemName + '</label>';
 				html += '</div>';
 			} else {
+				html += '<div class="inline-block min-w-0">';
 				html += '<span class="u-span-1 f-span-1">' + (node.needScore ? (node.score + "分") : "") + '</span>';
-				html += '<label><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
+				html += '<label class="m-t-12"><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
 								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '/>' + node.itemName + '</label>';
+				html += '</div>';
 			}
 			break;
 		case "select":
-			html += '<div class="col-xt-4 m-t-12 dropdown">';
-			html += '<span class="u-span f-span min-w-70">' + node.itemName + '</span>';
-			html += '<select name="' + node.itemCode + '" ' + commonHtml + '>' + dfr_obj.generateNodes(node.childNodes, pcode) + '</select>';
+			html += '<div class="col-xt-' + (isEmpty(col) ? 4 : col) + ' dropdown">';
+			html += '<span class="u-span f-span">' + node.itemName + '</span>';
+			html += '<select class="m-t-12" name="' + node.itemCode + '" ' + commonHtml + '>' + dfr_obj.generateNodes(node.childNodes, pcode)
+							+ '</select>';
 			html += '</div>';
 			needAddChild = false;
 			break;
 		case "input":
 			if (node.displayStyle == "input_01") {
-				html += '<div class="col-xt-4 m-t-12">';
-				html += '<span class="u-span f-span min-w-70">' + node.itemName + '</span><input class="u-input m-l-14" type="' + node.dataType
+				html += '<div class="col-xt-' + (isEmpty(col) ? 4 : col) + '">';
+				html += '<span class="u-span f-span m-l-14 min-w-0">' + node.itemName + '</span>';
+				html += '<input class="m-t-12 u-input m-l-14 ' + (node.dataType == "number" ? "width-100" : "") + '" type="' + node.dataType
 								+ '" name="' + node.itemCode + '" value="' + convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
-				html += '<span class="u-span-1 f-span-2 min-w-30">' + convertEmpty(node.unitShow) + '</span>';
+				if (!isEmpty(node.unit))
+					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
 				html += '</div>';
 			} else {
+				html += '<div class="inline-block min-w-0">';
 				if (!isEmpty(node.itemName.trim()))
-					html += '<span class="u-span f-span min-w-70">' + node.itemName + '</span>';
-				html += '<input class="u-input m-l-14" type="' + node.dataType + '" name="' + node.itemCode + '" value="'
-								+ convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
+					html += '<span class="u-span f-span m-l-14 min-w-0">' + node.itemName + '</span>';
+				html += '<input class="m-t-12 u-input m-l-14 ' + (node.dataType == "number" ? "width-100" : "") + '" type="' + node.dataType
+								+ '" name="' + node.itemCode + '" value="' + convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
 				if (!isEmpty(node.unit))
-					html += '<span class="u-span-1 f-span-2 min-w-30">' + convertEmpty(node.unitShow) + '</span>';
+					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+				html += '</div>';
 			}
 			break;
 		case "textarea":
@@ -119,7 +144,13 @@ var dfr_obj = {
 							+ '</option>';
 			break;
 		case "div":
-			html += '<div>' + dfr_obj.generateNodes(node.childNodes, pcode) + '</div>';
+			if (node.displayStyle == "div_01") {
+				html += '<div class="inline-block ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">' + dfr_obj.generateNodes(node.childNodes, pcode)
+								+ '</div>';
+			} else {
+				html += '<div ' + (isEmpty(col) ? '' : ('class="col-xt-' + col + '"')) + '>' + dfr_obj.generateNodes(node.childNodes, pcode)
+								+ '</div>';
+			}
 			needAddChild = false;
 			break;
 		default:
@@ -127,6 +158,144 @@ var dfr_obj = {
 		}
 		if (needAddChild && !isEmptyObject(node.childNodes))
 			html += dfr_obj.generateNodes(node.childNodes, pcode);
+		return html;
+	},
+	/** 生成正文节点 */
+	generatePreviewNodes : function(nodes) {
+		var html = "";
+		if (!isEmptyObject(nodes)) {
+			if (nodes instanceof Array) {
+				for (var i = 0; i < nodes.length; i++) {
+					html += dfr_obj.getPreviewOneNodeHtml(nodes[i]);
+				}
+			} else {
+				html += dfr_obj.getPreviewOneNodeHtml(nodes);
+			}
+		}
+		return html;
+	},
+	/** 生成单个节点的html */
+	getPreviewOneNodeHtml : function(node) {
+		var needAddChild = true;
+		var html = "";
+		var col = node.displayCol;
+		switch (node.itemType) {
+		case "label":
+			if (node.displayStyle == "label_01") {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col)
+								+ ' bottomline1 m-t-30"><span class="pull-right fc-blue m-t-6 hand fs-14 p-r-5" data-collapse="">收起</span>';
+				html += '<p class="u-subtitle text-center fs-16"></p></div>';
+				html += '<div>' + dfr_obj.generatePreviewNodes(node.childNodes) + '</div>';
+			} else if (node.displayStyle == "label_02") {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col) + ' bottomline m-t-8 p-l-5"><p class="u-subtitle text-left">'
+								+ node.itemName + '</p></div>';
+				html += '<div class="col-xt-' + (isEmpty(col) ? 12 : col) + ' m-t-12">' + dfr_obj.generatePreviewNodes(node.childNodes) + '</div>';
+			} else if (node.displayStyle == "label_03") {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 6 : col) + '">';
+				html += '<div class="m-head"><p class="m-subnav">' + node.itemName + '</p></div>';
+				html += '<div class="m-body m-b-24">';
+				html += dfr_obj.generatePreviewNodes(node.childNodes);
+				html += '</div>';
+				html += '</div>';
+			} else if (node.displayStyle == "label_04") {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 6 : col) + '">';
+				html += '<div class="m-head inline-block"><p class="m-subnav">' + node.itemName + '</p></div>';
+				html += '<div class="m-body inline-block">';
+				html += dfr_obj.generatePreviewNodes(node.childNodes);
+				html += '</div>';
+				html += '</div>';
+			} else if (node.displayStyle == "label_10") {
+				html += '<div  class="col-xt-' + (isEmpty(col) ? 12 : col) + '"><p class="u-subtitle fs-16 p-l-5">' + node.itemName;
+				html += '<span class="f-span-4" data-' + node.groupTag + 'span>' + convertEmpty(node.itemValue)
+								+ '</span><span class="u-span-1 fs-16">分</span>';
+				html += '</p><div>';
+			} else if (node.displayStyle == "label_11") {
+				html += '<span class="u-span-1 p-l-5">' + node.itemName + '</span>';
+			} else if (node.isLeaf) {
+				html += '<div class="col-xt-' + (isEmpty(col) ? 4 : col) + ' m-t-12 ">';
+				html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+				html += '<span class="u-span f-span-3">' + convertEmpty(node.itemValue) + '</span>';
+				html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+				html += '</div>';
+			} else {
+				html += '<div class="m-head inline-block"><p class="m-subnav">' + node.itemName + '</p></div>';
+				html += '<div class="m-body inline-block">';
+				html += dfr_obj.generatePreviewNodes(node.childNodes);
+				html += '</div>';
+			}
+			needAddChild = false;
+			break;
+		case "checkbox":
+			if (node.displayStyle == "checkbox_01") {
+				html += '<div class="col-xt-4">';
+				html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+				if (node.needScore)
+					html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+				html += '</div>';
+			} else {
+				html += '<span class="u-span f-span-3">' + node.itemName + '</span>';
+				if (node.needScore)
+					html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+			}
+			break;
+		case "radio":
+			if (node.displayStyle == "radio_01") {
+				html += '<div class="col-xt-4">';
+				html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+				if (node.needScore)
+					html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+				html += '</div>';
+			} else {
+				html += '<span class="u-span f-span-3">' + node.itemName + '</span>';
+				if (node.needScore)
+					html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+			}
+			break;
+		case "select":
+			html += '<span class="u-span f-span-3">' + node.itemName + '</span>';
+			html += dfr_obj.generatePreviewNodes(node.childNodes);
+			if (node.needScore)
+				html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+			needAddChild = false;
+			break;
+		case "input":
+			if (node.displayStyle == "input_01") {
+				html += '<div class="col-xt-4">';
+				html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+				html += '<span class="u-span f-span-3">' + convertEmpty(node.itemValue) + '</span>';
+				if (!isEmpty(node.unit))
+					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+				if (node.needScore)
+					html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+				html += '</div>';
+			} else {
+				if (!isEmpty(node.itemName.trim()))
+					html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+				html += '<span class="u-span f-span-3">' + convertEmpty(node.itemValue) + '</span>';
+				if (!isEmpty(node.unit))
+					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+			}
+			break;
+		case "textarea":
+			html += '<span class="u-span f-span-5">' + node.itemName + '</span>';
+			html += '<span class="u-span f-span-3">' + convertEmpty(node.itemValue) + '</span>';
+			if (!isEmpty(node.unit))
+				html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+			if (node.needScore)
+				html += '<span class="u-span-1 f-span-1">' + node.score + '分</span>';
+			break;
+		case "option":
+			html += '<span class="u-span f-span-3">' + node.itemName + '</span>';
+			break;
+		case "div":
+			html += '<div>' + dfr_obj.generatePreviewNodes(node.childNodes) + '</div>';
+			needAddChild = false;
+			break;
+		default:
+			break;
+		}
+		if (needAddChild && !isEmptyObject(node.childNodes))
+			html += dfr_obj.generatePreviewNodes(node.childNodes);
 		return html;
 	},
 	/** 保存form表单节点数据 */
@@ -144,7 +313,7 @@ var dfr_obj = {
 			}
 		});
 		elements.filter("[data-type='label']").each(function() {
-			dfr_obj.addSaveItems(items, $(this).data("code"), $(this).find("[data-savevalue]").text(), $(this).data("formid"));
+			dfr_obj.addSaveItems(items, $(this).data("code"), $(this).text(), $(this).data("formid"));
 		});
 		return items;
 	},

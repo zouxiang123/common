@@ -87,8 +87,10 @@ public class PatientController {
 			countyList = commonService.getCountyList(patient.getProvince());
 		}
 		model.addObject("countyList", countyList);
-		patient = patient == null ? new PatientPO() : patient;
-		patient.setSysOwner(sys);
+		if (patient == null) {
+			patient = new PatientPO();
+			patient.setSysOwner(sys);
+		}
 		model.addObject("patient", patient);
 
 		return model;

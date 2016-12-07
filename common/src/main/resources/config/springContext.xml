@@ -22,7 +22,7 @@
 		<property name="ignoreResourceNotFound" value="true" />
 		<property name="locations">
 			<list>
-				<value>file:C:/xtt/config/secretary.properties</value>
+				<value>file:${BASE_PATH}/config/secretary.properties</value>
 			</list>
 		</property>
 	</bean> -->

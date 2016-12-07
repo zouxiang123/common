@@ -222,6 +222,10 @@ public class PatientDto {
 	private String dryWeightShow;
 	private String mobileShow;
 	private String medicareCardTypeShow;
+	/**
+	 * 所属系统（HD：血透 PD：腹透）多系统,分割 patient.sys_owner
+	 */
+	private String sysOwner;
 
 	/**
 	 */
@@ -877,6 +881,14 @@ public class PatientDto {
 
 	public void setMedicareCardTypeShow(String medicareCardTypeShow) {
 		this.medicareCardTypeShow = medicareCardTypeShow;
+	}
+
+	public String getSysOwner() {
+		return sysOwner;
+	}
+
+	public void setSysOwner(String sysOwner) {
+		this.sysOwner = sysOwner;
 	}
 
 }

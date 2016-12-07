@@ -13,17 +13,14 @@ import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.xtt.common.common.service.ICommonCacheService;
-import com.xtt.common.constants.CommonConstants;
 import com.xtt.platform.util.DBUtil;
 import com.xtt.platform.util.config.SpringUtil;
 
-@Component
-public class CommonDataInit extends HttpServlet {
+public class DataInit extends HttpServlet {
 	private static final long serialVersionUID = -8524264697965072535L;
 	private ICommonCacheService commonCacheService = SpringUtil.getBean("commonCacheServiceImpl", ICommonCacheService.class);
 
@@ -39,7 +36,6 @@ public class CommonDataInit extends HttpServlet {
 			e.printStackTrace();
 		}
 		servletContext.setAttribute("version", version);
-		servletContext.setAttribute("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
 		commonCacheService.cacheAll();
 	}
 

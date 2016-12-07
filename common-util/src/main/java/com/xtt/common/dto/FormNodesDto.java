@@ -30,6 +30,7 @@ public class FormNodesDto {
 	private Integer fkTenantId;
 	private String itemType;
 	private String displayStyle;
+	private Integer displayCol;
 	/*============form value==============*/
 	private String itemValue;
 	private Long fkRecordId;
@@ -261,6 +262,14 @@ public class FormNodesDto {
 
 	public void setDisplayStyle(String displayStyle) {
 		this.displayStyle = displayStyle;
+	}
+
+	public Integer getDisplayCol() {
+		return displayCol;
+	}
+
+	public void setDisplayCol(Integer displayCol) {
+		this.displayCol = displayCol;
 	}
 
 }

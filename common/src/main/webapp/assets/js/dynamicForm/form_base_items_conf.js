@@ -126,6 +126,26 @@ var form_items_conf_obj = {
 				} else {
 					return true;
 				}
+			},
+			beforeDrop : function(treeId, treeNodes, targetNode, moveType) {
+				if (targetNode.level >= 5) {// 树的层级不能超过六层
+					showTips("超过最大允许的层级数");
+					return false;
+				}
+				// 拖拽的节点不是根节点时
+				if (!(isEmptyObject(targetNode) || (moveType != "inner" && !targetNode.parentTId))) {
+					var index = 1;
+					if (!isEmptyObject(targetNode.children)) {// 获取树最后一个节点的id
+						var lastId = targetNode.children[targetNode.children.length - 1].id;
+						index = parseInt(lastId.substring(lastId.length - 3, lastId.length)) + 1;
+					}
+					for (var i = 0; i < treeNodes.length; i++) {
+						form_items_conf_obj.convertToTargetNode(treeNodes[i], targetNode.id + lPad(index + i), index + i);
+					}
+					return true;
+				} else {
+					return false;
+				}
 			}
 		};
 		var settings = {
@@ -160,10 +180,23 @@ var form_items_conf_obj = {
 			},
 			callback : {
 				onClick : treeEvent.treeClick,
-				beforeRemove : treeEvent.beforeRemove
+				beforeRemove : treeEvent.beforeRemove,
+				beforeDrop : treeEvent.beforeDrop
 			}
 		};
 		$("#itemsTree").data("settings", settings);
+	},
+	convertToTargetNode : function(node, id) {
+		node.tempId = null;// 清空数据库对应的id
+		node.isNew = true;
+		node.id = id;// 无需重新生成id
+		if (!isEmptyObject(node.children)) {// 拖拽的节点包含子节点时
+			for (var i = 0; i < node.children.length; i++) {
+				node.children[i].pId = node.id;// 重新生成子节点pId
+				id = node.id + lPad(i + 1);// 重新生成子节点Id
+				form_items_conf_obj.convertToTargetNode(node.children[i], id);
+			}
+		}
 	},
 	/** 设置itemform内容 */
 	setItemFormData : function(node, pNode) {
@@ -250,6 +283,12 @@ var form_items_conf_obj = {
 		if (isEmpty(pNode)) {
 			$.extend(oldNode, node);
 			zTree.updateNode(oldNode);
+			if (!isEmptyObject(oldNode.children)) {
+				for (var i = 0; i < oldNode.children.length; i++) {
+					oldNode.children[i].title = oldNode.name;
+					zTree.updateNode(oldNode.children[i]);
+				}
+			}
 		} else {
 			zTree.addNodes(pNode, node);
 		}

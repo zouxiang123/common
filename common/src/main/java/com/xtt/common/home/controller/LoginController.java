@@ -105,7 +105,7 @@ public class LoginController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password)) {
 			/** 验证是否输入正确 */
-			SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId);
+			SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId, null);
 			if (sysUser != null) {
 				String token = UUID.randomUUID().toString();
 				HttpServletUtil.getRequest().setAttribute(CommonConstants.COOKIE_TOKEN, token);
@@ -187,7 +187,7 @@ public class LoginController {
 		if (account != null) {
 			account = account.trim();
 		}
-		SysUser sysUser = userService.getUserByAccount(account, null);
+		SysUser sysUser = userService.getUserByAccount(account, null, null);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("sysUser", sysUser);
 		return map;

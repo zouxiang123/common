@@ -33,6 +33,7 @@
 <link href="${COMMON_SERVER_ADDR}/assets/css/ui/global.css?v=${version }" rel="stylesheet">
 <link href="${COMMON_SERVER_ADDR}/assets/css/ui/index.css?v=${version }" rel="stylesheet">
 <link href="${COMMON_SERVER_ADDR}/assets/css/ui/skin.css?v=${version }" rel="stylesheet">
+<link href="${COMMON_SERVER_ADDR}/assets/css/custom.css?v=${version }" rel="stylesheet">
 
 <!-- framework JavaScript -->
 <script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.min.js"></script>
