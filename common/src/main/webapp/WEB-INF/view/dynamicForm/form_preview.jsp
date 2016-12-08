@@ -5,12 +5,9 @@
 <title>角色管理</title>
 <%@ include file="../common/head.jsp"%>
 </head>
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-12 col-md-12 bg-white" id="bodyDiv">
-			</div>
-		</div>
+<body class="bg-white">
+	<div class="g-main">
+		<div class="g-mainc center-block bg-white clearfix" id="bodyDiv"></div>
 	</div>
 	<script type="text/javascript">
 		$.ajax({

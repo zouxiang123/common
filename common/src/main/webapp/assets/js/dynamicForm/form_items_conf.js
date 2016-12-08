@@ -526,6 +526,8 @@ var form_conf_obj = {
 			showWarn("显示的列数无效");
 			return;
 		}
+		var displayWidth = $("#displayWidth").val();
+		displayWidth = isEmpty(displayWidth) ? "" : (displayWidth + "px");
 		for (var i = 0; i < nodes.length; i++) {
 			var node = nodes[i];
 			if (forChild) {
@@ -533,12 +535,14 @@ var form_conf_obj = {
 					for (var t = 0; t < node.children.length; t++) {
 						node.children[t].displayStyle = displayStyle;
 						node.children[t].displayCol = displayCol;
+						node.children[t].displayWidth = displayWidth;
 						treeObj.updateNode(node.children[t]);
 					}
 				}
 			} else {
 				node.displayStyle = displayStyle;
 				node.displayCol = displayCol;
+				node.displayWidth = displayWidth;
 				treeObj.updateNode(node);
 			}
 		}

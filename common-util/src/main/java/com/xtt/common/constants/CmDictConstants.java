@@ -102,6 +102,9 @@ public class CmDictConstants {
 	public static final String PD_CATHETER_TYPE = "PD_catheter_type";
 	/** 出口部位 */
 	public static final String PD_CATHETER_EXPORT_PART = "PD_catheter_export_part";
+	/*PD prescription*/
+	/** 腹透处方模式 */
+	public static final String PD_PRESCRIPTION_MODE = "PD_prescription_mode";
 
 	/** 服务调用 */
 	public static final String URL = "url";

@@ -98,6 +98,10 @@
 	                            		<input type="number" step="1" min="1" max="12" id ="displayCol"/>
 		                            </div>
 		                            <div class="list-group-item">
+		                           	 <span class="group-title">宽度(仅适用input)px：</span>
+		                           	 <input type="number" id ="displayWidth"/>
+		                            </div>
+		                            <div class="list-group-item">
 		                            	<button onclick='form_conf_obj.updateSelectedNode();' class='btn btn-def'>更新选中节点</button>
 		                            	<button onclick='form_conf_obj.updateSelectedNode(true);' class='btn btn-def' style="width: 160px;" >更新选中节点的子节点</button>
 		                            </div>

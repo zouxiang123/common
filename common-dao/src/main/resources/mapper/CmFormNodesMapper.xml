@@ -28,13 +28,14 @@
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="display_style" jdbcType="VARCHAR" property="displayStyle" />
-    <result column="display_col" jdbcType="VARCHAR" property="displayCol" />
+    <result column="display_col" jdbcType="INTEGER" property="displayCol" />
+    <result column="display_width" jdbcType="VARCHAR" property="displayWidth" />
     <result column="item_type" jdbcType="VARCHAR" property="itemType" />
   </resultMap>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dto.FormNodesDto" resultMap="ResultMap">
   	SELECT 
-		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id,fi.display_style,fi.display_col,fi.item_type
+		fi.fk_form_id,fi.item_name,fi.p_item_code,fi.item_code,fi.order_by,fi.sys_owner,fi.item_path,fi.item_level,fi.is_leaf,fi.is_enable,fi.fk_tenant_id,fi.display_style,fi.display_col,fi.display_width,fi.item_type
 		,fbi.item_desc,fbi.unit,fbi.need_score,fbi.score,fbi.is_fixed,fbi.fk_code,fbi.data_type,fbi.min_value,fbi.max_value,fbi.group_tag,fbi.child_value_node
 	FROM cm_form_items fi 
 	LEFT JOIN cm_form_base_items fbi ON fbi.item_code = fi.item_code AND fbi.fk_tenant_id = fi.fk_tenant_id and fbi.sys_owner = fi.sys_owner
