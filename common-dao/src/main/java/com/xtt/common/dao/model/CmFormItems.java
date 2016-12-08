@@ -77,6 +77,12 @@ public class CmFormItems {
     private String displayStyle;
 
     /**
+     * 显示宽度(px or %）
+     * cm_form_items.display_width
+     */
+    private String displayWidth;
+
+    /**
      * 显示的列数（1~12）
      * cm_form_items.display_col
      */
@@ -260,6 +266,20 @@ public class CmFormItems {
      */
     public void setDisplayStyle(String displayStyle) {
         this.displayStyle = displayStyle;
+    }
+
+    /**
+     * 显示宽度(px or %）
+     */
+    public String getDisplayWidth() {
+        return displayWidth;
+    }
+
+    /**
+     * 显示宽度(px or %）
+     */
+    public void setDisplayWidth(String displayWidth) {
+        this.displayWidth = displayWidth;
     }
 
     /**

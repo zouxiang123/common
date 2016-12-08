@@ -873,6 +873,11 @@ p.u-span-2.f-span-2:focus {
     border-radius: 0px;
     color: black !important;
     min-height: 24px;
+    width: 116px !important;
+    font-size: 12px;
+    border-radius: 0px;
+    color: black !important;
+    min-height: 22px;
     border-color: #D9E0E6 !important;
  }
 

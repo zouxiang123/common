@@ -10,7 +10,19 @@
 	min-width: 70px !important;
 }
 
-.width-100{
+.min-h-30 {
+	min-height: 30px !important;
+}
+
+.min-h-38 {
+	min-height: 38px !important;
+}
+
+.min-h-40 {
+	min-height: 40px !important;
+}
+
+.width-100 {
 	width: 100px !important;
 }
 
@@ -21,6 +33,43 @@
 .inline-block {
 	display: inline-block;
 }
-.inline-table{
+
+.inline-table {
 	display: inline-table;
+}
+
+.font-weight-1 {
+	font-weight: 100
+}
+
+.font-weight-2 {
+	font-weight: 200
+}
+
+.font-weight-3 {
+	font-weight: 300
+}
+
+.font-weight-4 {
+	font-weight: 400
+}
+
+.font-weight-5 {
+	font-weight: 500
+}
+
+.font-weight-6 {
+	font-weight: 600
+}
+
+.font-weight-7 {
+	font-weight: 700
+}
+
+.font-weight-8 {
+	font-weight: 800
+}
+
+.font-weight-9 {
+	font-weight: 900
 }

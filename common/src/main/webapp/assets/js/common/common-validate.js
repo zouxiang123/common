@@ -140,6 +140,8 @@ $.validator.addMethod("isNumberOr_Letter", function(value, element, params) {// 
  * 判断是否为正整数
  */
 $.validator.addMethod("isPInt", function(value, element, params) {
+	if (isEmpty(value))
+		return true;
 	var g = /^[1-9]*[1-9][0-9]*$/;
 	var re = new RegExp(g);
 	if (re.test(value)) {

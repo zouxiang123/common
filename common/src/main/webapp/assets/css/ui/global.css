@@ -35,6 +35,9 @@ ol, ul {
 .f-b-t{
     border-top: 1px solid #D9E0E6;
 }
+.f-b-b{
+    border-bottom: 1px solid #D9E0E6;
+}
 .f-w-70{
 	width: 70%;
 }

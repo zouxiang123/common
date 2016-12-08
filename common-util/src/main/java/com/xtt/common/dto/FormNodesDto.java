@@ -31,6 +31,7 @@ public class FormNodesDto {
 	private String itemType;
 	private String displayStyle;
 	private Integer displayCol;
+	private String displayWidth;
 	/*============form value==============*/
 	private String itemValue;
 	private Long fkRecordId;
@@ -270,6 +271,14 @@ public class FormNodesDto {
 
 	public void setDisplayCol(Integer displayCol) {
 		this.displayCol = displayCol;
+	}
+
+	public String getDisplayWidth() {
+		return displayWidth;
+	}
+
+	public void setDisplayWidth(String displayWidth) {
+		this.displayWidth = displayWidth;
 	}
 
 }
