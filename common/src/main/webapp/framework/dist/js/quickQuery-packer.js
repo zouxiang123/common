@@ -42,7 +42,7 @@
     };
     var w = window.$quickQuery = function(b, c) {
         var d = [],
-        e = [],
+        e = [1],
         f = null,
         g = null,
         h = true,
