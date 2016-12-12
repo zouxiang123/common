@@ -72,4 +72,14 @@ public interface SysParamMapper {
 	 *
 	 */
 	List<SysParamPO> selectByTenantId(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
+
+	/**
+	 * 根据条件查询数据
+	 * 
+	 * @Title: selectByCondition
+	 * @param record
+	 * @return
+	 *
+	 */
+	List<SysParamPO> selectByCondition(SysParam record);
 }

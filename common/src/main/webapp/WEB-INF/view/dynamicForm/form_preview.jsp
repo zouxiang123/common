@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>角色管理</title>
+<title>表单预览</title>
 <%@ include file="../common/head.jsp"%>
 </head>
 <body class="bg-white">

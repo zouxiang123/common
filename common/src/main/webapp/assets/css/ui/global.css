@@ -699,6 +699,18 @@ input[type=checkbox] + label:before {
     background-repeat: no-repeat;
     background-size: 13px 13px;
 }
+label input[type=radio].u-radio-1,
+input[type=radio].u-radio-1 + label:before {
+    background: url('../../img/ui/radio1.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
+label input[type=checkbox].u-checkbox-1,
+input[type=checkbox].u-checkbox-1 + label:before {
+    background: url('../../img/ui/checkbox1.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
 label input[type=checkbox],
 input[type=checkbox] + label:before {
     background: url('../../img/ui/check-box.png');
@@ -711,6 +723,18 @@ input[type=checkbox]:checked+ label:before {
     content: "";
     vertical-align: middle;
     background: url('../../img/ui/radio-box-checked.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
+label input[type=radio].u-radio-1:checked,
+input[type=radio].u-radio-1:checked+ label:before {
+    background: url('../../img/ui/radio1-check.png');
+    background-repeat: no-repeat;
+    background-size: 13px 13px;
+}
+label input[type=checkbox].u-checkbox-1:checked,
+input[type=checkbox].u-checkbox-1:checked+ label:before  {
+    background: url('../../img/ui/checkbox1-check.png');
     background-repeat: no-repeat;
     background-size: 13px 13px;
 }

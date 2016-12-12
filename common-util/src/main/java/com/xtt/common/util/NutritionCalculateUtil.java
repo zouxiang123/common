@@ -18,20 +18,11 @@ public class NutritionCalculateUtil {
 	public static final String STATURE_MEASURE_WAY_INDIRECT_ALLPARTS = "2";
 	/** 身高测量方式(膝高测量方式) */
 	public static final String STATURE_MEASURE_WAY_KNEE = "3";
-	/** 身高测量方式(膝高测量方式)计算公式(标准) */
-	public static final String STATURE_MEASURE_WAY_KNEE_FORMULA_STANDARD = "1";
-	/** -------------身体质量指数------------ */
-	/** 身体质量指数计算公式(标准) */
-	public static final String BMI_FORMULA_STANDARD = "1";
 	/** -------------人体体表面积------------ */
-	/** 体表面积计算公式(标准) */
-	public static final String BSA_FORMULA_STANDARD = "1";
-	/** -------------上臂肌围------------ */
-	/** 上臂肌围计算公式(标准) */
-	public static final String MAMC_FORMULA_STANDARD = "1";
-	/** -------------腰臀比------------ */
-	/** 腰臀比计算公式(标准) */
-	public static final String WHR_FORMULA_STANDARD = "1";
+	/** 体表面积计算公式(DuBois) */
+	public static final String BSA_FORMULA_DUBOIS = "1";
+	/** 体表面积计算公式(赵松山公式) */
+	public static final String BSA_FORMULA_ZSS = "2";
 	/** -------------标准体重计算------------ */
 	/** 标准体重计算公式(标准) */
 	public static final String STANDARD_WEIGHT_FORMULA_STANDARD = "1";
@@ -60,19 +51,17 @@ public class NutritionCalculateUtil {
 	 * @return
 	 *
 	 */
-	public static BigDecimal CalculateStature(String formulaType, String measureWay, BigDecimal[] measureValues, int age, String sex) {
+	public static BigDecimal CalculateStature(String measureWay, BigDecimal[] measureValues, int age, String sex) {
 		BigDecimal value = BigDecimal.ZERO;
 		if (measureValues == null || measureValues.length == 0)
 			return value;
 		if (STATURE_MEASURE_WAY_KNEE.equals(measureWay)) {
-			if (STATURE_MEASURE_WAY_KNEE_FORMULA_STANDARD.equals(formulaType)) {
-				// 男性身高（cm）=62.59-[0.01×年龄（岁）]÷[2.09×膝高（cm）]
-				// 女性身高（cm）=69.28-[0.02×年龄（岁）]÷[1.50×膝高（cm）]
-				if (isMan(sex)) {
-					value = new BigDecimal(62.59 - (0.01 * age) / (2.09 * measureValues[0].doubleValue()));
-				} else {
-					value = new BigDecimal(69.28 - (0.02 * age) / (1.50 * measureValues[0].doubleValue()));
-				}
+			// 男性身高（cm）=62.59-[0.01×年龄（岁）]÷[2.09×膝高（cm）]
+			// 女性身高（cm）=69.28-[0.02×年龄（岁）]÷[1.50×膝高（cm）]
+			if (isMan(sex)) {
+				value = new BigDecimal(62.59 - (0.01 * age) / (2.09 * measureValues[0].doubleValue()));
+			} else {
+				value = new BigDecimal(69.28 - (0.02 * age) / (1.50 * measureValues[0].doubleValue()));
 			}
 		} /*else if (STATURE_MEASURE_WAY_INDIRECT_ALLPARTS.equals(measureWay)) {
 			// 测定腿、足跟、骨盆、脊柱和头颅的长度，各部分长度之和
@@ -89,9 +78,7 @@ public class NutritionCalculateUtil {
 	/**
 	 * 计算身体质量指数
 	 * 
-	 * @Title: CalculateBMI
-	 * @param formulaType
-	 *            公式类别
+	 * @Title: CalculateBMI 公式类别
 	 * @param weight
 	 *            体重(kg)
 	 * @param stature
@@ -99,21 +86,19 @@ public class NutritionCalculateUtil {
 	 * @return
 	 *
 	 */
-	public static BigDecimal CalculateBMI(String formulaType, BigDecimal weight, BigDecimal stature) {
+	public static BigDecimal CalculateBMI(BigDecimal weight, BigDecimal stature) {
 		BigDecimal value = BigDecimal.ZERO;
 		if (weight == null || stature == null || BigDecimal.ZERO.equals(stature)) {
 			return value;
 		}
-		if (BMI_FORMULA_STANDARD.equals(formulaType)) {
-			// 体重kg/(身高cm/100)2
-			// 默认保留两位小数
-			value = weight.divide(stature.divide(new BigDecimal(100)).pow(2), 2, BigDecimal.ROUND_HALF_UP);
-		}
+		// 体重kg/(身高cm/100)2
+		// 默认保留两位小数
+		value = weight.divide(stature.divide(new BigDecimal(100)).pow(2), 2, BigDecimal.ROUND_HALF_UP);
 		return value;
 	}
 
 	/**
-	 * 计算人体体表面积
+	 * 计算人体体表面积（m2）
 	 * 
 	 * @Title: CalculateBSA
 	 * @param formulaType
@@ -131,7 +116,7 @@ public class NutritionCalculateUtil {
 		if (weight == null || stature == null || BigDecimal.ZERO.equals(stature)) {
 			return value;
 		}
-		if (BSA_FORMULA_STANDARD.equals(formulaType)) {
+		if (BSA_FORMULA_ZSS.equals(formulaType)) {
 			// 小于30kg的使用小儿体表面积计算公式
 			// 男性成年=0.00607x身高（cm）+0.0127x体重（kg）-0.0698
 			// 女性成年=0.00586x身高（cm）+0.0126x体重（kg）-0.0461
@@ -145,6 +130,9 @@ public class NutritionCalculateUtil {
 					value = new BigDecimal(0.00586 * stature.doubleValue() + 0.0126 * weight.doubleValue() - 0.0461);
 				}
 			}
+		} else if (BSA_FORMULA_DUBOIS.equals(formulaType)) {
+			// BSA=0.007184×体重^0.425(kg)×身高^0.725(cm)
+			value = new BigDecimal(0.007184 * Math.pow(weight.floatValue(), 0.425) * Math.pow(stature.floatValue(), 0.725));
 		}
 		// 默认保留两位小数
 		value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -155,7 +143,6 @@ public class NutritionCalculateUtil {
 	 * 上臂肌围
 	 * 
 	 * @Title: CalculateMAMC
-	 * @param formulaType公式类型
 	 * @param mac
 	 *            上臂围(cm)
 	 * @param tsf
@@ -163,15 +150,13 @@ public class NutritionCalculateUtil {
 	 * @return MAMC(cm)
 	 *
 	 */
-	public static BigDecimal CalculateMAMC(String formulaType, BigDecimal mac, BigDecimal tsf) {
+	public static BigDecimal CalculateMAMC(BigDecimal mac, BigDecimal tsf) {
 		BigDecimal value = BigDecimal.ZERO;
 		if (mac == null || tsf == null) {
 			return value;
 		}
-		if (MAMC_FORMULA_STANDARD.equals(formulaType)) {
-			// MAMC(cm)=上臂围mac(cm)-3.14×TSF(cm)
-			value = mac.subtract(new BigDecimal(3.14).multiply(tsf));
-		}
+		// MAMC(cm)=上臂围mac(cm)-3.14×TSF(cm)
+		value = mac.subtract(new BigDecimal(3.14).multiply(tsf));
 		// 默认保留两位小数
 		value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return value;
@@ -181,7 +166,6 @@ public class NutritionCalculateUtil {
 	 * 腰臀比
 	 * 
 	 * @Title: CalculateWHR
-	 * @param formulaType
 	 * @param waist
 	 *            腰围(cm）
 	 * @param hip
@@ -189,16 +173,14 @@ public class NutritionCalculateUtil {
 	 * @return 返回百分比，如：（60.68）；
 	 *
 	 */
-	public static BigDecimal CalculateWHR(String formulaType, BigDecimal waist, BigDecimal hip) {
+	public static BigDecimal CalculateWHR(BigDecimal waist, BigDecimal hip) {
 		BigDecimal value = BigDecimal.ZERO;
 		if (waist == null || hip == null || BigDecimal.ZERO.equals(hip)) {
 			return value;
 		}
-		if (WHR_FORMULA_STANDARD.equals(formulaType)) {
-			// WHR=waist/hip
-			// 默认保留两位小数
-			value = waist.divide(hip, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
-		}
+		// WHR=waist/hip
+		// 默认保留两位小数
+		value = waist.divide(hip, 4, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
 		return value;
 	}
 

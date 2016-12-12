@@ -65,6 +65,11 @@ public interface ICommonCacheService {
 	public void cacheUser(Integer tenantId);
 
 	/**
+	 * 缓存公式配置
+	 */
+	public void cacheFormula(Integer tenantId);
+
+	/**
 	 * 初始化缓存所有数据
 	 * 
 	 * @Title: cacheAll

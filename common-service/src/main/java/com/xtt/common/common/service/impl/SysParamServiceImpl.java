@@ -53,7 +53,6 @@ public class SysParamServiceImpl implements ISysParamService {
 			}
 			param.setFkTenantId(UserUtil.getTenantId());
 			DataUtil.setSystemFieldValue(param);
-			param.setSysOwner(HttpServletUtil.getSysName());
 			sysParamMapper.insert(param);
 		} else {
 			param.setUpdateUserId(UserUtil.getLoginUserId());
@@ -61,5 +60,11 @@ public class SysParamServiceImpl implements ISysParamService {
 			sysParamMapper.updateByPrimaryKeySelective(param);
 		}
 		return CommonConstants.SUCCESS;
+	}
+
+	@Override
+	public List<SysParamPO> selectByCondition(SysParamPO record) {
+		record.setFkTenantId(UserUtil.getTenantId());
+		return sysParamMapper.selectByCondition(record);
 	}
 }

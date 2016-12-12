@@ -235,4 +235,34 @@
     </if> 
   </select>
   
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.SysParam" resultMap="POResultMap">
+  	select sp.* from sys_param sp
+  	<where>
+  	  <if test="paramName != null">
+        sp.param_name = #{paramName}
+      </if>
+      <if test="paramDesc != null">
+        and sp.param_desc = #{paramDesc}
+      </if>
+      <if test="paramValue != null">
+        and sp.param_value = #{paramValue}
+      </if>
+      <if test="dicType != null">
+        and sp.dic_type = #{dicType}
+      </if>
+      <if test="paramUnit != null">
+        and sp.param_unit = #{paramUnit}
+      </if>
+      <if test="fkTenantId != null">
+        and sp.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="sysOwner != null">
+        and sp.sys_owner = #{sysOwner}
+      </if>
+      <if test="sysOwners !=null">
+      	and sp.sys_owner in <foreach collection="sysOwners" item="item" open="(" separator="," close=")">#{item}</foreach>
+      </if>
+  	</where>
+  	order by sp.param_name
+  </select>
 </mapper>

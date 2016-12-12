@@ -13,31 +13,29 @@
 					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">缓存列表</span>
 				</div>
 				<div class="tab-body">
-					<div class="table-responsive bg-white">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td>用户缓存</td>
-									<td><button class="btn btn-def" data-type="sysUser">刷新</button></td>
-								</tr>
-								<tr>
-									<td>患者缓存</td>
-									<td><button class="btn btn-def" data-type="patient">刷新</button></td>
-								</tr>
-								<tr>
-									<td>字典缓存</td>
-									<td><button class="btn btn-def" data-type="dictionary">刷新</button></td>
-								</tr>
-								<tr>
-									<td>系统参数缓存</td>
-									<td><button class="btn btn-def" data-type="sysParam">刷新</button></td>
-								</tr>
-								<tr>
-									<td>权限缓存</td>
-									<td><button class="btn btn-def" data-type="permission">刷新</button></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">用户缓存</span>
+						<button class="btn btn-def" data-type="sysUser">刷新</button>
+					</div>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">患者缓存</span>
+						<button class="btn btn-def" data-type="patient">刷新</button>
+					</div>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">字典缓存</span>
+						<button class="btn btn-def" data-type="dictionary">刷新</button>
+					</div>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">系统参数缓存</span>
+						<button class="btn btn-def" data-type="sysParam">刷新</button>
+					</div>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">权限缓存</span>
+						<button class="btn btn-def" data-type="permission">刷新</button>
+					</div>
+					<div class="col-xt-6 m-t-14">
+						<span class="f-span-3 u-span min-w-100">公式配置缓存</span>
+						<button class="btn btn-def" data-type="formula">刷新</button>
 					</div>
 				</div>
 			</div>
@@ -45,7 +43,7 @@
 	</div>
 	<script type="text/javascript">
 		$(function() {
-			$("table").on("click", "button", function() {
+			$("button").on("click", function() {
 				$.ajax({
 					url : ctx + "/cacheRefresh/" + $(this).data("type") + ".shtml",
 					//data : "",

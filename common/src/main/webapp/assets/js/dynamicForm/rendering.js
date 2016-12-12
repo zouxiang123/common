@@ -81,35 +81,51 @@ var dfr_obj = {
 			break;
 		case "checkbox":
 			if (node.displayStyle == "checkbox_01") {
-				html += '<div class="m-l-10 m-t-12 ' + (isEmpty(col) ? "" : ('col-xt-' + col + '')) + '">';
-				if (node.needScore)
-					html += '<span class="u-span f-span">' + (node.score + "分") + '</span>';
-				html += '<label><input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" '
-								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '"/>' + node.itemName + '</label>';
+				html += '<div class="m-t-12 ' + (isEmpty(col) ? "" : ('col-xt-' + col + '')) + '">';
+				if (node.needScore) {
+					html += '<span class="u-span-1 f-span-1">' + (node.score + "分") + '</span>';
+					html += '<label>';
+				} else {
+					html += '<label class="m-l-10">';
+				}
+				html += '<input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" ' + (isEmpty(node.itemValue) ? "" : "checked")
+								+ commonHtml + '"/>' + node.itemName + '</label>';
 				html += '</div>';
 			} else {
-				html += '<div class="m-l-10 m-t-12 inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
-				if (node.needScore)
+				html += '<div class="m-t-12 inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
+				if (node.needScore) {
 					html += '<span class="u-span-1 f-span-1">' + (node.score + "分") + '</span>';
-				html += '<label><input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" '
-								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '"/>' + node.itemName + '</label>';
+					html += '<label>';
+				} else {
+					html += '<label class="m-l-10">';
+				}
+				html += '<input type="checkbox" name="' + pItemCode + '" value="' + node.itemCode + '" ' + (isEmpty(node.itemValue) ? "" : "checked")
+								+ commonHtml + '"/>' + node.itemName + '</label>';
 				html += '</div>';
 			}
 			break;
 		case "radio":
 			if (node.displayStyle == "radio_01") {
-				html += '<div class="m-l-10 m-t-12 ' + (isEmpty(col) ? "" : ('col-xt-' + col + '')) + '">';
-				if (node.needScore)
-					html += '<span class="u-span f-span">' + (node.score + "分") + '</span>';
-				html += '<label><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
-								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '/>' + node.itemName + '</label>';
+				html += '<div class="m-t-12 ' + (isEmpty(col) ? "" : ('col-xt-' + col + '')) + '">';
+				if (node.needScore) {
+					html += '<span class="u-span-1 f-span-1">' + (node.score + "分") + '</span>';
+					html += '<label>';
+				} else {
+					html += '<label class="m-l-10">';
+				}
+				html += '<input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" ' + (isEmpty(node.itemValue) ? "" : "checked")
+								+ commonHtml + '/>' + node.itemName + '</label>';
 				html += '</div>';
 			} else {
-				html += '<div class="m-l-10 m-t-12 inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
-				if (node.needScore)
-					html += '<span class="u-span f-span">' + (node.score + "分") + '</span>';
-				html += '<label><input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" '
-								+ (isEmpty(node.itemValue) ? "" : "checked") + commonHtml + '/>' + node.itemName + '</label>';
+				html += '<div class="m-t-12 inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
+				if (node.needScore) {
+					html += '<span class="u-span-1 f-span-1">' + (node.score + "分") + '</span>';
+					html += '<label>';
+				} else {
+					html += '<label class="m-l-10">';
+				}
+				html += '<input type="radio" name="' + pItemCode + '" value="' + node.itemCode + '" ' + (isEmpty(node.itemValue) ? "" : "checked")
+								+ commonHtml + '/>' + node.itemName + '</label>';
 				html += '</div>';
 			}
 			break;
@@ -126,9 +142,9 @@ var dfr_obj = {
 				width = 'style="width:' + width + '"';
 			}
 			if (node.displayStyle == "input_01") {
-				html += '<div class="m-l-10 col-xt-' + (isEmpty(col) ? 4 : col) + '">';
+				html += '<div class="min-h-38 col-xt-' + (isEmpty(col) ? 4 : col) + '">';
 				if (!isEmpty(node.itemName.trim()))
-					html += '<span class="u-span f-span m-l-14 min-w-0">' + node.itemName + '</span>';
+					html += '<span class="u-span f-span m-l-10 min-w-0">' + node.itemName + '</span>';
 				html += '<input class="u-input1" ' + width + ' type="' + node.dataType + '" name="' + node.itemCode + '" value="'
 								+ convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
 				if (!isEmpty(node.unit))
@@ -137,7 +153,7 @@ var dfr_obj = {
 			} else {
 				html += '<div class="inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
 				if (!isEmpty(node.itemName.trim()))
-					html += '<span class="u-span f-span min-w-0">' + node.itemName + '</span>';
+					html += '<span class="u-span f-span m-l-10  min-w-0">' + node.itemName + '</span>';
 				html += '<input class="u-input1" ' + width + ' type="' + node.dataType + '" name="' + node.itemCode + '" value="'
 								+ convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
 				if (!isEmpty(node.unit))

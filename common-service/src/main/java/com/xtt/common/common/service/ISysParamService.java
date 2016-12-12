@@ -56,4 +56,14 @@ public interface ISysParamService {
 	 */
 	String saveParam(SysParam param);
 
+	/**
+	 * 根据条件查询数据
+	 * 
+	 * @Title: selectByCondition
+	 * @param record
+	 * @return
+	 *
+	 */
+	List<SysParamPO> selectByCondition(SysParamPO record);
+
 }

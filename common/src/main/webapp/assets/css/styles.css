@@ -240,7 +240,7 @@ label input[type=radio],label input[type=checkbox] {
   /*background: #F2F2F2;*/
   background: rgba(238,240,246,.6);
   /*color: #555555;*/
-  color: #a3a3a3 !important;
+  color: #a3a3a3;
   font-size: 12px !important;
   font-weight: normal;
 }
@@ -8821,7 +8821,7 @@ tbody > tr > td > a:focus {
 
 .table > thead > tr > th {
   font-size: 12px !important;
-  color: #484848 !important;
+  color: #484848;
 }
 
 .nav-search-title {
@@ -8841,7 +8841,7 @@ tbody > tr > td > a:focus {
   border-bottom: 1px solid #d9e0e6;
 }
 
-.nav-search-result img {
+.nav-search-result > img {
   width: 38px;
   height: 38px;
   -moz-border-radius: 100%;
@@ -8879,6 +8879,10 @@ tbody > tr > td > a:focus {
 .nav-search-result.active {
   /*background: #31AAFF !important;*/
   color: #31AAFF !important;
+}
+
+.dividingline {
+  border:1px dashed #d9e0e6;
 }
 
 .font-bold {
@@ -8991,7 +8995,7 @@ tbody > tr > td > a:focus {
     height: 36px;
   }
 
-  .nav-search-result img{
+  .nav-search-result > img{
     display: none;
   }
 
@@ -11309,4 +11313,98 @@ ul.width-500 > li:focus {
   width: 20px;
   height: 20px;
   margin-left: 5px;
+}
+.u-tabs {
+  position: relative;
+  width: 100%;
+  height: 32px;
+  /*border-bottom:1px solid #d9e0e6;*/
+}
+.u-tab {
+  /*cursor: pointer;*/
+  position: relative;
+  float: left;
+  display: inline-block;
+  min-width: 50px;
+  text-align: center;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: -1px;
+  height: 31px;
+  line-height: 31px;
+  font-size: 12px;
+  color: #484848;
+  background: #fff;
+  border-top:1px solid #d9e0e6;
+  border-left:1px solid #d9e0e6;
+  border-right:1px solid #d9e0e6;
+}
+.u-tab:hover,
+.u-tab:focus {
+  border-top:1px solid rgba(49,170,255,.8);
+  border-left:1px solid rgba(49,170,255,.8);
+  border-right:1px solid rgba(49,170,255,.8);
+  color: #fff;
+  background: rgba(49,170,255,.8);
+}
+.u-tab.active {
+  border-top:1px solid #31aaff;
+  border-left:1px solid #31aaff;
+  border-right:1px solid #31aaff;
+  color: #fff;
+  background: #31aaff;
+}
+.u-tab-delete {
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+  width: 10px;
+  height: 31px;
+  background: url('../img/ui/tab-delete.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 7px 7px;
+  /*z-index:99;*/
+}
+.u-tab.active > .u-tab-delete,
+.u-tab:hover > .u-tab-delete {
+  background: url('../img/ui/closenew.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 7px 7px;
+}
+
+.u-tab-delete2 {
+  cursor: pointer;
+  float: right;
+  margin-left: 10px;
+  width: 10px;
+  height: 31px;
+  background: url('../img/ui/closenew.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 7px 7px;
+  /*z-index:99;*/
+}
+
+.u-tab-select {
+  cursor: pointer;
+  width: 33px;
+  height: 31px;
+  min-width: 33px;
+  background: url('../img/ui/tab-select.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 8px 5px;
+}
+.u-tab-select:hover,
+.u-tab-select:focus {
+  background: url('../img/ui/tab-select.png') no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 8px 5px;
+  color: #484848;
+  border-top:1px solid #d9e0e6;
+  border-left:1px solid #d9e0e6;
+  border-right:1px solid #d9e0e6;
 }

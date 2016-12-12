@@ -20,7 +20,7 @@ public class CacheRefreshController {
 	private ICommonCacheService commonCacheService;
 
 	@RequestMapping("view")
-	public String view(Model model) {
+	public String view(Model model, String sys) {
 		return "system/cache_refresh";
 	}
 
@@ -65,6 +65,15 @@ public class CacheRefreshController {
 	public Map<String, Object> permission() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		commonCacheService.cachePermission(UserUtil.getTenantId());
+		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+		return map;
+	}
+
+	@RequestMapping("formula")
+	@ResponseBody
+	public Map<String, Object> formula() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		commonCacheService.cacheFormula(UserUtil.getTenantId());
 		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
 		return map;
 	}

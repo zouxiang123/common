@@ -85,6 +85,7 @@ public class CommonConstants {
 
 	/** 项目名称 */
 	public static final String SYS_NAME = "sysName";
+	public static final String SYS_CM = "CM";
 	public static final String SYS_PD = "PD";
 	public static final String SYS_HD = "HD";
 	/** 公用服务地址 */

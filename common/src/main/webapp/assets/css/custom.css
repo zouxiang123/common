@@ -10,6 +10,10 @@
 	min-width: 70px !important;
 }
 
+.min-w-100 {
+	min-width: 100px !important;
+}
+
 .min-h-30 {
 	min-height: 30px !important;
 }

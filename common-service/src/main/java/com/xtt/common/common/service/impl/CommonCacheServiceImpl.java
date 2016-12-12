@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.cache.CmDictCache;
+import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
@@ -29,12 +30,14 @@ import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
+import com.xtt.common.conf.service.ICmFormulaConfService;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
+import com.xtt.common.dao.po.CmFormulaConfPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
@@ -77,6 +80,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 	private ISysTenantService sysTenantService;
 	@Autowired
 	private IUserService userService;
+	@Autowired
+	private ICmFormulaConfService cmFormulaConfService;
 
 	@Override
 	public void cacheDict(Integer tenantId) {
@@ -262,8 +267,27 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 				cacheDynamicFormNode(tenant.getId(), null);
 				// cache user data
 				cacheUser(tenant.getId());
+				// cache formula data
+				cacheFormula(tenant.getId());
 			}
 		}
 		LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
+	}
+
+	@Override
+	public void cacheFormula(Integer tenantId) {
+		RedisCacheUtil.deletePattern(FormulaCache.getKey(tenantId, null));
+		CmFormulaConfPO record = new CmFormulaConfPO();
+		record.setIsChecked(true);
+		record.setIsEnable(true);
+		record.setFkTenantId(tenantId);
+		List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
+		Map<String, String> cacheMap = new HashMap<>();
+		if (CollectionUtils.isNotEmpty(list)) {
+			for (CmFormulaConfPO formula : list) {
+				cacheMap.put(FormulaCache.getKey(tenantId, formula.getCategory()), formula.getItemCode());
+			}
+			FormulaCache.cacheALL(cacheMap);
+		}
 	}
 }

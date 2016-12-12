@@ -327,7 +327,6 @@
 }
 .u-tab:hover,
 .u-tab:focus {
-	cursor: pointer;
     border-top:1px solid rgba(49,170,255,.8);
     border-left:1px solid rgba(49,170,255,.8);
     border-right:1px solid rgba(49,170,255,.8);
@@ -868,11 +867,6 @@ p.u-span-2.f-span-2:focus {
 .bootstrap-select .btn {
     padding: 0px 25px 0px 5px;
     margin: 0px;
-    width: 157px !important;
-    font-size: 12px;
-    border-radius: 0px;
-    color: black !important;
-    min-height: 24px;
     width: 116px !important;
     font-size: 12px;
     border-radius: 0px;
