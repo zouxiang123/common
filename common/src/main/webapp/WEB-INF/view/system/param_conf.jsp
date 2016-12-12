@@ -72,15 +72,6 @@
 	 </div>
  </div>
 <script type="text/javascript">
-	$(function(){
-		$("#paramDefinitionNavId").addClass("active");
-		var menu = {
-			"首页" : basePath + "system/searchUser.shtml",
-			"系统参数定义" : null
-		};
-		setBreadcrumb(menu); 
-	});
-	
 	function saveSystemParam(id,btn){
 		var paramValue = $(btn).parent().parent().find("input[name='paramValue']").val();
 		var paramUnit = $(btn).parent().parent().find("select[name='paramUnit']").val();
@@ -89,7 +80,7 @@
 			return false;
 		}
 		$.ajax({
-			url : contextPath + "/system/param/saveParam.shtml",
+			url : ctx + "/system/param/saveParam.shtml",
 			data : encodeURI("id=" + id+"&paramValue="+paramValue+(isEmpty(paramUnit)?"":"&paramUnit="+paramUnit)),
 			type : "post",
 			dataType : "json",
@@ -107,7 +98,7 @@
 	/** 刷新内存数据 */
 	function refreshMemory(){
 		$.ajax({
-			url : ctx + "/system/param/refresh.shtml",
+			url : ctx + "/cacheRefresh/sysParam.shtml",
 			type : "post",
 			dataType : "json",
 			success : function(data) {
