@@ -404,7 +404,7 @@ function getPermissionUrlByKey(val) {
 				return obj.url;
 			}
 		} else {
-			return getPermissionUrlByParentCode(permissionObj.code);
+			return getPermissionUrlByParentCode(obj.code);
 		}
 	}
 	return null;

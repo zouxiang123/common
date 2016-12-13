@@ -9,7 +9,7 @@
   <dependencies>
   	<!-- platform -->
     <dependency>
-        <groupId>com.xtt.common</groupId>
+        <groupId>com.xtt.platform</groupId>
         <artifactId>portal-platform</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </dependency>
