@@ -225,7 +225,7 @@ public class NutritionCalculateUtil {
 		}
 		// (实际体重-标准体重）÷同身高标准体重
 		BigDecimal value = new BigDecimal((actual.floatValue() - standard.floatValue()) / standard.floatValue() * 100.0);
-		value.setScale(2, BigDecimal.ROUND_HALF_UP);
+		value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return value;
 	}
 
@@ -245,7 +245,7 @@ public class NutritionCalculateUtil {
 		}
 		// 体重丢失率（%）=（原体重-现体重）/原体重×100%
 		BigDecimal value = new BigDecimal((original.floatValue() - now.floatValue()) / original.floatValue() * 100.0);
-		value.setScale(2, BigDecimal.ROUND_HALF_UP);
+		value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return value;
 	}
 }

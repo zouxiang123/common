@@ -443,15 +443,20 @@ $.fn.serializeJson = function() {
 
 /** 对象和数组的深拷贝 */
 function cloneObject(sObj) {
-	if (typeof sObj !== "object") {
+	if (isEmpty(sObj)) {
 		return sObj;
 	}
 	var s = {};
-	if (sObj.constructor == Array) {
+	if (sObj instanceof (Array)) {
 		s = [];
 	}
 	for ( var i in sObj) {
-		s[i] = cloneObject(sObj[i]);
+		console.log(typeof sObj[i]);
+		if (!isEmpty(sObj[i]) && (typeof sObj[i] === "object")) {
+			s[i] = cloneObject(sObj[i]);
+		} else {
+			s[i] = sObj[i];
+		}
 	}
 	return s;
 }
@@ -490,4 +495,16 @@ function delCookie(name) {
 	var cval = getCookie(name);
 	if (cval != null)
 		document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+}
+
+/** 判断函数是否存在 */
+function existsFunction(funcName) {
+	try {
+		if (typeof (eval(funcName)) === "function") {
+			return true;
+		}
+	} catch (e) {
+		console.log(e);
+	}
+	return false;
 }

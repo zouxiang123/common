@@ -59,6 +59,8 @@ var tab_nav = {
 		$("#tabsDiv").append(
 						'<span class="u-tab hand" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
 										+ '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>');
+		// 设置添加tab的来源id为当前激活的tabid
+		$("#tabsDiv [data-target='" + p.id + "']").data("fromId", $("#tabsDiv [data-url].active").data("target"));
 		$("#tabsDiv [data-target='" + p.id + "']").trigger("click");
 	},
 	addIframe : function(id, url) {
@@ -76,10 +78,27 @@ var tab_nav = {
 		if (isEmpty(el)) {
 			el = $("#tabsDiv [data-url].active");
 		}
+		var formId = $(el).data("fromId");
 		// 删除iframe body
 		$("#" + el.data("target")).remove();
 		// 删除tab
 		$(el).remove();
-		$("#tabsDiv [data-url]:first").trigger("click");
+		if (isEmpty(formId)) {// 没有来源id时，打开第一个
+			$("#tabsDiv [data-url]:first").trigger("click");
+		} else {// 有来源id时，打开来源tab
+			$("#tabsDiv [data-target='" + formId + "']").trigger("click");
+		}
 	}
 };
+/**
+ * 删除当前tab
+ */
+function removeActiveTab() {
+	tab_nav.removeActiveTab();
+}
+/**
+ * 添加tab
+ */
+function addTab(param) {
+	tab_nav.addTab(param);
+}

@@ -10,6 +10,7 @@ package com.xtt.common.cache;
 
 import java.util.Map;
 
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -31,6 +32,6 @@ public class FormulaCache {
 	 *
 	 */
 	public static String getValue(String category) {
-		return (String) RedisCacheUtil.getObject(category);
+		return (String) RedisCacheUtil.getObject(getKey(UserUtil.getTenantId(), category));
 	}
 }
