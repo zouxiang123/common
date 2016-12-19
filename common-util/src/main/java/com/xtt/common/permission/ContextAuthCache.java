@@ -13,7 +13,7 @@ import com.xtt.platform.util.lang.StringUtil;
 public class ContextAuthCache implements ContextAuthFactory {
 	private static ContextAuthCache instance;
 	private static final int REDIS_DB = 8;
-	private static final long LIVE_TIME = 30 * 60 * 60 * 1000;
+	private static final long TIMEOUT = 30 * 60 * 60 * 1000;
 	private static final String TOKEN_STRATEGY = (String) PropertiesUtil.getContextProperty("tokenStrategy");
 
 	public ContextAuthCache() {
@@ -53,7 +53,7 @@ public class ContextAuthCache implements ContextAuthFactory {
 		}
 		if (StringUtil.isNotBlank(key)) {
 			if (isCookieTokenStrategy()) {
-				RedisCacheUtil.setObject(key, auth, REDIS_DB, LIVE_TIME);
+				RedisCacheUtil.setObject(key, auth, REDIS_DB, TIMEOUT);
 			} else {// api token need not set live time
 				RedisCacheUtil.setObjectWithDB(key, auth, REDIS_DB);
 			}
@@ -101,6 +101,6 @@ public class ContextAuthCache implements ContextAuthFactory {
 			key = getKey(HttpServletUtil.getRequest());
 		}
 		if (StringUtil.isNotBlank(key))
-			RedisCacheUtil.setLiveTime(key, liveTime == null ? LIVE_TIME : liveTime);
+			RedisCacheUtil.setTimeout(key, liveTime == null ? TIMEOUT : liveTime, REDIS_DB);
 	}
 }
