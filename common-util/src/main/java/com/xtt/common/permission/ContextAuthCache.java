@@ -13,7 +13,7 @@ import com.xtt.platform.util.lang.StringUtil;
 public class ContextAuthCache implements ContextAuthFactory {
 	private static ContextAuthCache instance;
 	private static final int REDIS_DB = 8;
-	private static final long TIMEOUT = 30 * 60 * 60 * 1000;
+	private static final long TIMEOUT = 120 * 60 * 1000;
 	private static final String TOKEN_STRATEGY = (String) PropertiesUtil.getContextProperty("tokenStrategy");
 
 	public ContextAuthCache() {
