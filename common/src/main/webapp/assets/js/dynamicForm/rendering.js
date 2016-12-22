@@ -138,6 +138,8 @@ var dfr_obj = {
 			break;
 		case "input":
 			var width = convertEmpty(node.displayWidth);
+			var inputCommon = ' data-inputtype="' + node.dataType + '" data-max="' + convertEmpty(node.maxValue) + '" data-min="' + node.minValue
+							+ '" data-name="' + node.itemName + '"';
 			if (!isEmpty(width)) {
 				width = 'style="width:' + width + '"';
 			}
@@ -145,8 +147,8 @@ var dfr_obj = {
 				html += '<div class="min-h-38 col-xt-' + (isEmpty(col) ? 4 : col) + '">';
 				if (!isEmpty(node.itemName.trim()))
 					html += '<span class="u-span f-span m-l-10 min-w-0">' + node.itemName + '</span>';
-				html += '<input class="u-input1" ' + width + ' type="' + node.dataType + '" name="' + node.itemCode + '" value="'
-								+ convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
+				html += '<input class="u-input1" ' + width + ' type="text" name="' + node.itemCode + '" value="' + convertEmpty(node.itemValue)
+								+ '" ' + commonHtml + inputCommon + ' maxlength="512"/>';
 				if (!isEmpty(node.unit))
 					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
 				html += '</div>';
@@ -154,16 +156,16 @@ var dfr_obj = {
 				html += '<div class="inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
 				if (!isEmpty(node.itemName.trim()))
 					html += '<span class="u-span f-span m-l-10  min-w-0">' + node.itemName + '</span>';
-				html += '<input class="u-input1" ' + width + ' type="' + node.dataType + '" name="' + node.itemCode + '" value="'
-								+ convertEmpty(node.itemValue) + '" ' + commonHtml + '>';
+				html += '<input class="u-input1" ' + width + ' type="text" name="' + node.itemCode + '" value="' + convertEmpty(node.itemValue)
+								+ '" ' + commonHtml + inputCommon + ' maxlength="512"/>';
 				if (!isEmpty(node.unit))
 					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
 				html += '</div>';
 			}
 			break;
 		case "textarea":
-			html += '<label>' + node.itemName + '</label><textarea name="' + node.itemCode + '" ' + commonHtml + '>' + convertEmpty(node.itemValue)
-							+ '</textarea>';
+			html += '<label>' + node.itemName + '</label><textarea name="' + node.itemCode + '" ' + commonHtml + ' maxlength="512">'
+							+ convertEmpty(node.itemValue) + '</textarea>';
 			break;
 		case "option":
 			html += '<option value="' + node.itemCode + '" ' + (isEmpty(node.itemValue) ? "" : "selected") + commonHtml + '>' + node.itemName
@@ -325,7 +327,7 @@ var dfr_obj = {
 		return html;
 	},
 	/** 保存form表单节点数据 */
-	getSaveNodes : function(id) {
+	getSaveNodes : function(id, errorMap) {
 		var items = [];
 		var elements = $("#" + id + " [data-savenode]");
 		elements.filter("[data-type='checkbox']:checked,[data-type='radio']:checked,[data-type='option']:selected").each(function() {
@@ -333,8 +335,34 @@ var dfr_obj = {
 			dfr_obj.addSiblingsLable(elements, items, $(this).data("pcode"));// 保存标签元素
 		});
 		elements.filter("[data-type='input'],[data-type='textarea']").each(function() {
-			if (!isEmpty($(this).val())) {// 只保存有值的数据
-				dfr_obj.addSaveItems(items, $(this).data("code"), $(this).val(), $(this).data("formid"));
+			var val = $(this).val();
+			if (!isEmpty(val)) {// 只保存有值的数据
+				if (!isEmpty(errorMap)) {// 需要数据校验
+					if ($(this).data("inputtype") == "number") {
+						if (isNaN(val)) {
+							errorMap[this] = $(this).data("name") + "的值不是有效的数字";
+						} else {
+							val = Number(val);
+							var max = $(this).data("max");
+							var min = $(this).data("min");
+							if (!isEmpty(max) && isEmpty(min)) {
+								if (Number(max) < val) {
+									errorMap[this] = $(this).data("name") + "的值不能超过" + max;
+								}
+							} else if (!isEmpty(min) && isEmpty(max)) {
+								if (Number(min) > val) {
+									errorMap[this] = $(this).data("name") + "的值不能小于" + min;
+								}
+							} else if (!isEmpty(min) && !isEmpty(max)) {
+								if (Number(min) > val || Number(max) < val) {
+									errorMap[this] = $(this).data("name") + "的值应位于" + min + "和" + max + "之间";
+								}
+							}
+
+						}
+					}
+				}
+				dfr_obj.addSaveItems(items, $(this).data("code"), val, $(this).data("formid"));
 				dfr_obj.addSiblingsLable(elements, items, $(this).data("pcode"));// 保存标签元素
 			}
 		});

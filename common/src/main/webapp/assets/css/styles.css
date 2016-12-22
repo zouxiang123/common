@@ -2716,6 +2716,19 @@ td .msg-list-item {
   color: #E0E0E0;
 }
 
+input[type='number']::-moz-placeholder,
+input[type='text']::-moz-placeholder {
+  color: #E0E0E0;
+}
+input[type='number']:-ms-input-placeholder,
+input[type='text']:-ms-input-placeholder {
+  color: #E0E0E0;
+}
+input[type='number']::-webkit-input-placeholder,
+input[type='text']::-webkit-input-placeholder {
+  color: #E0E0E0;
+}
+
 .action-item-layout {
   position: absolute;
   top: 175px;
@@ -11407,4 +11420,52 @@ ul.width-500 > li:focus {
   border-top:1px solid #d9e0e6;
   border-left:1px solid #d9e0e6;
   border-right:1px solid #d9e0e6;
+}
+.dialog-full-screen {
+  margin:-50px auto !important;
+  padding-left:0 !important;
+  padding:0 !important;
+}
+.dialog-full-screen .dialog-wrap {
+  width: 100% !important;
+  padding: 0 !important;margin: 0 !important;
+}
+.dialog-full-screen .g-mainc {
+  width: 98%;
+  margin-top: 1%;
+}
+.dialog-full-screen *,
+.dialog-full-screen label,
+.dialog-full-screen .f-span {
+  font-size: 16px;
+  line-height: 32px;
+}
+.dialog-full-screen .m-head {
+  clear: both;
+  padding-top:5px;
+}
+.dialog-full-screen label input[type=radio],
+.dialog-full-screen label input[type=checkbox],
+.dialog-full-screen input[type=radio] + label:before,
+.dialog-full-screen input[type=checkbox] + label:before {
+  width: 18px !important;
+  height: 18px !important;
+  background-size: 18px 18px !important;
+}
+.dialog-full-screen label input[type=radio]:checked,
+.dialog-full-screen label input[type=checkbox]:checked,
+.dialog-full-screen input[type=radio]:checked+ label:before,
+.dialog-full-screen input[type=checkbox]:checked+ label:before {
+  background-size: 18px 18px !important;
+}
+.dialog-full-screen .dialog-header > .user-name {
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+.dialog-full-screen .modal-title {
+  font-weight: bold;
+}
+.dialog-full-screen .u-subtitle {
+  font-size: 18px !important;
+  line-height: 40px;
 }
