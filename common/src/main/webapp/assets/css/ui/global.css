@@ -764,7 +764,7 @@ input[type=checkbox] + label:before {
     content: "";
     background: url('../../img/ui/radio-box.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 13px 13px !important;
 }
 label input[type=radio].u-radio-1,
 input[type=radio].u-radio-1 + label:before {

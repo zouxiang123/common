@@ -12,6 +12,11 @@ body {
 ol, ul {
   list-style: none;
 }
+label + label {
+  margin: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
 
 .list-sm-group {
   width: 100%;
@@ -11432,6 +11437,9 @@ ul.width-500 > li:focus {
 }
 .dialog-full-screen .g-mainc {
   width: 98%;
+  height: auto;
+  padding: 16px;
+  box-shadow:0px 1px 3px 0px rgba(0,0,0,0.20);
   margin-top: 1%;
 }
 .dialog-full-screen *,
@@ -11440,9 +11448,130 @@ ul.width-500 > li:focus {
   font-size: 16px;
   line-height: 32px;
 }
+.dialog-full-screen label {
+  font-size: 16px !important;
+}
 .dialog-full-screen .m-head {
   clear: both;
   padding-top:5px;
+}
+.dialog-full-screen .m-head,.dialog-full-screen .m-body{
+  position: relative;
+}
+.dialog-full-screen .m-head.active {
+  background: #fbfbfd;
+  border-top: 1px solid #D9E0E6;
+}
+.dialog-full-screen .bottomline1 {
+  border-bottom: 1px solid #D9E0E6;
+}
+.dialog-full-screen .fs-16 {
+  font-size: 16px !important;
+}
+.dialog-full-screen .u-span {
+  font-size: 14px;
+  color: #000;
+}
+
+.dialog-full-screen label input[type=radio],
+.dialog-full-screen label input[type=checkbox],
+.dialog-full-screen input[type=radio] + label:before,
+.dialog-full-screen input[type=checkbox] + label:before {
+  display: inline-block;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 13px;
+  height: 13px;
+  margin: 0;
+  border: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-bottom: 3px;
+  margin-right: 3px;
+  content: "";
+  background: url('../img/ui/radio-box.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px !important;
+}
+.dialog-full-screen label input[type=checkbox],
+.dialog-full-screen input[type=checkbox] + label:before {
+  background: url('../img/ui/check-box.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+.dialog-full-screen label input[type=radio]:checked,
+.dialog-full-screen label input[type=checkbox]:checked,
+.dialog-full-screen input[type=radio]:checked+ label:before,
+.dialog-full-screen input[type=checkbox]:checked+ label:before {
+  content: "";
+  vertical-align: middle;
+  background: url('../img/ui/radio-box-checked.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+.dialog-full-screen label input[type=checkbox]:checked,
+.dialog-full-screen input[type=checkbox]:checked+ label:before {
+  background: url('../img/ui/check-box-checked.png');
+  background-repeat: no-repeat;
+  background-size: 13px 13px;
+}
+.u-input1 {
+  text-align: center;
+  background: none;
+  outline: none;
+  height: 20px;
+  margin: 0;
+  padding-left: 2px;
+  padding-right: 2px;
+  border: 0;
+  vertical-align: middle;
+  border-bottom: 1px solid #484848;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000;
+}
+.w-20 {
+  width: 20px;
+}
+.w-30 {
+  width: 30px;
+}
+.w-40 {
+  width: 40px;
+}
+.w-50 {
+  width: 50px;
+}
+.w-60 {
+  width: 60px;
+}
+.w-70 {
+  width: 70px;
+}
+.w-80 {
+  width: 80px;
+}
+.w-90 {
+  width: 90px;
+}
+.w-100 {
+  width: 100px;
+}
+.dialog-full-screen .f-span {
+  display: inline-block;
+  text-align: right;
+  line-height: 32px !important;
+  min-width: 80px;
+}
+.dialog-full-screen .f-span + label {
+  margin-left: 10px;
+}
+.dialog-full-screen .m-content {
+  width: 100%;
+  min-height: 38px;
 }
 .dialog-full-screen label input[type=radio],
 .dialog-full-screen label input[type=checkbox],
@@ -11468,4 +11597,7 @@ ul.width-500 > li:focus {
 .dialog-full-screen .u-subtitle {
   font-size: 18px !important;
   line-height: 40px;
+  color: #000;
+  font-weight: bold;
+  margin: 0;
 }
