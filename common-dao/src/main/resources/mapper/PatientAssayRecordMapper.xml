@@ -684,8 +684,22 @@
 	    <if test="endDateStr != null">
 	    	AND par.assay_date &lt;= #{endDateStr}
 	    </if>
-	  	ORDER BY par.item_code,par.assay_date DESC
+	    <choose>
+	    	<when test="dictCodes !=null">
+		  		ORDER BY dhl.fk_dict_code,par.assay_date DESC
+	    	</when>
+	    	<otherwise>
+	    		ORDER BY par.item_code,par.assay_date DESC
+	    	</otherwise>
+	    </choose>
 	  ) t
-	  GROUP BY t.item_code
+	  <choose>
+    	<when test="dictCodes !=null">
+    		 GROUP BY t.fkDictCode
+    	</when>
+    	<otherwise>
+    		ORDER BY t.item_code
+    	</otherwise>
+	  </choose>
   </select>
 </mapper>

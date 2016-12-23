@@ -9,6 +9,21 @@ body {
 .center {
     text-align: center;
 }
+.m-r-16 {
+    margin-right: 16px !important;
+}
+
+.m-l-16 {
+    margin-left: 16px !important;
+}
+
+.m-t-16 {
+    margin-top: 16px !important;
+}
+
+.m-b-16 {
+    margin-bottom: 16px !important;
+}
 
 .title-22 {
     font-family: 'Microsoft YaHei','SimSun';
@@ -116,9 +131,11 @@ thead > tr {
     height: auto;
     padding-left: 50px;
     padding-right: 50px;
+    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.20);
 }
 
 .print-main {
+    clear: both;
     background: #fff;
     font-size: 20px;
     line-height: 1;
@@ -176,7 +193,9 @@ thead > tr {
 .bottomline {
     border-bottom: 1px dashed #d9e0e6;
 }
-
+.bottomline-1 {
+    border-bottom: 1px solid #d9e0e6;
+}
 .col-1 {
   width: 100%;
 }
@@ -430,6 +449,7 @@ th p{
         height: auto;
         padding-left: 8.47mm;
         padding-right: 8.47mm;
+        box-shadow: none;
     }
 
     .print-main {
@@ -554,9 +574,11 @@ th p{
     }
 
     .bottomline {
-        border-bottom: 1px dashed #000;
+        border-bottom: 0.1mm dashed #000;
     }
-
+    .bottomline-1 {
+        border-bottom: 0.1mm solid #000;
+    }
    .notprint {
        display: none;
    }

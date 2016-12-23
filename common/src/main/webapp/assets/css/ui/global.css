@@ -1,6 +1,10 @@
 /*
  * Base structure
  */
+.modal-content .table-bordered>tbody tr>td{
+    padding: 5px 10px;
+    font-size: 12px;
+}
 body {
     font-family:"Helvetica Neue","Microsoft YaHei", Helvetica, Arial, "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Lantinghei SC", "Microsoft YaHei", "PingFang SC", "Wenquanyi Micro Hei", "ST Heiti", sans-serif;
 }
@@ -12,6 +16,15 @@ ol, ul {
     list-style: none;
     margin: 0px;
     padding: 0px;
+}
+p, form, ol, ul, li, dl, dt, dd, h3 {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
 }
 .f-v-middle{
     vertical-align:middle !important;
@@ -642,10 +655,36 @@ p {
 	overflow: hidden;
 }
 .f-p-relative{
-	position: relative;
+    position: relative;
 }
 .f-p-absolute{
 	position: absolute;
+}
+.u-sug {
+    top: 24px;
+    display: none;
+    position: absolute;
+    z-index: 1;
+    width: 107px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    box-shadow: 0px 2px 6px 1px rgba(0,0,0,0.1);
+    _overflow: hidden;
+}
+.u-sug li {
+    border-bottom: 1px solid #eee;
+    width: 107px;
+    color: #484848;
+    font-size: 14px;
+    line-height: 22px;
+    padding: 0 8px;
+    position: relative;
+    cursor: default;
+}
+.u-sug li:hover,
+.u-sug li:focus {
+    background: rgba(0,0,0,.1);
 }
 .f-slt-none{
 	user-select:none;
@@ -697,7 +736,7 @@ input[type=checkbox] + label:before {
     content: "";
     background: url('../../img/ui/radio-box.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 13px 13px !important;
 }
 label input[type=radio].u-radio-1,
 input[type=radio].u-radio-1 + label:before {
@@ -748,7 +787,7 @@ input[type=radio]:focus,
 input[type=checkbox]:focus {
     outline: none;
 }
-.dropdown select {
+.dropdown select{
     cursor: pointer;
     font-size: 14px;
     text-align: center;
