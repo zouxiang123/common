@@ -16,6 +16,7 @@
 					<input type="hidden" value="${assayResult.id }" name="id" /> 
 					<input type="hidden" value="${patient.id }" name="fkPatientId" /> 
 					<input type="hidden" value="12" name="downType" /> 
+					<input type="hidden" value="${tenantId}" id="tenantId">
 					<span class="text-bold form-span margin-left-5">传染病标识：</span>
 					<div class="inline-block margin-right-10" id="diseaseDiv">
 						<label class="form-span form-checkbox-label" style="min-width: 70px !important;"><input id="normal" type="checkbox" name="normal" <c:if test="${assayResult.normal }">checked</c:if> />正常</label> 

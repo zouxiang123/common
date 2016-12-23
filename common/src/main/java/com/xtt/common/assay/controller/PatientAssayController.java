@@ -30,6 +30,7 @@ import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessReportUtil;
+import com.xtt.common.util.UserUtil;
 
 @Controller
 @RequestMapping("/patient/assay/")
@@ -50,6 +51,7 @@ public class PatientAssayController {
 		record.setFkPatientId(patientId);
 		model.addObject("assayResult", patientAssayResultService.getByPatientId(patientId));
 		model.addObject("patientId", patientId);
+		model.addObject("tenantId",UserUtil.getTenantId());
 		model.addObject("patient", patientService.selectById(patientId));
 		return model;
 	}

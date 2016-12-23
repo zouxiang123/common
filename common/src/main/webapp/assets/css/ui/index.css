@@ -24,6 +24,7 @@
 /*模块（.m-）*/
 .m-head,.m-body{
     position: relative;
+    clear: both;
 }
 .m-head.active {
     background: #fbfbfd;
@@ -485,6 +486,10 @@
     width:300px;
     height:48px;
     line-height:46px;
+}
+button.u-btn-46{
+    border: none;
+    background: none;
 }
 .u-select-75{
     width:75px !important;
