@@ -24,12 +24,7 @@
     <result column="dry_weight" jdbcType="DECIMAL" property="dryWeight" />
     <result column="balance" jdbcType="DECIMAL" property="balance" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
-    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="charge_type" jdbcType="VARCHAR" property="chargeType" />
     <result column="medicare_card" jdbcType="VARCHAR" property="medicareCard" />
     <result column="medicare_card_type" jdbcType="VARCHAR" property="medicareCardType" />
     <result column="admission_number" jdbcType="VARCHAR" property="admissionNumber" />
@@ -48,6 +43,13 @@
     <result column="barcode_path" jdbcType="VARCHAR" property="barcodePath" />
     <result column="height" jdbcType="DECIMAL" property="height" />
     <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="serial_num" jdbcType="VARCHAR" property="serialNum" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -55,10 +57,11 @@
     -->
     id, account, name, initial, password, id_number, sex, birthday, image_path, work_unit, 
     profession, mobile, emergency_mobile, province, county, address, dry_weight, balance, 
-    del_flag, fk_tenant_id, sys_owner, create_time, create_user_id, update_time, update_user_id, 
-    medicare_card, medicare_card_type, admission_number, spell_initials, outpatient_number, 
-    id_type, emergency_contacts, emergency_mobile2, emergency_mobile3, offset, is_temp, 
-    dialysis_times, patient_type, blood_abo, blood_rh, barcode_path, height, weight
+    del_flag, charge_type, medicare_card, medicare_card_type, admission_number, spell_initials, 
+    outpatient_number, id_type, emergency_contacts, emergency_mobile2, emergency_mobile3, 
+    offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, barcode_path, 
+    height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
+    update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -86,30 +89,32 @@
       work_unit, profession, mobile, 
       emergency_mobile, province, county, 
       address, dry_weight, balance, 
-      del_flag, fk_tenant_id, sys_owner, 
-      create_time, create_user_id, update_time, 
-      update_user_id, medicare_card, medicare_card_type, 
-      admission_number, spell_initials, outpatient_number, 
-      id_type, emergency_contacts, emergency_mobile2, 
-      emergency_mobile3, offset, is_temp, 
-      dialysis_times, patient_type, blood_abo, 
-      blood_rh, barcode_path, height, 
-      weight)
+      del_flag, charge_type, medicare_card, 
+      medicare_card_type, admission_number, spell_initials, 
+      outpatient_number, id_type, emergency_contacts, 
+      emergency_mobile2, emergency_mobile3, offset, 
+      is_temp, dialysis_times, patient_type, 
+      blood_abo, blood_rh, barcode_path, 
+      height, weight, serial_num, 
+      fk_tenant_id, sys_owner, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
       #{workUnit,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{emergencyMobile,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
       #{address,jdbcType=VARCHAR}, #{dryWeight,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}, 
-      #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{medicareCard,jdbcType=VARCHAR}, #{medicareCardType,jdbcType=VARCHAR}, 
-      #{admissionNumber,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{outpatientNumber,jdbcType=VARCHAR}, 
-      #{idType,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, 
-      #{emergencyMobile3,jdbcType=VARCHAR}, #{offset,jdbcType=DECIMAL}, #{isTemp,jdbcType=BIT}, 
-      #{dialysisTimes,jdbcType=INTEGER}, #{patientType,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, 
-      #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, 
-      #{weight,jdbcType=DECIMAL})
+      #{delFlag,jdbcType=BIT}, #{chargeType,jdbcType=VARCHAR}, #{medicareCard,jdbcType=VARCHAR}, 
+      #{medicareCardType,jdbcType=VARCHAR}, #{admissionNumber,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, 
+      #{outpatientNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
+      #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, #{offset,jdbcType=DECIMAL}, 
+      #{isTemp,jdbcType=BIT}, #{dialysisTimes,jdbcType=INTEGER}, #{patientType,jdbcType=VARCHAR}, 
+      #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, 
+      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{serialNum,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -174,23 +179,8 @@
       <if test="delFlag != null">
         del_flag,
       </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id,
-      </if>
-      <if test="sysOwner != null">
-        sys_owner,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="createUserId != null">
-        create_user_id,
-      </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
-      <if test="updateUserId != null">
-        update_user_id,
+      <if test="chargeType != null">
+        charge_type,
       </if>
       <if test="medicareCard != null">
         medicare_card,
@@ -245,6 +235,27 @@
       </if>
       <if test="weight != null">
         weight,
+      </if>
+      <if test="serialNum != null">
+        serial_num,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -305,23 +316,8 @@
       <if test="delFlag != null">
         #{delFlag,jdbcType=BIT},
       </if>
-      <if test="fkTenantId != null">
-        #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="sysOwner != null">
-        #{sysOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null">
-        #{createUserId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null">
-        #{updateUserId,jdbcType=BIGINT},
+      <if test="chargeType != null">
+        #{chargeType,jdbcType=VARCHAR},
       </if>
       <if test="medicareCard != null">
         #{medicareCard,jdbcType=VARCHAR},
@@ -376,6 +372,27 @@
       </if>
       <if test="weight != null">
         #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="serialNum != null">
+        #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
@@ -439,23 +456,8 @@
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=BIT},
       </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="sysOwner != null">
-        sys_owner = #{sysOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null">
-        create_user_id = #{createUserId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null">
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      <if test="chargeType != null">
+        charge_type = #{chargeType,jdbcType=VARCHAR},
       </if>
       <if test="medicareCard != null">
         medicare_card = #{medicareCard,jdbcType=VARCHAR},
@@ -511,6 +513,27 @@
       <if test="weight != null">
         weight = #{weight,jdbcType=DECIMAL},
       </if>
+      <if test="serialNum != null">
+        serial_num = #{serialNum,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -537,12 +560,7 @@
       dry_weight = #{dryWeight,jdbcType=DECIMAL},
       balance = #{balance,jdbcType=DECIMAL},
       del_flag = #{delFlag,jdbcType=BIT},
-      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      sys_owner = #{sysOwner,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      charge_type = #{chargeType,jdbcType=VARCHAR},
       medicare_card = #{medicareCard,jdbcType=VARCHAR},
       medicare_card_type = #{medicareCardType,jdbcType=VARCHAR},
       admission_number = #{admissionNumber,jdbcType=VARCHAR},
@@ -560,7 +578,14 @@
       blood_rh = #{bloodRh,jdbcType=VARCHAR},
       barcode_path = #{barcodePath,jdbcType=VARCHAR},
       height = #{height,jdbcType=DECIMAL},
-      weight = #{weight,jdbcType=DECIMAL}
+      weight = #{weight,jdbcType=DECIMAL},
+      serial_num = #{serialNum,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

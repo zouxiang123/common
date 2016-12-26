@@ -78,6 +78,9 @@ var tab_nav = {
 		if (isEmpty(el)) {
 			el = $("#tabsDiv [data-url].active");
 		}
+		if ($(el).data("fixed") == "1") {// 如果当前tab是固定tab,不能移除
+			return false;
+		}
 		var formId = $(el).data("fromId");
 		// 删除iframe body
 		$("#" + el.data("target")).remove();

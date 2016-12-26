@@ -31,22 +31,10 @@ public class PatientHistory {
     private String initial;
 
     /**
-     * 姓名全称首字母（多个）
-     * patient_history.spell_initials
-     */
-    private String spellInitials;
-
-    /**
      * 密码
      * patient_history.password
      */
     private String password;
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     * patient_history.id_type
-     */
-    private String idType;
 
     /**
      * 身份证号
@@ -91,28 +79,10 @@ public class PatientHistory {
     private String mobile;
 
     /**
-     * 紧急联系人
-     * patient_history.emergency_contacts
-     */
-    private String emergencyContacts;
-
-    /**
      * 紧急联系方式
      * patient_history.emergency_mobile
      */
     private String emergencyMobile;
-
-    /**
-     * 紧急联系方式3
-     * patient_history.emergency_mobile2
-     */
-    private String emergencyMobile2;
-
-    /**
-     * 紧急联系方式3
-     * patient_history.emergency_mobile3
-     */
-    private String emergencyMobile3;
 
     /**
      * 省、市
@@ -139,10 +109,21 @@ public class PatientHistory {
     private BigDecimal dryWeight;
 
     /**
-     * 患者余额
      * patient_history.balance
      */
     private BigDecimal balance;
+
+    /**
+     * 删除标记
+     * patient_history.del_flag
+     */
+    private Boolean delFlag;
+
+    /**
+     * 费用类型 1：医保  2：自费 3：军人
+     * patient_history.charge_type
+     */
+    private String chargeType;
 
     /**
      * 医保卡号
@@ -163,16 +144,100 @@ public class PatientHistory {
     private String admissionNumber;
 
     /**
+     * 姓名全拼首字母
+     * patient_history.spell_initials
+     */
+    private String spellInitials;
+
+    /**
      * 门诊号
      * patient_history.outpatient_number
      */
     private String outpatientNumber;
 
     /**
-     * 删除标记
-     * patient_history.del_flag
+     * 证件类型 1：身份证 2：护照
+     * patient_history.id_type
      */
-    private Boolean delFlag;
+    private String idType;
+
+    /**
+     * 紧急联系人
+     * patient_history.emergency_contacts
+     */
+    private String emergencyContacts;
+
+    /**
+     * 紧急联系方式2
+     * patient_history.emergency_mobile2
+     */
+    private String emergencyMobile2;
+
+    /**
+     * 紧急联系方式3
+     * patient_history.emergency_mobile3
+     */
+    private String emergencyMobile3;
+
+    /**
+     * 体重偏移量
+     * patient_history.offset
+     */
+    private BigDecimal offset;
+
+    /**
+     * 是否临时患者
+     * patient_history.is_temp
+     */
+    private Boolean isTemp;
+
+    /**
+     * 透析次数
+     * patient_history.dialysis_times
+     */
+    private Integer dialysisTimes;
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     * patient_history.patient_type
+     */
+    private String patientType;
+
+    /**
+     * ABO血型
+     * patient_history.blood_abo
+     */
+    private String bloodAbo;
+
+    /**
+     * RH(D)血型 1=阳性  0= 阴性
+     * patient_history.blood_rh
+     */
+    private String bloodRh;
+
+    /**
+     *  二维码路径
+     * patient_history.barcode_path
+     */
+    private String barcodePath;
+
+    /**
+     * 身高（cm）
+     * patient_history.height
+     */
+    private BigDecimal height;
+
+    /**
+     * 体重（kg）
+     * patient_history.weight
+     */
+    private BigDecimal weight;
+
+    /**
+     * 患者序列号
+     * patient_history.serial_num
+     */
+    private String serialNum;
 
     /**
      * 租户ID
@@ -209,48 +274,6 @@ public class PatientHistory {
      * patient_history.update_user_id
      */
     private Long updateUserId;
-
-    /**
-     * 体重偏移量
-     * patient_history.offset
-     */
-    private BigDecimal offset;
-
-    /**
-     * 透析次数
-     * patient_history.dialysis_times
-     */
-    private Integer dialysisTimes;
-
-    /**
-     * 是否临时患者
-     * patient_history.is_temp
-     */
-    private Boolean isTemp;
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     * patient_history.patient_type
-     */
-    private String patientType;
-
-    /**
-     *  二维码路径
-     * patient_history.barcode_path
-     */
-    private String barcodePath;
-
-    /**
-     * 身高（cm）
-     * patient_history.height
-     */
-    private BigDecimal height;
-
-    /**
-     * 体重（kg）
-     * patient_history.weight
-     */
-    private BigDecimal weight;
 
     /**
      */
@@ -307,20 +330,6 @@ public class PatientHistory {
     }
 
     /**
-     * 姓名全称首字母（多个）
-     */
-    public String getSpellInitials() {
-        return spellInitials;
-    }
-
-    /**
-     * 姓名全称首字母（多个）
-     */
-    public void setSpellInitials(String spellInitials) {
-        this.spellInitials = spellInitials;
-    }
-
-    /**
      * 密码
      */
     public String getPassword() {
@@ -332,20 +341,6 @@ public class PatientHistory {
      */
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     */
-    public String getIdType() {
-        return idType;
-    }
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     */
-    public void setIdType(String idType) {
-        this.idType = idType;
     }
 
     /**
@@ -447,20 +442,6 @@ public class PatientHistory {
     }
 
     /**
-     * 紧急联系人
-     */
-    public String getEmergencyContacts() {
-        return emergencyContacts;
-    }
-
-    /**
-     * 紧急联系人
-     */
-    public void setEmergencyContacts(String emergencyContacts) {
-        this.emergencyContacts = emergencyContacts;
-    }
-
-    /**
      * 紧急联系方式
      */
     public String getEmergencyMobile() {
@@ -472,34 +453,6 @@ public class PatientHistory {
      */
     public void setEmergencyMobile(String emergencyMobile) {
         this.emergencyMobile = emergencyMobile;
-    }
-
-    /**
-     * 紧急联系方式3
-     */
-    public String getEmergencyMobile2() {
-        return emergencyMobile2;
-    }
-
-    /**
-     * 紧急联系方式3
-     */
-    public void setEmergencyMobile2(String emergencyMobile2) {
-        this.emergencyMobile2 = emergencyMobile2;
-    }
-
-    /**
-     * 紧急联系方式3
-     */
-    public String getEmergencyMobile3() {
-        return emergencyMobile3;
-    }
-
-    /**
-     * 紧急联系方式3
-     */
-    public void setEmergencyMobile3(String emergencyMobile3) {
-        this.emergencyMobile3 = emergencyMobile3;
     }
 
     /**
@@ -559,17 +512,43 @@ public class PatientHistory {
     }
 
     /**
-     * 患者余额
      */
     public BigDecimal getBalance() {
         return balance;
     }
 
     /**
-     * 患者余额
      */
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    /**
+     * 删除标记
+     */
+    public Boolean getDelFlag() {
+        return delFlag;
+    }
+
+    /**
+     * 删除标记
+     */
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    /**
+     * 费用类型 1：医保  2：自费 3：军人
+     */
+    public String getChargeType() {
+        return chargeType;
+    }
+
+    /**
+     * 费用类型 1：医保  2：自费 3：军人
+     */
+    public void setChargeType(String chargeType) {
+        this.chargeType = chargeType;
     }
 
     /**
@@ -615,6 +594,20 @@ public class PatientHistory {
     }
 
     /**
+     * 姓名全拼首字母
+     */
+    public String getSpellInitials() {
+        return spellInitials;
+    }
+
+    /**
+     * 姓名全拼首字母
+     */
+    public void setSpellInitials(String spellInitials) {
+        this.spellInitials = spellInitials;
+    }
+
+    /**
      * 门诊号
      */
     public String getOutpatientNumber() {
@@ -629,17 +622,199 @@ public class PatientHistory {
     }
 
     /**
-     * 删除标记
+     * 证件类型 1：身份证 2：护照
      */
-    public Boolean getDelFlag() {
-        return delFlag;
+    public String getIdType() {
+        return idType;
     }
 
     /**
-     * 删除标记
+     * 证件类型 1：身份证 2：护照
      */
-    public void setDelFlag(Boolean delFlag) {
-        this.delFlag = delFlag;
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    /**
+     * 紧急联系人
+     */
+    public String getEmergencyContacts() {
+        return emergencyContacts;
+    }
+
+    /**
+     * 紧急联系人
+     */
+    public void setEmergencyContacts(String emergencyContacts) {
+        this.emergencyContacts = emergencyContacts;
+    }
+
+    /**
+     * 紧急联系方式2
+     */
+    public String getEmergencyMobile2() {
+        return emergencyMobile2;
+    }
+
+    /**
+     * 紧急联系方式2
+     */
+    public void setEmergencyMobile2(String emergencyMobile2) {
+        this.emergencyMobile2 = emergencyMobile2;
+    }
+
+    /**
+     * 紧急联系方式3
+     */
+    public String getEmergencyMobile3() {
+        return emergencyMobile3;
+    }
+
+    /**
+     * 紧急联系方式3
+     */
+    public void setEmergencyMobile3(String emergencyMobile3) {
+        this.emergencyMobile3 = emergencyMobile3;
+    }
+
+    /**
+     * 体重偏移量
+     */
+    public BigDecimal getOffset() {
+        return offset;
+    }
+
+    /**
+     * 体重偏移量
+     */
+    public void setOffset(BigDecimal offset) {
+        this.offset = offset;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
+    }
+
+    /**
+     * 透析次数
+     */
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    /**
+     * 透析次数
+     */
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
+    }
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     */
+    public String getPatientType() {
+        return patientType;
+    }
+
+    /**
+     * 患者类型 1：门诊  2：住院
+     */
+    public void setPatientType(String patientType) {
+        this.patientType = patientType;
+    }
+
+    /**
+     * ABO血型
+     */
+    public String getBloodAbo() {
+        return bloodAbo;
+    }
+
+    /**
+     * ABO血型
+     */
+    public void setBloodAbo(String bloodAbo) {
+        this.bloodAbo = bloodAbo;
+    }
+
+    /**
+     * RH(D)血型 1=阳性  0= 阴性
+     */
+    public String getBloodRh() {
+        return bloodRh;
+    }
+
+    /**
+     * RH(D)血型 1=阳性  0= 阴性
+     */
+    public void setBloodRh(String bloodRh) {
+        this.bloodRh = bloodRh;
+    }
+
+    /**
+     *  二维码路径
+     */
+    public String getBarcodePath() {
+        return barcodePath;
+    }
+
+    /**
+     *  二维码路径
+     */
+    public void setBarcodePath(String barcodePath) {
+        this.barcodePath = barcodePath;
+    }
+
+    /**
+     * 身高（cm）
+     */
+    public BigDecimal getHeight() {
+        return height;
+    }
+
+    /**
+     * 身高（cm）
+     */
+    public void setHeight(BigDecimal height) {
+        this.height = height;
+    }
+
+    /**
+     * 体重（kg）
+     */
+    public BigDecimal getWeight() {
+        return weight;
+    }
+
+    /**
+     * 体重（kg）
+     */
+    public void setWeight(BigDecimal weight) {
+        this.weight = weight;
+    }
+
+    /**
+     * 患者序列号
+     */
+    public String getSerialNum() {
+        return serialNum;
+    }
+
+    /**
+     * 患者序列号
+     */
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
     }
 
     /**
@@ -724,103 +899,5 @@ public class PatientHistory {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
-    }
-
-    /**
-     * 体重偏移量
-     */
-    public BigDecimal getOffset() {
-        return offset;
-    }
-
-    /**
-     * 体重偏移量
-     */
-    public void setOffset(BigDecimal offset) {
-        this.offset = offset;
-    }
-
-    /**
-     * 透析次数
-     */
-    public Integer getDialysisTimes() {
-        return dialysisTimes;
-    }
-
-    /**
-     * 透析次数
-     */
-    public void setDialysisTimes(Integer dialysisTimes) {
-        this.dialysisTimes = dialysisTimes;
-    }
-
-    /**
-     * 是否临时患者
-     */
-    public Boolean getIsTemp() {
-        return isTemp;
-    }
-
-    /**
-     * 是否临时患者
-     */
-    public void setIsTemp(Boolean isTemp) {
-        this.isTemp = isTemp;
-    }
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     */
-    public String getPatientType() {
-        return patientType;
-    }
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     */
-    public void setPatientType(String patientType) {
-        this.patientType = patientType;
-    }
-
-    /**
-     *  二维码路径
-     */
-    public String getBarcodePath() {
-        return barcodePath;
-    }
-
-    /**
-     *  二维码路径
-     */
-    public void setBarcodePath(String barcodePath) {
-        this.barcodePath = barcodePath;
-    }
-
-    /**
-     * 身高（cm）
-     */
-    public BigDecimal getHeight() {
-        return height;
-    }
-
-    /**
-     * 身高（cm）
-     */
-    public void setHeight(BigDecimal height) {
-        this.height = height;
-    }
-
-    /**
-     * 体重（kg）
-     */
-    public BigDecimal getWeight() {
-        return weight;
-    }
-
-    /**
-     * 体重（kg）
-     */
-    public void setWeight(BigDecimal weight) {
-        this.weight = weight;
     }
 }

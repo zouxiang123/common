@@ -213,6 +213,11 @@ public class PatientDto {
 	 * 体重（kg） patient.weight
 	 */
 	private BigDecimal weight;
+	/**
+	 * 患者序列号 patient.serial_num
+	 */
+	private String serialNum;
+
 	private String birthdayShow;// 出生日期显示用
 	private String createDateShow; // 创建日期
 	private String provinceName;
@@ -891,4 +896,17 @@ public class PatientDto {
 		this.sysOwner = sysOwner;
 	}
 
+	/**
+	 * 患者序列号
+	 */
+	public String getSerialNum() {
+		return serialNum;
+	}
+
+	/**
+	 * 患者序列号
+	 */
+	public void setSerialNum(String serialNum) {
+		this.serialNum = serialNum;
+	}
 }
