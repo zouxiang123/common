@@ -120,40 +120,10 @@ public class Patient {
     private Boolean delFlag;
 
     /**
-     * 租户ID
-     * patient.fk_tenant_id
+     * 费用类型 1：医保  2：自费 3：军人
+     * patient.charge_type
      */
-    private Integer fkTenantId;
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
-     * patient.sys_owner
-     */
-    private String sysOwner;
-
-    /**
-     * 创建时间
-     * patient.create_time
-     */
-    private Date createTime;
-
-    /**
-     * 创建人
-     * patient.create_user_id
-     */
-    private Long createUserId;
-
-    /**
-     * 更新时间
-     * patient.update_time
-     */
-    private Date updateTime;
-
-    /**
-     * 更新人
-     * patient.update_user_id
-     */
-    private Long updateUserId;
+    private String chargeType;
 
     /**
      * 医保卡号
@@ -262,6 +232,48 @@ public class Patient {
      * patient.weight
      */
     private BigDecimal weight;
+
+    /**
+     * 患者序列号
+     * patient.serial_num
+     */
+    private String serialNum;
+
+    /**
+     * 租户ID
+     * patient.fk_tenant_id
+     */
+    private Integer fkTenantId;
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     * patient.sys_owner
+     */
+    private String sysOwner;
+
+    /**
+     * 创建时间
+     * patient.create_time
+     */
+    private Date createTime;
+
+    /**
+     * 创建人
+     * patient.create_user_id
+     */
+    private Long createUserId;
+
+    /**
+     * 更新时间
+     * patient.update_time
+     */
+    private Date updateTime;
+
+    /**
+     * 更新人
+     * patient.update_user_id
+     */
+    private Long updateUserId;
 
     /**
      */
@@ -526,87 +538,17 @@ public class Patient {
     }
 
     /**
-     * 租户ID
+     * 费用类型 1：医保  2：自费 3：军人
      */
-    public Integer getFkTenantId() {
-        return fkTenantId;
+    public String getChargeType() {
+        return chargeType;
     }
 
     /**
-     * 租户ID
+     * 费用类型 1：医保  2：自费 3：军人
      */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
-     */
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
-     */
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
-    }
-
-    /**
-     * 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * 创建人
-     */
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    /**
-     * 创建人
-     */
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    /**
-     * 更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * 更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
-     * 更新人
-     */
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    /**
-     * 更新人
-     */
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
+    public void setChargeType(String chargeType) {
+        this.chargeType = chargeType;
     }
 
     /**
@@ -859,5 +801,103 @@ public class Patient {
      */
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
+    }
+
+    /**
+     * 患者序列号
+     */
+    public String getSerialNum() {
+        return serialNum;
+    }
+
+    /**
+     * 患者序列号
+     */
+    public void setSerialNum(String serialNum) {
+        this.serialNum = serialNum;
+    }
+
+    /**
+     * 租户ID
+     */
+    public Integer getFkTenantId() {
+        return fkTenantId;
+    }
+
+    /**
+     * 租户ID
+     */
+    public void setFkTenantId(Integer fkTenantId) {
+        this.fkTenantId = fkTenantId;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     */
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    /**
+     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     */
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
+    }
+
+    /**
+     * 创建时间
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 创建时间
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * 创建人
+     */
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    /**
+     * 创建人
+     */
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    /**
+     * 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * 更新人
+     */
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    /**
+     * 更新人
+     */
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }

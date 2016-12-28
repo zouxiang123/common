@@ -5,7 +5,18 @@
 <html>
 <head>
 <%@ include file="common/head.jsp"%>
+<style type="text/css">
 
+input::-moz-placeholder {
+  color: #ddd !important;
+}
+input:-ms-input-placeholder {
+  color: #ddd !important;
+}
+input::-webkit-input-placeholder {
+  color: #ddd !important;
+}
+</style>
 <script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.cookie.js"></script>
 <title>登录</title>
 </head>
@@ -17,6 +28,7 @@
 			</div>
 			<div class="pull-left text-center m-l-15 m-t-5">
 				<p class="fc-white fs-24 ">学透通™ 慢性肾病智能系统</p>
+				<p class="fc-white fs-24 ">学透通®腹透智能系统</p>
 				<p class="fc-white">www.xuetoutong.com</p>
 			</div>
 		</div>
@@ -40,9 +52,18 @@
 					<input type="hidden" id="tenantId" name="tenantId" value="${tenantId }" />
 					<div class="fs-18 m-t-43 u-lst-50">
 						<input placeholder="账号" id="account" name="account" value="${account }" class="u-input-none" type="text" />
+					学透通®腹透智能系统
+				</div>
+				<form role="form-signin" action="${ctx }/login.shtml" onsubmit="return validate();" method="post" id="loginForm">
+					<input type="hidden" name="isloginSubmit" value="true"/>
+					<input type="hidden" name="redirectUrl" value="${redirectUrl }"/>
+					<input type="hidden" id="tenantId" name="tenantId" value="${tenantId }" />
+					<div class="fs-18 m-t-43 u-lst-50">
+						<input placeholder="请输入您的账号" id="account" name="account" value="${account }" class="u-input-none placeholder" type="text" onFocus="if(value==''){this.style.color='#000';this.placeholder='';}" onBlur="if(value==''){this.style.color='#999';this.placeholder='请输入您的账号';}"/>
 					</div>
 					<div class="fs-18 m-t-12 u-lst-50">
 						<input placeholder="密码" id="password" name="password" value="${password }" class="u-input-none" type="password"/>
+						<input placeholder="请输入您的密码" id="password" name="password" value="${password }" class="u-input-none placeholder" type="password" onFocus="if(value==''){this.style.color='#000';this.placeholder='';}" onBlur="if(value==''){this.style.color='#999';this.placeholder='请输入您的密码';}"/>
 					</div>
 					<div class="m-t-40 fc-grey">
 						<label for="savePassword">
@@ -57,6 +78,7 @@
 		<div class="text-center f-p-absolute fc-white f-opa8 f-w-100" style="bottom:20px;">
 			<p class="fs-16 m-b-6">服务热线 400-021-9859</p>
 			<p class="fs-12">学透通医疗科技（上海）有限公司 版权所有 2015-2016</p>
+			<p class="fs-12">学透通医疗科技（上海）有限公司 版权所有 2015-<span id="year"></span></p>
 		</div>
 	</div>
 	<script type="text/javascript">
@@ -68,6 +90,7 @@
 		    $(".u-bg-img").height(height);
 		  }
 		$(function() {
+			$("#year").text(new Date().getFullYear());
 			resizeView();
 		  	$(window).resize(function(event) {
 		  		resizeView();
