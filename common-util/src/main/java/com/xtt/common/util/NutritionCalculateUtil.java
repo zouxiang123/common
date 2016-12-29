@@ -35,7 +35,7 @@ public class NutritionCalculateUtil {
 	}
 
 	/**
-	 * 根据身高测量法获取身高的值
+	 * 根据身高测量法获取身高的值(cm)
 	 * 
 	 * @Title: CalculateStature
 	 * @param formulaType
@@ -93,7 +93,7 @@ public class NutritionCalculateUtil {
 		}
 		// 体重kg/(身高cm/100)2
 		// 默认保留两位小数
-		value = weight.divide(stature.divide(new BigDecimal(100)).pow(2), 2, BigDecimal.ROUND_HALF_UP);
+		value = weight.divide(stature.divide(new BigDecimal(100)).pow(2), 3, BigDecimal.ROUND_HALF_UP);
 		return value;
 	}
 
@@ -134,13 +134,13 @@ public class NutritionCalculateUtil {
 			// BSA=0.007184×体重^0.425(kg)×身高^0.725(cm)
 			value = new BigDecimal(0.007184 * Math.pow(weight.floatValue(), 0.425) * Math.pow(stature.floatValue(), 0.725));
 		}
-		// 默认保留两位小数
-		value = value.setScale(2, BigDecimal.ROUND_HALF_UP);
+		// 默认保留三位小数
+		value = value.setScale(3, BigDecimal.ROUND_HALF_UP);
 		return value;
 	}
 
 	/**
-	 * 上臂肌围
+	 * 上臂肌围(cm)
 	 * 
 	 * @Title: CalculateMAMC
 	 * @param mac

@@ -92,7 +92,7 @@ input::-webkit-input-placeholder {
 			
 			$("#loginFormSubmit").removeClass("disabled");
 			if (window.top != window.self) {
-				top.location = self.location;
+				top.location.reload(true);
 			}
 			
 			$("#account").val($.cookie('account'));
