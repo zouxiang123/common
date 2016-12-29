@@ -1013,3 +1013,25 @@ p.u-span-2.f-span-2:focus {
     opacity: 0.5;
 }
 
+.u-btn-close-1{
+    display: inline-block;
+    height:27px;
+    line-height: 27px;
+    padding:0px 10px;
+    border-radius: 3px;
+    border:1px solid #D9E0E6;
+    background: rgba(217,224,230,0.30);
+    cursor: pointer;
+}
+.u-btn-close-1>img{
+    width: 8px;
+    height: 8px;
+    margin-top: -2px;
+    margin-left: 4px;
+}
+.u-btn-close-1.active{
+    background: #31AAFF;
+    color: #ffffff;
+    border-color: #31AAFF;
+}
+

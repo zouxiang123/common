@@ -65,8 +65,8 @@ var tab_nav = {
 			tabHtml = '<span class="u-tab hand" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
 							+ '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
 		} else if (this.style == "btn-grey") {// 灰色按钮
-			tabHtml = '<button type="button" class="u-button f-button-4" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="'
-							+ p.id + '">' + p.name + '<span class="u-btn-delete" onclick = "tab_nav.closeTab(event,this);"></span></button>';
+			tabHtml = '<span class="u-btn-close-1" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
+							+ '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
 		}
 		$("#tabsDiv").append(tabHtml);
 		// 设置添加tab的来源id为当前激活的tabid

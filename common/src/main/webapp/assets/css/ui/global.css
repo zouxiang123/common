@@ -603,6 +603,9 @@ p {
 .p-20{
 	padding: 0px 20px;
 }
+.mt-2{
+    margin-top: -2px;
+}
 .b-r-7{
     border-radius: 7.5px !important;
 }
