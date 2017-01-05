@@ -152,6 +152,34 @@
     font-size: 12px;
     color: #000;
 }
+.u-span-4 {
+    opacity: 0.5;
+    font-size: 14px;
+    color: #000;
+}
+.group-time-content2 .u-span-4 {
+    min-width: 0 !important;
+    float: none !important;
+}
+.u-span-5 {
+    font-size: 24px;
+    color: #de2f54 !important;
+    /*display: inline-block;*/
+    margin-left: 3px;
+}
+.group-time-content2 .u-span-5{
+    font-size: 24px !important;
+    min-width: 22px !important;
+    text-align: center;
+    float: none !important;
+}
+.u-span-6 {
+    font-size:14px;
+    display: inline-block;
+    color:#484848;
+    vertical-align: top;
+    min-width: 60px;
+}
 .u-input {
     text-align: center;
     outline: none;
@@ -227,6 +255,13 @@
     border: 1px solid #31AAFF;
     font-size: 14px;
     color: #31AAFF;
+}
+.u-textarea {
+    outline: none;
+    border: 1px solid #31AAFF;
+    border-radius: 2px;
+    padding: 0 5px;
+    height: 80px;
 }
 .u-button:hover,
 .u-button:focus {
@@ -357,6 +392,17 @@
     margin-left: 10px;
     width: 10px;
     height: 31px;
+    background: url('../../img/ui/tab-delete.png') no-repeat;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 7px 7px;
+    /*z-index:99;*/
+}
+.u-btn-delete {
+    cursor: pointer;
+    float: right;
+    width: 14px;
+    height: 14px;
     background: url('../../img/ui/tab-delete.png') no-repeat;
     background-repeat: no-repeat;
     background-position: center center;
@@ -672,10 +718,25 @@ button.u-btn-46{
     color: #484848;
 }
 .f-input-3{
-	height: 27px;
-	width: 130px;
-	border: 1px solid #D9E0E6;
-	padding: 0px 5px;
+    height: 27px;
+    width: 130px;
+    border: 1px solid #D9E0E6;
+    padding: 0px 5px;
+}
+.f-input-4{
+    height: 25px;
+    width: 90px;
+    border: 1px solid #D9E0E6;
+    padding: 0px 5px;
+    margin-right: 10px;
+}
+.f-input-5 {
+    width:264px;
+    height: 24px;
+    text-align: left;
+    border: 1px solid #D9E0E6;
+    padding: 0px 5px;
+    border-radius: 2px;
 }
 .f-button {
     border-radius: 3px;
@@ -715,6 +776,26 @@ button.u-btn-46{
     margin-right: 5px !important;
     margin-top: 5px !important;
     margin-bottom: 5px !important;
+}
+.f-button-4 {
+    min-width: 76px;
+    color: #484848;
+    font-size: 12px;
+    background: rgba(217,224,230,0.30);
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border:1px solid #d9e0e6;
+    margin-right: 5px !important;
+}
+.f-button-4.active,
+.f-button-4:hover,
+.f-button-4:focus {
+    color: #fff;
+    background: #31aaff;
+}
+.f-button-4 + .f-button-4 {
+    margin-left: 0 !important;
 }
 .f-list-item:first-child {
     opacity:0.5;
@@ -930,5 +1011,27 @@ p.u-span-2.f-span-2:focus {
 .u-btn-26-blue:active,
 .u-btn-26-blue:hover{
     opacity: 0.5;
+}
+
+.u-btn-close-1{
+    display: inline-block;
+    height:27px;
+    line-height: 27px;
+    padding:0px 10px;
+    border-radius: 3px;
+    border:1px solid #D9E0E6;
+    background: rgba(217,224,230,0.30);
+    cursor: pointer;
+}
+.u-btn-close-1>img{
+    width: 8px;
+    height: 8px;
+    margin-top: -2px;
+    margin-left: 4px;
+}
+.u-btn-close-1.active{
+    background: #31AAFF;
+    color: #ffffff;
+    border-color: #31AAFF;
 }
 

@@ -37,6 +37,7 @@ import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
+import com.xtt.platform.util.FamilyUtil;
 import com.xtt.platform.util.SpellUtil;
 
 /**
@@ -86,9 +87,9 @@ public class PatientServiceImpl implements IPatientService {
 		if (prePatient == null && StringUtils.isNotBlank(patient.getName())
 						|| prePatient != null && !prePatient.getName().equals(patient.getName())) {
 			patient.setName(patient.getName().trim());
-			String spellInitials = SpellUtil.getSpellInitials(patient.getName().trim());
+			String spellInitials = SpellUtil.getSpellInitials(patient.getName());
+			patient.setInitial(FamilyUtil.getInitial(patient.getName().substring(0, 1)).toUpperCase());
 			if (StringUtils.isNotEmpty(spellInitials)) {
-				patient.setInitial(spellInitials.substring(0, 1).toUpperCase());
 				patient.setSpellInitials(spellInitials);
 			}
 		}

@@ -1,5 +1,9 @@
 var tab_nav = {
-	init : function() {
+	style : null,
+	init : function(style) {
+		if (!isEmpty(style)) {
+			this.style = style;
+		}
 		tab_nav.setHeight();
 		tab_nav.addEvents();
 		$("#tabsDiv [data-url]:first").trigger("click");
@@ -56,9 +60,15 @@ var tab_nav = {
 			showWarn("您打开的页面过多");
 			return false;
 		}
-		$("#tabsDiv").append(
-						'<span class="u-tab hand" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
-										+ '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>');
+		var tabHtml = "";
+		if (isEmpty(this.style)) {// 使用默认样式
+			tabHtml = '<span class="u-tab hand" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
+							+ '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
+		} else if (this.style == "btn-grey") {// 灰色按钮
+			tabHtml = '<span class="u-btn-close-1" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
+							+ '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
+		}
+		$("#tabsDiv").append(tabHtml);
 		// 设置添加tab的来源id为当前激活的tabid
 		$("#tabsDiv [data-target='" + p.id + "']").data("fromId", $("#tabsDiv [data-url].active").data("target"));
 		$("#tabsDiv [data-target='" + p.id + "']").trigger("click");
