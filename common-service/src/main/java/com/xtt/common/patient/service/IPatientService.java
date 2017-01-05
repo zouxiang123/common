@@ -123,15 +123,6 @@ public interface IPatientService {
 	public void updateByPrimaryKeySelective(Patient patient);
 
 	/**
-	 * 更新是否删除标识
-	 * 
-	 * @Title: updateDelFlag
-	 * @param id
-	 *
-	 */
-	public void updateDelFlag(Long id);
-
-	/**
 	 * 查询未转归患者
 	 * 
 	 * @Title: selectByActive
@@ -139,4 +130,13 @@ public interface IPatientService {
 	 *
 	 */
 	public List<PatientPO> selectByActive();
+
+	/**
+	 * 更新当前租户下患者类别标识(住院还是随访)
+	 * 
+	 * @Title: updatePatientType
+	 * @param tenantId
+	 *
+	 */
+	public void updatePatientType(Integer tenantId);
 }

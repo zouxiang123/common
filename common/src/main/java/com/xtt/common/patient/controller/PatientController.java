@@ -23,24 +23,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.dao.po.QueryPO;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.FileUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.common.webservice.IWsHisService;
-import com.xtt.common.webservice.WsHisService;
-import com.xtt.platform.util.http.HttpClientResultUtil;
-import com.xtt.platform.util.http.HttpClientUtil;
-import com.xtt.platform.util.io.JsonUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Controller
@@ -52,6 +48,8 @@ public class PatientController {
 	private IPatientCardService patientCardService;
 	@Autowired
 	private ICommonService commonService;
+	@Autowired
+	ISysDbSourceService sysDbSourceService;
 
 	/**
 	 * 患者基本信息编辑
@@ -188,38 +186,14 @@ public class PatientController {
 	@ResponseBody
 	public HashMap<String, Object> wsQueryPatientInfo(String cardNo) throws Exception {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-
-		String tenantId = HttpServletUtil.getCookieValueByName("tenantId");
-		String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_PT);
-		String json = "";
-		if ("10101".equals(tenantId)) {
-			if (StringUtil.isNotEmpty(cardNo)) {
-				// 1=卡号 2=身份证号
-				int cardType = cardNo.length() != 18 ? 1 : 2;
-				// 传入参数
-				String parm = cardType + "," + cardNo;
-				// 调用webService接口
-				WsHisService gt = new WsHisService();
-				IWsHisService service = gt.getWsHisServicePort();
-				json = service.patientInfo(parm);
-
-			}
-		} else {
-			Map<String, String> qmap = new HashMap<String, String>();
-			qmap.put("cardNo", cardNo);
-			qmap.put("fkTenantId", tenantId);
-
-			HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
-			json = httpClientResultUtil.getContext();
-		}
-
-		PatientPO patient = JsonUtil.AllJsonUtil().fromJson(json, PatientPO.class);
+		QueryPO query = new QueryPO();
+		query.setCardNo(cardNo);
+		PatientPO patient = sysDbSourceService.patientDB(query);
 		if (patient != null) {
 			patient.setIdType("1");
 		}
 		map.put("patient", patient);
 		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-
 		return map;
 	}
 

@@ -24,6 +24,15 @@ public class PatientPO extends Patient {
 
 	private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
 
+	/**
+	 * 所属多个系统，以,分割
+	 */
+	private String multiSysOwner;
+	/**
+	 * 所属多个租户，以,分割
+	 */
+	private String multiTenantId;
+
 	public List<PatientCardPO> getPatientCardList() {
 		return patientCardList;
 	}
@@ -134,6 +143,22 @@ public class PatientPO extends Patient {
 
 	public String getEmergencyMobileShow3() {
 		return StringUtil.formatMobile(super.getEmergencyMobile3());
+	}
+
+	public String getMultiSysOwner() {
+		return multiSysOwner;
+	}
+
+	public void setMultiSysOwner(String multiSysOwner) {
+		this.multiSysOwner = multiSysOwner;
+	}
+
+	public String getMultiTenantId() {
+		return multiTenantId;
+	}
+
+	public void setMultiTenantId(String multiTenantId) {
+		this.multiTenantId = multiTenantId;
 	}
 
 }

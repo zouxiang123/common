@@ -61,7 +61,7 @@
 		<filter-class>com.xtt.common.filter.LoginFilter</filter-class>
 		<init-param>
 			<param-name>excludePath</param-name>
-			<param-value>login,logout,plugin,audio,about,feedback,hardware,showNameAndPictureByInput</param-value>
+			<param-value>login,logout,plugin,audio,about,feedback,hardware,showNameAndPictureByInput,downDataHandling</param-value>
 		</init-param>
 		<init-param>
 			<param-name>excludeFile</param-name>

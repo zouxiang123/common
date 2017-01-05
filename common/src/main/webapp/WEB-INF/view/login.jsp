@@ -40,7 +40,7 @@ input::-webkit-input-placeholder {
 		<div class="u-logo-zs">
 			<div class="f-m-auto f-w-300">
 				<div class="f-w-300 p-20">
-					<img class="f-w-100" src="${COMMON_SERVER_ADDR}/assets/img/ui/F8570149-1713-4988-B8AA-0F3749B81566@1x.png">
+					<img class="f-w-100" src="${ctx }/images/logo.png">
 				</div>
 				<div class="text-center fs-20 m-t-5 f-w-300">
 					学透通®腹透智能系统

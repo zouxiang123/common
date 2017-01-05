@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientOutcomeMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOutcome">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, type, record_date, reason, sys_owner, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_outcome
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_outcome
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientOutcome">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_outcome (id, fk_patient_id, type, 
+      record_date, reason, sys_owner, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
+      #{recordDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOutcome">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_outcome
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="reason != null">
+        reason,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null">
+        #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientOutcome">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_outcome
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="reason != null">
+        reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientOutcome">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_outcome
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR},
+      record_date = #{recordDate,jdbcType=DATE},
+      reason = #{reason,jdbcType=VARCHAR},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- use define -->
+  <resultMap type="com.xtt.common.dao.po.PatientOutcomePO" id="POResultMap" extends="BaseResultMap"></resultMap>
+  
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientOutcome" resultMap="POResultMap">
+  	select po.* from patient_outcome po
+  	<where>
+ 	  <if test="fkPatientId != null">
+        po.fk_patient_id = #{fkPatientId}
+      </if>
+      <if test="type != null">
+        AND po.type = #{type}
+      </if>
+      <if test="recordDate != null">
+        AND po.record_date = #{recordDate,jdbcType=DATE}
+      </if>
+      <if test="startDate != null">
+        AND po.record_date &gt;= #{startDate,jdbcType=DATE}
+      </if>
+      <if test="endDate != null">
+        AND po.record_date &lt;= #{endDate,jdbcType=DATE}
+      </if>
+      <if test="reason != null">
+        AND po.reason = #{reason}
+      </if>
+      <if test="sysOwner != null">
+        AND po.sys_owner = #{sysOwner}
+      </if>
+      <if test="fkTenantId != null">
+        AND po.fk_tenant_id = #{fkTenantId}
+      </if>
+  	</where>
+  	ORDER BY po.record_date DESC, po.id DESC
+  </select>
+</mapper>

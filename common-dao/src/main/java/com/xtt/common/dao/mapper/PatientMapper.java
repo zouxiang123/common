@@ -82,4 +82,13 @@ public interface PatientMapper {
 	 *
 	 */
 	Patient login(@Param("account") String account, @Param("password") String password);
+
+	/**
+	 * 更新当前租户下患者类别标识(住院还是随访)
+	 * 
+	 * @Title: updatePatientType
+	 * @param tenantId
+	 *
+	 */
+	void updatePatientType(Integer tenantId);
 }
