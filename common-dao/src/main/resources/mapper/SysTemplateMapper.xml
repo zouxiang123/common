@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.SysTemplateMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, title, content, type, type_desc, count, order_by, del_flag, sys_owner, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_template
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from sys_template
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sys_template (id, title, content, 
+      type, type_desc, count, 
+      order_by, del_flag, sys_owner, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{orderBy,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sys_template
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="typeDesc != null">
+        type_desc,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sys_template
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeDesc != null">
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sys_template
+    set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      type_desc = #{typeDesc,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=BIT},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- use define -->
+  <resultMap type="com.xtt.common.dao.po.SysTemplatePO" id="POResultMap" extends="BaseResultMap"></resultMap>
+  
+  <select id="selectByType" resultMap="POResultMap">
+	SELECT *
+	FROM sys_template
+	WHERE
+		del_flag = 0
+		AND type = #{type}
+		AND fk_tenant_id = #{fkTenantId}
+		AND (sys_owner = #{sysOwner} or sys_owner = 'CM')
+	ORDER BY order_by
+  </select>
+  
+  <select id="selectTemplateType" resultMap="BaseResultMap">
+	SELECT * FROM sys_template
+	WHERE
+		fk_tenant_id = #{fkTenantId}
+		AND (sys_owner = #{sysOwner} or sys_owner = 'CM')
+	GROUP BY type
+  </select>
+</mapper>
