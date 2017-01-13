@@ -246,7 +246,7 @@ public class Patient {
     private Integer fkTenantId;
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     * 所属系统（HD：血透 PD：腹透）
      * patient.sys_owner
      */
     private String sysOwner;
@@ -832,14 +832,14 @@ public class Patient {
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public String getSysOwner() {
         return sysOwner;
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;

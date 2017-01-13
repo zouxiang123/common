@@ -235,6 +235,24 @@
 								</tr>
 								<tr>
 									<td width="300"></td>
+									<td width="150" class="personal-title">患者状态：</td>
+									<td width="10"></td>
+									<td width="200" class="personal-value" style="padding-top:0px;">
+										<div class="group-radio" style="padding-top:15px; margin-bottom:-15px;margin-left:-35px;">
+											<label class="form-span form-item-label">
+												<input type="radio" name="patientType" value="1" <c:if test="${ '1' eq patient.patientType}">checked</c:if> />
+												门诊
+											</label>
+											<label class="form-span form-item-label">
+												<input type="radio" name="patientType" value="2" <c:if test="${ '2' eq patient.patientType}">checked</c:if> />
+												住院
+											</label>
+										</div>
+									</td>
+									<td width="300"></td>
+								</tr>
+								<tr>
+									<td width="300"></td>
 									<td width="150" class="personal-title">血型：</td>
 									<td width="10"></td>
 									<td width="200" class="personal-value" style="padding-top:0px;">

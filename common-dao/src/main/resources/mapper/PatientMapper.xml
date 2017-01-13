@@ -602,7 +602,9 @@
 			,pv.`name` province_name
 			,county.`name` county_name
 			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+			,GROUP_CONCAT(DISTINCT po.sys_owner) AS multiSysOwner,GROUP_CONCAT(DISTINCT po.fk_tenant_id) AS multiTenantId
 	 	from patient p
+	    JOIN patient_owner po ON po.fk_patient_id = p.id
 		left join province pv on p.province = pv.id
 		left join county on p.county = county.id
 		<where>
@@ -685,6 +687,7 @@
 	        AND p.patient_type = #{patientType,jdbcType=VARCHAR}
 	      </if>
 	    </where>
+	    GROUP BY p.id
 		ORDER BY p.initial,p.name
 	</select>
 	
@@ -731,14 +734,17 @@
 	</select>
 	
 	<select id="selectById" parameterType="java.lang.Long" resultMap="ExtendResultMap">
-		select p.*
+		SELECT p.*
 			,pv.`name` province_name
 			,county.`name` county_name
 			,DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
-	    from patient p
-			left join province pv on p.province = pv.id
-			left join county on p.county = county.id
-	    where p.id = #{id,jdbcType=BIGINT}
+			,GROUP_CONCAT(DISTINCT po.sys_owner) AS multiSysOwner,GROUP_CONCAT(DISTINCT po.fk_tenant_id) AS multiTenantId
+	    FROM patient p
+	    JOIN patient_owner po ON po.fk_patient_id = p.id
+		LEFT JOIN province pv ON p.province = pv.id
+		LEFT JOIN county ON p.county = county.id
+	    WHERE p.id = #{id,jdbcType=BIGINT}
+	    GROUP BY p.id
 	</select>
 	
 	<select id="selectPatientByIdNumber" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
@@ -762,4 +768,11 @@
 		from patient p
 		where p.account=#{account} and p.password=#{password}
 	</select>
+	
+	<update id="updatePatientType" parameterType="java.lang.Integer">
+		UPDATE patient p 
+		LEFT JOIN patient_visit pv ON p.id=pv.fk_patient_id AND pv.new_flag = 1
+		SET p.patient_type = (CASE WHEN pv.pt_type = '1' THEN '1' WHEN pv.pt_type = '2' THEN (CASE WHEN pv.pt_status = '1' THEN '2' ELSE NULL END) ELSE NULL END)
+		WHERE p.fk_tenant_id = #{tenantId}
+	</update>
 </mapper>

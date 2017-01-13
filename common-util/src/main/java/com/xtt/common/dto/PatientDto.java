@@ -228,9 +228,17 @@ public class PatientDto {
 	private String mobileShow;
 	private String medicareCardTypeShow;
 	/**
-	 * 所属系统（HD：血透 PD：腹透）多系统,分割 patient.sys_owner
+	 * 当前所属系统（HD：血透 PD：腹透）
 	 */
 	private String sysOwner;
+	/**
+	 * 所属多个系统，以,分割
+	 */
+	private String multiSysOwner;
+	/**
+	 * 所属多个租户，以,分割
+	 */
+	private String multiTenantId;
 
 	/**
 	 */
@@ -909,4 +917,21 @@ public class PatientDto {
 	public void setSerialNum(String serialNum) {
 		this.serialNum = serialNum;
 	}
+
+	public String getMultiSysOwner() {
+		return multiSysOwner;
+	}
+
+	public void setMultiSysOwner(String multiSysOwner) {
+		this.multiSysOwner = multiSysOwner;
+	}
+
+	public String getMultiTenantId() {
+		return multiTenantId;
+	}
+
+	public void setMultiTenantId(String multiTenantId) {
+		this.multiTenantId = multiTenantId;
+	}
+
 }

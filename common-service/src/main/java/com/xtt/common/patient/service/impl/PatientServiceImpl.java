@@ -28,9 +28,11 @@ import com.xtt.common.dao.mapper.PatientHistoryMapper;
 import com.xtt.common.dao.mapper.PatientMapper;
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientHistory;
+import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dto.PatientDto;
+import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.CmDictUtil;
@@ -59,6 +61,8 @@ public class PatientServiceImpl implements IPatientService {
 	private IPatientAssayResultService patientAssayResultService;
 	@Autowired
 	ICommonService commonService;
+	@Autowired
+	private IPatientOwnerService patientOwnerService;
 
 	/**
 	 * 更新缓存数据
@@ -96,6 +100,13 @@ public class PatientServiceImpl implements IPatientService {
 		if (patient.getId() == null) {
 			patient.setDelFlag(false);
 			patientMapper.insert(patient);
+			// 插入数据到所属系统子表
+			PatientOwner owner = new PatientOwner();
+			owner.setFkPatientId(patient.getId());
+			owner.setSysOwner(patient.getSysOwner());
+			owner.setFkTenantId(UserUtil.getTenantId());
+			owner.setIsEnable(true);
+			patientOwnerService.insert(owner);
 			// 插入传染病标识数据
 			insertAssayResult(patient.getId(), isImport);
 		} else {
@@ -261,14 +272,6 @@ public class PatientServiceImpl implements IPatientService {
 	}
 
 	@Override
-	public void updateDelFlag(Long id) {
-		Patient patient = new Patient();
-		patient.setDelFlag(Boolean.TRUE);
-		patient.setId(id);
-		updateByPrimaryKeySelective(patient);
-	}
-
-	@Override
 	public List<PatientPO> selectByActive() {
 		Patient p = new Patient();
 		p.setDelFlag(false);
@@ -286,5 +289,10 @@ public class PatientServiceImpl implements IPatientService {
 		PatientPO patient = new PatientPO();
 		patient.setFkTenantId(tenantId);
 		return patientMapper.selectByCondition(patient);
+	}
+
+	@Override
+	public void updatePatientType(Integer tenantId) {
+		patientMapper.updatePatientType(tenantId);
 	}
 }

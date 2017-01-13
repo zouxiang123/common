@@ -114,4 +114,8 @@ public class CmDictConstants {
 	public static final String DOWN_DB_WS_URL_PT = "01";
 
 	public static final String DOWN_DB_WS_URL_ORDER = "02";
+	/**
+	 * 患者转归类型
+	 */
+	public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
 }

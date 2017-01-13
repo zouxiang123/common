@@ -79,27 +79,32 @@
 												<td width="360"></td>
 												<td width="150" class="personal-key">详细地址：</td>
 												<td width="18"></td>
-												<td width="200" class="personal-value">${patient.address }</td>
-												<td></td>
-												<td width="150" class="personal-key">联系方式：</td>
-												<td width="18"></td>
-												<td width="200" class="personal-value">${patient.mobileShow }</td>
-												<td width="300"></td>
+												<td class="personal-value" colspan="6">${patient.address }</td>
 											</tr>
 											
 											<tr>
 												<td width="360"></td>
-												<td width="150" class="personal-key">&nbsp;&nbsp;工作单位：</td>
+												<td width="150" class="personal-key">&nbsp;&nbsp;联系方式：</td>
+												<td width="18"></td>
+												<td width="200" class="personal-value">${patient.mobileShow }</td>
+												<td></td>
+												<td width="150" class="personal-key">工作单位：</td>
 												<td width="18"></td>
 												<td width="200" class="personal-value">${patient.workUnit }</td>
-												<td></td>
+												<td width="300"></td>
+											</tr>
+											<tr>
+												<td width="360"></td>
 												<td width="150" class="personal-key">长期/临时患者：</td>
 												<td width="18"></td>
 												<td width="200" class="personal-value"><c:if test="${patient.isTemp }">临时</c:if>
 													<c:if test="${patient.isTemp ==false }">长期</c:if></td>
+												<td></td>
+												<td width="150" class="personal-key">&nbsp;&nbsp;患者状态：</td>
+												<td width="18"></td>
+												<td width="200" class="personal-value"><c:if test="${ '1' eq patient.patientType}">门诊</c:if><c:if test="${ '2' eq patient.patientType}">住院</c:if></td>
 												<td width="300"></td>
 											</tr>
-											
 											<tr>
 												<td width="360"></td>
 												<td width="150" class="personal-key">&nbsp;&nbsp;ABO血型：</td>
