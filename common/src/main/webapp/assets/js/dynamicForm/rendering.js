@@ -152,6 +152,15 @@ var dfr_obj = {
 				if (!isEmpty(node.unit))
 					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
 				html += '</div>';
+			} else if (node.displayStyle == "input_02") {
+				html += '<div class="min-h-38 col-xt-' + (isEmpty(col) ? 4 : col) + '">';
+				if (!isEmpty(node.itemName.trim()))
+					html += '<span class="u-span f-span m-l-10">' + node.itemName + '</span>';
+				html += '<input class="u-input1" ' + width + ' type="text" name="' + node.itemCode + '" value="' + convertEmpty(node.itemValue)
+								+ '" ' + commonHtml + inputCommon + ' maxlength="512"/>';
+				if (!isEmpty(node.unit))
+					html += '<span class="u-span-1 f-span-2">' + convertEmpty(node.unitShow) + '</span>';
+				html += '</div>';
 			} else {
 				html += '<div class="inline-block min-w-0 ' + (isEmpty(col) ? "" : ("col-xt-" + col)) + '">';
 				if (!isEmpty(node.itemName.trim()))
