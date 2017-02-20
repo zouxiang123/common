@@ -20,9 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.constants.SysParamConstants;
 import com.xtt.common.patient.service.IPatientService;
-import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 
@@ -62,7 +60,7 @@ public class DownDataHandlingController {
                     param.put("tenantId", tenantId + "");
                     param.put("type", type);
                     param.put("value", value);
-                    HttpClientUtil.post(SysParamUtil.getValueByName(SysParamConstants.FU_ADDR) + "/fuDownDataHandling/handling.shtml", param);
+                    HttpClientUtil.post(CommonConstants.FU_URL + "/fuDownDataHandling/handling.shtml", param);
                 }
             } catch (Exception e) {
                 LOGGER.error("handling data failed,case by：", e);

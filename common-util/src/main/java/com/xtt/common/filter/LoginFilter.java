@@ -86,7 +86,7 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        String url = request.getScheme().concat("://").concat(request.getServerName()).concat(request.getContextPath());
+        String url = CommonConstants.BASE_URL.concat(request.getContextPath());
         if (needRedirect) {
             // 校验是否为登入登出操作
             String goToUrl = null;
