@@ -11,26 +11,26 @@ package com.xtt.common.form.service;
 import java.util.List;
 
 public interface IFormValueService {
-	/**
-	 * 根据itemCode和版本号查询数据
-	 * 
-	 * @Title: selectByItemCode
-	 * @param itemCode
-	 * @param version
-	 * @return
-	 *
-	 */
-	List<?> selectByItemCode(String itemCode, Integer version);
+    /**
+     * 根据itemCode和版本号查询数据
+     * 
+     * @Title: selectByItemCode
+     * @param itemCode
+     * @param version
+     * @return
+     *
+     */
+    List<?> selectByItemCode(String itemCode, Integer version);
 
-	/**
-	 * 根据类别和版本号查询数据
-	 * 
-	 * @Title: selectByCategory
-	 * @param category
-	 * @param version
-	 * @return
-	 *
-	 */
-	List<?> selectByCategory(String category, Integer version);
+    /**
+     * 根据类别和版本号查询数据
+     * 
+     * @Title: selectByCategory
+     * @param category
+     * @param version
+     * @return
+     *
+     */
+    List<?> selectByCategory(String category, Integer version);
 
 }

@@ -12,14 +12,14 @@ import com.xtt.common.dao.model.CmDiagnosisConf;
 
 public class CmDiagnosisConfPO extends CmDiagnosisConf {
 
-	private String itemName;
+    private String itemName;
 
-	public String getItemName() {
-		return itemName;
-	}
+    public String getItemName() {
+        return itemName;
+    }
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
 }

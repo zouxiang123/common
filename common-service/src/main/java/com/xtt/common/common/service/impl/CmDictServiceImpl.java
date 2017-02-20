@@ -25,61 +25,61 @@ import com.xtt.common.util.UserUtil;
 
 @Service
 public class CmDictServiceImpl implements ICmDictService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CmDictServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmDictServiceImpl.class);
 
-	@Autowired
-	private CmDictMapper cmDictMapper;
+    @Autowired
+    private CmDictMapper cmDictMapper;
 
-	@Override
-	public List<CmDictPO> selectAll() {
-		CmDictPO CmDictPO = new CmDictPO();
-		CmDictPO.setFkTenantId(UserUtil.getTenantId());
-		CmDictPO.setIsEnable(true);
-		return cmDictMapper.selectByCondition(CmDictPO);
-	}
+    @Override
+    public List<CmDictPO> selectAll() {
+        CmDictPO CmDictPO = new CmDictPO();
+        CmDictPO.setFkTenantId(UserUtil.getTenantId());
+        CmDictPO.setIsEnable(true);
+        return cmDictMapper.selectByCondition(CmDictPO);
+    }
 
-	@Override
-	public List<CmDictPO> getByCondition(CmDictPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmDictMapper.selectByCondition(record);
-	}
+    @Override
+    public List<CmDictPO> getByCondition(CmDictPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmDictMapper.selectByCondition(record);
+    }
 
-	@Override
-	public int deleteByPrimaryKey(Long id) {
-		return cmDictMapper.deleteByPrimaryKey(id);
-	}
+    @Override
+    public int deleteByPrimaryKey(Long id) {
+        return cmDictMapper.deleteByPrimaryKey(id);
+    }
 
-	@Override
-	public List<CmDictPO> selectByType(String itemCode) {
-		CmDictPO record = new CmDictPO();
-		record.setFkTenantId(UserUtil.getTenantId());
-		record.setpItemCode(itemCode);
-		return getByCondition(record);
-	}
+    @Override
+    public List<CmDictPO> selectByType(String itemCode) {
+        CmDictPO record = new CmDictPO();
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setpItemCode(itemCode);
+        return getByCondition(record);
+    }
 
-	@Override
-	public void updateDictionary(CmDict record) {
-		if (record.getId() == null) {
-			record.setOperatorId(UserUtil.getLoginUserId());
-			record.setFkTenantId(UserUtil.getTenantId());
-			DataUtil.setSystemFieldValue(record);
-			cmDictMapper.insertSelective(record);
-		} else {
-			record.setUpdateUserId(UserUtil.getLoginUserId());
-			record.setUpdateTime(new Date());
-			cmDictMapper.updateByPrimaryKeySelective(record);
-		}
-	}
+    @Override
+    public void updateDictionary(CmDict record) {
+        if (record.getId() == null) {
+            record.setOperatorId(UserUtil.getLoginUserId());
+            record.setFkTenantId(UserUtil.getTenantId());
+            DataUtil.setSystemFieldValue(record);
+            cmDictMapper.insertSelective(record);
+        } else {
+            record.setUpdateUserId(UserUtil.getLoginUserId());
+            record.setUpdateTime(new Date());
+            cmDictMapper.updateByPrimaryKeySelective(record);
+        }
+    }
 
-	@Override
-	public CmDict getById(Long id) {
-		return cmDictMapper.selectByPrimaryKey(id);
-	}
+    @Override
+    public CmDict getById(Long id) {
+        return cmDictMapper.selectByPrimaryKey(id);
+    }
 
-	@Override
-	public List<CmDictPO> getDictCategory(CmDictPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmDictMapper.selectDictCategory(record);
-	}
+    @Override
+    public List<CmDictPO> getDictCategory(CmDictPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmDictMapper.selectDictCategory(record);
+    }
 
 }

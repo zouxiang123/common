@@ -15,55 +15,55 @@ import com.xtt.common.dao.po.SysParamPO;
 
 public interface ISysParamService {
 
-	/**
-	 * 根据参数名称查询参数
-	 * 
-	 * @Title: getByName
-	 * @param name
-	 * @return
-	 * 
-	 */
-	SysParam getByName(String name);
+    /**
+     * 根据参数名称查询参数
+     * 
+     * @Title: getByName
+     * @param name
+     * @return
+     * 
+     */
+    SysParam getByName(String name);
 
-	/**
-	 * 根据参数名称和租户编号查询参数
-	 * 
-	 * @Title: getByName
-	 * @param name
-	 * @param tenantId
-	 * @return
-	 * 
-	 */
-	SysParam getByName(String name, Integer tenantId);
+    /**
+     * 根据参数名称和租户编号查询参数
+     * 
+     * @Title: getByName
+     * @param name
+     * @param tenantId
+     * @return
+     * 
+     */
+    SysParam getByName(String name, Integer tenantId);
 
-	/**
-	 * 获取当前租户配置的系统参数
-	 * 
-	 * @Title: getByTenantId
-	 * @param tenantId
-	 * @return
-	 *
-	 */
-	List<SysParamPO> getByTenantId(Integer tenantId);
+    /**
+     * 获取当前租户配置的系统参数
+     * 
+     * @Title: getByTenantId
+     * @param tenantId
+     * @return
+     *
+     */
+    List<SysParamPO> getByTenantId(Integer tenantId);
 
-	/**
-	 * 保存系统参数配置
-	 * 
-	 * @Title: saveParam
-	 * @param param
-	 * @return
-	 *
-	 */
-	String saveParam(SysParam param);
+    /**
+     * 保存系统参数配置
+     * 
+     * @Title: saveParam
+     * @param param
+     * @return
+     *
+     */
+    String saveParam(SysParam param);
 
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<SysParamPO> selectByCondition(SysParamPO record);
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<SysParamPO> selectByCondition(SysParamPO record);
 
 }

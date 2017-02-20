@@ -13,30 +13,30 @@ import java.util.List;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 
 public interface IPatientAssayResultService {
-	/**
-	 * 获取所有患者的检查结果
-	 * 
-	 * @Title: getAllAssayResult
-	 * @return
-	 *
-	 */
-	List<PatientAssayResultPO> getAllAssayResult();
+    /**
+     * 获取所有患者的检查结果
+     * 
+     * @Title: getAllAssayResult
+     * @return
+     *
+     */
+    List<PatientAssayResultPO> getAllAssayResult();
 
-	/**
-	 * 获取患者的检查结果
-	 * 
-	 * @Title: getByPatientId
-	 * @return
-	 *
-	 */
-	PatientAssayResultPO getByPatientId(Long patientId);
+    /**
+     * 获取患者的检查结果
+     * 
+     * @Title: getByPatientId
+     * @return
+     *
+     */
+    PatientAssayResultPO getByPatientId(Long patientId);
 
-	/**
-	 * 保存数据
-	 * 
-	 * @Title: saveAssayResult
-	 * @param record
-	 *
-	 */
-	void saveAssayResult(PatientAssayResultPO record);
+    /**
+     * 保存数据
+     * 
+     * @Title: saveAssayResult
+     * @param record
+     *
+     */
+    void saveAssayResult(PatientAssayResultPO record);
 }

@@ -15,66 +15,66 @@ import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
 public class PatientOutcomePO extends PatientOutcome {
-	private String recordDateShow;
-	private String typeShow;
-	private String patientName;
-	private String createUserName;
+    private String recordDateShow;
+    private String typeShow;
+    private String patientName;
+    private String createUserName;
 
-	private Date startDate;
-	private Date endDate;
+    private Date startDate;
+    private Date endDate;
 
-	public String getRecordDateShow() {
-		if (super.getRecordDate() != null) {
-			recordDateShow = DateFormatUtil.convertDateToStr(super.getRecordDate());
-		}
-		return recordDateShow;
-	}
+    public String getRecordDateShow() {
+        if (super.getRecordDate() != null) {
+            recordDateShow = DateFormatUtil.convertDateToStr(super.getRecordDate());
+        }
+        return recordDateShow;
+    }
 
-	public void setRecordDateShow(String recordDateShow) {
-		if (StringUtil.isNoneBlank(recordDateShow)) {
-			super.setRecordDate(DateFormatUtil.convertStrToDate(recordDateShow));
-		}
-		this.recordDateShow = recordDateShow;
-	}
+    public void setRecordDateShow(String recordDateShow) {
+        if (StringUtil.isNoneBlank(recordDateShow)) {
+            super.setRecordDate(DateFormatUtil.convertStrToDate(recordDateShow));
+        }
+        this.recordDateShow = recordDateShow;
+    }
 
-	public String getTypeShow() {
-		return typeShow;
-	}
+    public String getTypeShow() {
+        return typeShow;
+    }
 
-	public void setTypeShow(String typeShow) {
-		this.typeShow = typeShow;
-	}
+    public void setTypeShow(String typeShow) {
+        this.typeShow = typeShow;
+    }
 
-	public String getPatientName() {
-		return patientName;
-	}
+    public String getPatientName() {
+        return patientName;
+    }
 
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
-	}
+    public void setPatientName(String patientName) {
+        this.patientName = patientName;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public String getCreateUserName() {
-		return createUserName;
-	}
+    public String getCreateUserName() {
+        return createUserName;
+    }
 
-	public void setCreateUserName(String createUserName) {
-		this.createUserName = createUserName;
-	}
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
 
 }

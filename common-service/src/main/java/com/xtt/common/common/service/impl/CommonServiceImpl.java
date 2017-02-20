@@ -41,60 +41,60 @@ import com.xtt.common.util.UserUtil;
 @Service
 public class CommonServiceImpl implements ICommonService {
 
-	@Autowired
-	SysTenantMapper sysTenantMapper;
-	@Autowired
-	SysUserMapper sysUserMapper;
-	@Autowired
-	ProvinceMapper provinceMapper;
-	@Autowired
-	CountyMapper countyMapper;
-	@Autowired
-	SysLogMapper sysLogMapper;
-	@Autowired
-	FeedbackMapper feedbackMapper;
+    @Autowired
+    SysTenantMapper sysTenantMapper;
+    @Autowired
+    SysUserMapper sysUserMapper;
+    @Autowired
+    ProvinceMapper provinceMapper;
+    @Autowired
+    CountyMapper countyMapper;
+    @Autowired
+    SysLogMapper sysLogMapper;
+    @Autowired
+    FeedbackMapper feedbackMapper;
 
-	@Override
-	public List<Province> getProvinceList() {
-		return provinceMapper.selectProvinceList();
-	}
+    @Override
+    public List<Province> getProvinceList() {
+        return provinceMapper.selectProvinceList();
+    }
 
-	@Override
-	public List<County> getCountyList(Integer provinceId) {
-		return countyMapper.selectByProvinceId(provinceId);
-	}
+    @Override
+    public List<County> getCountyList(Integer provinceId) {
+        return countyMapper.selectByProvinceId(provinceId);
+    }
 
-	@Override
-	public SysLog selectSysLog(SysLogPO record) {
-		record.setSysOwner(HttpServletUtil.getSysName());
-		List<SysLog> list = sysLogMapper.selectSysLog(record);
-		record.setResults(list);
-		return record;
-	}
+    @Override
+    public SysLog selectSysLog(SysLogPO record) {
+        record.setSysOwner(HttpServletUtil.getSysName());
+        List<SysLog> list = sysLogMapper.selectSysLog(record);
+        record.setResults(list);
+        return record;
+    }
 
-	@Override
-	public int insertSysLog(String type, String logInfo) {
-		logInfo = UserUtil.getLoginUser().getName() + " " + UserUtil.getLoginUser().getPositionShow() + "：" + logInfo;
-		if (StringUtils.isNotEmpty(logInfo) && logInfo.getBytes().length > 1024) {
-			logInfo = logInfo.substring(0, 512);
-		}
-		Date now = new Date();
-		SysLog sysLog = new SysLog();
-		sysLog.setLogType(type);
-		sysLog.setLogInfo(logInfo);
-		sysLog.setLogTime(now);
-		sysLog.setOperatorId(UserUtil.getLoginUserId());
-		sysLog.setFkTenantId(UserUtil.getTenantId());
-		sysLog.setSysOwner(HttpServletUtil.getSysName());
-		DataUtil.setSystemFieldValue(sysLog);
-		sysLog.setSysOwner(HttpServletUtil.getSysName());
-		return sysLogMapper.insert(sysLog);
-	}
+    @Override
+    public int insertSysLog(String type, String logInfo) {
+        logInfo = UserUtil.getLoginUser().getName() + " " + UserUtil.getLoginUser().getPositionShow() + "：" + logInfo;
+        if (StringUtils.isNotEmpty(logInfo) && logInfo.getBytes().length > 1024) {
+            logInfo = logInfo.substring(0, 512);
+        }
+        Date now = new Date();
+        SysLog sysLog = new SysLog();
+        sysLog.setLogType(type);
+        sysLog.setLogInfo(logInfo);
+        sysLog.setLogTime(now);
+        sysLog.setOperatorId(UserUtil.getLoginUserId());
+        sysLog.setFkTenantId(UserUtil.getTenantId());
+        sysLog.setSysOwner(HttpServletUtil.getSysName());
+        DataUtil.setSystemFieldValue(sysLog);
+        sysLog.setSysOwner(HttpServletUtil.getSysName());
+        return sysLogMapper.insert(sysLog);
+    }
 
-	@Override
-	public int saveFeedback(Feedback feedback) {
-		feedback.setSysOwner(HttpServletUtil.getSysName());
-		return feedbackMapper.insert(feedback);
-	}
+    @Override
+    public int saveFeedback(Feedback feedback) {
+        feedback.setSysOwner(HttpServletUtil.getSysName());
+        return feedbackMapper.insert(feedback);
+    }
 
 }

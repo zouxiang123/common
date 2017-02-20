@@ -23,24 +23,24 @@ import com.xtt.common.util.UserUtil;
 @Service
 public class CmFormulaConfServiceImpl implements ICmFormulaConfService {
 
-	@Autowired
-	private CmFormulaConfMapper cmFormulaConfMapper;
+    @Autowired
+    private CmFormulaConfMapper cmFormulaConfMapper;
 
-	@Override
-	public List<CmFormulaConfPO> selectByCondition(CmFormulaConfPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormulaConfMapper.selectByCondition(record);
-	}
+    @Override
+    public List<CmFormulaConfPO> selectByCondition(CmFormulaConfPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmFormulaConfMapper.selectByCondition(record);
+    }
 
-	@Override
-	public void updateByPrimaryKeySelective(List<CmFormulaConfPO> list) {
-		if (CollectionUtils.isNotEmpty(list)) {
-			for (CmFormulaConfPO record : list) {
-				record.setUpdateTime(new Date());
-				record.setUpdateUserId(UserUtil.getLoginUserId());
-				cmFormulaConfMapper.updateByPrimaryKeySelective(record);
-			}
-		}
-	}
+    @Override
+    public void updateByPrimaryKeySelective(List<CmFormulaConfPO> list) {
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (CmFormulaConfPO record : list) {
+                record.setUpdateTime(new Date());
+                record.setUpdateUserId(UserUtil.getLoginUserId());
+                cmFormulaConfMapper.updateByPrimaryKeySelective(record);
+            }
+        }
+    }
 
 }

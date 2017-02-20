@@ -11,22 +11,22 @@ package com.xtt.common.dao.po;
 import com.xtt.common.dao.model.PatientAssayGroupRule;
 
 public class PatientAssayGroupRulePO extends PatientAssayGroupRule {
-	private String showCreateTime;
-	private String showUpdateTime;
+    private String showCreateTime;
+    private String showUpdateTime;
 
-	public String getShowCreateTime() {
-		return showCreateTime;
-	}
+    public String getShowCreateTime() {
+        return showCreateTime;
+    }
 
-	public void setShowCreateTime(String showCreateTime) {
-		this.showCreateTime = showCreateTime;
-	}
+    public void setShowCreateTime(String showCreateTime) {
+        this.showCreateTime = showCreateTime;
+    }
 
-	public String getShowUpdateTime() {
-		return showUpdateTime;
-	}
+    public String getShowUpdateTime() {
+        return showUpdateTime;
+    }
 
-	public void setShowUpdateTime(String showUpdateTime) {
-		this.showUpdateTime = showUpdateTime;
-	}
+    public void setShowUpdateTime(String showUpdateTime) {
+        this.showUpdateTime = showUpdateTime;
+    }
 }

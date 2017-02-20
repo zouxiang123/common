@@ -19,68 +19,68 @@ import com.xtt.common.dao.model.Patient;
  * 
  */
 public class PatientManagePO extends Patient {
-	private String sexShow;
-	private String ageFrom;
-	private String ageTo;
-	private String T;
-	private String AVF;
-	private String CVC;
-	private String AVG;
+    private String sexShow;
+    private String ageFrom;
+    private String ageTo;
+    private String T;
+    private String AVF;
+    private String CVC;
+    private String AVG;
 
-	public String getSexShow() {
-		return sexShow;
-	}
+    public String getSexShow() {
+        return sexShow;
+    }
 
-	public void setSexShow(String sexShow) {
-		this.sexShow = sexShow;
-	}
+    public void setSexShow(String sexShow) {
+        this.sexShow = sexShow;
+    }
 
-	public String getAgeFrom() {
-		return ageFrom;
-	}
+    public String getAgeFrom() {
+        return ageFrom;
+    }
 
-	public void setAgeFrom(String ageFrom) {
-		this.ageFrom = ageFrom;
-	}
+    public void setAgeFrom(String ageFrom) {
+        this.ageFrom = ageFrom;
+    }
 
-	public String getAgeTo() {
-		return ageTo;
-	}
+    public String getAgeTo() {
+        return ageTo;
+    }
 
-	public void setAgeTo(String ageTo) {
-		this.ageTo = ageTo;
-	}
+    public void setAgeTo(String ageTo) {
+        this.ageTo = ageTo;
+    }
 
-	public String getT() {
-		return T;
-	}
+    public String getT() {
+        return T;
+    }
 
-	public void setT(String t) {
-		T = t;
-	}
+    public void setT(String t) {
+        T = t;
+    }
 
-	public String getAVF() {
-		return AVF;
-	}
+    public String getAVF() {
+        return AVF;
+    }
 
-	public void setAVF(String aVF) {
-		AVF = aVF;
-	}
+    public void setAVF(String aVF) {
+        AVF = aVF;
+    }
 
-	public String getCVC() {
-		return CVC;
-	}
+    public String getCVC() {
+        return CVC;
+    }
 
-	public void setCVC(String cVC) {
-		CVC = cVC;
-	}
+    public void setCVC(String cVC) {
+        CVC = cVC;
+    }
 
-	public String getAVG() {
-		return AVG;
-	}
+    public String getAVG() {
+        return AVG;
+    }
 
-	public void setAVG(String aVG) {
-		AVG = aVG;
-	}
+    public void setAVG(String aVG) {
+        AVG = aVG;
+    }
 
 }

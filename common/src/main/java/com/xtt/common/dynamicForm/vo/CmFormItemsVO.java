@@ -11,32 +11,32 @@ package com.xtt.common.dynamicForm.vo;
 import com.xtt.common.dao.po.CmFormItemsPO;
 
 public class CmFormItemsVO {
-	private CmFormItemsPO[] records;
-	private String formName;
-	private Long formId;
+    private CmFormItemsPO[] records;
+    private String formName;
+    private Long formId;
 
-	public CmFormItemsPO[] getRecords() {
-		return records;
-	}
+    public CmFormItemsPO[] getRecords() {
+        return records;
+    }
 
-	public void setRecords(CmFormItemsPO[] records) {
-		this.records = records;
-	}
+    public void setRecords(CmFormItemsPO[] records) {
+        this.records = records;
+    }
 
-	public String getFormName() {
-		return formName;
-	}
+    public String getFormName() {
+        return formName;
+    }
 
-	public void setFormName(String formName) {
-		this.formName = formName;
-	}
+    public void setFormName(String formName) {
+        this.formName = formName;
+    }
 
-	public Long getFormId() {
-		return formId;
-	}
+    public Long getFormId() {
+        return formId;
+    }
 
-	public void setFormId(Long formId) {
-		this.formId = formId;
-	}
+    public void setFormId(Long formId) {
+        this.formId = formId;
+    }
 
 }

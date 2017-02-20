@@ -62,232 +62,232 @@ import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class CommonCacheServiceImpl implements ICommonCacheService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommonCacheServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommonCacheServiceImpl.class);
 
-	@Autowired
-	private ISysParamService sysParamService;
-	@Autowired
-	private ICmDictService cmDictService;
-	@Autowired
-	private IRoleService roleService;
-	@Autowired
-	private IPatientService patientService;
-	@Autowired
-	private ICmFormNodesService cmFormNodesService;
-	@Autowired
-	private ICmFormService cmFormService;
-	@Autowired
-	private ISysTenantService sysTenantService;
-	@Autowired
-	private IUserService userService;
-	@Autowired
-	private ICmFormulaConfService cmFormulaConfService;
+    @Autowired
+    private ISysParamService sysParamService;
+    @Autowired
+    private ICmDictService cmDictService;
+    @Autowired
+    private IRoleService roleService;
+    @Autowired
+    private IPatientService patientService;
+    @Autowired
+    private ICmFormNodesService cmFormNodesService;
+    @Autowired
+    private ICmFormService cmFormService;
+    @Autowired
+    private ISysTenantService sysTenantService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private ICmFormulaConfService cmFormulaConfService;
 
-	@Override
-	public void cacheDict(Integer tenantId) {
-		RedisCacheUtil.deletePattern(CmDictCache.getKey(tenantId, null));
-		List<CmDictPO> list = cmDictService.selectAll();
-		if (CollectionUtils.isNotEmpty(list)) {
-			List<DictDto> dicts = new ArrayList<>(list.size());
-			DictDto cDict;
-			for (CmDictPO dict : list) {
-				cDict = new DictDto();
-				BeanUtils.copyProperties(dict, cDict);
-				dicts.add(cDict);
-			}
-			CmDictCache.cacheALL(dicts);
-		}
-	}
+    @Override
+    public void cacheDict(Integer tenantId) {
+        RedisCacheUtil.deletePattern(CmDictCache.getKey(tenantId, null));
+        List<CmDictPO> list = cmDictService.selectAll();
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<DictDto> dicts = new ArrayList<>(list.size());
+            DictDto cDict;
+            for (CmDictPO dict : list) {
+                cDict = new DictDto();
+                BeanUtils.copyProperties(dict, cDict);
+                dicts.add(cDict);
+            }
+            CmDictCache.cacheALL(dicts);
+        }
+    }
 
-	@Override
-	public void cacheSysParam(Integer tenantId) {
-		RedisCacheUtil.deletePattern(SysParamUtil.getKey(tenantId, null));
-		List<SysParamPO> list = sysParamService.getByTenantId(tenantId);
-		if (CollectionUtils.isNotEmpty(list)) {
-			List<SysParamDto> params = new ArrayList<>(list.size());
-			SysParamDto param;
-			for (int i = 0; i < list.size(); i++) {
-				param = new SysParamDto();
-				BeanUtils.copyProperties(list.get(i), param);
-				params.add(param);
-			}
-			SysParamUtil.cacheAll(params);
-		}
-	}
+    @Override
+    public void cacheSysParam(Integer tenantId) {
+        RedisCacheUtil.deletePattern(SysParamUtil.getKey(tenantId, null));
+        List<SysParamPO> list = sysParamService.getByTenantId(tenantId);
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<SysParamDto> params = new ArrayList<>(list.size());
+            SysParamDto param;
+            for (int i = 0; i < list.size(); i++) {
+                param = new SysParamDto();
+                BeanUtils.copyProperties(list.get(i), param);
+                params.add(param);
+            }
+            SysParamUtil.cacheAll(params);
+        }
+    }
 
-	@Override
-	public void cachePermission(Integer tenantId) {
-		Map<String, List<SysObjDto>> map = new HashMap<>();
-		RedisCacheUtil.delete(tenantId + PermissionCache.ALL_SYS_OBJ_KEY);
-		RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
-		String[] types = { "1", "2" };
-		map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
-		List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
-		for (SysRole sysRole : list) {
-			Long[] roleIds = { sysRole.getId() };
-			map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
-		}
-		PermissionCache.cacheAll(map);
-	}
+    @Override
+    public void cachePermission(Integer tenantId) {
+        Map<String, List<SysObjDto>> map = new HashMap<>();
+        RedisCacheUtil.delete(tenantId + PermissionCache.ALL_SYS_OBJ_KEY);
+        RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
+        String[] types = { "1", "2" };
+        map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
+        List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
+        for (SysRole sysRole : list) {
+            Long[] roleIds = { sysRole.getId() };
+            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
+        }
+        PermissionCache.cacheAll(map);
+    }
 
-	/**
-	 * 将sysObj对象转成缓存的SysObjDto
-	 * 
-	 * @Title: convertCmSysObjList
-	 * @param list
-	 * @return
-	 *
-	 */
-	public static List<SysObjDto> convertSysObjList(List<SysObj> list) {
-		List<SysObjDto> tempList = new ArrayList<SysObjDto>();
-		if (list != null && !list.isEmpty()) {
-			SysObjDto cmSysObj;
-			for (SysObj so : list) {// 缓存有需要的数据
-				cmSysObj = new SysObjDto();
-				cmSysObj.setName(so.getName());
-				cmSysObj.setKey(so.getKey());
-				cmSysObj.setUrl(so.getUrl());
-				cmSysObj.setType(so.getType());
-				cmSysObj.setCode(so.getCode());
-				cmSysObj.setpCode(so.getpCode());
-				cmSysObj.setSysOwner(so.getSysOwner());
-				tempList.add(cmSysObj);
-			}
-			list.clear();
-		}
-		return tempList;
-	}
+    /**
+     * 将sysObj对象转成缓存的SysObjDto
+     * 
+     * @Title: convertCmSysObjList
+     * @param list
+     * @return
+     *
+     */
+    public static List<SysObjDto> convertSysObjList(List<SysObj> list) {
+        List<SysObjDto> tempList = new ArrayList<SysObjDto>();
+        if (list != null && !list.isEmpty()) {
+            SysObjDto cmSysObj;
+            for (SysObj so : list) {// 缓存有需要的数据
+                cmSysObj = new SysObjDto();
+                cmSysObj.setName(so.getName());
+                cmSysObj.setKey(so.getKey());
+                cmSysObj.setUrl(so.getUrl());
+                cmSysObj.setType(so.getType());
+                cmSysObj.setCode(so.getCode());
+                cmSysObj.setpCode(so.getpCode());
+                cmSysObj.setSysOwner(so.getSysOwner());
+                tempList.add(cmSysObj);
+            }
+            list.clear();
+        }
+        return tempList;
+    }
 
-	@Override
-	public void cachePatient(Integer tenantId) {
-		RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-		List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
-		if (CollectionUtils.isNotEmpty(list)) {
-			List<PatientDto> cacheObjs = new ArrayList<>(list.size());
-			PatientDto toObj;
-			Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
-			for (PatientPO obj : list) {
-				toObj = new PatientDto();
-				BeanUtils.copyProperties(obj, toObj);
-				toObj.setSexShow(sexMap.get(toObj.getSex()));
-				cacheObjs.add(toObj);
-			}
-			PatientCache.cacheAll(cacheObjs);
-		}
-	}
+    @Override
+    public void cachePatient(Integer tenantId) {
+        RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
+        List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<PatientDto> cacheObjs = new ArrayList<>(list.size());
+            PatientDto toObj;
+            Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
+            for (PatientPO obj : list) {
+                toObj = new PatientDto();
+                BeanUtils.copyProperties(obj, toObj);
+                toObj.setSexShow(sexMap.get(toObj.getSex()));
+                cacheObjs.add(toObj);
+            }
+            PatientCache.cacheAll(cacheObjs);
+        }
+    }
 
-	@Override
-	public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
-		// 删除数据
-		if (StringUtil.isBlank(sysOwner))
-			RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
-		RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
-		// 获取所有的表单列表
-		CmFormPO query = new CmFormPO();
-		query.setSysOwner(sysOwner);
-		List<CmFormPO> formList = cmFormService.selectByCondition(query);
-		if (CollectionUtils.isNotEmpty(formList)) {
-			HashMap<String, List<FormNodesDto>> map = new HashMap<>();
-			HashMap<String, List<FormDto>> categoryMap = new HashMap<>();
-			CmFormPO form;
-			FormDto cacheForm;
-			List<FormDto> categorys;
-			String categoryMapKey;
-			for (int c = 0; c < formList.size(); c++) {
-				form = formList.get(c);
-				map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
-								CmDictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
-				// cache category forms
-				categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
-				if (!categoryMap.containsKey(categoryMapKey)) {
-					categorys = new ArrayList<>();
-					categoryMap.put(categoryMapKey, categorys);
-				}
-				categorys = categoryMap.get(categoryMapKey);
-				cacheForm = new FormDto();
-				BeanUtils.copyProperties(form, cacheForm);
-				categorys.add(cacheForm);
-			}
-			DynamicFormUtil.cacheCategoryForm(categoryMap);
-			DynamicFormUtil.cacheAll(map);
-		}
-	}
+    @Override
+    public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
+        // 删除数据
+        if (StringUtil.isBlank(sysOwner))
+            RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
+        RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
+        // 获取所有的表单列表
+        CmFormPO query = new CmFormPO();
+        query.setSysOwner(sysOwner);
+        List<CmFormPO> formList = cmFormService.selectByCondition(query);
+        if (CollectionUtils.isNotEmpty(formList)) {
+            HashMap<String, List<FormNodesDto>> map = new HashMap<>();
+            HashMap<String, List<FormDto>> categoryMap = new HashMap<>();
+            CmFormPO form;
+            FormDto cacheForm;
+            List<FormDto> categorys;
+            String categoryMapKey;
+            for (int c = 0; c < formList.size(); c++) {
+                form = formList.get(c);
+                map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
+                                CmDictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
+                // cache category forms
+                categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
+                if (!categoryMap.containsKey(categoryMapKey)) {
+                    categorys = new ArrayList<>();
+                    categoryMap.put(categoryMapKey, categorys);
+                }
+                categorys = categoryMap.get(categoryMapKey);
+                cacheForm = new FormDto();
+                BeanUtils.copyProperties(form, cacheForm);
+                categorys.add(cacheForm);
+            }
+            DynamicFormUtil.cacheCategoryForm(categoryMap);
+            DynamicFormUtil.cacheAll(map);
+        }
+    }
 
-	/**
-	 * 初始化动态表单数据
-	 * 
-	 * @return
-	 *
-	 */
-	private List<FormNodesDto> initDynamicFormNode(List<FormNodesDto> nodes, Map<String, String> unitMap) {
-		if (MapUtils.isEmpty(unitMap) || CollectionUtils.isEmpty(nodes)) {
-			return nodes;
-		}
-		for (FormNodesDto node : nodes) {
-			node.setUnitShow(unitMap.get(node.getUnit()));
-		}
-		return nodes;
-	}
+    /**
+     * 初始化动态表单数据
+     * 
+     * @return
+     *
+     */
+    private List<FormNodesDto> initDynamicFormNode(List<FormNodesDto> nodes, Map<String, String> unitMap) {
+        if (MapUtils.isEmpty(unitMap) || CollectionUtils.isEmpty(nodes)) {
+            return nodes;
+        }
+        for (FormNodesDto node : nodes) {
+            node.setUnitShow(unitMap.get(node.getUnit()));
+        }
+        return nodes;
+    }
 
-	@Override
-	public void cacheUser(Integer tenantId) {
-		RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
-		List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
-		if (CollectionUtils.isNotEmpty(list)) {
-			SysUserDto cacheUser;
-			List<SysUserDto> cacheList = new ArrayList<>(list.size());
-			for (SysUserPO user : list) {
-				cacheUser = new SysUserDto();
-				BeanUtils.copyProperties(user, cacheUser);
-				cacheList.add(cacheUser);
-			}
-			UserCache.cacheAll(cacheList);
-		}
-	}
+    @Override
+    public void cacheUser(Integer tenantId) {
+        RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
+        List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
+        if (CollectionUtils.isNotEmpty(list)) {
+            SysUserDto cacheUser;
+            List<SysUserDto> cacheList = new ArrayList<>(list.size());
+            for (SysUserPO user : list) {
+                cacheUser = new SysUserDto();
+                BeanUtils.copyProperties(user, cacheUser);
+                cacheList.add(cacheUser);
+            }
+            UserCache.cacheAll(cacheList);
+        }
+    }
 
-	@Override
-	public void cacheAll() {
-		LOGGER.info("******************** start cache data ***********");
-		long start = System.currentTimeMillis();
-		List<SysTenant> tenantList = sysTenantService.selectAll();
-		if (CollectionUtils.isNotEmpty(tenantList)) {
-			SysTenant tenant;
-			for (int i = 0; i < tenantList.size(); i++) {
-				tenant = tenantList.get(i);
-				UserUtil.setThreadTenant(tenant.getId());
-				// first cache sys param
-				cacheSysParam(tenant.getId());
-				// second cache dict
-				cacheDict(tenant.getId());
-				// third cache permission
-				cachePermission(tenant.getId());
-				// fourth cache patient
-				cachePatient(tenant.getId());
-				// cache dynamic form
-				cacheDynamicFormNode(tenant.getId(), null);
-				// cache user data
-				cacheUser(tenant.getId());
-				// cache formula data
-				cacheFormula(tenant.getId());
-			}
-		}
-		LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
-	}
+    @Override
+    public void cacheAll() {
+        LOGGER.info("******************** start cache data ***********");
+        long start = System.currentTimeMillis();
+        List<SysTenant> tenantList = sysTenantService.selectAll();
+        if (CollectionUtils.isNotEmpty(tenantList)) {
+            SysTenant tenant;
+            for (int i = 0; i < tenantList.size(); i++) {
+                tenant = tenantList.get(i);
+                UserUtil.setThreadTenant(tenant.getId());
+                // first cache sys param
+                cacheSysParam(tenant.getId());
+                // second cache dict
+                cacheDict(tenant.getId());
+                // third cache permission
+                cachePermission(tenant.getId());
+                // fourth cache patient
+                cachePatient(tenant.getId());
+                // cache dynamic form
+                cacheDynamicFormNode(tenant.getId(), null);
+                // cache user data
+                cacheUser(tenant.getId());
+                // cache formula data
+                cacheFormula(tenant.getId());
+            }
+        }
+        LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
+    }
 
-	@Override
-	public void cacheFormula(Integer tenantId) {
-		RedisCacheUtil.deletePattern(FormulaCache.getKey(tenantId, null));
-		CmFormulaConfPO record = new CmFormulaConfPO();
-		record.setIsChecked(true);
-		record.setIsEnable(true);
-		record.setFkTenantId(tenantId);
-		List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
-		Map<String, String> cacheMap = new HashMap<>();
-		if (CollectionUtils.isNotEmpty(list)) {
-			for (CmFormulaConfPO formula : list) {
-				cacheMap.put(FormulaCache.getKey(tenantId, formula.getCategory()), formula.getItemCode());
-			}
-			FormulaCache.cacheALL(cacheMap);
-		}
-	}
+    @Override
+    public void cacheFormula(Integer tenantId) {
+        RedisCacheUtil.deletePattern(FormulaCache.getKey(tenantId, null));
+        CmFormulaConfPO record = new CmFormulaConfPO();
+        record.setIsChecked(true);
+        record.setIsEnable(true);
+        record.setFkTenantId(tenantId);
+        List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
+        Map<String, String> cacheMap = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (CmFormulaConfPO formula : list) {
+                cacheMap.put(FormulaCache.getKey(tenantId, formula.getCategory()), formula.getItemCode());
+            }
+            FormulaCache.cacheALL(cacheMap);
+        }
+    }
 }

@@ -8,14 +8,14 @@ import com.xtt.common.dao.model.PatientCard;
  * @author zz
  */
 public class PatientCardPO extends PatientCard {
-	private String cardTypeDesc;
+    private String cardTypeDesc;
 
-	public String getCardTypeDesc() {
-		return cardTypeDesc;
-	}
+    public String getCardTypeDesc() {
+        return cardTypeDesc;
+    }
 
-	public void setCardTypeDesc(String cardTypeDesc) {
-		this.cardTypeDesc = cardTypeDesc;
-	}
+    public void setCardTypeDesc(String cardTypeDesc) {
+        this.cardTypeDesc = cardTypeDesc;
+    }
 
 }

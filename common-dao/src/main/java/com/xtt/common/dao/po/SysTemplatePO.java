@@ -13,14 +13,14 @@ import java.util.List;
 import com.xtt.common.dao.model.SysTemplate;
 
 public class SysTemplatePO extends SysTemplate {
-	private List<SysTemplateChildPO> childList;
+    private List<SysTemplateChildPO> childList;
 
-	public List<SysTemplateChildPO> getChildList() {
-		return childList;
-	}
+    public List<SysTemplateChildPO> getChildList() {
+        return childList;
+    }
 
-	public void setChildList(List<SysTemplateChildPO> childList) {
-		this.childList = childList;
-	}
+    public void setChildList(List<SysTemplateChildPO> childList) {
+        this.childList = childList;
+    }
 
 }

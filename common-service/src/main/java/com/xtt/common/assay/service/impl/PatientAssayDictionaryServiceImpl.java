@@ -19,31 +19,31 @@ import com.xtt.common.dao.po.PatientAssayDictionaryPO;
 
 @Service
 public class PatientAssayDictionaryServiceImpl implements IPatientAssayDictionaryService {
-	@Autowired
-	private PatientAssayDictionaryMapper patientAssayDictionaryMapper;
+    @Autowired
+    private PatientAssayDictionaryMapper patientAssayDictionaryMapper;
 
-	@Override
-	public List<PatientAssayDictionaryPO> getByCondition(PatientAssayDictionaryPO record) {
-		return patientAssayDictionaryMapper.selectByCondition(record);
-	}
+    @Override
+    public List<PatientAssayDictionaryPO> getByCondition(PatientAssayDictionaryPO record) {
+        return patientAssayDictionaryMapper.selectByCondition(record);
+    }
 
-	@Override
-	public PatientAssayDictionaryPO getByItemCode(String itemCode) {
-		PatientAssayDictionaryPO query = new PatientAssayDictionaryPO();
-		query.setItemCode(itemCode);
-		query.setIsEnable(true);
-		List<PatientAssayDictionaryPO> list = patientAssayDictionaryMapper.selectByCondition(query);
-		if (list == null || list.size() == 0) {
-			return null;
-		}
-		return list.get(0);
-	}
+    @Override
+    public PatientAssayDictionaryPO getByItemCode(String itemCode) {
+        PatientAssayDictionaryPO query = new PatientAssayDictionaryPO();
+        query.setItemCode(itemCode);
+        query.setIsEnable(true);
+        List<PatientAssayDictionaryPO> list = patientAssayDictionaryMapper.selectByCondition(query);
+        if (list == null || list.size() == 0) {
+            return null;
+        }
+        return list.get(0);
+    }
 
-	@Override
-	public List<PatientAssayDictionaryPO> getByFuzzyCondition(PatientAssayDictionaryPO record) {
-		record.setIsEnable(true);
-		List<PatientAssayDictionaryPO> list = patientAssayDictionaryMapper.selectByFuzzyCondition(record);
-		return list;
-	}
+    @Override
+    public List<PatientAssayDictionaryPO> getByFuzzyCondition(PatientAssayDictionaryPO record) {
+        record.setIsEnable(true);
+        List<PatientAssayDictionaryPO> list = patientAssayDictionaryMapper.selectByFuzzyCondition(record);
+        return list;
+    }
 
 }

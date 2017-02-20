@@ -21,35 +21,35 @@ import com.xtt.common.util.DataUtil;
 
 @Service
 public class PatientOwnerServiceImpl implements IPatientOwnerService {
-	@Autowired
-	private PatientOwnerMapper patientOwnerMapper;
+    @Autowired
+    private PatientOwnerMapper patientOwnerMapper;
 
-	@Override
-	public void insert(PatientOwner record) {
-		DataUtil.setSystemFieldValue(record);
-		patientOwnerMapper.insert(record);
-	}
+    @Override
+    public void insert(PatientOwner record) {
+        DataUtil.setSystemFieldValue(record);
+        patientOwnerMapper.insert(record);
+    }
 
-	@Override
-	public void updateOwner(PatientOwner record) {
-		patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId());
-		PatientOwner query = new PatientOwner();
-		query.setFkPatientId(record.getFkPatientId());
-		query.setSysOwner(record.getSysOwner());
-		query.setFkTenantId(record.getFkTenantId());
-		List<PatientOwner> list = selectByCondition(query);
-		if (CollectionUtils.isNotEmpty(list)) {// 判断所属系统是否存在,如果存在，更新其是否有效标识
-			PatientOwner owner = list.get(0);
-			owner.setIsEnable(record.getIsEnable());
-			DataUtil.setSystemFieldValue(owner);
-			patientOwnerMapper.updateByPrimaryKey(owner);
-		} else {
-			insert(record);
-		}
-	}
+    @Override
+    public void updateOwner(PatientOwner record) {
+        patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId());
+        PatientOwner query = new PatientOwner();
+        query.setFkPatientId(record.getFkPatientId());
+        query.setSysOwner(record.getSysOwner());
+        query.setFkTenantId(record.getFkTenantId());
+        List<PatientOwner> list = selectByCondition(query);
+        if (CollectionUtils.isNotEmpty(list)) {// 判断所属系统是否存在,如果存在，更新其是否有效标识
+            PatientOwner owner = list.get(0);
+            owner.setIsEnable(record.getIsEnable());
+            DataUtil.setSystemFieldValue(owner);
+            patientOwnerMapper.updateByPrimaryKey(owner);
+        } else {
+            insert(record);
+        }
+    }
 
-	@Override
-	public List<PatientOwner> selectByCondition(PatientOwner record) {
-		return patientOwnerMapper.selectByCondition(record);
-	}
+    @Override
+    public List<PatientOwner> selectByCondition(PatientOwner record) {
+        return patientOwnerMapper.selectByCondition(record);
+    }
 }

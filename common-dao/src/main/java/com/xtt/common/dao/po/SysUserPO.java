@@ -9,91 +9,91 @@ import com.xtt.platform.util.time.DateFormatUtil;
 
 public class SysUserPO extends SysUser {
 
-	private String roleName;
-	private String birthdayShow;
-	private Integer lastStep;
-	private String nextStepName;
-	private String roleId;
-	private String sexShow;
-	private String parentRoleId;
-	private String positionShow;
-	@SuppressWarnings("unused")
-	private String mobileShow;
+    private String roleName;
+    private String birthdayShow;
+    private Integer lastStep;
+    private String nextStepName;
+    private String roleId;
+    private String sexShow;
+    private String parentRoleId;
+    private String positionShow;
+    @SuppressWarnings("unused")
+    private String mobileShow;
 
-	public String getRoleName() {
-		return roleName;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
-	public String getBirthdayShow() {
-		birthdayShow = DateFormatUtil.convertDateToStr(super.getBirthday(), Constants.SYS_YYYY_MM_DD);
-		return birthdayShow;
-	}
+    public String getBirthdayShow() {
+        birthdayShow = DateFormatUtil.convertDateToStr(super.getBirthday(), Constants.SYS_YYYY_MM_DD);
+        return birthdayShow;
+    }
 
-	public void setBirthdayShow(String birthdayShow) {
-		if (StringUtils.isNotEmpty(birthdayShow)) {
-			super.setBirthday(DateFormatUtil.convertStrToDate(birthdayShow, Constants.SYS_YYYY_MM_DD));
-		}
-		this.birthdayShow = birthdayShow;
-	}
+    public void setBirthdayShow(String birthdayShow) {
+        if (StringUtils.isNotEmpty(birthdayShow)) {
+            super.setBirthday(DateFormatUtil.convertStrToDate(birthdayShow, Constants.SYS_YYYY_MM_DD));
+        }
+        this.birthdayShow = birthdayShow;
+    }
 
-	public Integer getLastStep() {
-		return lastStep;
-	}
+    public Integer getLastStep() {
+        return lastStep;
+    }
 
-	public void setLastStep(Integer lastStep) {
-		this.lastStep = lastStep;
-	}
+    public void setLastStep(Integer lastStep) {
+        this.lastStep = lastStep;
+    }
 
-	public String getNextStepName() {
-		return nextStepName;
-	}
+    public String getNextStepName() {
+        return nextStepName;
+    }
 
-	public void setNextStepName(String nextStepName) {
-		this.nextStepName = nextStepName;
-	}
+    public void setNextStepName(String nextStepName) {
+        this.nextStepName = nextStepName;
+    }
 
-	public String getRoleId() {
-		return roleId;
-	}
+    public String getRoleId() {
+        return roleId;
+    }
 
-	public void setRoleId(String roleId) {
-		this.roleId = roleId;
-	}
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
-	public String getSexShow() {
-		return sexShow;
-	}
+    public String getSexShow() {
+        return sexShow;
+    }
 
-	public void setSexShow(String sexShow) {
-		this.sexShow = sexShow;
-	}
+    public void setSexShow(String sexShow) {
+        this.sexShow = sexShow;
+    }
 
-	public String getParentRoleId() {
-		return parentRoleId;
-	}
+    public String getParentRoleId() {
+        return parentRoleId;
+    }
 
-	public void setParentRoleId(String parentRoleId) {
-		this.parentRoleId = parentRoleId;
-	}
+    public void setParentRoleId(String parentRoleId) {
+        this.parentRoleId = parentRoleId;
+    }
 
-	public String getPositionShow() {
-		return positionShow;
-	}
+    public String getPositionShow() {
+        return positionShow;
+    }
 
-	public void setPositionShow(String positionShow) {
-		this.positionShow = positionShow;
-	}
+    public void setPositionShow(String positionShow) {
+        this.positionShow = positionShow;
+    }
 
-	public String getMobileShow() {
-		return StringUtil.formatMobile(super.getMobile());
-	}
+    public String getMobileShow() {
+        return StringUtil.formatMobile(super.getMobile());
+    }
 
-	public void setMobileShow(String mobileShow) {
-		this.mobileShow = mobileShow;
-	}
+    public void setMobileShow(String mobileShow) {
+        this.mobileShow = mobileShow;
+    }
 
 }

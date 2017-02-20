@@ -20,28 +20,28 @@ import com.xtt.common.util.UserUtil;
 
 @Service
 public class CmFormNodesServiceImpl implements ICmFormNodesService {
-	@Autowired
-	private CmFormNodesMapper cmFormNodesMapper;
+    @Autowired
+    private CmFormNodesMapper cmFormNodesMapper;
 
-	@Override
-	public List<FormNodesDto> selectByCondition(FormNodesDto record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormNodesMapper.selectByCondition(record);
-	}
+    @Override
+    public List<FormNodesDto> selectByCondition(FormNodesDto record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmFormNodesMapper.selectByCondition(record);
+    }
 
-	@Override
-	public List<FormNodesDto> selectByPItemCode(String itemCode) {
-		FormNodesDto record = new FormNodesDto();
-		record.setpItemCode(itemCode);
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormNodesMapper.selectByCondition(record);
-	}
+    @Override
+    public List<FormNodesDto> selectByPItemCode(String itemCode) {
+        FormNodesDto record = new FormNodesDto();
+        record.setpItemCode(itemCode);
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmFormNodesMapper.selectByCondition(record);
+    }
 
-	@Override
-	public List<FormNodesDto> selectByFormId(Long formId) {
-		FormNodesDto record = new FormNodesDto();
-		record.setFkFormId(formId);
-		return cmFormNodesMapper.selectByCondition(record);
-	}
+    @Override
+    public List<FormNodesDto> selectByFormId(Long formId) {
+        FormNodesDto record = new FormNodesDto();
+        record.setFkFormId(formId);
+        return cmFormNodesMapper.selectByCondition(record);
+    }
 
 }

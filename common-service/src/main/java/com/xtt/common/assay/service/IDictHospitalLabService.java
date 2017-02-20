@@ -15,83 +15,83 @@ import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 
 public interface IDictHospitalLabService {
-	/**
-	 * 根据itemCode查询医院字典表数据
-	 * 
-	 * @Title: getByItemCode
-	 * @param itemCode
-	 * @return
-	 * 
-	 */
-	DictHospitalLabPO getByItemCode(String itemCode);
+    /**
+     * 根据itemCode查询医院字典表数据
+     * 
+     * @Title: getByItemCode
+     * @param itemCode
+     * @return
+     * 
+     */
+    DictHospitalLabPO getByItemCode(String itemCode);
 
-	/**
-	 * 获取所有的分类数据
-	 * 
-	 * @Title: getAllCategory
-	 * @return
-	 * 
-	 */
-	List<DictHospitalLabPO> getAllCategory(DictHospitalLabPO record);
+    /**
+     * 获取所有的分类数据
+     * 
+     * @Title: getAllCategory
+     * @return
+     * 
+     */
+    List<DictHospitalLabPO> getAllCategory(DictHospitalLabPO record);
 
-	/**
-	 * 根据条件获取检查项
-	 * 
-	 * @Title: getByCondition
-	 * @param record
-	 * @return
-	 * 
-	 */
-	List<DictHospitalLabPO> getByCondition(DictHospitalLabPO record);
+    /**
+     * 根据条件获取检查项
+     * 
+     * @Title: getByCondition
+     * @param record
+     * @return
+     * 
+     */
+    List<DictHospitalLabPO> getByCondition(DictHospitalLabPO record);
 
-	/**
-	 * 解除关联
-	 * 
-	 * @Title: deleteAssayMapping
-	 * @param id
-	 * 
-	 */
-	void deleteAssayMapping(Long id);
+    /**
+     * 解除关联
+     * 
+     * @Title: deleteAssayMapping
+     * @param id
+     * 
+     */
+    void deleteAssayMapping(Long id);
 
-	/**
-	 * 更新数据
-	 * 
-	 * @Title: updateDict
-	 * @param record
-	 * 
-	 */
-	String updateDictById(DictHospitalLab record);
+    /**
+     * 更新数据
+     * 
+     * @Title: updateDict
+     * @param record
+     * 
+     */
+    String updateDictById(DictHospitalLab record);
 
-	/**
-	 * 通过ItemCode来查询isTop，dataType，maxValue，minValue
-	 * 
-	 * @param itemCode
-	 * @return
-	 */
-	List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
+    /**
+     * 通过ItemCode来查询isTop，dataType，maxValue，minValue
+     * 
+     * @param itemCode
+     * @return
+     */
+    List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
 
-	/**
-	 * 查询所有的化验月份
-	 * 
-	 * @Title: selectAllAssayMonth
-	 * @return
-	 * 
-	 */
-	public List<String> selectAllAssayMonth(DictHospitalLab dictHospitalLab);
+    /**
+     * 查询所有的化验月份
+     * 
+     * @Title: selectAllAssayMonth
+     * @return
+     * 
+     */
+    public List<String> selectAllAssayMonth(DictHospitalLab dictHospitalLab);
 
-	/**
-	 * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
-	 */
-	void updateDictHospitalLabSomeValue(DictHospitalLab record);
+    /**
+     * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
+     */
+    void updateDictHospitalLabSomeValue(DictHospitalLab record);
 
-	/**
-	 * 根据关联code查询数据
-	 * 
-	 * @Title: selectByFkCodes
-	 * @param dictCodes
-	 * @return
-	 *
-	 */
-	List<DictHospitalLabPO> selectByFkCodes(Collection<String> dictCodes);
+    /**
+     * 根据关联code查询数据
+     * 
+     * @Title: selectByFkCodes
+     * @param dictCodes
+     * @return
+     *
+     */
+    List<DictHospitalLabPO> selectByFkCodes(Collection<String> dictCodes);
 
 }

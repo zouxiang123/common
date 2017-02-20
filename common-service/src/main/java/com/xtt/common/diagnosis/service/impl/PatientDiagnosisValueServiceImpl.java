@@ -28,22 +28,22 @@ import com.xtt.common.util.UserUtil;
 @Service
 public class PatientDiagnosisValueServiceImpl implements IPatientDiagnosisValueService {
 
-	@Autowired
-	private CmPatientDiagnosisValueMapper cmPatientDiagnosisValueMapper;
+    @Autowired
+    private CmPatientDiagnosisValueMapper cmPatientDiagnosisValueMapper;
 
-	@Override
-	public List<CmPatientDiagnosisValuePO> selectByItemCode(String itemCode) {
-		CmPatientDiagnosisValuePO record = new CmPatientDiagnosisValuePO();
-		record.setItemCode(itemCode);
-		return selectByCondition(record);
-	}
+    @Override
+    public List<CmPatientDiagnosisValuePO> selectByItemCode(String itemCode) {
+        CmPatientDiagnosisValuePO record = new CmPatientDiagnosisValuePO();
+        record.setItemCode(itemCode);
+        return selectByCondition(record);
+    }
 
-	private List<CmPatientDiagnosisValuePO> selectByCondition(CmPatientDiagnosisValuePO record) {
-		if (record == null)
-			record = new CmPatientDiagnosisValuePO();
-		record.setFkTenantId(UserUtil.getTenantId());
-		List<CmPatientDiagnosisValuePO> results = cmPatientDiagnosisValueMapper.selectByCondition(record);
-		return results == null ? new ArrayList<CmPatientDiagnosisValuePO>() : results;
-	}
+    private List<CmPatientDiagnosisValuePO> selectByCondition(CmPatientDiagnosisValuePO record) {
+        if (record == null)
+            record = new CmPatientDiagnosisValuePO();
+        record.setFkTenantId(UserUtil.getTenantId());
+        List<CmPatientDiagnosisValuePO> results = cmPatientDiagnosisValueMapper.selectByCondition(record);
+        return results == null ? new ArrayList<CmPatientDiagnosisValuePO>() : results;
+    }
 
 }

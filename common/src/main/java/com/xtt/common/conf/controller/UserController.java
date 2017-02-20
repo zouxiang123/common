@@ -32,199 +32,199 @@ import com.xtt.platform.util.security.MD5Util;
 @Controller
 @RequestMapping("/system/")
 public class UserController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-	@Autowired
-	private IUserService userService;
-	@Autowired
-	private IRoleService roleService;
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IRoleService roleService;
 
-	@RequestMapping("searchUser")
-	public ModelAndView searchUser(String sysOwner) {
-		ModelAndView model = new ModelAndView("system/user_list");
-		model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
-		model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
-		model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX));
-		model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sysOwner));
-		model.addObject(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE));
-		model.addObject(CmDictConstants.NURSE_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE));
-		return model;
-	}
+    @RequestMapping("searchUser")
+    public ModelAndView searchUser(String sysOwner) {
+        ModelAndView model = new ModelAndView("system/user_list");
+        model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
+        model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
+        model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX));
+        model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sysOwner));
+        model.addObject(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE));
+        model.addObject(CmDictConstants.NURSE_PROFESSIONAL_TITLE, CmDictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE));
+        return model;
+    }
 
-	@RequestMapping("deleteUser")
-	@ResponseBody
-	public Map<String, Object> deleteUser(@RequestParam(value = "id", required = true) Long id) {
-		userService.deleteUserById(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("deleteUser")
+    @ResponseBody
+    public Map<String, Object> deleteUser(@RequestParam(value = "id", required = true) Long id) {
+        userService.deleteUserById(id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("status", CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("resetUser")
-	@ResponseBody
-	public Map<String, Object> resetUser(@RequestParam(value = "id", required = true) Long id) {
-		userService.resetUserPassword(id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("status", CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("resetUser")
+    @ResponseBody
+    public Map<String, Object> resetUser(@RequestParam(value = "id", required = true) Long id) {
+        userService.resetUserPassword(id);
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("status", CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("getFullUser")
-	@ResponseBody
-	public SysUserPO getFullUser(@RequestParam(value = "id", required = true) Long id) {
-		return userService.selectById(id);
-	}
+    @RequestMapping("getFullUser")
+    @ResponseBody
+    public SysUserPO getFullUser(@RequestParam(value = "id", required = true) Long id) {
+        return userService.selectById(id);
+    }
 
-	@RequestMapping("selectUserWithFilter")
-	@ResponseBody
-	public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
-		user.setFkTenantId(UserUtil.getTenantId());
-		return userService.selectUserWithFilter(user);
-	}
+    @RequestMapping("selectUserWithFilter")
+    @ResponseBody
+    public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
+        user.setFkTenantId(UserUtil.getTenantId());
+        return userService.selectUserWithFilter(user);
+    }
 
-	@RequestMapping("searchUserInfo")
-	public ModelAndView searchUserInfo(HttpServletRequest request, String id) throws Exception {
-		ModelAndView model = new ModelAndView("system/user_info");
-		return model;
-	}
+    @RequestMapping("searchUserInfo")
+    public ModelAndView searchUserInfo(HttpServletRequest request, String id) throws Exception {
+        ModelAndView model = new ModelAndView("system/user_info");
+        return model;
+    }
 
-	@RequestMapping("accountSetting")
-	public ModelAndView accountSetting() throws Exception {
-		ModelAndView model = new ModelAndView("system/account_settings");
-		SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
-		model.addObject("user", initUser(user));
-		model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX, user == null ? null : user.getSex()));
-		if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_DOCTOR)) {
-			model.addObject("professional_title", CmDictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
-		} else if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_NURSE)) {
-			model.addObject("professional_title", CmDictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
-		} else {
-			model.addObject("professional_title", null);
-		}
-		return model;
-	}
+    @RequestMapping("accountSetting")
+    public ModelAndView accountSetting() throws Exception {
+        ModelAndView model = new ModelAndView("system/account_settings");
+        SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
+        model.addObject("user", initUser(user));
+        model.addObject(CmDictConstants.SEX, CmDictUtil.getListByType(CmDictConstants.SEX, user == null ? null : user.getSex()));
+        if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_DOCTOR)) {
+            model.addObject("professional_title", CmDictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
+        } else if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_NURSE)) {
+            model.addObject("professional_title", CmDictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
+        } else {
+            model.addObject("professional_title", null);
+        }
+        return model;
+    }
 
-	@RequestMapping("saveUser")
-	@ResponseBody
-	public Map<String, Object> saveUser(SysUserPO user) throws Exception {
-		long start = System.currentTimeMillis();
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (StringUtils.isEmpty(user.getRoleId())) {
-			map.put("id", user.getId());
-			map.put("status", CommonConstants.WARNING);
-			return map;
-		} else if (user.getId() == null && userService.getUserByAccount(user.getAccount(), UserUtil.getTenantId(), null) != null) {
-			map.put("id", user.getId());
-			map.put("status", CommonConstants.FAILURE);
-			return map;
-		} else {
-			map.put("id", user.getId());
-			map.put("status", userService.saveUser(user));
-			LOGGER.info("save user total cost {}ms", System.currentTimeMillis() - start);
-			return map;
-		}
+    @RequestMapping("saveUser")
+    @ResponseBody
+    public Map<String, Object> saveUser(SysUserPO user) throws Exception {
+        long start = System.currentTimeMillis();
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (StringUtils.isEmpty(user.getRoleId())) {
+            map.put("id", user.getId());
+            map.put("status", CommonConstants.WARNING);
+            return map;
+        } else if (user.getId() == null && userService.getUserByAccount(user.getAccount(), UserUtil.getTenantId(), null) != null) {
+            map.put("id", user.getId());
+            map.put("status", CommonConstants.FAILURE);
+            return map;
+        } else {
+            map.put("id", user.getId());
+            map.put("status", userService.saveUser(user));
+            LOGGER.info("save user total cost {}ms", System.currentTimeMillis() - start);
+            return map;
+        }
 
-	}
+    }
 
-	@RequestMapping("updateUser")
-	@ResponseBody
-	public Map<String, Object> updateUser(SysUserPO user) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		userService.updateUser(user);
-		map.put("id", user.getId());
-		map.put("status", CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("updateUser")
+    @ResponseBody
+    public Map<String, Object> updateUser(SysUserPO user) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        userService.updateUser(user);
+        map.put("id", user.getId());
+        map.put("status", CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("checkAccountExists")
-	@ResponseBody
-	public Map<String, Object> checkAccountExists(@RequestParam(value = "account", required = true) String account) throws Exception {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.getUserByAccount(account, UserUtil.getTenantId(), null) == null) {
-			map.put("status", CommonConstants.SUCCESS);
-			return map;
-		} else {
-			map.put("status", CommonConstants.WARNING);
-			return map;
-		}
-	}
+    @RequestMapping("checkAccountExists")
+    @ResponseBody
+    public Map<String, Object> checkAccountExists(@RequestParam(value = "account", required = true) String account) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (userService.getUserByAccount(account, UserUtil.getTenantId(), null) == null) {
+            map.put("status", CommonConstants.SUCCESS);
+            return map;
+        } else {
+            map.put("status", CommonConstants.WARNING);
+            return map;
+        }
+    }
 
-	@RequestMapping("changePassword")
-	@ResponseBody
-	public Map<String, Object> changePassword(String password, String newPassword) throws Exception {
-		SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (!user.getPassword().equals(MD5Util.md5(password))) {
-			map.put("status", CommonConstants.WARNING);
-			return map;
-		}
-		SysUserPO saveUser = new SysUserPO();
-		saveUser.setId(user.getId());
-		saveUser.setPassword(newPassword);
-		userService.updatePassword(saveUser);
-		map.put("status", CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("changePassword")
+    @ResponseBody
+    public Map<String, Object> changePassword(String password, String newPassword) throws Exception {
+        SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (!user.getPassword().equals(MD5Util.md5(password))) {
+            map.put("status", CommonConstants.WARNING);
+            return map;
+        }
+        SysUserPO saveUser = new SysUserPO();
+        saveUser.setId(user.getId());
+        saveUser.setPassword(newPassword);
+        userService.updatePassword(saveUser);
+        map.put("status", CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("uploadImage")
-	@ResponseBody
-	public Map<String, Object> uploadImage(MultipartFile image) throws IOException {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (image != null && image.getSize() > 0) {
-			map.put("filepath", userService.uploadImage(image));
-			map.put("status", CommonConstants.SUCCESS);
-			return map;
-		}
-		map.put("status", CommonConstants.WARNING);
-		return map;
-	}
+    @RequestMapping("uploadImage")
+    @ResponseBody
+    public Map<String, Object> uploadImage(MultipartFile image) throws IOException {
+        Map<String, Object> map = new HashMap<String, Object>();
+        if (image != null && image.getSize() > 0) {
+            map.put("filepath", userService.uploadImage(image));
+            map.put("status", CommonConstants.SUCCESS);
+            return map;
+        }
+        map.put("status", CommonConstants.WARNING);
+        return map;
+    }
 
-	@RequestMapping("userInfo")
-	public ModelAndView accountView(Long userId) throws Exception {
-		ModelAndView model = new ModelAndView("system/user_info");
-		model.addObject("user", initUser(userService.selectById(userId)));
-		return model;
-	}
+    @RequestMapping("userInfo")
+    public ModelAndView accountView(Long userId) throws Exception {
+        ModelAndView model = new ModelAndView("system/user_info");
+        model.addObject("user", initUser(userService.selectById(userId)));
+        return model;
+    }
 
-	@RequestMapping("searchLog")
-	public ModelAndView searchLog() throws Exception {
-		ModelAndView model = new ModelAndView("system/log_list");
-		return model;
-	}
+    @RequestMapping("searchLog")
+    public ModelAndView searchLog() throws Exception {
+        ModelAndView model = new ModelAndView("system/log_list");
+        return model;
+    }
 
-	private SysUserPO initUser(SysUserPO user) {
-		if (user != null) {
-			user.setSexShow(CmDictUtil.getName(CmDictConstants.SEX, user.getSex()));
-			if (user.getPosition() != null) {
-				if (user.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
-					user.setPositionShow(CmDictUtil.getName(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
-				} else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
-					user.setPositionShow(CmDictUtil.getName(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
-				} else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_ADMIN) > -1) {
-					user.setPositionShow(user.getPosition());
-				} else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
-					user.setPositionShow(user.getPosition());
-				}
-			}
-		}
-		return user;
-	}
+    private SysUserPO initUser(SysUserPO user) {
+        if (user != null) {
+            user.setSexShow(CmDictUtil.getName(CmDictConstants.SEX, user.getSex()));
+            if (user.getPosition() != null) {
+                if (user.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
+                    user.setPositionShow(CmDictUtil.getName(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
+                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
+                    user.setPositionShow(CmDictUtil.getName(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
+                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_ADMIN) > -1) {
+                    user.setPositionShow(user.getPosition());
+                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
+                    user.setPositionShow(user.getPosition());
+                }
+            }
+        }
+        return user;
+    }
 
-	/**
-	 * 获取用户权限数据
-	 */
-	@RequestMapping("getUserPermissionData")
-	@ResponseBody
-	public Map<String, Object> getUserPermissionData() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		Map<String, Object> authMap = ContextAuthUtil.getAuth();
-		if (MapUtils.isEmpty(authMap)) {
-			map.put(CommonConstants.STATUS, CommonConstants.WARNING);
-			return map;
-		}
-		map.put(CommonConstants.USER_NON_PERMISSION, authMap.get(CommonConstants.USER_NON_PERMISSION));
-		map.put(CommonConstants.USER_PERMISSION, authMap.get(CommonConstants.USER_PERMISSION));
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    /**
+     * 获取用户权限数据
+     */
+    @RequestMapping("getUserPermissionData")
+    @ResponseBody
+    public Map<String, Object> getUserPermissionData() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> authMap = ContextAuthUtil.getAuth();
+        if (MapUtils.isEmpty(authMap)) {
+            map.put(CommonConstants.STATUS, CommonConstants.WARNING);
+            return map;
+        }
+        map.put(CommonConstants.USER_NON_PERMISSION, authMap.get(CommonConstants.USER_NON_PERMISSION));
+        map.put(CommonConstants.USER_PERMISSION, authMap.get(CommonConstants.USER_PERMISSION));
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 }

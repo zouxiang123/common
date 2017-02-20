@@ -42,227 +42,227 @@ import com.xtt.platform.util.security.MD5Util;
 
 @Service
 public class UserServiceImpl implements IUserService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	@Autowired
-	private SysUserMapper sysUserMapper;
-	@Autowired
-	private SysUser2roleMapper sysUser2roleMapper;
+    @Autowired
+    private SysUserMapper sysUserMapper;
+    @Autowired
+    private SysUser2roleMapper sysUser2roleMapper;
 
-	@Override
-	public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
-		String[] arr = { CommonConstants.ROLE_DOCTOR };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
-	}
+    @Override
+    public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
+        String[] arr = { CommonConstants.ROLE_DOCTOR };
+        return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
 
-	@Override
-	public List<SysUserPO> getNurses(Integer tenantId, String sysOwner) {
-		String[] arr = { CommonConstants.ROLE_NURSE };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
-	}
+    @Override
+    public List<SysUserPO> getNurses(Integer tenantId, String sysOwner) {
+        String[] arr = { CommonConstants.ROLE_NURSE };
+        return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
 
-	@Override
-	public SysUserPO selectById(Long userId) {
-		return selectById(userId, true);
-	}
+    @Override
+    public SysUserPO selectById(Long userId) {
+        return selectById(userId, true);
+    }
 
-	/**
-	 * 通过id获取用户数据
-	 * 
-	 * @Title: selectById
-	 * @param id
-	 * @param fromCache是否从缓存获取
-	 * @return
-	 *
-	 */
-	private SysUserPO selectById(Long id, boolean fromCache) {
-		if (fromCache) {
-			SysUserDto user = UserCache.getById(id);
-			if (user == null) {
-				return sysUserMapper.selectPOById(id);
-			}
-			SysUserPO sysUser = new SysUserPO();
-			BeanUtils.copyProperties(user, sysUser);
-			return sysUser;
-		} else {
-			return sysUserMapper.selectPOById(id);
-		}
-	}
+    /**
+     * 通过id获取用户数据
+     * 
+     * @Title: selectById
+     * @param id
+     * @param fromCache是否从缓存获取
+     * @return
+     *
+     */
+    private SysUserPO selectById(Long id, boolean fromCache) {
+        if (fromCache) {
+            SysUserDto user = UserCache.getById(id);
+            if (user == null) {
+                return sysUserMapper.selectPOById(id);
+            }
+            SysUserPO sysUser = new SysUserPO();
+            BeanUtils.copyProperties(user, sysUser);
+            return sysUser;
+        } else {
+            return sysUserMapper.selectPOById(id);
+        }
+    }
 
-	@Override
-	public String saveUser(SysUserPO user) {
-		if (StringUtil.isNotBlank(user.getName())) {
-			user.setName(user.getName().trim());
-			user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
-		}
-		if (user.getId() != null) {
-			sysUser2roleMapper.deleteByUserId(user.getId());// 删除原来旧的关联数据
-			associationRole(user.getRoleId(), user.getId());// 重新创建关联
-			user.setUpdateTime(new Date());
-			user.setUpdateUserId(UserUtil.getLoginUserId());
-			if (StringUtils.isNotBlank(user.getPassword()))
-				user.setPassword(MD5Util.md5(user.getPassword()));
-			updateByPrimaryKeySelective(user);// 更新用户数据
-		} else {
-			DataUtil.setSystemFieldValue(user);
-			user.setDelFlag(false);
-			user.setFkTenantId(UserUtil.getTenantId());
-			user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
-			sysUserMapper.insert(user);
-			associationRole(user.getRoleId(), user.getId());// 创建关联数据
-			// 新增用户创建默认头像
-			String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
-							+ "/" + user.getId() + ".png";
-			String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
-			BusinessCommonUtil.combineImage(name, newFilename);
-			user.setImagePath(newFilename);
-			updateByPrimaryKeySelective(user);
-		}
-		return CommonConstants.SUCCESS;
-	}
+    @Override
+    public String saveUser(SysUserPO user) {
+        if (StringUtil.isNotBlank(user.getName())) {
+            user.setName(user.getName().trim());
+            user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
+        }
+        if (user.getId() != null) {
+            sysUser2roleMapper.deleteByUserId(user.getId());// 删除原来旧的关联数据
+            associationRole(user.getRoleId(), user.getId());// 重新创建关联
+            user.setUpdateTime(new Date());
+            user.setUpdateUserId(UserUtil.getLoginUserId());
+            if (StringUtils.isNotBlank(user.getPassword()))
+                user.setPassword(MD5Util.md5(user.getPassword()));
+            updateByPrimaryKeySelective(user);// 更新用户数据
+        } else {
+            DataUtil.setSystemFieldValue(user);
+            user.setDelFlag(false);
+            user.setFkTenantId(UserUtil.getTenantId());
+            user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
+            sysUserMapper.insert(user);
+            associationRole(user.getRoleId(), user.getId());// 创建关联数据
+            // 新增用户创建默认头像
+            String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
+                            + "/" + user.getId() + ".png";
+            String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
+            BusinessCommonUtil.combineImage(name, newFilename);
+            user.setImagePath(newFilename);
+            updateByPrimaryKeySelective(user);
+        }
+        return CommonConstants.SUCCESS;
+    }
 
-	/**
-	 * 插入用户和角色关联表数据
-	 * 
-	 * @Title: associationRole
-	 * @param roleId
-	 * @param userId
-	 * 
-	 */
-	private void associationRole(String roleId, Long userId) {
-		if (StringUtils.isEmpty(roleId)) {
-			return;
-		}
-		SysUser2role user2Role;
-		String[] rIds = roleId.split(",");
-		Long rId;
-		for (String id : rIds) {
-			rId = Long.valueOf(id);
-			user2Role = new SysUser2role();
-			user2Role.setFkRoleId(rId);
-			user2Role.setFkUserId(userId);
-			DataUtil.setSystemFieldValue(user2Role);
-			sysUser2roleMapper.insert(user2Role);// 插入用户及角色关联数据
-		}
-	}
+    /**
+     * 插入用户和角色关联表数据
+     * 
+     * @Title: associationRole
+     * @param roleId
+     * @param userId
+     * 
+     */
+    private void associationRole(String roleId, Long userId) {
+        if (StringUtils.isEmpty(roleId)) {
+            return;
+        }
+        SysUser2role user2Role;
+        String[] rIds = roleId.split(",");
+        Long rId;
+        for (String id : rIds) {
+            rId = Long.valueOf(id);
+            user2Role = new SysUser2role();
+            user2Role.setFkRoleId(rId);
+            user2Role.setFkUserId(userId);
+            DataUtil.setSystemFieldValue(user2Role);
+            sysUser2roleMapper.insert(user2Role);// 插入用户及角色关联数据
+        }
+    }
 
-	@Override
-	public String uploadImage(MultipartFile image) throws IllegalStateException, IOException {
-		String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
-		String imgName = image.getOriginalFilename();
-		SysUser user = selectById(UserUtil.getLoginUserId(), true);
-		String fileName = CommonConstants.USER_IMAGE_FILE_PATH + "/" + String.valueOf(user.getId())
-						+ imgName.substring(imgName.lastIndexOf("."), imgName.length());
-		File f = new File(path + fileName);
-		if (!f.exists()) {
-			f.mkdirs();
-		}
-		image.transferTo(f);
-		try {// save original drawing
-			String originalFileName = CommonConstants.USER_IMAGE_FILE_PATH + "/original/" + String.valueOf(user.getId())
-							+ imgName.substring(imgName.lastIndexOf("."), imgName.length());
-			FileUtils.copyFile(f, new File(path + originalFileName));
-		} catch (Exception e) {
-			LOGGER.info("save original drawing failed,error ms is", e);
-		}
-		BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-		user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
-		user.setUpdateTime(new Date());
-		updateByPrimaryKeySelective(user);
-		return fileName;
-	}
+    @Override
+    public String uploadImage(MultipartFile image) throws IllegalStateException, IOException {
+        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
+        String imgName = image.getOriginalFilename();
+        SysUser user = selectById(UserUtil.getLoginUserId(), true);
+        String fileName = CommonConstants.USER_IMAGE_FILE_PATH + "/" + String.valueOf(user.getId())
+                        + imgName.substring(imgName.lastIndexOf("."), imgName.length());
+        File f = new File(path + fileName);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        image.transferTo(f);
+        try {// save original drawing
+            String originalFileName = CommonConstants.USER_IMAGE_FILE_PATH + "/original/" + String.valueOf(user.getId())
+                            + imgName.substring(imgName.lastIndexOf("."), imgName.length());
+            FileUtils.copyFile(f, new File(path + originalFileName));
+        } catch (Exception e) {
+            LOGGER.info("save original drawing failed,error ms is", e);
+        }
+        BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
+        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
+        user.setUpdateTime(new Date());
+        updateByPrimaryKeySelective(user);
+        return fileName;
+    }
 
-	@Override
-	public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
-		return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
-	}
+    @Override
+    public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
+        return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
+    }
 
-	@Override
-	public void deleteUserById(Long id) {
-		sysUser2roleMapper.deleteByUserId(id);
-		SysUser user = selectById(id, true);
-		user.setDelFlag(true);
-		DataUtil.setSystemFieldValue(user);
-		updateByPrimaryKeySelective(user);
-	}
+    @Override
+    public void deleteUserById(Long id) {
+        sysUser2roleMapper.deleteByUserId(id);
+        SysUser user = selectById(id, true);
+        user.setDelFlag(true);
+        DataUtil.setSystemFieldValue(user);
+        updateByPrimaryKeySelective(user);
+    }
 
-	@Override
-	public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
-		return sysUserMapper.selectUserWithFilter(user);
-	}
+    @Override
+    public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
+        return sysUserMapper.selectUserWithFilter(user);
+    }
 
-	@Override
-	public SysUser getUserByAccount(String account, Integer tenantId, String sysOwner) {
-		return sysUserMapper.selectUserByAccount(account, tenantId, sysOwner);
-	}
+    @Override
+    public SysUser getUserByAccount(String account, Integer tenantId, String sysOwner) {
+        return sysUserMapper.selectUserByAccount(account, tenantId, sysOwner);
+    }
 
-	@Override
-	public SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
-		return sysUserMapper.login(account, password, tenantId, sysOwner);
-	}
+    @Override
+    public SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
+        return sysUserMapper.login(account, password, tenantId, sysOwner);
+    }
 
-	@Override
-	public Integer getDoctorsCount(Integer tenantId, String sysOwner) {
-		return getCountByRoleType(tenantId, CommonConstants.ROLE_DOCTOR, sysOwner);
-	}
+    @Override
+    public Integer getDoctorsCount(Integer tenantId, String sysOwner) {
+        return getCountByRoleType(tenantId, CommonConstants.ROLE_DOCTOR, sysOwner);
+    }
 
-	@Override
-	public Integer getNursesCount(Integer tenantId, String sysOwner) {
-		return getCountByRoleType(tenantId, CommonConstants.ROLE_NURSE, sysOwner);
-	}
+    @Override
+    public Integer getNursesCount(Integer tenantId, String sysOwner) {
+        return getCountByRoleType(tenantId, CommonConstants.ROLE_NURSE, sysOwner);
+    }
 
-	@Override
-	public void updateUser(SysUserPO user) {
-		if (StringUtils.isNotBlank(user.getName()))
-			user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
-		if (StringUtils.isNotBlank(user.getPassword()))
-			user.setPassword(MD5Util.md5(user.getPassword()));
-		user.setUpdateTime(new Date());
-		user.setUpdateUserId(user.getId());
-		updateByPrimaryKeySelective(user);
-	}
+    @Override
+    public void updateUser(SysUserPO user) {
+        if (StringUtils.isNotBlank(user.getName()))
+            user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
+        if (StringUtils.isNotBlank(user.getPassword()))
+            user.setPassword(MD5Util.md5(user.getPassword()));
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(user.getId());
+        updateByPrimaryKeySelective(user);
+    }
 
-	@Override
-	public void resetUserPassword(Long id) {
-		sysUserMapper.updatePassword(id, CommonConstants.DEFAULT_PASSWORD);
-	}
+    @Override
+    public void resetUserPassword(Long id) {
+        sysUserMapper.updatePassword(id, CommonConstants.DEFAULT_PASSWORD);
+    }
 
-	@Override
-	public List<SysUserPO> getOthers(Integer tenantId, String sysOwner) {
-		String[] arr = { CommonConstants.ROLE_OTHER, CommonConstants.ROLE_ADMIN };
-		return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
-	}
+    @Override
+    public List<SysUserPO> getOthers(Integer tenantId, String sysOwner) {
+        String[] arr = { CommonConstants.ROLE_OTHER, CommonConstants.ROLE_ADMIN };
+        return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
 
-	@Override
-	public List<Map<String, Object>> getRolesCount(Integer tenantId, String sysOwner) {
-		return sysUserMapper.selectRolesCount(tenantId, sysOwner);
-	}
+    @Override
+    public List<Map<String, Object>> getRolesCount(Integer tenantId, String sysOwner) {
+        return sysUserMapper.selectRolesCount(tenantId, sysOwner);
+    }
 
-	private Integer getCountByRoleType(Integer tenantId, String roleType, String sysOwner) {
-		List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, sysOwner);
-		for (Map<String, Object> m : list) {
-			if (m.get("roleType").equals(roleType)) {
-				return ((Long) m.get("count")).intValue();
-			}
-		}
-		return 0;
+    private Integer getCountByRoleType(Integer tenantId, String roleType, String sysOwner) {
+        List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, sysOwner);
+        for (Map<String, Object> m : list) {
+            if (m.get("roleType").equals(roleType)) {
+                return ((Long) m.get("count")).intValue();
+            }
+        }
+        return 0;
 
-	}
+    }
 
-	@Override
-	public void updatePassword(SysUserPO user) {
-		user.setPassword(MD5Util.md5(user.getPassword()));
-		user.setUpdateTime(new Date());
-		user.setUpdateUserId(UserUtil.getLoginUserId());
-		updateByPrimaryKeySelective(user);
-	}
+    @Override
+    public void updatePassword(SysUserPO user) {
+        user.setPassword(MD5Util.md5(user.getPassword()));
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(UserUtil.getLoginUserId());
+        updateByPrimaryKeySelective(user);
+    }
 
-	private void updateByPrimaryKeySelective(SysUser user) {
-		sysUserMapper.updateByPrimaryKeySelective(user);
-		// refresh cache
-		SysUserPO sysUserPO = selectById(user.getId(), false);
-		SysUserDto cacheUser = new SysUserDto();
-		BeanUtils.copyProperties(sysUserPO, cacheUser);
-		UserCache.refresh(cacheUser);
-	}
+    private void updateByPrimaryKeySelective(SysUser user) {
+        sysUserMapper.updateByPrimaryKeySelective(user);
+        // refresh cache
+        SysUserPO sysUserPO = selectById(user.getId(), false);
+        SysUserDto cacheUser = new SysUserDto();
+        BeanUtils.copyProperties(sysUserPO, cacheUser);
+        UserCache.refresh(cacheUser);
+    }
 }

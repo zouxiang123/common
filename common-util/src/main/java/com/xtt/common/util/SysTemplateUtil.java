@@ -28,34 +28,34 @@ import com.xtt.platform.util.io.JsonUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 public class SysTemplateUtil {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SysTemplateUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysTemplateUtil.class);
 
-	public static List<SysTemplateDto> getTemplateByType(String type, String sysOwner) {
-		LOGGER.info("begin to get template data,{type:{},sysOwner{}}", type, sysOwner);
-		List<SysTemplateDto> list = new ArrayList<>();
-		try {
-			// 创建http请求token
-			CookieStore cookie = HttpClientUtil.createCookieStore(CommonConstants.COOKIE_TOKEN,
-							HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN), new URL(CommonConstants.COMMON_SERVER_ADDR).getHost(),
-							"/");
-			// 获取化验数据
-			Map<String, String> params = new HashMap<String, String>();
-			params.put("type", type);
-			params.put("sysOwner", sysOwner);
-			HttpClientResultUtil result = HttpClientUtil.post(CommonConstants.COMMON_SERVER_ADDR + "/system/template/selectByType.shtml", params,
-							cookie);
-			if (StringUtil.isNotBlank(result.getContext())) {
-				JsonUtil util = JsonUtil.AllJsonUtil();
-				JsonNode jsonNodes = util.treeFromJson(result.getContext());
-				JsonNode datas = jsonNodes.get("list");
-				if (datas != null) {
-					list = util.fromJson(datas.toString(), new TypeReference<ArrayList<SysTemplateDto>>() {
-					});
-				}
-			}
-		} catch (Exception e) {
-			LOGGER.error("get template data failed,case by：", e);
-		}
-		return list;
-	}
+    public static List<SysTemplateDto> getTemplateByType(String type, String sysOwner) {
+        LOGGER.info("begin to get template data,{type:{},sysOwner{}}", type, sysOwner);
+        List<SysTemplateDto> list = new ArrayList<>();
+        try {
+            // 创建http请求token
+            CookieStore cookie = HttpClientUtil.createCookieStore(CommonConstants.COOKIE_TOKEN,
+                            HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN), new URL(CommonConstants.COMMON_SERVER_ADDR).getHost(),
+                            "/");
+            // 获取化验数据
+            Map<String, String> params = new HashMap<String, String>();
+            params.put("type", type);
+            params.put("sysOwner", sysOwner);
+            HttpClientResultUtil result = HttpClientUtil.post(CommonConstants.COMMON_SERVER_ADDR + "/system/template/selectByType.shtml", params,
+                            cookie);
+            if (StringUtil.isNotBlank(result.getContext())) {
+                JsonUtil util = JsonUtil.AllJsonUtil();
+                JsonNode jsonNodes = util.treeFromJson(result.getContext());
+                JsonNode datas = jsonNodes.get("list");
+                if (datas != null) {
+                    list = util.fromJson(datas.toString(), new TypeReference<ArrayList<SysTemplateDto>>() {
+                    });
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("get template data failed,case by：", e);
+        }
+        return list;
+    }
 }

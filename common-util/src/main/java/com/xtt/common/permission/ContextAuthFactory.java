@@ -4,23 +4,23 @@ import java.util.Map;
 
 public interface ContextAuthFactory {
 
-	public void addAuth(String key, Map<String, Object> auth);
+    public void addAuth(String key, Map<String, Object> auth);
 
-	public void delAuth(String key);
+    public void delAuth(String key);
 
-	public Map<String, Object> getAuth();
+    public Map<String, Object> getAuth();
 
-	public void setAccount2Token(String account, String token);
+    public void setAccount2Token(String account, String token);
 
-	public String getTokenByAccount(String account);
+    public String getTokenByAccount(String account);
 
-	/**
-	 * 刷新存活时间
-	 * 
-	 * @Title: refreshLiveTime
-	 * @param key
-	 * @param liveTime
-	 *
-	 */
-	public void refreshLiveTime(String key, Long liveTime);
+    /**
+     * 刷新存活时间
+     * 
+     * @Title: refreshLiveTime
+     * @param key
+     * @param liveTime
+     *
+     */
+    public void refreshLiveTime(String key, Long liveTime);
 }

@@ -32,58 +32,58 @@ import com.xtt.common.util.UserUtil;
 @RequestMapping("/system/param/")
 public class SysParamController {
 
-	@Autowired
-	private ISysParamService sysParamService;
-	@Autowired
-	private ICommonCacheService commonCacheService;
+    @Autowired
+    private ISysParamService sysParamService;
+    @Autowired
+    private ICommonCacheService commonCacheService;
 
-	/** 系统参数值定义页面 */
-	@RequestMapping("view")
-	public String view(Model model, String sys) {
-		SysParamPO record = new SysParamPO();
-		record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
-		record.setFkTenantId(UserUtil.getTenantId());
-		List<SysParamPO> list = sysParamService.selectByCondition(record);
-		model.addAttribute("paramList", initParamList(list));
-		return "system/param_conf";
-	}
+    /** 系统参数值定义页面 */
+    @RequestMapping("view")
+    public String view(Model model, String sys) {
+        SysParamPO record = new SysParamPO();
+        record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
+        record.setFkTenantId(UserUtil.getTenantId());
+        List<SysParamPO> list = sysParamService.selectByCondition(record);
+        model.addAttribute("paramList", initParamList(list));
+        return "system/param_conf";
+    }
 
-	/**
-	 * 初始化参数列表，移除不能让用户修改的参数值
-	 * 
-	 * @return
-	 */
-	private List<SysParamPO> initParamList(List<SysParamPO> list) {
-		List<SysParamPO> resultList = new ArrayList<SysParamPO>();
-		for (SysParamPO sys : list) {
-			if ("version".equals(sys.getParamName()) || "jciConform".equals(sys.getParamName()))
-				continue;
-			if (StringUtils.isNotBlank(sys.getDicType())) {
-				sys.setDicUnitList(CmDictUtil.getListByType(sys.getDicType(), sys.getParamUnit()));
-			}
-			resultList.add(sys);
-		}
-		return resultList;
-	}
+    /**
+     * 初始化参数列表，移除不能让用户修改的参数值
+     * 
+     * @return
+     */
+    private List<SysParamPO> initParamList(List<SysParamPO> list) {
+        List<SysParamPO> resultList = new ArrayList<SysParamPO>();
+        for (SysParamPO sys : list) {
+            if ("version".equals(sys.getParamName()) || "jciConform".equals(sys.getParamName()))
+                continue;
+            if (StringUtils.isNotBlank(sys.getDicType())) {
+                sys.setDicUnitList(CmDictUtil.getListByType(sys.getDicType(), sys.getParamUnit()));
+            }
+            resultList.add(sys);
+        }
+        return resultList;
+    }
 
-	/** 保存或者更新系统参数 */
-	@RequestMapping("saveParam")
-	@ResponseBody
-	public Map<String, Object> saveParam(SysParam param) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String status = sysParamService.saveParam(param);
-		if (CommonConstants.SUCCESS.equals(status)) {
-			commonCacheService.cacheSysParam(UserUtil.getTenantId());
-		}
-		map.put("status", status);
-		return map;
-	}
+    /** 保存或者更新系统参数 */
+    @RequestMapping("saveParam")
+    @ResponseBody
+    public Map<String, Object> saveParam(SysParam param) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String status = sysParamService.saveParam(param);
+        if (CommonConstants.SUCCESS.equals(status)) {
+            commonCacheService.cacheSysParam(UserUtil.getTenantId());
+        }
+        map.put("status", status);
+        return map;
+    }
 
-	/** 获取所有的系统参数 */
-	@RequestMapping("paramList")
-	@ResponseBody
-	public List<SysParamPO> paramList() {
-		return sysParamService.getByTenantId(UserUtil.getTenantId());
-	}
+    /** 获取所有的系统参数 */
+    @RequestMapping("paramList")
+    @ResponseBody
+    public List<SysParamPO> paramList() {
+        return sysParamService.getByTenantId(UserUtil.getTenantId());
+    }
 
 }

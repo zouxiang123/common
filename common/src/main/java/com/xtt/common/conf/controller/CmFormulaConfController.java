@@ -30,44 +30,44 @@ import com.xtt.common.util.UserUtil;
 @Controller
 @RequestMapping("/cmFormulaConf/")
 public class CmFormulaConfController {
-	@Autowired
-	private ICmFormulaConfService cmFormulaConfService;
-	@Autowired
-	private ICommonCacheService commonCacheService;
+    @Autowired
+    private ICmFormulaConfService cmFormulaConfService;
+    @Autowired
+    private ICommonCacheService commonCacheService;
 
-	@RequestMapping("view")
-	public String view(Model model, String sys) {
-		CmFormulaConfPO record = new CmFormulaConfPO();
-		record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
-		List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
-		// 转换成类别map
-		Map<String, CmFormulaConfPO> items = new LinkedHashMap<String, CmFormulaConfPO>();
-		CmFormulaConfPO category;
-		for (CmFormulaConfPO formula : list) {
-			category = items.get(formula.getCategory());
-			if (category == null) {
-				category = new CmFormulaConfPO();
-				category.setCategory(formula.getCategory());
-				category.setCategoryName(formula.getCategoryName());
-				category.setChildren(new ArrayList<>());
-				items.put(formula.getCategory(), category);
-			}
-			category.getChildren().add(formula);
-		}
-		model.addAttribute("items", items);
-		return "system/formula_conf";
-	}
+    @RequestMapping("view")
+    public String view(Model model, String sys) {
+        CmFormulaConfPO record = new CmFormulaConfPO();
+        record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
+        List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
+        // 转换成类别map
+        Map<String, CmFormulaConfPO> items = new LinkedHashMap<String, CmFormulaConfPO>();
+        CmFormulaConfPO category;
+        for (CmFormulaConfPO formula : list) {
+            category = items.get(formula.getCategory());
+            if (category == null) {
+                category = new CmFormulaConfPO();
+                category.setCategory(formula.getCategory());
+                category.setCategoryName(formula.getCategoryName());
+                category.setChildren(new ArrayList<>());
+                items.put(formula.getCategory(), category);
+            }
+            category.getChildren().add(formula);
+        }
+        model.addAttribute("items", items);
+        return "system/formula_conf";
+    }
 
-	/**
-	 * 保存配置数据
-	 */
-	@RequestMapping("save")
-	@ResponseBody
-	public Map<String, Object> save(@RequestBody List<CmFormulaConfPO> list) {
-		Map<String, Object> map = new HashMap<>();
-		cmFormulaConfService.updateByPrimaryKeySelective(list);
-		commonCacheService.cacheFormula(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    /**
+     * 保存配置数据
+     */
+    @RequestMapping("save")
+    @ResponseBody
+    public Map<String, Object> save(@RequestBody List<CmFormulaConfPO> list) {
+        Map<String, Object> map = new HashMap<>();
+        cmFormulaConfService.updateByPrimaryKeySelective(list);
+        commonCacheService.cacheFormula(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 }

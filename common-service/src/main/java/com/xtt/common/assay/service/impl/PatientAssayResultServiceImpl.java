@@ -22,44 +22,44 @@ import com.xtt.common.util.UserUtil;
 
 @Service
 public class PatientAssayResultServiceImpl implements IPatientAssayResultService {
-	@Autowired
-	private PatientAssayResultMapper patientAssayResultMapper;
+    @Autowired
+    private PatientAssayResultMapper patientAssayResultMapper;
 
-	@Override
-	public List<PatientAssayResultPO> getAllAssayResult() {
-		PatientAssayResultPO record = new PatientAssayResultPO();
-		record.setFkTenantId(UserUtil.getTenantId());
-		record.setIsEnable(true);
-		return patientAssayResultMapper.selectByCondition(record);
-	}
+    @Override
+    public List<PatientAssayResultPO> getAllAssayResult() {
+        PatientAssayResultPO record = new PatientAssayResultPO();
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setIsEnable(true);
+        return patientAssayResultMapper.selectByCondition(record);
+    }
 
-	@Override
-	public PatientAssayResultPO getByPatientId(Long patientId) {
-		PatientAssayResultPO record = new PatientAssayResultPO();
-		record.setFkPatientId(patientId);
-		record.setFkTenantId(UserUtil.getTenantId());
-		record.setIsEnable(true);
-		List<PatientAssayResultPO> list = patientAssayResultMapper.selectByCondition(record);
-		if (list == null || list.isEmpty())
-			return null;
-		return list.get(0);
-	}
+    @Override
+    public PatientAssayResultPO getByPatientId(Long patientId) {
+        PatientAssayResultPO record = new PatientAssayResultPO();
+        record.setFkPatientId(patientId);
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setIsEnable(true);
+        List<PatientAssayResultPO> list = patientAssayResultMapper.selectByCondition(record);
+        if (list == null || list.isEmpty())
+            return null;
+        return list.get(0);
+    }
 
-	@Override
-	public void saveAssayResult(PatientAssayResultPO record) {
-		if (record.getId() != null) {
-			PatientAssayResult pre = patientAssayResultMapper.selectByPrimaryKey(record.getId());
-			pre.setIsEnable(false);
-			DataUtil.setSystemFieldValue(pre);
-			patientAssayResultMapper.updateByPrimaryKey(pre);
-		}
-		record.setId(null);
-		record.setFkTenantId(UserUtil.getTenantId());
-		record.setOperatorId(UserUtil.getLoginUserId());
-		record.setIsEnable(Boolean.TRUE);
-		DataUtil.setSystemFieldValue(record);
-		patientAssayResultMapper.insertSelective(record);
+    @Override
+    public void saveAssayResult(PatientAssayResultPO record) {
+        if (record.getId() != null) {
+            PatientAssayResult pre = patientAssayResultMapper.selectByPrimaryKey(record.getId());
+            pre.setIsEnable(false);
+            DataUtil.setSystemFieldValue(pre);
+            patientAssayResultMapper.updateByPrimaryKey(pre);
+        }
+        record.setId(null);
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setOperatorId(UserUtil.getLoginUserId());
+        record.setIsEnable(Boolean.TRUE);
+        DataUtil.setSystemFieldValue(record);
+        patientAssayResultMapper.insertSelective(record);
 
-	}
+    }
 
 }

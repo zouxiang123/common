@@ -15,67 +15,67 @@ import com.xtt.common.dao.po.CmDictPO;
 
 public interface ICmDictService {
 
-	/**
-	 * 根据字典类型和字典值获取字典对象
-	 * 
-	 * @param type
-	 *            类型
-	 * @param CmDictPO
-	 *            字典条件
-	 * @return
-	 */
-	List<CmDictPO> selectAll();
+    /**
+     * 根据字典类型和字典值获取字典对象
+     * 
+     * @param type
+     *            类型
+     * @param CmDictPO
+     *            字典条件
+     * @return
+     */
+    List<CmDictPO> selectAll();
 
-	/**
-	 * 根据自定义条件查询数据
-	 * 
-	 * @Title: getByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<CmDictPO> getByCondition(CmDictPO record);
+    /**
+     * 根据自定义条件查询数据
+     * 
+     * @Title: getByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<CmDictPO> getByCondition(CmDictPO record);
 
-	// 根据id删除字典数据
-	public int deleteByPrimaryKey(Long id);
+    // 根据id删除字典数据
+    public int deleteByPrimaryKey(Long id);
 
-	/**
-	 * 
-	 * @Title: selectByType 根据类型查询字典集合
-	 * @param itemCode
-	 *            类型
-	 * @return 字典集合
-	 * 
-	 */
-	public List<CmDictPO> selectByType(String itemCode);
+    /**
+     * 
+     * @Title: selectByType 根据类型查询字典集合
+     * @param itemCode
+     *            类型
+     * @return 字典集合
+     * 
+     */
+    public List<CmDictPO> selectByType(String itemCode);
 
-	/**
-	 * 更新字典表数据
-	 * 
-	 * @Title: updateDictionary
-	 * @param record
-	 *
-	 */
-	public void updateDictionary(CmDict record);
+    /**
+     * 更新字典表数据
+     * 
+     * @Title: updateDictionary
+     * @param record
+     *
+     */
+    public void updateDictionary(CmDict record);
 
-	/**
-	 * 通过Id获取对象
-	 * 
-	 * @Title: getById
-	 * @param id
-	 * @return
-	 *
-	 */
-	public CmDict getById(Long id);
+    /**
+     * 通过Id获取对象
+     * 
+     * @Title: getById
+     * @param id
+     * @return
+     *
+     */
+    public CmDict getById(Long id);
 
-	/**
-	 * 获取所有的类别列表
-	 * 
-	 * @Title: getDictCategory
-	 * @param record
-	 * @return
-	 *
-	 */
-	public List<CmDictPO> getDictCategory(CmDictPO record);
+    /**
+     * 获取所有的类别列表
+     * 
+     * @Title: getDictCategory
+     * @param record
+     * @return
+     *
+     */
+    public List<CmDictPO> getDictCategory(CmDictPO record);
 
 }

@@ -19,47 +19,47 @@ import com.xtt.common.dao.model.SysTenant;
 
 @Service
 public class SysTenantServiceImpl implements ISysTenantService {
-	@Autowired
-	private SysTenantMapper sysTenantMapper;
+    @Autowired
+    private SysTenantMapper sysTenantMapper;
 
-	@Override
-	public SysTenant getById(Integer id) {
-		return sysTenantMapper.selectByPrimaryKey(id);
-	}
+    @Override
+    public SysTenant getById(Integer id) {
+        return sysTenantMapper.selectByPrimaryKey(id);
+    }
 
-	@Override
-	public List<SysTenant> selectAll() {
-		return sysTenantMapper.selectAll();
-	}
+    @Override
+    public List<SysTenant> selectAll() {
+        return sysTenantMapper.selectAll();
+    }
 
-	@Override
-	public SysTenant selectDefault(SysTenant record) {
-		return sysTenantMapper.selectDefault(record);
-	}
+    @Override
+    public SysTenant selectDefault(SysTenant record) {
+        return sysTenantMapper.selectDefault(record);
+    }
 
-	@Override
-	public List<SysTenant> selectAllSwitch() {
-		return sysTenantMapper.selectAllSwitch();
-	}
+    @Override
+    public List<SysTenant> selectAllSwitch() {
+        return sysTenantMapper.selectAllSwitch();
+    }
 
-	@Override
-	public int updateByPrimaryKeySelective(SysTenant record) {
-		return sysTenantMapper.updateByPrimaryKeySelective(record);
-	}
+    @Override
+    public int updateByPrimaryKeySelective(SysTenant record) {
+        return sysTenantMapper.updateByPrimaryKeySelective(record);
+    }
 
-	@Override
-	public List<SysTenant> selectTenantByName(SysTenant record) {
-		return sysTenantMapper.selectTenantByName(record);
-	}
+    @Override
+    public List<SysTenant> selectTenantByName(SysTenant record) {
+        return sysTenantMapper.selectTenantByName(record);
+    }
 
-	@Override
-	public int updateEnable(SysTenant sysTenant) {
-		return sysTenantMapper.updateEnable(sysTenant);
-	}
+    @Override
+    public int updateEnable(SysTenant sysTenant) {
+        return sysTenantMapper.updateEnable(sysTenant);
+    }
 
-	@Override
-	public SysTenant selectByName(String name) {
-		return sysTenantMapper.selectByName(name);
-	}
+    @Override
+    public SysTenant selectByName(String name) {
+        return sysTenantMapper.selectByName(name);
+    }
 
 }

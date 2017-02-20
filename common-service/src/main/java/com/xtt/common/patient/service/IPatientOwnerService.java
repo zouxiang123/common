@@ -14,25 +14,25 @@ import com.xtt.common.dao.model.PatientOwner;
 
 public interface IPatientOwnerService {
 
-	void insert(PatientOwner record);
+    void insert(PatientOwner record);
 
-	/**
-	 * 更新患者归属信息
-	 * 
-	 * @Title: updateOwner
-	 * @param patient
-	 *
-	 */
-	void updateOwner(PatientOwner record);
+    /**
+     * 更新患者归属信息
+     * 
+     * @Title: updateOwner
+     * @param patient
+     *
+     */
+    void updateOwner(PatientOwner record);
 
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<PatientOwner> selectByCondition(PatientOwner record);
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<PatientOwner> selectByCondition(PatientOwner record);
 
 }

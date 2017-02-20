@@ -14,22 +14,22 @@ import com.xtt.common.dto.FormNodesDto;
 
 public interface ICmFormNodesService {
 
-	/** 根据自定义条件查询数据 */
-	List<FormNodesDto> selectByCondition(FormNodesDto record);
+    /** 根据自定义条件查询数据 */
+    List<FormNodesDto> selectByCondition(FormNodesDto record);
 
-	/**
-	 * 根据父item_code查询数据
-	 *
-	 */
-	List<FormNodesDto> selectByPItemCode(String itemCode);
+    /**
+     * 根据父item_code查询数据
+     *
+     */
+    List<FormNodesDto> selectByPItemCode(String itemCode);
 
-	/**
-	 * 根据formId查询数据
-	 * 
-	 * @Title: selectByFormId
-	 * @param formId
-	 * @return
-	 *
-	 */
-	List<FormNodesDto> selectByFormId(Long formId);
+    /**
+     * 根据formId查询数据
+     * 
+     * @Title: selectByFormId
+     * @param formId
+     * @return
+     *
+     */
+    List<FormNodesDto> selectByFormId(Long formId);
 }

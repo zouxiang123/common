@@ -18,36 +18,36 @@ import com.xtt.common.util.UserUtil;
 @RequestMapping("/system")
 public class LogController {
 
-	@Autowired
-	private ICommonService commonService;
+    @Autowired
+    private ICommonService commonService;
 
-	@RequestMapping("logList")
-	public String searchLog(ModelAndView model, String sys) {
-		model.addObject("sysOwner", sys);
-		return "system/log_list";
-	}
+    @RequestMapping("logList")
+    public String searchLog(ModelAndView model, String sys) {
+        model.addObject("sysOwner", sys);
+        return "system/log_list";
+    }
 
-	/**
-	 * 获取系统日志
-	 * 
-	 * @Title: getCountyList
-	 * @param provinceId
-	 * @return
-	 * 
-	 */
-	@RequestMapping("selectSysLog")
-	@ResponseBody
-	public Map<String, Object> selectSysLog(SysLogPO entity) {
-		if (entity.getPageNo() == 0) {
-			entity.setPageNo(1);
-			entity.setPageSize(20);
-		}
-		entity.setIspaging(true);
-		entity.setFkTenantId(UserUtil.getTenantId());
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("entity", commonService.selectSysLog(entity));
-		map.put("status", CommonConstants.SUCCESS);
-		return map;
-	}
+    /**
+     * 获取系统日志
+     * 
+     * @Title: getCountyList
+     * @param provinceId
+     * @return
+     * 
+     */
+    @RequestMapping("selectSysLog")
+    @ResponseBody
+    public Map<String, Object> selectSysLog(SysLogPO entity) {
+        if (entity.getPageNo() == 0) {
+            entity.setPageNo(1);
+            entity.setPageSize(20);
+        }
+        entity.setIspaging(true);
+        entity.setFkTenantId(UserUtil.getTenantId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("entity", commonService.selectSysLog(entity));
+        map.put("status", CommonConstants.SUCCESS);
+        return map;
+    }
 
 }
