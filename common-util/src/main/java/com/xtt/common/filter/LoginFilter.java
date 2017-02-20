@@ -100,7 +100,7 @@ public class LoginFilter implements Filter {
                     url = url.concat("/").concat(homePath).concat(".shtml");
                 }
                 url = URLEncoder.encode(url, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat("/").concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
                 return;
             }
         }
@@ -126,7 +126,7 @@ public class LoginFilter implements Filter {
                     }
                 }
                 url = URLEncoder.encode(url + paramStr, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "/login.shtml?redirectUrl=" + url);
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "login.shtml?redirectUrl=" + url);
             } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }

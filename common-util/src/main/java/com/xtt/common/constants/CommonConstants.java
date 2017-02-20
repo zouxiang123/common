@@ -89,16 +89,15 @@ public class CommonConstants {
     public static final String SYS_PD = "PD";
     public static final String SYS_HD = "HD";
     /** 请求的基础路径 */
-    public static final String BASE_URL = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties")).getProperty("base.url")
-                    .concat("/");
+    public static final String BASE_URL = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties")).getProperty("base.url");
     /** 公用服务地址 */
-    public static final String COMMON_SERVER_ADDR = BASE_URL.concat("common/");
+    public static final String COMMON_SERVER_ADDR = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "common/";
     /** 随访服务地址 */
     public static final String FU_URL_KEY = "fu_addr";
-    public static final String FU_URL = BASE_URL.concat("fu/");
+    public static final String FU_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "fu/";
     /** 腹透服务地址 */
     public static final String PD_URL_KEY = "pd_addr";
-    public static final String PD_URL = BASE_URL.concat("pd/");
+    public static final String PD_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "pd/";
     // -----------------------------肾病类型--------------------------------------------
     /** 肾病类型：慢性肾功能衰竭 */
     public static final String NEPHROSIS_TYPE_CRF = "1";
