@@ -15,14 +15,14 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.LoginUser;
+import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.PermissionUtil;
-import com.xtt.platform.util.io.JsonUtil;
 
 public class UserUtilContext {
+
     private UserUtilContext() {
     }
 
@@ -69,10 +69,9 @@ public class UserUtilContext {
      * 
      */
     public static LoginUser getLoginUser() {
-        // first:get form threadLocal
+        // first:get from threadLocal
         LoginUser loginUser = threadLocalLoginUser.get();
-        if (loginUser == null) {
-            // first:get form redis
+        if (loginUser == null) {// second:get form cache
             Map<String, Object> auth = ContextAuthUtil.getAuth();
             if (auth != null) {
                 loginUser = (LoginUser) auth.get(CommonConstants.LOGIN_USER);
@@ -107,7 +106,7 @@ public class UserUtilContext {
         if (roleIds == null) {
             ContextAuthUtil.putAuth(CommonConstants.USER_PERMISSION, null);
         } else {
-            ContextAuthUtil.putAuth(CommonConstants.USER_PERMISSION, covertCmSysObjList(PermissionUtil.getPermissionList(roleIds)));
+            ContextAuthUtil.putAuth(CommonConstants.USER_PERMISSION, PermissionUtil.covertToStr(PermissionUtil.getPermissionList(roleIds)));
         }
     }
 
@@ -115,7 +114,7 @@ public class UserUtilContext {
         if (roleIds == null) {
             ContextAuthUtil.putAuth(CommonConstants.USER_NON_PERMISSION, null);
         } else {
-            ContextAuthUtil.putAuth(CommonConstants.USER_NON_PERMISSION, covertCmSysObjList(PermissionUtil.getNonPermissionList(roleIds)));
+            ContextAuthUtil.putAuth(CommonConstants.USER_NON_PERMISSION, PermissionUtil.covertToStr(PermissionUtil.getNonPermissionList(roleIds)));
         }
     }
 
@@ -123,25 +122,23 @@ public class UserUtilContext {
         if (roleIds == null) {
             ContextAuthUtil.putAuth(CommonConstants.API_PERMISSION, null);
         } else {
-            ContextAuthUtil.putAuth(CommonConstants.API_PERMISSION, covertCmSysObjList(PermissionUtil.getApiPermissionList(roleIds)));
+            ContextAuthUtil.putAuth(CommonConstants.API_PERMISSION, PermissionUtil.covertToStr(PermissionUtil.getApiPermissionList(roleIds)));
         }
     }
 
-    public static String getNonPermissionList() {
+    public static List<SysObjDto> getPermissionList() {
         Map<String, Object> auth = ContextAuthUtil.getAuth();
-        return (String) auth.get(CommonConstants.USER_NON_PERMISSION);
+        return PermissionUtil.covertToList((String) auth.get(CommonConstants.USER_PERMISSION));
+    }
+
+    public static List<SysObjDto> getNonPermissionList() {
+        Map<String, Object> auth = ContextAuthUtil.getAuth();
+        return PermissionUtil.covertToList((String) auth.get(CommonConstants.USER_NON_PERMISSION));
     }
 
     public static String getApiPermissionList() {
         Map<String, Object> auth = ContextAuthUtil.getAuth();
         return (String) auth.get(CommonConstants.API_PERMISSION);
-    }
-
-    private static String covertCmSysObjList(List<SysObjDto> list) {
-        if (list != null && !list.isEmpty()) {
-            return JsonUtil.AllJsonUtil().toJson(list);
-        }
-        return null;
     }
 
     public static void setThreadTenant(Integer id) {

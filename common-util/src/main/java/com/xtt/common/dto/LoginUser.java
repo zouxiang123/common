@@ -8,6 +8,8 @@
  */
 package com.xtt.common.dto;
 
+import java.util.Date;
+
 public class LoginUser {
     private Long id;
     private String account;
@@ -27,6 +29,8 @@ public class LoginUser {
     private Boolean isSib;
     private String sex;
     private Integer age;
+    private String mobile;
+    private Date birthday;
 
     public Long getId() {
         return id;
@@ -162,6 +166,22 @@ public class LoginUser {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
 }
