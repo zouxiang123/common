@@ -14,14 +14,14 @@ import com.xtt.common.dao.model.SysTemplateChild;
 
 public class SysTemplateChildPO extends SysTemplateChild {
 
-	private List<Long> fkSysTemplateIds;
+    private List<Long> fkSysTemplateIds;
 
-	public List<Long> getFkSysTemplateIds() {
-		return fkSysTemplateIds;
-	}
+    public List<Long> getFkSysTemplateIds() {
+        return fkSysTemplateIds;
+    }
 
-	public void setFkSysTemplateIds(List<Long> fkSysTemplateIds) {
-		this.fkSysTemplateIds = fkSysTemplateIds;
-	}
+    public void setFkSysTemplateIds(List<Long> fkSysTemplateIds) {
+        this.fkSysTemplateIds = fkSysTemplateIds;
+    }
 
 }

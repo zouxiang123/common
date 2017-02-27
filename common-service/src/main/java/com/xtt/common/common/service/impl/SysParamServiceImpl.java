@@ -27,44 +27,44 @@ import com.xtt.common.util.UserUtil;
 
 @Service
 public class SysParamServiceImpl implements ISysParamService {
-	@Autowired
-	private SysParamMapper sysParamMapper;
+    @Autowired
+    private SysParamMapper sysParamMapper;
 
-	@Override
-	public SysParam getByName(String name) {
-		return sysParamMapper.selectByName(name, UserUtil.getTenantId(), HttpServletUtil.getSysName());
-	}
+    @Override
+    public SysParam getByName(String name) {
+        return sysParamMapper.selectByName(name, UserUtil.getTenantId(), HttpServletUtil.getSysName());
+    }
 
-	@Override
-	public SysParam getByName(String name, Integer tenantId) {
-		return sysParamMapper.selectByName(name, tenantId, HttpServletUtil.getSysName());
-	}
+    @Override
+    public SysParam getByName(String name, Integer tenantId) {
+        return sysParamMapper.selectByName(name, tenantId, HttpServletUtil.getSysName());
+    }
 
-	@Override
-	public List<SysParamPO> getByTenantId(Integer tenantId) {
-		return sysParamMapper.selectByTenantId(tenantId, HttpServletUtil.getSysName());
-	}
+    @Override
+    public List<SysParamPO> getByTenantId(Integer tenantId) {
+        return sysParamMapper.selectByTenantId(tenantId, HttpServletUtil.getSysName());
+    }
 
-	@Override
-	public String saveParam(SysParam param) {
-		if (param.getId() == null) {
-			if (StringUtils.isNotBlank(SysParamUtil.getValueByName(param.getParamName()))) {
-				return CommonConstants.WARNING;
-			}
-			param.setFkTenantId(UserUtil.getTenantId());
-			DataUtil.setSystemFieldValue(param);
-			sysParamMapper.insert(param);
-		} else {
-			param.setUpdateUserId(UserUtil.getLoginUserId());
-			param.setUpdateTime(new Date());
-			sysParamMapper.updateByPrimaryKeySelective(param);
-		}
-		return CommonConstants.SUCCESS;
-	}
+    @Override
+    public String saveParam(SysParam param) {
+        if (param.getId() == null) {
+            if (StringUtils.isNotBlank(SysParamUtil.getValueByName(param.getParamName()))) {
+                return CommonConstants.WARNING;
+            }
+            param.setFkTenantId(UserUtil.getTenantId());
+            DataUtil.setSystemFieldValue(param);
+            sysParamMapper.insert(param);
+        } else {
+            param.setUpdateUserId(UserUtil.getLoginUserId());
+            param.setUpdateTime(new Date());
+            sysParamMapper.updateByPrimaryKeySelective(param);
+        }
+        return CommonConstants.SUCCESS;
+    }
 
-	@Override
-	public List<SysParamPO> selectByCondition(SysParamPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return sysParamMapper.selectByCondition(record);
-	}
+    @Override
+    public List<SysParamPO> selectByCondition(SysParamPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return sysParamMapper.selectByCondition(record);
+    }
 }

@@ -20,53 +20,53 @@ import com.xtt.common.dao.po.CmDiagnosisConfPO;
  *
  */
 public interface IDiagnosisConfService {
-	/**
-	 * 获取所有的随访单配置项
-	 * 
-	 * @Title: selectAll
-	 * @return
-	 *
-	 */
-	List<CmDiagnosisConfPO> selectAll();
+    /**
+     * 获取所有的随访单配置项
+     * 
+     * @Title: selectAll
+     * @return
+     *
+     */
+    List<CmDiagnosisConfPO> selectAll();
 
-	/**
-	 * 保存随访单配置
-	 * 
-	 * @Title: saveFollowUpConf
-	 * @param records
-	 * @return
-	 *
-	 */
-	Map<String, Object> saveConf(CmDiagnosisConfPO[] records);
+    /**
+     * 保存随访单配置
+     * 
+     * @Title: saveFollowUpConf
+     * @param records
+     * @return
+     *
+     */
+    Map<String, Object> saveConf(CmDiagnosisConfPO[] records);
 
-	/**
-	 * 根据ItemCode查询数据
-	 * 
-	 * @Title: selectByItemCode
-	 * @param itemCode
-	 * @return
-	 *
-	 */
-	List<CmDiagnosisConfPO> selectByItemCode(String itemCode);
+    /**
+     * 根据ItemCode查询数据
+     * 
+     * @Title: selectByItemCode
+     * @param itemCode
+     * @return
+     *
+     */
+    List<CmDiagnosisConfPO> selectByItemCode(String itemCode);
 
-	/**
-	 * 批量删除节点
-	 * 
-	 * @Title: delFollowConf
-	 * @param records
-	 * @return
-	 *
-	 */
-	Map<String, Object> delConf(CmDiagnosisConfPO[] records);
+    /**
+     * 批量删除节点
+     * 
+     * @Title: delFollowConf
+     * @param records
+     * @return
+     *
+     */
+    Map<String, Object> delConf(CmDiagnosisConfPO[] records);
 
-	/**
-	 * 根据自定义条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<CmDiagnosisConfPO> selectByCondition(CmDiagnosisConfPO record);
+    /**
+     * 根据自定义条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<CmDiagnosisConfPO> selectByCondition(CmDiagnosisConfPO record);
 
 }

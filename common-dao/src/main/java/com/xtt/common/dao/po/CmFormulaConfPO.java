@@ -13,24 +13,24 @@ import java.util.List;
 import com.xtt.common.dao.model.CmFormulaConf;
 
 public class CmFormulaConfPO extends CmFormulaConf {
-	private String[] sysOwners;
+    private String[] sysOwners;
 
-	private List<CmFormulaConfPO> children;
+    private List<CmFormulaConfPO> children;
 
-	public String[] getSysOwners() {
-		return sysOwners;
-	}
+    public String[] getSysOwners() {
+        return sysOwners;
+    }
 
-	public void setSysOwners(String[] sysOwners) {
-		this.sysOwners = sysOwners;
-	}
+    public void setSysOwners(String[] sysOwners) {
+        this.sysOwners = sysOwners;
+    }
 
-	public List<CmFormulaConfPO> getChildren() {
-		return children;
-	}
+    public List<CmFormulaConfPO> getChildren() {
+        return children;
+    }
 
-	public void setChildren(List<CmFormulaConfPO> children) {
-		this.children = children;
-	}
+    public void setChildren(List<CmFormulaConfPO> children) {
+        this.children = children;
+    }
 
 }

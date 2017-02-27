@@ -16,65 +16,65 @@ import com.xtt.common.util.UserUtil;
 @Controller
 @RequestMapping("/cacheRefresh/")
 public class CacheRefreshController {
-	@Autowired
-	private ICommonCacheService commonCacheService;
+    @Autowired
+    private ICommonCacheService commonCacheService;
 
-	@RequestMapping("view")
-	public String view(Model model, String sys) {
-		return "system/cache_refresh";
-	}
+    @RequestMapping("view")
+    public String view(Model model, String sys) {
+        return "system/cache_refresh";
+    }
 
-	@RequestMapping("sysUser")
-	@ResponseBody
-	public Map<String, Object> sysUser() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cacheUser(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("sysUser")
+    @ResponseBody
+    public Map<String, Object> sysUser() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cacheUser(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("patient")
-	@ResponseBody
-	public Map<String, Object> patient() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cachePatient(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("patient")
+    @ResponseBody
+    public Map<String, Object> patient() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cachePatient(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("dictionary")
-	@ResponseBody
-	public Map<String, Object> dictionary() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cacheDict(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("dictionary")
+    @ResponseBody
+    public Map<String, Object> dictionary() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cacheDict(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("sysParam")
-	@ResponseBody
-	public Map<String, Object> sysParam() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cacheSysParam(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("sysParam")
+    @ResponseBody
+    public Map<String, Object> sysParam() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cacheSysParam(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("permission")
-	@ResponseBody
-	public Map<String, Object> permission() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cachePermission(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("permission")
+    @ResponseBody
+    public Map<String, Object> permission() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cachePermission(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("formula")
-	@ResponseBody
-	public Map<String, Object> formula() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		commonCacheService.cacheFormula(UserUtil.getTenantId());
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("formula")
+    @ResponseBody
+    public Map<String, Object> formula() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        commonCacheService.cacheFormula(UserUtil.getTenantId());
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 }

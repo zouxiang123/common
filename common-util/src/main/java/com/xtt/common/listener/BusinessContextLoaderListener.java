@@ -16,19 +16,19 @@ import com.xtt.common.constants.CommonConstants;
 
 public class BusinessContextLoaderListener implements ServletContextListener {
 
-	@Override
-	public void contextInitialized(ServletContextEvent servletContext) {
-		ServletContext application = servletContext.getServletContext();
-		// set log4j config path
-		application.setInitParameter("log4jConfigLocation", "file:" + CommonConstants.BASE_PATH + "/config/log4j.properties");
-		application.setInitParameter("BASE_PATH", CommonConstants.BASE_PATH);
-		// System.setProperty("BASE_PATH", CommonConstants.BASE_PATH);
-		application.setAttribute("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
-	}
+    @Override
+    public void contextInitialized(ServletContextEvent servletContext) {
+        ServletContext application = servletContext.getServletContext();
+        // set log4j config path
+        application.setInitParameter("log4jConfigLocation", "file:" + CommonConstants.BASE_PATH + "/config/log4j.properties");
+        application.setInitParameter("BASE_PATH", CommonConstants.BASE_PATH);
+        // System.setProperty("BASE_PATH", CommonConstants.BASE_PATH);
+        application.setAttribute("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
+    }
 
-	@Override
-	public void contextDestroyed(ServletContextEvent servletContextEvent) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+        // TODO Auto-generated method stub
+    }
 
 }

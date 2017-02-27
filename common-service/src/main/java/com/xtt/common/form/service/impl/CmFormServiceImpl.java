@@ -25,59 +25,59 @@ import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class CmFormServiceImpl implements ICmFormService {
-	@Autowired
-	private CmFormMapper cmFormMapper;
+    @Autowired
+    private CmFormMapper cmFormMapper;
 
-	@Override
-	public List<CmFormPO> selectByCategory(String category, String sysOwner, boolean isEnable) {
-		if (StringUtil.isBlank(category)) {
-			return new ArrayList<>();
-		}
-		CmFormPO record = new CmFormPO();
-		record.setCategory(category);
-		record.setSysOwner(sysOwner);
-		record.setIsEnable(isEnable);
-		return selectByCondition(record);
-	}
+    @Override
+    public List<CmFormPO> selectByCategory(String category, String sysOwner, boolean isEnable) {
+        if (StringUtil.isBlank(category)) {
+            return new ArrayList<>();
+        }
+        CmFormPO record = new CmFormPO();
+        record.setCategory(category);
+        record.setSysOwner(sysOwner);
+        record.setIsEnable(isEnable);
+        return selectByCondition(record);
+    }
 
-	@Override
-	public List<CmFormPO> selectByCondition(CmFormPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormMapper.selectByCondition(record);
-	}
+    @Override
+    public List<CmFormPO> selectByCondition(CmFormPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmFormMapper.selectByCondition(record);
+    }
 
-	@Override
-	public Integer selectMaxVersion(String category, String sysOwner) {
-		CmFormPO record = new CmFormPO();
-		record.setCategory(category);
-		record.setSysOwner(sysOwner);
-		record.setFkTenantId(UserUtil.getTenantId());
-		return cmFormMapper.selectMaxVersion(record);
-	}
+    @Override
+    public Integer selectMaxVersion(String category, String sysOwner) {
+        CmFormPO record = new CmFormPO();
+        record.setCategory(category);
+        record.setSysOwner(sysOwner);
+        record.setFkTenantId(UserUtil.getTenantId());
+        return cmFormMapper.selectMaxVersion(record);
+    }
 
-	@Override
-	public CmFormPO selectById(Long id) {
-		return cmFormMapper.selectById(id);
-	}
+    @Override
+    public CmFormPO selectById(Long id) {
+        return cmFormMapper.selectById(id);
+    }
 
-	@Override
-	public void updateIsNew(String category, String sysOwner) {
-		cmFormMapper.updateIsNew(category, sysOwner, UserUtil.getTenantId());
-	}
+    @Override
+    public void updateIsNew(String category, String sysOwner) {
+        cmFormMapper.updateIsNew(category, sysOwner, UserUtil.getTenantId());
+    }
 
-	@Override
-	public void insert(CmFormPO record) {
-		record.setFkTenantId(UserUtil.getTenantId());
-		DataUtil.setSystemFieldValue(record);
-		cmFormMapper.insert(record);
-	}
+    @Override
+    public void insert(CmFormPO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        DataUtil.setSystemFieldValue(record);
+        cmFormMapper.insert(record);
+    }
 
-	@Override
-	public String delById(Long id) {
-		CmForm form = cmFormMapper.selectByPrimaryKey(id);
-		form.setIsEnable(false);
-		cmFormMapper.updateByPrimaryKey(form);
-		return CommonConstants.SUCCESS;
-	}
+    @Override
+    public String delById(Long id) {
+        CmForm form = cmFormMapper.selectByPrimaryKey(id);
+        form.setIsEnable(false);
+        cmFormMapper.updateByPrimaryKey(form);
+        return CommonConstants.SUCCESS;
+    }
 
 }

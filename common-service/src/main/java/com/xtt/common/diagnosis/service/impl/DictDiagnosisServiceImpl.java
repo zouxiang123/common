@@ -33,74 +33,74 @@ import com.xtt.common.util.UserUtil;
 @Service
 public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
 
-	@Autowired
-	private CmDictDiagnosisMapper cmDictDiagnosisMapper;
-	@Autowired
-	private IDiagnosisConfService diagnosisConfService;
+    @Autowired
+    private CmDictDiagnosisMapper cmDictDiagnosisMapper;
+    @Autowired
+    private IDiagnosisConfService diagnosisConfService;
 
-	@Override
-	public List<CmDictDiagnosisPO> selectAll() {
-		return selectByCondition(null);
-	}
+    @Override
+    public List<CmDictDiagnosisPO> selectAll() {
+        return selectByCondition(null);
+    }
 
-	@Override
-	public List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record) {
-		if (record == null) {
-			record = new CmDictDiagnosisPO();
-		}
-		return cmDictDiagnosisMapper.selectByCondition(record);
-	}
+    @Override
+    public List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record) {
+        if (record == null) {
+            record = new CmDictDiagnosisPO();
+        }
+        return cmDictDiagnosisMapper.selectByCondition(record);
+    }
 
-	@Override
-	public CmDictDiagnosisPO selectByItemCode(String itemCode) {
-		CmDictDiagnosisPO record = new CmDictDiagnosisPO();
-		record.setItemCode(itemCode);
-		List<CmDictDiagnosisPO> list = selectByCondition(record);
-		if (list != null && !list.isEmpty()) {
-			return list.get(0);
-		}
-		return null;
-	}
+    @Override
+    public CmDictDiagnosisPO selectByItemCode(String itemCode) {
+        CmDictDiagnosisPO record = new CmDictDiagnosisPO();
+        record.setItemCode(itemCode);
+        List<CmDictDiagnosisPO> list = selectByCondition(record);
+        if (list != null && !list.isEmpty()) {
+            return list.get(0);
+        }
+        return null;
+    }
 
-	@Override
-	public String saveItem(CmDictDiagnosis record) {
-		if (record.getId() == null) {
-			if (selectByItemCode(record.getItemCode()) != null) {// 检查编号是否已存在
-				return CommonConstants.WARNING;
-			}
-			DataUtil.setSystemFieldValue(record);
-			cmDictDiagnosisMapper.insert(record);
-		} else {
-			CmDictDiagnosisPO parent = selectByItemCode(record.getpItemCode());
-			if (parent.getIsLeaf() == null || parent.getIsLeaf()) {// 如果父节点是叶子节点，更新为非叶子节点
-				parent.setIsLeaf(false);
-				DataUtil.setSystemFieldValue(parent);
-				cmDictDiagnosisMapper.updateByPrimaryKey(parent);
-			}
-			CmDictDiagnosis old = cmDictDiagnosisMapper.selectByPrimaryKey(record.getId());
-			record.setCreateTime(old.getCreateTime());
-			record.setCreateUserId(old.getCreateUserId());
-			record.setUpdateTime(new Date());
-			record.setUpdateUserId(UserUtil.getLoginUserId());
-			cmDictDiagnosisMapper.updateByPrimaryKey(record);
-		}
-		return CommonConstants.SUCCESS;
-	}
+    @Override
+    public String saveItem(CmDictDiagnosis record) {
+        if (record.getId() == null) {
+            if (selectByItemCode(record.getItemCode()) != null) {// 检查编号是否已存在
+                return CommonConstants.WARNING;
+            }
+            DataUtil.setSystemFieldValue(record);
+            cmDictDiagnosisMapper.insert(record);
+        } else {
+            CmDictDiagnosisPO parent = selectByItemCode(record.getpItemCode());
+            if (parent.getIsLeaf() == null || parent.getIsLeaf()) {// 如果父节点是叶子节点，更新为非叶子节点
+                parent.setIsLeaf(false);
+                DataUtil.setSystemFieldValue(parent);
+                cmDictDiagnosisMapper.updateByPrimaryKey(parent);
+            }
+            CmDictDiagnosis old = cmDictDiagnosisMapper.selectByPrimaryKey(record.getId());
+            record.setCreateTime(old.getCreateTime());
+            record.setCreateUserId(old.getCreateUserId());
+            record.setUpdateTime(new Date());
+            record.setUpdateUserId(UserUtil.getLoginUserId());
+            cmDictDiagnosisMapper.updateByPrimaryKey(record);
+        }
+        return CommonConstants.SUCCESS;
+    }
 
-	@Override
-	public String deleteByItemCode(String itemCode) {
-		CmDictDiagnosisPO item = selectByItemCode(itemCode);
-		if (item != null) {
-			List<CmDiagnosisConfPO> confs = diagnosisConfService.selectByItemCode(itemCode);
-			if (confs == null || confs.isEmpty()) {
-				cmDictDiagnosisMapper.deleteByPrimaryKey(item.getId());
-				return CommonConstants.SUCCESS;
-			} else {
-				return CommonConstants.WARNING;
-			}
-		} else {
-			return CommonConstants.FAILURE;
-		}
-	}
+    @Override
+    public String deleteByItemCode(String itemCode) {
+        CmDictDiagnosisPO item = selectByItemCode(itemCode);
+        if (item != null) {
+            List<CmDiagnosisConfPO> confs = diagnosisConfService.selectByItemCode(itemCode);
+            if (confs == null || confs.isEmpty()) {
+                cmDictDiagnosisMapper.deleteByPrimaryKey(item.getId());
+                return CommonConstants.SUCCESS;
+            } else {
+                return CommonConstants.WARNING;
+            }
+        } else {
+            return CommonConstants.FAILURE;
+        }
+    }
 
 }

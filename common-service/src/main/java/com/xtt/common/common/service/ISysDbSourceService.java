@@ -17,65 +17,65 @@ import com.xtt.common.dao.po.SysDbSourcePO;
  */
 public interface ISysDbSourceService {
 
-	int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
-	int insert(SysDbSource record);
+    int insert(SysDbSource record);
 
-	int insertSelective(SysDbSource record);
+    int insertSelective(SysDbSource record);
 
-	SysDbSource selectByPrimaryKey(Long id);
+    SysDbSource selectByPrimaryKey(Long id);
 
-	SysDbSource selectByDbKey(String parm);
+    SysDbSource selectByDbKey(String parm);
 
-	int updateByPrimaryKeySelective(SysDbSource record);
+    int updateByPrimaryKeySelective(SysDbSource record);
 
-	int updateByPrimaryKey(SysDbSource record);
+    int updateByPrimaryKey(SysDbSource record);
 
-	SysDbSourcePO selectByDbKeyPO(String key);
+    SysDbSourcePO selectByDbKeyPO(String key);
 
-	List<SysDbSourcePO> selectByDbKeyPPO(String key);
+    List<SysDbSourcePO> selectByDbKeyPPO(String key);
 
-	List<SysDbSourcePO> selectBySysDbSourcePO(SysDbSourcePO po);
+    List<SysDbSourcePO> selectBySysDbSourcePO(SysDbSourcePO po);
 
-	/**
-	 * 发送医嘱状态
-	 * 
-	 * @Title: sendOrdersStatus
-	 * @param list
-	 * @return
-	 * 
-	 */
-	String sendOrdersStatus(List<PatientOrders> list);
+    /**
+     * 发送医嘱状态
+     * 
+     * @Title: sendOrdersStatus
+     * @param list
+     * @return
+     * 
+     */
+    String sendOrdersStatus(List<PatientOrders> list);
 
-	/**
-	 * 同步费用医嘱
-	 * 
-	 * @Title: sendQueryOrderInfo
-	 * @param query
-	 *            传入3个必填参数(fkPatientId="",startDate='2016-04-01',endDate='2016-04-02'),tenantId=""可选
-	 * @return
-	 * 
-	 */
-	String sendQueryOrderInfo(QueryPO query);
+    /**
+     * 同步费用医嘱
+     * 
+     * @Title: sendQueryOrderInfo
+     * @param query
+     *            传入3个必填参数(fkPatientId="",startDate='2016-04-01',endDate='2016-04-02'),tenantId=""可选
+     * @return
+     * 
+     */
+    String sendQueryOrderInfo(QueryPO query);
 
-	/**
-	 * 根据选择条件下载指定的数据
-	 * 
-	 * @Title: downDB
-	 * @param query
-	 * @return
-	 * 
-	 */
-	public String downDB(QueryPO query);
+    /**
+     * 根据选择条件下载指定的数据
+     * 
+     * @Title: downDB
+     * @param query
+     * @return
+     * 
+     */
+    public String downDB(QueryPO query);
 
-	/**
-	 * 根据条件获取病患基本资料
-	 * 
-	 * @Title: downDB
-	 * @param query
-	 * @return
-	 * 
-	 */
-	public PatientPO patientDB(QueryPO query) throws Exception;
+    /**
+     * 根据条件获取病患基本资料
+     * 
+     * @Title: downDB
+     * @param query
+     * @return
+     * 
+     */
+    public PatientPO patientDB(QueryPO query) throws Exception;
 
 }

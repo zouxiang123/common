@@ -7,14 +7,14 @@ import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.secret.HardWareUtil;
 
 public class Validator extends javax.servlet.http.HttpServlet {
-	private static final long serialVersionUID = -6838081135391333931L;
-	Logger log = LoggerFactory.getLogger(Validator.class);
+    private static final long serialVersionUID = -6838081135391333931L;
+    Logger log = LoggerFactory.getLogger(Validator.class);
 
-	public void init() {
-		if (System.getProperty("os.name").toLowerCase().startsWith("win") && !HardWareUtil.validateLicense()) {
-			String[] arr = { "a", "b", "c", "d", "f", "g", "t", "k" };
-			log.info(StringUtil.join(arr, "*").concat(System.getProperty("os.name")));
-			System.exit(0);
-		}
-	}
+    public void init() {
+        if (System.getProperty("os.name").toLowerCase().startsWith("win") && !HardWareUtil.validateLicense()) {
+            String[] arr = { "a", "b", "c", "d", "f", "g", "t", "k" };
+            log.info(StringUtil.join(arr, "*").concat(System.getProperty("os.name")));
+            System.exit(0);
+        }
+    }
 }

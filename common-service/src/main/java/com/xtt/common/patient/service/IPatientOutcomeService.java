@@ -14,33 +14,33 @@ import com.xtt.common.dao.po.PatientOutcomePO;
 
 public interface IPatientOutcomeService {
 
-	/**
-	 * 保存转归记录
-	 * 
-	 * @Title: save
-	 * @param record
-	 * 
-	 */
-	void save(PatientOutcomePO record);
+    /**
+     * 保存转归记录
+     * 
+     * @Title: save
+     * @param record
+     * 
+     */
+    void save(PatientOutcomePO record);
 
-	/**
-	 * 根据患者id查询所有转归记录
-	 * 
-	 * @Title: selectAllByPatientId
-	 * @param patientId
-	 * @return
-	 * 
-	 */
-	List<PatientOutcomePO> selectAllByPatientId(Long patientId);
+    /**
+     * 根据患者id查询所有转归记录
+     * 
+     * @Title: selectAllByPatientId
+     * @param patientId
+     * @return
+     * 
+     */
+    List<PatientOutcomePO> selectAllByPatientId(Long patientId);
 
-	/**
-	 * 根据条件查询患者转归记录
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<PatientOutcomePO> selectByCondition(PatientOutcomePO record);
+    /**
+     * 根据条件查询患者转归记录
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<PatientOutcomePO> selectByCondition(PatientOutcomePO record);
 
 }

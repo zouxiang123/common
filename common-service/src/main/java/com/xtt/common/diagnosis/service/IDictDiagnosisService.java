@@ -15,44 +15,44 @@ import com.xtt.common.dao.po.CmDictDiagnosisPO;
 
 public interface IDictDiagnosisService {
 
-	/**
-	 * 获取所有的诊断所有项目
-	 * 
-	 * @Title: selectAll
-	 * @return
-	 *
-	 */
-	List<CmDictDiagnosisPO> selectAll();
+    /**
+     * 获取所有的诊断所有项目
+     * 
+     * @Title: selectAll
+     * @return
+     *
+     */
+    List<CmDictDiagnosisPO> selectAll();
 
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record);
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record);
 
-	/** 根据item编号查询数据 */
-	CmDictDiagnosisPO selectByItemCode(String itemCode);
+    /** 根据item编号查询数据 */
+    CmDictDiagnosisPO selectByItemCode(String itemCode);
 
-	/**
-	 * 保存item数据
-	 * 
-	 * @Title: saveItem
-	 * @param record
-	 * @return status
-	 *
-	 */
-	String saveItem(CmDictDiagnosis record);
+    /**
+     * 保存item数据
+     * 
+     * @Title: saveItem
+     * @param record
+     * @return status
+     *
+     */
+    String saveItem(CmDictDiagnosis record);
 
-	/**
-	 * 根据itemcode删除节点
-	 * 
-	 * @Title: deleteByItemCode
-	 * @param itemCode
-	 *
-	 */
-	String deleteByItemCode(String itemCode);
+    /**
+     * 根据itemcode删除节点
+     * 
+     * @Title: deleteByItemCode
+     * @param itemCode
+     *
+     */
+    String deleteByItemCode(String itemCode);
 }

@@ -23,31 +23,31 @@ import com.xtt.common.util.UserUtil;
 
 @Service
 public class SysTemplateChildServiceImpl implements ISysTemplateChildService {
-	@Autowired
-	private SysTemplateChildMapper sysTemplateChildMapper;
+    @Autowired
+    private SysTemplateChildMapper sysTemplateChildMapper;
 
-	@Override
-	public List<SysTemplateChildPO> selectByCondition(SysTemplateChildPO record) {
-		return sysTemplateChildMapper.selectByCondition(record);
-	}
+    @Override
+    public List<SysTemplateChildPO> selectByCondition(SysTemplateChildPO record) {
+        return sysTemplateChildMapper.selectByCondition(record);
+    }
 
-	@Override
-	public int saveSysTemplateChild(Long fkSysTemplateId, List<SysTemplateChild> records) {
+    @Override
+    public int saveSysTemplateChild(Long fkSysTemplateId, List<SysTemplateChild> records) {
 
-		sysTemplateChildMapper.deleteBySysTemplateId(fkSysTemplateId);
+        sysTemplateChildMapper.deleteBySysTemplateId(fkSysTemplateId);
 
-		// 插入子表数据
-		int total = 0;
-		if (records != null) {
-			for (SysTemplateChild record : records) {
-				if (StringUtils.isBlank(record.getContent()))
-					continue;
-				DataUtil.setSystemFieldValue(record);
-				record.setFkTenantId(UserUtil.getTenantId());
-				total += sysTemplateChildMapper.insert(record);
-			}
-		}
-		return total;
-	}
+        // 插入子表数据
+        int total = 0;
+        if (records != null) {
+            for (SysTemplateChild record : records) {
+                if (StringUtils.isBlank(record.getContent()))
+                    continue;
+                DataUtil.setSystemFieldValue(record);
+                record.setFkTenantId(UserUtil.getTenantId());
+                total += sysTemplateChildMapper.insert(record);
+            }
+        }
+        return total;
+    }
 
 }

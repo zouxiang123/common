@@ -27,36 +27,36 @@ import com.xtt.common.util.UserUtil;
 @Controller
 @RequestMapping("/dynamicForm/form/")
 public class CmFormController {
-	@Autowired
-	private ICmFormService cmFormService;
-	@Autowired
-	private ICommonCacheService commonCacheService;
+    @Autowired
+    private ICmFormService cmFormService;
+    @Autowired
+    private ICommonCacheService commonCacheService;
 
-	@RequestMapping("preview")
-	public String getList(Model model, Long id) {
-		model.addAttribute("id", id);
-		return "dynamicForm/form_preview";
-	}
+    @RequestMapping("preview")
+    public String getList(Model model, Long id) {
+        model.addAttribute("id", id);
+        return "dynamicForm/form_preview";
+    }
 
-	@RequestMapping("getList")
-	@ResponseBody
-	public Map<String, Object> getList(CmFormPO record) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		List<CmFormPO> list = cmFormService.selectByCategory(record.getCategory(), record.getSysOwner(), true);
-		map.put("items", list);
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("getList")
+    @ResponseBody
+    public Map<String, Object> getList(CmFormPO record) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<CmFormPO> list = cmFormService.selectByCategory(record.getCategory(), record.getSysOwner(), true);
+        map.put("items", list);
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 
-	@RequestMapping("delById")
-	@ResponseBody
-	public Map<String, Object> delById(Long id, String sysOwner) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String status = cmFormService.delById(id);
-		if (CommonConstants.SUCCESS.equals(status)) {
-			commonCacheService.cacheDynamicFormNode(UserUtil.getTenantId(), sysOwner);
-		}
-		map.put(CommonConstants.STATUS, status);
-		return map;
-	}
+    @RequestMapping("delById")
+    @ResponseBody
+    public Map<String, Object> delById(Long id, String sysOwner) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        String status = cmFormService.delById(id);
+        if (CommonConstants.SUCCESS.equals(status)) {
+            commonCacheService.cacheDynamicFormNode(UserUtil.getTenantId(), sysOwner);
+        }
+        map.put(CommonConstants.STATUS, status);
+        return map;
+    }
 }

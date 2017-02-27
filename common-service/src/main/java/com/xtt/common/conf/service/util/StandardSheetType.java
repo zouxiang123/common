@@ -10,16 +10,16 @@ package com.xtt.common.conf.service.util;
 
 public enum StandardSheetType {
 
-	patient("患者"), doctor("医生"), nurse("护士");
+    patient("患者"), doctor("医生"), nurse("护士");
 
-	private final String value;
+    private final String value;
 
-	private StandardSheetType(String value) {
-		this.value = value;
-	}
+    private StandardSheetType(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
 }

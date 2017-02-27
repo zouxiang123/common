@@ -14,13 +14,13 @@ import com.xtt.common.dao.po.CmPatientDiagnosisValuePO;
 
 public interface IPatientDiagnosisValueService {
 
-	/**
-	 * 根据itemCode 查询数据
-	 * 
-	 * @Title: selectByItemCode
-	 * @param itemCode
-	 * @return PO Object list
-	 *
-	 */
-	List<CmPatientDiagnosisValuePO> selectByItemCode(String itemCode);
+    /**
+     * 根据itemCode 查询数据
+     * 
+     * @Title: selectByItemCode
+     * @param itemCode
+     * @return PO Object list
+     *
+     */
+    List<CmPatientDiagnosisValuePO> selectByItemCode(String itemCode);
 }

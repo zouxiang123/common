@@ -14,44 +14,44 @@ import com.xtt.common.permission.ContextAuthCache;
 import com.xtt.common.permission.ContextAuthFactory;
 
 public class ContextAuthUtil {
-	private static ContextAuthFactory factory = new ContextAuthCache();
+    private static ContextAuthFactory factory = new ContextAuthCache();
 
-	public static void putAuth(String key, Object value) {
-		Map<String, Object> auth = factory.getAuth();
-		auth.put(key, value);
-		refreshAuth(auth);
-	}
+    public static void putAuth(String key, Object value) {
+        Map<String, Object> auth = factory.getAuth();
+        auth.put(key, value);
+        refreshAuth(auth);
+    }
 
-	public static void refreshLiveTime() {
-		factory.refreshLiveTime(null, null);
-	}
+    public static void refreshLiveTime() {
+        factory.refreshLiveTime(null, null);
+    }
 
-	public static void addAuth(String key, Map<String, Object> auth) {
-		factory.addAuth(key, auth);
-	}
+    public static void addAuth(String key, Map<String, Object> auth) {
+        factory.addAuth(key, auth);
+    }
 
-	public static void delAuth() {
-		factory.delAuth(null);
-	}
+    public static void delAuth() {
+        factory.delAuth(null);
+    }
 
-	public static void delAuth(String sessionId) {
-		factory.delAuth(sessionId);
-	}
+    public static void delAuth(String sessionId) {
+        factory.delAuth(sessionId);
+    }
 
-	public static Map<String, Object> getAuth() {
-		return factory.getAuth();
-	}
+    public static Map<String, Object> getAuth() {
+        return factory.getAuth();
+    }
 
-	public static void setAccount2Token(String account, String token) {
-		factory.setAccount2Token(account, token);
-	}
+    public static void setAccount2Token(String account, String token) {
+        factory.setAccount2Token(account, token);
+    }
 
-	public static String getTokenByAccount(String account) {
-		return factory.getTokenByAccount(account);
-	}
+    public static String getTokenByAccount(String account) {
+        return factory.getTokenByAccount(account);
+    }
 
-	public static void refreshAuth(Map<String, Object> auth) {
-		factory.addAuth(null, auth);
-	}
+    public static void refreshAuth(Map<String, Object> auth) {
+        factory.addAuth(null, auth);
+    }
 
 }

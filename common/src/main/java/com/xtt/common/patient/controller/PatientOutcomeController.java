@@ -27,25 +27,25 @@ import com.xtt.common.util.UserUtil;
 @Controller
 @RequestMapping("/patient/outcome/")
 public class PatientOutcomeController {
-	@Autowired
-	private IPatientOutcomeService patientOutcomeService;
+    @Autowired
+    private IPatientOutcomeService patientOutcomeService;
 
-	@RequestMapping("record")
-	public String list(Model model, Long patientId, String sys) {
-		model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
-		model.addAttribute("sysOwner", sys);
-		model.addAttribute("patientId", patientId);
-		model.addAttribute(CmDictConstants.PATIENT_OUTCOME_TYPE, CmDictUtil.getListByType(CmDictConstants.PATIENT_OUTCOME_TYPE));
-		return "patient/patient_outcome_record";
-	}
+    @RequestMapping("record")
+    public String list(Model model, Long patientId, String sys) {
+        model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
+        model.addAttribute("sysOwner", sys);
+        model.addAttribute("patientId", patientId);
+        model.addAttribute(CmDictConstants.PATIENT_OUTCOME_TYPE, CmDictUtil.getListByType(CmDictConstants.PATIENT_OUTCOME_TYPE));
+        return "patient/patient_outcome_record";
+    }
 
-	@RequestMapping("save")
-	@ResponseBody
-	public Map<String, Object> save(PatientOutcomePO record) {
-		Map<String, Object> map = new HashMap<>();
-		record.setFkTenantId(UserUtil.getTenantId());
-		patientOutcomeService.save(record);
-		map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-		return map;
-	}
+    @RequestMapping("save")
+    @ResponseBody
+    public Map<String, Object> save(PatientOutcomePO record) {
+        Map<String, Object> map = new HashMap<>();
+        record.setFkTenantId(UserUtil.getTenantId());
+        patientOutcomeService.save(record);
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
 }

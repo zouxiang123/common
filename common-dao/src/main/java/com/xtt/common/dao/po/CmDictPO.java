@@ -11,14 +11,14 @@ package com.xtt.common.dao.po;
 import com.xtt.common.dao.model.CmDict;
 
 public class CmDictPO extends CmDict {
-	private Boolean isChecked = false;// 是否选中
+    private Boolean isChecked = false;// 是否选中
 
-	public Boolean getIsChecked() {
-		return isChecked;
-	}
+    public Boolean getIsChecked() {
+        return isChecked;
+    }
 
-	public void setIsChecked(Boolean isChecked) {
-		this.isChecked = isChecked;
-	}
+    public void setIsChecked(Boolean isChecked) {
+        this.isChecked = isChecked;
+    }
 
 }
