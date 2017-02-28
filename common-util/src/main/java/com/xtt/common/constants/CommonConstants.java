@@ -62,8 +62,8 @@ public class CommonConstants {
     public static final String ROLE_ADMIN = "1";
     public static final String ROLE_DOCTOR = "2";
     public static final String ROLE_NURSE = "3";
-    public static final String ROLE_OTHER = "4";
-    /** 管理员 */
+    public static final String ROLE_ENGINEER = "4";
+    public static final String ROLE_OTHER = "10";
     public static final int ROLE_CONSTANT_ADMIN = 11;
     /** 主任 */
     public static final int ROLE_CONSTANT_DOCTOR_DIRECTOR = 21;
@@ -85,6 +85,7 @@ public class CommonConstants {
 
     /** 项目名称 */
     public static final String SYS_NAME = "sysName";
+    public static final String SYS_OWNER = "sysOwner";
     public static final String SYS_CM = "CM";
     public static final String SYS_PD = "PD";
     public static final String SYS_HD = "HD";

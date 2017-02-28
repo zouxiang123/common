@@ -20,9 +20,9 @@ public class SysObjDto {
 
     private String url;
 
-    private Integer code;
+    private String code;
 
-    private Integer pCode;
+    private String pCode;
 
     private String sysOwner;
 
@@ -66,19 +66,19 @@ public class SysObjDto {
         this.url = url;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public Integer getpCode() {
+    public String getpCode() {
         return pCode;
     }
 
-    public void setpCode(Integer pCode) {
+    public void setpCode(String pCode) {
         this.pCode = pCode;
     }
 
