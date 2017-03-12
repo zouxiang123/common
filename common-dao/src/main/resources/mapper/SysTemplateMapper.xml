@@ -7,32 +7,46 @@
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
     <result column="count" jdbcType="INTEGER" property="count" />
-    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, title, content, type, type_desc, count, order_by, del_flag, sys_owner, fk_tenant_id, 
-    create_time, create_user_id, update_time, update_user_id
+    id, title, type, count, del_flag, fk_tenant_id, sys_owner, create_time, create_user_id, 
+    update_time, update_user_id, type_desc, order_by, is_default
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from sys_template
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -47,16 +61,18 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into sys_template (id, title, content, 
-      type, type_desc, count, 
-      order_by, del_flag, sys_owner, 
-      fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{typeDesc,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
-      #{orderBy,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{sysOwner,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+    insert into sys_template (id, title, type, 
+      count, del_flag, fk_tenant_id, 
+      sys_owner, create_time, create_user_id, 
+      update_time, update_user_id, type_desc, 
+      order_by, is_default, content
+      )
+    values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{typeDesc,jdbcType=VARCHAR}, 
+      #{orderBy,jdbcType=INTEGER}, #{isDefault,jdbcType=BIT}, #{content,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysTemplate">
     <!--
@@ -70,29 +86,20 @@
       <if test="title != null">
         title,
       </if>
-      <if test="content != null">
-        content,
-      </if>
       <if test="type != null">
         type,
-      </if>
-      <if test="typeDesc != null">
-        type_desc,
       </if>
       <if test="count != null">
         count,
       </if>
-      <if test="orderBy != null">
-        order_by,
-      </if>
       <if test="delFlag != null">
         del_flag,
       </if>
-      <if test="sysOwner != null">
-        sys_owner,
-      </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
       </if>
       <if test="createTime != null">
         create_time,
@@ -106,6 +113,18 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="typeDesc != null">
+        type_desc,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -114,29 +133,20 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
-        #{content,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="typeDesc != null">
-        #{typeDesc,jdbcType=VARCHAR},
       </if>
       <if test="count != null">
         #{count,jdbcType=INTEGER},
       </if>
-      <if test="orderBy != null">
-        #{orderBy,jdbcType=INTEGER},
-      </if>
       <if test="delFlag != null">
         #{delFlag,jdbcType=BIT},
       </if>
-      <if test="sysOwner != null">
-        #{sysOwner,jdbcType=VARCHAR},
-      </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -150,6 +160,18 @@
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
       </if>
+      <if test="typeDesc != null">
+        #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.SysTemplate">
@@ -161,29 +183,20 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="content != null">
-        content = #{content,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="typeDesc != null">
-        type_desc = #{typeDesc,jdbcType=VARCHAR},
       </if>
       <if test="count != null">
         count = #{count,jdbcType=INTEGER},
       </if>
-      <if test="orderBy != null">
-        order_by = #{orderBy,jdbcType=INTEGER},
-      </if>
       <if test="delFlag != null">
         del_flag = #{delFlag,jdbcType=BIT},
       </if>
-      <if test="sysOwner != null">
-        sys_owner = #{sysOwner,jdbcType=VARCHAR},
-      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -197,7 +210,40 @@
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
+      <if test="typeDesc != null">
+        type_desc = #{typeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xtt.common.dao.model.SysTemplate">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sys_template
+    set title = #{title,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      type_desc = #{typeDesc,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      is_default = #{isDefault,jdbcType=BIT},
+      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.SysTemplate">
@@ -206,23 +252,23 @@
     -->
     update sys_template
     set title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      type_desc = #{typeDesc,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
-      order_by = #{orderBy,jdbcType=INTEGER},
       del_flag = #{delFlag,jdbcType=BIT},
-      sys_owner = #{sysOwner,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      type_desc = #{typeDesc,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      is_default = #{isDefault,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
   <!-- use define -->
-  <resultMap type="com.xtt.common.dao.po.SysTemplatePO" id="POResultMap" extends="BaseResultMap"></resultMap>
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.SysTemplatePO" />
   
   <select id="selectByType" resultMap="POResultMap">
 	SELECT *
@@ -241,5 +287,13 @@
 		fk_tenant_id = #{fkTenantId}
 		AND (sys_owner = #{sysOwner} or sys_owner = 'CM')
 	GROUP BY type
+  </select>
+  
+    
+  <!-- 根据id、默认值、租户查询模板数据 -->
+  <select id="getTemplate" parameterType="com.xtt.common.dao.model.SysTemplate" resultMap="BaseResultMap">
+    select id, type, is_default 
+    from sys_template 
+    where type = #{type} and is_default = #{isDefault} and fk_tenant_id = #{fkTenantId} and del_flag = 0 AND sys_owner = #{sysOwner} limit 1;
   </select>
 </mapper>

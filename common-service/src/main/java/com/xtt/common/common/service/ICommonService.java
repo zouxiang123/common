@@ -13,8 +13,6 @@ import java.util.List;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Feedback;
 import com.xtt.common.dao.model.Province;
-import com.xtt.common.dao.model.SysLog;
-import com.xtt.common.dao.po.SysLogPO;
 
 /**
  * @ClassName: ICommonService
@@ -23,30 +21,6 @@ import com.xtt.common.dao.po.SysLogPO;
  * 
  */
 public interface ICommonService {
-
-    /**
-     * 查询系统日志
-     * 
-     * @Title: selectSysLog
-     * @param logInfo
-     *            日志内容
-     * @return
-     * 
-     */
-    public SysLog selectSysLog(SysLogPO record);
-
-    /**
-     * 插入系统日志
-     * 
-     * @Title: insertSysLog
-     * @param type
-     *            日志类型 1：流程操作 2：登入、登出、个人资料修改 3：其它
-     * @param logInfo
-     *            日志内容
-     * @return
-     * 
-     */
-    public int insertSysLog(String type, String logInfo);
 
     /**
      * 保存意见反馈

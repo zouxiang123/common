@@ -17,11 +17,11 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.po.SysUserPO;
 
 public class StandardExcelImport {
-    private HashMap<Integer, Patient> patients;
+    private HashMap<Integer, CmPatient> patients;
     private HashMap<Integer, SysUserPO> doctors;
     private HashMap<Integer, SysUserPO> nurses;
     private HashMap<Integer, String> errorPatientMap;
@@ -31,7 +31,7 @@ public class StandardExcelImport {
 
     public StandardExcelImport(File f) throws FileNotFoundException, IOException {
         workbook = ExcelTools.openExcelFile(f);
-        patients = new HashMap<Integer, Patient>();
+        patients = new HashMap<Integer, CmPatient>();
         doctors = new HashMap<Integer, SysUserPO>();
         nurses = new HashMap<Integer, SysUserPO>();
         errorPatientMap = new HashMap<Integer, String>();
@@ -43,7 +43,7 @@ public class StandardExcelImport {
         StandardExcelTemplate pExcel = new StandardExcelTemplate(workbook, StandardSheetType.patient);
         StandardExcelTemplate dExcel = new StandardExcelTemplate(workbook, StandardSheetType.doctor);
         StandardExcelTemplate nExcel = new StandardExcelTemplate(workbook, StandardSheetType.nurse);
-        Patient patient;
+        CmPatient patient;
         SysUserPO user;
         for (int i = 1; i <= pExcel.getLastRowNum(); i++) {
             try {
@@ -80,11 +80,11 @@ public class StandardExcelImport {
         }
     }
 
-    public HashMap<Integer, Patient> getPatients() {
+    public HashMap<Integer, CmPatient> getPatients() {
         return patients;
     }
 
-    public void setPatients(HashMap<Integer, Patient> patients) {
+    public void setPatients(HashMap<Integer, CmPatient> patients) {
         this.patients = patients;
     }
 

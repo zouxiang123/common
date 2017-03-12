@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtt.common.dao.mapper.PatientOrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOrders" >
+ 	<!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="pt_id" jdbcType="VARCHAR" property="ptId" />
+    <result column="pt_type" jdbcType="VARCHAR" property="ptType" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="times" jdbcType="VARCHAR" property="times" />
+    <result column="receipt_times" jdbcType="VARCHAR" property="receiptTimes" />
+    <result column="order_flag" jdbcType="VARCHAR" property="orderFlag" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="serial_no" jdbcType="VARCHAR" property="serialNo" />
+    <result column="order_no" jdbcType="VARCHAR" property="orderNo" />
+    <result column="order_sub_no" jdbcType="VARCHAR" property="orderSubNo" />
+    <result column="enter_time" jdbcType="TIMESTAMP" property="enterTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="order_class" jdbcType="VARCHAR" property="orderClass" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="dosage" jdbcType="VARCHAR" property="dosage" />
+    <result column="dosage_unit" jdbcType="VARCHAR" property="dosageUnit" />
+    <result column="specifications" jdbcType="VARCHAR" property="specifications" />
+    <result column="order_num" jdbcType="DOUBLE" property="orderNum" />
+    <result column="num_unit" jdbcType="VARCHAR" property="numUnit" />
+    <result column="price" jdbcType="DOUBLE" property="price" />
+    <result column="costs" jdbcType="DOUBLE" property="costs" />
+    <result column="charges_code" jdbcType="VARCHAR" property="chargesCode" />
+    <result column="charges_atm" jdbcType="DOUBLE" property="chargesAtm" />
+    <result column="charges_date" jdbcType="TIMESTAMP" property="chargesDate" />
+    <result column="usage_code" jdbcType="VARCHAR" property="usageCode" />
+    <result column="usage_name" jdbcType="VARCHAR" property="usageName" />
+    <result column="frequency_code" jdbcType="VARCHAR" property="frequencyCode" />
+    <result column="frequency_desc" jdbcType="VARCHAR" property="frequencyDesc" />
+    <result column="frequency_count" jdbcType="VARCHAR" property="frequencyCount" />
+    <result column="frequency_interval" jdbcType="VARCHAR" property="frequencyInterval" />
+    <result column="frequency_interval_unit" jdbcType="VARCHAR" property="frequencyIntervalUnit" />
+    <result column="getdrug_flag" jdbcType="VARCHAR" property="getdrugFlag" />
+    <result column="provided_indicator" jdbcType="VARCHAR" property="providedIndicator" />
+    <result column="exec_time_desc" jdbcType="VARCHAR" property="execTimeDesc" />
+    <result column="dept_code" jdbcType="VARCHAR" property="deptCode" />
+    <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    <result column="doctor_code" jdbcType="VARCHAR" property="doctorCode" />
+    <result column="doctor_name" jdbcType="VARCHAR" property="doctorName" />
+    <result column="exec_dept_code" jdbcType="VARCHAR" property="execDeptCode" />
+    <result column="exec_dept_name" jdbcType="VARCHAR" property="execDeptName" />
+    <result column="nurse" jdbcType="VARCHAR" property="nurse" />
+    <result column="order_statues" jdbcType="VARCHAR" property="orderStatues" />
+    <result column="billing_attr" jdbcType="VARCHAR" property="billingAttr" />
+    <result column="ps_Flag" jdbcType="VARCHAR" property="psFlag" />
+    <result column="yb_flag" jdbcType="VARCHAR" property="ybFlag" />
+    <result column="pay_flag" jdbcType="VARCHAR" property="payFlag" />
+    <result column="presc_type" jdbcType="VARCHAR" property="prescType" />
+    <result column="uniqueCode" jdbcType="VARCHAR" property="uniquecode" />
+    <result column="pharmacy" jdbcType="VARCHAR" property="pharmacy" />
+    <result column="officialLevel" jdbcType="VARCHAR" property="officiallevel" />
+    <result column="order_print_indicator" jdbcType="VARCHAR" property="orderPrintIndicator" />
+    <result column="diag_code" jdbcType="VARCHAR" property="diagCode" />
+    <result column="diag_name" jdbcType="VARCHAR" property="diagName" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, pt_id, pt_type, card_no, times, receipt_times, order_flag, order_id, 
+    serial_no, order_no, order_sub_no, enter_time, end_time, order_class, item_code, 
+    item_name, dosage, dosage_unit, specifications, order_num, num_unit, price, costs, 
+    charges_code, charges_atm, charges_date, usage_code, usage_name, frequency_code, 
+    frequency_desc, frequency_count, frequency_interval, frequency_interval_unit, getdrug_flag, 
+    provided_indicator, exec_time_desc, dept_code, dept_name, doctor_code, doctor_name, 
+    exec_dept_code, exec_dept_name, nurse, order_statues, billing_attr, ps_Flag, yb_flag, 
+    pay_flag, presc_type, uniqueCode, pharmacy, officialLevel, order_print_indicator, 
+    diag_code, diag_name, del_flag, create_time, create_user_id, update_time, update_user_id, 
+    fk_tenant_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_orders
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_orders
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientOrders">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_orders (id, fk_patient_id, pt_id, 
+      pt_type, card_no, times, 
+      receipt_times, order_flag, order_id, 
+      serial_no, order_no, order_sub_no, 
+      enter_time, end_time, order_class, 
+      item_code, item_name, dosage, 
+      dosage_unit, specifications, order_num, 
+      num_unit, price, costs, 
+      charges_code, charges_atm, charges_date, 
+      usage_code, usage_name, frequency_code, 
+      frequency_desc, frequency_count, frequency_interval, 
+      frequency_interval_unit, getdrug_flag, provided_indicator, 
+      exec_time_desc, dept_code, dept_name, 
+      doctor_code, doctor_name, exec_dept_code, 
+      exec_dept_name, nurse, order_statues, 
+      billing_attr, ps_Flag, yb_flag, 
+      pay_flag, presc_type, uniqueCode, 
+      pharmacy, officialLevel, order_print_indicator, 
+      diag_code, diag_name, del_flag, 
+      create_time, create_user_id, update_time, 
+      update_user_id, fk_tenant_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{ptId,jdbcType=VARCHAR}, 
+      #{ptType,jdbcType=VARCHAR}, #{cardNo,jdbcType=VARCHAR}, #{times,jdbcType=VARCHAR}, 
+      #{receiptTimes,jdbcType=VARCHAR}, #{orderFlag,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{serialNo,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderSubNo,jdbcType=VARCHAR}, 
+      #{enterTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{orderClass,jdbcType=VARCHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{dosage,jdbcType=VARCHAR}, 
+      #{dosageUnit,jdbcType=VARCHAR}, #{specifications,jdbcType=VARCHAR}, #{orderNum,jdbcType=DOUBLE}, 
+      #{numUnit,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE}, #{costs,jdbcType=DOUBLE}, 
+      #{chargesCode,jdbcType=VARCHAR}, #{chargesAtm,jdbcType=DOUBLE}, #{chargesDate,jdbcType=TIMESTAMP}, 
+      #{usageCode,jdbcType=VARCHAR}, #{usageName,jdbcType=VARCHAR}, #{frequencyCode,jdbcType=VARCHAR}, 
+      #{frequencyDesc,jdbcType=VARCHAR}, #{frequencyCount,jdbcType=VARCHAR}, #{frequencyInterval,jdbcType=VARCHAR}, 
+      #{frequencyIntervalUnit,jdbcType=VARCHAR}, #{getdrugFlag,jdbcType=VARCHAR}, #{providedIndicator,jdbcType=VARCHAR}, 
+      #{execTimeDesc,jdbcType=VARCHAR}, #{deptCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{doctorCode,jdbcType=VARCHAR}, #{doctorName,jdbcType=VARCHAR}, #{execDeptCode,jdbcType=VARCHAR}, 
+      #{execDeptName,jdbcType=VARCHAR}, #{nurse,jdbcType=VARCHAR}, #{orderStatues,jdbcType=VARCHAR}, 
+      #{billingAttr,jdbcType=VARCHAR}, #{psFlag,jdbcType=VARCHAR}, #{ybFlag,jdbcType=VARCHAR}, 
+      #{payFlag,jdbcType=VARCHAR}, #{prescType,jdbcType=VARCHAR}, #{uniquecode,jdbcType=VARCHAR}, 
+      #{pharmacy,jdbcType=VARCHAR}, #{officiallevel,jdbcType=VARCHAR}, #{orderPrintIndicator,jdbcType=VARCHAR}, 
+      #{diagCode,jdbcType=VARCHAR}, #{diagName,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOrders">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_orders
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="ptId != null">
+        pt_id,
+      </if>
+      <if test="ptType != null">
+        pt_type,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="times != null">
+        times,
+      </if>
+      <if test="receiptTimes != null">
+        receipt_times,
+      </if>
+      <if test="orderFlag != null">
+        order_flag,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="serialNo != null">
+        serial_no,
+      </if>
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="orderSubNo != null">
+        order_sub_no,
+      </if>
+      <if test="enterTime != null">
+        enter_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="orderClass != null">
+        order_class,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="dosage != null">
+        dosage,
+      </if>
+      <if test="dosageUnit != null">
+        dosage_unit,
+      </if>
+      <if test="specifications != null">
+        specifications,
+      </if>
+      <if test="orderNum != null">
+        order_num,
+      </if>
+      <if test="numUnit != null">
+        num_unit,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="costs != null">
+        costs,
+      </if>
+      <if test="chargesCode != null">
+        charges_code,
+      </if>
+      <if test="chargesAtm != null">
+        charges_atm,
+      </if>
+      <if test="chargesDate != null">
+        charges_date,
+      </if>
+      <if test="usageCode != null">
+        usage_code,
+      </if>
+      <if test="usageName != null">
+        usage_name,
+      </if>
+      <if test="frequencyCode != null">
+        frequency_code,
+      </if>
+      <if test="frequencyDesc != null">
+        frequency_desc,
+      </if>
+      <if test="frequencyCount != null">
+        frequency_count,
+      </if>
+      <if test="frequencyInterval != null">
+        frequency_interval,
+      </if>
+      <if test="frequencyIntervalUnit != null">
+        frequency_interval_unit,
+      </if>
+      <if test="getdrugFlag != null">
+        getdrug_flag,
+      </if>
+      <if test="providedIndicator != null">
+        provided_indicator,
+      </if>
+      <if test="execTimeDesc != null">
+        exec_time_desc,
+      </if>
+      <if test="deptCode != null">
+        dept_code,
+      </if>
+      <if test="deptName != null">
+        dept_name,
+      </if>
+      <if test="doctorCode != null">
+        doctor_code,
+      </if>
+      <if test="doctorName != null">
+        doctor_name,
+      </if>
+      <if test="execDeptCode != null">
+        exec_dept_code,
+      </if>
+      <if test="execDeptName != null">
+        exec_dept_name,
+      </if>
+      <if test="nurse != null">
+        nurse,
+      </if>
+      <if test="orderStatues != null">
+        order_statues,
+      </if>
+      <if test="billingAttr != null">
+        billing_attr,
+      </if>
+      <if test="psFlag != null">
+        ps_Flag,
+      </if>
+      <if test="ybFlag != null">
+        yb_flag,
+      </if>
+      <if test="payFlag != null">
+        pay_flag,
+      </if>
+      <if test="prescType != null">
+        presc_type,
+      </if>
+      <if test="uniquecode != null">
+        uniqueCode,
+      </if>
+      <if test="pharmacy != null">
+        pharmacy,
+      </if>
+      <if test="officiallevel != null">
+        officialLevel,
+      </if>
+      <if test="orderPrintIndicator != null">
+        order_print_indicator,
+      </if>
+      <if test="diagCode != null">
+        diag_code,
+      </if>
+      <if test="diagName != null">
+        diag_name,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="ptId != null">
+        #{ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="ptType != null">
+        #{ptType,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptTimes != null">
+        #{receiptTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFlag != null">
+        #{orderFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSubNo != null">
+        #{orderSubNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null">
+        #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderClass != null">
+        #{orderClass,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosage != null">
+        #{dosage,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageUnit != null">
+        #{dosageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null">
+        #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        #{orderNum,jdbcType=DOUBLE},
+      </if>
+      <if test="numUnit != null">
+        #{numUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="costs != null">
+        #{costs,jdbcType=DOUBLE},
+      </if>
+      <if test="chargesCode != null">
+        #{chargesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargesAtm != null">
+        #{chargesAtm,jdbcType=DOUBLE},
+      </if>
+      <if test="chargesDate != null">
+        #{chargesDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usageCode != null">
+        #{usageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="usageName != null">
+        #{usageName,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyCode != null">
+        #{frequencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyDesc != null">
+        #{frequencyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyCount != null">
+        #{frequencyCount,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyInterval != null">
+        #{frequencyInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyIntervalUnit != null">
+        #{frequencyIntervalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="getdrugFlag != null">
+        #{getdrugFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="providedIndicator != null">
+        #{providedIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="execTimeDesc != null">
+        #{execTimeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorCode != null">
+        #{doctorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null">
+        #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="execDeptCode != null">
+        #{execDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="execDeptName != null">
+        #{execDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="nurse != null">
+        #{nurse,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatues != null">
+        #{orderStatues,jdbcType=VARCHAR},
+      </if>
+      <if test="billingAttr != null">
+        #{billingAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="psFlag != null">
+        #{psFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="ybFlag != null">
+        #{ybFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="payFlag != null">
+        #{payFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="prescType != null">
+        #{prescType,jdbcType=VARCHAR},
+      </if>
+      <if test="uniquecode != null">
+        #{uniquecode,jdbcType=VARCHAR},
+      </if>
+      <if test="pharmacy != null">
+        #{pharmacy,jdbcType=VARCHAR},
+      </if>
+      <if test="officiallevel != null">
+        #{officiallevel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrintIndicator != null">
+        #{orderPrintIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="diagCode != null">
+        #{diagCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagName != null">
+        #{diagName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientOrders">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_orders
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="ptId != null">
+        pt_id = #{ptId,jdbcType=VARCHAR},
+      </if>
+      <if test="ptType != null">
+        pt_type = #{ptType,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        times = #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="receiptTimes != null">
+        receipt_times = #{receiptTimes,jdbcType=VARCHAR},
+      </if>
+      <if test="orderFlag != null">
+        order_flag = #{orderFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null">
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSubNo != null">
+        order_sub_no = #{orderSubNo,jdbcType=VARCHAR},
+      </if>
+      <if test="enterTime != null">
+        enter_time = #{enterTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderClass != null">
+        order_class = #{orderClass,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="dosage != null">
+        dosage = #{dosage,jdbcType=VARCHAR},
+      </if>
+      <if test="dosageUnit != null">
+        dosage_unit = #{dosageUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="specifications != null">
+        specifications = #{specifications,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNum != null">
+        order_num = #{orderNum,jdbcType=DOUBLE},
+      </if>
+      <if test="numUnit != null">
+        num_unit = #{numUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="costs != null">
+        costs = #{costs,jdbcType=DOUBLE},
+      </if>
+      <if test="chargesCode != null">
+        charges_code = #{chargesCode,jdbcType=VARCHAR},
+      </if>
+      <if test="chargesAtm != null">
+        charges_atm = #{chargesAtm,jdbcType=DOUBLE},
+      </if>
+      <if test="chargesDate != null">
+        charges_date = #{chargesDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usageCode != null">
+        usage_code = #{usageCode,jdbcType=VARCHAR},
+      </if>
+      <if test="usageName != null">
+        usage_name = #{usageName,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyCode != null">
+        frequency_code = #{frequencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyDesc != null">
+        frequency_desc = #{frequencyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyCount != null">
+        frequency_count = #{frequencyCount,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyInterval != null">
+        frequency_interval = #{frequencyInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="frequencyIntervalUnit != null">
+        frequency_interval_unit = #{frequencyIntervalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="getdrugFlag != null">
+        getdrug_flag = #{getdrugFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="providedIndicator != null">
+        provided_indicator = #{providedIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="execTimeDesc != null">
+        exec_time_desc = #{execTimeDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="deptCode != null">
+        dept_code = #{deptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorCode != null">
+        doctor_code = #{doctorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorName != null">
+        doctor_name = #{doctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="execDeptCode != null">
+        exec_dept_code = #{execDeptCode,jdbcType=VARCHAR},
+      </if>
+      <if test="execDeptName != null">
+        exec_dept_name = #{execDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="nurse != null">
+        nurse = #{nurse,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatues != null">
+        order_statues = #{orderStatues,jdbcType=VARCHAR},
+      </if>
+      <if test="billingAttr != null">
+        billing_attr = #{billingAttr,jdbcType=VARCHAR},
+      </if>
+      <if test="psFlag != null">
+        ps_Flag = #{psFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="ybFlag != null">
+        yb_flag = #{ybFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="payFlag != null">
+        pay_flag = #{payFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="prescType != null">
+        presc_type = #{prescType,jdbcType=VARCHAR},
+      </if>
+      <if test="uniquecode != null">
+        uniqueCode = #{uniquecode,jdbcType=VARCHAR},
+      </if>
+      <if test="pharmacy != null">
+        pharmacy = #{pharmacy,jdbcType=VARCHAR},
+      </if>
+      <if test="officiallevel != null">
+        officialLevel = #{officiallevel,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPrintIndicator != null">
+        order_print_indicator = #{orderPrintIndicator,jdbcType=VARCHAR},
+      </if>
+      <if test="diagCode != null">
+        diag_code = #{diagCode,jdbcType=VARCHAR},
+      </if>
+      <if test="diagName != null">
+        diag_name = #{diagName,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientOrders">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_orders
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      pt_id = #{ptId,jdbcType=VARCHAR},
+      pt_type = #{ptType,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR},
+      receipt_times = #{receiptTimes,jdbcType=VARCHAR},
+      order_flag = #{orderFlag,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
+      order_sub_no = #{orderSubNo,jdbcType=VARCHAR},
+      enter_time = #{enterTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      order_class = #{orderClass,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      dosage = #{dosage,jdbcType=VARCHAR},
+      dosage_unit = #{dosageUnit,jdbcType=VARCHAR},
+      specifications = #{specifications,jdbcType=VARCHAR},
+      order_num = #{orderNum,jdbcType=DOUBLE},
+      num_unit = #{numUnit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DOUBLE},
+      costs = #{costs,jdbcType=DOUBLE},
+      charges_code = #{chargesCode,jdbcType=VARCHAR},
+      charges_atm = #{chargesAtm,jdbcType=DOUBLE},
+      charges_date = #{chargesDate,jdbcType=TIMESTAMP},
+      usage_code = #{usageCode,jdbcType=VARCHAR},
+      usage_name = #{usageName,jdbcType=VARCHAR},
+      frequency_code = #{frequencyCode,jdbcType=VARCHAR},
+      frequency_desc = #{frequencyDesc,jdbcType=VARCHAR},
+      frequency_count = #{frequencyCount,jdbcType=VARCHAR},
+      frequency_interval = #{frequencyInterval,jdbcType=VARCHAR},
+      frequency_interval_unit = #{frequencyIntervalUnit,jdbcType=VARCHAR},
+      getdrug_flag = #{getdrugFlag,jdbcType=VARCHAR},
+      provided_indicator = #{providedIndicator,jdbcType=VARCHAR},
+      exec_time_desc = #{execTimeDesc,jdbcType=VARCHAR},
+      dept_code = #{deptCode,jdbcType=VARCHAR},
+      dept_name = #{deptName,jdbcType=VARCHAR},
+      doctor_code = #{doctorCode,jdbcType=VARCHAR},
+      doctor_name = #{doctorName,jdbcType=VARCHAR},
+      exec_dept_code = #{execDeptCode,jdbcType=VARCHAR},
+      exec_dept_name = #{execDeptName,jdbcType=VARCHAR},
+      nurse = #{nurse,jdbcType=VARCHAR},
+      order_statues = #{orderStatues,jdbcType=VARCHAR},
+      billing_attr = #{billingAttr,jdbcType=VARCHAR},
+      ps_Flag = #{psFlag,jdbcType=VARCHAR},
+      yb_flag = #{ybFlag,jdbcType=VARCHAR},
+      pay_flag = #{payFlag,jdbcType=VARCHAR},
+      presc_type = #{prescType,jdbcType=VARCHAR},
+      uniqueCode = #{uniquecode,jdbcType=VARCHAR},
+      pharmacy = #{pharmacy,jdbcType=VARCHAR},
+      officialLevel = #{officiallevel,jdbcType=VARCHAR},
+      order_print_indicator = #{orderPrintIndicator,jdbcType=VARCHAR},
+      diag_code = #{diagCode,jdbcType=VARCHAR},
+      diag_name = #{diagName,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+   <!-- 自定义 -->
+   <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientOrdersPO" />
+   <select id="selectByPatientOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
+	    select 
+	   		<include refid="Base_Column_List" />
+	    from patient_orders where 1=1 
+	   <if test="orderNo != null">
+	    	and  order_no = #{orderNo,jdbcType=VARCHAR}
+       </if>
+        <if test="orderId != null">
+	    	and  order_id = #{orderId,jdbcType=VARCHAR}
+       </if>
+    </select>
+    
+    <!-- 根据条件查询his医嘱 -->
+    <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientOrders" resultMap="BaseResultMap">
+    	select po.* from patient_orders po
+    	inner join dict_orders_item doi on doi.item_code = po.item_code and doi.fk_tenant_id = po.fk_tenant_id
+    	<where>
+    		<if test="fkPatientId != null">
+	          po.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+	        </if>
+    		<if test="dateStr != null and dateStr != ''">
+    		  and po.create_time between concat(#{dateStr}, ' 00:00:00') and concat(#{dateStr}, ' 23:59:59')
+    		</if>
+    		<if test="isDownload != null">
+    		  and doi.is_download = #{isDownload}
+    		</if>
+    		<if test="fkTenantId != null">
+		      and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+		    </if>
+		    <if test="delFlag != null">
+        	  and del_flag = #{delFlag,jdbcType=BIT}
+      		</if>
+    	</where>
+    </select>
+    
+    <!-- 根据指定条件获取HIS中下载的医嘱数据，并在电子病历中的HIS医嘱页面展示zz -->
+     <select id="selectDownOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
+	   SELECT p.name as ptName,p.sex,po.* 
+		   from patient_orders po left join patient p
+				ON po.fk_patient_id = p.id
+		   WHERE 1=1
+	   <if test="orderNo != null and orderNo != ''">
+	    	and  po.order_no = #{orderNo,jdbcType=VARCHAR}
+       </if>
+       <if test="orderId != null and orderId != ''">
+	    	and  po.order_id = #{orderId,jdbcType=VARCHAR}
+       </if>
+       <if test="itemName != null and itemName != ''">
+	    	and item_name = #{itemName,jdbcType=VARCHAR}
+       </if>
+        <if test="ptName != null and ptName != ''">
+	    	and  p.name = #{ptName,jdbcType=VARCHAR}
+       </if>
+       <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+	    	and charges_date between #{startDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+       </if>
+        <if test="chargesCode != null and chargesCode != ''">
+	    	and  po.charges_code = #{chargesCode,jdbcType=VARCHAR}
+       </if>
+        <if test="fkPatientId != null and fkPatientId != ''">
+	    	and  po.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+       </if>
+    </select>
+    
+</mapper>

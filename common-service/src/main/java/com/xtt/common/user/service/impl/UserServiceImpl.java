@@ -62,6 +62,12 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner) {
+        String[] arr = { CommonConstants.ROLE_NURSE, CommonConstants.ROLE_DOCTOR };
+        return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
+
+    @Override
     public SysUserPO selectById(Long userId) {
         return selectById(userId, true);
     }
@@ -212,14 +218,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updateUser(SysUserPO user) {
+    public int updateUser(SysUserPO user) {
         if (StringUtils.isNotBlank(user.getName()))
             user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
         if (StringUtils.isNotBlank(user.getPassword()))
             user.setPassword(MD5Util.md5(user.getPassword()));
         user.setUpdateTime(new Date());
         user.setUpdateUserId(user.getId());
-        updateByPrimaryKeySelective(user);
+        return updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -250,19 +256,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updatePassword(SysUserPO user) {
+    public int updatePassword(SysUserPO user) {
         user.setPassword(MD5Util.md5(user.getPassword()));
         user.setUpdateTime(new Date());
         user.setUpdateUserId(UserUtil.getLoginUserId());
-        updateByPrimaryKeySelective(user);
+        return updateByPrimaryKeySelective(user);
     }
 
-    private void updateByPrimaryKeySelective(SysUser user) {
-        sysUserMapper.updateByPrimaryKeySelective(user);
+    private int updateByPrimaryKeySelective(SysUser user) {
+        int count = sysUserMapper.updateByPrimaryKeySelective(user);
         // refresh cache
         SysUserPO sysUserPO = selectById(user.getId(), false);
         SysUserDto cacheUser = new SysUserDto();
         BeanUtils.copyProperties(sysUserPO, cacheUser);
         UserCache.refresh(cacheUser);
+        return count;
     }
 }

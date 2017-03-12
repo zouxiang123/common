@@ -19,12 +19,12 @@ import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.dao.mapper.PatientOutcomeMapper;
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.patient.service.IPatientOwnerService;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
@@ -35,14 +35,14 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     @Autowired
     private PatientOutcomeMapper patientOutcomeMapper;
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private IPatientOwnerService patientOwnerService;
 
     @Override
     public void save(PatientOutcomePO record) {
         Map<String, String> sysOwners = CmDictUtil.getNamesByType(CmDictConstants.SYS_OWNER);
-        Patient patient = new Patient();
+        CmPatient patient = new CmPatient();
         if (sysOwners.containsKey(record.getType())) {
             // 如果是转回当前系统或者转到其他系统
             patient.setId(record.getFkPatientId());
@@ -70,8 +70,8 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
      * @param patient
      *
      */
-    private void updatePatient(Patient patient) {
-        patientService.updateByPrimaryKeySelective(patient);
+    private void updatePatient(CmPatient patient) {
+        cmPatientService.updateByPrimaryKeySelective(patient);
         PatientOwner owner = new PatientOwner();
         owner.setFkPatientId(patient.getId());
         owner.setSysOwner(patient.getSysOwner());

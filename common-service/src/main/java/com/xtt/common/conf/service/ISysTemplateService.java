@@ -62,4 +62,12 @@ public interface ISysTemplateService {
      * 
      */
     int deleteTemplate(SysTemplate record);
+
+    /**
+     * 根据id更新模板默认值
+     * 
+     * @param record
+     * @return
+     */
+    int updateTemplateStatus(SysTemplate record);
 }

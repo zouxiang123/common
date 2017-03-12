@@ -367,7 +367,8 @@
         	$.ajax({
 				url : ctx + "/patient/wsQueryPatientInfo.shtml",
 				data : {
-					cardNo: $("#cardNo0").val()
+					cardNo: $("#cardNo0").val(),
+					sysOwner: $("#sysOwner").val()
 		        },
 				type : "post",
 				dataType : "json",

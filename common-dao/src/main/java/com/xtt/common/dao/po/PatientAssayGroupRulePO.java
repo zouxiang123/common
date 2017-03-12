@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientAssayGroupRulePO.java 
- * @Package com.lt.dao.po
+ * @Package com.xtt.hd.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年5月17日 下午7:49:36 

@@ -41,8 +41,8 @@ public class SysParamServiceImpl implements ISysParamService {
     }
 
     @Override
-    public List<SysParamPO> getByTenantId(Integer tenantId) {
-        return sysParamMapper.selectByTenantId(tenantId, HttpServletUtil.getSysName());
+    public List<SysParamPO> getByTenantId(Integer tenantId, String sysOwner) {
+        return sysParamMapper.selectByTenantId(tenantId, sysOwner);
     }
 
     @Override

@@ -185,6 +185,12 @@ public class PatientAssayRecord {
     private String testMethod;
 
     /**
+     * 是否是院外化验项: 0否  1是
+     * patient_assay_record.flage
+     */
+    private Boolean flage;
+
+    /**
      */
     public String getId() {
         return id;
@@ -598,5 +604,19 @@ public class PatientAssayRecord {
      */
     public void setTestMethod(String testMethod) {
         this.testMethod = testMethod;
+    }
+
+    /**
+     * 是否是院外化验项: 0否  1是
+     */
+    public Boolean getFlage() {
+        return flage;
+    }
+
+    /**
+     * 是否是院外化验项: 0否  1是
+     */
+    public void setFlage(Boolean flage) {
+        this.flage = flage;
     }
 }

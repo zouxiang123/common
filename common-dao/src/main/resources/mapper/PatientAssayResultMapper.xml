@@ -301,4 +301,14 @@
       </where>
       
   </select>
+  
+    <select id="selectByFkPatientIdAndEffective" resultMap="BaseResultMap">
+        select * from patient_assay_result where is_enable = 1 and fk_patient_id = #{fkPatientId}
+    </select>
+    
+    <select id="selectForCompareChange" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select * from patient_assay_result
+        where fk_patient_id = #{fkPatientId}
+        order by id desc limit 2
+    </select>
 </mapper>

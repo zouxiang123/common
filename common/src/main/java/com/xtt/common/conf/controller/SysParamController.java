@@ -79,11 +79,4 @@ public class SysParamController {
         return map;
     }
 
-    /** 获取所有的系统参数 */
-    @RequestMapping("paramList")
-    @ResponseBody
-    public List<SysParamPO> paramList() {
-        return sysParamService.getByTenantId(UserUtil.getTenantId());
-    }
-
 }

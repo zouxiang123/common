@@ -24,15 +24,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysDbSourceService;
+import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Province;
+import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientCardPO;
-import com.xtt.common.dao.po.PatientPO;
-import com.xtt.common.dao.po.QueryPO;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.patient.service.IPatientCardService;
-import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.FileUtil;
@@ -43,13 +44,15 @@ import com.xtt.platform.util.lang.StringUtil;
 @RequestMapping("/patient/")
 public class PatientController {
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private IPatientCardService patientCardService;
     @Autowired
     private ICommonService commonService;
     @Autowired
     ISysDbSourceService sysDbSourceService;
+    @Autowired
+    private ISysLogService sysLogService;
 
     /**
      * 患者基本信息编辑
@@ -63,13 +66,13 @@ public class PatientController {
     @RequestMapping("editPatient")
     public ModelAndView editPatient(Long patientId, String sys) throws Exception {
         ModelAndView model = new ModelAndView("patient/edit_patient");
-        PatientPO patient = patientService.selectById(patientId);
+        CmPatientPO patient = cmPatientService.selectById(patientId);
         model.addObject("patientId", patientId);
         {
             // 根据id获取该患者的相关卡号
             List<PatientCardPO> cardList = new ArrayList<PatientCardPO>();
             if (patient != null) {
-                cardList = patientCardService.selectByPatientId(patient.getId());
+                cardList = patientCardService.listByPatientId(patient.getId());
             }
             model.addObject("patientCardList", cardList);// 卡号信息
         }
@@ -86,7 +89,7 @@ public class PatientController {
         }
         model.addObject("countyList", countyList);
         if (patient == null) {
-            patient = new PatientPO();
+            patient = new CmPatientPO();
             patient.setSysOwner(sys);
         }
         model.addObject("patient", patient);
@@ -114,10 +117,10 @@ public class PatientController {
     @ResponseBody
     public Map<String, Object> findPatientApi(@RequestParam(value = "patientId", required = false) Long patientId) throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
-        PatientPO patient = patientService.selectById(patientId);
+        CmPatientPO patient = cmPatientService.selectById(patientId);
         retMap.put("patientId", patientId);
         retMap.put("patient", patient);
-        retMap.put("patientCardList", patientCardService.selectByPatientId(patientId));
+        retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
         retMap.put(CmDictConstants.MEDICARE_CARD_TYPE,
                         CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
@@ -136,7 +139,7 @@ public class PatientController {
     @RequestMapping("checkPatientExistByIdNumber")
     @ResponseBody
     public HashMap<String, Object> checkPatientExistByIdNumber(Long id, String idNumber) {
-        boolean exist = patientService.checkPatientExistByIdNumber(id, idNumber);
+        boolean exist = cmPatientService.checkPatientExistByIdNumber(id, idNumber);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("exist", exist);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
@@ -184,11 +187,12 @@ public class PatientController {
      */
     @RequestMapping("wsQueryPatientInfo")
     @ResponseBody
-    public HashMap<String, Object> wsQueryPatientInfo(String cardNo) throws Exception {
+    public HashMap<String, Object> wsQueryPatientInfo(String cardNo, String sysOwner) throws Exception {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        QueryPO query = new QueryPO();
+        CmQueryPO query = new CmQueryPO();
         query.setCardNo(cardNo);
-        PatientPO patient = sysDbSourceService.patientDB(query);
+        query.setSysOwner(sysOwner);
+        CmPatientPO patient = sysDbSourceService.patientDB(query);
         if (patient != null) {
             patient.setIdType("1");
         }
@@ -207,12 +211,13 @@ public class PatientController {
      */
     @RequestMapping("savePatient")
     @ResponseBody
-    public HashMap<String, Object> savePatient(PatientPO patient) {
+    public HashMap<String, Object> savePatient(CmPatientPO patient) {
         if (StringUtil.isNotBlank(patient.getTempImagePath())) {
             patient.setImagePath(patient.getTempImagePath());
         }
-        patientService.savePatient(patient, false);
-        commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()));
+        cmPatientService.savePatient(patient, false);
+        sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()),
+                        CommonConstants.SYS_HD);
 
         // 批量保存病患卡号信息
         List<PatientCardPO> patientCardList = patient.getPatientCardList();
@@ -221,7 +226,7 @@ public class PatientController {
             patientCardPO.setFkPtId(patient.getId());
             newPatientCardList.add(patientCardPO);
         }
-        patientCardService.savePatientCard(newPatientCardList);
+        patientCardService.saveBatch(newPatientCardList);
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("fkPatientId", patient.getId());

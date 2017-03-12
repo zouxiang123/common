@@ -62,6 +62,10 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
 
+    private String reportTimeShow;
+    // 统计报表使用
+    private String isTemp;
+
     public Collection<String> getDictCodes() {
         return dictCodes;
     }
@@ -292,6 +296,22 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     public void setAssayClass(String assayClass) {
         this.assayClass = assayClass;
+    }
+
+    public String getReportTimeShow() {
+        return reportTimeShow;
+    }
+
+    public void setReportTimeShow(String reportTimeShow) {
+        this.reportTimeShow = reportTimeShow;
+    }
+
+    public String getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(String isTemp) {
+        this.isTemp = isTemp;
     }
 
 }

@@ -28,7 +28,7 @@ import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.util.BusinessReportUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -40,7 +40,7 @@ public class PatientAssayController {
     @Autowired
     private IPatientAssayRecordService patientAssayRecordService;
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
 
@@ -52,7 +52,7 @@ public class PatientAssayController {
         model.addObject("assayResult", patientAssayResultService.getByPatientId(patientId));
         model.addObject("patientId", patientId);
         model.addObject("tenantId", UserUtil.getTenantId());
-        model.addObject("patient", patientService.selectById(patientId));
+        model.addObject("patient", cmPatientService.selectById(patientId));
         return model;
     }
 
@@ -79,7 +79,7 @@ public class PatientAssayController {
             query.setAssayDate(temp.getAssayDate());
             query.setFkPatientId(temp.getFkPatientId());
             categoryList = patientAssayRecordService.getCategoryList(query);
-            records = patientAssayRecordService.getByCondition(query);
+            records = patientAssayRecordService.selectByCondition(query);
         }
         map.put("categoryList", categoryList);
         map.put("records", records);
@@ -104,7 +104,7 @@ public class PatientAssayController {
         Map<String, Object> map = new HashMap<String, Object>();
         if (needCategory != null && needCategory)
             map.put("categoryList", patientAssayRecordService.getCategoryList(record));
-        map.put("records", patientAssayRecordService.getByCondition(record));
+        map.put("records", patientAssayRecordService.selectByCondition(record));
         LOGGER.info("get assay record total cost {} ms", System.currentTimeMillis() - start);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;

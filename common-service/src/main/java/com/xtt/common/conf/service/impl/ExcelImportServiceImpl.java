@@ -22,9 +22,9 @@ import com.xtt.common.conf.service.IExcelImportService;
 import com.xtt.common.conf.service.util.BadInputException;
 import com.xtt.common.conf.service.util.StandardExcelImport;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
@@ -33,7 +33,7 @@ import com.xtt.platform.util.lang.StringUtil;
 @Service
 public class ExcelImportServiceImpl implements IExcelImportService {
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -52,7 +52,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             excel.transferTo(temp);
             sei = new StandardExcelImport(temp);
             sei.parse();
-            HashMap<Integer, Patient> patients = sei.getPatients();
+            HashMap<Integer, CmPatient> patients = sei.getPatients();
             HashMap<Integer, SysUserPO> doctors = sei.getDoctors();
             HashMap<Integer, SysUserPO> nurses = sei.getNurses();
             HashMap<Integer, String> errorPatientMap = sei.getErrorPatientMap();
@@ -65,16 +65,16 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             int doctorErrorCount = sei.getErrorDoctorMap().size();
             int nurseErrorCount = sei.getErrorNurseMap().size();
             if (patients != null && patients.size() > 0) {
-                for (Entry<Integer, Patient> p : patients.entrySet()) {
+                for (Entry<Integer, CmPatient> p : patients.entrySet()) {
                     if (StringUtils.isEmpty(p.getValue().getIdNumber()) || p.getValue().getBirthday() == null) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "身份证号或生日必填一项");
-                    } else if (patientService.checkPatientExistByIdNumber(null, p.getValue().getIdNumber())) {
+                    } else if (cmPatientService.checkPatientExistByIdNumber(null, p.getValue().getIdNumber())) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "患者已存在");
                     } else {
                         p.getValue().setSysOwner(sysOwner);
-                        patientService.savePatient(p.getValue(), true);
+                        cmPatientService.savePatient(p.getValue(), true);
                         patientSuccessCount++;
                     }
                 }

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 
@@ -31,7 +31,7 @@ public class DownDataHandlingController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DownDataHandlingController.class);
 
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private ICommonCacheService commonCacheService;
 
@@ -53,7 +53,7 @@ public class DownDataHandlingController {
             try {
                 UserUtil.setThreadTenant(tenantId);
                 if ("patient".equals(type)) {
-                    patientService.updatePatientType(tenantId);
+                    cmPatientService.updatePatientType(tenantId);
                     commonCacheService.cachePatient(tenantId);
                     // 调用随访自动处理数据
                     Map<String, String> param = new HashMap<>();

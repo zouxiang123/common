@@ -8,7 +8,7 @@
  */
 package com.xtt.common.dao.po;
 
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.CmPatient;
 
 /**
  * 用于患者管理页面
@@ -18,7 +18,7 @@ import com.xtt.common.dao.model.Patient;
  * @version: V1.0
  * 
  */
-public class PatientManagePO extends Patient {
+public class PatientManagePO extends CmPatient {
     private String sexShow;
     private String ageFrom;
     private String ageTo;

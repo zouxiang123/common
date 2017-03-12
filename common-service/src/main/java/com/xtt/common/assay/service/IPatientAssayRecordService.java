@@ -8,10 +8,13 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xtt.common.dao.model.PatientAssayRecord;
+import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 
 public interface IPatientAssayRecordService {
@@ -46,7 +49,7 @@ public interface IPatientAssayRecordService {
      * @return
      * 
      */
-    List<PatientAssayRecordPO> getByCondition(PatientAssayRecordPO record);
+    List<PatientAssayRecordPO> selectByCondition(PatientAssayRecordPO record);
 
     /**
      * 根据化验日期获取患者化验数据
@@ -100,6 +103,16 @@ public interface IPatientAssayRecordService {
     List<PatientAssayRecordPO> getCategoryList(PatientAssayRecordPO record);
 
     /**
+     * 获取患者最新一次的化验数据
+     * 
+     * @Title: selectLatestAssayDateByTenantId
+     * @param tenantId
+     * @return
+     * 
+     */
+    List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTime);
+
+    /**
      * 根据月份查询月份的化验明细
      * 
      * @Title: selectByMonth
@@ -115,9 +128,84 @@ public interface IPatientAssayRecordService {
      * @Title: selectByFkDictCode
      * @param record
      * @return
-     *
+     * 
      */
     List<PatientAssayRecordPO> selectByFkDictCode(PatientAssayRecordPO record);
+
+    /**
+     * 查询患者化验详情
+     */
+    List<PatientAssayRecordPO> selectPatientAssayDetail(String startTime, String endTime, Long patientId, String assayClass);
+
+    /**
+     * 查询患者的化验单
+     * 
+     * @Title: selectAssayList
+     * @param patientId
+     * @param assayDateFrom
+     * @param assayDateTo
+     * @return
+     *
+     */
+    List<Map<String, Object>> selectAssayList(Long patientId, String assayDateFrom, String assayDateTo);
+
+    /**
+     * 根据患者、日期查询化验项
+     * 
+     * @Title: selectAssayItems
+     * @param patientId
+     * @param assayDate
+     * @return
+     *
+     */
+    List<PatientAssayRecord> selectAssayItems(Long patientId, String assayDate);
+
+    /**
+     * 根据itemCode和月份查询数据
+     * 
+     * @Title: selectByItemCodes
+     * @param itemCodes
+     * @param month
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue);
+
+    /**
+     * 根据特定患者查询阶段小结数据
+     */
+    List<Map<String, Object>> selectLatestAssayDateByPatient(Integer tenantId, Date startTime, Date endTime, Long fkPatientId);
+
+    /**
+     * 手动增加化验单
+     * 
+     * @param dHL
+     */
+    void insertPatientAssay(List<DictHospitalLabPO> dHL);
+
+    /**
+     * 修改手动录入的化验项
+     * 
+     * @param dHL
+     * @return
+     */
+    void updatePatientAssay(List<DictHospitalLabPO> dHL);
+
+    /**
+     * 删除手动录入的化验项
+     * 
+     * @param groupId
+     * @return
+     */
+    int deleteById(String id);
+
+    /**
+     * 查询所有手动录入的化验项
+     * 
+     * @param groupId
+     * @return
+     */
+    List<PatientAssayRecordPO> selectByGroupId(PatientAssayRecordPO par);
 
     /**
      * 根据条件查询患者某项目最新的数据

@@ -294,20 +294,6 @@
 	</resultMap>
 	<select id="searchPersonByName" resultMap="ExtendResultMap">
 		SELECT
-			p.id, p.name, '患者' roleName,ifnull(dc.last_step,pd.last_step) last_step, p.image_path
-		FROM
-			patient p
-			left join dialysis_campaign dc on p.id=dc.fk_patient_id and dc.end_flag != 1 and p.fk_tenant_id=dc.fk_tenant_id
-			left join patient_diagnosis pd on p.id=pd.fk_patient_id and pd.is_draft = 1 and p.fk_tenant_id=pd.fk_tenant_id
-		where p.fk_tenant_id=#{tenantId}
-	      <if test="name != null" >
-	      	and p.name like CONCAT('%', #{name}, '%')
-	      </if>
-	      <if test="sysOwner != null and sysOwner != ''" >
-	    	AND find_in_set(#{sysOwner},p.sys_owner)
-	      </if> 
-		union all
-		SELECT
 			u.id, u.name, '医生' roleName,null, u.image_path
 		FROM
 			sys_user u inner join sys_user2role ur on u.id=ur.fk_user_id
@@ -361,6 +347,7 @@
 		JOIN sys_role r ON sr.fk_role_id = r.id
 		WHERE
 			u.id = #{id,jdbcType=BIGINT}
+        GROUP BY u.id
 	</select>
 	
 	<select id="selectAllUserByTenantId" resultMap="ExtendResultMap">

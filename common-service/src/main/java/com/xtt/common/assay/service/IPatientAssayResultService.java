@@ -14,13 +14,13 @@ import com.xtt.common.dao.po.PatientAssayResultPO;
 
 public interface IPatientAssayResultService {
     /**
-     * 获取所有患者的检查结果
+     * 获取患者的检查结果
      * 
      * @Title: getAllAssayResult
      * @return
      *
      */
-    List<PatientAssayResultPO> getAllAssayResult();
+    List<PatientAssayResultPO> selectByCondition(PatientAssayResultPO query);
 
     /**
      * 获取患者的检查结果

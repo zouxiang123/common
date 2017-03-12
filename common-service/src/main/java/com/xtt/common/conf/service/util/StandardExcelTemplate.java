@@ -23,7 +23,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.util.CmDictUtil;
 
@@ -95,12 +95,12 @@ class StandardExcelTemplate {
         columnHeaders = StandardColumnHeaders.convertToArray(headList);
     }
 
-    Patient getPatient(int rownum) throws DatatypeConfigurationException {
+    CmPatient getPatient(int rownum) throws DatatypeConfigurationException {
         if (sheetType == StandardSheetType.patient && firstDataRow <= rownum) {
             Row row = sheet.getRow(rownum);
             if (ExcelTools.isEmpty(row))
                 return null;
-            Patient p = new Patient();
+            CmPatient p = new CmPatient();
             p.setName(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientName)), StandardColumnHeaders.patientName.getValue(),
                             18, true));
             p.setSex(getSexValue(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientSex))));

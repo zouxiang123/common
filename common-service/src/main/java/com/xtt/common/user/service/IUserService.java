@@ -41,6 +41,17 @@ public interface IUserService {
     List<SysUserPO> getNurses(Integer tenantId, String sysOwner);
 
     /**
+     * 根据租户id获取所有的医生和护士对象
+     * 
+     * @param tenantId
+     * 
+     * @Title: getNurse
+     * @return
+     * 
+     */
+    List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner);
+
+    /**
      * 通过用户Id获取用户
      * 
      * @Title: getUserById
@@ -148,7 +159,7 @@ public interface IUserService {
      * @param user
      * 
      */
-    void updateUser(SysUserPO user);
+    int updateUser(SysUserPO user);
 
     /**
      * 重置用户密码
@@ -186,6 +197,6 @@ public interface IUserService {
      * @param user
      * 
      */
-    void updatePassword(SysUserPO user);
+    int updatePassword(SysUserPO user);
 
 }

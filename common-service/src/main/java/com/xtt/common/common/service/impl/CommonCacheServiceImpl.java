@@ -38,7 +38,7 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
-import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
@@ -49,7 +49,7 @@ import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
@@ -71,7 +71,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Autowired
     private IRoleService roleService;
     @Autowired
-    private IPatientService patientService;
+    private ICmPatientService cmPatientService;
     @Autowired
     private ICmFormNodesService cmFormNodesService;
     @Autowired
@@ -102,7 +102,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheSysParam(Integer tenantId) {
         RedisCacheUtil.deletePattern(SysParamUtil.getKey(tenantId, null));
-        List<SysParamPO> list = sysParamService.getByTenantId(tenantId);
+        List<SysParamPO> list = sysParamService.getByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<SysParamDto> params = new ArrayList<>(list.size());
             SysParamDto param;
@@ -161,12 +161,12 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cachePatient(Integer tenantId) {
         RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-        List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
+        List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
             Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
-            for (PatientPO obj : list) {
+            for (CmPatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
                 toObj.setSexShow(sexMap.get(toObj.getSex()));

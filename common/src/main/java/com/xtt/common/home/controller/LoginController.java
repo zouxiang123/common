@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.SysUser;
@@ -38,6 +39,8 @@ public class LoginController {
     private IUserService userService;
     @Autowired
     ICommonService commonService;
+    @Autowired
+    private ISysLogService sysLogService;
 
     /**
      * 登陆动作
@@ -137,7 +140,7 @@ public class LoginController {
                 }
                 // refresh redis cache
                 UserUtil.setLoginUser(loginUser);
-                // commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功");
+                // sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功");
                 map.put("status", CommonConstants.SUCCESS);
                 map.put(CommonConstants.COOKIE_TOKEN, token);
             } else {
@@ -160,7 +163,7 @@ public class LoginController {
     @RequestMapping("logout")
     public ModelAndView logout(String redirectUrl) {
         if (UserUtil.getLoginUser() != null) {// 用户没有登录时，logout不用插入日志
-            commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功");
+            sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功", CommonConstants.SYS_HD);
         }
         ModelAndView model = new ModelAndView("login");
         // clear auth

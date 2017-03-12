@@ -41,10 +41,11 @@ public interface ISysParamService {
      * 
      * @Title: getByTenantId
      * @param tenantId
+     * @param sysOwner
      * @return
      *
      */
-    List<SysParamPO> getByTenantId(Integer tenantId);
+    List<SysParamPO> getByTenantId(Integer tenantId, String sysOwner);
 
     /**
      * 保存系统参数配置
