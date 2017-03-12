@@ -71,7 +71,9 @@ public class UserCache {
                 map.put(obj.getId(), obj);
             }
             result.clear();
-            LOGGER.info("get {} count sysUser data from redis cost {} ms", ids.size(), (System.currentTimeMillis() - start));
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("get {} count sysUser data from redis cost {} ms", ids.size(), (System.currentTimeMillis() - start));
+            }
             return map;
         } catch (Exception e) {
             LOGGER.warn("get dialysis machine data from redis", e);
