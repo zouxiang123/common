@@ -17,7 +17,7 @@ import com.xtt.common.dao.model.SysDbSource;
 import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.platform.util.http.HttpClientResultUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
@@ -109,7 +109,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
                     }
                 }
                 // 访问的目标地址
-                String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
+                String url = DictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
                 HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
                 retMsg = httpClientResultUtil.getContext();
                 sysLogService.insertSysLog(IDownConst.SEND_ORDER_STATUS, "SysDbSourceServiceImpl sendOrdersStatus retMsg:" + retMsg, sysOwner);
@@ -155,7 +155,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
             qmap.put("endDate", query.getEndDate());
 
             // 访问的目标地址
-            String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
+            String url = DictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
             HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
             retMsg = httpClientResultUtil.getContext();
 
@@ -205,7 +205,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, db.getSysOwner());
 
         // 访问的目标地址
-        String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
+        String url = DictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_ALL);
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
         String json = httpClientResultUtil.getContext();
 
@@ -221,7 +221,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
     public CmPatientPO patientDB(CmQueryPO query) throws Exception {
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB Begin===>", query.getSysOwner());
         String tenantId = HttpServletUtil.getCookieValueByName("tenantId");// 租户ID
-        String url = CmDictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_PT);
+        String url = DictUtil.getName(CmDictConstants.URL, CmDictConstants.DOWN_DB_WS_URL_PT);
         String json = "";
         String cardNo = query.getCardNo(); // 卡号（住院是门诊号，住院号）
         Long fkPatientId = query.getFkPatientId();// 血透病患系统ID

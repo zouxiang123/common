@@ -26,7 +26,7 @@ import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.GenerationUUID;
 import com.xtt.platform.util.lang.NumberUtil;
@@ -115,7 +115,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     private List<PatientAssayRecordPO> init(List<PatientAssayRecordPO> list) {
         for (PatientAssayRecordPO item : list) {
-            item.setResultTipsShow(CmDictUtil.getName(CmDictConstants.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
+            item.setResultTipsShow(DictUtil.getName(CmDictConstants.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
         }
 
         return list;

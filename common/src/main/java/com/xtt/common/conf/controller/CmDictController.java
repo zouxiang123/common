@@ -30,7 +30,7 @@ import com.xtt.common.dao.model.CmDict;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayDictionaryPO;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 @Controller
@@ -48,7 +48,7 @@ public class CmDictController {
     @RequestMapping("maintain")
     public ModelAndView maintain(@RequestParam(required = true) String sys) {
         ModelAndView model = new ModelAndView("system/dictionary_maintain");
-        model.addObject(CmDictConstants.ASSAY_TEXT_TYPE, CmDictUtil.getListByType(CmDictConstants.ASSAY_TEXT_TYPE));
+        model.addObject(CmDictConstants.ASSAY_TEXT_TYPE, DictUtil.getListByType(CmDictConstants.ASSAY_TEXT_TYPE));
         model.addObject("sysOwner", sys);
         return model;
     }
@@ -176,8 +176,8 @@ public class CmDictController {
         boolean successFlag = true;
         if (record.getId() == null) {// 添加操作
             record.setItemName(record.getItemName().trim());
-            if (StringUtils.isNotBlank(CmDictUtil.getName(record.getpItemCode(), record.getItemCode()))
-                            || StringUtils.isNotBlank(CmDictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字和对应的值是否存在
+            if (StringUtils.isNotBlank(DictUtil.getName(record.getpItemCode(), record.getItemCode()))
+                            || StringUtils.isNotBlank(DictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字和对应的值是否存在
                 map.put("status", CommonConstants.WARNING);
                 successFlag = false;
             } else if (checkDictionaryOrderByExists(record)) {
@@ -189,7 +189,7 @@ public class CmDictController {
             if (record.getIsEnable() == null) {// 不是更新状态操作
                 record.setItemName(record.getItemName().trim());// 去除左右空格
                 if (!d.getItemName().equals(record.getItemName()))// 名称发生了变化
-                    if (StringUtils.isNotBlank(CmDictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字是否存在
+                    if (StringUtils.isNotBlank(DictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字是否存在
                         map.put("status", CommonConstants.WARNING);
                         successFlag = false;
                     }

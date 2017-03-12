@@ -25,7 +25,7 @@ import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.ICmPatientService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -41,7 +41,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
 
     @Override
     public void save(PatientOutcomePO record) {
-        Map<String, String> sysOwners = CmDictUtil.getNamesByType(CmDictConstants.SYS_OWNER);
+        Map<String, String> sysOwners = DictUtil.getNamesByType(CmDictConstants.SYS_OWNER);
         CmPatient patient = new CmPatient();
         if (sysOwners.containsKey(record.getType())) {
             // 如果是转回当前系统或者转到其他系统
@@ -98,7 +98,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     /** 初始化显示 */
     private List<PatientOutcomePO> init(List<PatientOutcomePO> list) {
         if (CollectionUtils.isNotEmpty(list)) {
-            Map<String, String> typesMap = CmDictUtil.getNamesByType(CmDictConstants.PATIENT_OUTCOME_TYPE);
+            Map<String, String> typesMap = DictUtil.getNamesByType(CmDictConstants.PATIENT_OUTCOME_TYPE);
             for (PatientOutcomePO po : list) {
                 po.setTypeShow(typesMap.get(po.getType()));
                 po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());

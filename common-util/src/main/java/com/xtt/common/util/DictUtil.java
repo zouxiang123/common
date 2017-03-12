@@ -19,11 +19,11 @@ import com.xtt.common.cache.ICmDictFactory;
 import com.xtt.common.dto.DictDto;
 import com.xtt.platform.util.lang.StringUtil;
 
-public class CmDictUtil {
+public class DictUtil {
 
     private static ICmDictFactory factory = new CmDictCache();
 
-    private CmDictUtil() {
+    private DictUtil() {
     }
 
     /**

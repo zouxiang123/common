@@ -34,7 +34,7 @@ import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
@@ -231,8 +231,8 @@ public class CmPatientServiceImpl implements ICmPatientService {
             patient = cmPatientMapper.selectById(id);
         }
         if (patient != null) {
-            patient.setSexShow(CmDictUtil.getName(CmDictConstants.SEX, patient.getSex()));
-            patient.setMedicareCardTypeShow(CmDictUtil.getName(CmDictConstants.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
+            patient.setSexShow(DictUtil.getName(CmDictConstants.SEX, patient.getSex()));
+            patient.setMedicareCardTypeShow(DictUtil.getName(CmDictConstants.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
         }
         return patient;
     }

@@ -27,7 +27,7 @@ import com.xtt.common.dao.po.CmFormItemsPO;
 import com.xtt.common.dto.FormNodesDto;
 import com.xtt.common.dynamicForm.vo.CmFormItemsVO;
 import com.xtt.common.form.service.ICmFormItemsSerivce;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
@@ -46,8 +46,8 @@ public class CmFormItemsController {
     @RequestMapping("view")
     public ModelAndView view(String sys) {
         ModelAndView model = new ModelAndView("dynamicForm/form_items_conf");
-        model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sys));
-        model.addObject(CmDictConstants.FORM_DISPLAY_STYLE, CmDictUtil.getListByType(CmDictConstants.FORM_DISPLAY_STYLE, sys));
+        model.addObject(CmDictConstants.SYS_OWNER, DictUtil.getListByType(CmDictConstants.SYS_OWNER, sys));
+        model.addObject(CmDictConstants.FORM_DISPLAY_STYLE, DictUtil.getListByType(CmDictConstants.FORM_DISPLAY_STYLE, sys));
         model.addObject("sysOwner", sys);
         return model;
     }
@@ -57,7 +57,7 @@ public class CmFormItemsController {
     @ResponseBody
     public Map<String, Object> getFormCategory(String sysOwner) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("items", CmDictUtil.getListByType(sysOwner + BASE_FORM_CATEGORY));
+        map.put("items", DictUtil.getListByType(sysOwner + BASE_FORM_CATEGORY));
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }

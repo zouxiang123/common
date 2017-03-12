@@ -35,7 +35,7 @@ import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -77,7 +77,7 @@ public class PatientController {
             model.addObject("patientCardList", cardList);// 卡号信息
         }
         model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
-                        CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+                        DictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
 
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
@@ -123,7 +123,7 @@ public class PatientController {
         retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
         retMap.put(CmDictConstants.MEDICARE_CARD_TYPE,
-                        CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+                        DictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
         return retMap;
     }

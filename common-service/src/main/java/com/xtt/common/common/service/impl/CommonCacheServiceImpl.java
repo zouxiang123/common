@@ -53,7 +53,7 @@ import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
@@ -165,7 +165,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
+            Map<String, String> sexMap = DictUtil.getNamesByType(CmDictConstants.SEX);
             for (CmPatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
@@ -196,7 +196,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             for (int c = 0; c < formList.size(); c++) {
                 form = formList.get(c);
                 map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
-                                CmDictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
+                                DictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
                 // cache category forms
                 categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
                 if (!categoryMap.containsKey(categoryMapKey)) {

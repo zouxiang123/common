@@ -22,7 +22,7 @@ import com.xtt.common.constants.CmDictConstants;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.CmFormBaseItemsPO;
 import com.xtt.common.form.service.ICmFormBaseItemsService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 @Controller
@@ -36,10 +36,10 @@ public class CmFormBaseItemsController {
     @RequestMapping("view")
     public ModelAndView view(String sys) {
         ModelAndView model = new ModelAndView("/dynamicForm/form_base_items_conf");
-        model.addObject(CmDictConstants.FORM_ELEMENT_TYPE, CmDictUtil.getListByType(CmDictConstants.FORM_ELEMENT_TYPE));
-        model.addObject(CmDictConstants.FORM_ITEM_DATA_TYPE, CmDictUtil.getListByType(CmDictConstants.FORM_ITEM_DATA_TYPE));
-        model.addObject(CmDictConstants.FORM_ITEM_UNIT, CmDictUtil.getListByType(CmDictConstants.FORM_ITEM_UNIT));
-        model.addObject(CmDictConstants.SYS_OWNER, CmDictUtil.getListByType(CmDictConstants.SYS_OWNER, sys));
+        model.addObject(CmDictConstants.FORM_ELEMENT_TYPE, DictUtil.getListByType(CmDictConstants.FORM_ELEMENT_TYPE));
+        model.addObject(CmDictConstants.FORM_ITEM_DATA_TYPE, DictUtil.getListByType(CmDictConstants.FORM_ITEM_DATA_TYPE));
+        model.addObject(CmDictConstants.FORM_ITEM_UNIT, DictUtil.getListByType(CmDictConstants.FORM_ITEM_UNIT));
+        model.addObject(CmDictConstants.SYS_OWNER, DictUtil.getListByType(CmDictConstants.SYS_OWNER, sys));
         model.addObject("sysOwner", sys);
         return model;
     }
