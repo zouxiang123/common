@@ -35,7 +35,7 @@ public class PatientOutcomeController {
         model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
         model.addAttribute("sysOwner", sys);
         model.addAttribute("patientId", patientId);
-        model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.getListByType(CmDictConsts.PATIENT_OUTCOME_TYPE));
+        model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
         return "patient/patient_outcome_record";
     }
 

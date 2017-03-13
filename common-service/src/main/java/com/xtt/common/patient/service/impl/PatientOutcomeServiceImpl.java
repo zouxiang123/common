@@ -41,7 +41,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
 
     @Override
     public void save(PatientOutcomePO record) {
-        Map<String, String> sysOwners = DictUtil.getNamesByType(CmDictConsts.SYS_OWNER);
+        Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
         CmPatient patient = new CmPatient();
         if (sysOwners.containsKey(record.getType())) {
             // 如果是转回当前系统或者转到其他系统
@@ -98,7 +98,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     /** 初始化显示 */
     private List<PatientOutcomePO> init(List<PatientOutcomePO> list) {
         if (CollectionUtils.isNotEmpty(list)) {
-            Map<String, String> typesMap = DictUtil.getNamesByType(CmDictConsts.PATIENT_OUTCOME_TYPE);
+            Map<String, String> typesMap = DictUtil.getMapByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE);
             for (PatientOutcomePO po : list) {
                 po.setTypeShow(typesMap.get(po.getType()));
                 po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());

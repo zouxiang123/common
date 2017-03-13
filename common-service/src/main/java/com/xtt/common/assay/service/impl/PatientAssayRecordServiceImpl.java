@@ -115,7 +115,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     private List<PatientAssayRecordPO> init(List<PatientAssayRecordPO> list) {
         for (PatientAssayRecordPO item : list) {
-            item.setResultTipsShow(DictUtil.getName(CmDictConsts.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
+            item.setResultTipsShow(DictUtil.getItemName(CmDictConsts.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
         }
 
         return list;

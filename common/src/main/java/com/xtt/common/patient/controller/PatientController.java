@@ -77,7 +77,7 @@ public class PatientController {
             model.addObject("patientCardList", cardList);// 卡号信息
         }
         model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
-                        DictUtil.getListByType(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
 
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
@@ -123,7 +123,7 @@ public class PatientController {
         retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
         retMap.put(CmDictConsts.MEDICARE_CARD_TYPE,
-                        DictUtil.getListByType(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
         return retMap;
     }

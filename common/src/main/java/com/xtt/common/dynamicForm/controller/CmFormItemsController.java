@@ -46,8 +46,8 @@ public class CmFormItemsController {
     @RequestMapping("view")
     public ModelAndView view(String sys) {
         ModelAndView model = new ModelAndView("dynamicForm/form_items_conf");
-        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.getListByType(CmDictConsts.SYS_OWNER, sys));
-        model.addObject(CmDictConsts.FORM_DISPLAY_STYLE, DictUtil.getListByType(CmDictConsts.FORM_DISPLAY_STYLE, sys));
+        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sys));
+        model.addObject(CmDictConsts.FORM_DISPLAY_STYLE, DictUtil.listByPItemCode(CmDictConsts.FORM_DISPLAY_STYLE, sys));
         model.addObject("sysOwner", sys);
         return model;
     }
@@ -57,7 +57,7 @@ public class CmFormItemsController {
     @ResponseBody
     public Map<String, Object> getFormCategory(String sysOwner) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("items", DictUtil.getListByType(sysOwner + BASE_FORM_CATEGORY));
+        map.put("items", DictUtil.listByPItemCode(sysOwner + BASE_FORM_CATEGORY));
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }

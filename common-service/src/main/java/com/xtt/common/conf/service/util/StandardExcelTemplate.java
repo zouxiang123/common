@@ -444,14 +444,14 @@ class StandardExcelTemplate {
         if (sheetType == StandardSheetType.doctor) {
             for (String s : doctorPositionArr) {
                 if (s.equals(value)) {
-                    return DictUtil.getValue(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, value);
+                    return DictUtil.getItemCode(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, value);
                 }
             }
             throw new BadInputException(BadInputException.KEY_INVALID_POSITION, value);
         } else if (sheetType == StandardSheetType.nurse) {
             for (String s : nursePositionArr) {
                 if (s.equals(value)) {
-                    return DictUtil.getValue(CmDictConsts.NURSE_PROFESSIONAL_TITLE, value);
+                    return DictUtil.getItemCode(CmDictConsts.NURSE_PROFESSIONAL_TITLE, value);
                 }
             }
             throw new BadInputException(BadInputException.KEY_INVALID_POSITION, value);

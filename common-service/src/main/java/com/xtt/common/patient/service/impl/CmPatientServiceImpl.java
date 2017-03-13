@@ -231,8 +231,8 @@ public class CmPatientServiceImpl implements ICmPatientService {
             patient = cmPatientMapper.selectById(id);
         }
         if (patient != null) {
-            patient.setSexShow(DictUtil.getName(CmDictConsts.SEX, patient.getSex()));
-            patient.setMedicareCardTypeShow(DictUtil.getName(CmDictConsts.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
+            patient.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, patient.getSex()));
+            patient.setMedicareCardTypeShow(DictUtil.getItemName(CmDictConsts.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
         }
         return patient;
     }

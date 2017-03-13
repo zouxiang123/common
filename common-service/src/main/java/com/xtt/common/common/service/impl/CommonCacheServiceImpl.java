@@ -165,7 +165,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            Map<String, String> sexMap = DictUtil.getNamesByType(CmDictConsts.SEX);
+            Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
             for (CmPatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
@@ -196,7 +196,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             for (int c = 0; c < formList.size(); c++) {
                 form = formList.get(c);
                 map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
-                                DictUtil.getNamesByType(CmDictConsts.FORM_ITEM_UNIT)));
+                                DictUtil.getMapByPItemCode(CmDictConsts.FORM_ITEM_UNIT)));
                 // cache category forms
                 categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
                 if (!categoryMap.containsKey(categoryMapKey)) {

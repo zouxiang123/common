@@ -59,7 +59,7 @@ public class SysParamController {
             if ("version".equals(sys.getParamName()) || "jciConform".equals(sys.getParamName()))
                 continue;
             if (StringUtils.isNotBlank(sys.getDicType())) {
-                sys.setDicUnitList(DictUtil.getListByType(sys.getDicType(), sys.getParamUnit()));
+                sys.setDicUnitList(DictUtil.listByPItemCode(sys.getDicType(), sys.getParamUnit()));
             }
             resultList.add(sys);
         }

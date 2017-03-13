@@ -130,10 +130,10 @@ public class LoginController {
                     loginUser.setPositionShow(sysUser.getPosition());
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_DOCTOR);
-                    loginUser.setPositionShow(DictUtil.getName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_NURSE);
-                    loginUser.setPositionShow(DictUtil.getName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_OTHER);
                     loginUser.setPositionShow(sysUser.getPosition());
