@@ -17,7 +17,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.constants.SysParamConstants;
+import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.dao.mapper.PatientCardMapper;
 import com.xtt.common.dao.model.PatientCard;
 import com.xtt.common.dao.po.PatientCardPO;
@@ -80,7 +80,7 @@ public class PatientCardServiceImpl implements IPatientCardService {
         PatientCardPO record = new PatientCardPO();
         record.setDelFlag(false);
         record.setNewFlag(true);
-        record.setCardType(SysParamConstants.showPatientCradType);
+        record.setCardType(CmSysParamConsts.showPatientCradType);
         return listByCondition(record);
     }
 
@@ -96,7 +96,7 @@ public class PatientCardServiceImpl implements IPatientCardService {
         record.setFkPtId(patientId);
         record.setDelFlag(false);
         record.setNewFlag(true);
-        record.setCardType(SysParamConstants.showPatientCradType);
+        record.setCardType(CmSysParamConsts.showPatientCradType);
         List<PatientCardPO> list = listByCondition(record);
         if (CollectionUtils.isNotEmpty(list)) {
             return list.get(0);
@@ -114,7 +114,7 @@ public class PatientCardServiceImpl implements IPatientCardService {
         record.setPatientIds(patientIds);
         record.setDelFlag(false);
         record.setNewFlag(true);
-        record.setCardType(SysParamConstants.showPatientCradType);
+        record.setCardType(CmSysParamConsts.showPatientCradType);
         List<PatientCardPO> list = listByCondition(record);
         if (CollectionUtils.isNotEmpty(list)) {
             list.forEach(pc -> {

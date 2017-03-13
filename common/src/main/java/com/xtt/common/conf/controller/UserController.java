@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IRoleService;
@@ -44,10 +44,10 @@ public class UserController {
         ModelAndView model = new ModelAndView("system/user_list");
         model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
         model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
-        model.addObject(CmDictConstants.SEX, DictUtil.getListByType(CmDictConstants.SEX));
-        model.addObject(CmDictConstants.SYS_OWNER, DictUtil.getListByType(CmDictConstants.SYS_OWNER, sysOwner));
-        model.addObject(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, DictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE));
-        model.addObject(CmDictConstants.NURSE_PROFESSIONAL_TITLE, DictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE));
+        model.addObject(CmDictConsts.SEX, DictUtil.getListByType(CmDictConsts.SEX));
+        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.getListByType(CmDictConsts.SYS_OWNER, sysOwner));
+        model.addObject(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, DictUtil.getListByType(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE));
+        model.addObject(CmDictConsts.NURSE_PROFESSIONAL_TITLE, DictUtil.getListByType(CmDictConsts.NURSE_PROFESSIONAL_TITLE));
         return model;
     }
 
@@ -93,11 +93,11 @@ public class UserController {
         ModelAndView model = new ModelAndView("system/account_settings");
         SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
         model.addObject("user", initUser(user));
-        model.addObject(CmDictConstants.SEX, DictUtil.getListByType(CmDictConstants.SEX, user == null ? null : user.getSex()));
+        model.addObject(CmDictConsts.SEX, DictUtil.getListByType(CmDictConsts.SEX, user == null ? null : user.getSex()));
         if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_DOCTOR)) {
-            model.addObject("professional_title", DictUtil.getListByType(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
+            model.addObject("professional_title", DictUtil.getListByType(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
         } else if (UserUtil.getLoginUser().getRoleType().equals(CommonConstants.ROLE_NURSE)) {
-            model.addObject("professional_title", DictUtil.getListByType(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
+            model.addObject("professional_title", DictUtil.getListByType(CmDictConsts.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
         } else {
             model.addObject("professional_title", null);
         }
@@ -194,12 +194,12 @@ public class UserController {
 
     private SysUserPO initUser(SysUserPO user) {
         if (user != null) {
-            user.setSexShow(DictUtil.getName(CmDictConstants.SEX, user.getSex()));
+            user.setSexShow(DictUtil.getName(CmDictConsts.SEX, user.getSex()));
             if (user.getPosition() != null) {
                 if (user.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
-                    user.setPositionShow(DictUtil.getName(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
+                    user.setPositionShow(DictUtil.getName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
                 } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
-                    user.setPositionShow(DictUtil.getName(CmDictConstants.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
+                    user.setPositionShow(DictUtil.getName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
                 } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_ADMIN) > -1) {
                     user.setPositionShow(user.getPosition());
                 } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {

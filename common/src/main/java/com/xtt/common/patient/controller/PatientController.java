@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.common.service.ISysLogService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Province;
@@ -76,8 +76,8 @@ public class PatientController {
             }
             model.addObject("patientCardList", cardList);// 卡号信息
         }
-        model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
-                        DictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
+                        DictUtil.getListByType(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
 
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
@@ -122,8 +122,8 @@ public class PatientController {
         retMap.put("patient", patient);
         retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
-        retMap.put(CmDictConstants.MEDICARE_CARD_TYPE,
-                        DictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        retMap.put(CmDictConsts.MEDICARE_CARD_TYPE,
+                        DictUtil.getListByType(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
         return retMap;
     }

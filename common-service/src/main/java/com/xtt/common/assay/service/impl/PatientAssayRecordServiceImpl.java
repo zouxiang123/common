@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.model.PatientAssayRecord;
@@ -115,7 +115,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     private List<PatientAssayRecordPO> init(List<PatientAssayRecordPO> list) {
         for (PatientAssayRecordPO item : list) {
-            item.setResultTipsShow(DictUtil.getName(CmDictConstants.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
+            item.setResultTipsShow(DictUtil.getName(CmDictConsts.IS_OR_NOT, ("1".equals(item.getResultTips()) ? item.getResultTips() : "0")));
         }
 
         return list;

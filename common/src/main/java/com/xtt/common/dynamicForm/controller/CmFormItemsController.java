@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonCacheService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.CmFormItemsPO;
 import com.xtt.common.dto.FormNodesDto;
@@ -46,8 +46,8 @@ public class CmFormItemsController {
     @RequestMapping("view")
     public ModelAndView view(String sys) {
         ModelAndView model = new ModelAndView("dynamicForm/form_items_conf");
-        model.addObject(CmDictConstants.SYS_OWNER, DictUtil.getListByType(CmDictConstants.SYS_OWNER, sys));
-        model.addObject(CmDictConstants.FORM_DISPLAY_STYLE, DictUtil.getListByType(CmDictConstants.FORM_DISPLAY_STYLE, sys));
+        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.getListByType(CmDictConsts.SYS_OWNER, sys));
+        model.addObject(CmDictConsts.FORM_DISPLAY_STYLE, DictUtil.getListByType(CmDictConsts.FORM_DISPLAY_STYLE, sys));
         model.addObject("sysOwner", sys);
         return model;
     }

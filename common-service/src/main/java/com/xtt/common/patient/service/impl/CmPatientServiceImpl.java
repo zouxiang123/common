@@ -21,21 +21,21 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.CmPatientHistoryMapper;
 import com.xtt.common.dao.mapper.CmPatientMapper;
 import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.model.CmPatientHistory;
 import com.xtt.common.dao.model.PatientOwner;
-import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dto.PatientDto;
-import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
 import com.xtt.platform.util.FamilyUtil;
@@ -231,8 +231,8 @@ public class CmPatientServiceImpl implements ICmPatientService {
             patient = cmPatientMapper.selectById(id);
         }
         if (patient != null) {
-            patient.setSexShow(DictUtil.getName(CmDictConstants.SEX, patient.getSex()));
-            patient.setMedicareCardTypeShow(DictUtil.getName(CmDictConstants.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
+            patient.setSexShow(DictUtil.getName(CmDictConsts.SEX, patient.getSex()));
+            patient.setMedicareCardTypeShow(DictUtil.getName(CmDictConsts.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
         }
         return patient;
     }

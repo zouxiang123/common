@@ -21,7 +21,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmPatient;
 import com.xtt.common.dao.po.SysUserPO;
@@ -444,14 +444,14 @@ class StandardExcelTemplate {
         if (sheetType == StandardSheetType.doctor) {
             for (String s : doctorPositionArr) {
                 if (s.equals(value)) {
-                    return DictUtil.getValue(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, value);
+                    return DictUtil.getValue(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, value);
                 }
             }
             throw new BadInputException(BadInputException.KEY_INVALID_POSITION, value);
         } else if (sheetType == StandardSheetType.nurse) {
             for (String s : nursePositionArr) {
                 if (s.equals(value)) {
-                    return DictUtil.getValue(CmDictConstants.NURSE_PROFESSIONAL_TITLE, value);
+                    return DictUtil.getValue(CmDictConsts.NURSE_PROFESSIONAL_TITLE, value);
                 }
             }
             throw new BadInputException(BadInputException.KEY_INVALID_POSITION, value);

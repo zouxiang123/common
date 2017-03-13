@@ -24,7 +24,7 @@ import com.xtt.common.assay.service.IDictHospitalLabService;
 import com.xtt.common.assay.service.IPatientAssayDictionaryService;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICommonCacheService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDict;
 import com.xtt.common.dao.po.CmDictPO;
@@ -48,7 +48,7 @@ public class CmDictController {
     @RequestMapping("maintain")
     public ModelAndView maintain(@RequestParam(required = true) String sys) {
         ModelAndView model = new ModelAndView("system/dictionary_maintain");
-        model.addObject(CmDictConstants.ASSAY_TEXT_TYPE, DictUtil.getListByType(CmDictConstants.ASSAY_TEXT_TYPE));
+        model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.getListByType(CmDictConsts.ASSAY_TEXT_TYPE));
         model.addObject("sysOwner", sys);
         return model;
     }
