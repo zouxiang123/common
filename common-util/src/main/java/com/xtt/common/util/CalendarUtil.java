@@ -1,6 +1,6 @@
 /**   
  * @Title: CalendarUtil.java 按ISO_8601标准，即一周的第一天是周一，最后一天是周日
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月8日 上午9:33:20 

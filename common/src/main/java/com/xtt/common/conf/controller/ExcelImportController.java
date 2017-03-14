@@ -1,6 +1,6 @@
 /**   
  * @Title: ExcelImporterController.java v
- * @Package com.xtt.txgl.excel.contorller
+ * @Package com.xtt.common.excel.contorller
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月17日 上午9:36:32 

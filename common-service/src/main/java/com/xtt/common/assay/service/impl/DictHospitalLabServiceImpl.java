@@ -1,6 +1,6 @@
 /**   
  * @Title: DictHospitalLabServiceImpl.java 
- * @Package com.xtt.txgl.patient.service.impl
+ * @Package com.xtt.common.patient.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年4月22日 下午12:54:39 

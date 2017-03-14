@@ -1,6 +1,6 @@
 /**   
  * @Title: PermissionUtil.java 
- * @Package com.xtt.txgl.common.util.permission
+ * @Package com.xtt.common.common.util.permission
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月13日 上午10:35:19 

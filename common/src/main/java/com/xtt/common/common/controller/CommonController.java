@@ -1,6 +1,6 @@
 /**   
  * @Title: CommonController.java 
- * @Package com.xtt.txgl.common.controller
+ * @Package com.xtt.common.common.controller
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月16日 上午11:50:09 

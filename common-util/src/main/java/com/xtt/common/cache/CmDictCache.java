@@ -1,6 +1,6 @@
 /**   
  * @Title: DictionaryCache.java 
- * @Package com.xtt.txgl.common.cache
+ * @Package com.xtt.common.common.cache
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月18日 上午11:41:36 

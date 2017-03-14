@@ -1,6 +1,6 @@
 /**   
  * @Title: ExcelImportServiceImpl.java 
- * @Package com.xtt.txgl.excel.service.impl
+ * @Package com.xtt.common.excel.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月17日 下午12:54:43 

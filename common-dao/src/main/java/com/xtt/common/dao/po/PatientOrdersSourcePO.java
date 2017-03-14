@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientOrdersPO.java 
- * @Package com.xtt.hd.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年7月25日 下午7:31:15 

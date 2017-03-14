@@ -1,6 +1,6 @@
 /**   
  * @Title: SysTenantServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年3月3日 下午1:40:07 

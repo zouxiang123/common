@@ -1,6 +1,6 @@
 /**   
  * @Title: AssayController.java 
- * @Package com.xtt.txgl.patient.controller
+ * @Package com.xtt.common.patient.controller
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月29日 上午9:34:38 

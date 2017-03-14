@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientAssayRecordPO.java 
- * @Package com.xtt.hd.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月29日 上午9:46:36 

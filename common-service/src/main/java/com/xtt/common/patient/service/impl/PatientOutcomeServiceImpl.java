@@ -1,6 +1,6 @@
 /**   
  * @Title: OutcomeServiceImpl.java 
- * @Package com.xtt.txgl.patient.service.impl
+ * @Package com.xtt.common.patient.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月29日 上午10:43:55 

@@ -1,6 +1,6 @@
 /**   
  * @Title: Constants.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月15日 下午3:14:57 

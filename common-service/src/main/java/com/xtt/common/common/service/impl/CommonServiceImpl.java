@@ -1,6 +1,6 @@
 /**   
  * @Title: CommonServiceImpl.java 
- * @Package com.xtt.txgl.common.service.impl
+ * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月16日 上午11:53:41 

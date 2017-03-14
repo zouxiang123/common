@@ -1,6 +1,6 @@
 /**   
  * @Title: SysParamServiceImpl.java 
- * @Package com.xtt.txgl.common.service.impl
+ * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年11月3日 下午3:19:56 

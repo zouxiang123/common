@@ -1,6 +1,6 @@
 /**   
  * @Title: IPatientService.java 
- * @Package com.xtt.txgl.patient.service
+ * @Package com.xtt.common.patient.service
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月17日 上午10:01:26 

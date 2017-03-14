@@ -1,6 +1,6 @@
 /**   
  * @Title: IPatientAssayDataService.java 
- * @Package com.xtt.txgl.patient.service
+ * @Package com.xtt.common.patient.service
  * Copyright: Copyright (c) 2015
  * @author: abc   
  * @date: 2016年12月5日 下午2:53:39 

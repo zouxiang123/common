@@ -1,6 +1,6 @@
 /**   
  * @Title: SysLogServiceImpl.java 
- * @Package com.xtt.txgl.common.service.impl
+ * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月15日 下午5:55:58 

@@ -1,6 +1,6 @@
 /**   
  * @Title: Snippet.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月19日 上午8:46:37 

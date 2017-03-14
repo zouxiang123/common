@@ -1,6 +1,6 @@
 /**   
  * @Title: BusinessDateUtil.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月1日 下午8:22:06 

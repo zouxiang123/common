@@ -1,6 +1,6 @@
 /**   
  * @Title: AssayGroupServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年7月18日 上午9:33:49 

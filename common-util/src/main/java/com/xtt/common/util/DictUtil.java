@@ -1,6 +1,6 @@
 /**   
  * @Title: DictionaryUtil.java 用于操作获取字典表的相关信息
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: 陈光浩   
  * @date: 2015年9月9日 下午4:29:48 

@@ -1,6 +1,6 @@
 /**   
  * @Title: UserServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月10日 下午12:34:06 

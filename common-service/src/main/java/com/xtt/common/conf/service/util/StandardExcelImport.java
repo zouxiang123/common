@@ -1,6 +1,6 @@
 /**   
  * @Title: StandardExcelImport.java 
- * @Package com.xtt.txgl.excel.util
+ * @Package com.xtt.common.excel.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月17日 下午1:12:38 

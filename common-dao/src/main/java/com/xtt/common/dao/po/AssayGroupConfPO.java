@@ -1,6 +1,6 @@
 /**   
  * @Title: AssayGroupConfPO.java 
- * @Package com.xtt.hd.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年7月18日 上午9:46:43 

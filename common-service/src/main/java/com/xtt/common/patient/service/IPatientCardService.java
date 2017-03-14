@@ -1,6 +1,6 @@
 /**   
  * @Title: IPatientCardService.java 
- * @Package com.xtt.txgl.patient.service
+ * @Package com.xtt.common.patient.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月17日 下午2:30:29 

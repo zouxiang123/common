@@ -1,6 +1,6 @@
 /**   
  * @Title: IFavoriteService.java 
- * @Package com.xtt.txgl.system.service
+ * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月26日 下午2:39:44 

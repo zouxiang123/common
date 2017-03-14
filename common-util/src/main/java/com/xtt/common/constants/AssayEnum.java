@@ -1,6 +1,6 @@
 /**   
  * @Title: AssayEnum.java 
- * @Package com.xtt.txgl.api.util
+ * @Package com.xtt.common.api.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年3月21日 上午8:55:45 
