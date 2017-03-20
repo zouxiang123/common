@@ -22,6 +22,7 @@ import com.xtt.common.dao.model.CmDict;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.framework.core.model.MybatisOrderByModel;
 
 @Service
 public class CmDictServiceImpl implements ICmDictService {
@@ -32,10 +33,11 @@ public class CmDictServiceImpl implements ICmDictService {
 
     @Override
     public List<CmDictPO> selectAll() {
-        CmDictPO CmDictPO = new CmDictPO();
-        CmDictPO.setFkTenantId(UserUtil.getTenantId());
-        CmDictPO.setIsEnable(true);
-        return cmDictMapper.selectByCondition(CmDictPO);
+        CmDictPO cmDictPO = new CmDictPO();
+        cmDictPO.setFkTenantId(UserUtil.getTenantId());
+        cmDictPO.setIsEnable(true);
+        cmDictPO.addOrderBy(new MybatisOrderByModel("orderBy"));// 添加根据orderby的排序
+        return cmDictMapper.selectByCondition(cmDictPO);
     }
 
     @Override
