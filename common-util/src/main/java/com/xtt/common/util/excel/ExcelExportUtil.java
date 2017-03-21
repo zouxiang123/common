@@ -1,6 +1,6 @@
 /**   
  * @Title: ExcelExportUtil.java 
- * @Package com.xtt.common.common.util.excel
+ * @Package com.xtt.txgl.common.util.excel
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年6月12日 上午11:57:56 
