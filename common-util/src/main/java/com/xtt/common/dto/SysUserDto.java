@@ -10,10 +10,6 @@ package com.xtt.common.dto;
 
 import java.util.Date;
 
-import com.xtt.platform.util.Constants;
-import com.xtt.platform.util.lang.StringUtil;
-import com.xtt.platform.util.time.DateFormatUtil;
-
 public class SysUserDto {
     private Long id;
     private String account;
@@ -23,18 +19,20 @@ public class SysUserDto {
     private String imagePath;
     private String sex;
     private Date birthday;
-    private String position;
     private String mobile;
-    private String subPhone;
-    private String sysOwner;
     private Boolean delFlag;
+    /**
+     * 创建该用户的租户id
+     */
     private Integer fkTenantId;
-
-    private String roleId;
-    private String parentRoleId;
     private String birthdayShow;
     private String sexShow;
     private String mobileShow;
+
+    /**
+     * 用户类型（管理员、超级管理员、普通用户）等
+     */
+    private String userType;
 
     public Long getId() {
         return id;
@@ -100,36 +98,12 @@ public class SysUserDto {
         this.birthday = birthday;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
     public String getMobile() {
         return mobile;
     }
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
-    }
-
-    public String getSubPhone() {
-        return subPhone;
-    }
-
-    public void setSubPhone(String subPhone) {
-        this.subPhone = subPhone;
-    }
-
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
     }
 
     public Boolean getDelFlag() {
@@ -148,29 +122,11 @@ public class SysUserDto {
         this.fkTenantId = fkTenantId;
     }
 
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getParentRoleId() {
-        return parentRoleId;
-    }
-
-    public void setParentRoleId(String parentRoleId) {
-        this.parentRoleId = parentRoleId;
-    }
-
     public String getBirthdayShow() {
         return birthdayShow;
     }
 
     public void setBirthdayShow(String birthdayShow) {
-        if (getBirthday() != null)
-            birthdayShow = DateFormatUtil.convertDateToStr(getBirthday(), Constants.SYS_YYYY_MM_DD);
         this.birthdayShow = birthdayShow;
     }
 
@@ -183,13 +139,19 @@ public class SysUserDto {
     }
 
     public String getMobileShow() {
-        if (StringUtil.isNotBlank(getMobile()))
-            mobileShow = StringUtil.formatMobile(getMobile());
         return mobileShow;
     }
 
     public void setMobileShow(String mobileShow) {
         this.mobileShow = mobileShow;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
 }

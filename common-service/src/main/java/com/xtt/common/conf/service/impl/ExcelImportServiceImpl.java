@@ -81,7 +81,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             }
             if (doctors != null && doctors.size() > 0) {
                 for (Entry<Integer, SysUserPO> s : doctors.entrySet()) {
-                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner) != null) {
+                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner, false) != null) {
                         doctorErrorCount++;
                         errorDoctorMap.put(s.getKey(), "账户已存在");
                     } else {
@@ -94,7 +94,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             }
             if (nurses != null && nurses.size() > 0) {
                 for (Entry<Integer, SysUserPO> s : nurses.entrySet()) {
-                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner) != null) {
+                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner, false) != null) {
                         nurseErrorCount++;
                         errorNurseMap.put(s.getKey(), "账户已存在");
                     } else {

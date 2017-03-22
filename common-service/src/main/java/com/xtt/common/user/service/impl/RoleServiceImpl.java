@@ -1,9 +1,9 @@
-/**   
- * @Title: RoleServiceImpl.java 
+/**
+ * @Title: RoleServiceImpl.java
  * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2015年10月23日 下午2:16:33 
+ * @author: bruce
+ * @date: 2015年10月23日 下午2:16:33
  *
  */
 package com.xtt.common.user.service.impl;
@@ -47,13 +47,13 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types, String sysOwner) {
-        return sysObjMapper.selectMenuListByRoleId(roleId, types, null);
+    public List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types) {
+        return sysObjMapper.selectMenuListByRoleId(roleId, types);
     }
 
     @Override
     public List<SysObj> getAllMenuList(String[] types, String sysOwner) {
-        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), UserUtil.getTenantId(), types, null);
+        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), types, sysOwner);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     public String saveRoleList(Long[] delRoleIds, SysRole[] roles, String sysOwner) {
         if (delRoleIds != null && delRoleIds.length > 0) {
-            List<Long> canDelRoles = new ArrayList<Long>();
+            List<Long> canDelRoles = new ArrayList<>();
             for (Long roleId : delRoleIds) {
                 List<SysUser2role> list = sysUser2roleMapper.selectByRoleId(roleId);
                 if (list != null && !list.isEmpty()) {
@@ -130,16 +130,16 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public List<SysObj> getNotChecked(Long[] roleIds, String[] types, String sysOwner) {
-        return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), UserUtil.getTenantId(), roleIds, types, sysOwner);
+        return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), roleIds, types, sysOwner);
     }
 
     @Override
     public String addMenu(SysObj obj) {
         String[] types = { "api" };
-        if (sysObjMapper.selectByKey(obj.getKey(), types, obj.getSysOwner()) != null)
+        if (sysObjMapper.selectByKey(obj.getKey(), types) != null) {
             return CommonConstants.WARNING;
+        }
         obj.setVersion(SysParamUtil.getValueByName(CmSysParamConsts.VERSION));
-        obj.setFkTenantId(UserUtil.getTenantId());
         obj.setType("api");
         DataUtil.setSystemFieldValue(obj);
         obj.setId(null);
@@ -158,10 +158,11 @@ public class RoleServiceImpl implements IRoleService {
     public SysRole getByConstant(int constantType, Integer tenantId, String sysOwner) {
         int[] constantTypes = { constantType };
         List<SysRole> list = sysRoleMapper.selectByConstant(constantTypes, tenantId, sysOwner);
-        if (list != null && list.size() > 0)
+        if (list != null && list.size() > 0) {
             return list.get(0);
-        else
+        } else {
             return null;
+        }
     }
 
     /** 检查角色是否为固定角色 */
@@ -175,7 +176,7 @@ public class RoleServiceImpl implements IRoleService {
 
     /**
      * 将菜单按钮id转换成按钮key
-     * 
+     *
      * @Title: convertToMenuKeys
      * @param menuIds
      * @return

@@ -80,6 +80,12 @@ public class CommonConstants {
     public static final String API_PERMISSION = "api_permission";
     /*--------------------cache 相关常量 end --------------------*/
     /*--------------------角色相关常量 start --------------------*/
+    /** 用户类型-普通用户 */
+    public static final String USER_TYPE_NORMAL = "normal";
+    /** 用户类型-集团管理员 */
+    public static final String USER_TYPE_GROUP_ADMIN = "group_admin";
+    /** 用户类型-集团用户 */
+    public static final String USER_TYPE_GROUP = "group";
     /** 角色-管理员 */
     public static final String ROLE_ADMIN = "1";
     /** 角色-医生 */

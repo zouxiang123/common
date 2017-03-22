@@ -1,19 +1,27 @@
-/**   
- * @Title: UserServiceImpl.java 
+/**
+ * @Title: UserServiceImpl.java
  * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2015年10月10日 下午12:34:06 
+ * @author: bruce
+ * @date: 2015年10月10日 下午12:34:06
  *
  */
 package com.xtt.common.user.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,16 +33,24 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.xtt.common.cache.UserCache;
+import com.xtt.common.common.service.ISysLogService;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
+import com.xtt.common.dao.model.SysUserTenant;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.dto.DictDto;
+import com.xtt.common.dto.LoginUser;
 import com.xtt.common.dto.SysUserDto;
+import com.xtt.common.user.service.ISysUserTenantService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.FamilyUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -48,6 +64,10 @@ public class UserServiceImpl implements IUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SysUser2roleMapper sysUser2roleMapper;
+    @Autowired
+    private ISysUserTenantService sysUserTenantService;
+    @Autowired
+    private ISysLogService sysLogService;
 
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
@@ -69,30 +89,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public SysUserPO selectById(Long userId) {
-        return selectById(userId, true);
-    }
-
-    /**
-     * 通过id获取用户数据
-     * 
-     * @Title: selectById
-     * @param id
-     * @param fromCache是否从缓存获取
-     * @return
-     *
-     */
-    private SysUserPO selectById(Long id, boolean fromCache) {
-        if (fromCache) {
-            SysUserDto user = UserCache.getById(id);
-            if (user == null) {
-                return sysUserMapper.selectPOById(id);
-            }
-            SysUserPO sysUser = new SysUserPO();
-            BeanUtils.copyProperties(user, sysUser);
-            return sysUser;
-        } else {
-            return sysUserMapper.selectPOById(id);
-        }
+        return sysUserMapper.getById(userId);
     }
 
     @Override
@@ -101,21 +98,39 @@ public class UserServiceImpl implements IUserService {
             user.setName(user.getName().trim());
             user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
         }
+        // 是否是维护集团用户标识
+        boolean groupFlag = user.getGroupFlag() == null || !user.getGroupFlag() ? false : true;
         if (user.getId() != null) {
-            sysUser2roleMapper.deleteByUserId(user.getId());// 删除原来旧的关联数据
-            associationRole(user.getRoleId(), user.getId());// 重新创建关联
+            if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
+                sysUser2roleMapper.deleteByUserId(user.getId(), UserUtil.getTenantId(), UserUtil.getSysOwner());// 删除原来旧的关联数据
+                associationRole(user.getRoleId(), user.getId());// 重新创建关联
+            }
+            // 建立用户和租户之间的关联
+            associationTenant(user, false, groupFlag);
             user.setUpdateTime(new Date());
             user.setUpdateUserId(UserUtil.getLoginUserId());
-            if (StringUtils.isNotBlank(user.getPassword()))
+            if (StringUtils.isNotBlank(user.getPassword())) {
                 user.setPassword(MD5Util.md5(user.getPassword()));
+            }
             updateByPrimaryKeySelective(user);// 更新用户数据
         } else {
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             user.setFkTenantId(UserUtil.getTenantId());
             user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
+            if (!groupFlag) {
+                // 设置关联的租户为当前租户
+                user.setMultiTenant(String.valueOf(UserUtil.getTenantId()));
+                user.setUserType(CommonConstants.USER_TYPE_NORMAL);
+            } else {
+                user.setUserType(CommonConstants.USER_TYPE_GROUP);
+            }
             sysUserMapper.insert(user);
-            associationRole(user.getRoleId(), user.getId());// 创建关联数据
+            if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
+                associationRole(user.getRoleId(), user.getId());// 创建关联数据
+            }
+            // 建立用户和租户之间的关联
+            associationTenant(user, true, groupFlag);
             // 新增用户创建默认头像
             String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
                             + "/" + user.getId() + ".png";
@@ -129,14 +144,14 @@ public class UserServiceImpl implements IUserService {
 
     /**
      * 插入用户和角色关联表数据
-     * 
+     *
      * @Title: associationRole
      * @param roleId
      * @param userId
-     * 
+     *
      */
     private void associationRole(String roleId, Long userId) {
-        if (StringUtils.isEmpty(roleId)) {
+        if (StringUtil.isEmpty(roleId)) {
             return;
         }
         SysUser2role user2Role;
@@ -152,11 +167,114 @@ public class UserServiceImpl implements IUserService {
         }
     }
 
+    /**
+     * 建立用户和租户之间的数据关联
+     *
+     * @Title: associationTenant
+     * @param user
+     *            用户对象
+     * @param isNewUser
+     *            是否是新增用户
+     * @param groupFlag
+     *            维护集团用户操作
+     *
+     */
+    private void associationTenant(SysUserPO user, boolean isNewUser, boolean groupFlag) {
+        // 关联的的医院不能为空
+        if (StringUtil.isEmpty(user.getMultiTenant())) {
+            return;
+        }
+        String[] tenantIdStr = user.getMultiTenant().split(",");
+        // 转换成list
+        final List<Integer> tenantIds = new ArrayList<>(tenantIdStr.length);
+        for (int i = 0; i < tenantIdStr.length; i++) {
+            tenantIds.add(Integer.valueOf(tenantIdStr[i]));
+        }
+        // 维护集团用户操作
+        if (groupFlag) {
+            if (!isNewUser) {// 修改集团用户数据，检查是否存在关联数据，已存在的不需要重新建立，删除不需要的
+                List<SysUserTenant> list = sysUserTenantService.listByUserId(user.getId());
+                // 关联的租户id
+                Set<Integer> existsTenantIds = new HashSet<>(list.size());
+                // 需要删除的关联记录id
+                List<Long> removeIds = new ArrayList<>(list.size());
+                if (CollectionUtils.isNotEmpty(list)) {
+                    list.forEach(ut -> {
+                        existsTenantIds.add(ut.getFkTenantId());
+                        if (!tenantIds.contains(ut.getFkTenantId())) {
+                            removeIds.add(ut.getId());
+                        }
+                    });
+                }
+                tenantIds.removeAll(existsTenantIds);
+                // 如果需要删除的关联记录id不为空
+                if (removeIds.size() > 0) {
+                    sysUserTenantService.removeByIds(removeIds);
+                }
+            }
+            // 保存用户和租户之间的关联数据
+            saveSysUserTenant(tenantIds, user);
+        } else {// 维护本租户用户
+            if (!isNewUser) {
+                SysUserTenant ut = sysUserTenantService.getByUserId(user.getId());
+                if (ut != null) {
+                    SysUserTenant sysUserTenant = new SysUserTenant();
+                    sysUserTenant.setId(ut.getId());
+                    sysUserTenant.setRoleType(user.getRoleType());
+                    sysUserTenant.setPosition(user.getPosition());
+                    sysUserTenant.setTelephone(user.getTelephone());
+                    sysUserTenant.setUpdateTime(new Date());
+                    sysUserTenant.setUpdateUserId(UserUtil.getLoginUserId());
+                    sysUserTenantService.updateByPrimaryKeySelective(sysUserTenant);
+                }
+            } else {
+                // 保存用户和租户之间的关联数据
+                saveSysUserTenant(tenantIds, user);
+            }
+        }
+    }
+
+    /**
+     * 生成用户、系统、租户之间的关联数据
+     *
+     * @Title: saveSysUserTenant
+     * @param tenantIds
+     * @param user
+     *
+     */
+    private void saveSysUserTenant(Collection<Integer> tenantIds, SysUserPO user) {
+        if (CollectionUtils.isNotEmpty(tenantIds)) {
+            SysUserTenant record;
+            List<SysUserTenant> saveList = new ArrayList<>();
+            for (Integer tenantId : tenantIds) {
+                // 生成该租户下所有系统的关联数据
+                List<DictDto> systems = DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, tenantId);
+                if (CollectionUtils.isNotEmpty(systems)) {
+                    for (DictDto dict : systems) {
+                        record = new SysUserTenant();
+                        record.setRoleType(user.getRoleType());
+                        record.setPosition(user.getPosition());
+                        record.setTelephone(user.getTelephone());
+                        record.setFkTenantId(tenantId);
+                        record.setFkUserId(user.getId());
+                        record.setSysOwner(dict.getItemCode());
+                        DataUtil.setSystemFieldValue(record);
+                        saveList.add(record);
+                    }
+                }
+            }
+            if (saveList.size() > 0) {
+                sysUserTenantService.saveBatch(saveList);
+            }
+        }
+
+    }
+
     @Override
     public String uploadImage(MultipartFile image) throws IllegalStateException, IOException {
         String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
         String imgName = image.getOriginalFilename();
-        SysUser user = selectById(UserUtil.getLoginUserId(), true);
+        SysUser user = selectById(UserUtil.getLoginUserId());
         String fileName = CommonConstants.USER_IMAGE_FILE_PATH + "/" + String.valueOf(user.getId())
                         + imgName.substring(imgName.lastIndexOf("."), imgName.length());
         File f = new File(path + fileName);
@@ -185,10 +303,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void deleteUserById(Long id) {
-        sysUser2roleMapper.deleteByUserId(id);
-        SysUser user = selectById(id, true);
+        sysUser2roleMapper.deleteByUserId(id, null, null);
+        SysUser user = new SysUser();
+        user.setId(id);
         user.setDelFlag(true);
-        DataUtil.setSystemFieldValue(user);
+        user.setUpdateTime(new Date());
+        user.setUpdateUserId(UserUtil.getLoginUserId());
         updateByPrimaryKeySelective(user);
     }
 
@@ -198,13 +318,40 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public SysUser getUserByAccount(String account, Integer tenantId, String sysOwner) {
-        return sysUserMapper.selectUserByAccount(account, tenantId, sysOwner);
+    public SysUser getUserByAccount(String account, Integer tenantId, String sysOwner, boolean groupFlag) {
+        if (!groupFlag) {
+            return sysUserMapper.selectUserByAccount(account, tenantId, sysOwner);
+        }
+        return sysUserMapper.getGroupUserByAccount(account, CommonConstants.USER_TYPE_GROUP, tenantId);
     }
 
-    @Override
-    public SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
-        return sysUserMapper.login(account, password, tenantId, sysOwner);
+    private SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
+        SysUserPO user = sysUserMapper.login(account, MD5Util.md5(password), tenantId, sysOwner);
+        // 设置当前用户关联的租户和关联的系统
+        if (user != null) {
+            List<SysUserTenant> utList = sysUserTenantService.listByUserId(user.getId());
+            if (CollectionUtils.isNotEmpty(utList)) {
+                List<Integer> tenantIds = new ArrayList<>(utList.size());
+                StringBuilder tenantSB = new StringBuilder();
+                Set<String> sysOwners = new HashSet<>(utList.size());
+                StringBuilder ownerSB = new StringBuilder();
+                utList.forEach(ut -> {
+                    if (!tenantIds.contains(ut.getFkTenantId())) {
+                        tenantSB.append(",");
+                        tenantSB.append(ut.getFkTenantId());
+                        tenantIds.add(ut.getFkTenantId());
+                    }
+                    if (!sysOwners.contains(ut.getSysOwner())) {
+                        ownerSB.append(",");
+                        ownerSB.append(ut.getSysOwner());
+                        sysOwners.add(ut.getSysOwner());
+                    }
+                });
+                user.setMultiTenant(tenantSB.substring(1));
+                user.setSysOwner(ownerSB.substring(1));
+            }
+        }
+        return user;
     }
 
     @Override
@@ -219,10 +366,12 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int updateUser(SysUserPO user) {
-        if (StringUtils.isNotBlank(user.getName()))
+        if (StringUtils.isNotBlank(user.getName())) {
             user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
-        if (StringUtils.isNotBlank(user.getPassword()))
+        }
+        if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(MD5Util.md5(user.getPassword()));
+        }
         user.setUpdateTime(new Date());
         user.setUpdateUserId(user.getId());
         return updateByPrimaryKeySelective(user);
@@ -247,7 +396,7 @@ public class UserServiceImpl implements IUserService {
     private Integer getCountByRoleType(Integer tenantId, String roleType, String sysOwner) {
         List<Map<String, Object>> list = sysUserMapper.selectRolesCount(tenantId, sysOwner);
         for (Map<String, Object> m : list) {
-            if (m.get("roleType").equals(roleType)) {
+            if (Objects.equals(m.get("roleType"), roleType)) {
                 return ((Long) m.get("count")).intValue();
             }
         }
@@ -266,10 +415,96 @@ public class UserServiceImpl implements IUserService {
     private int updateByPrimaryKeySelective(SysUser user) {
         int count = sysUserMapper.updateByPrimaryKeySelective(user);
         // refresh cache
-        SysUserPO sysUserPO = selectById(user.getId(), false);
+        SysUser sysUser = selectById(user.getId());
         SysUserDto cacheUser = new SysUserDto();
-        BeanUtils.copyProperties(sysUserPO, cacheUser);
+        BeanUtils.copyProperties(sysUser, cacheUser);
         UserCache.refresh(cacheUser);
         return count;
+    }
+
+    @Override
+    public List<SysUserPO> listAll() {
+        return sysUserMapper.listAll();
+    }
+
+    @Override
+    public SysUserPO getFullById(Long id, String sysOwner, Integer tenantId, boolean groupFlag) {
+        if (!groupFlag) {
+            return sysUserMapper.getFullById(id, sysOwner, tenantId);
+        }
+        return sysUserMapper.getGroupFullById(id, tenantId);
+    }
+
+    public SysUserPO groupAdminLogin(String account, String password, Integer tenantId) {
+        SysUserPO user = sysUserMapper.groupAdminLogin(account, MD5Util.md5(password), tenantId, CommonConstants.USER_TYPE_GROUP_ADMIN);
+        return user;
+    }
+
+    @Override
+    public Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password) && tenantId != null) {
+            boolean isGroupAdmin = groupAdmin == null ? false : groupAdmin;
+            SysUserPO sysUser = null;
+            if (!isGroupAdmin) {
+                sysUser = login(StringUtil.trim(account), password, tenantId, sysOwner);
+            } else {
+                sysUser = groupAdminLogin(StringUtil.trim(account), password, tenantId);
+            }
+            if (sysUser != null) {
+
+                String token = UUID.randomUUID().toString();
+                HttpServletUtil.getRequest().setAttribute(CommonConstants.COOKIE_TOKEN, token);
+
+                LoginUser loginUser = new LoginUser();
+                loginUser.setId(sysUser.getId());
+                loginUser.setAccount(account);
+                loginUser.setName(sysUser.getName());
+                loginUser.setSex(sysUser.getSex());
+                loginUser.setTenantId(tenantId);
+                loginUser.setImagePath(sysUser.getImagePath());
+                loginUser.setRoleId(sysUser.getRoleId());
+                loginUser.setPosition(sysUser.getPosition());
+                loginUser.setSysOwner(sysOwner);
+                loginUser.setRoleType(sysUser.getRoleType());
+                loginUser.setMultiSysOwner(sysUser.getSysOwner());
+                loginUser.setMultiTenant(sysUser.getMultiTenant());
+                loginUser.setUserType(sysUser.getUserType());
+                UserUtil.setLoginUser(token, loginUser);
+                if (!isGroupAdmin) {// 集团用户不需要设置角色相关信息
+                    UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
+                    UserUtil.setPermission(sysUser.getRoleId());// 设置有权限的菜单列表
+                    // 设置用户职称
+                    if (Objects.equals(CommonConstants.ROLE_DOCTOR, sysUser.getRoleType())) {
+                        loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    } else if (Objects.equals(CommonConstants.ROLE_NURSE, sysUser.getRoleType())) {
+                        loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    } else {
+                        loginUser.setPositionShow(sysUser.getPosition());
+                    }
+                    // refresh redis cache
+                    UserUtil.setLoginUser(loginUser);
+                }
+                sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功", sysOwner);
+                map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+                map.put(CommonConstants.COOKIE_TOKEN, token);
+            } else {
+                map.put("account", account);
+                map.put("password", password);
+                map.put("tenantId", tenantId);
+                map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码错误！");
+                map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
+            }
+        } else {
+            map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码不能为空！");
+            map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
+        }
+        return map;
+    }
+
+    @Override
+    public SysUser getGroupAdminByAccount(String account) {
+        SysUser user = sysUserMapper.getGroupUserByAccount(account, CommonConstants.USER_TYPE_GROUP_ADMIN, null);
+        return user;
     }
 }

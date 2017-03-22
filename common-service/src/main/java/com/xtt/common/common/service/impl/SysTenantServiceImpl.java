@@ -1,9 +1,9 @@
-/**   
- * @Title: SysTenantServiceImpl.java 
+/**
+ * @Title: SysTenantServiceImpl.java
  * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年3月3日 下午1:40:07 
+ * @author: bruce
+ * @date: 2016年3月3日 下午1:40:07
  *
  */
 package com.xtt.common.common.service.impl;
@@ -60,6 +60,16 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public SysTenant selectByName(String name) {
         return sysTenantMapper.selectByName(name);
+    }
+
+    @Override
+    public List<SysTenant> listByAccount(String account, String sysOwner) {
+        return sysTenantMapper.listByAccount(account, sysOwner);
+    }
+
+    @Override
+    public List<SysTenant> listByGroupId(Integer groupId) {
+        return sysTenantMapper.listByGroupId(groupId);
     }
 
 }

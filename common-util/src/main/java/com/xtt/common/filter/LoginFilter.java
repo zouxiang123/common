@@ -42,6 +42,7 @@ public class LoginFilter implements Filter {
     private boolean needRedirect = false;
     private String homePath = null;
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
         String loadExcludePaths = filterConfig.getInitParameter("excludePath");
@@ -60,29 +61,32 @@ public class LoginFilter implements Filter {
         homePath = filterConfig.getInitParameter("homePath");
     }
 
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         // 添加过滤请求
         long startTime = System.currentTimeMillis();
+        // clear local thread login user
+        UserUtil.setThreadLoginUser(null);
+        /** 校验是否特殊地址 排除[excludePath、excludeFile] */
+        if (SSOClientUtil.isVerifyRequestFile(excludeFileList, request) || SSOClientUtil.isVerifyRequestURL(excludePathList, request)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String cookieValue = HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN);
         cookieValue = StringUtil.isBlank(cookieValue) ? request.getParameter(CommonConstants.COOKIE_TOKEN) : cookieValue;
         if (StringUtil.isNotBlank(cookieValue)) {// cookie 中的token不为空时，将其放到请求中去
             req.setAttribute(CommonConstants.COOKIE_TOKEN, cookieValue);
         }
         // 移动端Token校验
-        String token = req.getParameter(CommonConstants.API_TOKEN);
         Map<String, Object> authMap = ContextAuthUtil.getAuth();
-        if (token != null && authMap == null) {
-            Map<String, Object> map = new HashMap<String, Object>();
+        if (request.getParameter(CommonConstants.API_TOKEN) != null && authMap == null) {
+            Map<String, Object> map = new HashMap<>();
             map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
             map.put(CommonConstants.API_ERROR_MESSAGE, "invalidate token");
             response.getWriter().print(CommonUtil.object2Json(map));
-            return;
-        }
-        /** 校验是否特殊地址 排除[excludePath、excludeFile] */
-        if (SSOClientUtil.isVerifyRequestFile(excludeFileList, request) || SSOClientUtil.isVerifyRequestURL(excludePathList, request)) {
-            chain.doFilter(request, response);
             return;
         }
 
@@ -100,7 +104,8 @@ public class LoginFilter implements Filter {
                     url = url.concat("/").concat(homePath).concat(".shtml");
                 }
                 url = URLEncoder.encode(url, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url)
+                                .concat("&sysOwner=").concat(HttpServletUtil.getSysName()));
                 return;
             }
         }
@@ -126,7 +131,8 @@ public class LoginFilter implements Filter {
                     }
                 }
                 url = URLEncoder.encode(url + paramStr, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "login.shtml?redirectUrl=" + url);
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat("login.shtml?redirectUrl=" + url).concat("&sysOwner=")
+                                .concat(HttpServletUtil.getSysName()));
             } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
@@ -150,6 +156,7 @@ public class LoginFilter implements Filter {
 
     }
 
+    @Override
     public void destroy() {
         excludePathList.clear();
         excludeFileList.clear();
@@ -159,7 +166,7 @@ public class LoginFilter implements Filter {
 
     /**
      * 数组转集合
-     * 
+     *
      * @param arrays
      * @param addlist
      */
@@ -172,12 +179,6 @@ public class LoginFilter implements Filter {
 
     private boolean isLogin(HttpServletRequest request, Map<String, Object> authMap) {
         if (authMap == null || authMap.get(CommonConstants.LOGIN_USER) == null) {
-            return false;
-        }
-        // 检查登陆用户是否等登陆当前系统
-        LoginUser user = (LoginUser) authMap.get(CommonConstants.LOGIN_USER);
-        String sysName = HttpServletUtil.getSysName();
-        if (sysName != null && user.getSysOwner().indexOf(sysName) == -1) {
             return false;
         }
         return true;

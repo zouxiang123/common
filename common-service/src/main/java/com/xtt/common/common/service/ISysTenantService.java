@@ -1,9 +1,9 @@
-/**   
- * @Title: ITenantService.java 
+/**
+ * @Title: ITenantService.java
  * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年3月3日 下午1:37:42 
+ * @author: bruce
+ * @date: 2016年3月3日 下午1:37:42
  *
  */
 package com.xtt.common.common.service;
@@ -15,20 +15,20 @@ import com.xtt.common.dao.model.SysTenant;
 public interface ISysTenantService {
     /**
      * 根据租户id查询租户对象
-     * 
+     *
      * @Title: getById
      * @param id
      * @return
-     * 
+     *
      */
     public SysTenant getById(Integer id);
 
     /**
      * 查询所有的租户
-     * 
+     *
      * @Title: selectAll
      * @return
-     * 
+     *
      */
     public List<SysTenant> selectAll();
 
@@ -47,10 +47,10 @@ public interface ISysTenantService {
 
     /**
      * 根据条件查询默认租户
-     * 
+     *
      * @Title: selectByCondition
      * @return
-     * 
+     *
      */
     SysTenant selectDefault(SysTenant record);
 
@@ -74,4 +74,23 @@ public interface ISysTenantService {
      * @return 校验是否重复添加
      */
     public List<SysTenant> selectTenantByName(SysTenant record);
+
+    /**
+     * 根据账户名称查询
+     *
+     * @param account
+     * @param sysOwner
+     * @return
+     */
+    public List<SysTenant> listByAccount(String account, String sysOwner);
+
+    /**
+     * 根据集团id查询对应的租户
+     * 
+     * @Title: listByGroupId
+     * @param groupId
+     * @return
+     *
+     */
+    public List<SysTenant> listByGroupId(Integer groupId);
 }

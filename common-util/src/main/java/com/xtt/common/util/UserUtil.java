@@ -9,6 +9,7 @@
 package com.xtt.common.util;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -108,7 +109,7 @@ public class UserUtil {
      */
     public static boolean isDoctor() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_DOCTOR)) {
+        if (Objects.equals(CommonConstants.ROLE_DOCTOR, roleType)) {
             return true;
         }
         return false;
@@ -123,7 +124,7 @@ public class UserUtil {
      */
     public static boolean isNurse() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_NURSE)) {
+        if (Objects.equals(CommonConstants.ROLE_NURSE, roleType)) {
             return true;
         }
         return false;
@@ -138,7 +139,7 @@ public class UserUtil {
      */
     public static boolean isAdmin() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_ADMIN)) {
+        if (Objects.equals(CommonConstants.ROLE_ADMIN, roleType)) {
             return true;
         }
         return false;
@@ -153,10 +154,21 @@ public class UserUtil {
      */
     public static Boolean isEngineer() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_ENGINEER)) {
+        if (Objects.equals(CommonConstants.ROLE_ENGINEER, roleType)) {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 判断当前登录用户是否是集团管理员
+     * 
+     * @Title: isGroupAdmin
+     * @return
+     *
+     */
+    public static boolean isGroupAdmin() {
+        return Objects.equals(CommonConstants.USER_TYPE_GROUP_ADMIN, getLoginUser().getUserType());
     }
 
     /**
@@ -270,5 +282,17 @@ public class UserUtil {
 
     public static void setThreadLoginUser(LoginUser user) {
         UserUtilContext.setThreadLoginUser(user);
+    }
+
+    /**
+     * 获取当前登录用户的所属系统
+     * 
+     * @Title: getSysOwner
+     * @return
+     *
+     */
+    public static String getSysOwner() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        return user == null ? null : user.getSysOwner();
     }
 }

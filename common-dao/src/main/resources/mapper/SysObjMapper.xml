@@ -16,7 +16,6 @@
     <result column="code" jdbcType="VARCHAR" property="code" />
     <result column="p_code" jdbcType="VARCHAR" property="pCode" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
-    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -27,7 +26,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, key, name, description, css_name, version, type, url, code, p_code, sys_owner, 
-    fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+    create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -52,15 +51,13 @@
     insert into sys_obj (id, key, name, 
       description, css_name, version, 
       type, url, code, p_code, 
-      sys_owner, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      sys_owner, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{cssName,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{pCode,jdbcType=VARCHAR}, 
-      #{sysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysObj">
     <!--
@@ -100,9 +97,6 @@
       </if>
       <if test="sysOwner != null">
         sys_owner,
-      </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id,
       </if>
       <if test="createTime != null">
         create_time,
@@ -150,9 +144,6 @@
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
-      </if>
-      <if test="fkTenantId != null">
-        #{fkTenantId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -204,9 +195,6 @@
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -237,7 +225,6 @@
       code = #{code,jdbcType=VARCHAR},
       p_code = #{pCode,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
-      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -248,7 +235,7 @@
   <!-- 自定义 -->
   <select id="selectMenuListByRoleId" resultMap="BaseResultMap">
   	select so.* from sys_obj so 
-  	join sys_role2obj sr ON sr.fk_obj_key = so.key AND so.fk_tenant_id = sr.fk_tenant_id
+  	join sys_role2obj sr ON sr.fk_obj_key = so.key
   	where sr.fk_role_id in 
   	<foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">
   		#{item}
@@ -259,14 +246,11 @@
   			#{item}
   		</foreach>
   	</if>
-  	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
-    </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
   
   <select id="selectAllMenuList" resultMap="BaseResultMap">
-  	select * from sys_obj where version = #{version,jdbcType=VARCHAR} and fk_tenant_id = #{tenantId,jdbcType=INTEGER} 
+  	select * from sys_obj where version = #{version,jdbcType=VARCHAR}
   	<if test="types != null">
   		and type in
   		<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
@@ -274,24 +258,24 @@
   		</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+    	AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
     </if> 
   	ORDER BY p_code,code ASC
   </select>
   
   <select id="selectNotChecked" resultMap="BaseResultMap">
  	SELECT so.* FROM sys_obj so 
- 	WHERE so.version = #{version,jdbcType=VARCHAR} AND so.fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+ 	WHERE so.version = #{version,jdbcType=VARCHAR}
  	AND NOT EXISTS (
  			SELECT 1 FROM sys_role2obj sr
 		  	WHERE sr.fk_role_id IN <foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">#{item}</foreach>
-	  		AND so.key = sr.fk_obj_key AND so.fk_tenant_id = sr.fk_tenant_id
+	  		AND so.key = sr.fk_obj_key
 	  	)
    	<if test="types != null">
   		AND so.type in <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">#{item}</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
+    	AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
     </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
@@ -304,9 +288,6 @@
   			#{item}
   		</foreach>
   	</if>
-  	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
-    </if> 
   </select>
   
   <delete id="deleteMenuByIds">

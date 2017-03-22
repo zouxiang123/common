@@ -1,35 +1,32 @@
 package com.xtt.common.home.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysLogService;
-import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.model.SysUser;
-import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.common.dto.LoginUser;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
-import com.xtt.platform.util.security.MD5Util;
 
 @Controller
 @RequestMapping
@@ -41,21 +38,32 @@ public class LoginController {
     ICommonService commonService;
     @Autowired
     private ISysLogService sysLogService;
+    @Autowired
+    private ISysTenantService sysTenantService;
 
     /**
      * 登陆动作
      * 
      * @Title: login
+     * @param response
      * @param account
      * @param password
      * @param tenantId
+     *            租户id
+     * @param redirectUrl
+     * @param isloginSubmit
+     *            点击登录标识
+     * @param groupAdmin
+     *            集团管理员登陆
+     * @param sysOwner
+     *            所属系统
      * @return
      * @throws Exception
-     * 
+     *
      */
     @RequestMapping("login")
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
-                    Boolean isloginSubmit) throws Exception {
+                    Boolean isloginSubmit, Boolean groupAdmin, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("login");
         if ("true".equals(HttpServletUtil.getCookieValueByName("savePwd")) && StringUtils.isEmpty(account) && StringUtils.isEmpty(password)) {
             account = HttpServletUtil.getCookieValueByName("account");
@@ -71,7 +79,7 @@ public class LoginController {
             return model;
         }
         LOGGER.info("login message :account={},password={},tenantId={},redirectUrl={}", account, password, tenantId, redirectUrl);
-        Map<String, Object> map = loginSubmit(account, password, tenantId);
+        Map<String, Object> map = loginSubmit(account, password, tenantId, groupAdmin, sysOwner);
         if (CommonConstants.SUCCESS.equals(map.get("status"))) {
             LOGGER.info("account={} login success,normal submit", account);
             HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, map.get(CommonConstants.COOKIE_TOKEN).toString(), -1);
@@ -90,71 +98,25 @@ public class LoginController {
 
     /**
      * 登陆动作接口
-     * 
+     *
      * @Title: login
      * @param account
      * @param password
      * @param tenantId
+     * @param groupAdmin
+     *            是否是集团管理员登陆
+     * @param sysOwner
+     *            所属系统
      * @return
      * @throws Exception
-     * 
+     *
      */
     @RequestMapping("loginSubmit")
     @ResponseBody
-    public Map<String, Object> loginSubmit(@RequestParam(value = "account", required = false) String account,
-                    @RequestParam(value = "password", required = false) String password,
-                    @RequestParam(value = "tenantId", required = false) Integer tenantId) throws Exception {
-
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password)) {
-            /** 验证是否输入正确 */
-            SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId, null);
-            if (sysUser != null) {
-                String token = UUID.randomUUID().toString();
-                HttpServletUtil.getRequest().setAttribute(CommonConstants.COOKIE_TOKEN, token);
-                LoginUser loginUser = new LoginUser();
-                loginUser.setId(sysUser.getId());
-                loginUser.setAccount(account);
-                loginUser.setName(sysUser.getName());
-                loginUser.setTenantId(sysUser.getFkTenantId());
-                loginUser.setImagePath(sysUser.getImagePath());
-                loginUser.setRoleId(sysUser.getRoleId());
-                loginUser.setPosition(sysUser.getPosition());
-                loginUser.setSysOwner(sysUser.getSysOwner());
-                UserUtil.setLoginUser(token, loginUser);
-                UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
-                UserUtil.setPermission(sysUser.getRoleId());// 设置有权限的菜单列表
-                // 设置用户职称
-                if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_ADMIN) > -1) {
-                    loginUser.setRoleType(CommonConstants.ROLE_ADMIN);
-                    loginUser.setPositionShow(sysUser.getPosition());
-                } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
-                    loginUser.setRoleType(CommonConstants.ROLE_DOCTOR);
-                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
-                } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
-                    loginUser.setRoleType(CommonConstants.ROLE_NURSE);
-                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
-                } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
-                    loginUser.setRoleType(CommonConstants.ROLE_OTHER);
-                    loginUser.setPositionShow(sysUser.getPosition());
-                }
-                // refresh redis cache
-                UserUtil.setLoginUser(loginUser);
-                // sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功");
-                map.put("status", CommonConstants.SUCCESS);
-                map.put(CommonConstants.COOKIE_TOKEN, token);
-            } else {
-                map.put("account", account);
-                map.put("password", password);
-                map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码错误！");
-                map.put(CommonConstants.STATUS, CommonConstants.FAILURE);
-            }
-        } else {
-            map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码不能为空！");
-            map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
-        }
-
-        return map;
+    public Map<String, Object> loginSubmit(final String account, final String password, final Integer tenantId, final Boolean groupAdmin,
+                    final String sysOwner) throws Exception {
+        Map<String, Object> loginResult = userService.loginSubmit(account, password, tenantId, groupAdmin, sysOwner);
+        return loginResult;
     }
 
     /**
@@ -182,17 +144,53 @@ public class LoginController {
     }
 
     /**
-     * 登录时输入账号就显示姓名和图片
+     * 登录时输入账号就显示姓名和图片<br>
+     *
+     * @param tenantId
+     * @param account
+     * @param groupAdmin
+     *            是否是集团管理员标识
+     * @param onlyUser
+     *            是否只需要用户信息
+     * @return 该账户关联的所有租户(如果租户id不为空或者该账户只存在一个租户时，返回对应的用户)<br>
+     *         集团用户登录不需要查询租户
      */
     @RequestMapping("showNameAndPictureByInput")
     @ResponseBody
-    public Map<String, Object> showNameAndPictureByInput(String tenId, String account) {
-        if (account != null) {
-            account = account.trim();
+    public Map<String, Object> showNameAndPictureByInput(Integer tenantId, String account, Boolean groupAdmin, boolean onlyUser) {
+        Map<String, Object> map = new HashMap<>();
+        account = StringUtil.trim(account);
+        groupAdmin = groupAdmin == null ? false : groupAdmin;
+        if (!onlyUser && !groupAdmin) {
+            // 查询该账号对应的所有租户
+            List<SysTenant> list = sysTenantService.listByAccount(account, CommonConstants.SYS_HD);
+            if (CollectionUtils.isNotEmpty(list)) {
+                map.put("tenants", list);
+                // 账户对应多个租户，而且没有选中租户，返回租户列表
+                if (list.size() > 1 && tenantId == null) {
+                    return map;
+                }
+                if (list.size() == 1) {
+                    tenantId = list.get(0).getId();
+                }
+            }
         }
-        SysUser sysUser = userService.getUserByAccount(account, null, null);
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("sysUser", sysUser);
+        // 返回对应的用户
+        SysUser sysUser;
+        if (!groupAdmin) {
+            sysUser = userService.getUserByAccount(account, tenantId, CommonConstants.SYS_HD, groupAdmin);
+        } else {
+            sysUser = userService.getGroupAdminByAccount(account);
+        }
+        if (sysUser != null) {
+            // 如果是组管理员登陆，租户id取建立该用户的租户
+            if (groupAdmin && tenantId == null) {
+                tenantId = sysUser.getFkTenantId();
+            }
+            map.put("imagePath", sysUser.getImagePath());
+            map.put("name", sysUser.getName());
+        }
+        map.put("tenantId", tenantId);
         return map;
     }
 

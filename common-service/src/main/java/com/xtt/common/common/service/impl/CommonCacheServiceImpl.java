@@ -1,9 +1,9 @@
-/**   
- * @Title: CommonCacheServiceImpl.java 
+/**
+ * @Title: CommonCacheServiceImpl.java
  * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年11月10日 下午6:33:27 
+ * @author: bruce
+ * @date: 2016年11月10日 下午6:33:27
  *
  */
 package com.xtt.common.common.service.impl;
@@ -125,21 +125,21 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
         for (SysRole sysRole : list) {
             Long[] roleIds = { sysRole.getId() };
-            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
+            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types)));
         }
         PermissionCache.cacheAll(map);
     }
 
     /**
      * 将sysObj对象转成缓存的SysObjDto
-     * 
+     *
      * @Title: convertCmSysObjList
      * @param list
      * @return
      *
      */
     public static List<SysObjDto> convertSysObjList(List<SysObj> list) {
-        List<SysObjDto> tempList = new ArrayList<SysObjDto>();
+        List<SysObjDto> tempList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             SysObjDto cmSysObj;
             for (SysObj so : list) {// 缓存有需要的数据
@@ -179,8 +179,9 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
         // 删除数据
-        if (StringUtil.isBlank(sysOwner))
+        if (StringUtil.isBlank(sysOwner)) {
             RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
+        }
         RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
         // 获取所有的表单列表
         CmFormPO query = new CmFormPO();
@@ -215,7 +216,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     /**
      * 初始化动态表单数据
-     * 
+     *
      * @return
      *
      */
@@ -230,14 +231,15 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cacheUser(Integer tenantId) {
-        RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
-        List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
+    public void cacheUser() {
+        UserCache.clear();
+        List<SysUserPO> list = userService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             SysUserDto cacheUser;
             List<SysUserDto> cacheList = new ArrayList<>(list.size());
             for (SysUserPO user : list) {
                 cacheUser = new SysUserDto();
+                cacheUser.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, user.getSex(), user.getFkTenantId()));
                 BeanUtils.copyProperties(user, cacheUser);
                 cacheList.add(cacheUser);
             }
@@ -265,11 +267,11 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cachePatient(tenant.getId());
                 // cache dynamic form
                 cacheDynamicFormNode(tenant.getId(), null);
-                // cache user data
-                cacheUser(tenant.getId());
                 // cache formula data
                 cacheFormula(tenant.getId());
             }
+            // cache user data
+            cacheUser();
         }
         LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
     }

@@ -165,7 +165,7 @@ class StandardExcelTemplate {
                 u.setBirthday(getDate(ExcelTools.toDay(getCell(row, StandardColumnHeaders.doctorBirthday)), null));
                 u.setPosition(getUserPosition(ExcelTools.toString(getCell(row, StandardColumnHeaders.doctorPosition))));
                 u.setMobile(checkMobile(ExcelTools.toString(getCell(row, StandardColumnHeaders.doctorMobile)), false));
-                u.setSubPhone(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.doctorOtherContacts)),
+                u.setTelephone(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.doctorOtherContacts)),
                                 StandardColumnHeaders.doctorOtherContacts.getValue(), 64, false));
             } else if (sheetType == StandardSheetType.nurse) {// 护士
                 u.setAccount(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.nurseAccount)),
@@ -177,7 +177,7 @@ class StandardExcelTemplate {
                 u.setBirthday(getDate(ExcelTools.toDay(getCell(row, StandardColumnHeaders.nurseBirthday)), null));
                 u.setPosition(getUserPosition(ExcelTools.toString(getCell(row, StandardColumnHeaders.nursePosition))));
                 u.setMobile(checkMobile(ExcelTools.toString(getCell(row, StandardColumnHeaders.nurseMobile)), false));
-                u.setSubPhone(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.nurseOtherContacts)),
+                u.setTelephone(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.nurseOtherContacts)),
                                 StandardColumnHeaders.nurseOtherContacts.getValue(), 64, false));
             }
         }

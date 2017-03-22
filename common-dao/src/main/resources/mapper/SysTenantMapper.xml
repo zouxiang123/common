@@ -200,4 +200,17 @@
   	select * from sys_tenant
   	where is_default = #{isDefault,jdbcType=BIT}
   </select>
+  <!-- 根据账户名称查询对应的租户数据 -->
+  <select id="listByAccount" resultMap="BaseResultMap">
+    select t.* from sys_tenant t
+    JOIN sys_user_tenant ut ON ut.fk_tenant_id = t.id
+    JOIN sys_user u ON u.id = ut.fk_user_id
+    WHERE ut.sys_owner = #{sysOwner} AND u.account = #{account}
+  </select>
+  <!-- 根据集团id查询对应的租户 -->
+  <select id="listByGroupId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select t.* from sys_tenant t
+    join sys_group_tenant gt ON t.id = gt.fk_tenant_id
+    where gt.fk_group_id = #{groupId}
+  </select>
 </mapper>

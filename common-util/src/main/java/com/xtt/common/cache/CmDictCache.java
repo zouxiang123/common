@@ -49,8 +49,8 @@ public class CmDictCache implements ICmDictFactory {
     }
 
     @Override
-    public String getItemName(String type, String value) {
-        List<DictDto> list = (List<DictDto>) RedisCacheUtil.getObject(getKey(UserUtil.getTenantId(), type));
+    public String getItemName(String type, String value, Integer tenantId) {
+        List<DictDto> list = (List<DictDto>) RedisCacheUtil.getObject(getKey(tenantId, type));
         if (CollectionUtils.isNotEmpty(list)) {
             DictDto obj;
             for (int i = 0; i < list.size(); i++) {
@@ -64,8 +64,8 @@ public class CmDictCache implements ICmDictFactory {
     }
 
     @Override
-    public List<DictDto> listByPItemCode(String type) {
-        List<DictDto> list = (List<DictDto>) RedisCacheUtil.getObject(getKey(UserUtil.getTenantId(), type));
+    public List<DictDto> listByPItemCode(String type, Integer tenantId) {
+        List<DictDto> list = (List<DictDto>) RedisCacheUtil.getObject(getKey(tenantId, type));
         if (list != null) {
             return list;
         }

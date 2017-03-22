@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,9 +25,10 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.ContextAuthUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 
 @Controller
@@ -42,7 +44,6 @@ public class UserController {
     @RequestMapping("searchUser")
     public ModelAndView searchUser(String sysOwner) {
         ModelAndView model = new ModelAndView("system/user_list");
-        model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
         model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
         model.addObject(CmDictConsts.SEX, DictUtil.listByPItemCode(CmDictConsts.SEX));
         model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sysOwner));
@@ -72,7 +73,7 @@ public class UserController {
     @RequestMapping("getFullUser")
     @ResponseBody
     public SysUserPO getFullUser(@RequestParam(value = "id", required = true) Long id) {
-        return userService.selectById(id);
+        return userService.getFullById(id, UserUtil.getSysOwner(), UserUtil.getTenantId(), UserUtil.isGroupAdmin());
     }
 
     @RequestMapping("selectUserWithFilter")
@@ -109,20 +110,30 @@ public class UserController {
     public Map<String, Object> saveUser(SysUserPO user) throws Exception {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<String, Object>();
-        if (StringUtils.isEmpty(user.getRoleId())) {
-            map.put("id", user.getId());
-            map.put("status", CommonConstants.WARNING);
-            return map;
-        } else if (user.getId() == null && userService.getUserByAccount(user.getAccount(), UserUtil.getTenantId(), null) != null) {
-            map.put("id", user.getId());
-            map.put("status", CommonConstants.FAILURE);
-            return map;
-        } else {
-            map.put("id", user.getId());
-            map.put("status", userService.saveUser(user));
-            LOGGER.info("save user total cost {}ms", System.currentTimeMillis() - start);
-            return map;
+        user.setAccount(StringUtil.trim(user.getAccount()));
+        boolean groupFlag = user.getGroupFlag() == null ? false : user.getGroupFlag();
+        user.setGroupFlag(groupFlag);
+        if (!groupFlag) {
+            if (StringUtils.isEmpty(user.getRoleId())) {
+                map.put("id", user.getId());
+                map.put("status", CommonConstants.WARNING);
+                return map;
+            } else if (user.getId() == null && checkAccount(user.getAccount(), groupFlag)) {
+                map.put("id", user.getId());
+                map.put("status", CommonConstants.FAILURE);
+                return map;
+            }
+        } else {// 新增集团用户只需检查账号是否重复
+            if (user.getId() == null && checkAccount(user.getAccount(), groupFlag)) {
+                map.put("id", user.getId());
+                map.put("status", CommonConstants.FAILURE);
+                return map;
+            }
         }
+        map.put("status", userService.saveUser(user));
+        map.put("id", user.getId());
+        LOGGER.info("save user total cost {}ms", System.currentTimeMillis() - start);
+        return map;
 
     }
 
@@ -138,9 +149,10 @@ public class UserController {
 
     @RequestMapping("checkAccountExists")
     @ResponseBody
-    public Map<String, Object> checkAccountExists(@RequestParam(value = "account", required = true) String account) throws Exception {
+    public Map<String, Object> checkAccountExists(@RequestParam(value = "account", required = true) String account, Boolean groupFlag)
+                    throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (userService.getUserByAccount(account, UserUtil.getTenantId(), null) == null) {
+        if (!checkAccount(StringUtil.trim(account), groupFlag)) {
             map.put("status", CommonConstants.SUCCESS);
             return map;
         } else {
@@ -164,6 +176,20 @@ public class UserController {
         userService.updatePassword(saveUser);
         map.put("status", CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 判断账户是否存在
+     * 
+     * @Title: checkAccount
+     * @param account
+     * @param groupFlag
+     *            是否是集团用户
+     * @return true :account exists
+     *
+     */
+    private boolean checkAccount(String account, Boolean groupFlag) {
+        return userService.getUserByAccount(account, UserUtil.getTenantId(), UserUtil.getSysOwner(), groupFlag) != null;
     }
 
     @RequestMapping("uploadImage")
@@ -196,13 +222,13 @@ public class UserController {
         if (user != null) {
             user.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, user.getSex()));
             if (user.getPosition() != null) {
-                if (user.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
+                if (Objects.equals(CommonConstants.ROLE_DOCTOR, user.getRoleType())) {
                     user.setPositionShow(DictUtil.getItemName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, user.getPosition()));
-                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
+                } else if (Objects.equals(CommonConstants.ROLE_NURSE, user.getRoleType())) {
                     user.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, user.getPosition()));
-                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_ADMIN) > -1) {
+                } else if (Objects.equals(CommonConstants.ROLE_ADMIN, user.getRoleType())) {
                     user.setPositionShow(user.getPosition());
-                } else if (user.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
+                } else if (Objects.equals(CommonConstants.ROLE_OTHER, user.getRoleType())) {
                     user.setPositionShow(user.getPosition());
                 }
             }

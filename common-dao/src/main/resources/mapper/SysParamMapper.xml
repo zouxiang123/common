@@ -207,7 +207,7 @@
   	where param_name = #{name}
   	and fk_tenant_id = #{tenantId}
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+    	AND (sys_owner = #{sysOwner} or sys_owner = 'CM')
     </if> 
   </select>
   
@@ -215,7 +215,7 @@
   	select * from sys_param
  	where fk_tenant_id = #{tenantId}
  	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+    	AND (sys_owner = #{sysOwner} or sys_owner = 'CM')
     </if> 
   </select>
   
