@@ -1,6 +1,6 @@
 /**   
  * @Title: BusinessDateUtil.java 
- * @Package com.xtt.common.common.util
+ * @Package com.xtt.txgl.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月1日 下午8:22:06 
@@ -8,8 +8,11 @@
  */
 package com.xtt.common.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.xtt.platform.util.time.DateUtil;
 
 public class BusinessDateUtil {
 
@@ -58,6 +61,23 @@ public class BusinessDateUtil {
         c.setTime(time);
         c.add(Calendar.DAY_OF_WEEK, -6);
         // calendar.add(Calendar.DAY_OF_WEEK, 1);
+        return getStartOrEnd(c, true);
+    }
+
+    /**
+     * 获取最近一周、最近两周....的开始时间
+     * 
+     * @Title: getNearestWeek
+     * @param time
+     * @param week
+     * @return 第n周的时间的后一天零点 例如 time 为 周二 返回 上周三的 00:00:00
+     *
+     */
+    public static Date getNearesOthersfWeek(Date time, Integer week) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(time);
+        Integer day = 6 * week;
+        c.add(Calendar.DAY_OF_WEEK, -day);
         return getStartOrEnd(c, true);
     }
 
@@ -281,6 +301,118 @@ public class BusinessDateUtil {
             c.set(Calendar.MILLISECOND, 999);
         }
         return c.getTime();
+    }
+
+    /**
+     * 获取具体年，具体月的每一天的日期
+     * 
+     * @param year
+     *            年份
+     * @param month
+     *            月份
+     * @return
+     */
+    public static String[] getDaysByYearAndMonth(int year, int month) {
+        // 先判断year是否是闰年
+        boolean Renyear;
+        if (year % 4 == 0 && year % 100 != 0 || year % 400 == 0) {
+            Renyear = true;
+        } else {
+            Renyear = false;
+        }
+        // 记录当月的天数
+        int day = 0;
+        switch (month) {
+        case 1:
+            day = 31;
+            break;
+        case 3:
+            day = 31;
+            break;
+        case 4:
+            day = 30;
+            break;
+        case 5:
+            day = 31;
+            break;
+        case 6:
+            day = 30;
+            break;
+        case 7:
+            day = 31;
+            break;
+        case 8:
+            day = 31;
+            break;
+        case 9:
+            day = 30;
+            break;
+        case 10:
+            day = 31;
+            break;
+        case 11:
+            day = 30;
+            break;
+        case 12:
+            day = 31;
+            break;
+        default:
+            if (Renyear) {
+                day = 29;
+            } else {
+                day = 28;
+            }
+            break;
+        }
+        // 组装具体年，月，天的数据
+        String[] days = null;
+        if (month >= 1 && month <= 12) {
+            String strMonth = String.valueOf(month);
+            strMonth = (strMonth.length() == 1 ? ("0" + strMonth) : strMonth);
+            String strYear = String.valueOf(year);
+            days = new String[day];
+            int d = 0;
+            for (int i = 0; i < day; i++) {
+                d = i + 1;
+                days[i] = strYear + "-" + strMonth + "-" + (d < 10 ? ("0" + d) : (d + ""));
+            }
+            return days;
+        }
+        return days;
+    }
+
+    /**
+     * 判断一个字符串是否为时间格式yyyy-mm-dd,yyyy,mm
+     * 
+     * @param date
+     *            字符串
+     * @return
+     */
+    public static boolean IsTime(String date) {
+        String yearRegis = "\\d{4}";
+        String monthRegis = "\\d{4}-\\d{1,2}";
+        String dayRegis = "\\d{4}-\\d{1,2}-\\d{1,2}";
+        if (date.matches(yearRegis)) {
+            return true;
+        } else if (date.matches(monthRegis)) {
+            return true;
+        } else if (date.matches(dayRegis)) {
+            return true;
+        }
+        return false;
+    }
+
+    // 获取一年中的12个月的日期
+    public static String[] getMonths(int year) {
+        String[] month = { year + "-" + "01", year + "-" + "02", year + "-" + "03", year + "-" + "04", year + "-" + "05", year + "-" + "06",
+                year + "-" + "07", year + "-" + "08", year + "-" + "09", year + "-" + "10", year + "-" + "11", year + "-" + "12" };
+        return month;
+    }
+
+    public static void main(String[] args) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String sDate = sdf.format(getNearesOthersfWeek(new Date(), 1));
+        System.out.println("----" + DateUtil.format(getNearesOthersfWeek(new Date(), 1), "yyyy-MM-dd 00:00:00"));
     }
 
 }
