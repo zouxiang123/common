@@ -102,7 +102,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             for (PatientOutcomePO po : list) {
                 po.setTypeShow(typesMap.get(po.getType()));
                 po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
-                po.setCreateUserName(UserCache.getById(po.getCreateUserId()).getName());
+                po.setCreateUserName(UserCache.getNameById(po.getCreateUserId()));
             }
         }
         return list;

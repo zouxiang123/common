@@ -51,6 +51,22 @@ public class UserCache {
         }
     }
 
+    /**
+     * 根据用户id获取用户名称
+     * 
+     * @Title: getNameById
+     * @param id
+     * @return if user not exists then "" else user.name
+     *
+     */
+    public static String getNameById(Long id) {
+        SysUserDto user = getById(id);
+        if (user != null) {
+            return user.getName();
+        }
+        return "";
+    }
+
     @SuppressWarnings("unchecked")
     public static Map<Long, SysUserDto> getById(Collection<Long> ids) {
         long start = System.currentTimeMillis();
