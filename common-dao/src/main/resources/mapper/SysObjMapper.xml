@@ -250,9 +250,9 @@
   </select>
   
   <select id="selectAllMenuList" resultMap="BaseResultMap">
-  	select * from sys_obj where version = #{version,jdbcType=VARCHAR}
+  	select so.* from sys_obj so where so.version = #{version,jdbcType=VARCHAR}
   	<if test="types != null">
-  		and type in
+  		and so.type in
   		<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
   			#{item}
   		</foreach>
@@ -260,7 +260,7 @@
   	<if test="sysOwner != null and sysOwner != ''">
     	AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
     </if> 
-  	ORDER BY p_code,code ASC
+  	ORDER BY so.p_code,so.code ASC
   </select>
   
   <select id="selectNotChecked" resultMap="BaseResultMap">

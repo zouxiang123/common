@@ -2,12 +2,11 @@ package com.xtt.common.filter;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -37,8 +36,9 @@ public class LoginFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
 
     /* 过滤地址 */
-    private List<String> excludePathList = Collections.synchronizedList(new ArrayList<String>());
-    private List<String> excludeFileList = Collections.synchronizedList(new ArrayList<String>());
+    /* 过滤地址 */
+    private Set<String> excludePathSet = null;
+    private Set<String> excludeFileSet = null;
     private boolean needRedirect = false;
     private String homePath = null;
 
@@ -47,12 +47,12 @@ public class LoginFilter implements Filter {
 
         String loadExcludePaths = filterConfig.getInitParameter("excludePath");
         if (StringUtils.isNotBlank(loadExcludePaths)) {
-            arrayConvertList(loadExcludePaths, excludePathList);
+            excludePathSet = arrayConvertSet(loadExcludePaths);
         }
 
         String loadexcludeFiles = filterConfig.getInitParameter("excludeFile");
         if (StringUtil.isNotBlank(loadexcludeFiles)) {
-            arrayConvertList(loadexcludeFiles, excludeFileList);
+            excludeFileSet = arrayConvertSet(loadexcludeFiles);
         }
         String needRedirectStr = filterConfig.getInitParameter("needRedirect");
         if (StringUtil.isNotBlank(needRedirectStr)) {
@@ -70,7 +70,7 @@ public class LoginFilter implements Filter {
         // clear local thread login user
         UserUtil.setThreadLoginUser(null);
         /** 校验是否特殊地址 排除[excludePath、excludeFile] */
-        if (SSOClientUtil.isVerifyRequestFile(excludeFileList, request) || SSOClientUtil.isVerifyRequestURL(excludePathList, request)) {
+        if (SSOClientUtil.isVerifyRequestFile(excludeFileSet, request) || SSOClientUtil.isVerifyRequestURL(excludePathSet, request)) {
             chain.doFilter(request, response);
             return;
         }
@@ -158,23 +158,28 @@ public class LoginFilter implements Filter {
 
     @Override
     public void destroy() {
-        excludePathList.clear();
-        excludeFileList.clear();
+        if (excludePathSet != null) {
+            excludePathSet.clear();
+        }
+        if (excludeFileSet != null) {
+            excludeFileSet.clear();
+        }
         needRedirect = false;
         homePath = null;
     }
 
     /**
      * 数组转集合
-     *
+     * 
      * @param arrays
-     * @param addlist
      */
-    private void arrayConvertList(String arrays, List<String> addlist) {
+    private Set<String> arrayConvertSet(String arrays) {
         String[] analyArrays = arrays.split(",");
+        Set<String> set = new HashSet<>(analyArrays.length);
         for (String path : analyArrays) {
-            addlist.add(path);
+            set.add(path);
         }
+        return set;
     }
 
     private boolean isLogin(HttpServletRequest request, Map<String, Object> authMap) {
