@@ -62,7 +62,7 @@ public interface IUserService {
     SysUserPO selectById(Long userId);
 
     /**
-     * 更新用户数据
+     * 更新用户数据<br>
      *
      * @Title: updateUser
      * @param user
@@ -101,7 +101,8 @@ public interface IUserService {
     List<SysUserPO> listAll();
 
     /**
-     * 通过id删除对象
+     * 通过id删除对象<br>
+     * 设置del_flag = 1,删除用户和角色的关联数据
      *
      * @Title: deleteUserById
      * @param id
@@ -156,13 +157,13 @@ public interface IUserService {
     Integer getNursesCount(Integer tenantId, String sysOwner);
 
     /**
-     * 更新用户信息
+     * 根据用户id更新用户基础信息
      *
-     * @Title: updateUser
+     * @Title: updateUserBasicInfo
      * @param user
      *
      */
-    int updateUser(SysUserPO user);
+    int updateUserBasicInfo(SysUser user);
 
     /**
      * 重置用户密码
@@ -203,7 +204,10 @@ public interface IUserService {
     int updatePassword(SysUserPO user);
 
     /**
-     * 根据UserId，查询包含角色数据的用户对象
+     * 获取用户详细信息<br>
+     * 集团方式：根据创建该用户的租户id查询数据（包含拥有的租户，不包含角色数据，不含所属系统）<br>
+     * 普通方式：根据用户和租户的关联表获取数据（包含角色数据，所属系统，拥有的租户）
+     * 
      *
      * @Title: getFullById
      * @param id
@@ -213,7 +217,7 @@ public interface IUserService {
      * @param tenantId
      *            租户id
      * @param groupFlag
-     *            维护集团用户标识
+     *            以集团方式获取用户数据
      * @return
      *
      */

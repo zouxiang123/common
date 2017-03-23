@@ -9,7 +9,6 @@
 package com.xtt.common.constants;
 
 import com.xtt.platform.util.config.PropertiesUtil;
-import com.xtt.platform.util.security.MD5Util;
 
 /**
  * @ClassName: Constants
@@ -23,7 +22,7 @@ public class CommonConstants {
     /** 系统用户ID（JOB、硬件接口、API接口用） */
     public static final Long SYSTEM_USER_ID = 1L;
 
-    public static final String DEFAULT_PASSWORD = MD5Util.md5("123456");// 默认密码
+    public static final String DEFAULT_PASSWORD = "123456";// 默认密码
 
     /*--------------------状态提示相关 start --------------------*/
     /** 状态 */

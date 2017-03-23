@@ -141,7 +141,7 @@ public class UserController {
     @ResponseBody
     public Map<String, Object> updateUser(SysUserPO user) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        userService.updateUser(user);
+        userService.saveUser(user);
         map.put("id", user.getId());
         map.put("status", CommonConstants.SUCCESS);
         return map;

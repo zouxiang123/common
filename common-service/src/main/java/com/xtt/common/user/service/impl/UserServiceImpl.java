@@ -95,13 +95,13 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String saveUser(SysUserPO user) {
         if (StringUtil.isNotBlank(user.getName())) {
-            user.setName(user.getName().trim());
+            user.setName(StringUtil.trim(user.getName()));
             user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
         }
         // 是否是维护集团用户标识
         boolean groupFlag = user.getGroupFlag() == null || !user.getGroupFlag() ? false : true;
         if (user.getId() != null) {
-            if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
+            if (!groupFlag && StringUtil.isNotBlank(user.getRoleId())) {// 非集团用户且角色id不为空时，才需建立用户和角色的关联
                 sysUser2roleMapper.deleteByUserId(user.getId(), UserUtil.getTenantId(), UserUtil.getSysOwner());// 删除原来旧的关联数据
                 associationRole(user.getRoleId(), user.getId());// 重新创建关联
             }
@@ -117,7 +117,7 @@ public class UserServiceImpl implements IUserService {
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             user.setFkTenantId(UserUtil.getTenantId());
-            user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
+            user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));// 设置默认密码
             if (!groupFlag) {
                 // 设置关联的租户为当前租户
                 user.setMultiTenant(String.valueOf(UserUtil.getTenantId()));
@@ -365,7 +365,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public int updateUser(SysUserPO user) {
+    public int updateUserBasicInfo(SysUser user) {
         if (StringUtils.isNotBlank(user.getName())) {
             user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
         }
@@ -379,7 +379,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void resetUserPassword(Long id) {
-        sysUserMapper.updatePassword(id, CommonConstants.DEFAULT_PASSWORD);
+        SysUserPO user = new SysUserPO();
+        user.setId(id);
+        user.setPassword(CommonConstants.DEFAULT_PASSWORD);
+        updatePassword(user);
     }
 
     @Override
@@ -471,7 +474,7 @@ public class UserServiceImpl implements IUserService {
                 loginUser.setMultiTenant(sysUser.getMultiTenant());
                 loginUser.setUserType(sysUser.getUserType());
                 UserUtil.setLoginUser(token, loginUser);
-                if (!isGroupAdmin) {// 集团用户不需要设置角色相关信息
+                if (!isGroupAdmin) {// 集团管理员不需要设置角色相关信息
                     UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
                     UserUtil.setPermission(sysUser.getRoleId());// 设置有权限的菜单列表
                     // 设置用户职称
