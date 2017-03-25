@@ -31,6 +31,7 @@ import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.GenerationUUID;
 import com.xtt.platform.util.lang.NumberUtil;
 import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
 
 @Service
@@ -180,17 +181,15 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
             po.setId(GenerationUUID.getGenerationUUID());
             po.setFkPatientId(dPO.getFkPatientId());
 
-            Date assayDate = dPO.getAssayDate();
-            po.setReportTime(assayDate);// 报告日期
-            po.setAssayDate(DateUtil.format(assayDate, "yyyy-MM-dd"));// 化验日期
-            po.setAssayMonth(DateUtil.format(assayDate, "yyyy-MM"));// 化验日期
-            po.setSampleTime(assayDate);// 取样时间
+            String assayDate = dPO.getAssayDateStr();// 化验日期
+            Date formartAssayDate = DateFormatUtil.getStartTime(assayDate);// 化验日期格式化
+            po.setReportTime(formartAssayDate);// 报告日期
+            po.setAssayDate(assayDate);// 化验日期
+            po.setAssayMonth(DateUtil.format(DateFormatUtil.convertStrToDate(assayDate), "yyyy-MM"));// 化验日期
+            po.setSampleTime(formartAssayDate);// 取样时间
 
-            po.setCheckTime(assayDate);// 检查时间
-            po.setReqTime(assayDate);// 申请时间
-
-            po.setCheckTime(dPO.getAssayDate());
-            po.setReqTime(dPO.getAssayDate());
+            po.setCheckTime(formartAssayDate);// 检查时间
+            po.setReqTime(formartAssayDate);// 申请时间
 
             String groupId = PinyinHelper.convertToPinyinString(dPO.getGroupName(), "", PinyinFormat.WITHOUT_TONE);
             po.setGroupId(groupId);
