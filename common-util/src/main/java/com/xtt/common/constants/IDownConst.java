@@ -98,5 +98,5 @@ public interface IDownConst {
 
     String SHZK_TYPE_REFRESH = "sx";
 
-    int TENANT_XMZS = 10105;
+    int TENANT_XMZS = 10102;
 }
