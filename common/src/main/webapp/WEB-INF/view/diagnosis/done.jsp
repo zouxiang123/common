@@ -229,28 +229,6 @@
 													</c:if>
 												</c:forEach>
 											</c:forEach>
-									<%-- <tr>
-										<td width="360"></td>
-										<td width="150" class="personal-key">住院号：</td>
-										<td width="18"></td>
-										<td width="200" class="personal-value">${patient.admissionNumber }</td>
-										<td></td>
-										<td width="150" class="personal-key">门诊号：</td>
-										<td width="18"></td>
-										<td width="200" class="personal-value">${patient.outpatientNumber }</td>
-										<td width="300"></td>
-									</tr>
-									<tr>
-										<td width="360"></td>
-										<td width="150" class="personal-key">医保卡类别：</td>
-										<td width="18"></td>
-										<td width="200" class="personal-value">${patient.medicareCardTypeShow }</td>
-										<td></td>
-										<td width="150" class="personal-key">医保卡号：</td>
-										<td width="18"></td>
-										<td width="200" class="personal-value">${patient.medicareCard }</td>
-										<td width="300"></td>
-									</tr> --%>
 								</tbody>
 							</table>
 						</div>

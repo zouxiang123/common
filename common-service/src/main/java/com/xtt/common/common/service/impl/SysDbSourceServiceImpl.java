@@ -14,7 +14,7 @@ import com.xtt.common.constants.IDownConst;
 import com.xtt.common.dao.mapper.SysDbSourceMapper;
 import com.xtt.common.dao.model.PatientOrders;
 import com.xtt.common.dao.model.SysDbSource;
-import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.common.util.DictUtil;
@@ -218,7 +218,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
      *获取病患基本信息
      */
     @Override
-    public CmPatientPO patientDB(CmQueryPO query) throws Exception {
+    public PatientPO patientDB(CmQueryPO query) throws Exception {
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB Begin===>", query.getSysOwner());
         String tenantId = HttpServletUtil.getCookieValueByName("tenantId");// 租户ID
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_PT);
@@ -235,7 +235,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         json = httpClientResultUtil.getContext();
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB json:" + json, query.getSysOwner());
 
-        CmPatientPO patient = JsonUtil.AllJsonUtil().fromJson(json, CmPatientPO.class);
+        PatientPO patient = JsonUtil.AllJsonUtil().fromJson(json, PatientPO.class);
         String msg = "输入参数：" + cardNo + ",返回病患：";
         if (patient != null) {
             patient.setIdType("1");

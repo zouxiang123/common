@@ -52,7 +52,7 @@ public class PatientAssayController {
         model.addObject("assayResult", patientAssayResultService.getByPatientId(patientId));
         model.addObject("patientId", patientId);
         model.addObject("tenantId", UserUtil.getTenantId());
-        model.addObject("patient", cmPatientService.selectById(patientId));
+        model.addObject("patient", cmPatientService.getById(patientId));
         return model;
     }
 

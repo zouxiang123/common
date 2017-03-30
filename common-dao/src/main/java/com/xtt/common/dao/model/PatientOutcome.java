@@ -7,7 +7,6 @@ import java.util.Date;
  */
 public class PatientOutcome {
     /**
-     * 物理主键
      * patient_outcome.id
      */
     private Long id;
@@ -19,7 +18,7 @@ public class PatientOutcome {
     private Long fkPatientId;
 
     /**
-     * 转归类型
+     * 类型:(1:腹透,2:移植,3:死亡)	
      * patient_outcome.type
      */
     private String type;
@@ -31,7 +30,7 @@ public class PatientOutcome {
     private Date recordDate;
 
     /**
-     * 转归原因
+     * 原因
      * patient_outcome.reason
      */
     private String reason;
@@ -43,44 +42,49 @@ public class PatientOutcome {
     private String sysOwner;
 
     /**
-     * 租户id
+     * 转出到的系统
+     * patient_outcome.to_sys_owner
+     */
+    private String toSysOwner;
+
+    /**
      * patient_outcome.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
+     * 转出医院
+     * patient_outcome.to_tenant_id
+     */
+    private Integer toTenantId;
+
+    /**
      * patient_outcome.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
      * patient_outcome.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
      * patient_outcome.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
      * patient_outcome.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 物理主键
      */
     public Long getId() {
         return id;
     }
 
     /**
-     * 物理主键
      */
     public void setId(Long id) {
         this.id = id;
@@ -101,14 +105,14 @@ public class PatientOutcome {
     }
 
     /**
-     * 转归类型
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 转归类型
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public void setType(String type) {
         this.type = type;
@@ -129,14 +133,14 @@ public class PatientOutcome {
     }
 
     /**
-     * 转归原因
+     * 原因
      */
     public String getReason() {
         return reason;
     }
 
     /**
-     * 转归原因
+     * 原因
      */
     public void setReason(String reason) {
         this.reason = reason;
@@ -157,70 +161,88 @@ public class PatientOutcome {
     }
 
     /**
-     * 租户id
+     * 转出到的系统
+     */
+    public String getToSysOwner() {
+        return toSysOwner;
+    }
+
+    /**
+     * 转出到的系统
+     */
+    public void setToSysOwner(String toSysOwner) {
+        this.toSysOwner = toSysOwner;
+    }
+
+    /**
      */
     public Integer getFkTenantId() {
         return fkTenantId;
     }
 
     /**
-     * 租户id
      */
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
     }
 
     /**
-     * 创建时间
+     * 转出医院
+     */
+    public Integer getToTenantId() {
+        return toTenantId;
+    }
+
+    /**
+     * 转出医院
+     */
+    public void setToTenantId(Integer toTenantId) {
+        this.toTenantId = toTenantId;
+    }
+
+    /**
      */
     public Date getCreateTime() {
         return createTime;
     }
 
     /**
-     * 创建时间
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
     /**
-     * 创建人
      */
     public Long getCreateUserId() {
         return createUserId;
     }
 
     /**
-     * 创建人
      */
     public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 
     /**
-     * 更新时间
      */
     public Date getUpdateTime() {
         return updateTime;
     }
 
     /**
-     * 更新时间
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
     /**
-     * 更新人
      */
     public Long getUpdateUserId() {
         return updateUserId;
     }
 
     /**
-     * 更新人
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;

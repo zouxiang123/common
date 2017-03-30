@@ -19,6 +19,7 @@ public class PatientOutcomePO extends PatientOutcome {
     private String typeShow;
     private String patientName;
     private String createUserName;
+    private String[] excludeTypes;
 
     private Date startDate;
     private Date endDate;
@@ -75,6 +76,14 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setCreateUserName(String createUserName) {
         this.createUserName = createUserName;
+    }
+
+    public String[] getExcludeTypes() {
+        return excludeTypes;
+    }
+
+    public void setExcludeTypes(String[] excludeTypes) {
+        this.excludeTypes = excludeTypes;
     }
 
 }

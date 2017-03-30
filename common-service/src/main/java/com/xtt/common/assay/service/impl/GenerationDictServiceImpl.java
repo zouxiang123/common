@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xtt.common.assay.service.IGenerationDictService;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
-import com.xtt.common.dao.mapper.CmPatientMapper;
+import com.xtt.common.dao.mapper.PatientMapper;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dao.po.CmQueryPO;
@@ -33,7 +33,7 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
 
     // 病患基本信息
     @Resource
-    private CmPatientMapper cmPatientMapper;
+    private PatientMapper cmPatientMapper;
 
     /* 
      * 检验字典同步

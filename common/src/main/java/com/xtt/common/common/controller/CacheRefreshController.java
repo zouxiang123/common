@@ -37,7 +37,7 @@ public class CacheRefreshController {
     @ResponseBody
     public Map<String, Object> patient() {
         Map<String, Object> map = new HashMap<String, Object>();
-        commonCacheService.cachePatient(UserUtil.getTenantId());
+        commonCacheService.cachePatient();
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }

@@ -10,10 +10,12 @@ package com.xtt.common.patient.service.impl;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,13 +25,12 @@ import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.mapper.CmPatientHistoryMapper;
-import com.xtt.common.dao.mapper.CmPatientMapper;
-import com.xtt.common.dao.model.CmPatient;
-import com.xtt.common.dao.model.CmPatientHistory;
+import com.xtt.common.dao.mapper.PatientHistoryMapper;
+import com.xtt.common.dao.mapper.PatientMapper;
+import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientOwner;
-import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.patient.service.IPatientOwnerService;
@@ -39,7 +40,9 @@ import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
 import com.xtt.platform.util.FamilyUtil;
+import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.SpellUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 /**
  * @ClassName: PatientServiceImpl
@@ -50,10 +53,12 @@ import com.xtt.platform.util.SpellUtil;
 @Service
 public class CmPatientServiceImpl implements ICmPatientService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmPatientServiceImpl.class);
+
     @Autowired
-    private CmPatientMapper cmPatientMapper;
+    private PatientMapper patientMapper;
     @Autowired
-    private CmPatientHistoryMapper cmPatientHistoryMapper;
+    private PatientHistoryMapper patientHistoryMapper;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
     @Autowired
@@ -70,37 +75,32 @@ public class CmPatientServiceImpl implements ICmPatientService {
      */
     private void updateCache(Long id) {
         // update cache
-        CmPatientPO p = selectById(id, false);
+        PatientPO p = getById(id, false);
         PatientDto patientDto = new PatientDto();
         BeanUtils.copyProperties(p, patientDto);
         PatientCache.refresh(patientDto);
     }
 
     @Override
-    public void savePatient(CmPatient patient, boolean isImport) {
-        patient.setFkTenantId(UserUtil.getLoginUser().getTenantId());
+    public void savePatient(Patient patient, boolean isImport) {
         DataUtil.setSystemFieldValue(patient);
-        CmPatient prePatient = null;
+        patient.setName(StringUtil.stripToNull(patient.getName()));
+        Patient prePatient = null;
         if (patient.getId() != null) {
-            prePatient = this.selectById(patient.getId());
+            prePatient = this.getById(patient.getId());
         }
         // 新建或修改了姓名才生成首字母
-        if (prePatient == null && StringUtils.isNotBlank(patient.getName())
-                        || prePatient != null && !prePatient.getName().equals(patient.getName())) {
-            patient.setName(patient.getName().trim());
-            String spellInitials = SpellUtil.getSpellInitials(patient.getName());
+        if (StringUtil.isNotBlank(patient.getName()) && (prePatient == null || !Objects.equals(prePatient.getName(), patient.getName()))) {
+            patient.setSpellInitials(SpellUtil.getSpellInitials(patient.getName()));
             patient.setInitial(FamilyUtil.getInitial(patient.getName().substring(0, 1)).toUpperCase());
-            if (StringUtils.isNotEmpty(spellInitials)) {
-                patient.setSpellInitials(spellInitials);
-            }
         }
         if (patient.getId() == null) {
-            patient.setDelFlag(false);
-            cmPatientMapper.insert(patient);
+            patient.setId(PrimaryKeyUtil.getPrimaryKey("Patient", UserUtil.getTenantId()));
+            patientMapper.insert(patient);
             // 插入数据到所属系统子表
             PatientOwner owner = new PatientOwner();
             owner.setFkPatientId(patient.getId());
-            owner.setSysOwner(patient.getSysOwner());
+            owner.setSysOwner(UserUtil.getSysOwner());
             owner.setFkTenantId(UserUtil.getTenantId());
             owner.setIsEnable(true);
             patientOwnerService.insert(owner);
@@ -109,41 +109,39 @@ public class CmPatientServiceImpl implements ICmPatientService {
         } else {
             patient.setCreateTime(null);
             patient.setCreateUserId(null);
-            cmPatientMapper.updateByPrimaryKeySelective(patient);
+            patientMapper.updateByPrimaryKeySelective(patient);
         }
         // 上传头像
         String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT
                         + "/" + patient.getId() + ".png";
         // 首次创建头像
-        if (StringUtils.isBlank(patient.getImagePath()) && prePatient == null) {
-            // commonService.notifyDB();
+        if (prePatient == null) {
             String name = patient.getName().length() >= 2 ? patient.getName().substring(patient.getName().length() - 2) : patient.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
             patient.setImagePath(newFilename);
-            cmPatientMapper.updateByPrimaryKeySelective(patient);
+            patientMapper.updateByPrimaryKeySelective(patient);
         }
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
         // 修改头像
         if (!newFilename.equals(patient.getImagePath())) {
             com.xtt.platform.util.io.FileUtil.rename(new File(path + patient.getImagePath()), patient.getId() + ".png");
             patient.setImagePath(newFilename);
-            cmPatientMapper.updateByPrimaryKeySelective(patient);
+            patientMapper.updateByPrimaryKeySelective(patient);
         }
 
         try {
-            if (prePatient == null || prePatient != null && !prePatient.getIdNumber().equals(patient.getIdNumber())) {
+            if (prePatient == null || (prePatient != null && !Objects.equals(prePatient.getIdNumber(), patient.getIdNumber()))) {
                 // 生成二维码
                 QRCodeUtil.encode(patient.getIdNumber(), null, path + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT_BARCODE,
                                 "/" + patient.getId() + ".png", true);
                 patient.setBarcodePath("/" + UserUtil.getTenantId() + "/images/patient/barcode/" + patient.getId() + ".png");
-                cmPatientMapper.updateByPrimaryKeySelective(patient);
+                patientMapper.updateByPrimaryKeySelective(patient);
             }
-            CmPatientHistory ph = new CmPatientHistory();
-            PropertyUtils.copyProperties(ph, cmPatientMapper.selectById(patient.getId()));
-            cmPatientHistoryMapper.insert(ph);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("create QR code failed,case by:", e);
         }
+        // 插入数据到历史表
+        patientHistoryMapper.copyFormPatient(patient.getId());
         // update cache
         updateCache(patient.getId());
     }
@@ -174,39 +172,35 @@ public class CmPatientServiceImpl implements ICmPatientService {
     }
 
     @Override
-    public void updatePatient(CmPatient patient) {
-        DataUtil.setSystemFieldValue(patient);
-        cmPatientMapper.updateByPrimaryKey(patient);
-        CmPatientHistory ph = new CmPatientHistory();
-        try {
-            PropertyUtils.copyProperties(ph, cmPatientMapper.selectById(patient.getId()));
-            cmPatientHistoryMapper.insert(ph);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void updatePatient(Patient patient) {
+        DataUtil.setUpdateSystemFieldValue(patient);
+        patientMapper.updateByPrimaryKey(patient);
+        patientHistoryMapper.copyFormPatient(patient.getId());
         // update cache
         updateCache(patient.getId());
     }
 
     @Override
-    public List<CmPatientPO> getPatientByTenantId(Integer tenantId, Boolean delFlag) {
-        CmPatientPO patient = new CmPatientPO();
+    public List<PatientPO> listByTenantId(Integer tenantId, Boolean isEnable, String sysOwner) {
+        PatientPO patient = new PatientPO();
         patient.setFkTenantId(tenantId);
-        patient.setDelFlag(delFlag);
-        return cmPatientMapper.selectByCondition(patient);
+        patient.setIsEnable(isEnable);
+        patient.setSysOwner(sysOwner);
+        return listByCondition(patient);
     }
 
     @Override
-    public Integer getPatientCount(Integer tenantId) {
-        CmPatientPO patient = new CmPatientPO();
+    public Integer countPatient(Integer tenantId, String sysOwner, Boolean isEnable) {
+        PatientPO patient = new PatientPO();
         patient.setFkTenantId(tenantId);
-        patient.setDelFlag(Boolean.FALSE);
-        return cmPatientMapper.selectCountByCondition(patient);
+        patient.setSysOwner(sysOwner);
+        patient.setIsEnable(isEnable);
+        return patientMapper.countByCondition(patient);
     }
 
     @Override
-    public CmPatientPO selectById(Long id) {
-        return selectById(id, true);
+    public PatientPO getById(Long id) {
+        return getById(id, true);
     }
 
     /**
@@ -218,78 +212,70 @@ public class CmPatientServiceImpl implements ICmPatientService {
      * @return
      *
      */
-    private CmPatientPO selectById(Long id, boolean fromCache) {
-        CmPatientPO patient = null;
+    private PatientPO getById(Long id, boolean fromCache) {
+        PatientPO patient = null;
         if (fromCache) {
             PatientDto patientDto = PatientCache.getById(id);
             if (patientDto != null) {
-                patient = new CmPatientPO();
+                patient = new PatientPO();
                 BeanUtils.copyProperties(patientDto, patient);
+                return patient;
             }
         }
         if (patient == null) {
-            patient = cmPatientMapper.selectById(id);
+            patient = patientMapper.getById(id);
         }
         if (patient != null) {
             patient.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, patient.getSex()));
-            patient.setMedicareCardTypeShow(DictUtil.getItemName(CmDictConsts.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
         }
         return patient;
     }
 
     @Override
-    public List<CmPatientPO> selectByCondition(CmPatient patent) {
-        patent.setFkTenantId(UserUtil.getTenantId());
-        return cmPatientMapper.selectByCondition(patent);
+    public List<PatientPO> listByCondition(PatientPO patent) {
+        return init(patientMapper.listByCondition(patent));
     }
 
     @Override
-    public CmPatientPO selectPatientByIdNumber(CmPatient patient) {
-        List<CmPatientPO> list = cmPatientMapper.selectPatientByIdNumber(patient);
-        if (CollectionUtils.isNotEmpty(list)) {
-            return list.get(0);
-        }
-        return null;
-    }
-
-    @Override
-    public boolean checkPatientExistByIdNumber(Long id, String idNumber) {
-        CmPatientPO patient = new CmPatientPO();
-        patient.setId(id);
-        patient.setIdNumber(idNumber);
-        patient.setFkTenantId(UserUtil.getTenantId());
-        List<CmPatientPO> list = cmPatientMapper.selectPatientByIdNumber(patient);
+    public boolean checkIdNumberExist(Long id, String idNumber) {
+        List<PatientPO> list = patientMapper.listByIdNumber(idNumber, id);
         return CollectionUtils.isEmpty(list) ? false : true;
     }
 
     @Override
-    public void updateByPrimaryKeySelective(CmPatient patient) {
-        cmPatientMapper.updateByPrimaryKeySelective(patient);
+    public void updateByPrimaryKeySelective(Patient patient) {
+        DataUtil.setUpdateSystemFieldValue(patient);
+        patientMapper.updateByPrimaryKeySelective(patient);
+        patientHistoryMapper.copyFormPatient(patient.getId());
         updateCache(patient.getId());
     }
 
     @Override
-    public List<CmPatientPO> selectByActive() {
-        CmPatient p = new CmPatient();
-        p.setDelFlag(false);
-        p.setFkTenantId(UserUtil.getTenantId());
-        return selectByCondition(p);
+    public Patient login(String account, String password) {
+        return patientMapper.login(account, password);
+    }
+
+    /**
+     * 初始化患者性别，电话号码的显示
+     * 
+     * @Title: init
+     * @param list
+     * @return
+     *
+     */
+    private List<PatientPO> init(List<PatientPO> list) {
+        if (CollectionUtils.isEmpty(list))
+            return list;
+        Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
+        list.forEach(patient -> {
+            patient.setSexShow(sexMap.get(patient.getSex()));
+            patient.setMobileShow(StringUtil.formatMobile(patient.getMobile()));
+        });
+        return list;
     }
 
     @Override
-    public CmPatient login(String account, String password) {
-        return cmPatientMapper.login(account, password);
-    }
-
-    @Override
-    public List<CmPatientPO> getAllPatientByTenantId(Integer tenantId) {
-        CmPatientPO patient = new CmPatientPO();
-        patient.setFkTenantId(tenantId);
-        return cmPatientMapper.selectByCondition(patient);
-    }
-
-    @Override
-    public void updatePatientType(Integer tenantId) {
-        cmPatientMapper.updatePatientType(tenantId);
+    public List<PatientPO> listAll() {
+        return listByCondition(new PatientPO());
     }
 }

@@ -10,8 +10,8 @@ package com.xtt.common.patient.service;
 
 import java.util.List;
 
-import com.xtt.common.dao.model.CmPatient;
-import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.po.PatientPO;
 
 /**
  * @ClassName: IPatientService
@@ -29,7 +29,7 @@ public interface ICmPatientService {
      * @return
      *
      */
-    public CmPatient login(String account, String password);
+    public Patient login(String account, String password);
 
     /**
      * 验证身份证是否已存在
@@ -40,7 +40,7 @@ public interface ICmPatientService {
      * @return
      * 
      */
-    public boolean checkPatientExistByIdNumber(Long id, String idNumber);
+    public boolean checkIdNumberExist(Long id, String idNumber);
 
     /**
      * 新增患者
@@ -51,7 +51,7 @@ public interface ICmPatientService {
      *            是否是导入患者
      * 
      */
-    public void savePatient(CmPatient patient, boolean isImport);
+    public void savePatient(Patient patient, boolean isImport);
 
     /**
      * 更新患者
@@ -60,37 +60,34 @@ public interface ICmPatientService {
      * @param patient
      * 
      */
-    public void updatePatient(CmPatient patient);
+    public void updatePatient(Patient patient);
 
     /**
      * 查询该租户的所有患者
      * 
-     * @Title: getPatientByTenantId
+     * @Title: listByTenantId
      * @param tenantId
+     *            租户id
+     * @param sysOwner
+     *            所属系统
+     * @param isEnable
+     *            患者在当前系统是否有效
      * @return
      * 
      */
-    public List<CmPatientPO> getPatientByTenantId(Integer tenantId, Boolean delFlag);
+    public List<PatientPO> listByTenantId(Integer tenantId, Boolean isEnable, String sysOwner);
 
     /**
-     * 查询该租户的所有患者
+     * 根据租户id,所属系统，是否有效获取患者条数
      * 
-     * @Title: getPatientByTenantId
+     * @Title: countPatient
      * @param tenantId
+     * @param sysOwner
+     * @param isEnable
      * @return
-     * 
+     *
      */
-    public List<CmPatientPO> getAllPatientByTenantId(Integer tenantId);
-
-    /**
-     * 获取当前租户下所有患者数目
-     * 
-     * @Title: getPatientCount
-     * @param tenantId
-     * @return
-     * 
-     */
-    public Integer getPatientCount(Integer tenantId);
+    public Integer countPatient(Integer tenantId, String sysOwner, Boolean isEnable);
 
     /**
      * @Title: selectById 根据主键查询患者信息
@@ -98,7 +95,7 @@ public interface ICmPatientService {
      * @return
      * 
      */
-    public CmPatientPO selectById(Long id);
+    public PatientPO getById(Long id);
 
     /**
      * 根据条件查询患者集合
@@ -108,35 +105,23 @@ public interface ICmPatientService {
      * @return
      * 
      */
-    List<CmPatientPO> selectByCondition(CmPatient patent);
+    List<PatientPO> listByCondition(PatientPO patent);
 
     /**
-     * 根据身份证号查询患者信息
+     * 根据主键更新非空字段
      * 
-     * @Title: selectPatientByIdNumber
+     * @Title: updateByPrimaryKeySelective
      * @param patient
-     * @return
-     * 
+     *
      */
-    public CmPatientPO selectPatientByIdNumber(CmPatient patient);
-
-    public void updateByPrimaryKeySelective(CmPatient patient);
+    public void updateByPrimaryKeySelective(Patient patient);
 
     /**
-     * 查询未转归患者
+     * 查询所有患者
      * 
-     * @Title: selectByActive
+     * @Title: listAll
      * @return
      *
      */
-    public List<CmPatientPO> selectByActive();
-
-    /**
-     * 更新当前租户下患者类别标识(住院还是随访)
-     * 
-     * @Title: updatePatientType
-     * @param tenantId
-     *
-     */
-    public void updatePatientType(Integer tenantId);
+    public List<PatientPO> listAll();
 }

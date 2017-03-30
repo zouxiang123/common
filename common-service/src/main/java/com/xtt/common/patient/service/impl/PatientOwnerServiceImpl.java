@@ -41,7 +41,7 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
         if (CollectionUtils.isNotEmpty(list)) {// 判断所属系统是否存在,如果存在，更新其是否有效标识
             PatientOwner owner = list.get(0);
             owner.setIsEnable(record.getIsEnable());
-            DataUtil.setSystemFieldValue(owner);
+            DataUtil.setUpdateSystemFieldValue(owner);
             patientOwnerMapper.updateByPrimaryKey(owner);
         } else {
             insert(record);

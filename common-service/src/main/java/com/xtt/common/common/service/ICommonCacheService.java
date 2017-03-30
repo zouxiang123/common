@@ -42,7 +42,7 @@ public interface ICommonCacheService {
      * @param tenantId
      *
      */
-    public void cachePatient(Integer tenantId);
+    public void cachePatient();
 
     /**
      * 缓存动态表单节点

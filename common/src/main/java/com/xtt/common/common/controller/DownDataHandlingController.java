@@ -53,8 +53,6 @@ public class DownDataHandlingController {
             try {
                 UserUtil.setThreadTenant(tenantId);
                 if ("patient".equals(type)) {
-                    cmPatientService.updatePatientType(tenantId);
-                    commonCacheService.cachePatient(tenantId);
                     // 调用随访自动处理数据
                     Map<String, String> param = new HashMap<>();
                     param.put("tenantId", tenantId + "");

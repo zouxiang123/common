@@ -669,7 +669,7 @@
     ,p.name AS patientName
     FROM patient_assay_record par
     LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
-    LEFT JOIN patient p ON p.id = par.fk_patient_id AND p.fk_tenant_id = par.fk_tenant_id
+    LEFT JOIN patient p ON p.id = par.fk_patient_id
     WHERE
         par.fk_tenant_id = #{fkTenantId}
         AND dhl.fk_dict_code = #{fkDictCode}

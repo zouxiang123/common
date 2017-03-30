@@ -8,8 +8,10 @@
  */
 package com.xtt.common.patient.service;
 
+import java.util.Collection;
 import java.util.List;
 
+import com.xtt.common.dao.model.PatientOutcome;
 import com.xtt.common.dao.po.PatientOutcomePO;
 
 public interface IPatientOutcomeService {
@@ -21,7 +23,7 @@ public interface IPatientOutcomeService {
      * @param record
      * 
      */
-    void save(PatientOutcomePO record);
+    void save(PatientOutcome record);
 
     /**
      * 根据患者id查询所有转归记录
@@ -42,5 +44,22 @@ public interface IPatientOutcomeService {
      *
      */
     List<PatientOutcomePO> selectByCondition(PatientOutcomePO record);
+
+    /**
+     * 查询最新的一条转归记录
+     * 
+     * @Title: listLatest
+     * @param patientIds
+     *            患者ids
+     * @param month
+     *            月份
+     * @param tenantId
+     *            租户id
+     * @param sysOwner
+     *            所属系统
+     * @return
+     *
+     */
+    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, Integer tenantId, String sysOwner);
 
 }

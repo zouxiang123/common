@@ -8,8 +8,11 @@
  */
 package com.xtt.common.patient.service.impl;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +22,17 @@ import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.PatientOutcomeMapper;
-import com.xtt.common.dao.model.CmPatient;
+import com.xtt.common.dao.model.PatientOutcome;
 import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientOutcomePO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.dto.PatientDto;
+import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
@@ -35,49 +40,23 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     @Autowired
     private PatientOutcomeMapper patientOutcomeMapper;
     @Autowired
-    private ICmPatientService cmPatientService;
-    @Autowired
     private IPatientOwnerService patientOwnerService;
 
     @Override
-    public void save(PatientOutcomePO record) {
-        Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
-        CmPatient patient = new CmPatient();
-        if (sysOwners.containsKey(record.getType())) {
-            // 如果是转回当前系统或者转到其他系统
-            patient.setId(record.getFkPatientId());
-            patient.setSysOwner(record.getType());
-            patient.setFkTenantId(record.getFkTenantId());
-            patient.setDelFlag(false);
-            updatePatient(patient);
-        } else {
-            // 其它类别转归
-            patient.setId(record.getFkPatientId());
-            patient.setSysOwner(record.getSysOwner());
-            patient.setFkTenantId(record.getFkTenantId());
-            patient.setDelFlag(true);
-            updatePatient(patient);
-        }
+    public void save(PatientOutcome record) {
         record.setFkTenantId(UserUtil.getTenantId());
         DataUtil.setSystemFieldValue(record);
         patientOutcomeMapper.insert(record);
-    }
 
-    /**
-     * 更新患者数据
-     * 
-     * @Title: updatePatient
-     * @param patient
-     *
-     */
-    private void updatePatient(CmPatient patient) {
-        cmPatientService.updateByPrimaryKeySelective(patient);
         PatientOwner owner = new PatientOwner();
-        owner.setFkPatientId(patient.getId());
-        owner.setSysOwner(patient.getSysOwner());
-        owner.setIsEnable(!patient.getDelFlag());
-        owner.setFkTenantId(patient.getFkTenantId());
-        // 更新患者所属系统信息
+        owner.setFkPatientId(record.getFkPatientId());
+        // 如果转出系统不为空，则使用转出系统，如果为空，则使用当前系统
+        owner.setSysOwner(StringUtil.isBlank(record.getToSysOwner()) ? record.getSysOwner() : record.getToSysOwner());
+        // 如果是转到其它系统
+        Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
+        owner.setIsEnable(!sysOwners.containsKey(record.getType()));
+        // 如果转出租户不为空，则使用转出租户，如果为空，则使用当前租户
+        owner.setFkTenantId(record.getToTenantId() == null ? record.getFkTenantId() : record.getToTenantId());
         patientOwnerService.updateOwner(owner);
     }
 
@@ -85,6 +64,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     public List<PatientOutcomePO> selectAllByPatientId(Long patientId) {
         PatientOutcomePO record = new PatientOutcomePO();
         record.setFkPatientId(patientId);
+        record.setSysOwner(UserUtil.getSysOwner());
         return selectByCondition(record);
     }
 
@@ -98,13 +78,28 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     /** 初始化显示 */
     private List<PatientOutcomePO> init(List<PatientOutcomePO> list) {
         if (CollectionUtils.isNotEmpty(list)) {
+            Set<Long> patientIds = new HashSet<>();
+            Set<Long> userIds = new HashSet<>();
+            list.forEach(po -> {
+                patientIds.add(po.getFkPatientId());
+                userIds.add(po.getCreateUserId());
+            });
+            Map<Long, PatientDto> patientMap = PatientCache.getById(patientIds);
+            Map<Long, SysUserDto> userMap = UserCache.getById(userIds);
             Map<String, String> typesMap = DictUtil.getMapByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE);
-            for (PatientOutcomePO po : list) {
+            list.forEach(po -> {
                 po.setTypeShow(typesMap.get(po.getType()));
-                po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
-                po.setCreateUserName(UserCache.getNameById(po.getCreateUserId()));
-            }
+                if (patientMap.get(po.getFkPatientId()) != null)
+                    po.setPatientName(patientMap.get(po.getFkPatientId()).getName());
+                if (userMap.get(po.getCreateUserId()) != null)
+                    po.setCreateUserName(userMap.get(po.getCreateUserId()).getName());
+            });
         }
         return list;
+    }
+
+    @Override
+    public List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, Integer tenantId, String sysOwner) {
+        return patientOutcomeMapper.listLatest(patientIds, month, tenantId, sysOwner);
     }
 }

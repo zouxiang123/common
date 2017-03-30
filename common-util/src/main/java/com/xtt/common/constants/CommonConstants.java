@@ -139,4 +139,11 @@ public class CommonConstants {
     public static final String PD_URL_KEY = "pd_addr";
     public static final String PD_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "pd/";
     /*--------------- 服务地址 end ---------------*/
+
+    /*--------------- 患者 start ---------------*/
+    /** 患者卡号 - 住院号 */
+    public static final String MEDICARE_CARD_TYPE_ADMISSION = "01";
+    /** 患者卡号 - 门诊号 */
+    public static final String MEDICARE_CARD_TYPE_OUTPATIENT = "02";
+    /*--------------- 患者 end ---------------*/
 }

@@ -38,7 +38,7 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
-import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
@@ -159,17 +159,15 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cachePatient(Integer tenantId) {
-        RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-        List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
+    public void cachePatient() {
+        RedisCacheUtil.deletePattern(PatientCache.getKey(null));
+        List<PatientPO> list = cmPatientService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
-            for (CmPatientPO obj : list) {
+            for (PatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
-                toObj.setSexShow(sexMap.get(toObj.getSex()));
                 cacheObjs.add(toObj);
             }
             PatientCache.cacheAll(cacheObjs);
@@ -263,8 +261,6 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cacheDict(tenant.getId());
                 // third cache permission
                 cachePermission(tenant.getId());
-                // fourth cache patient
-                cachePatient(tenant.getId());
                 // cache dynamic form
                 cacheDynamicFormNode(tenant.getId(), null);
                 // cache formula data
@@ -272,6 +268,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             }
             // cache user data
             cacheUser();
+            // fourth cache patient
+            cachePatient();
         }
         LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
     }

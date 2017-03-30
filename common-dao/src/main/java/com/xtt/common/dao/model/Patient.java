@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * patient
  */
-public class CmPatient {
+public class Patient {
     /**
      * patient.id
      */
@@ -31,10 +31,22 @@ public class CmPatient {
     private String initial;
 
     /**
+     * 姓名全拼首字母
+     * patient.spell_initials
+     */
+    private String spellInitials;
+
+    /**
      * 密码
      * patient.password
      */
     private String password;
+
+    /**
+     * 证件类型 1：身份证 2：护照
+     * patient.id_type
+     */
+    private String idType;
 
     /**
      * 身份证号
@@ -73,18 +85,6 @@ public class CmPatient {
     private String profession;
 
     /**
-     * 手机号
-     * patient.mobile
-     */
-    private String mobile;
-
-    /**
-     * 紧急联系方式
-     * patient.emergency_mobile
-     */
-    private String emergencyMobile;
-
-    /**
      * 省、市
      * patient.province
      */
@@ -103,69 +103,22 @@ public class CmPatient {
     private String address;
 
     /**
-     * 患者干体重
-     * patient.dry_weight
+     * 手机号
+     * patient.mobile
      */
-    private BigDecimal dryWeight;
-
-    /**
-     * patient.balance
-     */
-    private BigDecimal balance;
-
-    /**
-     * 删除标记
-     * patient.del_flag
-     */
-    private Boolean delFlag;
-
-    /**
-     * 费用类型 1：医保  2：自费 3：军人
-     * patient.charge_type
-     */
-    private String chargeType;
-
-    /**
-     * 医保卡号
-     * patient.medicare_card
-     */
-    private String medicareCard;
-
-    /**
-     * 医保卡类别
-     * patient.medicare_card_type
-     */
-    private String medicareCardType;
-
-    /**
-     * 住院号
-     * patient.admission_number
-     */
-    private String admissionNumber;
-
-    /**
-     * 姓名全拼首字母
-     * patient.spell_initials
-     */
-    private String spellInitials;
-
-    /**
-     * 门诊号
-     * patient.outpatient_number
-     */
-    private String outpatientNumber;
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     * patient.id_type
-     */
-    private String idType;
+    private String mobile;
 
     /**
      * 紧急联系人
      * patient.emergency_contacts
      */
     private String emergencyContacts;
+
+    /**
+     * 紧急联系方式
+     * patient.emergency_mobile
+     */
+    private String emergencyMobile;
 
     /**
      * 紧急联系方式2
@@ -178,30 +131,6 @@ public class CmPatient {
      * patient.emergency_mobile3
      */
     private String emergencyMobile3;
-
-    /**
-     * 体重偏移量
-     * patient.offset
-     */
-    private BigDecimal offset;
-
-    /**
-     * 是否临时患者
-     * patient.is_temp
-     */
-    private Boolean isTemp;
-
-    /**
-     * 透析次数
-     * patient.dialysis_times
-     */
-    private Integer dialysisTimes;
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     * patient.patient_type
-     */
-    private String patientType;
 
     /**
      * ABO血型
@@ -232,24 +161,6 @@ public class CmPatient {
      * patient.weight
      */
     private BigDecimal weight;
-
-    /**
-     * 患者序列号
-     * patient.serial_num
-     */
-    private String serialNum;
-
-    /**
-     * 租户ID
-     * patient.fk_tenant_id
-     */
-    private Integer fkTenantId;
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）
-     * patient.sys_owner
-     */
-    private String sysOwner;
 
     /**
      * 创建时间
@@ -330,6 +241,20 @@ public class CmPatient {
     }
 
     /**
+     * 姓名全拼首字母
+     */
+    public String getSpellInitials() {
+        return spellInitials;
+    }
+
+    /**
+     * 姓名全拼首字母
+     */
+    public void setSpellInitials(String spellInitials) {
+        this.spellInitials = spellInitials;
+    }
+
+    /**
      * 密码
      */
     public String getPassword() {
@@ -341,6 +266,20 @@ public class CmPatient {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * 证件类型 1：身份证 2：护照
+     */
+    public String getIdType() {
+        return idType;
+    }
+
+    /**
+     * 证件类型 1：身份证 2：护照
+     */
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
     /**
@@ -428,34 +367,6 @@ public class CmPatient {
     }
 
     /**
-     * 手机号
-     */
-    public String getMobile() {
-        return mobile;
-    }
-
-    /**
-     * 手机号
-     */
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    /**
-     * 紧急联系方式
-     */
-    public String getEmergencyMobile() {
-        return emergencyMobile;
-    }
-
-    /**
-     * 紧急联系方式
-     */
-    public void setEmergencyMobile(String emergencyMobile) {
-        this.emergencyMobile = emergencyMobile;
-    }
-
-    /**
      * 省、市
      */
     public Integer getProvince() {
@@ -498,141 +409,17 @@ public class CmPatient {
     }
 
     /**
-     * 患者干体重
+     * 手机号
      */
-    public BigDecimal getDryWeight() {
-        return dryWeight;
+    public String getMobile() {
+        return mobile;
     }
 
     /**
-     * 患者干体重
+     * 手机号
      */
-    public void setDryWeight(BigDecimal dryWeight) {
-        this.dryWeight = dryWeight;
-    }
-
-    /**
-     */
-    public BigDecimal getBalance() {
-        return balance;
-    }
-
-    /**
-     */
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
-
-    /**
-     * 删除标记
-     */
-    public Boolean getDelFlag() {
-        return delFlag;
-    }
-
-    /**
-     * 删除标记
-     */
-    public void setDelFlag(Boolean delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    /**
-     * 费用类型 1：医保  2：自费 3：军人
-     */
-    public String getChargeType() {
-        return chargeType;
-    }
-
-    /**
-     * 费用类型 1：医保  2：自费 3：军人
-     */
-    public void setChargeType(String chargeType) {
-        this.chargeType = chargeType;
-    }
-
-    /**
-     * 医保卡号
-     */
-    public String getMedicareCard() {
-        return medicareCard;
-    }
-
-    /**
-     * 医保卡号
-     */
-    public void setMedicareCard(String medicareCard) {
-        this.medicareCard = medicareCard;
-    }
-
-    /**
-     * 医保卡类别
-     */
-    public String getMedicareCardType() {
-        return medicareCardType;
-    }
-
-    /**
-     * 医保卡类别
-     */
-    public void setMedicareCardType(String medicareCardType) {
-        this.medicareCardType = medicareCardType;
-    }
-
-    /**
-     * 住院号
-     */
-    public String getAdmissionNumber() {
-        return admissionNumber;
-    }
-
-    /**
-     * 住院号
-     */
-    public void setAdmissionNumber(String admissionNumber) {
-        this.admissionNumber = admissionNumber;
-    }
-
-    /**
-     * 姓名全拼首字母
-     */
-    public String getSpellInitials() {
-        return spellInitials;
-    }
-
-    /**
-     * 姓名全拼首字母
-     */
-    public void setSpellInitials(String spellInitials) {
-        this.spellInitials = spellInitials;
-    }
-
-    /**
-     * 门诊号
-     */
-    public String getOutpatientNumber() {
-        return outpatientNumber;
-    }
-
-    /**
-     * 门诊号
-     */
-    public void setOutpatientNumber(String outpatientNumber) {
-        this.outpatientNumber = outpatientNumber;
-    }
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     */
-    public String getIdType() {
-        return idType;
-    }
-
-    /**
-     * 证件类型 1：身份证 2：护照
-     */
-    public void setIdType(String idType) {
-        this.idType = idType;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     /**
@@ -647,6 +434,20 @@ public class CmPatient {
      */
     public void setEmergencyContacts(String emergencyContacts) {
         this.emergencyContacts = emergencyContacts;
+    }
+
+    /**
+     * 紧急联系方式
+     */
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    /**
+     * 紧急联系方式
+     */
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
     }
 
     /**
@@ -675,62 +476,6 @@ public class CmPatient {
      */
     public void setEmergencyMobile3(String emergencyMobile3) {
         this.emergencyMobile3 = emergencyMobile3;
-    }
-
-    /**
-     * 体重偏移量
-     */
-    public BigDecimal getOffset() {
-        return offset;
-    }
-
-    /**
-     * 体重偏移量
-     */
-    public void setOffset(BigDecimal offset) {
-        this.offset = offset;
-    }
-
-    /**
-     * 是否临时患者
-     */
-    public Boolean getIsTemp() {
-        return isTemp;
-    }
-
-    /**
-     * 是否临时患者
-     */
-    public void setIsTemp(Boolean isTemp) {
-        this.isTemp = isTemp;
-    }
-
-    /**
-     * 透析次数
-     */
-    public Integer getDialysisTimes() {
-        return dialysisTimes;
-    }
-
-    /**
-     * 透析次数
-     */
-    public void setDialysisTimes(Integer dialysisTimes) {
-        this.dialysisTimes = dialysisTimes;
-    }
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     */
-    public String getPatientType() {
-        return patientType;
-    }
-
-    /**
-     * 患者类型 1：门诊  2：住院
-     */
-    public void setPatientType(String patientType) {
-        this.patientType = patientType;
     }
 
     /**
@@ -801,48 +546,6 @@ public class CmPatient {
      */
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
-    }
-
-    /**
-     * 患者序列号
-     */
-    public String getSerialNum() {
-        return serialNum;
-    }
-
-    /**
-     * 患者序列号
-     */
-    public void setSerialNum(String serialNum) {
-        this.serialNum = serialNum;
-    }
-
-    /**
-     * 租户ID
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     * 租户ID
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）
-     */
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）
-     */
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
     }
 
     /**

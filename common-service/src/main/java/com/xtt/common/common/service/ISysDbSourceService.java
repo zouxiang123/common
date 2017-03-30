@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.xtt.common.dao.model.PatientOrders;
 import com.xtt.common.dao.model.SysDbSource;
-import com.xtt.common.dao.po.CmPatientPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 
@@ -78,6 +78,6 @@ public interface ISysDbSourceService {
      * @return
      * 
      */
-    public CmPatientPO patientDB(CmQueryPO query) throws Exception;
+    public PatientPO patientDB(CmQueryPO query) throws Exception;
 
 }

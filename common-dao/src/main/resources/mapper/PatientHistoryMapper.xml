@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="initial" jdbcType="VARCHAR" property="initial" />
+    <result column="spell_initials" jdbcType="VARCHAR" property="spellInitials" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="id_type" jdbcType="VARCHAR" property="idType" />
+    <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="province" jdbcType="INTEGER" property="province" />
+    <result column="county" jdbcType="INTEGER" property="county" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="emergency_contacts" jdbcType="VARCHAR" property="emergencyContacts" />
+    <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
+    <result column="emergency_mobile2" jdbcType="VARCHAR" property="emergencyMobile2" />
+    <result column="emergency_mobile3" jdbcType="VARCHAR" property="emergencyMobile3" />
+    <result column="blood_abo" jdbcType="VARCHAR" property="bloodAbo" />
+    <result column="blood_rh" jdbcType="VARCHAR" property="bloodRh" />
+    <result column="barcode_path" jdbcType="VARCHAR" property="barcodePath" />
+    <result column="height" jdbcType="DECIMAL" property="height" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_history (id, account, name, 
+      initial, spell_initials, password, 
+      id_type, id_number, sex, 
+      birthday, image_path, work_unit, 
+      profession, province, county, 
+      address, mobile, emergency_contacts, 
+      emergency_mobile, emergency_mobile2, emergency_mobile3, 
+      blood_abo, blood_rh, barcode_path, 
+      height, weight, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{initial,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
+      #{profession,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
+      #{emergencyMobile,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, 
+      #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, 
+      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientHistory">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_history
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="initial != null">
+        initial,
+      </if>
+      <if test="spellInitials != null">
+        spell_initials,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="idType != null">
+        id_type,
+      </if>
+      <if test="idNumber != null">
+        id_number,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="workUnit != null">
+        work_unit,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="county != null">
+        county,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="emergencyContacts != null">
+        emergency_contacts,
+      </if>
+      <if test="emergencyMobile != null">
+        emergency_mobile,
+      </if>
+      <if test="emergencyMobile2 != null">
+        emergency_mobile2,
+      </if>
+      <if test="emergencyMobile3 != null">
+        emergency_mobile3,
+      </if>
+      <if test="bloodAbo != null">
+        blood_abo,
+      </if>
+      <if test="bloodRh != null">
+        blood_rh,
+      </if>
+      <if test="barcodePath != null">
+        barcode_path,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="initial != null">
+        #{initial,jdbcType=VARCHAR},
+      </if>
+      <if test="spellInitials != null">
+        #{spellInitials,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null">
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="workUnit != null">
+        #{workUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=INTEGER},
+      </if>
+      <if test="county != null">
+        #{county,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyContacts != null">
+        #{emergencyContacts,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile != null">
+        #{emergencyMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile2 != null">
+        #{emergencyMobile2,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile3 != null">
+        #{emergencyMobile3,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodAbo != null">
+        #{bloodAbo,jdbcType=VARCHAR},
+      </if>
+      <if test="bloodRh != null">
+        #{bloodRh,jdbcType=VARCHAR},
+      </if>
+      <if test="barcodePath != null">
+        #{barcodePath,jdbcType=VARCHAR},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=DECIMAL},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- user define -->
+  <!-- 复制患者信息到历史表 -->
+  <insert id="copyFormPatient">
+    insert into patient_history
+    select p.* from patient p where p.id=#{id}
+  </insert>
+</mapper>
