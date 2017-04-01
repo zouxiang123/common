@@ -52,6 +52,16 @@ public interface IUserService {
     List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner);
 
     /**
+     * 根据租户id获取arr对应的role type角色对应的用户对象
+     * 
+     * @param tenantId
+     * @param arr
+     * @param sysOwner
+     * @return
+     */
+    List<SysUserPO> listByRoleTypes(Integer tenantId, String[] arr, String sysOwner);
+
+    /**
      * 通过用户Id获取用户
      * 
      * @Title: getUserById

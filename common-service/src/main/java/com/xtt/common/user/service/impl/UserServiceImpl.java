@@ -10,6 +10,7 @@ package com.xtt.common.user.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +66,14 @@ public class UserServiceImpl implements IUserService {
     public List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner) {
         String[] arr = { CommonConstants.ROLE_NURSE, CommonConstants.ROLE_DOCTOR };
         return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
+
+    @Override
+    public List<SysUserPO> listByRoleTypes(Integer tenantId, String[] arr, String sysOwner) {
+        if (arr != null && arr.length > 0) {
+            return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+        }
+        return new ArrayList<>();
     }
 
     @Override
