@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.CmDiagnosisHistTumourMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmDiagnosisHistTumour">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="record_type" jdbcType="VARCHAR" property="recordType" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, record_date, record_type, fk_tenant_id, create_time, create_user_id, 
+    update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from cm_diagnosis_hist_tumour
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_diagnosis_hist_tumour
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmDiagnosisHistTumour">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_hist_tumour (id, fk_patient_id, record_date, 
+      record_type, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{recordDate,jdbcType=DATE}, 
+      #{recordType,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDiagnosisHistTumour">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_hist_tumour
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="recordType != null">
+        record_type,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="recordType != null">
+        #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmDiagnosisHistTumour">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_hist_tumour
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=DATE},
+      </if>
+      <if test="recordType != null">
+        record_type = #{recordType,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmDiagnosisHistTumour">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_hist_tumour
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      record_date = #{recordDate,jdbcType=DATE},
+      record_type = #{recordType,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- user define -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" />
+  <!-- 根据id查询数据 -->
+  <select id="getById" parameterType="java.lang.Long" resultMap="POResultMap">
+    select dht.* from cm_diagnosis_hist_tumour dht where id = #{id}
+  </select>
+  <!-- 根据自定义条件查询数据 -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" resultMap="POResultMap">
+    SELECT dht.* FROM cm_diagnosis_hist_tumour dht
+    <where>
+      <if test="fkPatientId != null">
+        dht.fk_patient_id = #{fkPatientId}
+      </if>
+      <if test="recordDate != null">
+        AND dht.record_date = #{recordDate}
+      </if>
+      <if test="recordType != null">
+        AND dht.record_type = #{recordType}
+      </if>
+      <if test="fkTenantId != null">
+        AND dht.fk_tenant_id = #{fkTenantId}
+      </if>
+    </where>
+    ORDER BY dht.id DESC;
+  </select>
+</mapper>

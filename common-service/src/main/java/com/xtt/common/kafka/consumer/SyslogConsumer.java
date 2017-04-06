@@ -17,9 +17,9 @@ import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
 import com.xtt.common.common.service.ISysLogService;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.platform.util.io.JsonUtil;
-import com.xtt.platform.util.kafka.KafkaProducerUtil;
 
 @Component
 public class SyslogConsumer {
@@ -28,10 +28,10 @@ public class SyslogConsumer {
     @Autowired
     private ISysLogService sysLogService;
 
-    @KafkaListener(id = "sysLogListener", topics = KafkaProducerUtil.TOPIC_SYS_LOG)
+    @KafkaListener(id = "sysLogListener", topics = CommonConstants.TOPIC_SYS_LOG)
     public void onMessage(ConsumerRecord<Integer, String> record, Acknowledgment acknowledgment) {
         LOGGER.info("Received message topic" + record.topic() + ",message value is" + record.value());
-        if (!KafkaProducerUtil.TOPIC_SYS_LOG.equals(record.topic()))
+        if (!CommonConstants.TOPIC_SYS_LOG.equals(record.topic()))
             return;
         try {
             SysLog log = JsonUtil.AllJsonUtil().fromJson(record.value(), SysLog.class);
