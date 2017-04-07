@@ -248,7 +248,7 @@
   <!-- 自定义 -->
   <select id="selectMenuListByRoleId" resultMap="BaseResultMap">
   	select so.* from sys_obj so 
-  	join sys_role2obj sr ON sr.fk_obj_key = so.key AND so.fk_tenant_id = sr.fk_tenant_id
+  	join sys_role2obj sr ON sr.fk_obj_key = so.key <!-- AND so.fk_tenant_id = sr.fk_tenant_id -->
   	where sr.fk_role_id in 
   	<foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">
   		#{item}
@@ -266,7 +266,7 @@
   </select>
   
   <select id="selectAllMenuList" resultMap="BaseResultMap">
-  	select * from sys_obj where version = #{version,jdbcType=VARCHAR} and fk_tenant_id = #{tenantId,jdbcType=INTEGER} 
+  	select * from sys_obj where version = #{version,jdbcType=VARCHAR} <!-- and fk_tenant_id = #{tenantId,jdbcType=INTEGER} --> 
   	<if test="types != null">
   		and type in
   		<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
@@ -281,7 +281,7 @@
   
   <select id="selectNotChecked" resultMap="BaseResultMap">
  	SELECT so.* FROM sys_obj so 
- 	WHERE so.version = #{version,jdbcType=VARCHAR} AND so.fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+ 	WHERE so.version = #{version,jdbcType=VARCHAR} <!-- AND so.fk_tenant_id = #{tenantId,jdbcType=INTEGER} -->
  	AND NOT EXISTS (
  			SELECT 1 FROM sys_role2obj sr
 		  	WHERE sr.fk_role_id IN <foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">#{item}</foreach>
