@@ -50,6 +50,8 @@ public class CmDiagnosisHistTumourServiceImpl implements ICmDiagnosisHistTumourS
     @Override
     public List<CmDiagnosisHistTumourPO> listByPatientId(Long patientId) {
         CmDiagnosisHistTumourPO record = new CmDiagnosisHistTumourPO();
+        record.setFkPatientId(patientId);
+        record.setFkTenantId(UserUtil.getTenantId());
         return listByCondition(record);
     }
 
