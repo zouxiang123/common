@@ -208,6 +208,33 @@ public class DataUtil {
     }
 
     /**
+     * 设置更新的系统字段(setUpdateTime ,setUpdateUserId)
+     * 
+     * @Title: setUpdateSystemFieldValue
+     * @param model
+     *
+     */
+    public static void setUpdateSystemFieldValue(Object model) {
+        Class<? extends Object> clazz = model.getClass();
+        setUpdateSystemFieldValue(model, clazz, UserUtil.getLoginUserId(), new Date(), 1);
+    }
+
+    private static void setUpdateSystemFieldValue(Object model, Class<? extends Object> clazz, final Long userId, final Date date, int times) {
+        if (times > 4)// max try 4 times
+            return;
+        try {
+            clazz.getDeclaredMethod("setUpdateTime", Date.class).invoke(model, date);
+            clazz.getDeclaredMethod("setUpdateUserId", Long.class).invoke(model, userId);
+        } catch (Exception e) {
+            if ((clazz = clazz.getSuperclass()) != null) {
+                setUpdateSystemFieldValue(model, clazz, userId, date, ++times);
+            } else {
+                LOGGER.info("当前类和父类中不存在：", e);
+            }
+        }
+    }
+
+    /**
      * 处理动态SQL特殊字符转义
      * 
      * @Title: escape
