@@ -211,7 +211,7 @@
         AND pk.fk_tenant_id = #{fkTenantId}
       </if>
     </where>
-    ORDER BY pk.record_date DESC
+    ORDER BY pk.record_date DESC,pk.id DESC
     <if test="limit != null">
        limit #{limit}
     </if>
