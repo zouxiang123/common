@@ -450,7 +450,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     public SysUserPO groupAdminLogin(String account, String password, Integer tenantId) {
-        SysUserPO user = sysUserMapper.groupAdminLogin(account, MD5Util.md5(password), tenantId, CommonConstants.USER_TYPE_GROUP_ADMIN);
+        SysUserPO user = sysUserMapper.groupAdminLogin(account, password, tenantId, CommonConstants.USER_TYPE_GROUP_ADMIN);
         return user;
     }
 

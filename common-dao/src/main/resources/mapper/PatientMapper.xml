@@ -472,6 +472,12 @@
       <if test="county != null">
         AND p.county = #{county}
       </if>
+      <if test="hasSpellInitials != null and hasSpellInitials">
+        AND p.spell_initials is not null
+      </if>
+      <if test="hasSpellInitials != null and !hasSpellInitials">
+        AND p.spell_initials is null
+      </if>
       <if test="fkTenantId != null">
         AND po.fk_tenant_id = #{fkTenantId}
       </if>
@@ -480,12 +486,6 @@
       </if>
       <if test="isEnable != null">
         AND po.is_enable = #{isEnable}
-      </if>
-      <if test="hasSpellInitials != null and hasSpellInitials">
-        and po.spell_initials is not null
-      </if>
-      <if test="hasSpellInitials != null and !hasSpellInitials">
-        and po.spell_initials is null
       </if>
     </where>
     GROUP BY p.id

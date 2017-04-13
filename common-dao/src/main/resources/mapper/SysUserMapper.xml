@@ -304,7 +304,7 @@
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap">
 		SELECT
 			u.id,u.account,u.birthday,u.mobile,u.`name`,u.user_type
-            ,GROUP_CONCAT(ut.telephone) telephone
+            ,GROUP_CONCAT(DISTINCT ut.telephone) telephone
             ,GROUP_CONCAT(DISTINCT r.`name`) as roleName
 		FROM
 			sys_user u
