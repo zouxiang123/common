@@ -64,4 +64,31 @@ public class CmDictConsts {
      * 患者转归类型
      */
     public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
+
+    /*-------- unit start --------*/
+    /**
+     * 单位--压力
+     */
+    public static final String CM_UNIT_PRESSURE = "CM_unit_pressure";
+    /**
+     * 单位--温度
+     */
+    public static final String CM_UNIT_TEMPERATURE = "CM_unit_temperature";
+    /**
+     * 单位--频次
+     */
+    public static final String CM_UNIT_FREQUENCY = "CM_unit_frequency";
+    /**
+     * 单位--流量
+     */
+    public static final String CM_UNIT_FLOW = "CM_unit_flow";
+    /**
+     * 单位--容量
+     */
+    public static final String CM_UNIT_CAPACITY = "CM_unit_capacity";
+    /**
+     * 单位--电导率
+     */
+    public static final String CM_UNIT_CONDUCTIVITY = "CM_unit_conductivity";
+    /*-------- unit end --------*/
 }

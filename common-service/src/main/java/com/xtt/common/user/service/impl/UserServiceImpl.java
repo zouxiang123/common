@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -92,6 +91,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<SysUserPO> listByRoleTypes(Integer tenantId, String[] arr, String sysOwner) {
+        if (arr != null && arr.length > 0) {
+            return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public SysUserPO selectById(Long userId) {
         return sysUserMapper.getById(userId);
     }
@@ -113,7 +120,7 @@ public class UserServiceImpl implements IUserService {
             associationTenant(user, false, groupFlag);
             user.setUpdateTime(new Date());
             user.setUpdateUserId(UserUtil.getLoginUserId());
-            if (StringUtils.isNotBlank(user.getPassword())) {
+            if (StringUtil.isNotBlank(user.getPassword())) {
                 user.setPassword(MD5Util.md5(user.getPassword()));
             }
             updateByPrimaryKeySelective(user);// 更新用户数据
@@ -370,10 +377,10 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public int updateUserBasicInfo(SysUser user) {
-        if (StringUtils.isNotBlank(user.getName())) {
+        if (StringUtil.isNotBlank(user.getName())) {
             user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
         }
-        if (StringUtils.isNotBlank(user.getPassword())) {
+        if (StringUtil.isNotBlank(user.getPassword())) {
             user.setPassword(MD5Util.md5(user.getPassword()));
         }
         user.setUpdateTime(new Date());

@@ -31,7 +31,7 @@ public interface PatientMapper {
      * @return
      *
      */
-    List<PatientPO> listByCondition(Patient record);
+    List<PatientPO> listByCondition(PatientPO record);
 
     /**
      * 根据id查询数据，包含省市区，年龄等信息

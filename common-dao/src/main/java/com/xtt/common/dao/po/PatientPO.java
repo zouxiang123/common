@@ -20,7 +20,7 @@ public class PatientPO extends Patient {
     private String sysOwner;// 所属系统
 
     private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
-
+    private Boolean hasSpellInitials;// 是否存在全称拼写
     /**
      * 所属多个系统，以,分割
      */
@@ -162,4 +162,11 @@ public class PatientPO extends Patient {
         this.sysOwner = sysOwner;
     }
 
+    public Boolean getHasSpellInitials() {
+        return hasSpellInitials;
+    }
+
+    public void setHasSpellInitials(Boolean hasSpellInitials) {
+        this.hasSpellInitials = hasSpellInitials;
+    }
 }

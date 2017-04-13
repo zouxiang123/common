@@ -22,6 +22,7 @@
     <result column="county" jdbcType="INTEGER" property="county" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="emergency_contacts" jdbcType="VARCHAR" property="emergencyContacts" />
     <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
     <result column="emergency_mobile2" jdbcType="VARCHAR" property="emergencyMobile2" />
@@ -45,23 +46,23 @@
       id_type, id_number, sex, 
       birthday, image_path, work_unit, 
       profession, province, county, 
-      address, mobile, emergency_contacts, 
-      emergency_mobile, emergency_mobile2, emergency_mobile3, 
-      blood_abo, blood_rh, barcode_path, 
-      height, weight, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      address, mobile, email, 
+      emergency_contacts, emergency_mobile, emergency_mobile2, 
+      emergency_mobile3, blood_abo, blood_rh, 
+      barcode_path, height, weight, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
       #{profession,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
-      #{emergencyMobile,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, 
-      #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, 
-      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{emergencyContacts,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, 
+      #{emergencyMobile3,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, 
+      #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientHistory">
     <!--
@@ -119,6 +120,9 @@
       </if>
       <if test="mobile != null">
         mobile,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="emergencyContacts != null">
         emergency_contacts,
@@ -211,6 +215,9 @@
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="emergencyContacts != null">
         #{emergencyContacts,jdbcType=VARCHAR},

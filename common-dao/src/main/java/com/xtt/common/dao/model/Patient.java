@@ -109,6 +109,12 @@ public class Patient {
     private String mobile;
 
     /**
+     * 邮箱
+     * patient.email
+     */
+    private String email;
+
+    /**
      * 紧急联系人
      * patient.emergency_contacts
      */
@@ -139,7 +145,7 @@ public class Patient {
     private String bloodAbo;
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
+     * RH(D)血型 1=阳性 0= 阴性
      * patient.blood_rh
      */
     private String bloodRh;
@@ -423,6 +429,20 @@ public class Patient {
     }
 
     /**
+     * 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
      * 紧急联系人
      */
     public String getEmergencyContacts() {
@@ -493,14 +513,14 @@ public class Patient {
     }
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
+     * RH(D)血型 1=阳性 0= 阴性
      */
     public String getBloodRh() {
         return bloodRh;
     }
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
+     * RH(D)血型 1=阳性 0= 阴性
      */
     public void setBloodRh(String bloodRh) {
         this.bloodRh = bloodRh;

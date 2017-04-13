@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.common.service.ISysLogService;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysLogMapper;
 import com.xtt.common.dao.model.SysLog;
 import com.xtt.common.dao.po.SysLogPO;
@@ -62,7 +63,7 @@ public class SysLogServiceImpl implements ISysLogService {
         sysLog.setSysOwner(sysOwner);
         DataUtil.setSystemFieldValue(sysLog);
         if (async) {
-            KafkaProducerUtil.send(KafkaProducerUtil.TOPIC_SYS_LOG, JsonUtil.AllJsonUtil().toJson(sysLog), new KafkaExceptionCallback() {
+            KafkaProducerUtil.send(CommonConstants.TOPIC_SYS_LOG, JsonUtil.AllJsonUtil().toJson(sysLog), new KafkaExceptionCallback() {
                 @Override
                 public void callBack() {
                     sysLogMapper.insert(sysLog);
