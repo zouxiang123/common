@@ -10,18 +10,19 @@
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+    <result column="group_flag" jdbcType="BIT" property="groupFlag" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
-    <result column="is_default" jdbcType="BIT" property="isDefault" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, name, is_enable, start_date, end_date, create_time, create_user_id, update_time, 
-    update_user_id, is_default
+    id, name, is_enable, start_date, end_date, is_default, group_flag, create_time, create_user_id, 
+    update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
@@ -44,13 +45,13 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into sys_tenant (id, name, is_enable, 
-      start_date, end_date, create_time, 
-      create_user_id, update_time, update_user_id, 
-      is_default)
+      start_date, end_date, is_default, 
+      group_flag, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{isDefault,jdbcType=BIT})
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isDefault,jdbcType=BIT}, 
+      #{groupFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysTenant">
     <!--
@@ -73,6 +74,12 @@
       <if test="endDate != null">
         end_date,
       </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="groupFlag != null">
+        group_flag,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -84,9 +91,6 @@
       </if>
       <if test="updateUserId != null">
         update_user_id,
-      </if>
-      <if test="isDefault != null">
-        is_default,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -105,6 +109,12 @@
       <if test="endDate != null">
         #{endDate,jdbcType=DATE},
       </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="groupFlag != null">
+        #{groupFlag,jdbcType=BIT},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -116,9 +126,6 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="isDefault != null">
-        #{isDefault,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -140,6 +147,12 @@
       <if test="endDate != null">
         end_date = #{endDate,jdbcType=DATE},
       </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="groupFlag != null">
+        group_flag = #{groupFlag,jdbcType=BIT},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -151,9 +164,6 @@
       </if>
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="isDefault != null">
-        is_default = #{isDefault,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -167,39 +177,41 @@
       is_enable = #{isEnable,jdbcType=BIT},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
+      is_default = #{isDefault,jdbcType=BIT},
+      group_flag = #{groupFlag,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
-      is_default = #{isDefault,jdbcType=BIT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <!-- 添加医院 -->
-
-   <update id="updateEnable" parameterType="com.xtt.common.dao.model.SysTenant">
-   		update sys_tenant  set  is_enable = #{isEnable,jdbcType=BIT}  where id = #{id,jdbcType=INTEGER}
-  </update>
-    <!-- 查询可用状态的医院 -->
-  <select id="selectAll" resultMap="BaseResultMap">
-  	select * from sys_tenant where  is_enable=1
+  
+  <!-- user define -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.model.SysTenant" resultMap="BaseResultMap">
+    select t.* from sys_tenant t
+    <where>
+      <if test="name != null">
+        t.name = #{name}
+      </if>
+      <if test="isEnable != null">
+        t.is_enable = #{isEnable}
+      </if>
+      <if test="startDate != null">
+        t.start_date = #{startDate}
+      </if>
+      <if test="endDate != null">
+        t.end_date = #{endDate}
+      </if>
+      <if test="isDefault != null">
+        t.is_default = #{isDefault}
+      </if>
+      <if test="groupFlag != null">
+        t.group_flag = #{groupFlag}
+      </if>
+    </where>
+    ORDER BY t.id
   </select>
-  <!-- 查询所有的医院 -->
-  <select id="selectAllSwitch" resultMap="BaseResultMap">
-  	select * from sys_tenant
-  </select>
-  <!-- 校验是否重复添加 -->
-  <select id="selectTenantByName" parameterType="com.xtt.common.dao.model.SysTenant" resultMap="BaseResultMap">
-  	select * from sys_tenant  where name=#{name,jdbcType=VARCHAR}
-  </select>
-    <!-- 查询某医院的信息 -->
-  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
-  	select * from sys_tenant where name=#{name,jdbcType=VARCHAR}
-  </select>
-  <!-- 根据条件 -->
-  <select id="selectDefault" resultMap="BaseResultMap">
-  	select * from sys_tenant
-  	where is_default = #{isDefault,jdbcType=BIT}
-  </select>
+  
   <!-- 根据账户名称查询对应的租户数据 -->
   <select id="listByAccount" resultMap="BaseResultMap">
     select t.* from sys_tenant t
@@ -212,5 +224,9 @@
     select t.* from sys_tenant t
     join sys_group_tenant gt ON t.id = gt.fk_tenant_id
     where gt.fk_group_id = #{groupId}
+  </select>
+  <!-- 根据多个租户id查询数据 -->
+  <select id="listByIds" resultMap="BaseResultMap">
+    select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
 </mapper>

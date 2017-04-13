@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ISysLogService;
+import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
@@ -68,6 +70,8 @@ public class UserServiceImpl implements IUserService {
     private ISysUserTenantService sysUserTenantService;
     @Autowired
     private ISysLogService sysLogService;
+    @Autowired
+    private ISysTenantService sysTenantService;
 
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
@@ -326,7 +330,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     private SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
-        SysUserPO user = sysUserMapper.login(account, MD5Util.md5(password), tenantId, sysOwner);
+        SysUserPO user = sysUserMapper.login(account, password, tenantId, sysOwner);
         // 设置当前用户关联的租户和关联的系统
         if (user != null) {
             List<SysUserTenant> utList = sysUserTenantService.listByUserId(user.getId());
@@ -444,9 +448,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner) throws Exception {
+    public Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner, Boolean isSwitch)
+                    throws Exception {
         Map<String, Object> map = new HashMap<>();
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password) && tenantId != null) {
+            // 如果不是切换系统，且密码不为空，md5 password
+            if (isSwitch == null && StringUtil.isNotBlank(password)) {
+                password = MD5Util.md5(password);
+            }
             boolean isGroupAdmin = groupAdmin == null ? false : groupAdmin;
             SysUserPO sysUser = null;
             if (!isGroupAdmin) {
@@ -493,7 +502,6 @@ public class UserServiceImpl implements IUserService {
                 map.put(CommonConstants.COOKIE_TOKEN, token);
             } else {
                 map.put("account", account);
-                map.put("password", password);
                 map.put("tenantId", tenantId);
                 map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码错误！");
                 map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
@@ -509,5 +517,27 @@ public class UserServiceImpl implements IUserService {
     public SysUser getGroupAdminByAccount(String account) {
         SysUser user = sysUserMapper.getGroupUserByAccount(account, CommonConstants.USER_TYPE_GROUP_ADMIN, null);
         return user;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<Integer, Map<String, Object>> getTenantsAndSysOwnersById(Long id) {
+        List<SysUserTenant> list = sysUserTenantService.listByUserId(id);
+        Map<Integer, Map<String, Object>> map = new HashMap<>();
+        list.forEach(ut -> {
+            Map<String, Object> tenantMap = map.get(ut.getFkTenantId());
+            Map<String, String> ownerMap;
+            if (tenantMap == null) {
+                tenantMap = new HashMap<>();
+                tenantMap.put("name", sysTenantService.getById(ut.getFkTenantId()).getName());
+                ownerMap = new LinkedHashMap<>();
+                tenantMap.put("owners", ownerMap);
+                map.put(ut.getFkTenantId(), tenantMap);
+            } else {
+                ownerMap = (Map<String, String>) tenantMap.get("owners");
+            }
+            ownerMap.put(ut.getSysOwner(), DictUtil.getItemName(CmDictConsts.SYS_OWNER, ut.getSysOwner(), ut.getFkTenantId()));
+        });
+        return map;
     }
 }

@@ -57,13 +57,15 @@ public class LoginController {
      *            集团管理员登陆
      * @param sysOwner
      *            所属系统
+     * @param isSwitch
+     *            是否是系统切换
      * @return
      * @throws Exception
      *
      */
     @RequestMapping("login")
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
-                    Boolean isloginSubmit, Boolean groupAdmin, String sysOwner) throws Exception {
+                    Boolean isloginSubmit, Boolean groupAdmin, String sysOwner, Boolean isSwitch) throws Exception {
         ModelAndView model = new ModelAndView("login");
         if ("true".equals(HttpServletUtil.getCookieValueByName("savePwd")) && StringUtils.isEmpty(account) && StringUtils.isEmpty(password)) {
             account = HttpServletUtil.getCookieValueByName("account");
@@ -79,7 +81,7 @@ public class LoginController {
             return model;
         }
         LOGGER.info("login message :account={},password={},tenantId={},redirectUrl={}", account, password, tenantId, redirectUrl);
-        Map<String, Object> map = loginSubmit(account, password, tenantId, groupAdmin, sysOwner);
+        Map<String, Object> map = loginSubmit(account, password, tenantId, groupAdmin, sysOwner, isSwitch);
         if (CommonConstants.SUCCESS.equals(map.get("status"))) {
             LOGGER.info("account={} login success,normal submit", account);
             HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, map.get(CommonConstants.COOKIE_TOKEN).toString(), -1);
@@ -107,6 +109,8 @@ public class LoginController {
      *            是否是集团管理员登陆
      * @param sysOwner
      *            所属系统
+     * @param isSwitch
+     *            是否是系统切换
      * @return
      * @throws Exception
      *
@@ -114,8 +118,8 @@ public class LoginController {
     @RequestMapping("loginSubmit")
     @ResponseBody
     public Map<String, Object> loginSubmit(final String account, final String password, final Integer tenantId, final Boolean groupAdmin,
-                    final String sysOwner) throws Exception {
-        Map<String, Object> loginResult = userService.loginSubmit(account, password, tenantId, groupAdmin, sysOwner);
+                    final String sysOwner, Boolean isSwitch) throws Exception {
+        Map<String, Object> loginResult = userService.loginSubmit(account, password, tenantId, groupAdmin, sysOwner, isSwitch);
         return loginResult;
     }
 

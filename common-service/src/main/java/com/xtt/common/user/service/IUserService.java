@@ -234,11 +234,14 @@ public interface IUserService {
      *            是否是集团管理员登陆
      * @param sysOwner
      *            所属系统
+     * @param isSwitch
+     *            是否是切换系统
      * @return
      * @throws Exception
      *
      */
-    Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner) throws Exception;
+    Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner, Boolean isSwitch)
+                    throws Exception;
 
     /**
      * 根据集团管理员账户查询查询集团管理员
@@ -249,5 +252,17 @@ public interface IUserService {
      *
      */
     SysUser getGroupAdminByAccount(String account);
+
+    /**
+     * 获取用户所属系统和租户数据列表
+     * 
+     * @param id
+     *            用户id
+     * 
+     * @Title: getTenantsAndSysOwnersById
+     * @return {tenantId:{name:租户名称,owners:{key,name}} }
+     *
+     */
+    Map<Integer, Map<String, Object>> getTenantsAndSysOwnersById(Long id);
 
 }

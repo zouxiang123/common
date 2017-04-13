@@ -8,6 +8,7 @@
  */
 package com.xtt.common.common.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.xtt.common.dao.model.SysTenant;
@@ -24,56 +25,13 @@ public interface ISysTenantService {
     public SysTenant getById(Integer id);
 
     /**
-     * 查询所有的租户
+     * 查询所有有效的租户
      *
      * @Title: selectAll
      * @return
      *
      */
-    public List<SysTenant> selectAll();
-
-    /**
-     * @Title: selectAllSwitch
-     * @return 查询可用状态的住户
-     */
-    public List<SysTenant> selectAllSwitch();
-
-    /**
-     * @Title: selectByName
-     * @param name
-     * @return 查询某医院的信息
-     */
-    public SysTenant selectByName(String name);
-
-    /**
-     * 根据条件查询默认租户
-     *
-     * @Title: selectByCondition
-     * @return
-     *
-     */
-    SysTenant selectDefault(SysTenant record);
-
-    /**
-     * @Title: updateByPrimaryKeySelective
-     * @param record
-     * @return 修改租户信息
-     */
-    public int updateByPrimaryKeySelective(SysTenant record);
-
-    /**
-     * @Title: updateEnable
-     * @param sysTenant
-     * @return 自动失效
-     */
-    public int updateEnable(SysTenant sysTenant);
-
-    /**
-     * @Title: selectTenantByName
-     * @param record
-     * @return 校验是否重复添加
-     */
-    public List<SysTenant> selectTenantByName(SysTenant record);
+    public List<SysTenant> listAllEnable();
 
     /**
      * 根据账户名称查询
@@ -93,4 +51,32 @@ public interface ISysTenantService {
      *
      */
     public List<SysTenant> listByGroupId(Integer groupId);
+
+    /**
+     * 查询所有有效的普通租户，不包含集团虚拟租户
+     * 
+     * @Title: listAllEnableNormal
+     * @return
+     *
+     */
+    public List<SysTenant> listAllEnableNormal();
+
+    /**
+     * 获取默认租户
+     * 
+     * @Title: getDefault
+     * @return
+     *
+     */
+    public SysTenant getDefault();
+
+    /**
+     * 根据多个租户id查询数据
+     * 
+     * @Title: listByIds
+     * @param ids
+     * @return
+     *
+     */
+    public List<SysTenant> listByIds(Collection<Integer> ids);
 }

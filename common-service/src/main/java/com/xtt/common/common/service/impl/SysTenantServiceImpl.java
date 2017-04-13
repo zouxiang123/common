@@ -8,8 +8,11 @@
  */
 package com.xtt.common.common.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,38 +31,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public List<SysTenant> selectAll() {
-        return sysTenantMapper.selectAll();
+    public List<SysTenant> listAllEnable() {
+        SysTenant record = new SysTenant();
+        record.setIsEnable(true);
+        return listByCondition(record);
     }
 
-    @Override
-    public SysTenant selectDefault(SysTenant record) {
-        return sysTenantMapper.selectDefault(record);
-    }
-
-    @Override
-    public List<SysTenant> selectAllSwitch() {
-        return sysTenantMapper.selectAllSwitch();
-    }
-
-    @Override
-    public int updateByPrimaryKeySelective(SysTenant record) {
-        return sysTenantMapper.updateByPrimaryKeySelective(record);
-    }
-
-    @Override
-    public List<SysTenant> selectTenantByName(SysTenant record) {
-        return sysTenantMapper.selectTenantByName(record);
-    }
-
-    @Override
-    public int updateEnable(SysTenant sysTenant) {
-        return sysTenantMapper.updateEnable(sysTenant);
-    }
-
-    @Override
-    public SysTenant selectByName(String name) {
-        return sysTenantMapper.selectByName(name);
+    public List<SysTenant> listByCondition(SysTenant record) {
+        return sysTenantMapper.listByCondition(record);
     }
 
     @Override
@@ -70,6 +49,36 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public List<SysTenant> listByGroupId(Integer groupId) {
         return sysTenantMapper.listByGroupId(groupId);
+    }
+
+    @Override
+    public List<SysTenant> listAllEnableNormal() {
+        SysTenant record = new SysTenant();
+        record.setIsEnable(true);
+        record.setGroupFlag(false);
+        return listByCondition(record);
+    }
+
+    @Override
+    public SysTenant getDefault() {
+        SysTenant record = new SysTenant();
+        record.setIsDefault(true);
+        record.setIsEnable(true);
+        List<SysTenant> list = listByCondition(record);
+        // 默认租户只可能存在一个
+        if (CollectionUtils.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<SysTenant> listByIds(Collection<Integer> ids) {
+        if (CollectionUtils.isNotEmpty(ids)) {
+            return sysTenantMapper.listByIds(ids);
+        } else {
+            return new ArrayList<>();
+        }
     }
 
 }

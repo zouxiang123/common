@@ -38,6 +38,7 @@ public class UserUtilContext {
         HashMap<String, Object> auth = new HashMap<String, Object>();
         auth.put(CommonConstants.LOGIN_USER, loginUser);
         ContextAuthUtil.addAuth(token, auth);
+        threadLocalLoginUser.set(loginUser);
     }
 
     /**
@@ -141,10 +142,11 @@ public class UserUtilContext {
         return (String) auth.get(CommonConstants.API_PERMISSION);
     }
 
-    public static void setThreadTenant(Integer id) {
+    public static void setThreadTenant(Integer tenantId, String sysOwner) {
         LoginUser user = new LoginUser();
         user.setId(CommonConstants.SYSTEM_USER_ID);
-        user.setTenantId(id);
+        user.setSysOwner(sysOwner);
+        user.setTenantId(tenantId);
         threadLocalLoginUser.set(user);
     }
 

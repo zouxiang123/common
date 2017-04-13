@@ -138,6 +138,9 @@ public class CommonConstants {
     /** 腹透服务地址 */
     public static final String PD_URL_KEY = "pd_addr";
     public static final String PD_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "pd/";
+    /** 血透服务地址 */
+    public static final String HD_URL_KEY = "hd_addr";
+    public static final String HD_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "cheetah/";
     /*--------------- 服务地址 end ---------------*/
 
     /*--------------- 患者 start ---------------*/

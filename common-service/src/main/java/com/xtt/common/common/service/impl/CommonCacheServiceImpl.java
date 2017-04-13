@@ -249,7 +249,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     public void cacheAll() {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
-        List<SysTenant> tenantList = sysTenantService.selectAll();
+        List<SysTenant> tenantList = sysTenantService.listAllEnable();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
             for (int i = 0; i < tenantList.size(); i++) {

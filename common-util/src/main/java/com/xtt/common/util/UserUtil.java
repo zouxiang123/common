@@ -183,7 +183,7 @@ public class UserUtil {
     }
 
     /**
-     * 设置权限到session
+     * 设置当前角色的权限的菜单到用户Cache
      * 
      * @Title: setPermission
      * @param roleId
@@ -198,7 +198,7 @@ public class UserUtil {
     }
 
     /**
-     * 设置当前没有权限的菜单到session
+     * 设置当前角色的没有权限的菜单到用户Cache
      * 
      * @Title: getNonPermissionList
      * @return
@@ -237,9 +237,9 @@ public class UserUtil {
     }
 
     /**
-     * 设置有API权限的菜单到session
+     * 设置有API权限的菜单到cache
      * 
-     * @Title: getNonPermissionList
+     * @Title: setApiPermissionList
      * @return
      * 
      */
@@ -254,9 +254,7 @@ public class UserUtil {
     /**
      * 获取有API权限的菜单
      * 
-     * @return
-     * 
-     * @Title: getNonPermissionList
+     * @Title: getApiPermissionList
      * @return
      * 
      */
@@ -265,23 +263,52 @@ public class UserUtil {
     }
 
     private static Long[] convertRoleToArray(String roleId) {
-        Long[] roleIds = null;
-        if (StringUtils.isNotEmpty(roleId)) {
+        if (StringUtils.isNotBlank(roleId)) {
             String[] tempRoleIds = roleId.split(",");
-            roleIds = new Long[tempRoleIds.length];
+            Long[] roleIds = new Long[tempRoleIds.length];
             for (int i = 0; i < tempRoleIds.length; i++) {
                 roleIds[i] = Long.valueOf(tempRoleIds[i]);
             }
+            return roleIds;
         }
-        return roleIds;
+        return null;
     }
 
-    public static void setThreadTenant(Integer id) {
-        UserUtilContext.setThreadTenant(id);
+    /**
+     * 设置线程局部租户id，没有默认的所属系统,默认用户id为{@link CommonConstants.SYSTEM_USER_ID}
+     * 
+     * @Title: setThreadTenant
+     * @param tenantId
+     *            租户id
+     *
+     */
+    public static void setThreadTenant(Integer tenantId) {
+        UserUtilContext.setThreadTenant(tenantId, null);
     }
 
+    /**
+     * 设置线程局部登录用户信息
+     * 
+     * @Title: setThreadLoginUser
+     * @param user
+     *
+     */
     public static void setThreadLoginUser(LoginUser user) {
         UserUtilContext.setThreadLoginUser(user);
+    }
+
+    /**
+     * 设置线程局部用户数据，默认用户id为{@link CommonConstants.SYSTEM_USER_ID}
+     * 
+     * @Title: setThreadTenant
+     * @param tenantId
+     *            租户id
+     * @param sysOwner
+     *            所属系统
+     *
+     */
+    public static void setThreadTenant(Integer tenantId, String sysOwner) {
+        UserUtilContext.setThreadTenant(tenantId, sysOwner);
     }
 
     /**
