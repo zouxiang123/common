@@ -148,6 +148,11 @@ public class CommonConstants {
     public static final String MEDICARE_CARD_TYPE_ADMISSION = "01";
     /** 患者卡号 - 门诊号 */
     public static final String MEDICARE_CARD_TYPE_OUTPATIENT = "02";
+
+    /** 患者类别 - 门诊 */
+    public static final String PATIENT_TYPE_OUTPATIENT = "1";
+    /** 患者类别 - 住院 */
+    public static final String PATIENT_TYPE_HOSPITALIZATION = "2";
     /*--------------- 患者 end ---------------*/
     // -----------------------------肾病类型--------------------------------------------
     /** 肾病类型：慢性肾功能衰竭 */
