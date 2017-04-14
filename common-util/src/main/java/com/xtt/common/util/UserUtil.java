@@ -8,6 +8,8 @@
  */
 package com.xtt.common.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +19,7 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dto.LoginUser;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.permission.UserUtilContext;
+import com.xtt.platform.util.lang.StringUtil;
 
 public class UserUtil {
     private UserUtil() {
@@ -321,5 +324,56 @@ public class UserUtil {
     public static String getSysOwner() {
         LoginUser user = UserUtilContext.getLoginUser();
         return user == null ? null : user.getSysOwner();
+    }
+
+    /**
+     * 获取多个租户字符串
+     * 
+     * @Title: getMultiTenant
+     * @return (以,分隔的多个租户id)
+     *
+     */
+    public static String getMultiTenant() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user == null) {
+            return null;
+        }
+        return StringUtil.stripToNull(user.getMultiTenant());
+    }
+
+    /**
+     * 获取多个租户id集合
+     * 
+     * @Title: listTenantIds
+     * @return
+     *
+     */
+    public static List<Integer> listTenantIds() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user == null || StringUtil.isBlank(user.getMultiTenant())) {
+            return null;
+        }
+        String[] tenantIds = user.getMultiTenant().split(",");
+        List<Integer> tenants = new ArrayList<>(tenantIds.length);
+        for (String tenantStr : tenantIds) {
+            tenants.add(Integer.valueOf(tenantStr));
+        }
+        return tenants;
+    }
+
+    /**
+     * 获取多个所属系统
+     * 
+     * @Title: listSysOwners
+     * @return
+     *
+     */
+    public static List<String> listSysOwners() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user == null || StringUtil.isBlank(user.getMultiSysOwner())) {
+            return null;
+        }
+        String[] owners = user.getMultiSysOwner().split(",");
+        return Arrays.asList(owners);
     }
 }
