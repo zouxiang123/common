@@ -17,6 +17,7 @@
     <result column="order_by" jdbcType="INTEGER" property="orderBy" />
     <result column="is_fixed" jdbcType="BIT" property="isFixed" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -27,7 +28,8 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, p_item_code, item_code, item_name, item_type, unit, data_type, is_leaf, item_level, 
-    order_by, is_fixed, is_enable, create_time, create_user_id, update_time, update_user_id
+    order_by, is_fixed, is_enable, fk_tenant_id, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -53,14 +55,14 @@
       item_name, item_type, unit, 
       data_type, is_leaf, item_level, 
       order_by, is_fixed, is_enable, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{dataType,jdbcType=VARCHAR}, #{isLeaf,jdbcType=BIT}, #{itemLevel,jdbcType=INTEGER}, 
       #{orderBy,jdbcType=INTEGER}, #{isFixed,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDictDiagnosis">
     <!--
@@ -103,6 +105,9 @@
       </if>
       <if test="isEnable != null">
         is_enable,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
       </if>
       <if test="createTime != null">
         create_time,
@@ -153,6 +158,9 @@
       </if>
       <if test="isEnable != null">
         #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -207,6 +215,9 @@
       <if test="isEnable != null">
         is_enable = #{isEnable,jdbcType=BIT},
       </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -238,6 +249,7 @@
       order_by = #{orderBy,jdbcType=INTEGER},
       is_fixed = #{isFixed,jdbcType=BIT},
       is_enable = #{isEnable,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -288,6 +300,9 @@
       </if>
       <if test="isEnable != null">
         and cdd.is_enable = #{isEnable,jdbcType=BIT}
+      </if>
+      <if test="fkTenantId != null">
+        and cdd.fk_tenant_id = #{fkTenantId}
       </if>
   	</where>
   	order by cdd.p_item_code,cdd.order_by

@@ -77,7 +77,7 @@
     v.update_user_id as v_update_user_id
     from cm_diagnosis_entity e,cm_diagnosis_entity_value v
     ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code
+    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
     and v.fk_entity_id=e.id and e.id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
@@ -227,7 +227,7 @@
     v.update_user_id as v_update_user_id
     from cm_diagnosis_entity e,cm_diagnosis_entity_value v
     ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code
+    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
     and v.fk_entity_id=e.id and e.fk_patient_id=#{fkPatientId}
     <if test="itemCode != null">
       and e.item_code = #{itemCode,jdbcType=VARCHAR}
