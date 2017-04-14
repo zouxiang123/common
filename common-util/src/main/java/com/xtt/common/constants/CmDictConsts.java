@@ -58,6 +58,8 @@ public class CmDictConsts {
     public static final String DOWN_DB_WS_URL_PT = "01";
 
     public static final String DOWN_DB_WS_URL_ORDER = "02";
+
+    public static final String DOWN_DB_WS_URL_LIS = "03";
     /** 检验类型 */
     public static final String ASSAY_TYPE = "assay_type";
     /**

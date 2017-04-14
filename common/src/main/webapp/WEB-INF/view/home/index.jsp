@@ -114,14 +114,14 @@
                             </div>
                         </div> -->
 
-                        <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="bed_view">
+                        <%-- <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="bed_view">
                             <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-cwgl.png">
                             <span>床位管理</span>
 	                    </div>
                         <div class="new-nav-sub-item" onclick="getOpenUrl(this,'我的工作站');" data-permission-key="dialysis_machine">
                             <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-txjgl.png">
                             <span>透析机管理</span>
-	                    </div>
+	                    </div> --%>
                         <div class="new-nav-sub-item" data-permission-key="water_treatment">
                             <img class="main-icon" src="${COMMON_SERVER_ADDR}/assets/img/nav-sclxtgl.png">
                             <span>水处理系统管理</span>
