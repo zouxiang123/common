@@ -123,6 +123,7 @@ public class UserServiceImpl implements IUserService {
             user.setDelFlag(false);
             user.setFkTenantId(UserUtil.getTenantId());
             user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
+            user.setSysOwner(CommonConstants.SYS_HD);// 设置所属系统
             sysUserMapper.insert(user);
             associationRole(user.getRoleId(), user.getId());// 创建关联数据
             // 新增用户创建默认头像

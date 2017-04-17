@@ -343,8 +343,8 @@
 	    	,GROUP_CONCAT(sr.fk_role_id) AS roleId,GROUP_CONCAT(r.parent_id) AS parentRoleId
 		FROM
 			sys_user u
-		JOIN sys_user2role sr ON sr.fk_user_id = u.id
-		JOIN sys_role r ON sr.fk_role_id = r.id
+		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		LEFT JOIN sys_role r ON sr.fk_role_id = r.id
 		WHERE
 			u.id = #{id,jdbcType=BIGINT}
         GROUP BY u.id
