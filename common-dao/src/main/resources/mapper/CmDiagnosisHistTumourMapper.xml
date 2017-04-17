@@ -185,6 +185,9 @@
       <if test="fkTenantId != null">
         AND dht.fk_tenant_id = #{fkTenantId}
       </if>
+      <if test="multiTenant != null">
+        AND dht.fk_tenant_id in (${multiTenant })
+      </if>
     </where>
     ORDER BY dht.id DESC;
   </select>

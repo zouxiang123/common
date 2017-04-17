@@ -82,17 +82,6 @@ public interface IPatientAssayRecordService {
     List<PatientAssayRecordPO> selectStatisticsReport(PatientAssayRecordPO patientAssayRecord);
 
     /**
-     * 查询患者所有的类别列表
-     * 
-     * @Title: categoryList
-     * @param patientId
-     * @return
-     * 
-     */
-    @Deprecated
-    List<Map<String, Object>> getCategoryListByPatientId(Long patientId);
-
-    /**
      * 查询类别列表
      * 
      * @Title: getCategoryList
@@ -100,7 +89,7 @@ public interface IPatientAssayRecordService {
      * @return
      * 
      */
-    List<PatientAssayRecordPO> getCategoryList(PatientAssayRecordPO record);
+    List<PatientAssayRecordPO> listCategory(PatientAssayRecordPO record);
 
     /**
      * 获取患者最新一次的化验数据

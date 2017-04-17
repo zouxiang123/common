@@ -255,16 +255,17 @@
   
   <!-- 自定义 -->
   <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistPdPO" />
-  
-  <select id="selectByPatient" parameterType="java.lang.Long" resultMap="POResultMap">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
+  <!-- 根据患者id查询数据 -->
+  <select id="selectByPatient" resultMap="POResultMap">
     select 
     cdhp.*,
     (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
     from cm_diagnosis_hist_pd cdhp, sys_user su, sys_user usu
     where su.id = cdhp.create_user_id and usu.id = cdhp.update_user_id
-    and cdhp.fk_patient_id = #{patientId,jdbcType=BIGINT} order by cdhp.id desc
+    and cdhp.fk_patient_id = #{patientId,jdbcType=BIGINT} 
+    <if test="multiTenant != null">
+        and cdhp.fk_tenant_id in (${multiTenant })
+    </if>
+    order by cdhp.id desc
   </select>
 </mapper>

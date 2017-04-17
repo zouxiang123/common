@@ -23,6 +23,7 @@ public class PatientOutcomePO extends PatientOutcome {
 
     private Date startDate;
     private Date endDate;
+    private String multiTenant;// 多个租户id
 
     public String getRecordDateShow() {
         if (super.getRecordDate() != null) {
@@ -84,6 +85,14 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setExcludeTypes(String[] excludeTypes) {
         this.excludeTypes = excludeTypes;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
     }
 
 }

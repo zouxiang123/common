@@ -25,6 +25,7 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private String operatorName;
     private String itemName;
     private String createTimeShow;
+    private String multiTenant;
     /**
      * Entity对应的Value集合
      */
@@ -33,13 +34,8 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private Map<String, List<CmDiagnosisEntityValuePO>> valueMap;
 
     public CmDiagnosisEntityPO() {
-        this.valueMap = MapUtils.lazyMap(new HashMap<String, List<Object>>(), new Factory() {
-
-            public Object create() {
-                return LazyList.decorate(new ArrayList<CmDiagnosisEntityValuePO>(), FactoryUtils.instantiateFactory(CmDiagnosisEntityValuePO.class));
-            }
-
-        });
+        this.valueMap = MapUtils.lazyMap(new HashMap<String, List<Object>>(), (Factory) () -> LazyList
+                        .decorate(new ArrayList<CmDiagnosisEntityValuePO>(), FactoryUtils.instantiateFactory(CmDiagnosisEntityValuePO.class)));
     }
 
     public String getOperatorName() {
@@ -83,4 +79,13 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     public void setValueMap(Map<String, List<CmDiagnosisEntityValuePO>> valueMap) {
         this.valueMap = valueMap;
     }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
+    }
+
 }

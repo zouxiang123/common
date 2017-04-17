@@ -78,7 +78,7 @@ public class PatientAssayController {
             PatientAssayRecordPO query = new PatientAssayRecordPO();
             query.setAssayDate(temp.getAssayDate());
             query.setFkPatientId(temp.getFkPatientId());
-            categoryList = patientAssayRecordService.getCategoryList(query);
+            categoryList = patientAssayRecordService.listCategory(query);
             records = patientAssayRecordService.selectByCondition(query);
         }
         map.put("categoryList", categoryList);
@@ -103,7 +103,7 @@ public class PatientAssayController {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<String, Object>();
         if (needCategory != null && needCategory)
-            map.put("categoryList", patientAssayRecordService.getCategoryList(record));
+            map.put("categoryList", patientAssayRecordService.listCategory(record));
         map.put("records", patientAssayRecordService.selectByCondition(record));
         LOGGER.info("get assay record total cost {} ms", System.currentTimeMillis() - start);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);

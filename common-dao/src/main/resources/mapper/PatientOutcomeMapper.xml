@@ -213,7 +213,7 @@
   <!-- use define -->
   <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientOutcomePO" />
   
-  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientOutcome" resultMap="POResultMap">
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.po.PatientOutcomePO" resultMap="POResultMap">
   	select po.* from patient_outcome po
   	<where>
  	  <if test="fkPatientId != null">
@@ -243,6 +243,9 @@
       <if test="excludeTypes !=null">
         AND po.type not in <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">#{item}</foreach>
       </if>
+      <if test="multiTenant != null">
+        AND po.fk_tenant_id in (${multiTenant })
+      </if>
   	</where>
   	ORDER BY po.record_date DESC, po.id DESC
   </select>
@@ -253,12 +256,15 @@
         JOIN (
             SELECT po1.fk_patient_id, MAX(po1.record_date) AS time
             FROM patient_outcome po1
-            WHERE po1.fk_tenant_id = #{fkTenantId} AND po1.sys_owner = #{sysOwner}
+            WHERE po1.sys_owner = #{sysOwner}
                 <if test="patientIds != null and patientIds.size()>0">
                    AND po1.fk_patient_id in <foreach collection="patientIds" item="item" open="(" separator="," close=")">#{item}</foreach>
                 </if>
                 <if test="month != null and month != ''">
                    AND DATE_FORMAT(po1.record_date,'%Y-%m') = #{month}
+                </if>
+                <if test="multiTenant != null">
+                    AND po1.fk_tenant_id in (${multiTenant })
                 </if>
             GROUP BY po1.fk_patient_id
         ) t ON t.fk_patient_id = po.fk_patient_id AND po.record_date = t.time

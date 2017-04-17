@@ -16,6 +16,7 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
     private String recordDateShow;
     private String createTimeShow;
     private String createUserName;
+    private String multiTenant;
 
     public String getRecordDateShow() {
         if (super.getRecordDate() != null) {
@@ -48,6 +49,14 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
 
     public void setCreateUserName(String createUserName) {
         this.createUserName = createUserName;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
     }
 
 }

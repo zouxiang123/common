@@ -33,7 +33,7 @@ public interface IPatientOutcomeService {
      * @return
      * 
      */
-    List<PatientOutcomePO> selectAllByPatientId(Long patientId);
+    List<PatientOutcomePO> listByPatientId(Long patientId);
 
     /**
      * 根据条件查询患者转归记录
@@ -53,13 +53,13 @@ public interface IPatientOutcomeService {
      *            患者ids
      * @param month
      *            月份
-     * @param tenantId
+     * @param multiTenant
      *            租户id
      * @param sysOwner
      *            所属系统
      * @return
      *
      */
-    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, Integer tenantId, String sysOwner);
+    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner);
 
 }

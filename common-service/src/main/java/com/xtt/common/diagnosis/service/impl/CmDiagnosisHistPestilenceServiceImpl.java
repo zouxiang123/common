@@ -43,8 +43,7 @@ public class CmDiagnosisHistPestilenceServiceImpl implements ICmDiagnosisHistPes
      */
     @Override
     public List<CmDiagnosisHistPestilencePO> selectPestilencesByPatient(Long patientId) {
-        // TODO Auto-generated method stub
-        return cmDiagnosisHistPestilenceMapper.selectByPatient(patientId);
+        return cmDiagnosisHistPestilenceMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
     }
 
     /**
@@ -57,7 +56,6 @@ public class CmDiagnosisHistPestilenceServiceImpl implements ICmDiagnosisHistPes
      */
     @Override
     public String saveItem(CmDiagnosisHistPestilencePO record) {
-        // TODO Auto-generated method stub
         if (record.getId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(record);
@@ -80,7 +78,6 @@ public class CmDiagnosisHistPestilenceServiceImpl implements ICmDiagnosisHistPes
      */
     @Override
     public String deleteById(Long id) {
-        // TODO Auto-generated method stub
         CmDiagnosisHistPestilence item = cmDiagnosisHistPestilenceMapper.selectByPrimaryKey(id);
         if (item != null) {
             cmDiagnosisHistPestilenceMapper.deleteByPrimaryKey(item.getId());

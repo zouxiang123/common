@@ -43,8 +43,7 @@ public class CmDiagnosisHistAllergyServiceImpl implements ICmDiagnosisHistAllerg
      */
     @Override
     public List<CmDiagnosisHistAllergyPO> selectAllergiesByPatient(Long patientId) {
-        // TODO Auto-generated method stub
-        return cmDiagnosisHistAllergyMapper.selectByPatient(patientId);
+        return cmDiagnosisHistAllergyMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
     }
 
     /**
@@ -57,7 +56,6 @@ public class CmDiagnosisHistAllergyServiceImpl implements ICmDiagnosisHistAllerg
      */
     @Override
     public String saveItem(CmDiagnosisHistAllergyPO record) {
-        // TODO Auto-generated method stub
         if (record.getId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(record);
@@ -80,7 +78,6 @@ public class CmDiagnosisHistAllergyServiceImpl implements ICmDiagnosisHistAllerg
      */
     @Override
     public String deleteById(Long id) {
-        // TODO Auto-generated method stub
         CmDiagnosisHistAllergy item = cmDiagnosisHistAllergyMapper.selectByPrimaryKey(id);
         if (item != null) {
             cmDiagnosisHistAllergyMapper.deleteByPrimaryKey(item.getId());

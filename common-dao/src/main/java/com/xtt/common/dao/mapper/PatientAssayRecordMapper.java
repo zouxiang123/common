@@ -83,12 +83,13 @@ public interface PatientAssayRecordMapper {
      * @param patientId
      * @param startTime
      * @param endTime
-     * @param pId
+     * @param itemCode
+     * @param multiTenant
      * @return
-     * 
+     *
      */
     List<Map<String, Object>> selectReportData(@Param("patientId") Long patientId, @Param("startTime") Date startTime, @Param("endTime") Date endTime,
-                    @Param("itemCode") String itemCode);
+                    @Param("itemCode") String itemCode, @Param("multiTenant") String multiTenant);
 
     /**
      * 根据时间查询报表信息
@@ -121,26 +122,14 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> selectStatisticsReport(PatientAssayRecordPO patientAssayRecord);
 
     /**
-     * 差询患者所有的类别列表
-     * 
-     * @Title: selectCategoryListByPatientId
-     * @param patientId
-     * @param tenantId
-     * @return
-     * 
-     */
-    @Deprecated
-    List<Map<String, Object>> selectCategoryListByPatientId(@Param("patientId") Long patientId, @Param("tenantId") Integer tenantId);
-
-    /**
      * 查询患者某天的类别列表
      * 
-     * @Title: selectCategoryList
+     * @Title: listCategory
      * @param record
      * @return
      * 
      */
-    List<PatientAssayRecordPO> selectCategoryList(PatientAssayRecordPO record);
+    List<PatientAssayRecordPO> listCategory(PatientAssayRecordPO record);
 
     /**
      * 获取患者最新一次的化验数据

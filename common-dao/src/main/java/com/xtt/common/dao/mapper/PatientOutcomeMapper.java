@@ -32,7 +32,7 @@ public interface PatientOutcomeMapper {
      * @return
      *
      */
-    List<PatientOutcomePO> selectByCondition(PatientOutcome record);
+    List<PatientOutcomePO> selectByCondition(PatientOutcomePO record);
 
     /**
      * 查询患者最新的一条转归记录
@@ -40,11 +40,11 @@ public interface PatientOutcomeMapper {
      * @Title: listLatest
      * @param patientIds
      * @param month
-     * @param tenantId
+     * @param multiTenant
      * @param sysOwner
      * @return
      *
      */
     List<PatientOutcomePO> listLatest(@Param("patientIds") Collection<Long> patientIds, @Param("month") String month,
-                    @Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
+                    @Param("multiTenant") String multiTenant, @Param("sysOwner") String sysOwner);
 }

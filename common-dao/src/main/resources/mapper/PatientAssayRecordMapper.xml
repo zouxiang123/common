@@ -529,6 +529,9 @@
         <if test="endDate != null">
             AND par.sample_time &lt;= #{endDate}
         </if>
+        <if test="multiTenant != null">
+            AND par.fk_tenant_id in (${multiTenant })
+        </if>
          AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
       </where>
       ORDER BY par.group_id ASC,par.item_code ASC
@@ -543,6 +546,9 @@
           </if>
           <if test="fkTenantId != null">
             and par.fk_tenant_id = #{fkTenantId}
+          </if>
+          <if test="multiTenant != null">
+            and par.fk_tenant_id in (${multiTenant })
           </if>
           <if test="groupId != null and groupId != ''">
             and par.group_id = #{groupId}
@@ -564,6 +570,9 @@
           </if>
           <if test="endTime != null">
             and par.sample_time  &lt;= #{endTime}
+          </if>
+          <if test="multiTenant != null">
+            and par.fk_tenant_id in (${multiTenant })
           </if>
       </where>
       ORDER BY par.assay_date ASC
@@ -630,21 +639,16 @@
     </if>
     GROUP BY p.assay_month;
   </select>
-  
-  <select id="selectCategoryListByPatientId" resultType="map">
-     SELECT par.group_id AS groupId,par.group_name AS groupName FROM patient_assay_record par 
-     WHERE par.fk_patient_id =#{patientId} AND par.fk_tenant_id = #{tenantId} AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
-     GROUP BY par.group_id, par.group_name
-     ORDER BY par.group_id ASC
-  </select>
-  
-  <select id="selectCategoryList" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+  <!-- 查询化验类别列表 -->
+  <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
      SELECT par.* FROM patient_assay_record par 
-     WHERE 
-     par.fk_patient_id =#{fkPatientId}
+     WHERE par.fk_patient_id =#{fkPatientId}
      AND par.fk_tenant_id = #{fkTenantId}
      <if test="assayDate != null and assayDate != ''">
         AND date(par.sample_time) = #{assayDate}
+     </if>
+     <if test="multiTenant != null">
+        AND par.fk_tenant_id in (${multiTenant })
      </if>
      AND par.req_id IS NOT NULL 
      AND par.group_name IS NOT NULL

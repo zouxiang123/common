@@ -15,11 +15,30 @@ public interface CmDiagnosisEntityMapper {
 
     int insertSelective(CmDiagnosisEntity record);
 
-    CmDiagnosisEntityPO selectByPrimaryKey(Long id);
+    CmDiagnosisEntity selectByPrimaryKey(Long id);
 
     int updateByPrimaryKeySelective(CmDiagnosisEntity record);
 
     int updateByPrimaryKey(CmDiagnosisEntity record);
 
+    /*user define*/
+    /**
+     * 根据id获取po对象
+     * 
+     * @Title: getById
+     * @param id
+     * @return
+     *
+     */
+    CmDiagnosisEntityPO getById(Long id);
+
+    /**
+     * 根据患者对应的诊断数据
+     * 
+     * @Title: selectEntitiesByPatient
+     * @param entity
+     * @return
+     *
+     */
     List<CmDiagnosisEntityPO> selectEntitiesByPatient(CmDiagnosisEntityPO entity);
 }

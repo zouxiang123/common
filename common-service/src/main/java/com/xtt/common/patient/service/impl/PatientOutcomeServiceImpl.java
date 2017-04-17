@@ -61,7 +61,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     }
 
     @Override
-    public List<PatientOutcomePO> selectAllByPatientId(Long patientId) {
+    public List<PatientOutcomePO> listByPatientId(Long patientId) {
         PatientOutcomePO record = new PatientOutcomePO();
         record.setFkPatientId(patientId);
         record.setSysOwner(UserUtil.getSysOwner());
@@ -71,7 +71,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     @Override
     public List<PatientOutcomePO> selectByCondition(PatientOutcomePO record) {
         record = record == null ? new PatientOutcomePO() : record;
-        record.setFkTenantId(UserUtil.getTenantId());
+        record.setMultiTenant(UserUtil.getMultiTenant());
         return init(patientOutcomeMapper.selectByCondition(record));
     }
 
@@ -99,7 +99,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     }
 
     @Override
-    public List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, Integer tenantId, String sysOwner) {
-        return patientOutcomeMapper.listLatest(patientIds, month, tenantId, sysOwner);
+    public List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner) {
+        return patientOutcomeMapper.listLatest(patientIds, month, multiTenant, sysOwner);
     }
 }

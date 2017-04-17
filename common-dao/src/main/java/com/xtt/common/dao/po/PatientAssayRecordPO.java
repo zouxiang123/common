@@ -65,6 +65,7 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private String reportTimeShow;
     // 统计报表使用
     private String isTemp;
+    private String multiTenant;// 多个租户id
 
     public Collection<String> getDictCodes() {
         return dictCodes;
@@ -312,6 +313,14 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     public void setIsTemp(String isTemp) {
         this.isTemp = isTemp;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
     }
 
 }

@@ -43,28 +43,28 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     @Override
     public List<PatientAssayRecordPO> getAssayDateRecord(PatientAssayRecordPO record) {
-        record.setFkTenantId(UserUtil.getTenantId());
+        record.setMultiTenant(UserUtil.getMultiTenant());
         List<PatientAssayRecordPO> list = patientAssayRecordMapper.selectDateAssayRecord(record);
         return list;
     }
 
     @Override
     public List<Map<String, Object>> getReportData(Long patientId, Date startTime, Date endTime, String itemCode) {
-        return patientAssayRecordMapper.selectReportData(patientId, startTime, endTime, itemCode);
+        return patientAssayRecordMapper.selectReportData(patientId, startTime, endTime, itemCode, UserUtil.getMultiTenant());
     }
 
     @Override
     public List<PatientAssayRecordPO> selectByCondition(PatientAssayRecordPO record) {
-        record.setFkTenantId(UserUtil.getTenantId());
+        record.setMultiTenant(UserUtil.getMultiTenant());
         return patientAssayRecordMapper.selectByCondition(record);
     }
 
     @Override
     public List<PatientAssayRecordPO> getByAssayDate(String date, Long patientId) {
         PatientAssayRecordPO record = new PatientAssayRecordPO();
-        record.setFkTenantId(UserUtil.getTenantId());
         record.setAssayDate(date);
         record.setFkPatientId(patientId);
+        record.setMultiTenant(UserUtil.getMultiTenant());
         return patientAssayRecordMapper.selectByCondition(record);
     }
 
@@ -88,16 +88,10 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         return list;
     }
 
-    @Deprecated
     @Override
-    public List<Map<String, Object>> getCategoryListByPatientId(Long patientId) {
-        return patientAssayRecordMapper.selectCategoryListByPatientId(patientId, UserUtil.getTenantId());
-    }
-
-    @Override
-    public List<PatientAssayRecordPO> getCategoryList(PatientAssayRecordPO record) {
-        record.setFkTenantId(UserUtil.getTenantId());
-        return patientAssayRecordMapper.selectCategoryList(record);
+    public List<PatientAssayRecordPO> listCategory(PatientAssayRecordPO record) {
+        record.setMultiTenant(UserUtil.getMultiTenant());
+        return patientAssayRecordMapper.listCategory(record);
     }
 
     @Override

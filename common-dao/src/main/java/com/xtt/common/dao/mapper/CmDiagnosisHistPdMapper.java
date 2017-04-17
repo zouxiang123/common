@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.CmDiagnosisHistPd;
@@ -28,8 +29,9 @@ public interface CmDiagnosisHistPdMapper {
      * 
      * @Title: selectByPatient
      * @param patientId
+     * @param multiTenant
      * @return
      *
      */
-    List<CmDiagnosisHistPdPO> selectByPatient(Long patientId);
+    List<CmDiagnosisHistPdPO> selectByPatient(@Param("patientId") Long patientId, @Param("multiTenant") String multiTenant);
 }
