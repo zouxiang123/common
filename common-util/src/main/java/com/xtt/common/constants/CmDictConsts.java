@@ -73,6 +73,14 @@ public class CmDictConsts {
      */
     public static final String CM_UNIT_PRESSURE = "CM_unit_pressure";
     /**
+     * 单位--压力(kpa)
+     */
+    public static final String CM_UNIT_PRESSURE_KPA = "kpa";
+    /**
+     * 单位--压力(mmHg)
+     */
+    public static final String CM_UNIT_PRESSURE_MMHG = "mmHg";
+    /**
      * 单位--温度
      */
     public static final String CM_UNIT_TEMPERATURE = "CM_unit_temperature";
