@@ -62,7 +62,11 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
 
+    // 报告时间
     private String reportTimeShow;
+
+    // 样本时间
+    private String sampleTimeShow;
     // 统计报表使用
     private String isTemp;
 
@@ -304,6 +308,14 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     public void setReportTimeShow(String reportTimeShow) {
         this.reportTimeShow = reportTimeShow;
+    }
+
+    public String getSampleTimeShow() {
+        return sampleTimeShow;
+    }
+
+    public void setSampleTimeShow(String sampleTimeShow) {
+        this.sampleTimeShow = sampleTimeShow;
     }
 
     public String getIsTemp() {

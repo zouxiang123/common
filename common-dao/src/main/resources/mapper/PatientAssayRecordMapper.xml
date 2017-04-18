@@ -439,7 +439,8 @@
         <result column="needAssayCount" jdbcType="INTEGER" property="needAssayCount" />
         <result column="hadAssaySum" jdbcType="INTEGER" property="hadAssaySum" />
         <result column="assayClassValue" jdbcType="VARCHAR" property="assayClass" />
-        
+        <result column="sampleTimeShow" jdbcType="VARCHAR" property="sampleTimeShow" />
+        <result column="reportTimeShow" jdbcType="VARCHAR" property="reportTimeShow" />
   </resultMap>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
@@ -535,7 +536,10 @@
   </select>
   
   <select id="selectDateAssayRecord" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-      select DISTINCT date(par.sample_time) as assay_date,max(par.fk_patient_id) AS fk_patient_id,par.flage
+      select DISTINCT date(par.sample_time) as assay_date,
+      DATE_FORMAT(par.report_time,"%Y-%m-%d") as reportTimeShow,
+      DATE_FORMAT(par.sample_time,"%Y-%m-%d") as sampleTimeShow,
+      max(par.fk_patient_id) AS fk_patient_id,par.flage
       from patient_assay_record par 
       <where>
           <if test="fkPatientId != null">
