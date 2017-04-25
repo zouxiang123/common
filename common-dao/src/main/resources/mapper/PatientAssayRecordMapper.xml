@@ -767,14 +767,14 @@
     force index(inx_assay_record_date_code_tenant)
     LEFT JOIN patient p on par.fk_patient_id = p.id
     <where>
-        <if test="itemCodes != null">
-            par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
         <if test="startDate != null">
-            AND par.assay_date &gt;= #{startDate,jdbcType=DATE}
+            par.assay_date &gt;= #{startDate,jdbcType=DATE}
         </if>
         <if test="endDate != null">
             AND par.assay_date &lt;= #{endDate,jdbcType=DATE}
+        </if>
+        <if test="itemCodes != null">
+            AND par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
         </if>
         <if test="fkTenantId != null">
             AND par.fk_tenant_id =#{fkTenantId}
