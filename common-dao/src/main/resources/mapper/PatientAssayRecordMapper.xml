@@ -30,6 +30,8 @@
     <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
     <result column="check_person" jdbcType="VARCHAR" property="checkPerson" />
     <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
+    <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
+    <result column="new_item_code" jdbcType="VARCHAR" property="newItemCode" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
@@ -45,8 +47,8 @@
     id, fk_patient_id, his_pt_Id, group_id, group_name, item_code, item_name, result, 
     result_actual, value_unit, value_min, value_max, result_tips, reference, remark, 
     report_time, req_id, req_time, req_dept, sample_class, sample_time, send_doctor, 
-    check_time, check_person, inspection_id, fk_tenant_id, create_time, assay_month, 
-    assay_date, sample_code, test_method, flage
+    check_time, check_person, inspection_id, dia_ab_flag, new_item_code, fk_tenant_id, 
+    create_time, assay_month, assay_date, sample_code, test_method, flage
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -76,9 +78,10 @@
       report_time, req_id, req_time, 
       req_dept, sample_class, sample_time, 
       send_doctor, check_time, check_person, 
-      inspection_id, fk_tenant_id, create_time, 
-      assay_month, assay_date, sample_code, 
-      test_method, flage)
+      inspection_id, dia_ab_flag, new_item_code, 
+      fk_tenant_id, create_time, assay_month, 
+      assay_date, sample_code, test_method, 
+      flage)
     values (#{id,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{hisPtId,jdbcType=VARCHAR}, 
       #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{resultActual,jdbcType=DOUBLE}, 
@@ -87,9 +90,10 @@
       #{reportTime,jdbcType=TIMESTAMP}, #{reqId,jdbcType=VARCHAR}, #{reqTime,jdbcType=TIMESTAMP}, 
       #{reqDept,jdbcType=VARCHAR}, #{sampleClass,jdbcType=VARCHAR}, #{sampleTime,jdbcType=TIMESTAMP}, 
       #{sendDoctor,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{checkPerson,jdbcType=VARCHAR}, 
-      #{inspectionId,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{assayMonth,jdbcType=VARCHAR}, #{assayDate,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR}, 
-      #{testMethod,jdbcType=VARCHAR}, #{flage,jdbcType=BIT})
+      #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{newItemCode,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{assayMonth,jdbcType=VARCHAR}, 
+      #{assayDate,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR}, #{testMethod,jdbcType=VARCHAR}, 
+      #{flage,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
     <!--
@@ -171,6 +175,12 @@
       </if>
       <if test="inspectionId != null">
         inspection_id,
+      </if>
+      <if test="diaAbFlag != null">
+        dia_ab_flag,
+      </if>
+      <if test="newItemCode != null">
+        new_item_code,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -269,6 +279,12 @@
       </if>
       <if test="inspectionId != null">
         #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="diaAbFlag != null">
+        #{diaAbFlag,jdbcType=CHAR},
+      </if>
+      <if test="newItemCode != null">
+        #{newItemCode,jdbcType=VARCHAR},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -371,6 +387,12 @@
       <if test="inspectionId != null">
         inspection_id = #{inspectionId,jdbcType=VARCHAR},
       </if>
+      <if test="diaAbFlag != null">
+        dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
+      </if>
+      <if test="newItemCode != null">
+        new_item_code = #{newItemCode,jdbcType=VARCHAR},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -424,6 +446,8 @@
       check_time = #{checkTime,jdbcType=TIMESTAMP},
       check_person = #{checkPerson,jdbcType=VARCHAR},
       inspection_id = #{inspectionId,jdbcType=VARCHAR},
+      dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
+      new_item_code = #{newItemCode,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       assay_month = #{assayMonth,jdbcType=VARCHAR},
@@ -457,9 +481,9 @@
         <if test="hisPtId != null">
           and par.his_pt_Id = #{hisPtId}
         </if>
-        <!-- &lt;if test="assayDate != null and assayDate != ''"&gt;
+        <!-- &amp;lt;if test="assayDate != null and assayDate != ''"&amp;gt;
           and par.assay_date = #{assayDate}
-        &lt;/if&gt; -->
+        &amp;lt;/if&amp;gt; -->
         <if test="groupId != null and groupId != ''">
           and par.group_id = #{groupId}
         </if>
@@ -489,7 +513,7 @@
         <if test="remark != null">
           and par.remark = #{remark}
         </if>
-        <!--&lt;if test="reportTime != null"&gt;  -->
+        <!--&amp;lt;if test="reportTime != null"&amp;gt;  -->
         <if test="assayDate != null and assayDate != ''">
           and date(par.sample_time) = #{assayDate}<!-- #{reportTime} -->
         </if>
@@ -762,6 +786,7 @@
         par.group_id,
         par.item_code
   </select>
+  
   <select id="selectByItemCodes" resultMap="POResultMap">
     SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result FROM patient_assay_record par
     force index(inx_assay_record_date_code_tenant)
@@ -918,4 +943,45 @@
         WHERE  
             assay_date = #{month} and fk_tenant_id = #{tenantId}
     </select>
+    
+    <!-- 根据指定条件获取病患检验结果数据 -->
+    <select id="listPatientAssayRecord" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
+      select par.*,p.name,p.sex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
+      <where>
+          <if test="ptName != null and ptName != ''">
+            and p.name = #{ptName}
+          </if>
+           <if test="ptSex != null and ptSex != ''">
+            and p.sex = #{groupId}
+          </if>
+          <if test="fkPatientId != null">
+            and par.fk_patient_id = #{fkPatientId}
+          </if>
+          <if test="fkTenantId != null">
+            and par.fk_tenant_id = #{fkTenantId}
+          </if>
+          <if test="groupId != null and groupId != ''">
+            and par.group_id = #{groupId}
+          </if>
+          <if test="assayMonth != null and assayMonth != ''">
+            and par.assay_month = #{assayMonth}
+          </if>
+          <if test="itemNameList != null and itemNameList != ''">
+            and par.item_code in  #{itemNameList}
+          </if>
+          <if test="startDateStr != null and endDateStr != ''">
+            and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
+          </if>
+          <if test="minValue != null ">
+            and par.result &gt;= #{minValue}
+          </if>
+          <if test="maxValue != null">
+            and par.result &lt; = #{maxValue}
+          </if>
+          <if test="resultTips != null and resultTips != ''">
+            and par.result_tips = #{resultTips}
+          </if>
+      </where>
+      ORDER BY par.sample_time DESC
+  </select>
 </mapper>

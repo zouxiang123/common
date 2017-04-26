@@ -151,6 +151,18 @@ public class PatientAssayRecord {
     private String inspectionId;
 
     /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     * patient_assay_record.dia_ab_flag
+     */
+    private String diaAbFlag;
+
+    /**
+     * 组合后的新的项目编码
+     * patient_assay_record.new_item_code
+     */
+    private String newItemCode;
+
+    /**
      * 租户ID
      * patient_assay_record.fk_tenant_id
      */
@@ -524,6 +536,34 @@ public class PatientAssayRecord {
      */
     public void setInspectionId(String inspectionId) {
         this.inspectionId = inspectionId;
+    }
+
+    /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     */
+    public String getDiaAbFlag() {
+        return diaAbFlag;
+    }
+
+    /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     */
+    public void setDiaAbFlag(String diaAbFlag) {
+        this.diaAbFlag = diaAbFlag;
+    }
+
+    /**
+     * 组合后的新的项目编码
+     */
+    public String getNewItemCode() {
+        return newItemCode;
+    }
+
+    /**
+     * 组合后的新的项目编码
+     */
+    public void setNewItemCode(String newItemCode) {
+        this.newItemCode = newItemCode;
     }
 
     /**

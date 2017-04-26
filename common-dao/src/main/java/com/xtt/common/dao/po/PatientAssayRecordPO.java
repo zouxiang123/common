@@ -25,6 +25,22 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     /** 偏高 */
     public static String TIPS_HIGH = "4";
 
+    // begin:2017-04-25===============================================================================================
+    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断） */
+    public static final String LAB_AFTER_BEFORE = "lab_after_before";
+    public static final String LAB_AFTER_BEFORE_ONE = "1";
+    public static final String LAB_AFTER_BEFORE_TWO = "2";
+    public static final String LAB_AFTER_BEFORE_THREE = "3";
+    public static final String LAB_AFTER_BEFORE_FOUR = "4";
+
+    /** 关键字：透析前 透析后 */
+    public static final String LAB_AFTER_BEFORE_KEYWORD = "lab_after_before_keyword";
+    /** 关键字： 透析前 */
+    public static final String LAB_BEFORE = "1";
+    /** 关键字：透析后 */
+    public static final String LAB_AFTER = "2";
+    // end:===============================================================================================
+
     /** 1：数字；2：字符 */
     private BigDecimal minValue;
     private BigDecimal maxValue;
@@ -65,6 +81,35 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private String reportTimeShow;
     // 统计报表使用
     private String isTemp;
+
+    private String ptName;// 姓名
+    private String ptSex; // 性别(男:M 女：F)
+
+    private String itemNameList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
+
+    public String getPtName() {
+        return ptName;
+    }
+
+    public void setPtName(String ptName) {
+        this.ptName = ptName;
+    }
+
+    public String getPtSex() {
+        return ptSex;
+    }
+
+    public void setPtSex(String ptSex) {
+        this.ptSex = ptSex;
+    }
+
+    public String getItemNameList() {
+        return itemNameList;
+    }
+
+    public void setItemNameList(String itemNameList) {
+        this.itemNameList = itemNameList;
+    }
 
     public Collection<String> getDictCodes() {
         return dictCodes;
