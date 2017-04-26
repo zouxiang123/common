@@ -216,13 +216,22 @@ public interface IPatientAssayRecordService {
      *
      */
     List<PatientAssayRecordPO> selectItemLatestDataByCondition(PatientAssayRecordPO record);
-    
+
     /**
-      * @Title: listPatientAssayRecord 
-      * @Description:根据指定条件获取病患检验结果数据
-      * @param po
-      * @return List<PatientAssayRecordPO>
-      * @throws
-      */
-     List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po);
+     * @Title: listPatientAssayRecord @Description:根据指定条件获取病患检验结果数据 @param po @return List<PatientAssayRecordPO> @throws
+     */
+    List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po);
+
+    /**
+     * @Title: updateListPatientAssayRecord @Description:更新病患检验结果数据 @param list void @throws
+     */
+    void updateListPatientAssayRecord(List<PatientAssayRecordPO> list);
+
+    /** 
+     * 更新检验
+    * @Title: lisAfterBefore 
+    * @Description: void
+    * @throws 
+    */
+    void updateLisAfterBefore();
 }

@@ -33,12 +33,17 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     public static final String LAB_AFTER_BEFORE_THREE = "3";
     public static final String LAB_AFTER_BEFORE_FOUR = "4";
 
+    /** 查询条件 item_code in ('CA','K') */
+    public static final String WHERE_IN_ITEM_CODE_LIST = "itemCodeList";
+
     /** 关键字：透析前 透析后 */
     public static final String LAB_AFTER_BEFORE_KEYWORD = "lab_after_before_keyword";
     /** 关键字： 透析前 */
     public static final String LAB_BEFORE = "1";
     /** 关键字：透析后 */
     public static final String LAB_AFTER = "2";
+    /** 关键字：透析前后时间（<=24） */
+    public static final String LAB_GJZ_SJ = "3";
     // end:===============================================================================================
 
     /** 1：数字；2：字符 */
@@ -89,7 +94,7 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private String ptName;// 姓名
     private String ptSex; // 性别(男:M 女：F)
 
-    private String itemNameList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
+    private String itemCodeList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
 
     public String getPtName() {
         return ptName;
@@ -107,12 +112,12 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
         this.ptSex = ptSex;
     }
 
-    public String getItemNameList() {
-        return itemNameList;
+    public String getItemCodeList() {
+        return itemCodeList;
     }
 
-    public void setItemNameList(String itemNameList) {
-        this.itemNameList = itemNameList;
+    public void setItemCodeList(String itemCodeList) {
+        this.itemCodeList = itemCodeList;
     }
 
     public Collection<String> getDictCodes() {
