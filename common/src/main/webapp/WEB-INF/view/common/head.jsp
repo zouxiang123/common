@@ -53,8 +53,8 @@
 <div id="loading_center" class="loading center hide">
 	<img src="${COMMON_SERVER_ADDR}/assets/img/loading.png"><p>正在加载中...</p>
 </div>
-<div id="loading_other" class="hide" style="position: fixed;top:0px;left:0px;z-index: 9999;width: 100%;height: 100%;">
-	<div class="loading center" style="position: fixed;"><img src="${COMMON_SERVER_ADDR}/assets/img/loading.png"><p id="loadingMsg"></p></div>
+<div id="loading_other" class="loading center" style="display: none;position: fixed;">
+    <img src="${COMMON_SERVER_ADDR}/assets/img/loading.png"><p id="loadingMsg"></p>
 </div>
 <script>
   if (typeof(loadingShow) == "undefined") {
