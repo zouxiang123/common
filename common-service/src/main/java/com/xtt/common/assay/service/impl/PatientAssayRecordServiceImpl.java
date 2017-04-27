@@ -320,8 +320,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         log.info("==========labAfterBefore 判断逻辑：" + labAfterBefore + ",获取集合大小：" + listPatientAssayRecord.size());
         List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
 
-        // 如果为返回的集合为null,或只有一条数据，不做任何处理
-        if (CollectionUtils.isEmpty(newList) || newList.size() <= 1) {
+        // 如果为（返回的集合为null|只有一条数据|没有配置开个信息）不做任何处理
+        if (StringUtil.isNotEmpty(labAfterBefore) || CollectionUtils.isEmpty(newList) || newList.size() <= 1) {
             return;
         }
 
@@ -329,30 +329,24 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String groupName = parPO.getGroupName();// 申请单名
-                String diaAbFlag = diaAbFlag(groupName);
-                parPO.setDiaAbFlag(diaAbFlag);
-                parPO.setNewItemCode(parPO.getItemCode() + "_" + diaAbFlag);
-                newList.add(parPO);
+                PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, groupName);
+                newList.add(newParPO);
             }
         }
         // 2：根据sample_class判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_TWO.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String sampleClass = parPO.getSampleClass();// 样本类型
-                String diaAbFlag = diaAbFlag(sampleClass);
-                parPO.setDiaAbFlag(diaAbFlag);
-                parPO.setNewItemCode(parPO.getItemCode() + "_" + diaAbFlag);
-                newList.add(parPO);
+                PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, sampleClass);
+                newList.add(newParPO);
             }
         }
         // 3：根据item_code判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_THREE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String itemCode = parPO.getItemCode();// 项目名称
-                String diaAbFlag = diaAbFlag(itemCode);
-                parPO.setDiaAbFlag(diaAbFlag);
-                parPO.setNewItemCode(itemCode + "_" + diaAbFlag);
-                newList.add(parPO);
+                PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, itemCode);
+                newList.add(newParPO);
             }
         }
         // 4：根据sample_time判断
@@ -364,6 +358,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         if (CollectionUtils.isNotEmpty(newList)) {
             updateListPatientAssayRecord(newList);
         }
+        log.info("==========更新了检验透析前后逻辑标示：" + newList.size() + "条记录.");
     }
 
     /**
@@ -410,12 +405,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
                     long dd = (time1 - time2) / (1000 * 3600); // 共计小时
                     if (dd <= sj) {
-                        po1.setDiaAbFlag(PatientAssayRecordPO.LAB_AFTER);
-                        po1.setNewItemCode(po1.getItemCode() + "_" + PatientAssayRecordPO.LAB_AFTER);
-
-                        po2.setDiaAbFlag(PatientAssayRecordPO.LAB_BEFORE);
-                        po2.setNewItemCode(po2.getItemCode() + "_" + PatientAssayRecordPO.LAB_BEFORE);
-
+                        po1 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_AFTER);
+                        po2 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_BEFORE);
                         newList.add(po1);
                         newList.add(po2);
                     }
@@ -424,4 +415,51 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         }
         return newList;
     }
+
+    /**
+     * @Title: newPatientAssayRecordPO
+     * @Description:生成新的对象
+     * @param parPO
+     * @param ifStr
+     * @return PatientAssayRecordPO @throws
+     */
+    private PatientAssayRecordPO newPatientAssayRecordPO(PatientAssayRecordPO parPO, String ifStr) {
+        String diaAbFlag = diaAbFlag(ifStr); // 透析前后标示
+        parPO = newPatientAssayRecordPOToDiaAbFlag(parPO, diaAbFlag);
+        return parPO;
+    }
+
+    /**
+     * @Title: newPatientAssayRecordPO
+     * @Description:生成新的对象2
+     * @param parPO
+     * @param ifStr
+     * @return PatientAssayRecordPO @throws
+     */
+    private PatientAssayRecordPO newPatientAssayRecordPOToDiaAbFlag(PatientAssayRecordPO parPO, String diaAbFlag) {
+        // 非透析前后不做任何处理
+        if (PatientAssayRecordPO.NOT_AFTER_BEFORE.equals(diaAbFlag)) {
+            parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
+            return parPO;
+        }
+        String itemCode = parPO.getItemCode();// 原始item_code
+        String itemName = parPO.getItemName();// 项目名称
+        String newItemCode = itemCode + "_" + diaAbFlag;// 新的项目编码
+
+        // 新的项目编码（透析前）
+        if (PatientAssayRecordPO.LAB_BEFORE.equals(diaAbFlag)) {
+            itemName = itemName + PatientAssayRecordPO.LAB_BEFORE_CN;
+        }
+        // 新的项目编码（透析后）
+        if (PatientAssayRecordPO.LAB_AFTER.equals(diaAbFlag)) {
+            itemName = itemName + PatientAssayRecordPO.LAB_AFTER_CN;
+        }
+
+        parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
+        parPO.setItemCode(newItemCode);// 存储新的项目编码
+        parPO.setNewItemCode(itemCode);// 存储原始项目编码
+
+        return parPO;
+    }
+
 }
