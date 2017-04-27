@@ -950,13 +950,13 @@
     
     <!-- 根据指定条件获取病患检验结果数据 -->
     <select id="listPatientAssayRecord" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
-      select par.*,p.name,p.sex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
+      select par.*,p.name patientName,p.sex ptSex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
       <where>
           <if test="ptName != null and ptName != ''">
             and p.name = #{ptName}
           </if>
            <if test="ptSex != null and ptSex != ''">
-            and p.sex = #{groupId}
+            and p.sex = #{ptSex}
           </if>
           <if test="fkPatientId != null">
             and par.fk_patient_id = #{fkPatientId}
@@ -980,12 +980,11 @@
             and par.result &gt;= #{minValue}
           </if>
           <if test="maxValue != null">
-            and par.result &lt; = #{maxValue}
+            and par.result &lt;= #{maxValue}
           </if>
           <if test="resultTips != null and resultTips != ''">
             and par.result_tips = #{resultTips}
           </if>
       </where>
-      ORDER BY par.sample_time DESC
   </select>
 </mapper>
