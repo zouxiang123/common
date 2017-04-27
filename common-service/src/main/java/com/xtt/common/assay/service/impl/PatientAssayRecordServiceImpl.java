@@ -312,15 +312,13 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
         // 根据指定的条件获取检验结果集
         List<PatientAssayRecordPO> listPatientAssayRecord = listPatientAssayRecord(assayMonth, null, null);
-
         log.info(assayMonth + ":==========labAfterBefore 判断逻辑：" + labAfterBefore + ",获取集合大小：" + listPatientAssayRecord.size());
-        List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
-
         // 如果为（返回的集合为null|只有一条数据|没有配置开个信息）不做任何处理
-        if (StringUtil.isNotEmpty(labAfterBefore) || CollectionUtils.isEmpty(newList) || newList.size() <= 1) {
+        if (StringUtil.isNotEmpty(labAfterBefore) || CollectionUtils.isEmpty(listPatientAssayRecord) || listPatientAssayRecord.size() <= 1) {
             return;
         }
 
+        List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
         // 1：根据group_name判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
@@ -383,14 +381,14 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     private String diaAbFlag(String where) {
         String ab = "0";// 非透析前后
         // 关键字
-        String labBefore = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_BEFORE);// 透析前=1
-        String labAfter = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_AFTER);// 透析后=2
+        String labBefore = DictUtil.getItemCode(PatientAssayRecordPO.LAB_AFTER_BEFORE_KEYWORD, PatientAssayRecordPO.LAB_BEFORE);// 透析前=1
+        String labAfter = DictUtil.getItemCode(PatientAssayRecordPO.LAB_AFTER_BEFORE_KEYWORD, PatientAssayRecordPO.LAB_AFTER);// 透析后=2
         // 透析前
-        if (StringUtil.isNotEmpty(labBefore) && where.indexOf(labBefore) > 0) {
+        if (StringUtil.isNotEmpty(labBefore) && where.indexOf(labBefore) >= 0) {
             ab = PatientAssayRecordPO.LAB_BEFORE;
         }
         // 透析后
-        if (StringUtil.isNotEmpty(labAfter) && where.indexOf(labAfter) > 0) {
+        if (StringUtil.isNotEmpty(labAfter) && where.indexOf(labAfter) >= 0) {
             ab = PatientAssayRecordPO.LAB_AFTER;
         }
         return ab;

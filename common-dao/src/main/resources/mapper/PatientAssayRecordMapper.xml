@@ -970,13 +970,13 @@
           <if test="assayMonth != null and assayMonth != ''">
             and par.assay_month = #{assayMonth}
           </if>
-          <if test="itemCodeList != null">
+          <if test="itemCodeList != null and itemCodeList.size() > 0">
             and par.item_code in  
                 <foreach collection="itemCodeList" item="item" open="(" separator="," close=")">
                     #{item}
                 </foreach>
           </if>
-          <if test="startDateStr != null and endDateStr != null">
+          <if test="startDateStr != null and endDateStr != null and startDateStr != '' and endDateStr != ''">
             and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
           </if>
           <if test="minValue != null ">
@@ -988,10 +988,10 @@
           <if test="resultTips != null and resultTips != ''">
             and par.result_tips = #{resultTips}
           </if>
-          <if test="diaAbFlag != null">
+          <if test="diaAbFlag != null and diaAbFlag != ''">
             and par.dia_ab_flag = #{diaAbFlag}
           </if>
-          <if test="reqIdList != null">
+          <if test="reqIdList != null and reqIdList.size() > 0">
             and par.req_id in   
                 <foreach collection="reqIdList" item="item" open="(" separator="," close=")">
                     #{item}
