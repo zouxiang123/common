@@ -953,10 +953,10 @@
       select par.*,p.name,p.sex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
       <where>
           <if test="ptName != null and ptName != ''">
-            and p.name = #{ptName}
+            and p.name like concat('%',#{ptName},'%')
           </if>
            <if test="ptSex != null and ptSex != ''">
-            and p.sex = #{groupId}
+            and p.sex = #{ptSex}
           </if>
           <if test="fkPatientId != null">
             and par.fk_patient_id = #{fkPatientId}
@@ -970,10 +970,13 @@
           <if test="assayMonth != null and assayMonth != ''">
             and par.assay_month = #{assayMonth}
           </if>
-          <if test="itemNameList != null and itemNameList != ''">
-            and par.item_code in  #{itemNameList}
+          <if test="itemCodeList != null and itemCodeList.size() > 0">
+            and par.item_code in  
+                <foreach collection="itemCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
           </if>
-          <if test="startDateStr != null and endDateStr != ''">
+          <if test="startDateStr != null and endDateStr != null and startDateStr != '' and endDateStr != ''">
             and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
           </if>
           <if test="minValue != null ">
@@ -984,6 +987,15 @@
           </if>
           <if test="resultTips != null and resultTips != ''">
             and par.result_tips = #{resultTips}
+          </if>
+          <if test="diaAbFlag != null and diaAbFlag != ''">
+            and par.dia_ab_flag = #{diaAbFlag}
+          </if>
+          <if test="reqIdList != null and reqIdList.size() > 0">
+            and par.req_id in   
+                <foreach collection="reqIdList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
           </if>
       </where>
       ORDER BY par.sample_time DESC
