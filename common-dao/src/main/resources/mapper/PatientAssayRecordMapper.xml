@@ -970,8 +970,11 @@
           <if test="assayMonth != null and assayMonth != ''">
             and par.assay_month = #{assayMonth}
           </if>
-          <if test="itemCodeList != null and itemCodeList != ''">
-            and par.item_code in  #{itemCodeList}
+          <if test="itemCodeList != null">
+            and par.item_code in  
+                <foreach collection="itemCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
           </if>
           <if test="startDateStr != null and endDateStr != null">
             and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
@@ -987,6 +990,12 @@
           </if>
           <if test="diaAbFlag != null">
             and par.dia_ab_flag = #{diaAbFlag}
+          </if>
+          <if test="reqIdList != null">
+            and par.req_id in   
+                <foreach collection="reqIdList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
           </if>
       </where>
       ORDER BY par.sample_time DESC

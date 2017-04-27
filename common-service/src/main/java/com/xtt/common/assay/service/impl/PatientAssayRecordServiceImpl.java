@@ -29,6 +29,7 @@ import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
+import com.xtt.common.dto.DictDto;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
@@ -307,17 +308,12 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     public void updateLisAfterBefore() {
         // 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断）
         String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), PatientAssayRecordPO.LAB_AFTER_BEFORE);
-
-        // 根据项目编码过滤查询
-        String whereInItemCodeList = SysParamUtil.getValueByName(UserUtil.getTenantId(), PatientAssayRecordPO.WHERE_IN_ITEM_CODE_LIST);
+        String assayMonth = DateFormatUtil.getCurrentDateStr(DateFormatUtil.FORMAT_YYYY_MM);
 
         // 根据指定的条件获取检验结果集
-        PatientAssayRecordPO po = new PatientAssayRecordPO();
-        po.setAssayMonth(DateFormatUtil.getCurrentDateStr(DateFormatUtil.FORMAT_YYYY_MM));
-        po.setItemCodeList(whereInItemCodeList);
-        List<PatientAssayRecordPO> listPatientAssayRecord = listPatientAssayRecord(po);
+        List<PatientAssayRecordPO> listPatientAssayRecord = listPatientAssayRecord(assayMonth, null, null);
 
-        log.info("==========labAfterBefore 判断逻辑：" + labAfterBefore + ",获取集合大小：" + listPatientAssayRecord.size());
+        log.info(assayMonth + ":==========labAfterBefore 判断逻辑：" + labAfterBefore + ",获取集合大小：" + listPatientAssayRecord.size());
         List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
 
         // 如果为（返回的集合为null|只有一条数据|没有配置开个信息）不做任何处理
@@ -351,7 +347,24 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         }
         // 4：根据sample_time判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
-            newList = listPatientAssayRecordPO(listPatientAssayRecord);
+            // 根据项目编码过滤查询
+            List<DictDto> itemCodeList = DictUtil.listByPItemCode(PatientAssayRecordPO.WHERE_IN_ITEM_CODE_LIST);
+            List<String> itemCode = new ArrayList<String>();
+            for (DictDto dictDto : itemCodeList) {
+                itemCode.add(dictDto.getItemCode());
+            }
+            // a.根据指定的条件获取检验结果集(根据指定的项目编码获取项目所在的申请单信息)
+            List<PatientAssayRecordPO> listItemCodePO = listPatientAssayRecord(assayMonth, itemCode, null);
+            List<String> reqList = new ArrayList<String>();
+            for (PatientAssayRecordPO patientAssayRecordPO : listItemCodePO) {
+                String reqId = patientAssayRecordPO.getReqId();// 申请单ID
+                reqList.add(reqId);
+            }
+            // b.根据指定的条件获取检验结果集(根据申请单获取所有的数据)
+            List<PatientAssayRecordPO> listReqIdPO = listPatientAssayRecord(assayMonth, null, reqList);
+
+            // c.对查询的结果集做逻辑处理
+            newList = listPatientAssayRecordPO(listReqIdPO);
         }
 
         // 更新检验结果（透析前后逻辑）
@@ -460,6 +473,24 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         parPO.setNewItemCode(itemCode);// 存储原始项目编码
 
         return parPO;
+    }
+
+    /**
+     * @Title: listPatientAssayRecord
+     * @Description:根据指定条件获取结果集数据
+     * @param assayMonth
+     * @param itemCodeList
+     * @param reqIdList
+     * @return List <PatientAssayRecordPO> @throws
+     */
+    private List<PatientAssayRecordPO> listPatientAssayRecord(String assayMonth, List<String> itemCodeList, List<String> reqIdList) {
+        PatientAssayRecordPO po = new PatientAssayRecordPO();
+        po.setAssayMonth(assayMonth);
+        po.setItemCodeList(itemCodeList);
+        po.setReqIdList(reqIdList);
+        po.setDiaAbFlag(PatientAssayRecordPO.NOT_AFTER_BEFORE);// 只处理未处理的非透析前后的数据
+        List<PatientAssayRecordPO> listPatientAssayRecord = listPatientAssayRecord(po);
+        return listPatientAssayRecord;
     }
 
 }
