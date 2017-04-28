@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.xtt.common.cache.UserCache;
+import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
@@ -37,7 +38,6 @@ import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.FamilyUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -49,6 +49,8 @@ public class UserServiceImpl implements IUserService {
     private SysUserMapper sysUserMapper;
     @Autowired
     private SysUser2roleMapper sysUser2roleMapper;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
@@ -108,7 +110,7 @@ public class UserServiceImpl implements IUserService {
     public String saveUser(SysUserPO user) {
         if (StringUtil.isNotBlank(user.getName())) {
             user.setName(user.getName().trim());
-            user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
+            user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));
         }
         if (user.getId() != null) {
             sysUser2roleMapper.deleteByUserId(user.getId());// 删除原来旧的关联数据
