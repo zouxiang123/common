@@ -22,6 +22,7 @@ import com.xtt.common.util.HttpServletUtil;
 import com.xtt.platform.util.http.HttpClientResultUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 import com.xtt.platform.util.io.JsonUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class SysDbSourceServiceImpl implements ISysDbSourceService {
@@ -224,11 +225,17 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_PT);
         String json = "";
         String cardNo = query.getCardNo(); // 卡号（住院是门诊号，住院号）
+        // 患者类型
+        String cardType = "";
         Long fkPatientId = query.getFkPatientId();// 血透病患系统ID
         Map<String, String> qmap = new HashMap<String, String>();
         qmap.put("cardNo", cardNo);
         if (fkPatientId != null) {
             qmap.put("fkPatientId", String.valueOf(fkPatientId));
+        }
+        if (StringUtil.isNotEmpty(query.getCardType())) {
+            cardType = query.getCardType();
+            qmap.put("cardType", cardType);
         }
         qmap.put("fkTenantId", tenantId);
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
