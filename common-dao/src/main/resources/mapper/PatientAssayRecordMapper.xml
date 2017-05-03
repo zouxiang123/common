@@ -518,6 +518,14 @@
         <if test="assayDate != null and assayDate != ''">
           and date(par.sample_time) = #{assayDate}<!-- #{reportTime} -->
         </if>
+        <!-- 送检日期查询 -->
+         <if test="sampleTimeShow != null and sampleTimeShow != ''">
+          and date(par.sample_time) = #{sampleTimeShow}<!-- #{reportTime} -->
+        </if>
+        <!-- 报告日期查询 -->
+         <if test="reportTimeShow != null and reportTimeShow != ''">
+          and date(par.report_time) = #{reportTimeShow}<!-- #{reportTime} -->
+        </if>
         <if test="reqId != null and reqId != ''">
           and par.req_id = #{reqId}
         </if>
@@ -674,6 +682,14 @@
      <if test="assayDate != null and assayDate != ''">
         AND date(par.sample_time) = #{assayDate}
      </if>
+     <!-- 送检日期查询 -->
+         <if test="sampleTimeShow != null and sampleTimeShow != ''">
+          and date(par.sample_time) = #{sampleTimeShow}
+        </if>
+        <!-- 报告日期查询 -->
+         <if test="reportTimeShow != null and reportTimeShow != ''">
+          and date(par.report_time) = #{reportTimeShow}
+        </if>
      AND par.req_id IS NOT NULL 
      AND par.group_name IS NOT NULL
      GROUP BY par.req_id, par.group_name
