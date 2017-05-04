@@ -96,6 +96,9 @@ public class FamilyInitialServiceImpl implements IFamilyInitialService {
 
     @Override
     public String getInitial(String familyName) {
+        if (!isChinese(familyName)) {
+            familyName = familyName.toUpperCase();
+        }
         String initial = FamilyInitialCache.getInitialByFamily(familyName);
         // 缓存查不到则新增
         if (StringUtil.isBlank(initial)) {
