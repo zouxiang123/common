@@ -568,24 +568,29 @@
   </select>
   
   <select id="selectDateAssayRecord" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-      select DISTINCT date(par.sample_time) as assay_date,
-      DATE_FORMAT(par.report_time,"%Y-%m-%d") as reportTimeShow,
-      DATE_FORMAT(par.sample_time,"%Y-%m-%d") as sampleTimeShow,
-      max(par.fk_patient_id) AS fk_patient_id,par.flage
-      from patient_assay_record par 
-      <where>
-          <if test="fkPatientId != null">
-            par.fk_patient_id = #{fkPatientId}
-          </if>
-          <if test="fkTenantId != null">
-            and par.fk_tenant_id = #{fkTenantId}
-          </if>
-          <if test="groupId != null and groupId != ''">
-            and par.group_id = #{groupId}
-          </if>
-      </where>
-      GROUP BY par.sample_time
-      ORDER BY par.sample_time DESC
+      select assay_date,reportTimeShow,sampleTimeShow,fk_patient_id,flage from (
+          select DISTINCT date(par.sample_time) as assay_date,
+          DATE_FORMAT(par.report_time,"%Y-%m-%d") as reportTimeShow,
+          DATE_FORMAT(par.sample_time,"%Y-%m-%d") as sampleTimeShow,
+          max(par.fk_patient_id) AS fk_patient_id,par.flage
+          from patient_assay_record par 
+          <where>
+              <if test="fkPatientId != null">
+                par.fk_patient_id = #{fkPatientId}
+              </if>
+              <if test="fkTenantId != null">
+                and par.fk_tenant_id = #{fkTenantId}
+              </if>
+              <if test="groupId != null and groupId != ''">
+                and par.group_id = #{groupId}
+              </if>
+          </where>
+          GROUP BY par.sample_time
+          ORDER BY par.sample_time DESC
+      ) patientAssayRecord
+    group by sampleTimeShow
+    ORDER BY
+        sampleTimeShow DESC
   </select>
   
   <select id="selectReportData" resultType="map">
