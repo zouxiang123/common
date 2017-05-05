@@ -3,54 +3,49 @@ package com.xtt.common.dao.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xtt.platform.framework.core.model.MyBatisSuperModel;
+
 /**
  * patient_assay_record
  */
-public class PatientAssayRecord {
+public class PatientAssayRecord extends MyBatisSuperModel {
     /**
      * patient_assay_record.id
      */
     private String id;
 
     /**
-     * 患者id
-     * patient_assay_record.fk_patient_id
+     * 患者id patient_assay_record.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * HIS系统中的病患唯一ID
-     * patient_assay_record.his_pt_Id
+     * HIS系统中的病患唯一ID patient_assay_record.his_pt_Id
      */
     private String hisPtId;
 
     /**
-     * 组ID
-     * patient_assay_record.group_id
+     * 组ID patient_assay_record.group_id
      */
     private String groupId;
 
     /**
-     * 组名称
-     * patient_assay_record.group_name
+     * 组名称 patient_assay_record.group_name
      */
     private String groupName;
 
     /**
-     * 项目编码
-     * patient_assay_record.item_code
+     * 项目编码 patient_assay_record.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称
-     * patient_assay_record.item_name
+     * 项目名称 patient_assay_record.item_name
      */
     private String itemName;
 
     /**
-     * 化验结果的值
-     * patient_assay_record.result
+     * 化验结果的值 patient_assay_record.result
      */
     private String result;
 
@@ -75,8 +70,7 @@ public class PatientAssayRecord {
     private BigDecimal valueMax;
 
     /**
-     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
-     * patient_assay_record.result_tips
+     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低) patient_assay_record.result_tips
      */
     private String resultTips;
 
@@ -86,26 +80,22 @@ public class PatientAssayRecord {
     private String reference;
 
     /**
-     * 备注
-     * patient_assay_record.remark
+     * 备注 patient_assay_record.remark
      */
     private String remark;
 
     /**
-     * 报告时间
-     * patient_assay_record.report_time
+     * 报告时间 patient_assay_record.report_time
      */
     private Date reportTime;
 
     /**
-     * 申请单ID
-     * patient_assay_record.req_id
+     * 申请单ID patient_assay_record.req_id
      */
     private String reqId;
 
     /**
-     * 申请时间
-     * patient_assay_record.req_time
+     * 申请时间 patient_assay_record.req_time
      */
     private Date reqTime;
 
@@ -115,74 +105,62 @@ public class PatientAssayRecord {
     private String reqDept;
 
     /**
-     * 样本
-     * patient_assay_record.sample_class
+     * 样本 patient_assay_record.sample_class
      */
     private String sampleClass;
 
     /**
-     * 取样时间
-     * patient_assay_record.sample_time
+     * 取样时间 patient_assay_record.sample_time
      */
     private Date sampleTime;
 
     /**
-     * 送检医生
-     * patient_assay_record.send_doctor
+     * 送检医生 patient_assay_record.send_doctor
      */
     private String sendDoctor;
 
     /**
-     * 检查时间
-     * patient_assay_record.check_time
+     * 检查时间 patient_assay_record.check_time
      */
     private Date checkTime;
 
     /**
-     * 检查人
-     * patient_assay_record.check_person
+     * 检查人 patient_assay_record.check_person
      */
     private String checkPerson;
 
     /**
-     * 检查项目唯一ID
-     * patient_assay_record.inspection_id
+     * 检查项目唯一ID patient_assay_record.inspection_id
      */
     private String inspectionId;
 
     /**
-     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
-     * patient_assay_record.dia_ab_flag
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后 patient_assay_record.dia_ab_flag
      */
     private String diaAbFlag;
 
     /**
-     * 组合后的新的项目编码
-     * patient_assay_record.new_item_code
+     * 组合后的新的项目编码 patient_assay_record.new_item_code
      */
     private String newItemCode;
 
     /**
-     * 租户ID
-     * patient_assay_record.fk_tenant_id
+     * 租户ID patient_assay_record.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_assay_record.create_time
+     * 创建时间 patient_assay_record.create_time
      */
     private Date createTime;
 
     /**
-     * 化验月份
-     * patient_assay_record.assay_month
+     * 化验月份 patient_assay_record.assay_month
      */
     private String assayMonth;
 
     /**
-     * 化验日期
-     * patient_assay_record.assay_date
+     * 化验日期 patient_assay_record.assay_date
      */
     private String assayDate;
 
@@ -197,8 +175,7 @@ public class PatientAssayRecord {
     private String testMethod;
 
     /**
-     * 是否是院外化验项: 0否  1是
-     * patient_assay_record.flage
+     * 是否是院外化验项: 0否 1是 patient_assay_record.flage
      */
     private Boolean flage;
 
@@ -647,14 +624,14 @@ public class PatientAssayRecord {
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否是院外化验项: 0否 1是
      */
     public Boolean getFlage() {
         return flage;
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否是院外化验项: 0否 1是
      */
     public void setFlage(Boolean flage) {
         this.flage = flage;
