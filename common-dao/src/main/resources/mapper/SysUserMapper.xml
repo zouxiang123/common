@@ -380,7 +380,7 @@
 	
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap"> 
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag
+			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag 
 		FROM
 			sys_user u
 		 JOIN sys_user2role sr ON sr.fk_user_id = u.id
