@@ -19,6 +19,7 @@ import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientResultUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 import com.xtt.platform.util.io.JsonUtil;
@@ -192,11 +193,21 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         // 1=病患 2=检验 3=影像 4=医嘱 ，必须
         qmap.put("downType", downType);
         // 租户（判断调用哪家医院的服务，必须）
-        Integer fkTenantId = db.getFkTenantId();
+        Long fkPatientId = db.getFkPatientId();
+
+        // 租户ID
+        Integer fkTenantId = UserUtil.getTenantId();
         if (fkTenantId != null) {
             String fkTenantIdStr = String.valueOf(fkTenantId);
             qmap.put("fkTenantId", fkTenantIdStr);
         }
+
+        // 血透病患ID
+        if (fkPatientId != null) {
+            String fkPatientIdStr = String.valueOf(fkPatientId);
+            qmap.put("fkPatientId", fkPatientIdStr);
+        }
+
         // 开始时间
         qmap.put("startDate", startDate);
         // 结束时间
