@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientCard;
@@ -62,13 +63,28 @@ public interface PatientCardMapper {
      */
     List<PatientCardPO> selectByCondition(PatientCard record);
 
-    /** 
-    * @Title: listPatientCard 
-    * @Description: 获取卡号信息
-    * @param record
-    * @return List<PatientCardPO>
-    * @throws 
-    */
+    /**
+     * 获取卡号信息
+     * 
+     * @Title: listPatientCard
+     * @param record
+     * @return
+     *
+     */
     List<PatientCardPO> listPatientCard(PatientCardPO record);
 
+    /**
+     * 根据卡号和卡号类型查询卡是否存在
+     * 
+     * @Title: listByCardNoTypeTenant
+     * @param cardNo
+     * @param cardType
+     * @param tenantId
+     * @param nePatientId
+     *            不等于的患者id
+     * @return
+     *
+     */
+    List<PatientCard> listByCardNoTypeTenant(@Param("cardNo") String cardNo, @Param("cardType") String cardType, @Param("tenantId") Integer tenantId,
+                    @Param("nePatientId") Long nePatientId);
 }

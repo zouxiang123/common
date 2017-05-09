@@ -135,4 +135,8 @@ public class PatientCardServiceImpl implements IPatientCardService {
         return null;
     }
 
+    @Override
+    public List<PatientCard> listByCardNoTypeTenant(String cardNo, String cardType, Integer tenant, Long nePatientId) {
+        return patientCardMapper.listByCardNoTypeTenant(cardNo, cardType, tenant, nePatientId);
+    }
 }
