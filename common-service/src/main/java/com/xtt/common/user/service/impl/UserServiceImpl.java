@@ -9,12 +9,15 @@
 package com.xtt.common.user.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xtt.common.util.CompressPicUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -40,6 +43,7 @@ import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
+import sun.misc.BASE64Decoder;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -283,4 +287,58 @@ public class UserServiceImpl implements IUserService {
         UserCache.refresh(cacheUser);
         return count;
     }
+
+    @Override
+    public String uploadAutograph(String imgBase64Str) {
+        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
+        SysUser user = selectById(UserUtil.getLoginUserId(), true);
+        String filePath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
+        String inputDir = path + filePath;
+        String outputDir = path + filePath;
+        File f = new File(path + filePath);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        String inputFileName = String.valueOf(user.getId()) + "_max" + ".png";
+        String outputFileName = String.valueOf(user.getId()) + ".png";
+        // 图片全路径
+        String imgFilePath = path + filePath + inputFileName;
+        GenerateImage(imgBase64Str, imgFilePath);
+        BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, 200, 100);
+        user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + filePath + outputFileName);
+        user.setUpdateTime(new Date());
+        updateByPrimaryKeySelective(user);
+        return user.getAutographPath();
+    }
+
+    /**
+     * 对字节数组字符串进行Base64解码并生成图片
+     * 
+     * @param imgStr
+     * @param imgFilePath
+     * @return
+     */
+    private boolean GenerateImage(String imgStr, String imgFilePath) {
+        if (imgStr == null) // 图像数据为空
+            return false;
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // Base64解码
+            byte[] bytes = decoder.decodeBuffer(imgStr);
+            for (int i = 0; i < bytes.length; ++i) {
+                if (bytes[i] < 0) {// 调整异常数据
+                    bytes[i] += 256;
+                }
+            }
+            // 生成jpeg图片
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(bytes);
+            out.flush();
+            out.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 }

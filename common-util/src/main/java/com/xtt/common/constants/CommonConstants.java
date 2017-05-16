@@ -44,6 +44,7 @@ public class CommonConstants {
     public static final String EXCEL_TEMPLATE_FILE_PATH = "excel_template";
     public static final String COMPLICATION = "complication";
     public static final String IMAGE_FILE_PATH_DIALYSIS_MACHINE = "dialysis_machine";
+    public static final String USER_AUTOGRAPH_FILE_PATH = "autograph"; // 用户签名
 
     public static final String STATUS = "status";
     public static final String COOKIE_TOKEN = "cookie_token";

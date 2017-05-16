@@ -209,4 +209,11 @@ public interface IUserService {
      */
     int updatePassword(SysUserPO user);
 
+    /**
+     * 上传签名
+     * @param imgBase64Str
+     * @return
+     */
+    String uploadAutograph(String imgBase64Str);
+
 }

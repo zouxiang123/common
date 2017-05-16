@@ -101,6 +101,11 @@ public class BusinessCommonUtil {
         mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, 144, 144, true);
     }
 
+    public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName, int width, int height) {
+        CompressPicUtil mypic = new CompressPicUtil();
+        mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, width, height, true);
+    }
+
     /**
      * 将Map中Null转成空串
      * 
