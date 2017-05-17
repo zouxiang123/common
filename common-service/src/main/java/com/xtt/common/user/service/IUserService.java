@@ -211,9 +211,24 @@ public interface IUserService {
 
     /**
      * 上传签名
+     * 
      * @param imgBase64Str
      * @return
      */
     String uploadAutograph(String imgBase64Str);
+
+    /**
+     * 上传签名并裁剪保存
+     * 
+     * @param imgFile
+     * @param sWidth
+     * @param sHeight
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
+    String uploadAutograph2(MultipartFile imgFile, int sWidth, int sHeight, int x, int y, int width, int height) throws IllegalStateException, IOException;
 
 }

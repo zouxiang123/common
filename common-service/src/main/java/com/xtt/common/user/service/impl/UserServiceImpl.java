@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xtt.common.util.CompressPicUtil;
+import com.xtt.common.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,9 +38,6 @@ import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 import sun.misc.BASE64Decoder;
@@ -92,7 +89,8 @@ public class UserServiceImpl implements IUserService {
      * 
      * @Title: selectById
      * @param id
-     * @param fromCache是否从缓存获取
+     * @param fromCache
+     *            是否从缓存获取
      * @return
      *
      */
@@ -309,6 +307,42 @@ public class UserServiceImpl implements IUserService {
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
         return user.getAutographPath();
+    }
+
+    @Override
+    public String uploadAutograph2(MultipartFile image, int sWidth, int sHeight, int x, int y, int width, int height)
+                    throws IllegalStateException, IOException {
+        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
+        String imgName = image.getOriginalFilename();
+        SysUser user = selectById(UserUtil.getLoginUserId(), true);
+        String imgPath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
+        String fileName = String.valueOf(user.getId()) + imgName.substring(imgName.lastIndexOf("."), imgName.length());
+        File f = new File(path + imgPath + fileName);
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+        image.transferTo(f);
+        String originalImgPath = imgPath + "original/";
+        try {// save original drawing
+            FileUtils.copyFile(f, new File(path + originalImgPath + fileName));
+        } catch (Exception e) {
+            LOGGER.info("save original drawing failed,error ms is", e);
+        }
+        String inputDir = path + originalImgPath;
+        String outputDir = path + originalImgPath;
+        String inputFileName = fileName;
+        String outputFileName = fileName;
+        BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, sWidth, sHeight, false);
+        // 根据处理后的图片进行裁剪
+        String destImgDir = path + imgPath;
+        boolean isOk = new ImageTailorUtil().cutImage(outputDir + outputFileName, destImgDir, outputFileName, x, y, width, height);
+        if (isOk) {
+            user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + imgPath + outputFileName);
+            user.setUpdateTime(new Date());
+            updateByPrimaryKeySelective(user);
+            return user.getAutographPath();
+        }
+        return "";
     }
 
     /**
