@@ -386,7 +386,7 @@
 		 JOIN sys_user2role sr ON sr.fk_user_id = u.id
 		 JOIN sys_role r ON sr.fk_role_id = r.id
 		where u.fk_tenant_id=#{fkTenantId,jdbcType=INTEGER}  
-		<if test="account != null and account != ''" >
+		<if test="account != null and account != ''" > 
 			and u.account like CONCAT("%",#{account,jdbcType=VARCHAR},"%")
 		</if>
 		<if test="name != null and name != ''" >
