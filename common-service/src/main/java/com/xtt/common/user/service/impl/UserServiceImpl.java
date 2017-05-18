@@ -287,57 +287,31 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String uploadAutograph(String imgBase64Str) {
-        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
-        SysUser user = selectById(UserUtil.getLoginUserId(), true);
-        String filePath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
-        String inputDir = path + filePath;
-        String outputDir = path + filePath;
-        File f = new File(path + filePath);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-        String inputFileName = String.valueOf(user.getId()) + "_max" + ".png";
-        String outputFileName = String.valueOf(user.getId()) + ".png";
-        // 图片全路径
-        String imgFilePath = path + filePath + inputFileName;
-        GenerateImage(imgBase64Str, imgFilePath);
-        BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, 200, 100);
-        user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + filePath + outputFileName);
-        user.setUpdateTime(new Date());
-        updateByPrimaryKeySelective(user);
-        return user.getAutographPath();
-    }
-
-    @Override
-    public String uploadAutograph2(MultipartFile image, int sWidth, int sHeight, int x, int y, int width, int height)
+    public String uploadAutograph(MultipartFile image, int x, int y, int width, int height)
                     throws IllegalStateException, IOException {
         String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
         String imgName = image.getOriginalFilename();
         SysUser user = selectById(UserUtil.getLoginUserId(), true);
         String imgPath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
         String fileName = String.valueOf(user.getId()) + imgName.substring(imgName.lastIndexOf("."), imgName.length());
-        File f = new File(path + imgPath + fileName);
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-        image.transferTo(f);
         String originalImgPath = imgPath + "original/";
         try {// save original drawing
-            FileUtils.copyFile(f, new File(path + originalImgPath + fileName));
+            File originalFile = new File(path + originalImgPath + fileName);
+            if (!originalFile.exists()) {
+                originalFile.mkdirs();
+            } else {
+                originalFile.delete();
+            }
+            image.transferTo(originalFile);
         } catch (Exception e) {
             LOGGER.info("save original drawing failed,error ms is", e);
         }
-        String inputDir = path + originalImgPath;
         String outputDir = path + originalImgPath;
-        String inputFileName = fileName;
-        String outputFileName = fileName;
-        BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, sWidth, sHeight, false);
         // 根据处理后的图片进行裁剪
         String destImgDir = path + imgPath;
-        boolean isOk = new ImageTailorUtil().cutImage(outputDir + outputFileName, destImgDir, outputFileName, x, y, width, height);
+        boolean isOk = new ImageTailorUtil().cutImage(outputDir + fileName, destImgDir, fileName, x, y, width, height);
         if (isOk) {
-            user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + imgPath + outputFileName);
+            user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + imgPath + fileName);
             user.setUpdateTime(new Date());
             updateByPrimaryKeySelective(user);
             return user.getAutographPath();
