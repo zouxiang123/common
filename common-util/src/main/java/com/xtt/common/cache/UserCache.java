@@ -52,6 +52,15 @@ public class UserCache {
         }
     }
 
+    public static String getNameById(Long id) {
+        SysUserDto obj = getById(id);
+        if (obj == null) {
+            return "";
+        } else {
+            return obj.getName();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static Map<Long, SysUserDto> getById(Collection<Long> ids) {
         long start = System.currentTimeMillis();
