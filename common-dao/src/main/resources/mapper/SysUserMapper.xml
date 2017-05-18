@@ -380,12 +380,12 @@
 	
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap">
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName
+			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag delFlag
 		FROM
 			sys_user u
 		JOIN sys_user2role sr ON sr.fk_user_id = u.id
 		JOIN sys_role r ON sr.fk_role_id = r.id
-		where u.fk_tenant_id=#{fkTenantId,jdbcType=INTEGER} AND u.del_flag=0
+		where u.fk_tenant_id=#{fkTenantId,jdbcType=INTEGER}  
 		<if test="account != null and account != ''" >
 			and u.account like CONCAT("%",#{account,jdbcType=VARCHAR},"%")
 		</if>
@@ -399,7 +399,7 @@
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
 		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone
-		ORDER BY u.id ASC
+		ORDER BY u.del_flag,u.id ASC
 	</select>
 	
 	<select id="selectUserByAccount" resultMap="BaseResultMap">
