@@ -392,7 +392,7 @@
 		<if test="name != null and name != ''" >
 			and u.name like CONCAT("%",#{name,jdbcType=VARCHAR},"%")
 		</if>
-		<if test="mobile != null and mobile != ''" >
+		<if test="mobile != null and mobile != ''" > 
 			and u.mobile like CONCAT("%",#{mobile,jdbcType=VARCHAR},"%")
 		</if>
 		<if test="sysOwner != null and sysOwner != ''" >
