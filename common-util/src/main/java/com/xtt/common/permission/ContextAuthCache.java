@@ -30,7 +30,7 @@ public class ContextAuthCache implements ContextAuthFactory {
         if (isCookieTokenStrategy()) {// if use cookie token strategy
             return (String) request.getAttribute(CommonConstants.COOKIE_TOKEN);
         } else {// get form api token strategy
-            return (String) request.getParameter(CommonConstants.API_TOKEN);
+            return request.getParameter(CommonConstants.API_TOKEN);
         }
     }
 
@@ -75,19 +75,21 @@ public class ContextAuthCache implements ContextAuthFactory {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Map<String, Object> getAuth() {
+    public Map<String, Object> getAuth(String token) {
         HttpServletRequest request = HttpServletUtil.getRequest();
         if (request != null) {
-            String key = getKey(request);
+            String key = StringUtil.isBlank(token) ? getKey(request) : token;
             return StringUtil.isBlank(key) ? null : (Map<String, Object>) RedisCacheUtil.getObject(key, REDIS_DB);
         }
         return null;
     }
 
+    @Override
     public void setAccount2Token(String account, String token) {
         RedisCacheUtil.setObject(account, token);
     }
 
+    @Override
     public String getTokenByAccount(String account) {
         return RedisCacheUtil.getString(account);
     }
