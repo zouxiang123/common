@@ -34,6 +34,7 @@ import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.conf.service.ICmFormulaConfService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.FamilyInitial;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
@@ -238,10 +239,15 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheUser(Integer tenantId) {
         RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
-        List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
+        List<SysUserPO> list = userService.listByTenantId(tenantId, null, null);
         if (CollectionUtils.isNotEmpty(list)) {
             SysUserDto cacheUser;
-            List<SysUserDto> cacheList = new ArrayList<>(list.size());
+            List<SysUserDto> cacheList = new ArrayList<>(list.size() + 1);
+            // 添加系统用户缓存
+            SysUserDto sysUser = new SysUserDto();
+            sysUser.setId(CommonConstants.SYSTEM_USER_ID);
+            sysUser.setName(CommonConstants.SYSTEM_USER_NAME);
+            cacheList.add(sysUser);
             for (SysUserPO user : list) {
                 cacheUser = new SysUserDto();
                 BeanUtils.copyProperties(user, cacheUser);

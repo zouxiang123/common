@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xtt.common.util.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,8 +37,13 @@ import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
+import com.xtt.common.util.BusinessCommonUtil;
+import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.ImageTailorUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
+
 import sun.misc.BASE64Decoder;
 
 @Service
@@ -193,7 +197,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
-        return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
+        return listByTenantId(tenantId, sysOwner, false);
     }
 
     @Override
@@ -287,8 +291,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String uploadAutograph(MultipartFile image, int x, int y, int width, int height)
-                    throws IllegalStateException, IOException {
+    public String uploadAutograph(MultipartFile image, int x, int y, int width, int height) throws IllegalStateException, IOException {
         String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
         String imgName = image.getOriginalFilename();
         SysUser user = selectById(UserUtil.getLoginUserId(), true);
@@ -347,6 +350,11 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag) {
+        return sysUserMapper.listByTenantId(tenantId, sysOwner, delFlag);
     }
 
 }

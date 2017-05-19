@@ -22,6 +22,7 @@ public class CommonConstants {
 
     /** 系统用户ID（JOB、硬件接口、API接口用） */
     public static final Long SYSTEM_USER_ID = 1L;
+    public static final String SYSTEM_USER_NAME = "系统用户";
 
     public static final String DEFAULT_PASSWORD = MD5Util.md5("123456");// 默认密码
 

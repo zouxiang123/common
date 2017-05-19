@@ -102,6 +102,18 @@ public interface IUserService {
     List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner);
 
     /**
+     * 根据租户id、所属系统，是否删除标记查询数据
+     * 
+     * @Title: listByTenantId
+     * @param tenantId
+     * @param sysOwner
+     * @param delFlag
+     * @return
+     *
+     */
+    List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag);
+
+    /**
      * 通过id删除对象
      * 
      * @Title: deleteUserById

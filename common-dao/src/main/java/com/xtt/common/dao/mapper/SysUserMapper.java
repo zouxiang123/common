@@ -87,14 +87,16 @@ public interface SysUserMapper {
     SysUserPO selectPOById(Long id);
 
     /**
-     * 根据租户Id获取该租户下所有用户
+     * 根据租户id，所属系统，是否删除查询数据
      * 
-     * @Title: selectAllUserByTenantId
+     * @Title: listByTenantId
      * @param tenantId
+     * @param sysOwner
+     * @param delFlag
      * @return
-     * 
+     *
      */
-    List<SysUserPO> selectAllUserByTenantId(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
+    List<SysUserPO> listByTenantId(@Param("tenantId") Integer tenantId, @Param("sysOwner") String sysOwner, @Param("delFlag") Boolean delFlag);
 
     /**
      * 根据查询条件查询所有用户
