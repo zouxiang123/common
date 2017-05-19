@@ -445,6 +445,17 @@
     order by item_name
   </select>
   
+  <select id="selectTop" parameterType="com.xtt.common.dao.model.DictHospitalLab" resultMap="POResultMap">
+                   SELECT
+                dhl.is_top
+            FROM
+                dict_hospital_lab dhl
+            WHERE
+                dhl.fk_tenant_id = #{fkTenantId}
+            AND dhl.group_id = #{groupId}
+            AND dhl.item_code= #{itemCode}
+  </select>
+  
   <select id="selectAllCategory" parameterType="com.xtt.common.dao.model.DictHospitalLab" resultMap="POResultMap">
       SELECT dhl.group_id,dhl.group_name FROM dict_hospital_lab dhl 
       WHERE dhl.fk_tenant_id = #{fkTenantId} 
