@@ -447,7 +447,7 @@
   
   <select id="selectTop" parameterType="com.xtt.common.dao.model.DictHospitalLab" resultMap="POResultMap">
                    SELECT
-                dhl.is_top
+                dhl.*
             FROM
                 dict_hospital_lab dhl
             WHERE
