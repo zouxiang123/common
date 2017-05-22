@@ -824,7 +824,7 @@
             AND par.assay_date &lt;= #{endDate,jdbcType=DATE}
         </if>
         <if test="itemCodes != null">
-            AND par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+            AND binary par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
         </if>
         <if test="fkTenantId != null">
             AND par.fk_tenant_id =#{fkTenantId}
