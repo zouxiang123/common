@@ -516,7 +516,7 @@
         </if>
         <!--&amp;lt;if test="reportTime != null"&amp;gt;  -->
         <if test="assayDate != null and assayDate != ''">
-          and date(par.sample_time) = #{assayDate}<!-- #{reportTime} -->
+          and date(par.assay_date) = #{assayDate}<!-- #{reportTime} -->
         </if>
         <!-- 送检日期查询 -->
          <if test="sampleTimeShow != null and sampleTimeShow != ''">
