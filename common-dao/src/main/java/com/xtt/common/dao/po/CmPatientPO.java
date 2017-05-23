@@ -21,7 +21,7 @@ public class CmPatientPO extends CmPatient {
     private String dryWeightShow;
     private String medicareCardTypeShow;
     private String mobileShow;
-    private String cardType;
+    private String cardType;// 卡号类型
 
     private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
 
