@@ -188,8 +188,9 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             LOGGER.info("save original drawing failed,error ms is", e);
         }
+        Long timeStamp = System.currentTimeMillis();
         BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
+        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName + "?t=" + timeStamp);
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
         return fileName;
