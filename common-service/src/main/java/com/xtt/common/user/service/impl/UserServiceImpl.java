@@ -134,11 +134,12 @@ public class UserServiceImpl implements IUserService {
             sysUserMapper.insert(user);
             associationRole(user.getRoleId(), user.getId());// 创建关联数据
             // 新增用户创建默认头像
+            Long timeStamp = System.currentTimeMillis();
             String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
                             + "/" + user.getId() + ".png";
             String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
-            user.setImagePath(newFilename);
+            user.setImagePath(newFilename + "?t=" + timeStamp);
             updateByPrimaryKeySelective(user);
         }
         return CommonConstants.SUCCESS;
@@ -188,8 +189,9 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             LOGGER.info("save original drawing failed,error ms is", e);
         }
+        Long timeStamp = System.currentTimeMillis();
         BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
+        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName + "?t=" + timeStamp);
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
         return fileName;
