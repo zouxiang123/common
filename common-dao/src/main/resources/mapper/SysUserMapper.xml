@@ -316,6 +316,7 @@
 	      <if test="sysOwner != null and sysOwner != ''" >
 	    	AND find_in_set(#{sysOwner},u.sys_owner)
 	      </if> 
+           GROUP BY u.id, u.name, u.image_path, u.autograph_path
 		union all
 		SELECT
 			u.id, u.name, '护士' roleName,null, u.image_path, u.autograph_path
@@ -329,6 +330,7 @@
 		  <if test="sysOwner != null and sysOwner != ''" >
 	    	AND find_in_set(#{sysOwner},u.sys_owner)
 	      </if> 
+          GROUP BY u.id, u.name, u.image_path, u.autograph_path
 	</select>
 
 	<select id="selectByParentRoleIds" resultMap="ExtendResultMap">
