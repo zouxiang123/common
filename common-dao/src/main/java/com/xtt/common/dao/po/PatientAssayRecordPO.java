@@ -25,6 +25,31 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     /** 偏高 */
     public static String TIPS_HIGH = "4";
 
+    // begin:2017-04-25===============================================================================================
+    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断） */
+    public static final String LAB_AFTER_BEFORE = "lab_after_before";
+    public static final String LAB_AFTER_BEFORE_ONE = "1";
+    public static final String LAB_AFTER_BEFORE_TWO = "2";
+    public static final String LAB_AFTER_BEFORE_THREE = "3";
+    public static final String LAB_AFTER_BEFORE_FOUR = "4";
+
+    /** 查询条件 item_code in ('CA','K') */
+    public static final String WHERE_IN_ITEM_CODE_LIST = "itemCodeList";
+
+    /** 关键字：透析前 透析后 */
+    public static final String LAB_AFTER_BEFORE_KEYWORD = "lab_after_before_keyword";
+    /** 非透析前和透析后 */
+    public static final String NOT_AFTER_BEFORE = "0";
+    /** 关键字： 透析前 */
+    public static final String LAB_BEFORE = "1";
+    public static final String LAB_BEFORE_CN = "(前)";
+    /** 关键字：透析后 */
+    public static final String LAB_AFTER = "2";
+    public static final String LAB_AFTER_CN = "(后)";
+    /** 关键字：透析前后时间（<=24） */
+    public static final String LAB_GJZ_SJ = "3";
+    // end:===============================================================================================
+
     /** 1：数字；2：字符 */
     private BigDecimal minValue;
     private BigDecimal maxValue;
@@ -62,10 +87,53 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
 
+    // 报告时间
     private String reportTimeShow;
+
+    // 样本时间
+    private String sampleTimeShow;
     // 统计报表使用
     private String isTemp;
     private String multiTenant;// 多个租户id
+
+    private String ptName;// 姓名
+    private String ptSex; // 性别(男:M 女：F)
+
+    private List<String> itemCodeList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
+
+    private List<String> reqIdList;// 检验申请单ID集合对象
+
+    public List<String> getReqIdList() {
+        return reqIdList;
+    }
+
+    public void setReqIdList(List<String> reqIdList) {
+        this.reqIdList = reqIdList;
+    }
+
+    public String getPtName() {
+        return ptName;
+    }
+
+    public void setPtName(String ptName) {
+        this.ptName = ptName;
+    }
+
+    public String getPtSex() {
+        return ptSex;
+    }
+
+    public void setPtSex(String ptSex) {
+        this.ptSex = ptSex;
+    }
+
+    public List<String> getItemCodeList() {
+        return itemCodeList;
+    }
+
+    public void setItemCodeList(List<String> itemCodeList) {
+        this.itemCodeList = itemCodeList;
+    }
 
     public Collection<String> getDictCodes() {
         return dictCodes;
@@ -305,6 +373,14 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     public void setReportTimeShow(String reportTimeShow) {
         this.reportTimeShow = reportTimeShow;
+    }
+
+    public String getSampleTimeShow() {
+        return sampleTimeShow;
+    }
+
+    public void setSampleTimeShow(String sampleTimeShow) {
+        this.sampleTimeShow = sampleTimeShow;
     }
 
     public String getIsTemp() {

@@ -14,8 +14,6 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xtt.platform.util.CommonUtil;
-
 /**
  * @ClassName: DataUtil
  * @date: 2015年9月17日 上午10:30:55
@@ -163,14 +161,31 @@ public class DataUtil {
     /**
      * 设置设置model系统字段值（createTime,createUserId,updateTime,updateUserId)，不论是否已经存在
      * 
+     * @Title: setSystemFieldValue
+     * @param model
+     * 
+     */
+    public static void setAllSystemFieldValue(Object model) {
+        setAllSystemFieldValue(model, UserUtil.getLoginUserId());
+    }
+
+    /**
+     * 设置设置model系统字段值（createTime,createUserId,updateTime,updateUserId)，不论是否已经存在
+     * 
      * @Title: setAllSystemFieldValue
      * @param model
      * @param userId
      *
      */
     public static void setAllSystemFieldValue(Object model, Long userId) {
-        Date date = new Date();
         Class<? extends Object> clazz = model.getClass();
+        setAllSystemFieldValue(model, clazz, userId, 1);
+    }
+
+    private static void setAllSystemFieldValue(Object model, Class<? extends Object> clazz, Long userId, int times) {
+        if (times > 4)// max try 4 times
+            return;
+        Date date = new Date();
         try {
             clazz.getDeclaredMethod("setUpdateTime", Date.class).invoke(model, date);
             clazz.getDeclaredMethod("setUpdateUserId", Long.class).invoke(model, userId);
@@ -178,33 +193,11 @@ public class DataUtil {
             clazz.getDeclaredMethod("setCreateUserId", Long.class).invoke(model, userId);
         } catch (Exception e) {
             if ((clazz = clazz.getSuperclass()) != null) {
-                try {
-                    clazz.getDeclaredMethod("setUpdateTime", Date.class).invoke(model, date);
-                    clazz.getDeclaredMethod("setUpdateUserId", Long.class).invoke(model, userId);
-                    clazz.getDeclaredMethod("setCreateTime", Date.class).invoke(model, date);
-                    clazz.getDeclaredMethod("setCreateUserId", Long.class).invoke(model, userId);
-                } catch (Exception ex) {
-                    LOGGER.info("当前类和父类中不存在：", CommonUtil.getExceptionMessage(ex));
-                    if ((clazz = clazz.getSuperclass()) != null) {
-
-                    }
-                }
+                setAllSystemFieldValue(model, clazz, userId, ++times);
             } else {
-                LOGGER.info("当前类不存在：", CommonUtil.getExceptionMessage(e));
+                LOGGER.info("当前类和父类中不存在：", e);
             }
         }
-
-    }
-
-    /**
-     * 设置设置model系统字段值（createTime,createUserId,updateTime,updateUserId)，不论是否已经存在
-     * 
-     * @Title: setSystemFieldValue
-     * @param model
-     * 
-     */
-    public static void setAllSystemFieldValue(Object model) {
-        setAllSystemFieldValue(model, UserUtil.getLoginUserId());
     }
 
     /**

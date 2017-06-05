@@ -35,6 +35,16 @@ public interface IDictHospitalLabService {
     DictHospitalLabPO getByItemCode(String itemCode);
 
     /**
+     * 查询化验项详情
+     * 
+     * @Title: selectTop
+     * @param record
+     * @return
+     *
+     */
+    DictHospitalLabPO selectTop(DictHospitalLab record);
+
+    /**
      * 获取所有的分类数据
      * 
      * @Title: getAllCategory

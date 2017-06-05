@@ -16,6 +16,11 @@ public class DictDto {
     private String itemCode;
 
     /**
+     * 目前暂时用于医嘱维护字典的置换液-配置
+     */
+    private String cItemCode;
+
+    /**
      * 页面显示 cm_dict.item_name
      */
     private String itemName;
@@ -70,6 +75,14 @@ public class DictDto {
         this.itemCode = itemCode;
         // 兼容HD
         this.value = itemCode;
+    }
+
+    public String getcItemCode() {
+        return cItemCode;
+    }
+
+    public void setcItemCode(String cItemCode) {
+        this.cItemCode = cItemCode;
     }
 
     public String getItemName() {

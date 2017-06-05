@@ -22,16 +22,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.cache.CmDictCache;
+import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
+import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.conf.service.ICmFormulaConfService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.FamilyInitial;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
@@ -42,6 +46,7 @@ import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
+import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
 import com.xtt.common.dto.PatientDto;
@@ -82,6 +87,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private IUserService userService;
     @Autowired
     private ICmFormulaConfService cmFormulaConfService;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     @Override
     public void cacheDict(Integer tenantId) {
@@ -234,7 +241,12 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         List<SysUserPO> list = userService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             SysUserDto cacheUser;
-            List<SysUserDto> cacheList = new ArrayList<>(list.size());
+            List<SysUserDto> cacheList = new ArrayList<>(list.size() + 1);
+            // 添加系统用户缓存
+            SysUserDto sysUser = new SysUserDto();
+            sysUser.setId(CommonConstants.SYSTEM_USER_ID);
+            sysUser.setName(CommonConstants.SYSTEM_USER_NAME);
+            cacheList.add(sysUser);
             for (SysUserPO user : list) {
                 cacheUser = new SysUserDto();
                 cacheUser.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, user.getSex(), user.getFkTenantId()));
@@ -289,5 +301,19 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             }
             FormulaCache.cacheALL(cacheMap);
         }
+    }
+
+    @Override
+    public void cacheFamilyInitial() {
+        RedisCacheUtil.deletePattern(FamilyInitialCache.getKey(null));
+        FamilyInitial query = new FamilyInitial();
+        List<FamilyInitial> list = familyInitialService.listByCondition(query);
+        Map<String, FamilyInitialDto> map = new HashMap<>(list.size());
+        for (FamilyInitial record : list) {
+            FamilyInitialDto toObj = new FamilyInitialDto();
+            BeanUtils.copyProperties(record, toObj);
+            map.put(FamilyInitialCache.getKey(record.getName()), toObj);
+        }
+        FamilyInitialCache.init(map);
     }
 }

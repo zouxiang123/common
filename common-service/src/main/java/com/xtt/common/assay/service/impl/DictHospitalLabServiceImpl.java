@@ -23,8 +23,8 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.DictHospitalLab;
-import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.CmQueryPO;
+import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.time.DateUtil;
@@ -219,5 +219,11 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
         record.setFkTenantId(UserUtil.getTenantId());
         record.setDictCodes(dictCodes);
         return dictHospitalLabMapper.selectByCondition(record);
+    }
+
+    @Override
+    public DictHospitalLabPO selectTop(DictHospitalLab record) {
+
+        return dictHospitalLabMapper.selectTop(record);
     }
 }

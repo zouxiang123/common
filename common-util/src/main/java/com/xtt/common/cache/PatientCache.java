@@ -94,4 +94,21 @@ public class PatientCache {
         String key = getKey(patient.getId());
         RedisCacheUtil.setObject(key, patient);
     }
+
+    /**
+     * 根据患者id获取患者名称
+     * 
+     * @Title: getNameById
+     * @param id
+     * @return
+     *
+     */
+    public static String getNameById(Long id) {
+        String key = getKey(id);
+        PatientDto patient = getById(id);
+        if (patient != null) {
+            return patient.getName();
+        }
+        return "";
+    }
 }

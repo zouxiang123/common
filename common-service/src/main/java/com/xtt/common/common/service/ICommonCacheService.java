@@ -74,4 +74,12 @@ public interface ICommonCacheService {
      *
      */
     public void cacheAll();
+
+    /**
+     * 缓存首字母信息
+     * 
+     * @Title: cacheFamilyInitial
+     *
+     */
+    public void cacheFamilyInitial();
 }

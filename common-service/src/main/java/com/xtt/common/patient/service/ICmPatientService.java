@@ -124,4 +124,16 @@ public interface ICmPatientService {
      *
      */
     public List<PatientPO> listAll();
+
+    /**
+     * 判断手机号是否存在
+     * 
+     * @Title: checkMobileExist
+     * @param mobile
+     * @param neId
+     *            不等于的患者id
+     * @return exists :true:false
+     *
+     */
+    public boolean checkMobileExist(String mobile, Long neId);
 }

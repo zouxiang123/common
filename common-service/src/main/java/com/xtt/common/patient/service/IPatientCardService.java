@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.xtt.common.dao.model.PatientCard;
 import com.xtt.common.dao.po.PatientCardPO;
 
 public interface IPatientCardService {
@@ -77,4 +78,18 @@ public interface IPatientCardService {
     List<PatientCardPO> listPatientCard(PatientCardPO record);
 
     Map<Long, PatientCardPO> listNewHisIdByPatientIds(Collection<Long> patientIds);
+
+    /**
+     * 根据患者卡号和类型去查询
+     * 
+     * @Title: listByCardNoTypeTenant
+     * @param cardNo
+     * @param cardType
+     * @param tenant
+     * @param nePatientId
+     *            不等于的患者id
+     * @return
+     *
+     */
+    List<PatientCard> listByCardNoTypeTenant(String cardNo, String cardType, Integer tenant, Long nePatientId);
 }

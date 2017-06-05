@@ -202,4 +202,14 @@ public interface DictHospitalLabMapper {
      */
     int queryByItemCode(DictHospitalLabPO record);
 
+    /**
+     * 查询化验项详情
+     * 
+     * @Title: selectTop
+     * @param record
+     * @return
+     *
+     */
+    DictHospitalLabPO selectTop(DictHospitalLab record);
+
 }

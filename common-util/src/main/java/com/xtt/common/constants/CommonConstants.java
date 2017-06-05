@@ -21,6 +21,7 @@ public class CommonConstants {
 
     /** 系统用户ID（JOB、硬件接口、API接口用） */
     public static final Long SYSTEM_USER_ID = 1L;
+    public static final String SYSTEM_USER_NAME = "系统用户";
 
     public static final String DEFAULT_PASSWORD = "123456";// 默认密码
 
@@ -37,6 +38,8 @@ public class CommonConstants {
     public static final String INVALIDATE_TOKEN = "3";
     /** 重复 */
     public static final String REPETITION = "4";
+    /** 错误提示key */
+    public static final String ERROR_MESSAGE = "errmsg";// 血透错误提示信息
     /*--------------------状态提示相关 end --------------------*/
 
     /*--------------------系统日志相关 start --------------------*/
@@ -57,6 +60,7 @@ public class CommonConstants {
     public static final String EXCEL_TEMPLATE_FILE_PATH = "excel_template";
     public static final String COMPLICATION = "complication";
     public static final String IMAGE_FILE_PATH_DIALYSIS_MACHINE = "dialysis_machine";
+    public static final String USER_AUTOGRAPH_FILE_PATH = "autograph"; // 用户签名
     /*--------------------存储路径相关 end --------------------*/
 
     /*--------------------api接口状态key start --------------------*/

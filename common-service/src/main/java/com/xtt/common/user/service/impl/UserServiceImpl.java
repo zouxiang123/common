@@ -9,7 +9,9 @@
 package com.xtt.common.user.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -33,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
 import com.xtt.common.cache.UserCache;
+import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.constants.CmDictConsts;
@@ -52,10 +55,12 @@ import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
+import com.xtt.common.util.ImageTailorUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.FamilyUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
+
+import sun.misc.BASE64Decoder;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -71,6 +76,8 @@ public class UserServiceImpl implements IUserService {
     private ISysLogService sysLogService;
     @Autowired
     private ISysTenantService sysTenantService;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
@@ -106,8 +113,8 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String saveUser(SysUserPO user) {
         if (StringUtil.isNotBlank(user.getName())) {
-            user.setName(StringUtil.trim(user.getName()));
-            user.setInitial(FamilyUtil.getInitial(user.getName().substring(0, 1)).toUpperCase());
+            user.setName(user.getName().trim());
+            user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));
         }
         // 是否是维护集团用户标识
         boolean groupFlag = user.getGroupFlag() == null || !user.getGroupFlag() ? false : true;
@@ -143,11 +150,12 @@ public class UserServiceImpl implements IUserService {
             // 建立用户和租户之间的关联
             associationTenant(user, true, groupFlag);
             // 新增用户创建默认头像
+            Long timeStamp = System.currentTimeMillis();
             String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
                             + "/" + user.getId() + ".png";
             String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
-            user.setImagePath(newFilename);
+            user.setImagePath(newFilename + "?t=" + timeStamp);
             updateByPrimaryKeySelective(user);
         }
         return CommonConstants.SUCCESS;
@@ -300,8 +308,9 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             LOGGER.info("save original drawing failed,error ms is", e);
         }
+        Long timeStamp = System.currentTimeMillis();
         BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
+        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName + "?t=" + timeStamp);
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
         return fileName;
@@ -309,7 +318,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
-        return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
+        return listByTenantId(tenantId, sysOwner, false);
     }
 
     @Override
@@ -547,4 +556,72 @@ public class UserServiceImpl implements IUserService {
         });
         return map;
     }
+
+    @Override
+    public String uploadAutograph(MultipartFile image, int x, int y, int width, int height) throws IllegalStateException, IOException {
+        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
+        String imgName = image.getOriginalFilename();
+        SysUser user = selectById(UserUtil.getLoginUserId());
+        String imgPath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
+        String fileName = String.valueOf(user.getId()) + imgName.substring(imgName.lastIndexOf("."), imgName.length());
+        String originalImgPath = imgPath + "original/";
+        try {// save original drawing
+            File originalFile = new File(path + originalImgPath + fileName);
+            if (!originalFile.exists()) {
+                originalFile.mkdirs();
+            } else {
+                originalFile.delete();
+            }
+            image.transferTo(originalFile);
+        } catch (Exception e) {
+            LOGGER.info("save original drawing failed,error ms is", e);
+        }
+        String outputDir = path + originalImgPath;
+        // 根据处理后的图片进行裁剪
+        String destImgDir = path + imgPath;
+        boolean isOk = new ImageTailorUtil().cutImage(outputDir + fileName, destImgDir, fileName, x, y, width, height);
+        if (isOk) {
+            user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + imgPath + fileName);
+            user.setUpdateTime(new Date());
+            updateByPrimaryKeySelective(user);
+            return user.getAutographPath();
+        }
+        return "";
+    }
+
+    /**
+     * 对字节数组字符串进行Base64解码并生成图片
+     * 
+     * @param imgStr
+     * @param imgFilePath
+     * @return
+     */
+    private boolean GenerateImage(String imgStr, String imgFilePath) {
+        if (imgStr == null) // 图像数据为空
+            return false;
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // Base64解码
+            byte[] bytes = decoder.decodeBuffer(imgStr);
+            for (int i = 0; i < bytes.length; ++i) {
+                if (bytes[i] < 0) {// 调整异常数据
+                    bytes[i] += 256;
+                }
+            }
+            // 生成jpeg图片
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(bytes);
+            out.flush();
+            out.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag) {
+        return sysUserMapper.listByTenantId(tenantId, sysOwner, delFlag);
+    }
+
 }

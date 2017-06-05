@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.PatientHistoryMapper;
@@ -39,9 +40,8 @@ import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
-import com.xtt.platform.util.FamilyUtil;
+import com.xtt.platform.util.PinyinUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
-import com.xtt.platform.util.SpellUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 /**
@@ -65,6 +65,8 @@ public class CmPatientServiceImpl implements ICmPatientService {
     ICommonService commonService;
     @Autowired
     private IPatientOwnerService patientOwnerService;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     /**
      * 更新缓存数据
@@ -85,14 +87,20 @@ public class CmPatientServiceImpl implements ICmPatientService {
     public void savePatient(Patient patient, boolean isImport) {
         DataUtil.setSystemFieldValue(patient);
         patient.setName(StringUtil.stripToNull(patient.getName()));
+        Long timeStamp = System.currentTimeMillis();// 时间戳
         Patient prePatient = null;
         if (patient.getId() != null) {
             prePatient = this.getById(patient.getId());
         }
         // 新建或修改了姓名才生成首字母
         if (StringUtil.isNotBlank(patient.getName()) && (prePatient == null || !Objects.equals(prePatient.getName(), patient.getName()))) {
-            patient.setSpellInitials(SpellUtil.getSpellInitials(patient.getName()));
-            patient.setInitial(FamilyUtil.getInitial(patient.getName().substring(0, 1)).toUpperCase());
+            patient.setName(patient.getName().trim());
+            String spellInitials = PinyinUtil.getSpellInitials(patient.getName());
+            patient.setInitial(familyInitialService.getInitial(patient.getName().substring(0, 1)));
+
+            if (StringUtil.isNotEmpty(spellInitials)) {
+                patient.setSpellInitials(spellInitials);
+            }
         }
         if (patient.getId() == null) {
             patient.setId(PrimaryKeyUtil.getPrimaryKey("Patient", UserUtil.getTenantId()));
@@ -118,14 +126,14 @@ public class CmPatientServiceImpl implements ICmPatientService {
         if (prePatient == null) {
             String name = patient.getName().length() >= 2 ? patient.getName().substring(patient.getName().length() - 2) : patient.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
-            patient.setImagePath(newFilename);
+            patient.setImagePath(newFilename + "?t=" + timeStamp);
             patientMapper.updateByPrimaryKeySelective(patient);
         }
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
         // 修改头像
         if (!newFilename.equals(patient.getImagePath())) {
             com.xtt.platform.util.io.FileUtil.rename(new File(path + patient.getImagePath()), patient.getId() + ".png");
-            patient.setImagePath(newFilename);
+            patient.setImagePath(newFilename + "?t=" + timeStamp);
             patientMapper.updateByPrimaryKeySelective(patient);
         }
 
@@ -277,5 +285,11 @@ public class CmPatientServiceImpl implements ICmPatientService {
     @Override
     public List<PatientPO> listAll() {
         return listByCondition(new PatientPO());
+    }
+
+    @Override
+    public boolean checkMobileExist(String mobile, Long neId) {
+        int cnt = patientMapper.getCountByMobile(mobile, neId);
+        return cnt > 0 ? true : false;
     }
 }

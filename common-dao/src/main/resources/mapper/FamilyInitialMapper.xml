@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.FamilyInitialMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.FamilyInitial">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="name" jdbcType="VARCHAR" property="name" />
+    <result column="initial" jdbcType="VARCHAR" property="initial" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    name, initial
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from family_initial
+    where name = #{name,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from family_initial
+    where name = #{name,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.FamilyInitial">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into family_initial (name, initial)
+    values (#{name,jdbcType=VARCHAR}, #{initial,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.FamilyInitial">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into family_initial
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        name,
+      </if>
+      <if test="initial != null">
+        initial,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="initial != null">
+        #{initial,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.FamilyInitial">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update family_initial
+    <set>
+      <if test="initial != null">
+        initial = #{initial,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.FamilyInitial">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update family_initial
+    set initial = #{initial,jdbcType=VARCHAR}
+    where name = #{name,jdbcType=VARCHAR}
+  </update>
+  <!-- 自定义 -->
+  <select id="listByCondition" resultMap="BaseResultMap">
+    select * from family_initial
+    <where>
+      <if test="name != null">
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+       <if test="initial != null">
+        and initial = #{initial,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  
+</mapper>

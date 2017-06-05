@@ -19,9 +19,11 @@ import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientResultUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 import com.xtt.platform.util.io.JsonUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class SysDbSourceServiceImpl implements ISysDbSourceService {
@@ -191,11 +193,21 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         // 1=病患 2=检验 3=影像 4=医嘱 ，必须
         qmap.put("downType", downType);
         // 租户（判断调用哪家医院的服务，必须）
-        Integer fkTenantId = db.getFkTenantId();
+        Long fkPatientId = db.getFkPatientId();
+
+        // 租户ID
+        Integer fkTenantId = UserUtil.getTenantId();
         if (fkTenantId != null) {
             String fkTenantIdStr = String.valueOf(fkTenantId);
             qmap.put("fkTenantId", fkTenantIdStr);
         }
+
+        // 血透病患ID
+        if (fkPatientId != null) {
+            String fkPatientIdStr = String.valueOf(fkPatientId);
+            qmap.put("fkPatientId", fkPatientIdStr);
+        }
+
         // 开始时间
         qmap.put("startDate", startDate);
         // 结束时间
@@ -224,11 +236,17 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_PT);
         String json = "";
         String cardNo = query.getCardNo(); // 卡号（住院是门诊号，住院号）
+        // 患者类型
+        String cardType = "";
         Long fkPatientId = query.getFkPatientId();// 血透病患系统ID
         Map<String, String> qmap = new HashMap<String, String>();
         qmap.put("cardNo", cardNo);
         if (fkPatientId != null) {
             qmap.put("fkPatientId", String.valueOf(fkPatientId));
+        }
+        if (StringUtil.isNotEmpty(query.getCardType())) {
+            cardType = query.getCardType();
+            qmap.put("cardType", cardType);
         }
         qmap.put("fkTenantId", tenantId);
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);

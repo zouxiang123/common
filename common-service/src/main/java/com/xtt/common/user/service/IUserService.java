@@ -111,9 +111,22 @@ public interface IUserService {
     List<SysUserPO> listAll();
 
     /**
+     *
+     * 根据租户id、所属系统，是否删除标记查询数据
+     * 
+     * @Title: listByTenantId
+     * @param tenantId
+     * @param sysOwner
+     * @param delFlag
+     * @return
+     *
+     */
+    List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag);
+
+    /**
      * 通过id删除对象<br>
      * 设置del_flag = 1,删除用户和角色的关联数据
-     *
+     * 
      * @Title: deleteUserById
      * @param id
      *
@@ -274,5 +287,17 @@ public interface IUserService {
      *
      */
     Map<Integer, Map<String, Object>> getTenantsAndSysOwnersById(Long id);
+
+    /**
+     * 上传签名并裁剪保存
+     * 
+     * @param imgFile
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
+    String uploadAutograph(MultipartFile imgFile, int x, int y, int width, int height) throws IllegalStateException, IOException;
 
 }

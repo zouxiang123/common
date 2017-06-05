@@ -11,6 +11,7 @@
     <result column="initial" jdbcType="VARCHAR" property="initial" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="autograph_path" jdbcType="VARCHAR" property="autographPath" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
@@ -26,8 +27,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, account, name, initial, password, image_path, sex, birthday, mobile, del_flag, 
-    user_type, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+    id, account, name, initial, password, image_path, autograph_path, sex, birthday, 
+    mobile, del_flag, user_type, fk_tenant_id, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -51,16 +53,16 @@
     -->
     insert into sys_user (id, account, name, 
       initial, password, image_path, 
-      sex, birthday, mobile, 
-      del_flag, user_type, fk_tenant_id, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
+      autograph_path, sex, birthday, 
+      mobile, del_flag, user_type, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=BIT}, #{userType,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{autographPath,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{mobile,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{userType,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysUser">
     <!--
@@ -85,6 +87,9 @@
       </if>
       <if test="imagePath != null">
         image_path,
+      </if>
+      <if test="autographPath != null">
+        autograph_path,
       </if>
       <if test="sex != null">
         sex,
@@ -135,6 +140,9 @@
       </if>
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="autographPath != null">
+        #{autographPath,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
@@ -189,6 +197,9 @@
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="autographPath != null">
+        autograph_path = #{autographPath,jdbcType=VARCHAR},
+      </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
       </if>
@@ -232,6 +243,7 @@
       initial = #{initial,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},
+      autograph_path = #{autographPath,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       mobile = #{mobile,jdbcType=VARCHAR},
@@ -279,8 +291,8 @@
 	<select id="getById" parameterType="java.lang.Long" resultMap="ExtendResultMap">
 		SELECT u.* FROM sys_user u WHERE u.id = #{id}
 	</select>
-	
-	<select id="selectAllUserByTenantId" resultMap="ExtendResultMap">
+	<!-- 根据租户id，所属系统，是否删除查询数据 -->
+	<select id="listByTenantId" resultMap="ExtendResultMap">
 		SELECT
 			u.*
             ,ut.role_type roleType, ut.telephone, ut.position
@@ -293,7 +305,10 @@
         <if test="sysOwner != null and sysOwner != ''">
             AND r.sys_owner = #{sysOwner}
         </if>
-		WHERE u.del_flag=0 AND ut.fk_tenant_id=#{fkTenantId}
+		WHERE ut.fk_tenant_id=#{fkTenantId}
+        <if test="delFlag != null">
+          AND u.del_flag=#{delFlag}
+        </if>
         <if test="sysOwner != null and sysOwner != ''">
             AND ut.sys_owner = #{sysOwner}
         </if>
@@ -303,9 +318,10 @@
 	<!-- 根据条件查询用户管理的用户列表 -->
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap">
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.user_type
+			u.id,u.account,u.birthday,u.mobile,u.`name`,u.user_type,u.del_flag
             ,GROUP_CONCAT(DISTINCT ut.telephone) telephone
             ,GROUP_CONCAT(DISTINCT r.`name`) as roleName
+            ,GROUP_CONCAT(r.`id`) as roleId
 		FROM
 			sys_user u
 		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
@@ -332,8 +348,8 @@
         <if test="sysOwner != null and sysOwner != ''">
             AND ut.sys_owner = #{sysOwner}
         </if>
-		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`
-		ORDER BY u.id ASC
+		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.del_flag
+		ORDER BY u.del_flag,u.id ASC
 	</select>
 	
 	<select id="selectUserByAccount" resultMap="BaseResultMap">

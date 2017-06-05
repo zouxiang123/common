@@ -42,6 +42,12 @@ public class SysUser {
     private String imagePath;
 
     /**
+     * autograph_path
+     * sys_user.autograph_path
+     */
+    private String autographPath;
+
+    /**
      * 性别
      * sys_user.sex
      */
@@ -181,6 +187,20 @@ public class SysUser {
      */
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    /**
+     * autograph_path
+     */
+    public String getAutographPath() {
+        return autographPath;
+    }
+
+    /**
+     * autograph_path
+     */
+    public void setAutographPath(String autographPath) {
+        this.autographPath = autographPath;
     }
 
     /**

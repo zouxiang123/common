@@ -23,7 +23,6 @@ import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Feedback;
 import com.xtt.common.dao.model.Province;
-import com.xtt.common.util.HttpServletUtil;
 
 /**
  * 
@@ -60,7 +59,6 @@ public class CommonServiceImpl implements ICommonService {
 
     @Override
     public int saveFeedback(Feedback feedback) {
-        feedback.setSysOwner(HttpServletUtil.getSysName());
         return feedbackMapper.insert(feedback);
     }
 

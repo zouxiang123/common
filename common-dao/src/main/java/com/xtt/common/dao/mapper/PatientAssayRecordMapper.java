@@ -57,7 +57,7 @@ public interface PatientAssayRecordMapper {
 
     /* 自定义 */
     /**
-     * 根据自定义条件查询数据
+     * 根据自定义条件查询数据 1、电子病历-->化验信息-->日期查询列表返回化验数据[多参数请求]
      * 
      * @Title: selectByCondition
      * @param patientAssayRecord
@@ -65,6 +65,16 @@ public interface PatientAssayRecordMapper {
      * 
      */
     List<PatientAssayRecordPO> selectByCondition(PatientAssayRecord patientAssayRecord);
+
+    /**
+     * 电子病历-->化验信息-->日期查询列表返回化验数据
+     * 
+     * @Title: selectByCondition
+     * @param patientAssayRecord
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> selectByCondition(PatientAssayRecordPO patientAssayRecord);
 
     /**
      * 查询不同化验时间的化验记录
@@ -254,4 +264,10 @@ public interface PatientAssayRecordMapper {
      *
      */
     List<PatientAssayRecord> selectPatientAssayRecordByAssayDate(@Param("month") String month, @Param("tenantId") Integer tenantId);
+
+    /**
+     * @Title: listPatientAssayRecord @Description:根据指定条件获取病患检验结果数据 @param po @return List<PatientAssayRecordPO> @throws
+     */
+    List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po);
+
 }

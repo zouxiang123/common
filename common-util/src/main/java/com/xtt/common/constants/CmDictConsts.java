@@ -58,6 +58,8 @@ public class CmDictConsts {
     public static final String DOWN_DB_WS_URL_PT = "01";
 
     public static final String DOWN_DB_WS_URL_ORDER = "02";
+
+    public static final String DOWN_DB_WS_URL_LIS = "03";
     /** 检验类型 */
     public static final String ASSAY_TYPE = "assay_type";
     /**
@@ -70,6 +72,14 @@ public class CmDictConsts {
      * 单位--压力
      */
     public static final String CM_UNIT_PRESSURE = "CM_unit_pressure";
+    /**
+     * 单位--压力(kpa)
+     */
+    public static final String CM_UNIT_PRESSURE_KPA = "kpa";
+    /**
+     * 单位--压力(mmHg)
+     */
+    public static final String CM_UNIT_PRESSURE_MMHG = "mmHg";
     /**
      * 单位--温度
      */

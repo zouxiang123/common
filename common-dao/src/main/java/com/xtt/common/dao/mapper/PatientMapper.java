@@ -78,4 +78,14 @@ public interface PatientMapper {
      *
      */
     Patient login(@Param("account") String account, @Param("password") String password);
+
+    /**
+     * 通过手机号查询患者信息个数
+     * 
+     * @param mobile
+     * @param neId
+     *            不等于的患者id
+     * @return
+     */
+    int getCountByMobile(@Param("mobile") String mobile, @Param("neId") Long neId);
 }
