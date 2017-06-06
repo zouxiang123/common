@@ -3,6 +3,8 @@ package com.xtt.common.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xtt.platform.util.time.DateUtil;
+
 public class PatientDto {
     /**
      * patient.id
@@ -531,6 +533,7 @@ public class PatientDto {
     }
 
     public Integer getAge() {
+        age = DateUtil.getAge(birthday);
         return age;
     }
 
