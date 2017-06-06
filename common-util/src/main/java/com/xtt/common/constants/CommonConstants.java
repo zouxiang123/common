@@ -186,4 +186,8 @@ public class CommonConstants {
     /** 患者卡号--农村医保卡 */
     public static final String PATIENT_MEDICARE_CARD_TYPE_COUNTRY_MEDICARE_CARD = "06";
     /*-------------- common patient medicare card type end -------------- */
+    /** 性别 -- 男 */
+    public static final String SEX_MAN = "M";
+    /** 性别 -- 女 */
+    public static final String SEX_FEMALE = "F";
 }

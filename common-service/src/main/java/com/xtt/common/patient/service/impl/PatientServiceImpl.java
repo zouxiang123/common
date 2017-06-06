@@ -9,6 +9,7 @@
 package com.xtt.common.patient.service.impl;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -33,8 +34,8 @@ import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dto.PatientDto;
-import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.patient.service.IPatientOwnerService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
@@ -51,9 +52,9 @@ import com.xtt.platform.util.lang.StringUtil;
  * 
  */
 @Service
-public class CmPatientServiceImpl implements ICmPatientService {
+public class PatientServiceImpl implements IPatientService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CmPatientServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientServiceImpl.class);
 
     @Autowired
     private PatientMapper patientMapper;
@@ -274,11 +275,19 @@ public class CmPatientServiceImpl implements ICmPatientService {
     private List<PatientPO> init(List<PatientPO> list) {
         if (CollectionUtils.isEmpty(list))
             return list;
-        Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
-        list.forEach(patient -> {
+        Integer tenantId = UserUtil.getTenantId();
+        Map<String, String> sexMap = null;
+        if (tenantId == null) {
+            sexMap = new HashMap<>(2);
+            sexMap.put(CommonConstants.SEX_MAN, "男");
+            sexMap.put(CommonConstants.SEX_FEMALE, "女");
+        } else {
+            sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
+        }
+        for (PatientPO patient : list) {
             patient.setSexShow(sexMap.get(patient.getSex()));
             patient.setMobileShow(StringUtil.formatMobile(patient.getMobile()));
-        });
+        }
         return list;
     }
 

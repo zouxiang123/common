@@ -19,7 +19,7 @@ import com.xtt.common.dao.po.PatientPO;
  * @version: V1.0
  * 
  */
-public interface ICmPatientService {
+public interface IPatientService {
     /**
      * 患者登陆
      * 

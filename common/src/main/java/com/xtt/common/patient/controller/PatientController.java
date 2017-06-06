@@ -32,7 +32,7 @@ import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DictUtil;
@@ -44,7 +44,7 @@ import com.xtt.platform.util.lang.StringUtil;
 @RequestMapping("/patient/")
 public class PatientController {
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private IPatientCardService patientCardService;
     @Autowired
@@ -66,7 +66,7 @@ public class PatientController {
     @RequestMapping("editPatient")
     public ModelAndView editPatient(Long patientId, String sys) throws Exception {
         ModelAndView model = new ModelAndView("patient/edit_patient");
-        PatientPO patient = cmPatientService.getById(patientId);
+        PatientPO patient = patientService.getById(patientId);
         model.addObject("patientId", patientId);
         {
             // 根据id获取该患者的相关卡号
@@ -116,7 +116,7 @@ public class PatientController {
     @ResponseBody
     public Map<String, Object> findPatientApi(@RequestParam(value = "patientId", required = false) Long patientId) throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
-        PatientPO patient = cmPatientService.getById(patientId);
+        PatientPO patient = patientService.getById(patientId);
         retMap.put("patientId", patientId);
         retMap.put("patient", patient);
         retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
@@ -137,7 +137,7 @@ public class PatientController {
     @RequestMapping("checkPatientExistByIdNumber")
     @ResponseBody
     public HashMap<String, Object> checkPatientExistByIdNumber(Long id, String idNumber) {
-        boolean exist = cmPatientService.checkIdNumberExist(id, idNumber);
+        boolean exist = patientService.checkIdNumberExist(id, idNumber);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("exist", exist);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
@@ -213,7 +213,7 @@ public class PatientController {
         if (StringUtil.isNotBlank(patient.getTempImagePath())) {
             patient.setImagePath(patient.getTempImagePath());
         }
-        cmPatientService.savePatient(patient, false);
+        patientService.savePatient(patient, false);
         sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()),
                         CommonConstants.SYS_HD);
 

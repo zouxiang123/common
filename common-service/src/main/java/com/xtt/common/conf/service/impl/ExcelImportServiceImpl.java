@@ -24,7 +24,7 @@ import com.xtt.common.conf.service.util.StandardExcelImport;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
@@ -33,7 +33,7 @@ import com.xtt.platform.util.lang.StringUtil;
 @Service
 public class ExcelImportServiceImpl implements IExcelImportService {
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -69,11 +69,11 @@ public class ExcelImportServiceImpl implements IExcelImportService {
                     if (StringUtils.isEmpty(p.getValue().getIdNumber()) || p.getValue().getBirthday() == null) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "身份证号或生日必填一项");
-                    } else if (cmPatientService.checkIdNumberExist(null, p.getValue().getIdNumber())) {
+                    } else if (patientService.checkIdNumberExist(null, p.getValue().getIdNumber())) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "患者已存在");
                     } else {
-                        cmPatientService.savePatient(p.getValue(), true);
+                        patientService.savePatient(p.getValue(), true);
                         patientSuccessCount++;
                     }
                 }

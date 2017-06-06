@@ -54,7 +54,7 @@ import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
@@ -76,7 +76,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Autowired
     private IRoleService roleService;
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private ICmFormNodesService cmFormNodesService;
     @Autowired
@@ -168,7 +168,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cachePatient() {
         RedisCacheUtil.deletePattern(PatientCache.getKey(null));
-        List<PatientPO> list = cmPatientService.listAll();
+        List<PatientPO> list = patientService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
