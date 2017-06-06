@@ -423,7 +423,7 @@
   </update>
   
   <!-- user define -->
-  <resultMap id="POResultMap" type="com.xtt.common.dao.po.PatientPO">
+  <resultMap id="POResultMap" type="com.xtt.common.dao.po.PatientPO" extends="BaseResultMap">
     <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
     <result column="county_name" jdbcType="VARCHAR" property="countyName" />
     <result column="age" jdbcType="INTEGER" property="age" />
