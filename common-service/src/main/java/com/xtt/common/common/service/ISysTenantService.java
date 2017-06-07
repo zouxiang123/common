@@ -79,4 +79,14 @@ public interface ISysTenantService {
      *
      */
     public List<SysTenant> listByIds(Collection<Integer> ids);
+
+    /**
+     * 根据父节点租户id查询数据（未做级联查询）
+     * 
+     * @Title: listByPTenantId
+     * @param pTenantId
+     * @return
+     *
+     */
+    public List<SysTenant> listByPTenantId(Integer pTenantId);
 }

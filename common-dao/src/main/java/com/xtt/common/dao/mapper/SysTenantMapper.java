@@ -62,4 +62,14 @@ public interface SysTenantMapper {
      *
      */
     List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
+
+    /**
+     * 根据父级id查询数据
+     * 
+     * @Title: listByPTenantId
+     * @param pTenantId
+     * @return
+     *
+     */
+    List<SysTenant> listByPTenantId(Integer pTenantId);
 }

@@ -81,4 +81,9 @@ public class SysTenantServiceImpl implements ISysTenantService {
         }
     }
 
+    @Override
+    public List<SysTenant> listByPTenantId(Integer pTenantId) {
+        return sysTenantMapper.listByPTenantId(pTenantId);
+    }
+
 }

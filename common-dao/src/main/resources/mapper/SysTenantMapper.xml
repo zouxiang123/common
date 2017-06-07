@@ -229,4 +229,10 @@
   <select id="listByIds" resultMap="BaseResultMap">
     select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
+  <!-- 根据父id查询数据 -->
+  <select id="listByPTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select t.* from sys_tenant t
+    join sys_group_tenant gt ON t.id = gt.fk_tenant_id
+    where gt.p_tenant_id = #{pTenantId}
+  </select>
 </mapper>

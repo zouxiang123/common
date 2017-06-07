@@ -17,6 +17,12 @@ public class SysGroupTenant {
     private Integer fkTenantId;
 
     /**
+     * 父节点租户id
+     * sys_group_tenant.p_tenant_id
+     */
+    private Integer pTenantId;
+
+    /**
      * 集团id
      */
     public Integer getFkGroupId() {
@@ -42,5 +48,19 @@ public class SysGroupTenant {
      */
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
+    }
+
+    /**
+     * 父节点租户id
+     */
+    public Integer getpTenantId() {
+        return pTenantId;
+    }
+
+    /**
+     * 父节点租户id
+     */
+    public void setpTenantId(Integer pTenantId) {
+        this.pTenantId = pTenantId;
     }
 }
