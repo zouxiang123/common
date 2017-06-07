@@ -681,7 +681,9 @@
   <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
      SELECT par.* FROM patient_assay_record par 
      WHERE par.fk_patient_id =#{fkPatientId}
-     AND par.fk_tenant_id = #{fkTenantId}
+     <if test="fkTenantId != null">
+        AND par.fk_tenant_id = #{fkTenantId}
+     </if>
      <if test="assayDate != null and assayDate != ''">
         AND date(par.sample_time) = #{assayDate}
      </if>
