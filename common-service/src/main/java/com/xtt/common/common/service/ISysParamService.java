@@ -26,6 +26,16 @@ public interface ISysParamService {
     SysParam getByName(String name);
 
     /**
+     * 根据ID查询参数
+     * 
+     * @Title: getByName
+     * @param name
+     * @return
+     * 
+     */
+    SysParam getByID(Long id);
+
+    /**
      * 根据参数名称和租户编号查询参数
      * 
      * @Title: getByName
