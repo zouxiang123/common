@@ -101,4 +101,9 @@ public class CmDictConsts {
      */
     public static final String CM_UNIT_CONDUCTIVITY = "CM_unit_conductivity";
     /*-------- unit end --------*/
+
+    /**
+     * 工程师：维修商家
+     */
+    public static final String ENG_MAINTAIN_MERCHANT = "eng_maintain_merchant";
 }
