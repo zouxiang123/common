@@ -10,56 +10,76 @@ import com.xtt.common.dao.model.SysTenant;
 
 @Repository
 public interface SysTenantMapper {
-    int deleteByPrimaryKey(Integer id);
+	int deleteByPrimaryKey(Integer id);
 
-    int insert(SysTenant record);
+	int insert(SysTenant record);
 
-    int insertSelective(SysTenant record);
+	int insertSelective(SysTenant record);
 
-    SysTenant selectByPrimaryKey(Integer id);
+	SysTenant selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(SysTenant record);
+	int updateByPrimaryKeySelective(SysTenant record);
 
-    int updateByPrimaryKey(SysTenant record);
+	int updateByPrimaryKey(SysTenant record);
 
-    /* user define */
+	/* user define */
 
-    /**
-     * 根据自定义条件查询租户数据
-     * 
-     * @Title: listByCondition
-     * @param record
-     * @return
-     *
-     */
-    List<SysTenant> listByCondition(SysTenant record);
+	/**
+	 * 根据自定义条件查询租户数据
+	 * 
+	 * @Title: listByCondition
+	 * @param record
+	 * @return
+	 *
+	 */
+	List<SysTenant> listByCondition(SysTenant record);
 
-    /**
-     * 根据账户名称查询对应的租户数据
-     *
-     * @param account
-     * @param sysOwner
-     * @return
-     */
-    List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
+	/**
+	 * 根据账户名称查询对应的租户数据
+	 *
+	 * @param account
+	 * @param sysOwner
+	 * @return
+	 */
+	List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
 
-    /**
-     * 根据集团id查询对应的租户
-     * 
-     * @Title: listByGroupId
-     * @param groupId
-     * @return
-     *
-     */
-    List<SysTenant> listByGroupId(Integer groupId);
+	/**
+	 * 根据集团id查询对应的租户
+	 * 
+	 * @Title: listByGroupId
+	 * @param groupId
+	 * @return
+	 *
+	 */
+	List<SysTenant> listByGroupId(Integer groupId);
 
-    /**
-     * 根据多个租户id查询数据
-     * 
-     * @Title: listByIds
-     * @param ids
-     * @return
-     *
-     */
-    List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
+	/**
+	 * 根据多个租户id查询数据
+	 * 
+	 * @Title: listByIds
+	 * @param ids
+	 * @return
+	 *
+	 */
+	List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
+
+	/**
+	 * 保存租户号返回id
+	 * 
+	 * @Title: savaSysTenant
+	 * @param sysTenant
+	 * @return
+	 *
+	 */
+	SysTenant savaSysTenant(SysTenant sysTenant);
+
+	/**
+	 * 查询是医院名称是否重复
+	 * 
+	 * @Title: getCheckTenanNameCount
+	 * @param sysTenant
+	 * @return
+	 *
+	 */
+	Integer getCheckTenanNameCount(SysTenant sysTenant);
 }
