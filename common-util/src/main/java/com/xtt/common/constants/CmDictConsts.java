@@ -50,6 +50,7 @@ public class CmDictConsts {
     /** 化验单文本类别 */
     public static final String ASSAY_TEXT_TYPE = "assay_text_type";
 
+    // =========================================================================
     /** 服务调用 */
     public static final String URL = "url";
 
@@ -60,6 +61,12 @@ public class CmDictConsts {
     public static final String DOWN_DB_WS_URL_ORDER = "02";
 
     public static final String DOWN_DB_WS_URL_LIS = "03";
+    /**
+     * 跳转到新增数据源页面
+     */
+    public static final String ADD_SYS_DB_SOURCE = "04";
+    // =========================================================================
+
     /** 检验类型 */
     public static final String ASSAY_TYPE = "assay_type";
     /**
