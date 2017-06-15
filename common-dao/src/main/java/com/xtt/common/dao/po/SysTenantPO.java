@@ -15,6 +15,19 @@ public class SysTenantPO extends SysTenant {
 	 */
 	private String fkTenantId;
 
+	/**
+	 * 模板租户号
+	 */
+	private String modelFkTenantId;
+
+	public String getModelFkTenantId() {
+		return modelFkTenantId;
+	}
+
+	public void setModelFkTenantId(String modelFkTenantId) {
+		this.modelFkTenantId = modelFkTenantId;
+	}
+
 	public String getFkTenantId() {
 		return fkTenantId;
 	}

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.SysTenant;
+import com.xtt.common.dao.po.SysTenantPO;
 
 @Repository
 public interface SysTenantMapper {
@@ -82,4 +83,82 @@ public interface SysTenantMapper {
 	 *
 	 */
 	Integer getCheckTenanNameCount(SysTenant sysTenant);
+
+	/**
+	 * 更新新插入并发症字典中pid 这列 表中内关联
+	 * 
+	 * @Title: upComplicationDictionary
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void upComplicationDictionary(SysTenantPO sysTenant);
+
+	/**
+	 * 更新预估配置表pid 表中设计为内关联
+	 * 
+	 * @Title: upMedicalOrderDict
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void upMedicalOrderDict(SysTenantPO sysTenant);
+
+	/**
+	 * 更新高价值耗材表Pid
+	 * 
+	 * @Title: saveSupplies
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void upSupplies(SysTenantPO sysTenant);
+
+	/**
+	 * 质控上传化验项配置
+	 * 
+	 * @Title: saveZkAssayRef
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void saveZkAssayRef(SysTenantPO sysTenant);
+
+	/**
+	 * 医嘱套餐和医嘱项目的关系表
+	 * 
+	 * @Title: saveMedicalOrderDictRPackage
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void saveMedicalOrderDictRPackage(SysTenantPO sysTenant);
+
+	/**
+	 * 获取字典表中的列名
+	 * 
+	 * @Title: getTablePropertyName
+	 * @param tableSchema
+	 * @param tableName
+	 * @return
+	 *
+	 */
+	List<String> getTablePropertyName(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
+
+	/**
+	 * 通用方法初始化数据
+	 * 
+	 * @Title: saveSysBasiCsGroup
+	 * @param tableName
+	 * @param tablePropertys
+	 * @param newtablePropertys
+	 * @param sysBasicsGroupPo
+	 *
+	 */
+	void saveSysBasiCsGroup(@Param("tableName") String tableName, @Param("tablePropertys") String tablePropertys,
+					@Param("newtablePropertys") String newtablePropertys, @Param("param") SysTenantPO sysTenant);
+
+	/**
+	 * 设置主键值
+	 * 
+	 * @Title: setPrimaryKeyById
+	 * @param string
+	 *
+	 */
+	void setPrimaryKeyById(@Param("tableName") String tableName);
 }
