@@ -5,43 +5,43 @@ import com.xtt.common.dao.model.SysTenant;
 
 public class SysTenantPO extends SysTenant {
 
-	/*
-	 * 所属集团id
-	 */
-	private Integer fkGroupId;
+    /*
+     * 所属集团id
+     */
+    private Integer fkGroupId;
 
-	/**
-	 * 医院租户号
-	 */
-	private String fkTenantId;
+    /**
+     * 医院租户号
+     */
+    private String fkTenantId;
 
-	/**
-	 * 模板租户号
-	 */
-	private String modelFkTenantId;
+    /**
+     * 模板租户号
+     */
+    private String template;
 
-	public String getModelFkTenantId() {
-		return modelFkTenantId;
-	}
+    public String getTemplate() {
+        return template;
+    }
 
-	public void setModelFkTenantId(String modelFkTenantId) {
-		this.modelFkTenantId = modelFkTenantId;
-	}
+    public void setTemplate(String template) {
+        this.template = template;
+    }
 
-	public String getFkTenantId() {
-		return fkTenantId;
-	}
+    public String getFkTenantId() {
+        return fkTenantId;
+    }
 
-	public void setFkTenantId(String fkTenantId) {
-		this.fkTenantId = fkTenantId;
-	}
+    public void setFkTenantId(String fkTenantId) {
+        this.fkTenantId = fkTenantId;
+    }
 
-	public Integer getFkGroupId() {
-		return fkGroupId;
-	}
+    public Integer getFkGroupId() {
+        return fkGroupId;
+    }
 
-	public void setFkGroupId(Integer fkGroupId) {
-		this.fkGroupId = fkGroupId;
-	}
+    public void setFkGroupId(Integer fkGroupId) {
+        this.fkGroupId = fkGroupId;
+    }
 
 }

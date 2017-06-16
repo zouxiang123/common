@@ -11,154 +11,144 @@ import com.xtt.common.dao.po.SysTenantPO;
 
 @Repository
 public interface SysTenantMapper {
-	int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Integer id);
 
-	int insert(SysTenant record);
+    int insert(SysTenant record);
 
-	int insertSelective(SysTenant record);
+    int insertSelective(SysTenant record);
 
-	SysTenant selectByPrimaryKey(Integer id);
+    SysTenant selectByPrimaryKey(Integer id);
 
-	int updateByPrimaryKeySelective(SysTenant record);
+    int updateByPrimaryKeySelective(SysTenant record);
 
-	int updateByPrimaryKey(SysTenant record);
+    int updateByPrimaryKey(SysTenant record);
 
-	/* user define */
+    /* user define */
 
-	/**
-	 * 根据自定义条件查询租户数据
-	 * 
-	 * @Title: listByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<SysTenant> listByCondition(SysTenant record);
+    /**
+     * 根据自定义条件查询租户数据
+     * 
+     * @Title: listByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<SysTenant> listByCondition(SysTenant record);
 
-	/**
-	 * 根据账户名称查询对应的租户数据
-	 *
-	 * @param account
-	 * @param sysOwner
-	 * @return
-	 */
-	List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
+    /**
+     * 根据账户名称查询对应的租户数据
+     *
+     * @param account
+     * @param sysOwner
+     * @return
+     */
+    List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
 
-	/**
-	 * 根据集团id查询对应的租户
-	 * 
-	 * @Title: listByGroupId
-	 * @param groupId
-	 * @return
-	 *
-	 */
-	List<SysTenant> listByGroupId(Integer groupId);
+    /**
+     * 根据集团id查询对应的租户
+     * 
+     * @Title: listByGroupId
+     * @param groupId
+     * @return
+     *
+     */
+    List<SysTenant> listByGroupId(Integer groupId);
 
-	/**
-	 * 根据多个租户id查询数据
-	 * 
-	 * @Title: listByIds
-	 * @param ids
-	 * @return
-	 *
-	 */
-	List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
+    /**
+     * 根据多个租户id查询数据
+     * 
+     * @Title: listByIds
+     * @param ids
+     * @return
+     *
+     */
+    List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
 
-	/**
-	 * 保存租户号返回id
-	 * 
-	 * @Title: savaSysTenant
-	 * @param sysTenant
-	 * @return
-	 *
-	 */
-	SysTenant savaSysTenant(SysTenant sysTenant);
+    /**
+     * 保存租户号
+     * 
+     * @Title: savaSysTenant
+     * @param sysTenant
+     * @return
+     *
+     */
+    int savaSysTenant(SysTenant sysTenant);
 
-	/**
-	 * 查询是医院名称是否重复
-	 * 
-	 * @Title: getCheckTenanNameCount
-	 * @param sysTenant
-	 * @return
-	 *
-	 */
-	Integer getCheckTenanNameCount(SysTenant sysTenant);
+    /**
+     * 更新新插入并发症字典中pid 这列 表中内关联
+     * 
+     * @Title: upComplicationDictionary
+     * @param sysBasicsGroupPo
+     *
+     */
+    void updateComplicationDictionary(SysTenantPO sysTenant);
 
-	/**
-	 * 更新新插入并发症字典中pid 这列 表中内关联
-	 * 
-	 * @Title: upComplicationDictionary
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void upComplicationDictionary(SysTenantPO sysTenant);
+    /**
+     * 更新预估配置表pid 表中设计为内关联
+     * 
+     * @Title: upMedicalOrderDict
+     * @param sysBasicsGroupPo
+     *
+     */
+    void updateMedicalOrderDict(SysTenantPO sysTenant);
 
-	/**
-	 * 更新预估配置表pid 表中设计为内关联
-	 * 
-	 * @Title: upMedicalOrderDict
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void upMedicalOrderDict(SysTenantPO sysTenant);
+    /**
+     * 更新高价值耗材表Pid
+     * 
+     * @Title: saveSupplies
+     * @param sysBasicsGroupPo
+     *
+     */
+    void updateSupplies(SysTenantPO sysTenant);
 
-	/**
-	 * 更新高价值耗材表Pid
-	 * 
-	 * @Title: saveSupplies
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void upSupplies(SysTenantPO sysTenant);
+    /**
+     * 质控上传化验项配置
+     * 
+     * @Title: saveZkAssayRef
+     * @param sysBasicsGroupPo
+     *
+     */
+    void saveZkAssayRef(SysTenantPO sysTenant);
 
-	/**
-	 * 质控上传化验项配置
-	 * 
-	 * @Title: saveZkAssayRef
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void saveZkAssayRef(SysTenantPO sysTenant);
+    /**
+     * 医嘱套餐和医嘱项目的关系表
+     * 
+     * @Title: saveMedicalOrderDictRPackage
+     * @param sysBasicsGroupPo
+     *
+     */
+    void saveMedicalOrderDictRPackage(SysTenantPO sysTenant);
 
-	/**
-	 * 医嘱套餐和医嘱项目的关系表
-	 * 
-	 * @Title: saveMedicalOrderDictRPackage
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void saveMedicalOrderDictRPackage(SysTenantPO sysTenant);
+    /**
+     * 获取字典表中的列名
+     * 
+     * @Title: getTablePropertyName
+     * @param tableSchema
+     * @param tableName
+     * @return
+     *
+     */
+    List<String> getTablePropertyName(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
 
-	/**
-	 * 获取字典表中的列名
-	 * 
-	 * @Title: getTablePropertyName
-	 * @param tableSchema
-	 * @param tableName
-	 * @return
-	 *
-	 */
-	List<String> getTablePropertyName(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
+    /**
+     * 通用方法初始化数据
+     * 
+     * @Title: saveSysBasiCsGroup
+     * @param tableName
+     * @param tablePropertys
+     * @param newtablePropertys
+     * @param sysBasicsGroupPo
+     *
+     */
+    void saveSysBasiCsGroup(@Param("tableName") String tableName, @Param("tablePropertys") String tablePropertys,
+                    @Param("newtablePropertys") String newtablePropertys, @Param("param") SysTenantPO sysTenant);
 
-	/**
-	 * 通用方法初始化数据
-	 * 
-	 * @Title: saveSysBasiCsGroup
-	 * @param tableName
-	 * @param tablePropertys
-	 * @param newtablePropertys
-	 * @param sysBasicsGroupPo
-	 *
-	 */
-	void saveSysBasiCsGroup(@Param("tableName") String tableName, @Param("tablePropertys") String tablePropertys,
-					@Param("newtablePropertys") String newtablePropertys, @Param("param") SysTenantPO sysTenant);
-
-	/**
-	 * 设置主键值
-	 * 
-	 * @Title: setPrimaryKeyById
-	 * @param string
-	 *
-	 */
-	void setPrimaryKeyById(@Param("tableName") String tableName);
+    /**
+     * 设置主键值
+     * 
+     * @Title: setPrimaryKeyById
+     * @param string
+     *
+     */
+    void setPrimaryKeyById(@Param("tableName") String tableName);
 }

@@ -242,7 +242,7 @@
   <select id="listByIds" resultMap="BaseResultMap">
     select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
-  <insert id="savaSysTenant" useGeneratedKeys="true" keyProperty="id" parameterType="com.xtt.common.dao.model.SysTenant">
+  <insert id="savaSysTenant" parameterType="com.xtt.common.dao.model.SysTenant">
      insert into sys_tenant (id, name, is_enable, 
       start_date, end_date, is_default, 
       group_flag, create_time, create_user_id, 
@@ -254,15 +254,15 @@
   
   </insert>
    <!-- 更新新插入并发症字典中pid 这列 表中内关联 -->
-    <update id="upComplicationDictionary">
+    <update id="updateComplicationDictionary">
         update complication_dictionary set p_id = concat(#{fkTenantId},SUBSTR(p_id,6,10)) where fk_tenant_id = #{fkTenantId} and p_id != 0
     </update>
     <!-- 更新预估配置表pid 表中设计为内关联 -->
-    <update id="upMedicalOrderDict">
+    <update id="updateMedicalOrderDict">
         update medical_order_dict set pid = concat(#{fkTenantId},SUBSTR(pid,6,10)) where fk_tenant_id = #{fkTenantId} and pid is not
         null
     </update>
-    <update id="upSupplies">
+    <update id="updateSupplies">
      update Supplies set p_id = concat(#{fkTenantId},SUBSTR(p_id,6,10)) where fk_tenant_id = #{fkTenantId} and p_id != 0
     </update>
     <!-- 质控上传化验项配置 -->
@@ -273,7 +273,7 @@
         SELECT
         null, `fk_item_code`,
         `item_code`, `item_name`, `channel`, #{fkTenantId}
-        from zk_assay_ref where fk_tenant_id = #{modelFkTenantId}
+        from zk_assay_ref where fk_tenant_id = #{template}
     </insert>
     <!-- 医嘱套餐和医嘱项目的关系表 -->
     <insert id="saveMedicalOrderDictRPackage">
@@ -286,7 +286,7 @@
         `usage_code`, `drug_time_type`, #{fkTenantId}, now(), `create_user_id`, now(),
         `update_user_id`
         from medical_order_dict_r_package where
-        fk_tenant_id = #{modelFkTenantId}
+        fk_tenant_id = #{template}
     </insert>
     <!-- 获取字典表中的列名 -->
     <select id="getTablePropertyName" resultType="String">
@@ -302,7 +302,7 @@
         SELECT
        ${newtablePropertys}
         from
-        ${tableName} where fk_tenant_id = ${param.modelFkTenantId}
+        ${tableName} where fk_tenant_id = ${param.template}
     </insert>
     <!-- 获取主键id -->
     <select id="setPrimaryKeyById" resultType="String">

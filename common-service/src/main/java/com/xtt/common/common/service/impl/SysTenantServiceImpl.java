@@ -140,11 +140,11 @@ public class SysTenantServiceImpl implements ISysTenantService {
             System.out.println(newtablePropertys);
             sysTenantMapper.saveSysBasiCsGroup(tableNames[i], tablePropertys, newtablePropertys, sysTenant);
         }
-        sysTenantMapper.upSupplies(sysTenant);
+        sysTenantMapper.updateSupplies(sysTenant);
         sysTenantMapper.saveMedicalOrderDictRPackage(sysTenant);
         sysTenantMapper.saveZkAssayRef(sysTenant);
-        sysTenantMapper.upComplicationDictionary(sysTenant);
-        sysTenantMapper.upMedicalOrderDict(sysTenant);
+        sysTenantMapper.updateComplicationDictionary(sysTenant);
+        sysTenantMapper.updateMedicalOrderDict(sysTenant);
         // BusinessCache.cacheTenantId(Integer.parseInt(sysTenant.getFkTenantId()));
         this.savaUser(sysTenant);
         return null;
@@ -168,7 +168,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             sysTenant.setStartDate(new Date());
             sysTenant.setEndDate(DateFormatUtil.convertStrToDate("2099-01-01", "yyyy-MM-dd"));
             DataUtil.setSystemFieldValue(sysTenant);
-            sysTenantMapper.insert(sysTenant);
+            sysTenantMapper.savaSysTenant(sysTenant);
             SysTenant sysTenant3 = new SysTenant();
             sysTenant3.setName(sysTenant.getName());
             List<SysTenant> sysTenantList = sysTenantMapper.listByCondition(sysTenant3);
@@ -244,7 +244,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
              */
             SysTenantPO sysBasicsGroupPo = new SysTenantPO();
             sysBasicsGroupPo.setFkTenantId(sysTenant2.getId().toString());
-            sysBasicsGroupPo.setModelFkTenantId("10101");
+            sysBasicsGroupPo.setTemplate("10101");
             this.saveSysBasicsGroup(sysBasicsGroupPo);
             map.put("userName", sysBasicsGroupPo.getFkTenantId());
             return map;
@@ -394,7 +394,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public List<SysTenant> getTenantList(SysTenantPO sysTenant) {
+    public List<SysTenant> listTenant(SysTenantPO sysTenant) {
         return sysTenantMapper.listByCondition(sysTenant);
     }
 

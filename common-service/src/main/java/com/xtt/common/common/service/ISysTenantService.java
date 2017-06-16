@@ -127,7 +127,7 @@ public interface ISysTenantService {
      * @return
      *
      */
-    List<SysTenant> getTenantList(SysTenantPO sysTenant);
+    List<SysTenant> listTenant(SysTenantPO sysTenant);
 
     /**
      * 导入License
