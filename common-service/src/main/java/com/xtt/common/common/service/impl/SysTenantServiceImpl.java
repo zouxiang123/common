@@ -133,11 +133,10 @@ public class SysTenantServiceImpl implements ISysTenantService {
         sysTenantMapper.setPrimaryKeyById(sysTenant.getFkTenantId() + "SysUserTenant");
         for (int i = 0; i < tableNames.length; i++) {
             System.out.println(tableNames[i]);
-            List<String> tablePropertyNameList = sysTenantMapper.getTablePropertyName(tableSchema, tableNames[i]);
+            List<String> tablePropertyNameList = sysTenantMapper.listTablePropertyName(tableSchema, tableNames[i]);
 
             String tablePropertys = newTablePropertys(tablePropertyNameList.toString().substring(1, tablePropertyNameList.toString().length() - 1));
             String newtablePropertys = getNewtablePropertys(tablePropertyNameList, sysTenant, tableNames[i]);
-            System.out.println(newtablePropertys);
             sysTenantMapper.saveSysBasiCsGroup(tableNames[i], tablePropertys, newtablePropertys, sysTenant);
         }
         sysTenantMapper.updateSupplies(sysTenant);
@@ -145,15 +144,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
         sysTenantMapper.saveZkAssayRef(sysTenant);
         sysTenantMapper.updateComplicationDictionary(sysTenant);
         sysTenantMapper.updateMedicalOrderDict(sysTenant);
-        // BusinessCache.cacheTenantId(Integer.parseInt(sysTenant.getFkTenantId()));
         this.savaUser(sysTenant);
         return null;
     }
 
     @Override
-    public List<SysGroup> getSysGroupAll(SysGroup sysGroup) {
+    public List<SysGroup> listSysGroup(SysGroup sysGroup) {
 
-        return sysGroupMapper.getSysGroupAll(sysGroup);
+        return sysGroupMapper.listSysGroup(sysGroup);
     }
 
     @Override
@@ -446,8 +444,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public List<SysGroup> getSysGroupAll() {
-        return sysGroupMapper.getSysGroupAll(new SysGroup());
+    public List<SysGroup> listSysGroup() {
+        return sysGroupMapper.listSysGroup(new SysGroup());
     }
 
     @Override
@@ -459,7 +457,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public List<SysTenant> getCheckTenanName(SysTenant sysTenant) {
+    public List<SysTenant> listCheckTenanName(SysTenant sysTenant) {
         return sysTenantMapper.listByCondition(sysTenant);
     }
 

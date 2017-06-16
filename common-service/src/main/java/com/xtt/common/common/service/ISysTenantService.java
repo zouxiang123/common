@@ -106,7 +106,7 @@ public interface ISysTenantService {
      * @return
      *
      */
-    List<SysGroup> getSysGroupAll(SysGroup sysGroup);
+    List<SysGroup> listSysGroup(SysGroup sysGroup);
 
     /**
      * 保存新增
@@ -147,7 +147,7 @@ public interface ISysTenantService {
      * @return
      *
      */
-    List<SysGroup> getSysGroupAll();
+    List<SysGroup> listSysGroup();
 
     /**
      * 根据集团id查询所属集团
@@ -167,7 +167,7 @@ public interface ISysTenantService {
      * @return
      *
      */
-    List<SysTenant> getCheckTenanName(SysTenant sysTenant);
+    List<SysTenant> listCheckTenanName(SysTenant sysTenant);
 
     /**
      * 新建默认用户

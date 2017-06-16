@@ -128,7 +128,7 @@ public interface SysTenantMapper {
      * @return
      *
      */
-    List<String> getTablePropertyName(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
+    List<String> listTablePropertyName(@Param("tableSchema") String tableSchema, @Param("tableName") String tableName);
 
     /**
      * 通用方法初始化数据

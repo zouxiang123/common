@@ -259,8 +259,7 @@
     </update>
     <!-- 更新预估配置表pid 表中设计为内关联 -->
     <update id="updateMedicalOrderDict">
-        update medical_order_dict set pid = concat(#{fkTenantId},SUBSTR(pid,6,10)) where fk_tenant_id = #{fkTenantId} and pid is not
-        null
+        update medical_order_dict set pid = concat(#{fkTenantId},SUBSTR(pid,6,10)) where fk_tenant_id = #{fkTenantId} and pid is not null
     </update>
     <update id="updateSupplies">
      update Supplies set p_id = concat(#{fkTenantId},SUBSTR(p_id,6,10)) where fk_tenant_id = #{fkTenantId} and p_id != 0
@@ -289,7 +288,7 @@
         fk_tenant_id = #{template}
     </insert>
     <!-- 获取字典表中的列名 -->
-    <select id="getTablePropertyName" resultType="String">
+    <select id="listTablePropertyName" resultType="String">
         Select COLUMN_NAME
         From information_schema.columns
         Where table_name=#{tableName} and table_schema = #{tableSchema}
