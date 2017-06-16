@@ -681,7 +681,9 @@
   <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
      SELECT par.* FROM patient_assay_record par 
      WHERE par.fk_patient_id =#{fkPatientId}
-     AND par.fk_tenant_id = #{fkTenantId}
+     <if test="fkTenantId != null">
+        AND par.fk_tenant_id = #{fkTenantId}
+     </if>
      <if test="assayDate != null and assayDate != ''">
         AND date(par.sample_time) = #{assayDate}
      </if>
@@ -716,10 +718,8 @@
   <select id="selectByFkDictCode" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
     SELECT par.*
     ,dhl.fk_dict_code AS fkDictCode
-    ,p.name AS patientName
     FROM patient_assay_record par
     LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
-    LEFT JOIN patient p ON p.id = par.fk_patient_id
     WHERE
         par.fk_tenant_id = #{fkTenantId}
         AND dhl.fk_dict_code = #{fkDictCode}
@@ -738,9 +738,6 @@
         <if test="multResultTips != null">
           and par.result_tips in 
           <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-        <if test="isTemp !=null and isTemp!=''">
-          AND p.is_temp IN (#{isTemp})
         </if>
     ORDER BY
         par.item_code,par.fk_patient_id,par.assay_date
@@ -814,9 +811,8 @@
   </select>
   
   <select id="selectByItemCodes" resultMap="POResultMap">
-    SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result FROM patient_assay_record par
-    force index(inx_assay_record_date_code_tenant)
-    LEFT JOIN patient p on par.fk_patient_id = p.id
+    SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result 
+    FROM patient_assay_record par force index(inx_assay_record_date_code_tenant)
     <where>
         <if test="startDate != null">
             par.assay_date &gt;= #{startDate,jdbcType=DATE}
@@ -829,9 +825,6 @@
         </if>
         <if test="fkTenantId != null">
             AND par.fk_tenant_id =#{fkTenantId}
-        </if>
-        <if test="patientTempValue !=null and patientTempValue !=''">
-            AND p.is_temp IN (#{patientTempValue})
         </if>
     </where>
     ORDER BY par.fk_patient_id,par.item_code,par.assay_date DESC

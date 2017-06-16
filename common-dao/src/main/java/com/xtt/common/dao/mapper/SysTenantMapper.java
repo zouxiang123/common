@@ -65,7 +65,7 @@ public interface SysTenantMapper {
     List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
 
     /**
-     * 保存租户号
+     * <<<<<<< HEAD 保存租户号
      * 
      * @Title: savaSysTenant
      * @param sysTenant
@@ -151,4 +151,14 @@ public interface SysTenantMapper {
      *
      */
     void setPrimaryKeyById(@Param("tableName") String tableName);
+
+    /**
+     * 更加父级点查询
+     * 
+     * @Title: listByPTenantId
+     * @param pTenantId
+     * @return
+     *
+     */
+    List<SysTenant> listByPTenantId(Integer pTenantId);
 }

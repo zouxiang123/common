@@ -204,7 +204,7 @@ public interface PatientAssayRecordMapper {
      *
      */
     List<PatientAssayRecordPO> selectByItemCodes(@Param("itemCodes") Collection<String> itemCodes, @Param("startDate") Date startDate,
-                    @Param("endDate") Date endDate, @Param("patientTempValue") String patientTempValue, @Param("fkTenantId") Integer tenantId);
+                    @Param("endDate") Date endDate, @Param("fkTenantId") Integer tenantId);
 
     /**
      * 生成特定患者的阶段小结数据

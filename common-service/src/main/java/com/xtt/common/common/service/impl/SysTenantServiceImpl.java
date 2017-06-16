@@ -504,7 +504,10 @@ public class SysTenantServiceImpl implements ISysTenantService {
         user.setMultiTenant(sysTenant.getFkTenantId());
         user.setFkTenantId(Integer.parseInt(sysTenant.getFkTenantId()));
         userService.saveUser(user);
+    }
 
+    public List<SysTenant> listByPTenantId(Integer pTenantId) {
+        return sysTenantMapper.listByPTenantId(pTenantId);
     }
 
 }

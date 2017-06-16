@@ -207,19 +207,19 @@
         t.name = #{name}
       </if>
       <if test="isEnable != null">
-        t.is_enable = #{isEnable}
+        AND t.is_enable = #{isEnable}
       </if>
       <if test="startDate != null">
-        t.start_date = #{startDate}
+        AND t.start_date = #{startDate}
       </if>
       <if test="endDate != null">
-        t.end_date = #{endDate}
+        AND t.end_date = #{endDate}
       </if>
       <if test="isDefault != null">
-        t.is_default = #{isDefault}
+        AND t.is_default = #{isDefault}
       </if>
       <if test="groupFlag != null">
-        t.group_flag = #{groupFlag}
+        AND t.group_flag = #{groupFlag}
       </if>
     </where>
     ORDER BY t.id
@@ -242,6 +242,7 @@
   <select id="listByIds" resultMap="BaseResultMap">
     select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
+<<<<<<< HEAD
   <insert id="savaSysTenant" parameterType="com.xtt.common.dao.model.SysTenant">
      insert into sys_tenant (id, name, is_enable, 
       start_date, end_date, is_default, 
@@ -307,4 +308,10 @@
     <select id="setPrimaryKeyById" resultType="String">
         SELECT getPrimaryKey(#{tableName}) from dual
     </select>
+  <!-- 根据父id查询数据 -->
+  <select id="listByPTenantId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select t.* from sys_tenant t
+    join sys_group_tenant gt ON t.id = gt.fk_tenant_id
+    where gt.p_tenant_id = #{pTenantId}
+  </select>
 </mapper>

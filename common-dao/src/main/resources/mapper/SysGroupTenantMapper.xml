@@ -13,8 +13,10 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into sys_group_tenant (fk_group_id, fk_tenant_id)
-    values (#{fkGroupId,jdbcType=INTEGER}, #{fkTenantId,jdbcType=INTEGER})
+    insert into sys_group_tenant (fk_group_id, fk_tenant_id, p_tenant_id
+      )
+    values (#{fkGroupId,jdbcType=INTEGER}, #{fkTenantId,jdbcType=INTEGER}, #{pTenantId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysGroupTenant">
     <!--
@@ -28,6 +30,9 @@
       <if test="fkTenantId != null">
         fk_tenant_id,
       </if>
+      <if test="pTenantId != null">
+        p_tenant_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="fkGroupId != null">
@@ -35,6 +40,9 @@
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="pTenantId != null">
+        #{pTenantId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
