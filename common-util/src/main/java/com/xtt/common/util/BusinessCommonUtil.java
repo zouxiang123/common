@@ -62,7 +62,7 @@ public class BusinessCommonUtil {
      * 
      */
     public static void combineImage(String name, String newFilename) {
-        String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
+        String path = CommonConstants.BASE_PATH + newFilename.substring(0, newFilename.indexOf("/", 2)) + "/" + CommonConstants.IMAGE_FILE_PATH;
         newFilename = CommonConstants.BASE_PATH + "/" + newFilename;
         File f1 = new File(path + "/blank_background.png");
         File f2 = new File(path + "/blank_front.png");
@@ -110,7 +110,8 @@ public class BusinessCommonUtil {
         mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, width, height, true);
     }
 
-    public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName, int width, int height, boolean gp) {
+    public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName, int width, int height,
+                    boolean gp) {
         CompressPicUtil mypic = new CompressPicUtil();
         mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, width, height, gp);
     }

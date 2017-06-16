@@ -145,8 +145,14 @@ public class UserServiceImpl implements IUserService {
             } else {
                 user.setUserType(CommonConstants.USER_TYPE_GROUP);
             }
+            String newFilename;
             if (user.getSex() == null && user.getMobile() == null) {
                 user.setId(Long.parseLong(user.getFkTenantId() + "0000000001"));
+                newFilename = "/" + user.getFkTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
+                                + user.getId() + ".png";
+            } else {
+                newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
+                                + user.getId() + ".png";
             }
             sysUserMapper.insert(user);
             if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
@@ -156,8 +162,7 @@ public class UserServiceImpl implements IUserService {
             associationTenant(user, true, groupFlag);
             // 新增用户创建默认头像
             Long timeStamp = System.currentTimeMillis();
-            String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
-                            + "/" + user.getId() + ".png";
+
             String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
             user.setImagePath(newFilename + "?t=" + timeStamp);
