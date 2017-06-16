@@ -242,7 +242,6 @@
   <select id="listByIds" resultMap="BaseResultMap">
     select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
-<<<<<<< HEAD
   <insert id="savaSysTenant" parameterType="com.xtt.common.dao.model.SysTenant">
      insert into sys_tenant (id, name, is_enable, 
       start_date, end_date, is_default, 
