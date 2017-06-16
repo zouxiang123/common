@@ -88,7 +88,7 @@ public interface ISysTenantService {
     public List<SysTenant> listByIds(Collection<Integer> ids);
 
     /**
-     * <<<<<<< HEAD 保存基础表数据
+     * 保存基础表数据
      * 
      * @Title: saveSysBasicsGroup
      * @param sysBasicsGroupPo

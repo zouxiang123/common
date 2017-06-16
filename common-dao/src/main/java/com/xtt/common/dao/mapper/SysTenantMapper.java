@@ -65,7 +65,7 @@ public interface SysTenantMapper {
     List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
 
     /**
-     * <<<<<<< HEAD 保存租户号
+     * 保存租户号
      * 
      * @Title: savaSysTenant
      * @param sysTenant
