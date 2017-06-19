@@ -213,7 +213,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         // 结束时间
         qmap.put("endDate", endDate);
 
-        String reqMsg = "cardNo:" + cardNo + ", downType" + downType + ", startDate:" + startDate + ", endDate:" + endDate;
+        String reqMsg = "cardNo:" + cardNo + ", downType:" + downType + ", startDate:" + startDate + ", endDate:" + endDate;
         sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, db.getSysOwner());
 
         // 访问的目标地址
