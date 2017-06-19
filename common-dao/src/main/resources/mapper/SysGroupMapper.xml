@@ -127,4 +127,7 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="listSysGroup" resultMap="BaseResultMap">
+    SELECT id, group_name from sys_group
+  </select>
 </mapper>

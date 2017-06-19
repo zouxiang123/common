@@ -8,10 +8,17 @@
  */
 package com.xtt.common.common.service;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import com.xtt.common.dao.model.SysGroup;
+import com.xtt.common.dao.model.SysGroupTenant;
 import com.xtt.common.dao.model.SysTenant;
+import com.xtt.common.dao.po.SysTenantPO;
 
 public interface ISysTenantService {
     /**
@@ -81,7 +88,98 @@ public interface ISysTenantService {
     public List<SysTenant> listByIds(Collection<Integer> ids);
 
     /**
-     * 根据父节点租户id查询数据（未做级联查询）
+     * 保存基础表数据
+     * 
+     * @Title: saveSysBasicsGroup
+     * @param sysBasicsGroupPo
+     * @return
+     *
+     */
+    Object saveSysBasicsGroup(SysTenantPO sysTenantPO);
+
+    /**
+     * 查询所有的集团
+     * 
+     * @param sysGroup
+     * 
+     * @Title: getSysGroupAll
+     * @return
+     *
+     */
+    List<SysGroup> listSysGroup(SysGroup sysGroup);
+
+    /**
+     * 保存新增
+     * 
+     * @Title: save
+     * @param urlName
+     * @param sysTenant
+     *
+     */
+    Map<String, Object> save(MultipartFile logoUpload, MultipartFile logoPrintUpload, MultipartFile tvLogoUpload, SysTenantPO sysTenant)
+                    throws IOException;
+
+    /**
+     * 查询全部的租户
+     * 
+     * @Title: getTenantList
+     * @param sysTenant
+     * @return
+     *
+     */
+    List<SysTenant> listTenant(SysTenantPO sysTenant);
+
+    /**
+     * 导入License
+     * 
+     * @Title: licensorUpload
+     * @param licensorUpload
+     * @param sysTenant
+     * @return
+     *
+     */
+    Map<String, Object> uploadLicense(MultipartFile licensorUpload, SysTenantPO sysTenant) throws IOException;
+
+    /**
+     * 获取所有集团
+     * 
+     * @Title: getSysGroupAll
+     * @return
+     *
+     */
+    List<SysGroup> listSysGroup();
+
+    /**
+     * 根据集团id查询所属集团
+     * 
+     * @Title: getSysGroupByFkTenantId
+     * @param sysTenant
+     * @return
+     *
+     */
+    SysGroupTenant getSysGroupTenantByFkTenantId(SysTenant sysTenant);
+
+    /**
+     * 查询医院名称是否重复
+     * 
+     * @Title: getCheckTenanName
+     * @param sysTenant
+     * @return
+     *
+     */
+    List<SysTenant> listCheckTenanName(SysTenant sysTenant);
+
+    /**
+     * 新建默认用户
+     * 
+     * @Title: savaUser
+     * @param sysTenant
+     *
+     */
+    public void savaUser(SysTenantPO sysTenant);
+
+    /**
+     * 根据父节点租户id查询数据（未做级联查询）**
      * 
      * @Title: listByPTenantId
      * @param pTenantId

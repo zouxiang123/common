@@ -134,7 +134,9 @@ public class UserServiceImpl implements IUserService {
         } else {
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
-            user.setFkTenantId(UserUtil.getTenantId());
+            if (user.getFkTenantId() == null) {
+                user.setFkTenantId(UserUtil.getTenantId());
+            }
             user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));// 设置默认密码
             if (!groupFlag) {
                 // 设置关联的租户为当前租户
@@ -142,6 +144,15 @@ public class UserServiceImpl implements IUserService {
                 user.setUserType(CommonConstants.USER_TYPE_NORMAL);
             } else {
                 user.setUserType(CommonConstants.USER_TYPE_GROUP);
+            }
+            String newFilename;
+            if (user.getSex() == null && user.getMobile() == null) {
+                user.setId(Long.parseLong(user.getFkTenantId() + "0000000001"));
+                newFilename = "/" + user.getFkTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
+                                + user.getId() + ".png";
+            } else {
+                newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
+                                + user.getId() + ".png";
             }
             sysUserMapper.insert(user);
             if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
@@ -151,8 +162,7 @@ public class UserServiceImpl implements IUserService {
             associationTenant(user, true, groupFlag);
             // 新增用户创建默认头像
             Long timeStamp = System.currentTimeMillis();
-            String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
-                            + "/" + user.getId() + ".png";
+
             String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
             user.setImagePath(newFilename + "?t=" + timeStamp);
@@ -267,7 +277,7 @@ public class UserServiceImpl implements IUserService {
             List<SysUserTenant> saveList = new ArrayList<>();
             for (Integer tenantId : tenantIds) {
                 // 生成该租户下所有系统的关联数据
-                List<DictDto> systems = DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, tenantId);
+                List<DictDto> systems = null;// DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, tenantId);
                 if (CollectionUtils.isNotEmpty(systems)) {
                     for (DictDto dict : systems) {
                         record = new SysUserTenant();
@@ -276,6 +286,9 @@ public class UserServiceImpl implements IUserService {
                         record.setTelephone(user.getTelephone());
                         record.setFkTenantId(tenantId);
                         record.setFkUserId(user.getId());
+                        if (user.getId() == Long.parseLong(user.getFkTenantId() + "0000000001")) {
+                            record.setId(Long.parseLong(user.getFkTenantId() + "0000000001"));
+                        }
                         record.setSysOwner(dict.getItemCode());
                         DataUtil.setSystemFieldValue(record);
                         saveList.add(record);

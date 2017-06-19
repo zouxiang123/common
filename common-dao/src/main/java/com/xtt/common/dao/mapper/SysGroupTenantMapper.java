@@ -6,7 +6,11 @@ import com.xtt.common.dao.model.SysGroupTenant;
 
 @Repository
 public interface SysGroupTenantMapper {
-    int insert(SysGroupTenant record);
+	int insert(SysGroupTenant record);
 
-    int insertSelective(SysGroupTenant record);
+	int insertSelective(SysGroupTenant record);
+
+	int save(SysGroupTenant record);
+
+	SysGroupTenant getSysGroupByFkTenantId(SysGroupTenant sysGroupTenant);
 }
