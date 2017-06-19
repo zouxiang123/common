@@ -845,7 +845,7 @@
 	    	and  p.name = #{ptName,jdbcType=VARCHAR}
        </if>
        <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-	    	and charges_date between #{startDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+	    	and enter_time between #{startDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
        </if>
         <if test="chargesCode != null and chargesCode != ''">
 	    	and  po.charges_code = #{chargesCode,jdbcType=VARCHAR}
