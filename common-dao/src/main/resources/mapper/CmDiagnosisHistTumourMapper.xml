@@ -164,14 +164,16 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- user define -->
-  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" />
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" >
+    <result column="name" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
   <!-- 根据id查询数据 -->
   <select id="getById" parameterType="java.lang.Long" resultMap="POResultMap">
     select dht.* from cm_diagnosis_hist_tumour dht where id = #{id}
   </select>
   <!-- 根据自定义条件查询数据 -->
   <select id="listByCondition" parameterType="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" resultMap="POResultMap">
-    SELECT dht.* FROM cm_diagnosis_hist_tumour dht
+    SELECT dht.*,st.name FROM cm_diagnosis_hist_tumour dht LEFT JOIN sys_tenant st on st.id = dht.fk_tenant_id
     <where>
       <if test="fkPatientId != null">
         dht.fk_patient_id = #{fkPatientId}
@@ -183,10 +185,12 @@
         AND dht.record_type = #{recordType}
       </if>
       <if test="fkTenantId != null">
-        AND dht.fk_tenant_id = #{fkTenantId}
+        AND dht.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
+        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = #{fkTenantId})) 
       </if>
       <if test="multiTenant != null">
-        AND dht.fk_tenant_id in (${multiTenant })
+        AND dht.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
+        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = #{multiTenant}))
       </if>
     </where>
     ORDER BY dht.id DESC;
