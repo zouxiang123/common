@@ -79,12 +79,6 @@ public class CmDictDiagnosis {
     private Boolean isEnable;
 
     /**
-     * 租户id
-     * cm_dict_diagnosis.fk_tenant_id
-     */
-    private Integer fkTenantId;
-
-    /**
      * 创建时间
      * cm_dict_diagnosis.create_time
      */
@@ -274,20 +268,6 @@ public class CmDictDiagnosis {
      */
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
-    }
-
-    /**
-     * 租户id
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     * 租户id
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
     }
 
     /**

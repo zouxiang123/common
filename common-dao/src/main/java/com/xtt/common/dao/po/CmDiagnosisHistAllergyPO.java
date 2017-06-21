@@ -19,6 +19,15 @@ public class CmDiagnosisHistAllergyPO extends CmDiagnosisHistAllergy {
     private String inputDateForm;
     private String allergensShow;
     private String createTimeShow;
+    private String hospitalName; // 就诊医院
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
 
     public String getOperatorName() {
         return operatorName;

@@ -25,6 +25,7 @@
     <result column="e_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="e_update_user_id" jdbcType="BIGINT" property="updateUserId" />
     <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="name" jdbcType="VARCHAR" property="hospitalName" />
     
 	<collection property="valueList" ofType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO" column="fk_entity_id">
 	  <id column="v_id" jdbcType="BIGINT" property="id" />
@@ -205,7 +206,7 @@
     v.update_user_id as v_update_user_id
     from cm_diagnosis_entity e,cm_diagnosis_entity_value v
     ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
+    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code 
     and v.fk_entity_id=e.id and e.id = #{id,jdbcType=BIGINT}
   </select>
   
@@ -233,17 +234,24 @@
     v.create_time as v_create_time,
     v.create_user_id as v_create_user_id,
     v.update_time as v_update_time,
-    v.update_user_id as v_update_user_id
-    from cm_diagnosis_entity e,cm_diagnosis_entity_value v
-    ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
-    and v.fk_entity_id=e.id and e.fk_patient_id=#{fkPatientId}
+    v.update_user_id as v_update_user_id,
+    st.name
+     from cm_diagnosis_entity e 
+			INNER JOIN cm_diagnosis_entity_value v on v.fk_entity_id=e.id
+			INNER JOIN  sys_user su on su.id = e.create_user_id
+			INNER JOIN sys_user usu on usu.id = e.update_user_id
+			INNER JOIN cm_dict_diagnosis cdd on cdd.item_code = e.item_code
+			INNER JOIN sys_tenant st on st.id = e.fk_tenant_id
+
+   where  e.fk_patient_id=#{fkPatientId}
     <if test="itemCode != null">
       and e.item_code = #{itemCode,jdbcType=VARCHAR}
     </if>
     <if test="multiTenant != null">
-        and e.fk_tenant_id in (${multiTenant })
+        and e.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
+        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = ${multiTenant }))
     </if>
     order by e.id desc
   </select>
 </mapper>
+

@@ -25,6 +25,16 @@ public class CmDiagnosisHistPestilencePO extends CmDiagnosisHistPestilence {
     private String treatmentShow;
     private String createTimeShow;
 
+    private String hospitalName; // 就诊医院
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
+
     public String getOperatorName() {
         return operatorName;
     }

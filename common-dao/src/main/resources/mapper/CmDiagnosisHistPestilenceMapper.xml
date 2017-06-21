@@ -255,18 +255,21 @@
   </update>
   
   <!-- 自定义 -->
-  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistPestilencePO" />
+  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistPestilencePO" >
+    <result column="name" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
   
   <!-- 根据患者id查询数据 -->
   <select id="selectByPatient" resultMap="POResultMap">
-    select 
-    cdhp.*,
-    (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
-    from cm_diagnosis_hist_pestilence cdhp, sys_user su, sys_user usu
-    where su.id = cdhp.create_user_id and usu.id = cdhp.update_user_id
-    and cdhp.fk_patient_id = #{patientId,jdbcType=BIGINT} 
+    SELECT cdhp.*,st.name,
+			(case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
+		from cm_diagnosis_hist_pestilence cdhp INNER JOIN sys_user su on  su.id = cdhp.create_user_id
+		INNER JOIN sys_user usu on usu.id = cdhp.update_user_id
+		INNER JOIN sys_tenant st on st.id = cdhp.fk_tenant_id
+    where cdhp.fk_patient_id = #{patientId,jdbcType=BIGINT} 
     <if test="multiTenant != null">
-        and cdhp.fk_tenant_id in (${multiTenant })
+        and cdhp.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
+        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = ${multiTenant }))
     </if>
     order by cdhp.id desc
   </select>
