@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +26,7 @@ import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
+import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
@@ -64,6 +66,7 @@ import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.secret.AESUtil;
 
 @Service
 public class CommonCacheServiceImpl implements ICommonCacheService {
@@ -261,6 +264,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     public void cacheAll() {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
+        cacheAuthority();
         List<SysTenant> tenantList = sysTenantService.selectAll();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
@@ -315,5 +319,27 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             map.put(FamilyInitialCache.getKey(record.getName()), toObj);
         }
         FamilyInitialCache.init(map);
+    }
+
+    @Override
+    public void cacheAuthority(String content) {
+        Map<String, String> map = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(content)) {
+            String key = AESUtil.decrypt(content);
+            String[] lics = key.split(";");
+            for (String kv : lics) {
+                map.put(kv.split("=")[0], kv.split("=")[1]);
+            }
+        }
+        TenantAuthorityCache.cacheALL(map);
+    }
+
+    @Override
+    public void cacheAuthority() {
+        List<SysTenant> tenantList = sysTenantService.selectAll();
+        for (SysTenant st : tenantList) {
+            String content = st.getLicense();
+            cacheAuthority(content);
+        }
     }
 }

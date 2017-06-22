@@ -84,4 +84,8 @@ public interface ICommonCacheService {
      *
      */
     public void cacheFamilyInitial();
+
+    public void cacheAuthority(String lic);
+
+    public void cacheAuthority();
 }

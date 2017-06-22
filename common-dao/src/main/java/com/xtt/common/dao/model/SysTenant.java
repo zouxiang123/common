@@ -36,6 +36,22 @@ public class SysTenant {
     private Date endDate;
 
     /**
+     * sys_tenant.is_default
+     */
+    private Boolean isDefault;
+
+    /**
+     * 集团虚拟租户标识（1：集团虚拟租户，0：普通租户）
+     * sys_tenant.group_flag
+     */
+    private Boolean groupFlag;
+
+    /**
+     * sys_tenant.license
+     */
+    private String license;
+
+    /**
      * 创建时间
      * sys_tenant.create_time
      */
@@ -58,11 +74,6 @@ public class SysTenant {
      * sys_tenant.update_user_id
      */
     private Long updateUserId;
-
-    /**
-     * sys_tenant.is_default
-     */
-    private Boolean isDefault;
 
     /**
      */
@@ -133,6 +144,44 @@ public class SysTenant {
     }
 
     /**
+     */
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    /**
+     */
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    /**
+     * 集团虚拟租户标识（1：集团虚拟租户，0：普通租户）
+     */
+    public Boolean getGroupFlag() {
+        return groupFlag;
+    }
+
+    /**
+     * 集团虚拟租户标识（1：集团虚拟租户，0：普通租户）
+     */
+    public void setGroupFlag(Boolean groupFlag) {
+        this.groupFlag = groupFlag;
+    }
+
+    /**
+     */
+    public String getLicense() {
+        return license;
+    }
+
+    /**
+     */
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    /**
      * 创建时间
      */
     public Date getCreateTime() {
@@ -186,17 +235,5 @@ public class SysTenant {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
-    }
-
-    /**
-     */
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
-
-    /**
-     */
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
     }
 }

@@ -130,4 +130,9 @@ public class CommonConstants {
     public static final String PATIENT_MEDICARE_CARD_TYPE_COUNTRY_MEDICARE_CARD = "06";
     /*-------------- common patient medicare card type end -------------- */
 
+    /** dialysis machine number */
+    public static final String BED_NUM = "bed_num";
+    /** dialysis machine online_num */
+    public static final String ONLINE_NUM = "online_num";
+
 }
