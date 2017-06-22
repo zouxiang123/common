@@ -277,7 +277,7 @@ public class UserServiceImpl implements IUserService {
             List<SysUserTenant> saveList = new ArrayList<>();
             for (Integer tenantId : tenantIds) {
                 // 生成该租户下所有系统的关联数据
-                List<DictDto> systems = null;// DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, tenantId);
+                List<DictDto> systems = DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, tenantId);
                 if (CollectionUtils.isNotEmpty(systems)) {
                     for (DictDto dict : systems) {
                         record = new SysUserTenant();
