@@ -408,7 +408,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             sysTenant2.setLicense(licensorStr);
             sysTenant2.setId(sysTenant.getId());
             sysTenantMapper.updateByPrimaryKeySelective(sysTenant2);
-            map.put("status", '0');
+            map.put("status", '1');
         }
         return map;
     }
