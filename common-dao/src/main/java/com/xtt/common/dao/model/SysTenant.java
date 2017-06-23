@@ -47,6 +47,11 @@ public class SysTenant {
     private Boolean groupFlag;
 
     /**
+     * sys_tenant.license
+     */
+    private String license;
+
+    /**
      * 创建时间
      * sys_tenant.create_time
      */
@@ -162,6 +167,18 @@ public class SysTenant {
      */
     public void setGroupFlag(Boolean groupFlag) {
         this.groupFlag = groupFlag;
+    }
+
+    /**
+     */
+    public String getLicense() {
+        return license;
+    }
+
+    /**
+     */
+    public void setLicense(String license) {
+        this.license = license;
     }
 
     /**

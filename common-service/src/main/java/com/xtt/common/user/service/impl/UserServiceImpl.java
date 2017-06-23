@@ -34,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.common.service.ISysLogService;
@@ -42,6 +43,7 @@ import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
+import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.model.SysUserTenant;
@@ -467,6 +469,16 @@ public class UserServiceImpl implements IUserService {
     public Map<String, Object> loginSubmit(String account, String password, Integer tenantId, Boolean groupAdmin, String sysOwner, Boolean isSwitch)
                     throws Exception {
         Map<String, Object> map = new HashMap<>();
+        SysTenant st = sysTenantService.getById(tenantId);
+        // 非集团管理员需要校验权限
+        if (st != null && !st.getGroupFlag()) {
+            UserUtil.setThreadTenant(tenantId);
+            if (TenantAuthorityCache.getValue(CommonConstants.SYS_HD) == null) {
+                map.put(CommonConstants.API_ERROR_MESSAGE, "当前医院没有权限使用该系统，请联系管理员！");
+                map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
+                return map;
+            }
+        }
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password) && tenantId != null) {
             // 如果不是切换系统，且密码不为空，md5 password
             if (isSwitch == null && StringUtil.isNotBlank(password)) {
