@@ -150,6 +150,16 @@ public class PatientDto {
      */
     private String multiTenantId;
 
+    private Boolean delFlag;
+
+    public Boolean getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Boolean delFlag) {
+        this.delFlag = delFlag;
+    }
+
     public Long getId() {
         return id;
     }
