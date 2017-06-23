@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.SyncModuleMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.SyncModule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_sync_group_id" jdbcType="BIGINT" property="fkSyncGroupId" />
+    <result column="module" jdbcType="VARCHAR" property="module" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_sync_group_id, module
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sync_module
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from sync_module
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.SyncModule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sync_module (id, fk_sync_group_id, module
+      )
+    values (#{id,jdbcType=BIGINT}, #{fkSyncGroupId,jdbcType=BIGINT}, #{module,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SyncModule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sync_module
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkSyncGroupId != null">
+        fk_sync_group_id,
+      </if>
+      <if test="module != null">
+        module,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkSyncGroupId != null">
+        #{fkSyncGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="module != null">
+        #{module,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.SyncModule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sync_module
+    <set>
+      <if test="fkSyncGroupId != null">
+        fk_sync_group_id = #{fkSyncGroupId,jdbcType=BIGINT},
+      </if>
+      <if test="module != null">
+        module = #{module,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.SyncModule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sync_module
+    set fk_sync_group_id = #{fkSyncGroupId,jdbcType=BIGINT},
+      module = #{module,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- user denfie -->
+  <!-- 根据同步组id删除数据 -->
+  <delete id="deleteBySyncGroupId">
+    delete from sync_module where fk_sync_group_id = #{fkSyncGroupId}
+  </delete>
+  
+  <select id="listBySyncGroupId" resultMap="BaseResultMap">
+    select * from sync_module where fk_sync_group_id = #{fkSyncGroupId}
+  </select>
+</mapper>
