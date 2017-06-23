@@ -30,11 +30,11 @@ public class UserUtilContext {
 
     public static void setLoginUser(String token, LoginUser loginUser) {
         // 同一帐号后登陆踢除上次登陆状态
-        String hisToken = ContextAuthUtil.getTokenByAccount(loginUser.getAccount());
+        String hisToken = ContextAuthUtil.getTokenByAccount(loginUser.getTenantId() + loginUser.getAccount());
         if (hisToken != null) {
             ContextAuthUtil.delAuth(hisToken);
         }
-        ContextAuthUtil.setAccount2Token(loginUser.getAccount(), token);
+        ContextAuthUtil.setAccount2Token(loginUser.getTenantId() + loginUser.getAccount(), token);
         HashMap<String, Object> auth = new HashMap<String, Object>();
         auth.put(CommonConstants.LOGIN_USER, loginUser);
         ContextAuthUtil.addAuth(token, auth);

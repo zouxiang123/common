@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -112,9 +113,10 @@ public class SyncGroupServiceImpl implements ISyncGroupService {
                     if (syncModules.containsAll(Arrays.asList(modules))) {
                         List<SyncGroupTenant> syncGroupTenants = syncGroupTenantMapper.listBySyncGroupId(syncGroupId);
                         if (CollectionUtils.isNotEmpty(syncGroupTenants) && syncGroupTenants.size() > 1) {// 存在需要同步的租户，且同步的租户数目至少要有两家
-                            List<Integer> tenants = new ArrayList<>(syncGroupTenants.size());
-                            syncGroupTenants.forEach(record -> {
-                                tenants.add(record.getFkTenantId());
+                            List<Integer> tenants = new ArrayList<>(syncGroupTenants.size() - 1);
+                            syncGroupTenants.forEach(record -> {// 不包含当前租户
+                                if (!Objects.equals(tenantId, record.getFkTenantId()))
+                                    tenants.add(record.getFkTenantId());
                             });
                             return tenants;
                         }

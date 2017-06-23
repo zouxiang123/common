@@ -13,7 +13,8 @@ import java.util.Objects;
 import com.xtt.platform.util.lang.StringUtil;
 
 public enum SyncModuleEnum {
-    dict("字典", "dict"), drug("药品", "drug"), supplies("耗材", "supplies"), complication("并发症", "complication"), medical_order("医嘱", "medical_order");
+    cm_dict("字典", "cm_dict"), drug("药品", "drug"), supplies("耗材", "supplies"), complication("并发症", "complication"), medical_order_dict("医嘱字典",
+                    "medical_order_dict");
 
     private String name;
     private String value;
