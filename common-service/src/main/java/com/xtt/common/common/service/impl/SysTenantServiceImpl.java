@@ -397,14 +397,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
         HashMap<String, Object> map = new HashMap<>();
         String licensorStr = getLicensorStr(licensorUpload.getInputStream());
         if (licensorStr.length() > 1024) {
-            map.put("status", '0');
+            map.put("status", CommonConstants.FAILURE);
             map.put("result", "文件过大");
         } else {
             SysTenant sysTenant2 = new SysTenant();
             sysTenant2.setLicense(licensorStr);
             sysTenant2.setId(sysTenant.getId());
             sysTenantMapper.updateByPrimaryKeySelective(sysTenant2);
-            map.put("status", '0');
+            map.put("status", CommonConstants.SUCCESS);
         }
         return map;
     }
@@ -420,11 +420,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
     private String getLicensorStr(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
-
+        String str = null;
         String line = null;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+            }
+            if (sb.length() > 0) {
+                str = sb.substring(0, sb.length() - 2);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -436,7 +439,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             }
         }
 
-        return sb.toString();
+        return str;
     }
 
     @Override
