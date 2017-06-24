@@ -45,6 +45,7 @@ import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
 
@@ -129,8 +130,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 "stage_assessment_config", "Supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child",
                 "year_evaluation_conf" };
         String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
-        sysTenantMapper.setPrimaryKeyById(sysTenant.getFkTenantId() + "SysUser");
-        sysTenantMapper.setPrimaryKeyById(sysTenant.getFkTenantId() + "SysUserTenant");
+        PrimaryKeyUtil.getPrimaryKey("SysUser", sysTenant.getId());
+        PrimaryKeyUtil.getPrimaryKey("SysUserTenant", sysTenant.getId());
         for (int i = 0; i < tableNames.length; i++) {
             System.out.println(tableNames[i]);
             List<String> tablePropertyNameList = sysTenantMapper.listTablePropertyName(tableSchema, tableNames[i]);
@@ -160,20 +161,17 @@ public class SysTenantServiceImpl implements ISysTenantService {
         if (sysTenant.getId() == null) {
 
             Map<String, Object> map = new HashMap<>();
-            sysTenant.setCreateUserId(UserUtil.getLoginUserId());
             sysTenant.setIsEnable(true);
             sysTenant.setGroupFlag(false);
             sysTenant.setStartDate(new Date());
             sysTenant.setEndDate(DateFormatUtil.convertStrToDate("2099-01-01", "yyyy-MM-dd"));
-            DataUtil.setSystemFieldValue(sysTenant);
-            sysTenantMapper.savaSysTenant(sysTenant);
-            SysTenant sysTenant3 = new SysTenant();
-            sysTenant3.setName(sysTenant.getName());
-            List<SysTenant> sysTenantList = sysTenantMapper.listByCondition(sysTenant3);
-            SysTenant sysTenant2 = sysTenantList.get(0);
+            DataUtil.setAllSystemFieldValue(sysTenant);
+            sysTenant.setId(PrimaryKeyUtil.getPrimaryKey("SysTenant", sysTenant.getFkGroupId()).intValue());
+            sysTenantMapper.insert(sysTenant);
+            // sysTenantMapper.savaSysTenant(sysTenant);
             SysGroupTenant sysGroupTenant = new SysGroupTenant();
             sysGroupTenant.setFkGroupId(sysTenant.getFkGroupId());
-            sysGroupTenant.setFkTenantId(sysTenant2.getId());
+            sysGroupTenant.setFkTenantId(sysTenant.getId());
             sysGroupTenant.setpTenantId(sysTenant.getFkGroupId());
             sysGroupTenantMapper.save(sysGroupTenant);
 
@@ -190,17 +188,17 @@ public class SysTenantServiceImpl implements ISysTenantService {
             File blankFrontImgFile = new File(blankFrontImg);
             File defaultUserImgFile = new File(defaultUserImg);
 
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH);
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH);
             File temp = null;
 
-            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/blank_background.png");
+            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/blank_background.png");
             copyFileUsingFileStreams(blankBackgroundImgFile, temp);
-            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/blank_front.png");
+            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/blank_front.png");
             copyFileUsingFileStreams(blankFrontImgFile, temp);
-            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/default-user.png");
+            temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/default-user.png");
             copyFileUsingFileStreams(defaultUserImgFile, temp);
             if (logoUpload != null) {
-                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/logo"
+                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/logo"
                                 + logoUpload.getOriginalFilename().substring(logoUpload.getOriginalFilename().lastIndexOf(".")));
                 logoUpload.transferTo(temp);
                 if (!checkImg(temp)) {
@@ -208,7 +206,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 }
             }
             if (logoPrintUpload != null) {
-                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/logo_print"
+                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/logo_print"
                                 + logoPrintUpload.getOriginalFilename().substring(logoPrintUpload.getOriginalFilename().lastIndexOf(".")));
                 logoPrintUpload.transferTo(temp);
                 if (!checkImg(temp)) {
@@ -216,7 +214,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 }
             }
             if (tvLogoUpload != null) {
-                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant2.getId() + "/" + "images" + "/tv_logo"
+                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/tv_logo"
                                 + tvLogoUpload.getOriginalFilename().substring(tvLogoUpload.getOriginalFilename().lastIndexOf(".")));
                 tvLogoUpload.transferTo(temp);
                 if (!checkImg(temp)) {
@@ -226,25 +224,23 @@ public class SysTenantServiceImpl implements ISysTenantService {
             /*
              * 创建文件夹
              */
-            newFilePath(sysTenant2.getId(), CommonConstants.ANNOUNCEMENT_FILE_PATH); // 创建公告路径
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.COMPLICATION); // 并发症目录
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_DIALYSIS_MACHINE); // 透析机二维码目录
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT); // 患者
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT_BARCODE); // 患者二维码
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH); // 医护人员头像目录
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.HEALTH_COMMUNITIES); // 健康社区目录
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.HEALTH_PROPAGANDA); // 健康宣教目录
-            newFilePath(sysTenant2.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.QC_FILE_PATH); // 通路目录
-            newFilePath(sysTenant2.getId(), CommonConstants.PATHWAY); // 质控文件下载路径
-            newFilePath(sysTenant2.getId(), CommonConstants.TEMP); // 下功或控件生成的临时文件
+            newFilePath(sysTenant.getId(), CommonConstants.ANNOUNCEMENT_FILE_PATH); // 创建公告路径
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.COMPLICATION); // 并发症目录
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_DIALYSIS_MACHINE); // 透析机二维码目录
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT); // 患者
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT_BARCODE); // 患者二维码
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH); // 医护人员头像目录
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.HEALTH_COMMUNITIES); // 健康社区目录
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.HEALTH_PROPAGANDA); // 健康宣教目录
+            newFilePath(sysTenant.getId(), CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.QC_FILE_PATH); // 通路目录
+            newFilePath(sysTenant.getId(), CommonConstants.PATHWAY); // 质控文件下载路径
+            newFilePath(sysTenant.getId(), CommonConstants.TEMP); // 下功或控件生成的临时文件
 
             /*基础数据的导入
              */
-            SysTenantPO sysBasicsGroupPo = new SysTenantPO();
-            sysBasicsGroupPo.setFkTenantId(sysTenant2.getId().toString());
-            sysBasicsGroupPo.setTemplate("10101");
-            this.saveSysBasicsGroup(sysBasicsGroupPo);
-            map.put("userName", sysBasicsGroupPo.getFkTenantId());
+            sysTenant.setTemplate("10101");
+            this.saveSysBasicsGroup(sysTenant);
+            map.put("userName", sysTenant.getId());
             return map;
         } else {
             Map<String, Object> map = new HashMap<>();
@@ -339,9 +335,9 @@ public class SysTenantServiceImpl implements ISysTenantService {
         StringBuffer str = new StringBuffer();
         for (String property : tablePropertyNameList) {
             if ("id".equals(property)) {
-                str.append("getPrimaryKey('" + sysTenant.getFkTenantId() + upTable(tableName) + "')").append(", ");
+                str.append("getPrimaryKey('" + sysTenant.getId() + upTable(tableName) + "')").append(", ");
             } else if ("fk_tenant_id".equals(property)) {
-                str.append("'" + sysTenant.getFkTenantId() + "'").append(", ");
+                str.append("'" + sysTenant.getId() + "'").append(", ");
             } else if ("create_time".equals(property)) {
                 str.append("'" + DateUtil.format(new Date(), "yyyy-MM-dd HH:mm:ss") + "'").append(", ");
             } else if ("update_time".equals(property)) {
@@ -408,7 +404,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             sysTenant2.setLicense(licensorStr);
             sysTenant2.setId(sysTenant.getId());
             sysTenantMapper.updateByPrimaryKeySelective(sysTenant2);
-            map.put("status", '1');
+            map.put("status", '0');
         }
         return map;
     }
@@ -495,17 +491,18 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public void savaUser(SysTenantPO sysTenant) {
         SysUserPO user = new SysUserPO();
-        user.setAccount(sysTenant.getFkTenantId());
+        user.setAccount(sysTenant.getId() + "");
         user.setGroupFlag(false);
-        user.setName(sysTenant.getFkTenantId());
-        user.setRoleId(sysTenant.getFkTenantId() + "0000000001");// `
+        user.setName("管理员");
+        user.setRoleId(sysTenant.getId() + "0000000001");// `
         user.setRoleType("1");
         user.setPosition("管理员");
-        user.setMultiTenant(sysTenant.getFkTenantId());
-        user.setFkTenantId(Integer.parseInt(sysTenant.getFkTenantId()));
+        user.setMultiTenant(sysTenant.getId() + "");
+        user.setFkTenantId(sysTenant.getId());
         userService.saveUser(user);
     }
 
+    @Override
     public List<SysTenant> listByPTenantId(Integer pTenantId) {
         return sysTenantMapper.listByPTenantId(pTenantId);
     }
