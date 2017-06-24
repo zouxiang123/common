@@ -65,16 +65,6 @@ public interface SysTenantMapper {
     List<SysTenant> listByIds(@Param("ids") Collection<Integer> ids);
 
     /**
-     * 保存租户号
-     * 
-     * @Title: savaSysTenant
-     * @param sysTenant
-     * @return
-     *
-     */
-    int savaSysTenant(SysTenant sysTenant);
-
-    /**
      * 更新新插入并发症字典中pid 这列 表中内关联
      * 
      * @Title: upComplicationDictionary

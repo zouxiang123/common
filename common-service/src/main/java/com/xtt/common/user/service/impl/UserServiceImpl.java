@@ -112,6 +112,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String saveUser(SysUserPO user) {
+
         if (StringUtil.isNotBlank(user.getName())) {
             user.setName(user.getName().trim());
             user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));

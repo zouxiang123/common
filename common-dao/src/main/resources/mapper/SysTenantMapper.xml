@@ -242,17 +242,7 @@
   <select id="listByIds" resultMap="BaseResultMap">
     select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
   </select>
-  <insert id="savaSysTenant" parameterType="com.xtt.common.dao.model.SysTenant">
-     insert into sys_tenant (id, name, is_enable, 
-      start_date, end_date, is_default, 
-      group_flag, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (getPrimaryKey('10000SysTenant'), #{name,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isDefault,jdbcType=BIT}, 
-      #{groupFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
-  
-  </insert>
+ 
    <!-- 更新新插入并发症字典中pid 这列 表中内关联 -->
     <update id="updateComplicationDictionary">
         update complication_dictionary set p_id = concat(#{id},SUBSTR(p_id,6,10)) where fk_tenant_id = #{id} and p_id != 0
