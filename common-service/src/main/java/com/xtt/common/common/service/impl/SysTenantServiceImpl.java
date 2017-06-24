@@ -445,11 +445,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public SysGroupTenant getSysGroupTenantByFkTenantId(SysTenant sysTenant) {
-        SysGroupTenant sysGroupTenant = new SysGroupTenant();
-        sysGroupTenant.setFkTenantId(sysTenant.getId());
-        SysGroupTenant getSysGroupTenantbyId = sysGroupTenantMapper.getSysGroupByFkTenantId(sysGroupTenant);
-        return getSysGroupTenantbyId;
+    public SysGroupTenant getSysGroupTenantByFkTenantId(Integer fkTenantId) {
+        return sysGroupTenantMapper.getSysGroupByFkTenantId(fkTenantId);
     }
 
     @Override

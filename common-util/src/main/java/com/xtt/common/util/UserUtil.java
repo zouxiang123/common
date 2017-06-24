@@ -342,6 +342,21 @@ public class UserUtil {
     }
 
     /**
+     * 获取当前所属集团下所有租户字符串
+     * 
+     * @Title: getGroupTenant
+     * @return (以,分隔的多个租户id)
+     *
+     */
+    public static String getGroupTenant() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user == null) {
+            return null;
+        }
+        return StringUtil.stripToNull(user.getGroupTenant());
+    }
+
+    /**
      * 获取多个租户id集合
      * 
      * @Title: listTenantIds

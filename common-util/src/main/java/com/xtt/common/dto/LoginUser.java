@@ -23,6 +23,7 @@ public class LoginUser {
     private String sysOwner;
     private String userType; // 用户类别
     private String multiTenant;// 该用户拥有权限的租户id
+    private String groupTenant;// 当前集团下租户列表,以“,”分隔
     private String multiSysOwner;// 该用户拥有权限的系统
     // APP用
     private Long patientId;
@@ -209,6 +210,14 @@ public class LoginUser {
 
     public void setMultiSysOwner(String multiSysOwner) {
         this.multiSysOwner = multiSysOwner;
+    }
+
+    public String getGroupTenant() {
+        return groupTenant;
+    }
+
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
     }
 
 }

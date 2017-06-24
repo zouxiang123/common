@@ -42,6 +42,8 @@ import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysUser2roleMapper;
 import com.xtt.common.dao.mapper.SysUserMapper;
+import com.xtt.common.dao.model.SysGroupTenant;
+import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.model.SysUserTenant;
@@ -522,6 +524,15 @@ public class UserServiceImpl implements IUserService {
                         loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
                     } else {
                         loginUser.setPositionShow(sysUser.getPosition());
+                    }
+                    SysGroupTenant sgt = sysTenantService.getSysGroupTenantByFkTenantId(tenantId);
+                    List<SysTenant> stList = sysTenantService.listByGroupId(sgt.getFkGroupId());
+                    if (CollectionUtils.isNotEmpty(stList)) {
+                        StringBuilder sts = new StringBuilder();
+                        stList.forEach(st -> {
+                            sts.append(",").append(st.getId());
+                        });
+                        loginUser.setGroupTenant(sts.toString().substring(1));
                     }
                     // refresh redis cache
                     UserUtil.setLoginUser(loginUser);

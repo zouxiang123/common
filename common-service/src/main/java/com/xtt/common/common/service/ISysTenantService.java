@@ -157,7 +157,7 @@ public interface ISysTenantService {
      * @return
      *
      */
-    SysGroupTenant getSysGroupTenantByFkTenantId(SysTenant sysTenant);
+    SysGroupTenant getSysGroupTenantByFkTenantId(Integer fkTenantId);
 
     /**
      * 查询医院名称是否重复
