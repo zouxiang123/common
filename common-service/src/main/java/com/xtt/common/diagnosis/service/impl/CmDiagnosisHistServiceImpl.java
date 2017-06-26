@@ -38,7 +38,7 @@ public class CmDiagnosisHistServiceImpl implements ICmDiagnosisHistService {
      */
     @Override
     public List<CmDiagnosisHistPO> selectByPatient(Long patientId) {
-        return cmDiagnosisHistMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
+        return cmDiagnosisHistMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**

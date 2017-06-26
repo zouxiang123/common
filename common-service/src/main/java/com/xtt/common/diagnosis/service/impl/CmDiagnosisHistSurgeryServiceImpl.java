@@ -43,7 +43,7 @@ public class CmDiagnosisHistSurgeryServiceImpl implements ICmDiagnosisHistSurger
      */
     @Override
     public List<CmDiagnosisHistSurgeryPO> selectSurgeriesByPatient(Long patientId) {
-        return cmDiagnosisHistSurgeryMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
+        return cmDiagnosisHistSurgeryMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**

@@ -43,7 +43,7 @@ public class CmDiagnosisHistPestilenceServiceImpl implements ICmDiagnosisHistPes
      */
     @Override
     public List<CmDiagnosisHistPestilencePO> selectPestilencesByPatient(Long patientId) {
-        return cmDiagnosisHistPestilenceMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
+        return cmDiagnosisHistPestilenceMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**

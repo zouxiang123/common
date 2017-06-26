@@ -51,7 +51,7 @@ public class CmDiagnosisHistTumourServiceImpl implements ICmDiagnosisHistTumourS
     public List<CmDiagnosisHistTumourPO> listByPatientId(Long patientId) {
         CmDiagnosisHistTumourPO record = new CmDiagnosisHistTumourPO();
         record.setFkPatientId(patientId);
-        record.setMultiTenant(UserUtil.getMultiTenant());
+        record.setGroupTenant(UserUtil.getGroupTenant());
         return listByCondition(record);
     }
 

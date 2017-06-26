@@ -184,14 +184,10 @@
       <if test="recordType != null">
         AND dht.record_type = #{recordType}
       </if>
-      <if test="fkTenantId != null">
-        AND dht.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
-        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = #{fkTenantId})) 
+      <if test="groupTenant != null and groupTenant !=''">
+        AND dht.fk_tenant_id in (${groupTenant}) 
       </if>
-      <if test="multiTenant != null">
-        AND dht.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
-        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = #{multiTenant}))
-      </if>
+     
     </where>
     ORDER BY dht.id DESC;
   </select>
