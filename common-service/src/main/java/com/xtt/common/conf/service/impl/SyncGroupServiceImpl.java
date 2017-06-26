@@ -8,6 +8,8 @@
  */
 package com.xtt.common.conf.service.impl;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -31,6 +33,7 @@ import com.xtt.common.dao.po.SyncGroupPO;
 import com.xtt.common.enums.SyncModuleEnum;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.PinyinUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -154,4 +157,14 @@ public class SyncGroupServiceImpl implements ISyncGroupService {
         return syncGroupMapper.listCanAssociateTenants(syncGroupId, UserUtil.getTenantId());
     }
 
+    @Override
+    public String getSyncCode(String name) {
+        String initialStr = "";
+        if (StringUtil.isNotBlank(name)) {
+            String initials = PinyinUtil.getShortPinyin(name.replaceAll(",|\"|'", ""));
+            initialStr = initials.length() > 10 ? initials.substring(0, 10) : initials;
+        }
+        String dateStr = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+        return initialStr.concat("_").concat(dateStr);
+    }
 }

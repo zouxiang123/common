@@ -70,4 +70,14 @@ public interface ISyncGroupService {
      *
      */
     List<Map<String, String>> listCanAssociateTenants(Long syncGroupId);
+
+    /**
+     * 根据名称获取对应的同步编号（取name的前十位首字符_当前时间）
+     * 
+     * @Title: getSyncCode
+     * @param name
+     * @return
+     *
+     */
+    String getSyncCode(String name);
 }
