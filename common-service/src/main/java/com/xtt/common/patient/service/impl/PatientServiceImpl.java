@@ -112,6 +112,7 @@ public class PatientServiceImpl implements IPatientService {
             owner.setSysOwner(UserUtil.getSysOwner());
             owner.setFkTenantId(UserUtil.getTenantId());
             owner.setIsEnable(true);
+            DataUtil.setAllSystemFieldValue(owner);
             patientOwnerService.insert(owner);
             // 插入传染病标识数据
             insertAssayResult(patient.getId(), isImport);

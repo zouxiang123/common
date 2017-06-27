@@ -47,7 +47,7 @@ public interface ISyncGroupService {
      * @Title: listTenantId
      * @param tenantId
      * @param modules
-     * @return
+     * @return 同步的租户id集合，不包含当前租户
      *
      */
     List<Integer> listTenantId(Integer tenantId, String... modules);
@@ -70,4 +70,14 @@ public interface ISyncGroupService {
      *
      */
     List<Map<String, String>> listCanAssociateTenants(Long syncGroupId);
+
+    /**
+     * 根据名称获取对应的同步编号（取name的前十位首字符_当前时间）
+     * 
+     * @Title: getSyncCode
+     * @param name
+     * @return
+     *
+     */
+    String getSyncCode(String name);
 }
