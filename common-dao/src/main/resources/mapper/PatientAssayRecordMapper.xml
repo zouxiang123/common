@@ -706,6 +706,9 @@
           FROM patient_assay_record par
           WHERE par.fk_tenant_id = #{tenantId}
           AND par.assay_date &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d') AND par.assay_date &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
+          <if test="fkPatientId != null">
+            AND par.fk_patient_id = #{fkPatientId}
+          </if>
           GROUP BY par.fk_patient_id,par.assay_date) t
     LEFT JOIN stage_summary ss ON ss.fk_patient_id = t.fkPatientId AND ss.stage_date = t.assayDate
     LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = t.fkPatientId AND DATE_FORMAT(dc.create_time,'%Y-%m-%d') = t.assayDate AND dc.fk_tenant_id = #{tenantId}
@@ -836,19 +839,6 @@
     ORDER BY par.fk_patient_id,par.item_code,par.assay_date DESC
   </select>
   
-  <!-- 生成特定患者的阶段小结数据 -->
-  <select id="getLatestAssayDateByPatient" resultType="map">
-    SELECT t.*,ss.id AS stageId,dc.id AS dcId
-    FROM (SELECT par.assay_date AS assayDate, par.fk_patient_id AS fkPatientId
-          FROM patient_assay_record par
-          WHERE par.fk_tenant_id = #{tenantId}
-          AND par.assay_date &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d') AND par.assay_date &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
-          AND par.fk_patient_id = #{fkPatientId}
-          GROUP BY par.fk_patient_id,par.assay_date) t
-    LEFT JOIN stage_summary ss ON ss.fk_patient_id = t.fkPatientId AND ss.stage_date = t.assayDate
-    LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = t.fkPatientId AND DATE_FORMAT(dc.create_time,'%Y-%m-%d') = t.assayDate AND dc.fk_tenant_id = #{tenantId}
-    ORDER BY t.assayDate
-  </select>
   <!-- 手动添加化验项 -->
     <insert id="insertPatientAssay" parameterType="java.util.List">
       <!--

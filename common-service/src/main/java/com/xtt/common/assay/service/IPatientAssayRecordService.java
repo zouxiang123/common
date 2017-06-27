@@ -110,7 +110,7 @@ public interface IPatientAssayRecordService {
      * @return
      * 
      */
-    List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTime);
+    List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTime, Long fkPatientId);
 
     /**
      * 根据月份查询月份的化验明细
@@ -170,11 +170,6 @@ public interface IPatientAssayRecordService {
      *
      */
     List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue);
-
-    /**
-     * 根据特定患者查询阶段小结数据
-     */
-    List<Map<String, Object>> selectLatestAssayDateByPatient(Integer tenantId, Date startTime, Date endTime, Long fkPatientId);
 
     /**
      * 手动增加化验单

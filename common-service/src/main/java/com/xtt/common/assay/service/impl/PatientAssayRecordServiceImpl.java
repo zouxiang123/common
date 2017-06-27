@@ -108,8 +108,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTIme) {
-        return patientAssayRecordMapper.selectLatestAssayDateByTenantId(tenantId, startTime, endTIme);
+    public List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTIme, Long fkPatientId) {
+        return patientAssayRecordMapper.selectLatestAssayDateByTenantId(tenantId, startTime, endTIme, fkPatientId);
     }
 
     @Override
@@ -157,15 +157,6 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     @Override
     public List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue) {
         return patientAssayRecordMapper.selectByItemCodes(itemCodes, startDate, endDate, patientTempValue, UserUtil.getTenantId());
-    }
-
-    /**
-     * 查询特定患者的阶段小结数据
-     */
-    @Override
-    public List<Map<String, Object>> selectLatestAssayDateByPatient(Integer tenantId, Date startTime, Date endTime, Long fkPatientId) {
-        return patientAssayRecordMapper.getLatestAssayDateByPatient(tenantId, startTime, endTime, fkPatientId);
-
     }
 
     /**
@@ -444,7 +435,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
      * @Title: newPatientAssayRecordPO
      * @Description:生成新的对象2
      * @param parPO
-     * @param ifStr
+     * @param diaAbFlag
      * @return PatientAssayRecordPO @throws
      */
     private PatientAssayRecordPO newPatientAssayRecordPOToDiaAbFlag(PatientAssayRecordPO parPO, String diaAbFlag) {
