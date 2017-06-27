@@ -18,7 +18,6 @@ import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.common.util.DictUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientResultUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
@@ -232,7 +231,8 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
     @Override
     public CmPatientPO patientDB(CmQueryPO query) throws Exception {
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB Begin===>", query.getSysOwner());
-        String tenantId = HttpServletUtil.getCookieValueByName("tenantId");// 租户ID
+        // 租户ID
+        Integer fkTenantId = UserUtil.getTenantId();
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_PT);
         String json = "";
         String cardNo = query.getCardNo(); // 卡号（住院是门诊号，住院号）
@@ -248,7 +248,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
             cardType = query.getCardType();
             qmap.put("cardType", cardType);
         }
-        qmap.put("fkTenantId", tenantId);
+        qmap.put("fkTenantId", String.valueOf(fkTenantId));
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
         json = httpClientResultUtil.getContext();
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB json:" + json, query.getSysOwner());
