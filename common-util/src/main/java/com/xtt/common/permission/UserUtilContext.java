@@ -143,6 +143,10 @@ public class UserUtilContext {
     }
 
     public static void setThreadTenant(Integer tenantId, String sysOwner) {
+        if (threadLocalLoginUser.get() != null) {
+            threadLocalLoginUser.get().setTenantId(tenantId);
+            return;
+        }
         LoginUser user = new LoginUser();
         user.setId(CommonConstants.SYSTEM_USER_ID);
         user.setSysOwner(sysOwner);
