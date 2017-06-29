@@ -11,7 +11,6 @@ package com.xtt.common.patient.service;
 import java.util.Collection;
 import java.util.List;
 
-import com.xtt.common.dao.model.PatientOutcome;
 import com.xtt.common.dao.po.PatientOutcomePO;
 
 public interface IPatientOutcomeService {
@@ -23,7 +22,7 @@ public interface IPatientOutcomeService {
      * @param record
      * 
      */
-    void save(PatientOutcome record);
+    void save(PatientOutcomePO record);
 
     /**
      * 根据患者id查询所有转归记录

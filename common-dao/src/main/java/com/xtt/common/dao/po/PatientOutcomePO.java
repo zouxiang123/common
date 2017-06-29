@@ -24,12 +24,39 @@ public class PatientOutcomePO extends PatientOutcome {
     private Date startDate;
     private Date endDate;
     private String multiTenant;// 多个租户id
+    private String patientOutcomeType; // 转归类型"转归","转出","临时"
+    private String deleteSickbedRecord; // 是否删除排床
+    private String inType; // 转回类型
+
+    public String getInType() {
+        return inType;
+    }
+
+    public void setInType(String inType) {
+        this.inType = inType;
+    }
+
+    public String getDeleteSickbedRecord() {
+        return deleteSickbedRecord;
+    }
+
+    public void setDeleteSickbedRecord(String deleteSickbedRecord) {
+        this.deleteSickbedRecord = deleteSickbedRecord;
+    }
 
     public String getRecordDateShow() {
         if (super.getRecordDate() != null) {
             recordDateShow = DateFormatUtil.convertDateToStr(super.getRecordDate());
         }
         return recordDateShow;
+    }
+
+    public String getPatientOutcomeType() {
+        return patientOutcomeType;
+    }
+
+    public void setPatientOutcomeType(String patientOutcomeType) {
+        this.patientOutcomeType = patientOutcomeType;
     }
 
     public void setRecordDateShow(String recordDateShow) {

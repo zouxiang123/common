@@ -165,8 +165,11 @@
   </update>
   
   <!-- use define -->
-  <update id="updateDisableByPatientId" parameterType="java.lang.Long">
-  	update patient_owner set is_enable = 0 where fk_patient_id = #{fkPatientId}
+  <update id="updateDisableByPatientId" >
+  	update patient_owner set is_enable = 0 where fk_patient_id = #{fkPatientId} 
+    <if test="fkTenantId != null">
+        and fk_tenant_id = #{fkTenantId}
+      </if>
   </update>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientOwner" resultMap="BaseResultMap">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientOutcomeMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOutcome">
+   <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOutcome">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
@@ -14,6 +14,7 @@
     <result column="to_sys_owner" jdbcType="VARCHAR" property="toSysOwner" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="to_tenant_id" jdbcType="INTEGER" property="toTenantId" />
+    <result column="to_tenant_name" jdbcType="VARCHAR" property="toTenantName" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -24,7 +25,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, fk_patient_id, type, record_date, reason, sys_owner, to_sys_owner, fk_tenant_id, 
-    to_tenant_id, create_time, create_user_id, update_time, update_user_id
+    to_tenant_id, to_tenant_name, create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -49,13 +50,13 @@
     insert into patient_outcome (id, fk_patient_id, type, 
       record_date, reason, sys_owner, 
       to_sys_owner, fk_tenant_id, to_tenant_id, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
+      to_tenant_name, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
       #{recordDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, 
       #{toSysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{toTenantId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{toTenantName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOutcome">
     <!--
@@ -89,6 +90,9 @@
       </if>
       <if test="toTenantId != null">
         to_tenant_id,
+      </if>
+      <if test="toTenantName != null">
+        to_tenant_name,
       </if>
       <if test="createTime != null">
         create_time,
@@ -130,6 +134,9 @@
       </if>
       <if test="toTenantId != null">
         #{toTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="toTenantName != null">
+        #{toTenantName,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -175,6 +182,9 @@
       <if test="toTenantId != null">
         to_tenant_id = #{toTenantId,jdbcType=INTEGER},
       </if>
+      <if test="toTenantName != null">
+        to_tenant_name = #{toTenantName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -203,6 +213,7 @@
       to_sys_owner = #{toSysOwner,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       to_tenant_id = #{toTenantId,jdbcType=INTEGER},
+      to_tenant_name = #{toTenantName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

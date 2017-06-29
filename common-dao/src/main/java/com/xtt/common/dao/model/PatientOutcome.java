@@ -12,51 +12,49 @@ public class PatientOutcome {
     private Long id;
 
     /**
-     * 患者id
-     * patient_outcome.fk_patient_id
+     * 患者id patient_outcome.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)	
-     * patient_outcome.type
+     * 类型:(1:腹透,2:移植,3:死亡) patient_outcome.type
      */
     private String type;
 
     /**
-     * 转归日期
-     * patient_outcome.record_date
+     * 转归日期 patient_outcome.record_date
      */
     private Date recordDate;
 
     /**
-     * 原因
-     * patient_outcome.reason
+     * 原因 patient_outcome.reason
      */
     private String reason;
 
     /**
-     * 所属系统
-     * patient_outcome.sys_owner
+     * 所属系统 patient_outcome.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 转出到的系统
-     * patient_outcome.to_sys_owner
+     * 转出到的系统 patient_outcome.to_sys_owner
      */
     private String toSysOwner;
 
     /**
-     * patient_outcome.fk_tenant_id
+     * 租户id patient_outcome.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 转出医院
-     * patient_outcome.to_tenant_id
+     * 转出医院 patient_outcome.to_tenant_id
      */
     private Integer toTenantId;
+
+    /**
+     * 转出医院名称 patient_outcome.to_tenant_name
+     */
+    private String toTenantName;
 
     /**
      * patient_outcome.create_time
@@ -105,14 +103,14 @@ public class PatientOutcome {
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)	
+     * 类型:(1:腹透,2:移植,3:死亡)
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)	
+     * 类型:(1:腹透,2:移植,3:死亡)
      */
     public void setType(String type) {
         this.type = type;
@@ -175,12 +173,14 @@ public class PatientOutcome {
     }
 
     /**
+     * 租户id
      */
     public Integer getFkTenantId() {
         return fkTenantId;
     }
 
     /**
+     * 租户id
      */
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
@@ -198,6 +198,20 @@ public class PatientOutcome {
      */
     public void setToTenantId(Integer toTenantId) {
         this.toTenantId = toTenantId;
+    }
+
+    /**
+     * 转出医院名称
+     */
+    public String getToTenantName() {
+        return toTenantName;
+    }
+
+    /**
+     * 转出医院名称
+     */
+    public void setToTenantName(String toTenantName) {
+        this.toTenantName = toTenantName;
     }
 
     /**
