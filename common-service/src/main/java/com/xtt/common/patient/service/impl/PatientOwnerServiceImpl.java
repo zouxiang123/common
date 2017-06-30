@@ -32,7 +32,6 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
 
     @Override
     public void updateOwner(PatientOwner record) {
-        patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId());
         PatientOwner query = new PatientOwner();
         query.setFkPatientId(record.getFkPatientId());
         query.setSysOwner(record.getSysOwner());
@@ -44,6 +43,7 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
             DataUtil.setUpdateSystemFieldValue(owner);
             patientOwnerMapper.updateByPrimaryKey(owner);
         } else {
+            record.setIsEnable(true);
             insert(record);
         }
     }

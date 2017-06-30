@@ -247,9 +247,8 @@
     <if test="itemCode != null">
       and e.item_code = #{itemCode,jdbcType=VARCHAR}
     </if>
-    <if test="multiTenant != null">
-        and e.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
-        where fk_group_id = (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = ${multiTenant }))
+    <if test="groupTenant != null and groupTenant !=''">
+        and e.fk_tenant_id in  (${groupTenant}) 
     </if>
     order by e.id desc
   </select>

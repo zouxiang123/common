@@ -33,5 +33,5 @@ public interface CmDiagnosisHistKtMapper {
      * @return
      *
      */
-    List<CmDiagnosisHistKtPO> selectByPatient(@Param("patientId") Long patientId, @Param("multiTenant") String multiTenant);
+    List<CmDiagnosisHistKtPO> selectByPatient(@Param("patientId") Long patientId, @Param("groupTenant") String groupTenant);
 }

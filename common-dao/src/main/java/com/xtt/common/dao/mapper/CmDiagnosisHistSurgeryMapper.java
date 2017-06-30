@@ -31,5 +31,5 @@ public interface CmDiagnosisHistSurgeryMapper {
      * @return
      *
      */
-    List<CmDiagnosisHistSurgeryPO> selectByPatient(@Param("patientId") Long patientId, @Param("multiTenant") String multiTenant);
+    List<CmDiagnosisHistSurgeryPO> selectByPatient(@Param("patientId") Long patientId, @Param("groupTenant") String groupTenant);
 }

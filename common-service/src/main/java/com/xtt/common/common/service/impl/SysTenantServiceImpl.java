@@ -27,6 +27,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ import com.xtt.common.dao.po.SysTenantPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
@@ -51,6 +54,7 @@ import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class SysTenantServiceImpl implements ISysTenantService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysParamUtil.class);
     @Autowired
     private SysTenantMapper sysTenantMapper;
     @Autowired
@@ -122,18 +126,30 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public Object saveSysBasicsGroup(SysTenantPO sysTenant) {
+    public Map<String, Object> saveSysBasicsGroup(SysTenantPO sysTenant) {
+        Map<String, Object> map = new HashMap<>();
         String[] tableNames = { "complication_dictionary", "cm_dict", "complication_dictionary", "dict_grade", "dict_perform_freq", "Drug",
                 "eng_machine_display_field", "eng_maintain_merchant", "eng_water_inspection_config", "estimates_conf", "medical_order_conf",
                 "medical_order_dict", "patient_assay_conf", "patient_assay_filter_rule", "patient_label", "patient_serial_number",
                 "propaganda_dictionary", "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift",
                 "stage_assessment_config", "Supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child",
                 "year_evaluation_conf" };
-        String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
         PrimaryKeyUtil.getPrimaryKey("SysUser", sysTenant.getId());
         PrimaryKeyUtil.getPrimaryKey("SysUserTenant", sysTenant.getId());
+        try {
+            this.saveUser(sysTenant);
+        } catch (Exception e) {
+            PrimaryKeyUtil.removePrimaryKey("SysUser", sysTenant.getId());
+            PrimaryKeyUtil.removePrimaryKey("SysUserTenant", sysTenant.getId());
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("创建" + sysTenant.getName() + "租户失败");
+                e.printStackTrace();
+            }
+            map.put("status", CommonConstants.FAILURE);
+            return map;
+        }
+        String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
         for (int i = 0; i < tableNames.length; i++) {
-            System.out.println(tableNames[i]);
             List<String> tablePropertyNameList = sysTenantMapper.listTablePropertyName(tableSchema, tableNames[i]);
 
             String tablePropertys = newTablePropertys(tablePropertyNameList.toString().substring(1, tablePropertyNameList.toString().length() - 1));
@@ -145,8 +161,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
         sysTenantMapper.saveZkAssayRef(sysTenant);
         sysTenantMapper.updateComplicationDictionary(sysTenant);
         sysTenantMapper.updateMedicalOrderDict(sysTenant);
-        this.savaUser(sysTenant);
-        return null;
+        return map;
     }
 
     @Override
@@ -158,12 +173,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public Map<String, Object> save(MultipartFile logoUpload, MultipartFile logoPrintUpload, MultipartFile tvLogoUpload, SysTenantPO sysTenant)
                     throws IOException {
+
         if (sysTenant.getId() == null) {
 
             Map<String, Object> map = new HashMap<>();
             sysTenant.setIsEnable(true);
             sysTenant.setGroupFlag(false);
             sysTenant.setStartDate(new Date());
+            sysTenant.setIsDefault(false);
             sysTenant.setEndDate(DateFormatUtil.convertStrToDate("2099-01-01", "yyyy-MM-dd"));
             DataUtil.setAllSystemFieldValue(sysTenant);
             sysTenant.setId(PrimaryKeyUtil.getPrimaryKey("SysTenant", sysTenant.getFkGroupId()).intValue());
@@ -239,7 +256,12 @@ public class SysTenantServiceImpl implements ISysTenantService {
             /*基础数据的导入
              */
             sysTenant.setTemplate("10101");
-            this.saveSysBasicsGroup(sysTenant);
+            Map<String, Object> saveMap = this.saveSysBasicsGroup(sysTenant);
+            if (saveMap.size() > 0) {
+                map.put("status", saveMap.get("status"));
+            } else {
+                map.put("status", CommonConstants.SUCCESS);
+            }
             map.put("userName", sysTenant.getId());
             return map;
         } else {
@@ -397,14 +419,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
         HashMap<String, Object> map = new HashMap<>();
         String licensorStr = getLicensorStr(licensorUpload.getInputStream());
         if (licensorStr.length() > 1024) {
-            map.put("status", '0');
+            map.put("status", CommonConstants.FAILURE);
             map.put("result", "文件过大");
         } else {
             SysTenant sysTenant2 = new SysTenant();
             sysTenant2.setLicense(licensorStr);
             sysTenant2.setId(sysTenant.getId());
             sysTenantMapper.updateByPrimaryKeySelective(sysTenant2);
-            map.put("status", '0');
+            map.put("status", CommonConstants.SUCCESS);
         }
         return map;
     }
@@ -420,11 +442,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
     private String getLicensorStr(InputStream inputStream) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder sb = new StringBuilder();
-
+        String str = null;
         String line = null;
         try {
             while ((line = reader.readLine()) != null) {
                 sb.append(line + "\n");
+            }
+            if (sb.length() > 0) {
+                str = sb.substring(0, sb.length() - 2);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -436,7 +461,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             }
         }
 
-        return sb.toString();
+        return str;
     }
 
     @Override
@@ -486,7 +511,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public void savaUser(SysTenantPO sysTenant) {
+    public void saveUser(SysTenantPO sysTenant) {
         SysUserPO user = new SysUserPO();
         user.setAccount(sysTenant.getId() + "");
         user.setGroupFlag(false);

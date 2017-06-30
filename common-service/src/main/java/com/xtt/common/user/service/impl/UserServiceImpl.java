@@ -114,6 +114,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String saveUser(SysUserPO user) {
+
         if (StringUtil.isNotBlank(user.getName())) {
             user.setName(user.getName().trim());
             user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));
@@ -149,7 +150,6 @@ public class UserServiceImpl implements IUserService {
             }
             String newFilename;
             if (user.getSex() == null && user.getMobile() == null) {
-                user.setId(Long.parseLong(user.getFkTenantId() + "0000000001"));
                 newFilename = "/" + user.getFkTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
                                 + user.getId() + ".png";
             } else {
@@ -288,9 +288,6 @@ public class UserServiceImpl implements IUserService {
                         record.setTelephone(user.getTelephone());
                         record.setFkTenantId(tenantId);
                         record.setFkUserId(user.getId());
-                        if (user.getId() == Long.parseLong(user.getFkTenantId() + "0000000001")) {
-                            record.setId(Long.parseLong(user.getFkTenantId() + "0000000001"));
-                        }
                         record.setSysOwner(dict.getItemCode());
                         DataUtil.setSystemFieldValue(record);
                         saveList.add(record);

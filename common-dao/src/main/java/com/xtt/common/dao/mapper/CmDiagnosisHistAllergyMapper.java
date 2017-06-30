@@ -33,5 +33,5 @@ public interface CmDiagnosisHistAllergyMapper {
      * @return
      *
      */
-    List<CmDiagnosisHistAllergyPO> selectByPatient(@Param("patientId") Long patientId, @Param("multiTenant") String multiTenant);
+    List<CmDiagnosisHistAllergyPO> selectByPatient(@Param("patientId") Long patientId, @Param("groupTenant") String groupTenant);
 }

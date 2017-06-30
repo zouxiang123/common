@@ -39,7 +39,7 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
 
     @Override
     public List<CmDiagnosisEntityPO> selectEntitiesByPatient(CmDiagnosisEntityPO entity) {
-        entity.setMultiTenant(UserUtil.getMultiTenant());
+        entity.setGroupTenant(UserUtil.getGroupTenant());
         return cmDiagnosisEntityMapper.selectEntitiesByPatient(entity);
     }
 

@@ -43,7 +43,7 @@ public class CmDiagnosisHistAllergyServiceImpl implements ICmDiagnosisHistAllerg
      */
     @Override
     public List<CmDiagnosisHistAllergyPO> selectAllergiesByPatient(Long patientId) {
-        return cmDiagnosisHistAllergyMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
+        return cmDiagnosisHistAllergyMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**

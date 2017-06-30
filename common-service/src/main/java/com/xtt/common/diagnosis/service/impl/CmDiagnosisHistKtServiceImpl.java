@@ -43,7 +43,7 @@ public class CmDiagnosisHistKtServiceImpl implements ICmDiagnosisHistKtService {
      */
     @Override
     public List<CmDiagnosisHistKtPO> selectKtsByPatient(Long patientId) {
-        return cmDiagnosisHistKtMapper.selectByPatient(patientId, UserUtil.getMultiTenant());
+        return cmDiagnosisHistKtMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**

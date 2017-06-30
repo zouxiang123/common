@@ -176,7 +176,7 @@ public interface ISysTenantService {
      * @param sysTenant
      *
      */
-    public void savaUser(SysTenantPO sysTenant);
+    public void saveUser(SysTenantPO sysTenant);
 
     /**
      * 根据父节点租户id查询数据（未做级联查询）**

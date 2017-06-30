@@ -18,6 +18,15 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
     private String createUserName;
     private String multiTenant;
     private String hospitalName; // 就诊医院
+    private String groupTenant; // 租户所属集团下全部的租户
+
+    public String getGroupTenant() {
+        return groupTenant;
+    }
+
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
+    }
 
     public String getHospitalName() {
         return hospitalName;

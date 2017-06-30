@@ -239,9 +239,8 @@
 		INNER JOIN sys_user usu on usu.id = cdhk.update_user_id
 		INNER JOIN sys_tenant st on st.id = cdhk.fk_tenant_id
     where cdhk.fk_patient_id = #{patientId,jdbcType=BIGINT} 
-    <if test="multiTenant != null">
-        and cdhk.fk_tenant_id in (SELECT fk_tenant_id from sys_group_tenant 
-        where fk_group_id in (SELECT fk_group_id from sys_group_tenant where fk_tenant_id = ${multiTenant })) 
+    <if test="groupTenant != null and groupTenant !=''">        
+        and cdhk.fk_tenant_id in (${groupTenant}) 
     </if>
     order by cdhk.id desc
   </select>
