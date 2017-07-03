@@ -196,4 +196,10 @@ public class CommonConstants {
     public static final String SEX_MAN = "M";
     /** 性别 -- 女 */
     public static final String SEX_FEMALE = "F";
+
+    /** dialysis machine number */
+    public static final String BED_NUM = "bed_num";
+    /** dialysis machine online_num */
+    public static final String ONLINE_NUM = "online_num";
+
 }

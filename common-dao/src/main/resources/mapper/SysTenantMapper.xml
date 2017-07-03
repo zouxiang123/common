@@ -240,7 +240,7 @@
   </select>
   <!-- 根据多个租户id查询数据 -->
   <select id="listByIds" resultMap="BaseResultMap">
-    select t.* from sys_tenant t where id in <foreach collection="ids" item="item" open="(" separator="," close=")">#{item}</foreach>
+    select t.* from sys_tenant t where id in <foreach close=")" collection="ids" item="item" open="(" separator=",">#{item}</foreach>
   </select>
  
    <!-- 更新新插入并发症字典中pid 这列 表中内关联 -->
