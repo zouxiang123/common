@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysGroupMapper;
@@ -65,6 +66,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private ICommonCacheService commonCacheService;
 
     @Value("${url}")
     private String dbUrl;
@@ -426,6 +429,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             sysTenant2.setLicense(licensorStr);
             sysTenant2.setId(sysTenant.getId());
             sysTenantMapper.updateByPrimaryKeySelective(sysTenant2);
+            commonCacheService.cacheAuthority(licensorStr);
             map.put("status", CommonConstants.SUCCESS);
         }
         return map;
