@@ -131,26 +131,13 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public Map<String, Object> saveSysBasicsGroup(SysTenantPO sysTenant) {
         Map<String, Object> map = new HashMap<>();
-        String[] tableNames = { "complication_dictionary", "cm_dict", "complication_dictionary", "dict_grade", "dict_perform_freq", "Drug",
-                "eng_machine_display_field", "eng_maintain_merchant", "eng_water_inspection_config", "estimates_conf", "medical_order_conf",
-                "medical_order_dict", "patient_assay_conf", "patient_assay_filter_rule", "patient_label", "patient_serial_number",
-                "propaganda_dictionary", "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift",
-                "stage_assessment_config", "Supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child",
-                "year_evaluation_conf" };
+        String[] tableNames = { "complication_dictionary", "cm_dict", "dict_grade", "dict_perform_freq", "drug", "eng_machine_display_field",
+                "eng_maintain_merchant", "eng_water_inspection_config", "estimates_conf", "medical_order_conf", "medical_order_dict",
+                "patient_assay_conf", "patient_assay_filter_rule", "patient_label", "patient_serial_number", "propaganda_dictionary",
+                "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift", "stage_assessment_config",
+                "Supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child", "year_evaluation_conf" };
         PrimaryKeyUtil.getPrimaryKey("SysUser", sysTenant.getId());
         PrimaryKeyUtil.getPrimaryKey("SysUserTenant", sysTenant.getId());
-        try {
-            this.saveUser(sysTenant);
-        } catch (Exception e) {
-            PrimaryKeyUtil.removePrimaryKey("SysUser", sysTenant.getId());
-            PrimaryKeyUtil.removePrimaryKey("SysUserTenant", sysTenant.getId());
-            if (LOGGER.isErrorEnabled()) {
-                LOGGER.error("创建" + sysTenant.getName() + "租户失败");
-                e.printStackTrace();
-            }
-            map.put("status", CommonConstants.FAILURE);
-            return map;
-        }
         String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
         for (int i = 0; i < tableNames.length; i++) {
             List<String> tablePropertyNameList = sysTenantMapper.listTablePropertyName(tableSchema, tableNames[i]);
@@ -164,6 +151,20 @@ public class SysTenantServiceImpl implements ISysTenantService {
         sysTenantMapper.saveZkAssayRef(sysTenant);
         sysTenantMapper.updateComplicationDictionary(sysTenant);
         sysTenantMapper.updateMedicalOrderDict(sysTenant);
+        try {
+            commonCacheService.cacheDict(sysTenant.getId());
+            this.saveUser(sysTenant);
+        } catch (Exception e) {
+            PrimaryKeyUtil.removePrimaryKey("SysUser", sysTenant.getId());
+            PrimaryKeyUtil.removePrimaryKey("SysUserTenant", sysTenant.getId());
+            commonCacheService.cacheDict(sysTenant.getId());
+            if (LOGGER.isErrorEnabled()) {
+                LOGGER.error("创建" + sysTenant.getName() + "租户失败");
+                e.printStackTrace();
+            }
+            map.put("status", CommonConstants.FAILURE);
+            return map;
+        }
         return map;
     }
 
@@ -258,7 +259,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
 
             /*基础数据的导入
              */
-            sysTenant.setTemplate("10101");
+            sysTenant.setTemplate(sysTenant.getFkGroupId());
             Map<String, Object> saveMap = this.saveSysBasicsGroup(sysTenant);
             if (saveMap.size() > 0) {
                 map.put("status", saveMap.get("status"));
@@ -290,7 +291,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 }
             }
             if (logoPrintUpload != null) {
-                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/logo"
+                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/logo_print"
                                 + logoPrintUpload.getOriginalFilename().substring(logoPrintUpload.getOriginalFilename().lastIndexOf(".")));
                 temp.delete();
                 logoPrintUpload.transferTo(temp);
@@ -299,7 +300,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 }
             }
             if (tvLogoUpload != null) {
-                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/logo"
+                temp = new File(CommonConstants.BASE_PATH + "/" + sysTenant.getId() + "/" + "images" + "/tv_logo"
                                 + tvLogoUpload.getOriginalFilename().substring(tvLogoUpload.getOriginalFilename().lastIndexOf(".")));
                 temp.delete();
                 tvLogoUpload.transferTo(temp);
@@ -307,7 +308,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                     map.put("tvLogoUpload", "医院LOGO内容不正确");
                 }
             }
-
+            map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
             return map;
         }
 
@@ -453,7 +454,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 sb.append(line + "\n");
             }
             if (sb.length() > 0) {
-                str = sb.substring(0, sb.length() - 2);
+                str = sb.substring(0, sb.length() - 1);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -96,7 +96,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheDict(Integer tenantId) {
         RedisCacheUtil.deletePattern(CmDictCache.getKey(tenantId, null));
-        List<CmDictPO> list = cmDictService.selectAll();
+        List<CmDictPO> list = cmDictService.selectAll(tenantId);
         if (CollectionUtils.isNotEmpty(list)) {
             List<DictDto> dicts = new ArrayList<>(list.size());
             DictDto cDict;

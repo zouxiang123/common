@@ -11,29 +11,16 @@ public class SysTenantPO extends SysTenant {
     private Integer fkGroupId;
 
     /**
-     * 医院租户号
-     */
-    private String fkTenantId;
-
-    /**
      * 模板租户号
      */
-    private String template;
+    private Integer template;
 
-    public String getTemplate() {
+    public Integer getTemplate() {
         return template;
     }
 
-    public void setTemplate(String template) {
+    public void setTemplate(Integer template) {
         this.template = template;
-    }
-
-    public String getFkTenantId() {
-        return fkTenantId;
-    }
-
-    public void setFkTenantId(String fkTenantId) {
-        this.fkTenantId = fkTenantId;
     }
 
     public Integer getFkGroupId() {

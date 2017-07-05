@@ -40,9 +40,9 @@ public class CmDictServiceImpl implements ICmDictService {
     private ISyncGroupService syncGroupService;
 
     @Override
-    public List<CmDictPO> selectAll() {
+    public List<CmDictPO> selectAll(Integer tenantId) {
         CmDictPO cmDictPO = new CmDictPO();
-        cmDictPO.setFkTenantId(UserUtil.getTenantId());
+        cmDictPO.setFkTenantId(tenantId);
         cmDictPO.setIsEnable(true);
         cmDictPO.addOrderBy(new MybatisOrderByModel("orderBy"));// 添加根据orderby的排序
         return cmDictMapper.selectByCondition(cmDictPO);
