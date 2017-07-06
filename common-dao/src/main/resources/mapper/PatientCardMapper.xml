@@ -253,6 +253,9 @@
            left join patient p on pc.fk_pt_id = p.id
            left join cm_dict dct on pc.card_type = dct.item_code
            where dct.p_item_code = 'medicare_card_type'
+          <if test="fkPtId != null">
+                and p.id = #{fkPtId}
+          </if>
           <if test="nameShow != null and nameShow != ''">
                 and p.name = #{nameShow}
           </if>

@@ -66,4 +66,9 @@ public class SysParamServiceImpl implements ISysParamService {
         record.setFkTenantId(UserUtil.getTenantId());
         return sysParamMapper.selectByCondition(record);
     }
+
+    @Override
+    public SysParam getByID(Long id) {
+        return sysParamMapper.selectByPrimaryKey(id);
+    }
 }

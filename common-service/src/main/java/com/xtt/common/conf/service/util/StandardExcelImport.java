@@ -80,7 +80,7 @@ public class StandardExcelImport {
         }
     }
 
-    public HashMap<Integer, Patient> getPatients() {
+    public HashMap<Integer, HdPatientPO> getPatients() {
         return patients;
     }
 

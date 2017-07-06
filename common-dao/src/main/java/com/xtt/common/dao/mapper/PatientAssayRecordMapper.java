@@ -152,7 +152,7 @@ public interface PatientAssayRecordMapper {
      * 
      */
     List<Map<String, Object>> selectLatestAssayDateByTenantId(@Param("tenantId") Integer tenantId, @Param("startTime") Date startTime,
-                    @Param("endTime") Date endTime);
+                    @Param("endTime") Date endTime, @Param("fkPatientId") Long fkPatientId);
 
     /**
      * 根据自定义code查询数据
@@ -204,13 +204,7 @@ public interface PatientAssayRecordMapper {
      *
      */
     List<PatientAssayRecordPO> selectByItemCodes(@Param("itemCodes") Collection<String> itemCodes, @Param("startDate") Date startDate,
-                    @Param("endDate") Date endDate, @Param("fkTenantId") Integer tenantId);
-
-    /**
-     * 生成特定患者的阶段小结数据
-     */
-    List<Map<String, Object>> getLatestAssayDateByPatient(@Param("tenantId") Integer tenantId, @Param("startTime") Date startTime,
-                    @Param("endTime") Date endTime, @Param("fkPatientId") Long fkPatientId);
+                    @Param("endDate") Date endDate, @Param("patientTempValue") String patientTempValue, @Param("fkTenantId") Integer tenantId);
 
     /**
      * @param list

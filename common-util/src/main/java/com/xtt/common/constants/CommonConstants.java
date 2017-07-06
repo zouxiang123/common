@@ -8,6 +8,8 @@
  */
 package com.xtt.common.constants;
 
+import java.util.Properties;
+
 import com.xtt.platform.util.config.PropertiesUtil;
 
 /**
@@ -138,8 +140,10 @@ public class CommonConstants {
     /*---------------------- 项目名称 end ----------------------*/
 
     /*--------------- 服务地址 start ---------------*/
+    /** server properties file */
+    public static final Properties SERVER_PROPERTIES = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties"));
     /** 请求的基础路径 */
-    public static final String BASE_URL = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties")).getProperty("base.url");
+    public static final String BASE_URL = SERVER_PROPERTIES.getProperty("base.url");
     /** 公用服务地址 */
     public static final String COMMON_SERVER_ADDR = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "common/";
     /** 随访服务地址 */
@@ -196,6 +200,11 @@ public class CommonConstants {
     public static final String SEX_MAN = "M";
     /** 性别 -- 女 */
     public static final String SEX_FEMALE = "F";
+
+    /** dialysis machine number */
+    public static final String BED_NUM = "bed_num";
+    /** dialysis machine online_num */
+    public static final String ONLINE_NUM = "online_num";
 
     /** dialysis machine number */
     public static final String BED_NUM = "bed_num";

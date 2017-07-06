@@ -8,6 +8,10 @@ package com.xtt.common.constants;
  */
 public interface IDownConst {
 
+    /**
+     * 下载该病患第三方所有数据
+     */
+    String DOWN_TYPE_PT_ALL_INFO = "all";
     // =========================================================
     // 下载入口downDB
     String DOWN_INPUT = "DD";
