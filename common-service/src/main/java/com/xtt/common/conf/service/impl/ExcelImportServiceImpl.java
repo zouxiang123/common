@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xtt.common.conf.service.IExcelImportService;
-import com.xtt.common.conf.service.util.BadInputException;
 import com.xtt.common.conf.service.util.StandardExcelImport;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmPatient;
@@ -28,6 +27,7 @@ import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
+import com.xtt.common.util.excel.BadInputException;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
