@@ -1,4 +1,4 @@
-package com.xtt.common.conf.service.util;
+package com.xtt.common.util.excel;
 
 public class BadInputException extends IllegalArgumentException {
 

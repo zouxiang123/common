@@ -27,6 +27,8 @@ import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.excel.BadInputException;
+import com.xtt.common.util.excel.ExcelTools;
 
 class StandardExcelTemplate {
 
@@ -145,8 +147,8 @@ class StandardExcelTemplate {
             patientCard.setCardType(CommonConstants.MEDICARE_CARD_TYPE_OUTPATIENT);
             patientCard.setDelFlag(false);
             cards.add(patientCard);
+            p.setPatientCardList(cards);
             /*------------ 添加患者卡号 end------------*/
-
             return p;
         }
         return null;

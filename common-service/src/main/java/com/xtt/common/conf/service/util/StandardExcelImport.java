@@ -19,6 +19,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.util.excel.BadInputException;
+import com.xtt.common.util.excel.ExcelTools;
 
 public class StandardExcelImport {
     private HashMap<Integer, Patient> patients;
@@ -80,7 +82,7 @@ public class StandardExcelImport {
         }
     }
 
-    public HashMap<Integer, HdPatientPO> getPatients() {
+    public HashMap<Integer, Patient> getPatients() {
         return patients;
     }
 

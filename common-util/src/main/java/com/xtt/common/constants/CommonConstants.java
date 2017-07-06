@@ -206,9 +206,4 @@ public class CommonConstants {
     /** dialysis machine online_num */
     public static final String ONLINE_NUM = "online_num";
 
-    /** dialysis machine number */
-    public static final String BED_NUM = "bed_num";
-    /** dialysis machine online_num */
-    public static final String ONLINE_NUM = "online_num";
-
 }
