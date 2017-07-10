@@ -14,7 +14,7 @@
 
 	<bean class="com.xtt.platform.util.config.SpringUtil" />
 	<import resource="classpath*:config/datasource.xml" />
-	<import resource="classpath*:config/mybaits.xml" />
+	<import resource="classpath*:config/mybatis.xml" />
 	<import resource="classpath*:config/springRedis.xml" />
 	<import resource="classpath*:config/kafka-producer.xml" />
 
@@ -26,7 +26,7 @@
 			</list>
 		</property>
 	</bean> -->
-	<bean id="aspectBean" class="com.xtt.platform.framework.core.interceptor.MyBaitsInsertInterceptor" />  
+	<bean id="aspectBean" class="com.xtt.platform.framework.core.interceptor.MyBatisInsertInterceptor" />  
 	<aop:config>  
         <aop:aspect id="TestAspect" ref="aspectBean">  
             <!--配置com.spring.service包下所有类或接口的所有方法-->  

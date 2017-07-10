@@ -44,7 +44,7 @@
 			<tx:method name="search*" propagation="SUPPORTS" read-only="true" />
 			<tx:method name="non*" propagation="NOT_SUPPORTED" read-only="true" />
 			<tx:method name="select*" propagation="SUPPORTS" read-only="true" />
-			<tx:method name="*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
