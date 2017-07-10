@@ -152,6 +152,19 @@ public class PatientDto {
 
     private Boolean delFlag;
 
+    /**
+     * 患者历史透析次数
+     */
+    private Integer dialysisTimes;
+
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
+    }
+
     public Boolean getDelFlag() {
         return delFlag;
     }
