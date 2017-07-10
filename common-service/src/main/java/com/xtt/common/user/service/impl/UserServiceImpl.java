@@ -144,7 +144,9 @@ public class UserServiceImpl implements IUserService {
             user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));// 设置默认密码
             if (!groupFlag) {
                 // 设置关联的租户为当前租户
-                user.setMultiTenant(String.valueOf(user.getFkTenantId()));
+                if (StringUtil.isBlank(user.getMultiTenant())) {
+                    user.setMultiTenant(String.valueOf(user.getFkTenantId()));
+                }
                 user.setUserType(CommonConstants.USER_TYPE_NORMAL);
             } else {
                 user.setUserType(CommonConstants.USER_TYPE_GROUP);
