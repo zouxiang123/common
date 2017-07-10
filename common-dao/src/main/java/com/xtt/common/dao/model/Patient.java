@@ -109,16 +109,16 @@ public class Patient {
     private String mobile;
 
     /**
-     * 邮箱
-     * patient.email
-     */
-    private String email;
-
-    /**
      * 紧急联系人
      * patient.emergency_contacts
      */
     private String emergencyContacts;
+
+    /**
+     * 邮箱
+     * patient.email
+     */
+    private String email;
 
     /**
      * 紧急联系方式
@@ -167,6 +167,11 @@ public class Patient {
      * patient.weight
      */
     private BigDecimal weight;
+
+    /**
+     * patient.dialysis_times
+     */
+    private Integer dialysisTimes;
 
     /**
      * 创建时间
@@ -429,20 +434,6 @@ public class Patient {
     }
 
     /**
-     * 邮箱
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * 邮箱
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
      * 紧急联系人
      */
     public String getEmergencyContacts() {
@@ -454,6 +445,20 @@ public class Patient {
      */
     public void setEmergencyContacts(String emergencyContacts) {
         this.emergencyContacts = emergencyContacts;
+    }
+
+    /**
+     * 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
@@ -566,6 +571,18 @@ public class Patient {
      */
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
+    }
+
+    /**
+     */
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    /**
+     */
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
     }
 
     /**
