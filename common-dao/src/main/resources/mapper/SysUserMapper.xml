@@ -455,4 +455,11 @@
 	<update id="updatePassword">
 		update sys_user set password = #{password} where id= #{id}
 	</update>
+	
+	<!-- 获取随机护士 -->
+	<select id="getRoundUser" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		SELECT u.* FROM sys_user u
+		JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		JOIN sys_role r ON sr.fk_role_id = r.id where r.constant_type=#{constantType} ORDER BY RAND() LIMIT 1;
+	</select>
 </mapper>

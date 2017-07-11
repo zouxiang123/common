@@ -143,4 +143,12 @@ public interface SysUserMapper {
      */
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 
+    /**
+     * 获取随机护士
+     * 
+     * @param constantType
+     * @return
+     */
+    SysUser getRoundUser(Integer constantType);
+
 }
