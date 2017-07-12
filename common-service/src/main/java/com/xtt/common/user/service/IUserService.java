@@ -241,4 +241,12 @@ public interface IUserService {
      */
     int saveSkin(String skin);
 
+    /**
+     * 获取随机护士
+     * 
+     * @param constantType
+     * @return
+     */
+    SysUser getRoundUser(Integer constantType);
+
 }
