@@ -261,7 +261,7 @@
 	<resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.SysUserPO" />
 	<select id="searchPersonByName" resultMap="ExtendResultMap">
 		SELECT
-			u.id, u.name, u.image_path
+			u.id, u.name, u.image_path,u.sex
             ,ut.role_type roleType
 		FROM sys_user u 
         JOIN sys_user_tenant ut ON u.id = ut.fk_user_id    

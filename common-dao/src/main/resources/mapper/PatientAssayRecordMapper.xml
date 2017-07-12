@@ -955,9 +955,12 @@
     
     <!-- 根据指定条件获取病患检验结果数据 -->
     <select id="listPatientAssayRecord" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
-      select par.*,p.name patientName,p.sex ptSex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
+      select par.*,p.name patientName,p.sex ptSex 
+      from patient_assay_record par 
+      LEFT JOIN patient p on p.id = par.fk_patient_id 
+      LEFT JOIN patient_owner po ON po.fk_patient_id = p.id
       <where>
-            and p.del_flag = 0
+            and po.is_enable = 1
           <if test="ptName != null and ptName != ''">
             and p.name like concat('%',#{ptName},'%')
           </if>
