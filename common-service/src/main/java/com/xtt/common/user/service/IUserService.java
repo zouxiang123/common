@@ -233,4 +233,12 @@ public interface IUserService {
      */
     String uploadAutograph(MultipartFile imgFile, int x, int y, int width, int height) throws IllegalStateException, IOException;
 
+    /**
+     * 保存皮肤
+     *
+     * @param skin
+     * @return
+     */
+    int saveSkin(String skin);
+
 }

@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.xtt.common.dto.LoginUser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -357,6 +358,18 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag) {
         return sysUserMapper.listByTenantId(tenantId, sysOwner, delFlag);
+    }
+
+    @Override
+    public int saveSkin(String skin) {
+        SysUserPO user = sysUserMapper.selectPOById(UserUtil.getLoginUserId());
+        user.setSkin(skin);
+        int count = updateByPrimaryKeySelective(user);
+        // refresh redis cache
+        LoginUser loginUser = UserUtil.getLoginUser();
+        loginUser.setSkin(skin);
+        UserUtil.setLoginUser(loginUser);
+        return count;
     }
 
 }

@@ -21,6 +21,7 @@ public class LoginUser {
     private String roleType;
     private String positionShow;
     private String sysOwner;
+    private String skin;
     // APP用
     private Long patientId;
     private Integer countSubAccount;
@@ -158,6 +159,14 @@ public class LoginUser {
 
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
     }
 
     public Integer getAge() {

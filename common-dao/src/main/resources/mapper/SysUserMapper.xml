@@ -19,6 +19,7 @@
     <result column="position" jdbcType="VARCHAR" property="position" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="sub_phone" jdbcType="VARCHAR" property="subPhone" />
+    <result column="skin" jdbcType="VARCHAR" property="skin" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="del_flag" jdbcType="BIT" property="delFlag" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
@@ -34,7 +35,7 @@
       This element was generated on Mon Jun 27 11:34:08 CST 2016.
     -->
     id, account, name, initial, password, image_path, autograph_path, sex, birthday, position, mobile,
-    sub_phone, sys_owner, del_flag, fk_tenant_id, create_time, create_user_id, update_time, 
+    sub_phone, skin, sys_owner, del_flag, fk_tenant_id, create_time, create_user_id, update_time,
     update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -66,14 +67,14 @@
     insert into sys_user (id, account, name, 
       initial, password, image_path, autograph_path,
       sex, birthday, position, 
-      mobile, sub_phone, sys_owner, 
+      mobile, sub_phone, skin, sys_owner,
       del_flag, fk_tenant_id, create_time, 
       create_user_id, update_time, update_user_id
       )
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{autographPath,jdbcType=VARCHAR},
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{position,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{subPhone,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{subPhone,jdbcType=VARCHAR}, #{skin,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR},
       #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
       )
@@ -121,6 +122,9 @@
       </if>
       <if test="subPhone != null">
         sub_phone,
+      </if>
+      <if test="skin != null">
+        skin,
       </if>
       <if test="sysOwner != null">
         sys_owner,
@@ -180,6 +184,9 @@
       </if>
       <if test="subPhone != null">
         #{subPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="skin != null">
+        #{skin,jdbcType=VARCHAR},
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
@@ -245,6 +252,9 @@
       <if test="subPhone != null">
         sub_phone = #{subPhone,jdbcType=VARCHAR},
       </if>
+      <if test="skin != null">
+        skin = #{skin,jdbcType=VARCHAR},
+      </if>
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
@@ -287,6 +297,7 @@
       position = #{position,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       sub_phone = #{subPhone,jdbcType=VARCHAR},
+      skin = #{skin,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -384,7 +395,7 @@
 	
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap"> 
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag
+			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag
 		FROM
 			sys_user u
 		 JOIN sys_user2role sr ON sr.fk_user_id = u.id
@@ -402,7 +413,7 @@
 		<if test="sysOwner != null and sysOwner != ''" >
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
-		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.del_flag
+		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,u.del_flag
 		ORDER BY u.del_flag,u.id ASC
 	</select>
 	
