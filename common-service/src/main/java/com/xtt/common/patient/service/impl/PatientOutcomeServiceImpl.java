@@ -102,7 +102,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             if (record.getToTenantId() == null) {
                 owner.setIsEnable(false);
             } else {
-                patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId(), record.getFkTenantId()); // 将归属不状态更新为删除
+                // patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId(), record.getFkTenantId()); // 将归属不状态更新为删除
             }
 
         }
