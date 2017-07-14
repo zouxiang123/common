@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import com.xtt.common.dto.LoginUser;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -36,6 +35,7 @@ import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.dto.LoginUser;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
@@ -370,6 +370,11 @@ public class UserServiceImpl implements IUserService {
         loginUser.setSkin(skin);
         UserUtil.setLoginUser(loginUser);
         return count;
+    }
+
+    @Override
+    public SysUser getRoundUser(Integer constantType) {
+        return sysUserMapper.getRoundUser(constantType);
     }
 
 }
