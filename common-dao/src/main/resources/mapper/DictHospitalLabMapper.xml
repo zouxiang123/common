@@ -480,6 +480,7 @@
     SELECT DISTINCT assay_month 
     FROM patient_assay_record
     WHERE fk_tenant_id = #{fkTenantId}
+    AND assay_month IS NOT NULL
     ORDER BY assay_month
   </select>
   
