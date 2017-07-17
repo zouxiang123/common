@@ -230,13 +230,16 @@
     select t.* from sys_tenant t
     JOIN sys_user_tenant ut ON ut.fk_tenant_id = t.id
     JOIN sys_user u ON u.id = ut.fk_user_id
-    WHERE ut.sys_owner = #{sysOwner} AND u.account = #{account}
+    WHERE ut.sys_owner = #{sysOwner} AND is_enable = #{isEnable} AND u.account = #{account}
   </select>
-  <!-- 根据集团id查询对应的租户 -->
-  <select id="listByGroupId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <!-- 根据集团id查询所有普通租户 -->
+  <select id="listAllNormalByGroupId" resultMap="BaseResultMap">
     select t.* from sys_tenant t
     join sys_group_tenant gt ON t.id = gt.fk_tenant_id
-    where gt.fk_group_id = #{groupId}
+    where gt.fk_group_id = #{groupId} AND t.group_flag = false
+    <if test="isEnable != null">
+        AND t.is_enable = #{isEnable}
+    </if>
   </select>
   <!-- 根据多个租户id查询数据 -->
   <select id="listByIds" resultMap="BaseResultMap">

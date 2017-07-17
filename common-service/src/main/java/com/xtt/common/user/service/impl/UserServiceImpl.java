@@ -536,7 +536,7 @@ public class UserServiceImpl implements IUserService {
                         loginUser.setPositionShow(sysUser.getPosition());
                     }
                     SysGroupTenant sgt = sysTenantService.getSysGroupTenantByFkTenantId(tenantId);
-                    List<SysTenant> stList = sysTenantService.listByGroupId(sgt.getFkGroupId());
+                    List<SysTenant> stList = sysTenantService.listAllNormalByGroupId(sgt.getFkGroupId(), null);
                     if (CollectionUtils.isNotEmpty(stList)) {
                         StringBuilder sts = new StringBuilder();
                         stList.forEach(tenant -> {

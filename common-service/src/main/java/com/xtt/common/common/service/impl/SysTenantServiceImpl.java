@@ -94,8 +94,8 @@ public class SysTenantServiceImpl implements ISysTenantService {
     }
 
     @Override
-    public List<SysTenant> listByGroupId(Integer groupId) {
-        return sysTenantMapper.listByGroupId(groupId);
+    public List<SysTenant> listAllNormalByGroupId(Integer groupId, Boolean isEnable) {
+        return sysTenantMapper.listAllNormalByGroupId(groupId, isEnable);
     }
 
     @Override

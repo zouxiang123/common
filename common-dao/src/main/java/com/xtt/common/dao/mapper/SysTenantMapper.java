@@ -45,14 +45,15 @@ public interface SysTenantMapper {
     List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
 
     /**
-     * 根据集团id查询对应的租户
+     * 根据集团id查询所有普通租户
      * 
      * @Title: listByGroupId
      * @param groupId
+     * @param isEnable
      * @return
      *
      */
-    List<SysTenant> listByGroupId(Integer groupId);
+    List<SysTenant> listAllNormalByGroupId(@Param("groupId") Integer groupId, @Param("isEnable") Boolean isEnable);
 
     /**
      * 根据多个租户id查询数据

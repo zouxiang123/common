@@ -50,14 +50,15 @@ public interface ISysTenantService {
     public List<SysTenant> listByAccount(String account, String sysOwner);
 
     /**
-     * 根据集团id查询对应的租户
+     * 根据集团id查询所有普通租户
      * 
      * @Title: listByGroupId
      * @param groupId
+     * @param isEnable
      * @return
      *
      */
-    public List<SysTenant> listByGroupId(Integer groupId);
+    public List<SysTenant> listAllNormalByGroupId(Integer groupId, Boolean isEnable);
 
     /**
      * 查询所有有效的普通租户，不包含集团虚拟租户
