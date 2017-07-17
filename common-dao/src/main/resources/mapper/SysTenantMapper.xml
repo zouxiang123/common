@@ -252,7 +252,7 @@
         update medical_order_dict set pid = concat(#{id},SUBSTR(pid,6,10)) where fk_tenant_id = #{id} and pid is not null
     </update>
     <update id="updateSupplies">
-     update Supplies set p_id = concat(#{id},SUBSTR(p_id,6,10)) where fk_tenant_id = #{id} and p_id != 0
+     update supplies set p_id = concat(#{id},SUBSTR(p_id,6,10)) where fk_tenant_id = #{id} and p_id != 0
     </update>
     <!-- 质控上传化验项配置 -->
     <insert id="saveZkAssayRef">

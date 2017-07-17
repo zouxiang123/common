@@ -135,7 +135,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
                 "eng_maintain_merchant", "eng_water_inspection_config", "estimates_conf", "medical_order_conf", "medical_order_dict",
                 "patient_assay_conf", "patient_assay_filter_rule", "patient_label", "patient_serial_number", "propaganda_dictionary",
                 "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift", "stage_assessment_config",
-                "Supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child", "year_evaluation_conf" };
+                "supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child", "year_evaluation_conf" };
         PrimaryKeyUtil.getPrimaryKey("SysUser", sysTenant.getId());
         PrimaryKeyUtil.getPrimaryKey("SysUserTenant", sysTenant.getId());
         String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
