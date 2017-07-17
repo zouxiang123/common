@@ -72,7 +72,7 @@ public class CmDictConsts {
     /**
      * 患者转归类型
      */
-    public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
+    public static final String OUTCOME_RECORD_TYPE = "outcome_record_type";// 转归类型
 
     /*-------- unit start --------*/
     /**
