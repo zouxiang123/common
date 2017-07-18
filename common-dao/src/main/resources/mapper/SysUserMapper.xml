@@ -321,8 +321,8 @@
 			u.id,u.account,u.birthday,u.mobile,u.`name`,u.user_type,u.del_flag
             ,GROUP_CONCAT(DISTINCT ut.telephone) telephone
             ,GROUP_CONCAT(DISTINCT r.`name`) as roleName
-            ,GROUP_CONCAT(r.`id`) as roleId,
-            GROUP_CONCAT(st.name)  as  hospitalName
+            ,GROUP_CONCAT(r.`id`) as roleId
+            ,GROUP_CONCAT(st.name)  as  multiTenantName
 		FROM
 			sys_user u
 		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id

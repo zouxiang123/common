@@ -24,7 +24,7 @@ public class SysUserPO extends SysUser {
     private Boolean groupFlag;
 
     /** 集团用户名称 */
-    private String hospitalName;
+    private String multiTenantName;
 
     /**
      * 角色类别
@@ -140,12 +140,12 @@ public class SysUserPO extends SysUser {
         this.telephone = telephone;
     }
 
-    public String getHospitalName() {
-        return hospitalName;
+    public String getMultiTenantName() {
+        return multiTenantName;
     }
 
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
+    public void setMultiTenantName(String multiTenantName) {
+        this.multiTenantName = multiTenantName;
     }
 
 }
