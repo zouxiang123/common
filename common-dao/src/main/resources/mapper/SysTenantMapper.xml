@@ -230,7 +230,7 @@
     select t.* from sys_tenant t
     JOIN sys_user_tenant ut ON ut.fk_tenant_id = t.id
     JOIN sys_user u ON u.id = ut.fk_user_id
-    WHERE ut.sys_owner = #{sysOwner} AND is_enable = #{isEnable} AND u.account = #{account}
+    WHERE ut.sys_owner = #{sysOwner} AND u.account = #{account}
   </select>
   <!-- 根据集团id查询所有普通租户 -->
   <select id="listAllNormalByGroupId" resultMap="BaseResultMap">
