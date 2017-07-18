@@ -96,14 +96,9 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
                 owner.setIsEnable(false);
             }
         }
-        // 临时转移
-        if (Objects.equal("temporary", record.getPatientOutcomeType())) {
-            // 是否为转其它医院
-
-            if (record.getToTenantId() == null) {
-                owner.setIsEnable(false);
-            }
-
+        // 临时转移其它医院
+        if (Objects.equal("temporary", record.getPatientOutcomeType()) && null == record.getToTenantId()) {
+            return;
         }
         patientOwnerService.updateOwner(owner);
     }
