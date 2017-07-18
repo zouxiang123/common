@@ -22,6 +22,10 @@ public class SysUserPO extends SysUser {
     private String mobileShow;
     /** 查询条件，是否是集团用户 */
     private Boolean groupFlag;
+
+    /** 集团用户名称 */
+    private String hospitalName;
+
     /**
      * 角色类别
      */
@@ -134,6 +138,14 @@ public class SysUserPO extends SysUser {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
     }
 
 }
