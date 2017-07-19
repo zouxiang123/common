@@ -10,7 +10,6 @@ package com.xtt.common.patient.service.impl;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +36,6 @@ import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
@@ -132,20 +130,13 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             Map<Long, PatientDto> patientMap = PatientCache.getById(patientIds);
             Map<Long, SysUserDto> userMap = UserCache.getById(userIds);
             Map<String, String> typesMap = DictUtil.getMapByPItemCode(CmDictConsts.OUTCOME_RECORD_TYPE);
-            for (Iterator<PatientOutcomePO> it = list.iterator(); it.hasNext();) {
-                PatientOutcomePO po = it.next();
-                if (StringUtil.isNotBlank(po.getType())) {
-                    if (!typesMap.containsKey(po.getType())) {
-                        it.remove();
-                    } else {
-                        po.setTypeShow(typesMap.get(po.getType()));
-                    }
-                }
+            list.forEach(po -> {
+                po.setTypeShow(typesMap.get(po.getType()));
                 if (patientMap.get(po.getFkPatientId()) != null)
                     po.setPatientName(patientMap.get(po.getFkPatientId()).getName());
                 if (userMap.get(po.getCreateUserId()) != null)
                     po.setCreateUserName(userMap.get(po.getCreateUserId()).getName());
-            }
+            });
         }
         return list;
     }
