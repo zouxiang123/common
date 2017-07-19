@@ -155,8 +155,9 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue) {
-        return patientAssayRecordMapper.selectByItemCodes(itemCodes, startDate, endDate, patientTempValue, UserUtil.getTenantId());
+    public List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue,
+                    String patientLabelId) {
+        return patientAssayRecordMapper.selectByItemCodes(itemCodes, startDate, endDate, patientTempValue, UserUtil.getTenantId(), patientLabelId);
     }
 
     /**
