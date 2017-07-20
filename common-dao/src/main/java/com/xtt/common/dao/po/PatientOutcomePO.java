@@ -27,6 +27,7 @@ public class PatientOutcomePO extends PatientOutcome {
     private String patientOutcomeType; // 转归类型"转归","转出","临时"
     private String deleteSickbedRecord; // 是否删除排床
     private String inType; // 转回类型
+    private String[] types; // 转归类型数组
 
     public String getInType() {
         return inType;
@@ -120,6 +121,14 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setMultiTenant(String multiTenant) {
         this.multiTenant = multiTenant;
+    }
+
+    public String[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(String[] types) {
+        this.types = types;
     }
 
 }

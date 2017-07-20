@@ -257,6 +257,9 @@
       <if test="multiTenant != null">
         AND po.fk_tenant_id in (${multiTenant })
       </if>
+      <if test="types !=null">
+        AND po.type in <foreach collection="types" item="item" open="(" separator="," close=")">#{item}</foreach>
+      </if>
   	</where>
   	ORDER BY po.record_date DESC, po.id DESC
   </select>
