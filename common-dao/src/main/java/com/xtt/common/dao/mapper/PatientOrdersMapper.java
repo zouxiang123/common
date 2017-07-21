@@ -66,4 +66,12 @@ public interface PatientOrdersMapper {
 
     // 下载医嘱信息
     List<PatientOrdersPO> selectDownOrdersPO(PatientOrdersPO orders);
+
+    /**
+     * 获取患者对应的项目名称
+     * 
+     * @param orders
+     * @return
+     */
+    List<PatientOrdersPO> listItemNames(PatientOrdersPO orders);
 }
