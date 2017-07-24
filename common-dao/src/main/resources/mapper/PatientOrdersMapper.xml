@@ -801,6 +801,12 @@
         <if test="orderId != null">
 	    	and  order_id = #{orderId,jdbcType=VARCHAR}
        </if>
+       <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            and enter_time between #{startDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+       </if>
+       <if test="fkPatientId != null and fkPatientId != ''">
+            and  po.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+       </if>
     </select>
     
     <!-- 根据条件查询his医嘱 -->
@@ -826,7 +832,7 @@
     	</where>
     </select>
     
-    <!-- 根据指定条件获取HIS中下载的医嘱数据，并在电子病历中的HIS医嘱页面展示zz -->
+    <!-- 根据指定条件获取HIS中下载的医嘱数据，并在电子病历中的HIS医嘱页面展示 -->
      <select id="selectDownOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
 	   SELECT p.name as ptName,p.sex,po.* 
 		   from patient_orders po left join patient p
@@ -853,6 +859,26 @@
         <if test="fkPatientId != null and fkPatientId != ''">
 	    	and  po.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
        </if>
+       <if test="ptType != null and ptType != ''">
+            and  po.pt_type = #{ptType,jdbcType=BIGINT}
+       </if>
+       <if test="orderClass != null and orderClass != ''">
+            and  po.order_class = #{orderClass,jdbcType=BIGINT}
+       </if>
+       order by po.enter_time desc
     </select>
     
+    <!--获取患者对应的项目名称  -->
+    <select id="listItemNames" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
+        select 
+            <include refid="Base_Column_List" />
+        from patient_orders where 1=1 
+       <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+            and enter_time between #{startDate,jdbcType=VARCHAR} and #{endDate,jdbcType=VARCHAR}
+       </if>
+       <if test="fkPatientId != null and fkPatientId != ''">
+            and  fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+       </if>
+       group by item_name;
+    </select>
 </mapper>
