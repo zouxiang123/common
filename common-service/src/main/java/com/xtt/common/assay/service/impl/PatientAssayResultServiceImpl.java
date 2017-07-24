@@ -54,7 +54,9 @@ public class PatientAssayResultServiceImpl implements IPatientAssayResultService
             patientAssayResultMapper.updateByPrimaryKey(old);
         }
         record.setId(null);
-        record.setFkTenantId(UserUtil.getTenantId());
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
         record.setOperatorId(UserUtil.getLoginUserId());
         record.setIsEnable(Boolean.TRUE);
         DataUtil.setSystemFieldValue(record);
