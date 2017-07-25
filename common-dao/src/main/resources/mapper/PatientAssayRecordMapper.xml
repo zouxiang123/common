@@ -819,11 +819,7 @@
     SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result FROM patient_assay_record par
     force index(inx_assay_record_date_code_tenant)
     LEFT JOIN patient p on par.fk_patient_id = p.id
-     <if test="patientLabelValue != null and patientLabelValue !=''">
-        INNER JOIN patient_label_ref plf
-        ON p.id = plf.fk_patient_id AND plf.del_flag = false
-        INNER JOIN patient_label pl on plf.fk_label_id = pl.id
-     </if>
+    
     <where>
         <if test="startDate != null">
             par.assay_date &gt;= #{startDate,jdbcType=DATE}
@@ -840,9 +836,6 @@
         <if test="patientTempValue !=null and patientTempValue !=''">
             AND p.is_temp IN (#{patientTempValue})
         </if>
-       <if test="patientLabelValue != null and patientLabelValue !=''">
-      AND plf.fk_label_id in (#{patientLabelValue})
-    </if>
     </where>
     ORDER BY par.fk_patient_id,par.item_code,par.assay_date DESC
   </select>

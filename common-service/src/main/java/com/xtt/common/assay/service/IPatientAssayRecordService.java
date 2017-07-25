@@ -169,8 +169,7 @@ public interface IPatientAssayRecordService {
      * @return
      *
      */
-    List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue,
-                    String patientLabelId);
+    List<PatientAssayRecordPO> selectByItemCodes(Collection<String> itemCodes, Date startDate, Date endDate, String patientTempValue);
 
     /**
      * 手动增加化验单
@@ -227,4 +226,5 @@ public interface IPatientAssayRecordService {
      * 更新检验 @Title: lisAfterBefore @Description: void @throws
      */
     void updateLisAfterBefore();
+
 }
