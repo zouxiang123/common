@@ -11,7 +11,7 @@ $(function() {
     var siblingUrls = [
             {
                 urls : [ "patient/findPatient", "patient/patientInfo", "patient/diagnosisInfo", "patient/pathwayInfo", "complication/list",
-                        "patient/dialysisRecord", "patient/assay/record", "patient/patientWardRound", "dialysisCampaign/toStop",
+                        "patient/dialysisRecord", "patient/assay/record", "patient/skiPatientWardRound", "dialysisCampaign/toStop",
                         "medicalOrders/manage", "patient/outcomeRecord", "patient/jci", "sickbedRecord/viewLatestBedRecord", "patient/assay/record",
                         "stageSummary/stageList", "patient/patientDetail" ],// 患者urls
                 isCurrent : false

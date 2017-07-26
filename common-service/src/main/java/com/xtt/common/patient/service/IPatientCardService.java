@@ -92,4 +92,12 @@ public interface IPatientCardService {
      *
      */
     List<PatientCard> listByCardNoTypeTenant(String cardNo, String cardType, Integer tenant, Long nePatientId);
+
+    /**
+     * 获取患者的卡号ID
+     * 
+     * @param record
+     * @return
+     */
+    String getCardNo(PatientCardPO record);
 }
