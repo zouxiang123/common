@@ -215,8 +215,7 @@ public interface PatientAssayRecordMapper {
      *
      */
     List<PatientAssayRecordPO> selectByItemCodes(@Param("itemCodes") Collection<String> itemCodes, @Param("startDate") Date startDate,
-                    @Param("endDate") Date endDate, @Param("patientTempValue") String patientTempValue, @Param("fkTenantId") Integer tenantId,
-                    @Param("patientLabelValue") String patientLabelValue);
+                    @Param("endDate") Date endDate, @Param("patientTempValue") String patientTempValue, @Param("fkTenantId") Integer tenantId);
 
     /**
      * @param list
