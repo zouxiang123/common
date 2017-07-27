@@ -41,7 +41,8 @@ public interface SysTemplateMapper {
      * @return
      * 
      */
-    List<SysTemplate> selectTemplateType(@Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
+    List<SysTemplate> selectTemplateType(@Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner,
+                    @Param("templateName") String templateName);
 
     /**
      * 根据类型查询is_default 为1的数据
@@ -50,4 +51,14 @@ public interface SysTemplateMapper {
      * @return
      */
     SysTemplate getTemplate(SysTemplate record);
+
+    /**
+     * 根据类型模板名称查询
+     * 
+     * @Title: cheackTemplate
+     * @param record
+     * @return
+     *
+     */
+    Integer cheackTemplate(SysTemplatePO record);
 }

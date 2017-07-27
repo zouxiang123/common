@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.conf.service.ISysTemplateChildService;
 import com.xtt.common.conf.service.ISysTemplateService;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysTemplateChildMapper;
 import com.xtt.common.dao.mapper.SysTemplateMapper;
 import com.xtt.common.dao.model.SysTemplate;
@@ -71,8 +72,8 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
     }
 
     @Override
-    public List<SysTemplate> selectTemplateType(String sysOwner) {
-        return sysTemplateMapper.selectTemplateType(UserUtil.getTenantId(), sysOwner);
+    public List<SysTemplate> selectTemplateType(String sysOwner, String templateName) {
+        return sysTemplateMapper.selectTemplateType(UserUtil.getTenantId(), sysOwner, templateName);
     }
 
     @Override
@@ -139,6 +140,13 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
         sysTemplateMapper.updateByPrimaryKeySelective(plate);
         // 2.重新赋值，并返回
         return sysTemplateMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public Integer cheackTemplate(SysTemplatePO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setSysOwner(CommonConstants.SYS_HD);
+        return sysTemplateMapper.cheackTemplate(record);
     }
 
 }

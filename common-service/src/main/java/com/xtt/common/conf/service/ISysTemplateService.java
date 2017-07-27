@@ -35,11 +35,12 @@ public interface ISysTemplateService {
     /**
      * 查询模板类型
      * 
+     * 
      * @Title: selectTemplateType
      * @return
      * 
      */
-    List<SysTemplate> selectTemplateType(String sysOwner);
+    List<SysTemplate> selectTemplateType(String sysOwner, String templateName);
 
     /**
      * 根据类型查询模板
@@ -70,4 +71,14 @@ public interface ISysTemplateService {
      * @return
      */
     int updateTemplateStatus(SysTemplate record);
+
+    /**
+     * 根据模板名称，类型查询是否重复
+     * 
+     * @Title: cheackTemplate
+     * @param record
+     * @return
+     *
+     */
+    Integer cheackTemplate(SysTemplatePO record);
 }
