@@ -172,9 +172,10 @@
     SELECT st.id,st.`name` FROM sys_tenant st
     JOIN sys_group_tenant gt ON gt.fk_tenant_id = st.id AND gt.fk_group_id = #{groupId}
     LEFT JOIN sync_group_tenant sgt ON sgt.fk_tenant_id = st.id
-    WHERE sgt.fk_tenant_id is NULL 
+    WHERE (sgt.fk_tenant_id is NULL 
     <if test="syncGroupId != null">
         OR sgt.fk_sync_group_id = #{syncGroupId }
-    </if>
+    </if>)
+    AND st.group_flag = false
   </select>
 </mapper>
