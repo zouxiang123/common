@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 @Repository
 public interface PatientAssayRecordBusiMapper {
@@ -36,4 +37,14 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     void updateByInspectionId(PatientAssayRecord patientAssayRecord);
+
+    /**
+     * 根据自定义条件查询常用项
+     * 
+     * @Title: listByCondition
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO query);
 }
