@@ -340,4 +340,63 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <!-- user define -->
+  
+  <select id="countByInspectionId" resultType="java.lang.Integer">
+        SELECT count('1') from patient_assay_record_busi where inspection_id = #{inspectionId}
+  </select>
+  
+  <insert id="insertList" parameterType="java.util.List">
+  insert into patient_assay_record_busi (id, fk_patient_id, group_id, 
+      group_name, item_code, item_name, 
+      result, result_actual, value_unit, 
+      result_tips, reference, sample_class, 
+      sample_time, report_time, inspection_id, 
+      dia_ab_flag, assay_month, assay_date, 
+      flage, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+     
+        <foreach collection="list" item="item" index="index" separator="union all" >
+        select 
+            #{item.id,jdbcType=BIGINT},
+            #{item.fkPatientId,jdbcType=BIGINT},
+            #{item.groupId,jdbcType=VARCHAR}, 
+            #{item.groupName,jdbcType=VARCHAR},
+            #{item.itemCode,jdbcType=VARCHAR},
+            #{item.itemName,jdbcType=VARCHAR}, 
+            #{item.result,jdbcType=VARCHAR},
+            #{item.resultActual,jdbcType=DOUBLE},
+            #{item.valueUnit,jdbcType=VARCHAR}, 
+            #{item.resultTips,jdbcType=VARCHAR},
+            #{item.reference,jdbcType=VARCHAR},
+            #{item.sampleClass,jdbcType=VARCHAR}, 
+            #{item.sampleTime,jdbcType=TIMESTAMP},
+            #{item.reportTime,jdbcType=TIMESTAMP},
+            #{item.inspectionId,jdbcType=VARCHAR}, 
+            #{item.diaAbFlag,jdbcType=CHAR},
+            #{item.assayMonth,jdbcType=INTEGER},
+            #{item.assayDate,jdbcType=DATE}, 
+            #{item.flage,jdbcType=BIT},
+            #{item.fkTenantId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, 
+            #{item.createUserId,jdbcType=BIGINT},
+            #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.updateUserId,jdbcType=BIGINT}
+   from dual
+        
+        </foreach>
+  
+  </insert>
+  
+  <update id="updateByInspectionId">
+         update patient_assay_record_busi
+        set      
+        item_code = #{itemCode,jdbcType=VARCHAR},
+        item_name = #{itemName,jdbcType=VARCHAR},
+        dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
+        where inspection_id = #{inspectionId,jdbcType=BIGINT}
+  
+  </update>
 </mapper>
