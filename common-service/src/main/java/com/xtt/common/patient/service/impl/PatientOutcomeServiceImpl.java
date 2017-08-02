@@ -15,7 +15,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.PatientOutcomeMapper;
@@ -101,7 +100,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             Map<String, String> typesMap = DictUtil.getMapByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE);
             for (PatientOutcomePO po : list) {
                 po.setTypeShow(typesMap.get(po.getType()));
-                po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
+                // po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
                 po.setCreateUserName(UserCache.getById(po.getCreateUserId()).getName());
             }
         }
