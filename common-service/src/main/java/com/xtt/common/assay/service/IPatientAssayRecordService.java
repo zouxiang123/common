@@ -103,16 +103,6 @@ public interface IPatientAssayRecordService {
     List<PatientAssayRecordPO> getCategoryList(PatientAssayRecordPO record);
 
     /**
-     * 获取患者最新一次的化验数据
-     * 
-     * @Title: selectLatestAssayDateByTenantId
-     * @param tenantId
-     * @return
-     * 
-     */
-    List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTime, Long fkPatientId);
-
-    /**
      * 根据月份查询月份的化验明细
      * 
      * @Title: selectByMonth

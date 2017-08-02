@@ -700,20 +700,6 @@
      GROUP BY par.req_id, par.group_name
      ORDER BY par.req_id ASC
   </select>
-  <select id="selectLatestAssayDateByTenantId" resultType="map">
-    SELECT t.*,ss.id AS stageId,dc.id AS dcId
-    FROM (SELECT par.assay_date AS assayDate, par.fk_patient_id AS fkPatientId
-          FROM patient_assay_record par
-          WHERE par.fk_tenant_id = #{tenantId}
-          AND par.assay_date &gt;= DATE_FORMAT(#{startTime},'%Y-%m-%d') AND par.assay_date &lt;= DATE_FORMAT(#{endTime},'%Y-%m-%d')
-          <if test="fkPatientId != null">
-            AND par.fk_patient_id = #{fkPatientId}
-          </if>
-          GROUP BY par.fk_patient_id,par.assay_date) t
-    LEFT JOIN stage_summary ss ON ss.fk_patient_id = t.fkPatientId AND ss.stage_date = t.assayDate
-    LEFT JOIN dialysis_campaign dc ON dc.fk_patient_id = t.fkPatientId AND DATE_FORMAT(dc.create_time,'%Y-%m-%d') = t.assayDate AND dc.fk_tenant_id = #{tenantId}
-    ORDER BY t.assayDate
-  </select>
   
   <select id="selectByFkDictCode" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
     SELECT par.*

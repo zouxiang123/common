@@ -108,11 +108,6 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public List<Map<String, Object>> selectLatestAssayDateByTenantId(Integer tenantId, Date startTime, Date endTIme, Long fkPatientId) {
-        return patientAssayRecordMapper.selectLatestAssayDateByTenantId(tenantId, startTime, endTIme, fkPatientId);
-    }
-
-    @Override
     public List<PatientAssayRecordPO> selectByMonth(PatientAssayRecordPO patientAssayRecord) {
         List<PatientAssayRecordPO> list = patientAssayRecordMapper.selectByMonth(patientAssayRecord);
         if (list == null) {
