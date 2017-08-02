@@ -1012,4 +1012,9 @@
           </if>
       </where>
   </select>
+  <select id="listByCreateTime" resultMap="POResultMap">
+        SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
+        `value_unit`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
+        `assay_month`,`assay_date`,`flage`,`fk_tenant_id` from patient_assay_record  where create_time  > DATE_FORMAT(NOW(),'%y-%m-%d')
+  </select>
 </mapper>

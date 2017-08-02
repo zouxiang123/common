@@ -275,4 +275,14 @@ public interface PatientAssayRecordMapper {
      */
     List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po);
 
+    /**
+     * 根据创建时间查询出当天的数据
+     * 
+     * @Title: listByCreateTime
+     * @param createTime
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listByCreateTime(Date createTime);
+
 }
