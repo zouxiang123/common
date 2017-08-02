@@ -25,6 +25,7 @@ import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.util.DictUtil;
@@ -289,6 +290,14 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         po.setDiaAbFlag(PatientAssayRecordPO.NOT_AFTER_BEFORE);// 只处理未处理的非透析前后的数据
         List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listPatientAssayRecord(po);
         return listPatientAssayRecord;
+    }
+
+    @Override
+    public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO query) {
+        if (query.getFkTenantId() == null) {
+            query.setFkTenantId(UserUtil.getTenantId());
+        }
+        return patientAssayRecordBusiMapper.listByCondition(query);
     }
 
 }
