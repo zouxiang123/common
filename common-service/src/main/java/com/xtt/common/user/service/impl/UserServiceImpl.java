@@ -152,6 +152,7 @@ public class UserServiceImpl implements IUserService {
                 user.setUserType(CommonConstants.USER_TYPE_GROUP);
             }
             String newFilename;
+            sysUserMapper.insert(user);
             if (user.getSex() == null && user.getMobile() == null) {
                 newFilename = "/" + user.getFkTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
                                 + user.getId() + ".png";
@@ -159,7 +160,7 @@ public class UserServiceImpl implements IUserService {
                 newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH + "/"
                                 + user.getId() + ".png";
             }
-            sysUserMapper.insert(user);
+
             if (!groupFlag) {// 非集团用户保存才需建立用户和角色的关联
                 associationRole(user.getRoleId(), user.getId());// 创建关联数据
             }
