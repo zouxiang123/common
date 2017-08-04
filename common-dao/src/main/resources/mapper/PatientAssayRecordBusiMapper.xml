@@ -357,7 +357,7 @@
   <!-- 常用列，主表别名需叫parb -->
   <sql id="Common_Column_List">
     parb.fk_patient_id, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
-    parb.result_tips, parb.dia_ab_flag, parb.assay_month, parb.assay_date
+    parb.result_tips, parb.dia_ab_flag, parb.assay_month, parb.assay_date, parb.req_id
   </sql>
   
   <select id="countByInspectionId" resultType="java.lang.Integer">
@@ -409,76 +409,92 @@
   </insert>
   
   <!-- 根据自定义条件查询常用项 -->
-  <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
-    select 
-    <include refid="Common_Column_List" />
-    ,dhl.fk_dict_code fkDictCode
-    from patient_assay_record_busi parb
-    JOIN dict_hospital_lab dhl ON dhl.item_code = parb.item_code AND dhl.fk_tenant_id = parb.fk_tenant_id
-    <where>
-      <if test="fkPatientId != null">
-        parb.fk_patient_id = #{fkPatientId}
-      </if>
-      <if test="groupId != null">
-        AND parb.group_id = #{groupId}
-      </if>
-      <if test="groupName != null">
-        AND parb.group_name = #{groupName}
-      </if>
-      <if test="itemCode != null">
-        AND parb.item_code = #{itemCode}
-      </if>
-      <if test="itemName != null">
-        AND parb.item_name = #{itemName}
-      </if>
-      <if test="result != null">
-        AND parb.result = #{result}
-      </if>
-      <if test="resultActual != null">
-        AND parb.result_actual = #{resultActual}
-      </if>
-      <if test="valueUnit != null">
-        AND parb.value_unit = #{valueUnit}
-      </if>
-      <if test="resultTips != null">
-        AND parb.result_tips = #{resultTips}
-      </if>
-      <if test="inspectionId != null">
-        AND parb.inspection_id = #{inspectionId}
-      </if>
-      <if test="diaAbFlag != null">
-        AND parb.dia_ab_flag = #{diaAbFlag}
-      </if>
-      <if test="assayMonth != null">
-        AND parb.assay_month = #{assayMonth}
-      </if>
-      <if test="assayDate != null">
-        AND parb.assay_date = #{assayDate,jdbcType=DATE}
-      </if>
-      <if test="flage != null">
-        AND parb.flage = #{flage,jdbcType=BIT}
-      </if>
-      <if test="fkTenantId != null">
-        AND parb.fk_tenant_id = #{fkTenantId}
-      </if>
-      <if test="patientIds !=null and patientIds.size()>0">
-        AND parb.fk_patient_id in <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
-      </if>
-      <if test="itemCodes !=null and itemCodes.size()>0">
-        AND parb.item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
-      </if>
-      <if test="startDate != null">
-        AND parb.assay_date &gt;= #{assayDate,jdbcType=DATE}
-      </if>
-      <if test="endDate != null">
-        AND parb.assay_date &lt;= #{assayDate,jdbcType=DATE}
-      </if>
-      <if test="fkDictCode != null">
-        AND dhl.fk_dict_code = #{fkDictCode }
-      </if>
-    </where> 
-    ORDER BY parb.assay_date ASC
-  </select>
+    <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
+        select
+        <include refid="Common_Column_List" />
+        ,dhl.fk_dict_code fkDictCode
+        from patient_assay_record_busi parb
+        JOIN dict_hospital_lab dhl ON dhl.item_code = parb.item_code AND dhl.fk_tenant_id = parb.fk_tenant_id
+        <where>
+            <if test="fkPatientId != null">
+                parb.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="groupId != null">
+                AND parb.group_id = #{groupId}
+            </if>
+            <if test="groupName != null">
+                AND parb.group_name = #{groupName}
+            </if>
+            <if test="itemCode != null">
+                AND parb.item_code = #{itemCode}
+            </if>
+            <if test="itemName != null">
+                AND parb.item_name = #{itemName}
+            </if>
+            <if test="result != null">
+                AND parb.result = #{result}
+            </if>
+            <if test="resultActual != null">
+                AND parb.result_actual = #{resultActual}
+            </if>
+            <if test="valueUnit != null">
+                AND parb.value_unit = #{valueUnit}
+            </if>
+            <if test="resultTips != null">
+                AND parb.result_tips = #{resultTips}
+            </if>
+            <if test="inspectionId != null">
+                AND parb.inspection_id = #{inspectionId}
+            </if>
+            <if test="diaAbFlag != null">
+                AND parb.dia_ab_flag = #{diaAbFlag}
+            </if>
+            <if test="assayMonth != null">
+                AND parb.assay_month = #{assayMonth}
+            </if>
+            <if test="assayDate != null">
+                AND parb.assay_date = #{assayDate,jdbcType=DATE}
+            </if>
+            <if test="flage != null">
+                AND parb.flage = #{flage,jdbcType=BIT}
+            </if>
+            <if test="fkTenantId != null">
+                AND parb.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="patientIds !=null and patientIds.size()>0">
+                AND parb.fk_patient_id in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND parb.item_code in
+                <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="startDate != null">
+                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+            <if test="multResultTips != null">
+                AND parb.result_tips in
+                <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+            <if test="fkDictCode != null">
+                AND dhl.fk_dict_code = #{fkDictCode }
+            </if>
+        </where>
+        <choose>
+            <when test="queryOrderBy == 1">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date DESC
+            </when>
+            <when test="queryOrderBy == 2">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date ASC
+            </when>
+            <otherwise>
+               ORDER BY parb.assay_date ASC
+            </otherwise>
+        </choose>
+    </select>
   <!-- 根据化验单号更新透前透后标识 -->
   <update id="updateDiaAbFlagByReqId">
       update patient_assay_record_busi 
@@ -488,4 +504,154 @@
       and fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
       and sample_time = #{sampleTime,jdbcType=TIMESTAMP}
   </update>
+    <!-- 查询所有类别 -->
+    <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
+        select
+        <include refid="Common_Column_List" />
+        from patient_assay_record_busi parb
+        <where>
+            <if test="fkPatientId != null">
+                parb.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="fkTenantId != null">
+                AND parb.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="assayDate != null">
+                AND parb.assay_date = #{assayDate,jdbcType=DATE}
+            </if>
+            <if test="patientIds !=null and patientIds.size()>0">
+                AND parb.fk_patient_id in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="startDate != null">
+                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+        </where>
+        GROUP BY parb.req_id
+        ORDER BY parb.assay_date ASC
+    </select>
+    <!-- 根据item_code 查询对应的化验项数据 -->
+    <select id="listReportData" resultType="map">
+        SELECT parb.result_actual as value, parb.assay_date as time
+        FROM patient_assay_record_busi parb
+        <where>
+            parb.fk_patient_id = #{fkPatientId}
+            <if test="itemCode != null">
+                AND binary parb.item_code = #{itemCode}
+            </if>
+            <if test="startDate != null">
+                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND parb.item_code in
+                <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+        </where>
+        ORDER BY parb.assay_date ASC
+    </select>
+    <!-- 查询化验列表（APP用） -->
+    <select id="listApiAssayList" resultType="java.util.Map">
+        SELECT
+        parb.assay_date assayDate,
+        GROUP_CONCAT(case when parb.result_tips ='1' then null else parb.item_name end SEPARATOR '、') exceptionName
+        FROM patient_assay_record_busi parb
+        <where>
+            <if test="patientId != null and patientId != ''">
+                parb.fk_patient_id=#{patientId}
+            </if>
+            <if test="startDate != null">
+                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+        </where>
+        GROUP BY assay_date
+        ORDER BY assay_date desc
+    </select>
+    <!-- 根据患者、日期查询化验项(api用) -->
+    <select id="listApiAssayItems" resultMap="BaseResultMap">
+        SELECT parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result,
+            CONCAT(IFNULL(parb.reference, ''), IFNULL(parb.value_unit, '') ) reference, parb.result_tips
+        FROM patient_assay_record_busi parb
+        WHERE parb.fk_patient_id = #{patientId} and parb.assay_date = #{assayDate,jdbcType=DATE}
+        ORDER BY parb.group_id, parb.item_code
+    </select>
+    <!-- 查询患者个人统计报表数据 -->
+    <select id="listForPersonReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultType="map">
+        select ymd,value,time from (
+        SELECT DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as ymd,parb.result_actual as value, DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as time FROM patient_assay_record_busi parb
+        <where>
+            parb.fk_patient_id = #{fkPatientId}
+            <if test="itemCode != null">
+                and parb.item_code = #{itemCode}
+            </if>
+            <if test="startDate != null">
+                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+        </where>
+        GROUP BY parb.assay_date
+        ORDER BY parb.assay_date desc
+        ) par
+        group by ymd
+    </select>
+    <!-- 根据租户id查询所有化验月份 -->
+    <select id="listAllAssayMonthByTenantId" parameterType="java.lang.Integer" resultType="java.lang.String">
+        SELECT DISTINCT assay_month
+        FROM patient_assay_record_busi
+        WHERE fk_tenant_id = #{fkTenantId}
+        AND assay_month IS NOT NULL
+        ORDER BY assay_month
+    </select>
+    <!-- 查询透前透后统计报表数据 -->
+    <select id="listForBeforeAfterReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultType="POResultMap">
+        SELECT
+        <include refid="Common_Column_List" />
+        FROM patient_assay_record parb
+        <where>
+            <if test="fkPatientId != null">
+                and parb.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="fkTenantId != null">
+                and parb.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                and parb.group_id = #{groupId}
+            </if>
+            <if test="assayMonth != null and assayMonth != ''">
+                and parb.assay_month = #{assayMonth}
+            </if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND parb.item_code in
+                <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="startDate != null">
+                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+            <if test="minValue != null ">
+                and parb.result &gt;= #{minValue}
+            </if>
+            <if test="maxValue != null">
+                and parb.result &lt;= #{maxValue}
+            </if>
+            <if test="resultTips != null and resultTips != ''">
+                and parb.result_tips = #{resultTips}
+            </if>
+            <if test="diaAbFlag != null and diaAbFlag != ''">
+                and parb.dia_ab_flag = #{diaAbFlag}
+            </if>
+        </where>
+    </select>
 </mapper>

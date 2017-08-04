@@ -21,6 +21,14 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private Date endDate;
     private String fkDictCode;// 关联项编号
 
+    private String[] multResultTips;
+    /**
+     * 默认：parb.assay_date ASC <br>
+     * 1:fk_patient_id,item_code,assay_date DESC <br>
+     * 2:fk_patient_id,item_code,assay_date ASC
+     */
+    private Integer queryOrderBy;
+
     public String getPatientName() {
         return patientName;
     }
@@ -67,6 +75,27 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setFkDictCode(String fkDictCode) {
         this.fkDictCode = fkDictCode;
+    }
+
+    public String[] getMultResultTips() {
+        return multResultTips;
+    }
+
+    public void setMultResultTips(String[] multResultTips) {
+        this.multResultTips = multResultTips;
+    }
+
+    public Integer getQueryOrderBy() {
+        return queryOrderBy;
+    }
+
+    /**
+     * 默认：parb.assay_date ASC <br>
+     * 1:fk_patient_id,item_code,assay_date DESC <br>
+     * 2:fk_patient_id,item_code,assay_date ASC
+     */
+    public void setQueryOrderBy(Integer queryOrderBy) {
+        this.queryOrderBy = queryOrderBy;
     }
 
 }

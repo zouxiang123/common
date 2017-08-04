@@ -2,10 +2,12 @@ package com.xtt.common.dao.model;
 
 import java.util.Date;
 
+import com.xtt.platform.framework.core.model.MyBatisSuperModel;
+
 /**
  * patient_assay_record_busi
  */
-public class PatientAssayRecordBusi {
+public class PatientAssayRecordBusi extends MyBatisSuperModel{
     /**
      * patient_assay_record_busi.id
      */

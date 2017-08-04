@@ -8,7 +8,6 @@
  */
 package com.xtt.common.assay.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -88,15 +87,6 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
     @Override
     public List<DictHospitalLabPO> selectAllByItemCode(String itemCode) {
         return dictHospitalLabMapper.selectAllByItemCode(itemCode);
-    }
-
-    @Override
-    public List<String> selectAllAssayMonth(DictHospitalLab dictHospitalLab) {
-        List<String> list = dictHospitalLabMapper.selectAllAssayMonth(dictHospitalLab);
-        if (list == null) {
-            list = new ArrayList<String>();
-        }
-        return list;
     }
 
     /**

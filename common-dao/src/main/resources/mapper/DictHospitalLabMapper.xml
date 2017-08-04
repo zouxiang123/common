@@ -476,14 +476,6 @@
     select is_top, id,date_type, personal_min_value, personal_max_value from dict_hospital_lab where item_code = #{itemCode,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectAllAssayMonth" parameterType="com.xtt.common.dao.model.DictHospitalLab" resultType="java.lang.String">
-    SELECT DISTINCT assay_month 
-    FROM patient_assay_record
-    WHERE fk_tenant_id = #{fkTenantId}
-    AND assay_month IS NOT NULL
-    ORDER BY assay_month
-  </select>
-  
   <!-- 查询所有的GroupName，  -->
   <select id="selectGroupName" resultMap="POResultMap">
     select group_name,id,item_code,item_name,group_id from dict_hospital_lab group by group_name

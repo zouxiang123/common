@@ -102,15 +102,6 @@ public interface DictHospitalLabMapper {
     public List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
 
     /**
-     * 查询所有的化验月份
-     * 
-     * @Title: selectAllAssayMonth
-     * @return
-     * 
-     */
-    public List<String> selectAllAssayMonth(DictHospitalLab dictHospitalLab);
-
-    /**
      * 查询所有的GroupName，ID
      */
     public List<DictHospitalLabPO> selectGroupName();

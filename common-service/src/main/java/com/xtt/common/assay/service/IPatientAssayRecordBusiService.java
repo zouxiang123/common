@@ -8,7 +8,11 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
@@ -52,5 +56,126 @@ public interface IPatientAssayRecordBusiService {
      *
      */
     void updateDiaAbFlagByReqId(PatientAssayRecordBusi patientAssayRecordBusi);
+
+    /**
+     * 查询所有类别
+     * 
+     * @Title: listCategory
+     * @param query
+     * @return
+     * 
+     */
+    List<PatientAssayRecordBusiPO> listCategory(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据条件查询报表数据
+     * 
+     * @Title: listReportData
+     * @param fkPatientId
+     * @param startDate
+     * @param endDate
+     * @param itemCode
+     * @param itemCodes
+     * @return
+     *
+     */
+    List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode, Collection<String> itemCodes);
+
+    /**
+     * 查询患者的化验单(api用)
+     * 
+     * @Title: listApiAssayList
+     * @param patientId
+     * @param startDate
+     * @param endDate
+     * @return
+     *
+     */
+    List<Map<String, Object>> listApiAssayList(Long patientId, Date startDate, Date endDate);
+
+    /**
+     * 根据患者、日期查询化验项(api用)
+     * 
+     * @Title: listApiAssayItems
+     * @param patientId
+     * @param assayDate
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> listApiAssayItems(Long patientId, Date assayDate);
+
+    /**
+     * 根据关联字典编号查询数据
+     * 
+     * @Title: listByFkDictCode
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByFkDictCode(PatientAssayRecordBusiPO query);
+
+    /**
+     * 根据itemCodes和日期查询数据
+     * 
+     * @Title: listByItemCodes
+     * @param itemCodes
+     * @param startDate
+     * @param endDate
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByItemCodes(Set<String> itemCodes, Date startDate, Date endDate);
+
+    /**
+     * 根据分组id查询数据
+     * 
+     * @Title: listByGroupId
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByGroupId(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据id删除数据
+     * 
+     * @Title: removeById
+     * @param id
+     *
+     */
+    void removeById(Long id);
+
+    /**
+     * 查询个人统计报表数据
+     * 
+     * @Title: listForPersonReport
+     * @param patientId
+     * @param startDate
+     * @param endDate
+     * @param itemCode
+     * @return
+     *
+     */
+    List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode);
+
+    /**
+     * 查询所有化验月份
+     * 
+     * @Title: listAllAssayMonthByTenantId
+     * @param tenantId
+     * @return
+     *
+     */
+    List<String> listAllAssayMonthByTenantId(Integer tenantId);
+
+    /**
+     * 查询透前透后统计化验数据
+     * 
+     * @Title: listForBeforeAfterReport
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
 
 }

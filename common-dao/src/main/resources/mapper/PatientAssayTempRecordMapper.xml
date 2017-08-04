@@ -117,13 +117,13 @@
   <insert id="insertBatchByRecord" parameterType="com.xtt.common.dao.model.PatientAssayTempRecord">
   	INSERT INTO patient_assay_temp_record
   	(fk_patient_id, item_code, item_name, result, result_tips, assay_date, fk_tenant_id, batch_no)
-	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result, par.result_tips, par.assay_date, #{fkTenantId}, #{batchNo}
+	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result, par.result_tips, DATE_FORMAT(par.assay_date,'%Y-%m-%d'), #{fkTenantId}, #{batchNo}
 	FROM patient_assay_record par
 	LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code
 	WHERE par.fk_tenant_id = #{fkTenantId}
 	AND dhl.value_type = 1
-	AND par.assay_date &gt;= #{startDateStr,jdbcType=VARCHAR}
-	AND par.assay_date &lt;= #{endDateStr,jdbcType=VARCHAR}
+	AND par.assay_date &gt;= #{startDateStr,jdbcType=DATE}
+	AND par.assay_date &lt;= #{endDateStr,jdbcType=DATE}
   </insert>
   <!-- 根据批次号删除数据 -->
   <delete id="deleteByBatchNo" parameterType="java.lang.String">

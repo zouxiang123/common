@@ -90,15 +90,6 @@ public interface IDictHospitalLabService {
     List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
 
     /**
-     * 查询所有的化验月份
-     * 
-     * @Title: selectAllAssayMonth
-     * @return
-     * 
-     */
-    public List<String> selectAllAssayMonth(DictHospitalLab dictHospitalLab);
-
-    /**
      * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
      */
     void updateDictHospitalLabSomeValue(DictHospitalLab record);

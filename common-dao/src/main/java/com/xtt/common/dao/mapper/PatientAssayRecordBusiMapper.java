@@ -1,6 +1,9 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -46,4 +49,83 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     void updateDiaAbFlagByReqId(PatientAssayRecordBusi patientAssayRecordBusi);
+
+    /**
+     * 查询所有类别
+     * 
+     * @Title: listCategory
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listCategory(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据条件查询报表数据
+     * 
+     * @Title: listReportData
+     * @param fkPatientId
+     * @param startDate
+     * @param endDate
+     * @param itemCode
+     * @param itemCodes
+     * @return
+     *
+     */
+    List<Map<String, Object>> listReportData(@Param("fkPatientId") Long fkPatientId, @Param("startDate") Date startDate,
+                    @Param("endDate") Date endDate, @Param("itemCode") String itemCode, @Param("itemCodes") Collection<String> itemCodes);
+
+    /**
+     * 查询患者的化验单(api用)
+     * 
+     * @Title: listApiAssayList
+     * @param patientId
+     * @param startDate
+     * @param endDate
+     * @return
+     *
+     */
+    List<Map<String, Object>> listApiAssayList(@Param("patientId") Long patientId, @Param("startDate") Date startDate,
+                    @Param("endDate") Date endDate);
+
+    /**
+     * 根据患者、日期查询化验项(api用)
+     * 
+     * @Title: listApiAssayItems
+     * @param patientId
+     * @param assayDate
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> listApiAssayItems(@Param("patientId") Long patientId, @Param("assayDate") Date assayDate);
+
+    /**
+     * 查询患者个人统计报表数据
+     * 
+     * @Title: listForPersonReport
+     * @param record
+     * @return
+     *
+     */
+    List<Map<String, Object>> listForPersonReport(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据租户id查询所有化验月份
+     * 
+     * @Title: listAllAssayMonthByTenantId
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<String> listAllAssayMonthByTenantId(Integer fkTenantId);
+
+    /**
+     * 查询透前透后统计报表数据
+     * 
+     * @Title: listForBeforeAfterReport
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
 }
