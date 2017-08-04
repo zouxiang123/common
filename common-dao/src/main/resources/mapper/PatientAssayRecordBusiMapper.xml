@@ -16,6 +16,7 @@
     <result column="value_unit" jdbcType="VARCHAR" property="valueUnit" />
     <result column="result_tips" jdbcType="VARCHAR" property="resultTips" />
     <result column="reference" jdbcType="VARCHAR" property="reference" />
+    <result column="req_id" jdbcType="VARCHAR" property="reqId" />
     <result column="sample_class" jdbcType="VARCHAR" property="sampleClass" />
     <result column="sample_time" jdbcType="TIMESTAMP" property="sampleTime" />
     <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
@@ -35,9 +36,9 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, fk_patient_id, group_id, group_name, item_code, item_name, result, result_actual, 
-    value_unit, result_tips, reference, sample_class, sample_time, report_time, inspection_id, 
-    dia_ab_flag, assay_month, assay_date, flage, fk_tenant_id, create_time, create_user_id, 
-    update_time, update_user_id
+    value_unit, result_tips, reference, req_id, sample_class, sample_time, report_time, 
+    inspection_id, dia_ab_flag, assay_month, assay_date, flage, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -62,21 +63,21 @@
     insert into patient_assay_record_busi (id, fk_patient_id, group_id, 
       group_name, item_code, item_name, 
       result, result_actual, value_unit, 
-      result_tips, reference, sample_class, 
-      sample_time, report_time, inspection_id, 
-      dia_ab_flag, assay_month, assay_date, 
-      flage, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      result_tips, reference, req_id, 
+      sample_class, sample_time, report_time, 
+      inspection_id, dia_ab_flag, assay_month, 
+      assay_date, flage, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{groupId,jdbcType=VARCHAR}, 
       #{groupName,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
       #{result,jdbcType=VARCHAR}, #{resultActual,jdbcType=DOUBLE}, #{valueUnit,jdbcType=VARCHAR}, 
-      #{resultTips,jdbcType=VARCHAR}, #{reference,jdbcType=VARCHAR}, #{sampleClass,jdbcType=VARCHAR}, 
-      #{sampleTime,jdbcType=TIMESTAMP}, #{reportTime,jdbcType=TIMESTAMP}, #{inspectionId,jdbcType=VARCHAR}, 
-      #{diaAbFlag,jdbcType=CHAR}, #{assayMonth,jdbcType=INTEGER}, #{assayDate,jdbcType=DATE}, 
-      #{flage,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{resultTips,jdbcType=VARCHAR}, #{reference,jdbcType=VARCHAR}, #{reqId,jdbcType=VARCHAR}, 
+      #{sampleClass,jdbcType=VARCHAR}, #{sampleTime,jdbcType=TIMESTAMP}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{assayMonth,jdbcType=INTEGER}, 
+      #{assayDate,jdbcType=DATE}, #{flage,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayRecordBusi">
     <!--
@@ -116,6 +117,9 @@
       </if>
       <if test="reference != null">
         reference,
+      </if>
+      <if test="reqId != null">
+        req_id,
       </if>
       <if test="sampleClass != null">
         sample_class,
@@ -190,6 +194,9 @@
       </if>
       <if test="reference != null">
         #{reference,jdbcType=VARCHAR},
+      </if>
+      <if test="reqId != null">
+        #{reqId,jdbcType=VARCHAR},
       </if>
       <if test="sampleClass != null">
         #{sampleClass,jdbcType=VARCHAR},
@@ -268,6 +275,9 @@
       <if test="reference != null">
         reference = #{reference,jdbcType=VARCHAR},
       </if>
+      <if test="reqId != null">
+        req_id = #{reqId,jdbcType=VARCHAR},
+      </if>
       <if test="sampleClass != null">
         sample_class = #{sampleClass,jdbcType=VARCHAR},
       </if>
@@ -325,6 +335,7 @@
       value_unit = #{valueUnit,jdbcType=VARCHAR},
       result_tips = #{resultTips,jdbcType=VARCHAR},
       reference = #{reference,jdbcType=VARCHAR},
+      req_id = #{reqId,jdbcType=VARCHAR},
       sample_class = #{sampleClass,jdbcType=VARCHAR},
       sample_time = #{sampleTime,jdbcType=TIMESTAMP},
       report_time = #{reportTime,jdbcType=TIMESTAMP},
@@ -361,7 +372,7 @@
       sample_time, report_time, inspection_id, 
       dia_ab_flag, assay_month, assay_date, 
       flage, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id
+      create_user_id, update_time, update_user_id,req_id
       )
      
         <foreach collection="list" item="item" index="index" separator="union all" >
@@ -389,7 +400,8 @@
             #{item.createTime,jdbcType=TIMESTAMP}, 
             #{item.createUserId,jdbcType=BIGINT},
             #{item.updateTime,jdbcType=TIMESTAMP},
-            #{item.updateUserId,jdbcType=BIGINT}
+            #{item.updateUserId,jdbcType=BIGINT},
+            #{item.reqId,jdbcType=VARCHAR}
    from dual
         
         </foreach>
@@ -476,4 +488,13 @@
     </where> 
     ORDER BY parb.assay_date ASC
   </select>
+  <!-- 根据化验单号更新透前透后标识 -->
+  <update id="updateDiaAbFlagByReqId">
+      update patient_assay_record_busi 
+      SET dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
+      where 
+      req_id = #{reqId,jdbcType=VARCHAR}
+      and fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+      and sample_time = #{sampleTime,jdbcType=TIMESTAMP}
+  </update>
 </mapper>

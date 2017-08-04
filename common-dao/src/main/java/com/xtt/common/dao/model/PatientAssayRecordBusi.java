@@ -72,6 +72,12 @@ public class PatientAssayRecordBusi {
     private String reference;
 
     /**
+     * 申请单ID
+     * patient_assay_record_busi.req_id
+     */
+    private String reqId;
+
+    /**
      * 样本
      * patient_assay_record_busi.sample_class
      */
@@ -299,6 +305,20 @@ public class PatientAssayRecordBusi {
      */
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    /**
+     * 申请单ID
+     */
+    public String getReqId() {
+        return reqId;
+    }
+
+    /**
+     * 申请单ID
+     */
+    public void setReqId(String reqId) {
+        this.reqId = reqId;
     }
 
     /**

@@ -1,714 +1,730 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientAssayRecordMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayRecord">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
-    <result column="his_pt_Id" jdbcType="VARCHAR" property="hisPtId" />
-    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
-    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
-    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
-    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
-    <result column="result" jdbcType="VARCHAR" property="result" />
-    <result column="result_actual" jdbcType="DOUBLE" property="resultActual" />
-    <result column="value_unit" jdbcType="VARCHAR" property="valueUnit" />
-    <result column="value_min" jdbcType="DECIMAL" property="valueMin" />
-    <result column="value_max" jdbcType="DECIMAL" property="valueMax" />
-    <result column="result_tips" jdbcType="VARCHAR" property="resultTips" />
-    <result column="reference" jdbcType="VARCHAR" property="reference" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
-    <result column="req_id" jdbcType="VARCHAR" property="reqId" />
-    <result column="req_time" jdbcType="TIMESTAMP" property="reqTime" />
-    <result column="req_dept" jdbcType="VARCHAR" property="reqDept" />
-    <result column="sample_class" jdbcType="VARCHAR" property="sampleClass" />
-    <result column="sample_time" jdbcType="TIMESTAMP" property="sampleTime" />
-    <result column="send_doctor" jdbcType="VARCHAR" property="sendDoctor" />
-    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
-    <result column="check_person" jdbcType="VARCHAR" property="checkPerson" />
-    <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
-    <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
-    <result column="new_item_code" jdbcType="VARCHAR" property="newItemCode" />
-    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
-    <result column="assay_date" jdbcType="VARCHAR" property="assayDate" />
-    <result column="sample_code" jdbcType="VARCHAR" property="sampleCode" />
-    <result column="test_method" jdbcType="VARCHAR" property="testMethod" />
-    <result column="flage" jdbcType="BIT" property="flage" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    id, fk_patient_id, his_pt_Id, group_id, group_name, item_code, item_name, result, 
-    result_actual, value_unit, value_min, value_max, result_tips, reference, remark, 
-    report_time, req_id, req_time, req_dept, sample_class, sample_time, send_doctor, 
-    check_time, check_person, inspection_id, dia_ab_flag, new_item_code, fk_tenant_id, 
-    create_time, assay_month, assay_date, sample_code, test_method, flage
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    select 
-    <include refid="Base_Column_List" />
-    from patient_assay_record
-    where id = #{id,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    delete from patient_assay_record
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    insert into patient_assay_record (id, fk_patient_id, his_pt_Id, 
-      group_id, group_name, item_code, 
-      item_name, result, result_actual, 
-      value_unit, value_min, value_max, 
-      result_tips, reference, remark, 
-      report_time, req_id, req_time, 
-      req_dept, sample_class, sample_time, 
-      send_doctor, check_time, check_person, 
-      inspection_id, dia_ab_flag, new_item_code, 
-      fk_tenant_id, create_time, assay_month, 
-      assay_date, sample_code, test_method, 
-      flage)
-    values (#{id,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{hisPtId,jdbcType=VARCHAR}, 
-      #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
-      #{itemName,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{resultActual,jdbcType=DOUBLE}, 
-      #{valueUnit,jdbcType=VARCHAR}, #{valueMin,jdbcType=DECIMAL}, #{valueMax,jdbcType=DECIMAL}, 
-      #{resultTips,jdbcType=VARCHAR}, #{reference,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{reportTime,jdbcType=TIMESTAMP}, #{reqId,jdbcType=VARCHAR}, #{reqTime,jdbcType=TIMESTAMP}, 
-      #{reqDept,jdbcType=VARCHAR}, #{sampleClass,jdbcType=VARCHAR}, #{sampleTime,jdbcType=TIMESTAMP}, 
-      #{sendDoctor,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{checkPerson,jdbcType=VARCHAR}, 
-      #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{newItemCode,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{assayMonth,jdbcType=VARCHAR}, 
-      #{assayDate,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR}, #{testMethod,jdbcType=VARCHAR}, 
-      #{flage,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    insert into patient_assay_record
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="fkPatientId != null">
-        fk_patient_id,
-      </if>
-      <if test="hisPtId != null">
-        his_pt_Id,
-      </if>
-      <if test="groupId != null">
-        group_id,
-      </if>
-      <if test="groupName != null">
-        group_name,
-      </if>
-      <if test="itemCode != null">
-        item_code,
-      </if>
-      <if test="itemName != null">
-        item_name,
-      </if>
-      <if test="result != null">
-        result,
-      </if>
-      <if test="resultActual != null">
-        result_actual,
-      </if>
-      <if test="valueUnit != null">
+    <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayRecord">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+        <result column="his_pt_Id" jdbcType="VARCHAR" property="hisPtId" />
+        <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+        <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+        <result column="result" jdbcType="VARCHAR" property="result" />
+        <result column="result_actual" jdbcType="DOUBLE" property="resultActual" />
+        <result column="value_unit" jdbcType="VARCHAR" property="valueUnit" />
+        <result column="value_min" jdbcType="DECIMAL" property="valueMin" />
+        <result column="value_max" jdbcType="DECIMAL" property="valueMax" />
+        <result column="result_tips" jdbcType="VARCHAR" property="resultTips" />
+        <result column="reference" jdbcType="VARCHAR" property="reference" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+        <result column="req_id" jdbcType="VARCHAR" property="reqId" />
+        <result column="req_time" jdbcType="TIMESTAMP" property="reqTime" />
+        <result column="req_dept" jdbcType="VARCHAR" property="reqDept" />
+        <result column="sample_class" jdbcType="VARCHAR" property="sampleClass" />
+        <result column="sample_time" jdbcType="TIMESTAMP" property="sampleTime" />
+        <result column="send_doctor" jdbcType="VARCHAR" property="sendDoctor" />
+        <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+        <result column="check_person" jdbcType="VARCHAR" property="checkPerson" />
+        <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
+        <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
+        <result column="new_item_code" jdbcType="VARCHAR" property="newItemCode" />
+        <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
+        <result column="assay_date" jdbcType="VARCHAR" property="assayDate" />
+        <result column="sample_code" jdbcType="VARCHAR" property="sampleCode" />
+        <result column="test_method" jdbcType="VARCHAR" property="testMethod" />
+        <result column="flage" jdbcType="BIT" property="flage" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        id, fk_patient_id, his_pt_Id, group_id, group_name, item_code, item_name, result,
+        result_actual, value_unit, value_min, value_max, result_tips,
+        reference, remark,
+        report_time, req_id, req_time, req_dept, sample_class, sample_time, send_doctor,
+        check_time, check_person, inspection_id,
+        dia_ab_flag, new_item_code, fk_tenant_id,
+        create_time, assay_month, assay_date, sample_code, test_method, flage
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        select
+        <include refid="Base_Column_List" />
+        from patient_assay_record
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        delete from patient_assay_record
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        insert into patient_assay_record (id, fk_patient_id, his_pt_Id,
+        group_id, group_name, item_code,
+        item_name, result, result_actual,
         value_unit,
-      </if>
-      <if test="valueMin != null">
-        value_min,
-      </if>
-      <if test="valueMax != null">
-        value_max,
-      </if>
-      <if test="resultTips != null">
-        result_tips,
-      </if>
-      <if test="reference != null">
-        reference,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="reportTime != null">
-        report_time,
-      </if>
-      <if test="reqId != null">
-        req_id,
-      </if>
-      <if test="reqTime != null">
-        req_time,
-      </if>
-      <if test="reqDept != null">
-        req_dept,
-      </if>
-      <if test="sampleClass != null">
-        sample_class,
-      </if>
-      <if test="sampleTime != null">
-        sample_time,
-      </if>
-      <if test="sendDoctor != null">
-        send_doctor,
-      </if>
-      <if test="checkTime != null">
-        check_time,
-      </if>
-      <if test="checkPerson != null">
+        value_min, value_max,
+        result_tips, reference, remark,
+        report_time, req_id, req_time,
+        req_dept, sample_class, sample_time,
+        send_doctor, check_time,
         check_person,
-      </if>
-      <if test="inspectionId != null">
-        inspection_id,
-      </if>
-      <if test="diaAbFlag != null">
-        dia_ab_flag,
-      </if>
-      <if test="newItemCode != null">
-        new_item_code,
-      </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="assayMonth != null">
-        assay_month,
-      </if>
-      <if test="assayDate != null">
-        assay_date,
-      </if>
-      <if test="sampleCode != null">
-        sample_code,
-      </if>
-      <if test="testMethod != null">
-        test_method,
-      </if>
-      <if test="flage != null">
-        flage,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="fkPatientId != null">
-        #{fkPatientId,jdbcType=BIGINT},
-      </if>
-      <if test="hisPtId != null">
-        #{hisPtId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupId != null">
+        inspection_id, dia_ab_flag, new_item_code,
+        fk_tenant_id, create_time, assay_month,
+        assay_date, sample_code, test_method,
+        flage)
+        values (#{id,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{hisPtId,jdbcType=VARCHAR},
         #{groupId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupName != null">
-        #{groupName,jdbcType=VARCHAR},
-      </if>
-      <if test="itemCode != null">
-        #{itemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="itemName != null">
-        #{itemName,jdbcType=VARCHAR},
-      </if>
-      <if test="result != null">
-        #{result,jdbcType=VARCHAR},
-      </if>
-      <if test="resultActual != null">
+        #{groupName,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR},
+        #{itemName,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR},
         #{resultActual,jdbcType=DOUBLE},
-      </if>
-      <if test="valueUnit != null">
-        #{valueUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="valueMin != null">
-        #{valueMin,jdbcType=DECIMAL},
-      </if>
-      <if test="valueMax != null">
-        #{valueMax,jdbcType=DECIMAL},
-      </if>
-      <if test="resultTips != null">
-        #{resultTips,jdbcType=VARCHAR},
-      </if>
-      <if test="reference != null">
-        #{reference,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="reportTime != null">
+        #{valueUnit,jdbcType=VARCHAR}, #{valueMin,jdbcType=DECIMAL}, #{valueMax,jdbcType=DECIMAL},
+        #{resultTips,jdbcType=VARCHAR}, #{reference,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
         #{reportTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reqId != null">
-        #{reqId,jdbcType=VARCHAR},
-      </if>
-      <if test="reqTime != null">
-        #{reqTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reqDept != null">
-        #{reqDept,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleClass != null">
-        #{sampleClass,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleTime != null">
+        #{reqId,jdbcType=VARCHAR}, #{reqTime,jdbcType=TIMESTAMP},
+        #{reqDept,jdbcType=VARCHAR}, #{sampleClass,jdbcType=VARCHAR},
         #{sampleTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendDoctor != null">
-        #{sendDoctor,jdbcType=VARCHAR},
-      </if>
-      <if test="checkTime != null">
-        #{checkTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checkPerson != null">
-        #{checkPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="inspectionId != null">
-        #{inspectionId,jdbcType=VARCHAR},
-      </if>
-      <if test="diaAbFlag != null">
-        #{diaAbFlag,jdbcType=CHAR},
-      </if>
-      <if test="newItemCode != null">
-        #{newItemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="fkTenantId != null">
+        #{sendDoctor,jdbcType=VARCHAR}, #{checkTime,jdbcType=TIMESTAMP}, #{checkPerson,jdbcType=VARCHAR},
+        #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{newItemCode,jdbcType=VARCHAR},
         #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="assayMonth != null">
-        #{assayMonth,jdbcType=VARCHAR},
-      </if>
-      <if test="assayDate != null">
-        #{assayDate,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleCode != null">
-        #{sampleCode,jdbcType=VARCHAR},
-      </if>
-      <if test="testMethod != null">
+        #{createTime,jdbcType=TIMESTAMP}, #{assayMonth,jdbcType=VARCHAR},
+        #{assayDate,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR},
         #{testMethod,jdbcType=VARCHAR},
-      </if>
-      <if test="flage != null">
-        #{flage,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    update patient_assay_record
-    <set>
-      <if test="fkPatientId != null">
-        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
-      </if>
-      <if test="hisPtId != null">
+        #{flage,jdbcType=BIT})
+    </insert>
+    <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        insert into patient_assay_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="fkPatientId != null">
+                fk_patient_id,
+            </if>
+            <if test="hisPtId != null">
+                his_pt_Id,
+            </if>
+            <if test="groupId != null">
+                group_id,
+            </if>
+            <if test="groupName != null">
+                group_name,
+            </if>
+            <if test="itemCode != null">
+                item_code,
+            </if>
+            <if test="itemName != null">
+                item_name,
+            </if>
+            <if test="result != null">
+                result,
+            </if>
+            <if test="resultActual != null">
+                result_actual,
+            </if>
+            <if test="valueUnit != null">
+                value_unit,
+            </if>
+            <if test="valueMin != null">
+                value_min,
+            </if>
+            <if test="valueMax != null">
+                value_max,
+            </if>
+            <if test="resultTips != null">
+                result_tips,
+            </if>
+            <if test="reference != null">
+                reference,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="reportTime != null">
+                report_time,
+            </if>
+            <if test="reqId != null">
+                req_id,
+            </if>
+            <if test="reqTime != null">
+                req_time,
+            </if>
+            <if test="reqDept != null">
+                req_dept,
+            </if>
+            <if test="sampleClass != null">
+                sample_class,
+            </if>
+            <if test="sampleTime != null">
+                sample_time,
+            </if>
+            <if test="sendDoctor != null">
+                send_doctor,
+            </if>
+            <if test="checkTime != null">
+                check_time,
+            </if>
+            <if test="checkPerson != null">
+                check_person,
+            </if>
+            <if test="inspectionId != null">
+                inspection_id,
+            </if>
+            <if test="diaAbFlag != null">
+                dia_ab_flag,
+            </if>
+            <if test="newItemCode != null">
+                new_item_code,
+            </if>
+            <if test="fkTenantId != null">
+                fk_tenant_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="assayMonth != null">
+                assay_month,
+            </if>
+            <if test="assayDate != null">
+                assay_date,
+            </if>
+            <if test="sampleCode != null">
+                sample_code,
+            </if>
+            <if test="testMethod != null">
+                test_method,
+            </if>
+            <if test="flage != null">
+                flage,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="fkPatientId != null">
+                #{fkPatientId,jdbcType=BIGINT},
+            </if>
+            <if test="hisPtId != null">
+                #{hisPtId,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemCode != null">
+                #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="resultActual != null">
+                #{resultActual,jdbcType=DOUBLE},
+            </if>
+            <if test="valueUnit != null">
+                #{valueUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="valueMin != null">
+                #{valueMin,jdbcType=DECIMAL},
+            </if>
+            <if test="valueMax != null">
+                #{valueMax,jdbcType=DECIMAL},
+            </if>
+            <if test="resultTips != null">
+                #{resultTips,jdbcType=VARCHAR},
+            </if>
+            <if test="reference != null">
+                #{reference,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="reportTime != null">
+                #{reportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reqId != null">
+                #{reqId,jdbcType=VARCHAR},
+            </if>
+            <if test="reqTime != null">
+                #{reqTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reqDept != null">
+                #{reqDept,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleClass != null">
+                #{sampleClass,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleTime != null">
+                #{sampleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendDoctor != null">
+                #{sendDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="checkTime != null">
+                #{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkPerson != null">
+                #{checkPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectionId != null">
+                #{inspectionId,jdbcType=VARCHAR},
+            </if>
+            <if test="diaAbFlag != null">
+                #{diaAbFlag,jdbcType=CHAR},
+            </if>
+            <if test="newItemCode != null">
+                #{newItemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTenantId != null">
+                #{fkTenantId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="assayMonth != null">
+                #{assayMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="assayDate != null">
+                #{assayDate,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleCode != null">
+                #{sampleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="testMethod != null">
+                #{testMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="flage != null">
+                #{flage,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        update patient_assay_record
+        <set>
+            <if test="fkPatientId != null">
+                fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+            </if>
+            <if test="hisPtId != null">
+                his_pt_Id = #{hisPtId,jdbcType=VARCHAR},
+            </if>
+            <if test="groupId != null">
+                group_id = #{groupId,jdbcType=VARCHAR},
+            </if>
+            <if test="groupName != null">
+                group_name = #{groupName,jdbcType=VARCHAR},
+            </if>
+            <if test="itemCode != null">
+                item_code = #{itemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="itemName != null">
+                item_name = #{itemName,jdbcType=VARCHAR},
+            </if>
+            <if test="result != null">
+                result = #{result,jdbcType=VARCHAR},
+            </if>
+            <if test="resultActual != null">
+                result_actual = #{resultActual,jdbcType=DOUBLE},
+            </if>
+            <if test="valueUnit != null">
+                value_unit = #{valueUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="valueMin != null">
+                value_min = #{valueMin,jdbcType=DECIMAL},
+            </if>
+            <if test="valueMax != null">
+                value_max = #{valueMax,jdbcType=DECIMAL},
+            </if>
+            <if test="resultTips != null">
+                result_tips = #{resultTips,jdbcType=VARCHAR},
+            </if>
+            <if test="reference != null">
+                reference = #{reference,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="reportTime != null">
+                report_time = #{reportTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reqId != null">
+                req_id = #{reqId,jdbcType=VARCHAR},
+            </if>
+            <if test="reqTime != null">
+                req_time = #{reqTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="reqDept != null">
+                req_dept = #{reqDept,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleClass != null">
+                sample_class = #{sampleClass,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleTime != null">
+                sample_time = #{sampleTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="sendDoctor != null">
+                send_doctor = #{sendDoctor,jdbcType=VARCHAR},
+            </if>
+            <if test="checkTime != null">
+                check_time = #{checkTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="checkPerson != null">
+                check_person = #{checkPerson,jdbcType=VARCHAR},
+            </if>
+            <if test="inspectionId != null">
+                inspection_id = #{inspectionId,jdbcType=VARCHAR},
+            </if>
+            <if test="diaAbFlag != null">
+                dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
+            </if>
+            <if test="newItemCode != null">
+                new_item_code = #{newItemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="fkTenantId != null">
+                fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="assayMonth != null">
+                assay_month = #{assayMonth,jdbcType=VARCHAR},
+            </if>
+            <if test="assayDate != null">
+                assay_date = #{assayDate,jdbcType=VARCHAR},
+            </if>
+            <if test="sampleCode != null">
+                sample_code = #{sampleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="testMethod != null">
+                test_method = #{testMethod,jdbcType=VARCHAR},
+            </if>
+            <if test="flage != null">
+                flage = #{flage,jdbcType=BIT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
+        <!-- WARNING - @mbggenerated, do not modify! -->
+        update patient_assay_record
+        set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
         his_pt_Id = #{hisPtId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupId != null">
-        group_id = #{groupId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupName != null">
+        group_id =
+        #{groupId,jdbcType=VARCHAR},
         group_name = #{groupName,jdbcType=VARCHAR},
-      </if>
-      <if test="itemCode != null">
         item_code = #{itemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="itemName != null">
-        item_name = #{itemName,jdbcType=VARCHAR},
-      </if>
-      <if test="result != null">
+        item_name =
+        #{itemName,jdbcType=VARCHAR},
         result = #{result,jdbcType=VARCHAR},
-      </if>
-      <if test="resultActual != null">
         result_actual = #{resultActual,jdbcType=DOUBLE},
-      </if>
-      <if test="valueUnit != null">
-        value_unit = #{valueUnit,jdbcType=VARCHAR},
-      </if>
-      <if test="valueMin != null">
+        value_unit =
+        #{valueUnit,jdbcType=VARCHAR},
         value_min = #{valueMin,jdbcType=DECIMAL},
-      </if>
-      <if test="valueMax != null">
         value_max = #{valueMax,jdbcType=DECIMAL},
-      </if>
-      <if test="resultTips != null">
-        result_tips = #{resultTips,jdbcType=VARCHAR},
-      </if>
-      <if test="reference != null">
+        result_tips =
+        #{resultTips,jdbcType=VARCHAR},
         reference = #{reference,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="reportTime != null">
-        report_time = #{reportTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reqId != null">
+        report_time =
+        #{reportTime,jdbcType=TIMESTAMP},
         req_id = #{reqId,jdbcType=VARCHAR},
-      </if>
-      <if test="reqTime != null">
         req_time = #{reqTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="reqDept != null">
-        req_dept = #{reqDept,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleClass != null">
+        req_dept =
+        #{reqDept,jdbcType=VARCHAR},
         sample_class = #{sampleClass,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleTime != null">
         sample_time = #{sampleTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendDoctor != null">
-        send_doctor = #{sendDoctor,jdbcType=VARCHAR},
-      </if>
-      <if test="checkTime != null">
+        send_doctor =
+        #{sendDoctor,jdbcType=VARCHAR},
         check_time = #{checkTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="checkPerson != null">
         check_person = #{checkPerson,jdbcType=VARCHAR},
-      </if>
-      <if test="inspectionId != null">
-        inspection_id = #{inspectionId,jdbcType=VARCHAR},
-      </if>
-      <if test="diaAbFlag != null">
+        inspection_id =
+        #{inspectionId,jdbcType=VARCHAR},
         dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
-      </if>
-      <if test="newItemCode != null">
         new_item_code = #{newItemCode,jdbcType=VARCHAR},
-      </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
+        fk_tenant_id =
+        #{fkTenantId,jdbcType=INTEGER},
         create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="assayMonth != null">
         assay_month = #{assayMonth,jdbcType=VARCHAR},
-      </if>
-      <if test="assayDate != null">
-        assay_date = #{assayDate,jdbcType=VARCHAR},
-      </if>
-      <if test="sampleCode != null">
+        assay_date =
+        #{assayDate,jdbcType=VARCHAR},
         sample_code = #{sampleCode,jdbcType=VARCHAR},
-      </if>
-      <if test="testMethod != null">
         test_method = #{testMethod,jdbcType=VARCHAR},
-      </if>
-      <if test="flage != null">
-        flage = #{flage,jdbcType=BIT},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientAssayRecord">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    update patient_assay_record
-    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
-      his_pt_Id = #{hisPtId,jdbcType=VARCHAR},
-      group_id = #{groupId,jdbcType=VARCHAR},
-      group_name = #{groupName,jdbcType=VARCHAR},
-      item_code = #{itemCode,jdbcType=VARCHAR},
-      item_name = #{itemName,jdbcType=VARCHAR},
-      result = #{result,jdbcType=VARCHAR},
-      result_actual = #{resultActual,jdbcType=DOUBLE},
-      value_unit = #{valueUnit,jdbcType=VARCHAR},
-      value_min = #{valueMin,jdbcType=DECIMAL},
-      value_max = #{valueMax,jdbcType=DECIMAL},
-      result_tips = #{resultTips,jdbcType=VARCHAR},
-      reference = #{reference,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      report_time = #{reportTime,jdbcType=TIMESTAMP},
-      req_id = #{reqId,jdbcType=VARCHAR},
-      req_time = #{reqTime,jdbcType=TIMESTAMP},
-      req_dept = #{reqDept,jdbcType=VARCHAR},
-      sample_class = #{sampleClass,jdbcType=VARCHAR},
-      sample_time = #{sampleTime,jdbcType=TIMESTAMP},
-      send_doctor = #{sendDoctor,jdbcType=VARCHAR},
-      check_time = #{checkTime,jdbcType=TIMESTAMP},
-      check_person = #{checkPerson,jdbcType=VARCHAR},
-      inspection_id = #{inspectionId,jdbcType=VARCHAR},
-      dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
-      new_item_code = #{newItemCode,jdbcType=VARCHAR},
-      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      assay_month = #{assayMonth,jdbcType=VARCHAR},
-      assay_date = #{assayDate,jdbcType=VARCHAR},
-      sample_code = #{sampleCode,jdbcType=VARCHAR},
-      test_method = #{testMethod,jdbcType=VARCHAR},
-      flage = #{flage,jdbcType=BIT}
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+        flage =
+        #{flage,jdbcType=BIT}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 
-  <!-- 自定义 -->
-  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayRecordPO">
+    <!-- 自定义 -->
+    <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayRecordPO">
         <result column="needAssayCount" jdbcType="INTEGER" property="needAssayCount" />
         <result column="hadAssaySum" jdbcType="INTEGER" property="hadAssaySum" />
         <result column="assayClassValue" jdbcType="VARCHAR" property="assayClass" />
         <result column="sampleTimeShow" jdbcType="VARCHAR" property="sampleTimeShow" />
         <result column="reportTimeShow" jdbcType="VARCHAR" property="reportTimeShow" />
-  </resultMap>
-  
-  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-      select 
+    </resultMap>
+
+    <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        select
         par.*
-        ,dhl.order_by as orderBy,dhl.min_value as `minValue`,dhl.max_value as `maxValue`,dhl.unit as unit,dhl.fk_dict_code AS fkDictCode,dhl.value_type as valueType
+        ,dhl.order_by as orderBy,dhl.min_value as `minValue`,dhl.max_value as `maxValue`,dhl.unit as unit,dhl.fk_dict_code AS
+        fkDictCode,dhl.value_type as
+        valueType
         , pa.name as patientName
-      FROM patient_assay_record par 
-      LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code and dhl.fk_tenant_id = par.fk_tenant_id
-      LEFT JOIN patient pa ON pa.id = par.fk_patient_id
-      <where>
-        <if test="fkPatientId != null">
-           par.fk_patient_id = #{fkPatientId}
-        </if>
-        <if test="hisPtId != null">
-          and par.his_pt_Id = #{hisPtId}
-        </if>
-        <!-- &amp;lt;if test="assayDate != null and assayDate != ''"&amp;gt;
-          and par.assay_date = #{assayDate}
-        &amp;lt;/if&amp;gt; -->
-        <if test="groupId != null and groupId != ''">
-          and par.group_id = #{groupId}
-        </if>
-        <if test="groupIds != null">
-          and par.group_id in 
-            <foreach close=")" collection="groupIds" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-        <if test="groupName != null">
-          and par.group_name = #{groupName}
-        </if>
-        <if test="itemCode != null">
-          and par.item_code = #{itemCode}
-        </if>
-        <if test="itemName != null">
-          and par.item_name = #{itemName}
-        </if>
-        <if test="result != null">
-          and par.result = #{result}
-        </if>
-        <if test="resultTips != null">
-          and par.result_tips = #{resultTips}
-        </if>
-        <if test="multResultTips != null">
-          and par.result_tips in 
-          <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-        <if test="remark != null">
-          and par.remark = #{remark}
-        </if>
-        <!--&amp;lt;if test="reportTime != null"&amp;gt;  -->
-        <if test="assayDate != null and assayDate != ''">
-          and date(par.assay_date) = #{assayDate}<!-- #{reportTime} -->
-        </if>
-        <!-- 送检日期查询 -->
-         <if test="sampleTimeShow != null and sampleTimeShow != ''">
-          and date(par.sample_time) = #{sampleTimeShow}<!-- #{reportTime} -->
-        </if>
-        <!-- 报告日期查询 -->
-         <if test="reportTimeShow != null and reportTimeShow != ''">
-          and date(par.report_time) = #{reportTimeShow}<!-- #{reportTime} -->
-        </if>
-        <if test="reqId != null and reqId != ''">
-          and par.req_id = #{reqId}
-        </if>
-        <if test="reqTime != null">
-          and par.req_time = #{reqTime}
-        </if>
-        <if test="sampleClass != null">
-          and par.sample_class = #{sampleClass}
-        </if>
-        <if test="sampleTime != null">
-          and par.sample_time = #{sampleTime}
-        </if>
-        <if test="sendDoctor != null">
-          and par.send_doctor = #{sendDoctor}
-        </if>
-        <if test="checkTime != null">
-          and par.check_time = #{checkTime}
-        </if>
-        <if test="checkPerson != null">
-          and par.check_person = #{checkPerson}
-        </if>
-        <if test="inspectionId != null">
-          and par.inspection_id = #{inspectionId}
-        </if>
-        <if test="fkTenantId != null">
-          and par.fk_tenant_id = #{fkTenantId}
-        </if>
-        <if test="createTime != null">
-          and par.create_time = #{createTime}
-        </if>
-        <if test="startDate != null">
-            AND par.sample_time &gt;= #{startDate}
-        </if>
-        <if test="endDate != null">
-            AND par.sample_time &lt;= #{endDate}
-        </if>
-         AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
-      </where>
-      ORDER BY par.group_id ASC,par.item_code ASC
-  </select>
-  
-  <select id="selectDateAssayRecord" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-      select assay_date,reportTimeShow,sampleTimeShow,fk_patient_id,flage from (
-          select DISTINCT date(par.sample_time) as assay_date,
-          DATE_FORMAT(par.report_time,"%Y-%m-%d") as reportTimeShow,
-          DATE_FORMAT(par.sample_time,"%Y-%m-%d") as sampleTimeShow,
-          max(par.fk_patient_id) AS fk_patient_id,par.flage
-          from patient_assay_record par 
-          <where>
-              <if test="fkPatientId != null">
+        FROM patient_assay_record par
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code =
+        par.item_code and dhl.fk_tenant_id = par.fk_tenant_id
+        LEFT JOIN patient pa ON pa.id = par.fk_patient_id
+        <where>
+            <if test="fkPatientId != null">
                 par.fk_patient_id = #{fkPatientId}
-              </if>
-              <if test="fkTenantId != null">
-                and par.fk_tenant_id = #{fkTenantId}
-              </if>
-              <if test="groupId != null and groupId != ''">
+            </if>
+            <if test="hisPtId != null">
+                and par.his_pt_Id = #{hisPtId}
+            </if>
+            <!-- &amp;lt;if test="assayDate != null and assayDate != ''"&amp;gt; and par.assay_date = #{assayDate} &amp;lt;/if&amp;gt; -->
+            <if test="groupId != null and groupId != ''">
                 and par.group_id = #{groupId}
-              </if>
-          </where>
-          GROUP BY par.sample_time
-          ORDER BY par.sample_time DESC
-      ) patientAssayRecord
-    group by sampleTimeShow
-    ORDER BY
+            </if>
+            <if test="groupIds != null">
+                and par.group_id in
+                <foreach close=")" collection="groupIds" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+            <if test="groupName != null">
+                and par.group_name = #{groupName}
+            </if>
+            <if test="itemCode != null">
+                and par.item_code = #{itemCode}
+            </if>
+            <if test="itemName != null">
+                and par.item_name = #{itemName}
+            </if>
+            <if test="result != null">
+                and par.result = #{result}
+            </if>
+            <if test="resultTips != null">
+                and par.result_tips = #{resultTips}
+            </if>
+            <if test="multResultTips != null">
+                and par.result_tips in
+                <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+            <if test="remark != null">
+                and par.remark = #{remark}
+            </if>
+            <!--&amp;lt;if test="reportTime != null"&amp;gt; -->
+            <if test="assayDate != null and assayDate != ''">
+                and date(par.assay_date) = #{assayDate}<!-- #{reportTime} -->
+            </if>
+            <!-- 送检日期查询 -->
+            <if test="sampleTimeShow != null and sampleTimeShow != ''">
+                and date(par.sample_time) = #{sampleTimeShow}<!-- #{reportTime} -->
+            </if>
+            <!-- 报告日期查询 -->
+            <if test="reportTimeShow != null and reportTimeShow != ''">
+                and date(par.report_time) = #{reportTimeShow}<!-- #{reportTime} -->
+            </if>
+            <if test="reqId != null and reqId != ''">
+                and par.req_id = #{reqId}
+            </if>
+            <if test="reqTime != null">
+                and par.req_time = #{reqTime}
+            </if>
+            <if test="sampleClass != null">
+                and par.sample_class = #{sampleClass}
+            </if>
+            <if test="sampleTime != null">
+                and par.sample_time = #{sampleTime}
+            </if>
+            <if test="sendDoctor != null">
+                and par.send_doctor = #{sendDoctor}
+            </if>
+            <if test="checkTime != null">
+                and par.check_time = #{checkTime}
+            </if>
+            <if test="checkPerson != null">
+                and par.check_person = #{checkPerson}
+            </if>
+            <if test="inspectionId != null">
+                and par.inspection_id = #{inspectionId}
+            </if>
+            <if test="fkTenantId != null">
+                and par.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="createTime != null">
+                and par.create_time = #{createTime}
+            </if>
+            <if test="startDate != null">
+                AND par.sample_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND par.sample_time &lt;= #{endDate}
+            </if>
+            AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
+        </where>
+        ORDER BY par.group_id ASC,par.item_code ASC
+    </select>
+
+    <select id="selectDateAssayRecord" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        select assay_date,reportTimeShow,sampleTimeShow,fk_patient_id,flage from (
+        select DISTINCT date(par.sample_time) as assay_date,
+        DATE_FORMAT(par.report_time,"%Y-%m-%d") as reportTimeShow,
+        DATE_FORMAT(par.sample_time,"%Y-%m-%d") as sampleTimeShow,
+        max(par.fk_patient_id) AS
+        fk_patient_id,par.flage
+        from patient_assay_record par
+        <where>
+            <if test="fkPatientId != null">
+                par.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="fkTenantId != null">
+                and par.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                and par.group_id = #{groupId}
+            </if>
+        </where>
+        GROUP BY par.sample_time
+        ORDER BY par.sample_time DESC
+        ) patientAssayRecord
+        group by sampleTimeShow
+        ORDER BY
         sampleTimeShow DESC
-  </select>
-  
-  <select id="selectReportData" resultType="map">
-      SELECT  par.result_actual as value, par.assay_date as time FROM patient_assay_record par
-      <where>
-           par.fk_patient_id = #{patientId}
-          <if test="itemCode != null">
-            and par.item_code = #{itemCode}
-          </if>
-          <if test="startTime != null">
-            and par.sample_time  &gt;= #{startTime}
-          </if>
-          <if test="endTime != null">
-            and par.sample_time  &lt;= #{endTime}
-          </if>
-      </where>
-      ORDER BY par.assay_date ASC
-  </select>
-  
-  <select id="selectReportByAssayTime" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-    SELECT p.assay_month AS `month`
+    </select>
+
+    <select id="selectReportData" resultType="map">
+        SELECT par.result_actual as value, par.assay_date as time FROM patient_assay_record par
+        <where>
+            par.fk_patient_id = #{patientId}
+            <if test="itemCode != null">
+                and par.item_code = #{itemCode}
+            </if>
+            <if test="startTime != null">
+                and par.sample_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and par.sample_time &lt;= #{endTime}
+            </if>
+        </where>
+        ORDER BY par.assay_date ASC
+    </select>
+
+    <select id="selectReportByAssayTime" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        SELECT p.assay_month AS `month`
         , COUNT(p.id) as allCount
         ,sum(CASE WHEN p.result_tips = '1' THEN 1 ELSE 0 END) okCount
-    FROM patient_assay_record p
-    LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and dhl.fk_tenant_id = p.fk_tenant_id
-    WHERE p.fk_tenant_id = #{fkTenantId}
-    AND dhl.value_type = 1
-    <if test="itemCode != null">
-        AND p.item_code = #{itemCode}
-    </if>
-    <if test="startDate != null">
-        AND p.sample_time &gt;= #{startDate}
-    </if>
-    <if test="endDate != null">
-        AND p.sample_time &lt;= #{endDate}
-    </if>
-    GROUP BY p.assay_month
-  </select>
-  
-  <select id="selectByMonth" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-    SELECT p.*
+        FROM patient_assay_record
+        p
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and dhl.fk_tenant_id = p.fk_tenant_id
+        WHERE p.fk_tenant_id = #{fkTenantId}
+        AND
+        dhl.value_type = 1
+        <if test="itemCode != null">
+            AND p.item_code = #{itemCode}
+        </if>
+        <if test="startDate != null">
+            AND p.sample_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND p.sample_time &lt;= #{endDate}
+        </if>
+        GROUP BY p.assay_month
+    </select>
+
+    <select id="selectByMonth" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        SELECT p.*
         , pa.`name` as patientName
-    FROM patient_assay_record p
-    LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and dhl.fk_tenant_id = p.fk_tenant_id
-    INNER JOIN patient pa ON pa.id = p.fk_patient_id
-    WHERE p.fk_tenant_id = #{fkTenantId}
-    AND dhl.value_type = 1
-    <if test="itemCode != null">
-        AND p.item_code = #{itemCode}
-    </if>
-    <if test="startDate != null">
-        AND p.sample_time &gt;= #{startDate}
-    </if>
-    <if test="endDate != null">
-        AND p.sample_time &lt;= #{endDate}
-    </if>
-    order by pa.spell_initials, p.sample_time
-  </select>
-  
-  <select id="selectStatisticsReport" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-    SELECT p.assay_month as `month`
+        FROM patient_assay_record p
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and
+        dhl.fk_tenant_id = p.fk_tenant_id
+        INNER JOIN patient pa ON pa.id = p.fk_patient_id
+        WHERE p.fk_tenant_id = #{fkTenantId}
+        AND dhl.value_type = 1
+        <if test="itemCode != null">
+            AND p.item_code = #{itemCode}
+        </if>
+        <if test="startDate != null">
+            AND p.sample_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND p.sample_time &lt;= #{endDate}
+        </if>
+        order by pa.spell_initials, p.sample_time
+    </select>
+
+    <select id="selectStatisticsReport" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        SELECT p.assay_month as `month`
         , count(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END) as allCount
-        , sum(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END) as allSum
-        , round(AVG(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END), 2) as `avg`
-        , round(stddev_pop(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END), 2) as `pop`
-    FROM patient_assay_record p 
-    LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and dhl.fk_tenant_id = p.fk_tenant_id
-    WHERE p.fk_tenant_id = #{fkTenantId}
-    AND dhl.value_type = 1
-    <if test="itemCode != null">
-        AND p.item_code = #{itemCode}
-    </if>
-    <if test="startDate != null">
-        AND p.sample_time &gt;= #{startDate}
-    </if>
-    <if test="endDate != null">
-        AND p.sample_time &lt;= #{endDate}
-    </if>
-    GROUP BY p.assay_month;
-  </select>
-  
-  <select id="selectCategoryListByPatientId" resultType="map">
-     SELECT par.group_id AS groupId,par.group_name AS groupName FROM patient_assay_record par 
-     WHERE par.fk_patient_id =#{patientId} AND par.fk_tenant_id = #{tenantId} AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
-     GROUP BY par.group_id, par.group_name
-     ORDER BY par.group_id ASC
-  </select>
-  
-  <select id="selectCategoryList" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-     SELECT par.* FROM patient_assay_record par 
-     WHERE 
-     par.fk_patient_id =#{fkPatientId}
-     AND par.fk_tenant_id = #{fkTenantId}
-     <if test="assayDate != null and assayDate != ''">
-        AND date(par.sample_time) = #{assayDate}
-     </if>
-     <!-- 送检日期查询 -->
-         <if test="sampleTimeShow != null and sampleTimeShow != ''">
-          and date(par.sample_time) = #{sampleTimeShow}
+        ,
+        sum(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END) as allSum
+        , round(AVG(CASE WHEN p.result IS NULL OR
+        p.result='' THEN 0 ELSE cast(p.result as DECIMAL) END), 2) as `avg`
+        , round(stddev_pop(CASE WHEN p.result IS NULL OR p.result='' THEN 0 ELSE
+        cast(p.result as DECIMAL) END), 2) as `pop`
+        FROM patient_assay_record p
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = p.item_code and
+        dhl.fk_tenant_id = p.fk_tenant_id
+        WHERE p.fk_tenant_id = #{fkTenantId}
+        AND dhl.value_type = 1
+        <if test="itemCode != null">
+            AND p.item_code = #{itemCode}
+        </if>
+        <if test="startDate != null">
+            AND p.sample_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND p.sample_time &lt;= #{endDate}
+        </if>
+        GROUP BY p.assay_month;
+    </select>
+
+    <select id="selectCategoryListByPatientId" resultType="map">
+        SELECT par.group_id AS groupId,par.group_name AS groupName FROM patient_assay_record
+        par
+        WHERE par.fk_patient_id =#{patientId} AND par.fk_tenant_id = #{tenantId} AND par.group_id IS NOT NULL AND par.group_name IS NOT NULL
+        GROUP
+        BY par.group_id, par.group_name
+        ORDER BY par.group_id ASC
+    </select>
+
+    <select id="selectCategoryList" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        SELECT par.* FROM patient_assay_record par
+        WHERE
+        par.fk_patient_id =#{fkPatientId}
+        AND par.fk_tenant_id = #{fkTenantId}
+        <if test="assayDate != null and assayDate != ''">
+            AND date(par.sample_time) = #{assayDate}
+        </if>
+        <!-- 送检日期查询 -->
+        <if test="sampleTimeShow != null and sampleTimeShow != ''">
+            and date(par.sample_time) = #{sampleTimeShow}
         </if>
         <!-- 报告日期查询 -->
-         <if test="reportTimeShow != null and reportTimeShow != ''">
-          and date(par.report_time) = #{reportTimeShow}
+        <if test="reportTimeShow != null and reportTimeShow != ''">
+            and date(par.report_time) = #{reportTimeShow}
         </if>
-     AND par.req_id IS NOT NULL 
-     AND par.group_name IS NOT NULL
-     GROUP BY par.req_id, par.group_name
-     ORDER BY par.req_id ASC
-  </select>
-  
-  <select id="selectByFkDictCode" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
-    SELECT par.*
-    ,dhl.fk_dict_code AS fkDictCode
-    ,p.name AS patientName
-    FROM patient_assay_record par
-    LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
-    LEFT JOIN patient p ON p.id = par.fk_patient_id AND p.fk_tenant_id = par.fk_tenant_id
-    WHERE
+        AND par.req_id IS NOT NULL
+        AND par.group_name IS NOT NULL
+        GROUP BY par.req_id, par.group_name
+        ORDER BY par.req_id ASC
+    </select>
+
+    <select id="selectByFkDictCode" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
+        SELECT par.*
+        ,dhl.fk_dict_code AS fkDictCode
+        ,p.name AS patientName
+        FROM patient_assay_record par
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
+        LEFT JOIN patient p ON p.id = par.fk_patient_id AND p.fk_tenant_id = par.fk_tenant_id
+        WHERE
         par.fk_tenant_id = #{fkTenantId}
         AND dhl.fk_dict_code = #{fkDictCode}
         <if test="startDateStr != null">
@@ -718,151 +734,158 @@
             AND par.assay_date &lt;= #{endDateStr}
         </if>
         <if test="resultTips != null">
-          and par.result_tips = #{resultTips}
+            and par.result_tips = #{resultTips}
         </if>
         <if test="assayMonth != null and assayMonth != ''">
-          and par.assay_month = #{assayMonth}
+            and par.assay_month = #{assayMonth}
         </if>
         <if test="multResultTips != null">
-          and par.result_tips in 
-          <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
+            and par.result_tips in
+            <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
         </if>
         <if test="isTemp !=null and isTemp!=''">
-          AND p.is_temp IN (#{isTemp})
+            AND p.is_temp IN (#{isTemp})
         </if>
-    ORDER BY
+        ORDER BY
         par.item_code,par.fk_patient_id,par.assay_date
-  </select>
-  
-  
-  <!-- 查询患者化验详情 -->
-  <select id="selectPatientAssayDetail" resultMap="POResultMap">
-  SELECT 
-    if(par2.item_code is null,pac.item_code,par2.item_code) item_code,
-    if(par2.item_name is null,if(pac.item_name is null or pac.item_name='',pac.fk_assay_group_conf_name,pac.item_name),par2.item_name) item_name,
-    if(par2.group_name is null,pac.group_name,par2.group_name) group_name,
-    par2.fk_patient_id ,par2.id,par2.assay_date,par2.reference,par2.result  
-  from patient_assay_class pac
-    LEFT JOIN(
-            select par.fk_patient_id ,par.item_name,par.item_code,par.id,par.group_name,par.reference,par.result,max(par.assay_date) assay_date, count(par.fk_patient_id) hadAssayCount 
-            from patient_assay_record par 
-            where assay_date &gt; #{startTime}
-            AND assay_date  &lt; #{endTime}
-            AND par.fk_patient_id = #{patientId}
-            AND par.fk_tenant_id = #{fkTenantId}
-            group BY par.item_code,par.fk_patient_id,par.group_name 
-    ) par2
-    ON find_in_set(par2.item_code, pac.item_code)
-    where pac.assay_class = #{assayClass} 
-    AND pac.fk_tenant_id = #{fkTenantId}
-    ORDER BY par2.fk_patient_id DESC;
-  </select>
-  
-  <!-- 查询化验列表（APP用） -->
-  <select id="selectAssayList" resultType="java.util.Map">
-    SELECT
+    </select>
+
+
+    <!-- 查询患者化验详情 -->
+    <select id="selectPatientAssayDetail" resultMap="POResultMap">
+        SELECT
+        if(par2.item_code is null,pac.item_code,par2.item_code) item_code,
+        if(par2.item_name
+        is null,if(pac.item_name is null or pac.item_name='',pac.fk_assay_group_conf_name,pac.item_name),par2.item_name) item_name,
+        if(par2.group_name
+        is null,pac.group_name,par2.group_name) group_name,
+        par2.fk_patient_id ,par2.id,par2.assay_date,par2.reference,par2.result
+        from
+        patient_assay_class pac
+        LEFT JOIN(
+        select par.fk_patient_id
+        ,par.item_name,par.item_code,par.id,par.group_name,par.reference,par.result,max(par.assay_date) assay_date,
+        count(par.fk_patient_id)
+        hadAssayCount
+        from patient_assay_record par
+        where assay_date &gt; #{startTime}
+        AND assay_date &lt; #{endTime}
+        AND par.fk_patient_id = #{patientId}
+        AND par.fk_tenant_id = #{fkTenantId}
+        group BY par.item_code,par.fk_patient_id,par.group_name
+        ) par2
+        ON find_in_set(par2.item_code, pac.item_code)
+        where pac.assay_class = #{assayClass}
+        AND pac.fk_tenant_id = #{fkTenantId}
+        ORDER BY par2.fk_patient_id DESC;
+    </select>
+
+    <!-- 查询化验列表（APP用） -->
+    <select id="selectAssayList" resultType="java.util.Map">
+        SELECT
         par.assay_date assayDate,
         GROUP_CONCAT(case when par.result_tips ='1' then null else par.item_name end SEPARATOR '、') exceptionName
-    FROM
+        FROM
         patient_assay_record par
-    <where>
-        <if test="patientId != null and patientId != ''">
-            par.fk_patient_id=#{patientId}
-        </if>
-        <if test="assayDateFrom != null and assayDateFrom != ''">
-            and par.assay_date &gt;= #{assayDateFrom}
-        </if>
-        <if test="assayDateTo != null and assayDateTo != ''">
-            and par.assay_date &lt;= #{assayDateTo}
-        </if>
-    </where>
-    GROUP BY assay_date
-    ORDER BY assay_date desc
-  </select>
-  <select id="selectAssayItems" resultMap="BaseResultMap">
-    SELECT
+        <where>
+            <if test="patientId != null and patientId != ''">
+                par.fk_patient_id=#{patientId}
+            </if>
+            <if test="assayDateFrom != null and assayDateFrom != ''">
+                and par.assay_date &gt;= #{assayDateFrom}
+            </if>
+            <if test="assayDateTo != null and assayDateTo != ''">
+                and par.assay_date &lt;= #{assayDateTo}
+            </if>
+        </where>
+        GROUP BY assay_date
+        ORDER BY assay_date desc
+    </select>
+    <select id="selectAssayItems" resultMap="BaseResultMap">
+        SELECT
         par.group_id,
         par.group_name,
         par.item_code,
         par.item_name,
         par.result,
         CONCAT(
-            IFNULL(par.reference, ''),
-            IFNULL(par.value_unit, '')
+        IFNULL(par.reference, ''),
+        IFNULL(par.value_unit, '')
         ) reference,
         par.result_tips
-    FROM
+        FROM
         patient_assay_record par
-    WHERE
-        par.fk_patient_id = #{patientId}
+        WHERE
+        par.fk_patient_id =
+        #{patientId}
         and assay_date = #{assayDate}
-    ORDER BY
+        ORDER BY
         par.group_id,
         par.item_code
-  </select>
-  
-  <select id="selectByItemCodes" resultMap="POResultMap">
-    SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result FROM patient_assay_record par
-    force index(inx_assay_record_date_code_tenant)
-    LEFT JOIN patient p on par.fk_patient_id = p.id
-    
-    <where>
-        <if test="startDate != null">
-            par.assay_date &gt;= #{startDate,jdbcType=DATE}
-        </if>
-        <if test="endDate != null">
-            AND par.assay_date &lt;= #{endDate,jdbcType=DATE}
-        </if>
-        <if test="itemCodes != null">
-            AND binary par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-        <if test="fkTenantId != null">
-            AND par.fk_tenant_id =#{fkTenantId}
-        </if>
-        <if test="patientTempValue !=null and patientTempValue !=''">
-            AND p.is_temp IN (#{patientTempValue})
-        </if>
-    </where>
-    ORDER BY par.fk_patient_id,par.item_code,par.assay_date DESC
-  </select>
-  
-  <!-- 手动添加化验项 -->
+    </select>
+
+    <select id="selectByItemCodes" resultMap="POResultMap">
+        SELECT par.fk_patient_id,par.item_code,par.assay_date,par.result FROM patient_assay_record par
+        force index(inx_assay_record_date_code_tenant)
+        LEFT JOIN patient p on par.fk_patient_id = p.id
+
+        <where>
+            <if test="startDate != null">
+                par.assay_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                AND par.assay_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+            <if test="itemCodes != null">
+                AND binary par.item_code in
+                <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+            <if test="fkTenantId != null">
+                AND par.fk_tenant_id =#{fkTenantId}
+            </if>
+            <if test="patientTempValue !=null and patientTempValue !=''">
+                AND p.is_temp IN (#{patientTempValue})
+            </if>
+        </where>
+        ORDER BY par.fk_patient_id,par.item_code,par.assay_date DESC
+    </select>
+
+    <!-- 手动添加化验项 -->
     <insert id="insertPatientAssay" parameterType="java.util.List">
-      <!--
-            批量添加化验项
-      -->
-      insert into patient_assay_record (id, fk_patient_id, his_pt_Id, 
-      group_id, group_name, item_code, 
-      item_name, result, result_actual, 
-      value_unit, result_tips, value_min, 
-      value_max, reference, report_time, 
-      req_id, req_time, req_dept, 
-      sample_class, sample_time, send_doctor, 
-      check_time, check_person, inspection_id, 
-      assay_month, assay_date, sample_code, 
-      test_method, remark, create_time, 
-      fk_tenant_id, flage)
-      values 
-      <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=VARCHAR}, #{item.fkPatientId,jdbcType=BIGINT}, #{item.hisPtId,jdbcType=VARCHAR}, 
-      #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, #{item.itemCode,jdbcType=VARCHAR}, 
-      #{item.itemName,jdbcType=VARCHAR}, #{item.result,jdbcType=VARCHAR}, #{item.resultActual,jdbcType=DOUBLE}, 
-      #{item.valueUnit,jdbcType=VARCHAR}, #{item.resultTips,jdbcType=VARCHAR}, #{item.valueMin,jdbcType=DECIMAL}, 
-      #{item.valueMax,jdbcType=DECIMAL}, #{item.reference,jdbcType=VARCHAR}, #{item.reportTime,jdbcType=TIMESTAMP}, 
-      #{item.reqId,jdbcType=VARCHAR}, #{item.reqTime,jdbcType=TIMESTAMP}, #{item.reqDept,jdbcType=VARCHAR}, 
-      #{item.sampleClass,jdbcType=VARCHAR}, #{item.sampleTime,jdbcType=TIMESTAMP}, #{item.sendDoctor,jdbcType=VARCHAR}, 
-      #{item.checkTime,jdbcType=TIMESTAMP}, #{item.checkPerson,jdbcType=VARCHAR}, #{item.inspectionId,jdbcType=VARCHAR}, 
-      #{item.assayMonth,jdbcType=VARCHAR}, #{item.assayDate,jdbcType=VARCHAR}, #{item.sampleCode,jdbcType=VARCHAR}, 
-      #{item.testMethod,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, 
-      #{item.fkTenantId,jdbcType=INTEGER}, #{item.flage,jdbcType=VARCHAR})
-      </foreach>
+        <!-- 批量添加化验项 -->
+        insert into patient_assay_record (id, fk_patient_id, his_pt_Id,
+        group_id, group_name, item_code,
+        item_name, result, result_actual,
+        value_unit,
+        result_tips, value_min,
+        value_max, reference, report_time,
+        req_id, req_time, req_dept,
+        sample_class, sample_time, send_doctor,
+        check_time,
+        check_person, inspection_id,
+        assay_month, assay_date, sample_code,
+        test_method, remark, create_time,
+        fk_tenant_id, flage)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.id,jdbcType=VARCHAR}, #{item.fkPatientId,jdbcType=BIGINT},
+            #{item.hisPtId,jdbcType=VARCHAR},
+            #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, #{item.itemCode,jdbcType=VARCHAR},
+            #{item.itemName,jdbcType=VARCHAR}, #{item.result,jdbcType=VARCHAR}, #{item.resultActual,jdbcType=DOUBLE},
+            #{item.valueUnit,jdbcType=VARCHAR}, #{item.resultTips,jdbcType=VARCHAR}, #{item.valueMin,jdbcType=DECIMAL},
+            #{item.valueMax,jdbcType=DECIMAL}, #{item.reference,jdbcType=VARCHAR}, #{item.reportTime,jdbcType=TIMESTAMP},
+            #{item.reqId,jdbcType=VARCHAR}, #{item.reqTime,jdbcType=TIMESTAMP}, #{item.reqDept,jdbcType=VARCHAR},
+            #{item.sampleClass,jdbcType=VARCHAR}, #{item.sampleTime,jdbcType=TIMESTAMP}, #{item.sendDoctor,jdbcType=VARCHAR},
+            #{item.checkTime,jdbcType=TIMESTAMP}, #{item.checkPerson,jdbcType=VARCHAR}, #{item.inspectionId,jdbcType=VARCHAR},
+            #{item.assayMonth,jdbcType=VARCHAR}, #{item.assayDate,jdbcType=VARCHAR}, #{item.sampleCode,jdbcType=VARCHAR},
+            #{item.testMethod,jdbcType=VARCHAR}, #{item.remark,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.fkTenantId,jdbcType=INTEGER}, #{item.flage,jdbcType=VARCHAR})
+        </foreach>
     </insert>
-    
-     <select id="selectByGroupId" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="BaseResultMap">
-        <!--
-             查询手动录入的选项
-        -->
-        select 
+
+    <select id="selectByGroupId" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="BaseResultMap">
+        <!-- 查询手动录入的选项 -->
+        select
         <include refid="Base_Column_List" />
         from patient_assay_record
         <where>
@@ -876,131 +899,186 @@
                 and fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
             </if>
         </where>
-     </select>
-     
-     <delete id="deleteById" parameterType="java.lang.String">
-        <!--
-            删除手动录入的化验项
-        -->
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        <!-- 删除手动录入的化验项 -->
         delete from patient_assay_record
         where id = #{id,jdbcType=VARCHAR}
-     </delete>
+    </delete>
     <!-- 通过结果生成字典数据 -->
     <select id="getLisDict" parameterType="java.lang.String" resultMap="POResultMap">
-        SELECT * FROM patient_assay_record where 1=1 
+        SELECT * FROM patient_assay_record where 1=1
         <if test="startDateStr != null">
             AND assay_date &gt;= #{startDateStr}
         </if>
-        group BY item_code 
+        group BY item_code
         order by group_name;
     </select>
     <!-- 查询患者某项目最新的数据 -->
     <select id="selectItemLatestDataByCondition" parameterType="com.xtt.common.dao.model.PatientAssayRecord" resultMap="POResultMap">
         select t.* from (
-            SELECT par.* 
-                ,dhl.fk_dict_code AS fkDictCode
-            FROM patient_assay_record par
-            LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
-            WHERE par.fk_tenant_id = #{fkTenantId} AND par.fk_patient_id = #{fkPatientId}
-            <if test="dictCodes !=null">
-                AND dhl.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
-            </if>
-            <if test="itemCodes !=null">
-                AND par.item_code in <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
-            </if>
-            <if test="startDateStr != null">
-                AND par.assay_date &gt;= #{startDateStr}
-            </if>
-            <if test="endDateStr != null">
-                AND par.assay_date &lt;= #{endDateStr}
-            </if>
-            <choose>
-                <when test="dictCodes !=null">
-                    ORDER BY dhl.fk_dict_code,par.assay_date DESC
-                </when>
-                <otherwise>
-                    ORDER BY par.item_code,par.assay_date DESC
-                </otherwise>
-            </choose>
-          ) t
-          <choose>
+        SELECT par.*
+        ,dhl.fk_dict_code AS fkDictCode
+        FROM patient_assay_record par
+        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = par.item_code AND dhl.fk_tenant_id = par.fk_tenant_id
+        WHERE par.fk_tenant_id = #{fkTenantId} AND par.fk_patient_id = #{fkPatientId}
+        <if test="dictCodes !=null">
+            AND dhl.fk_dict_code in
+            <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        <if test="itemCodes !=null">
+            AND par.item_code in
+            <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        <if test="startDateStr != null">
+            AND par.assay_date &gt;= #{startDateStr}
+        </if>
+        <if test="endDateStr != null">
+            AND par.assay_date &lt;= #{endDateStr}
+        </if>
+        <choose>
             <when test="dictCodes !=null">
-                 GROUP BY t.fkDictCode
+                ORDER BY dhl.fk_dict_code,par.assay_date DESC
+            </when>
+            <otherwise>
+                ORDER BY par.item_code,par.assay_date DESC
+            </otherwise>
+        </choose>
+        ) t
+        <choose>
+            <when test="dictCodes !=null">
+                GROUP BY t.fkDictCode
             </when>
             <otherwise>
                 ORDER BY t.item_code
             </otherwise>
-          </choose>
+        </choose>
     </select>
-    
+
     <select id="selectPatientAssayRecordByAssayDate" resultType="com.xtt.common.dao.model.PatientAssayRecord">
-        select 
-            fk_patient_id as fkPatientId,
-            item_code as itemCode,
-            item_name as itemName,
-            result,
-            result_tips as resultTips
-        FROM 
-            patient_assay_record 
-        WHERE  
-            assay_date = #{month} and fk_tenant_id = #{tenantId}
+        select
+        fk_patient_id as fkPatientId,
+        item_code as itemCode,
+        item_name as itemName,
+        result,
+        result_tips as resultTips
+        FROM
+        patient_assay_record
+        WHERE
+        assay_date = #{month} and fk_tenant_id = #{tenantId}
     </select>
-    
+
     <!-- 根据指定条件获取病患检验结果数据 -->
     <select id="listPatientAssayRecord" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
-      select par.*,p.name patientName,p.sex ptSex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id 
-      <where>
+        select par.*,p.name patientName,p.sex ptSex from patient_assay_record par LEFT JOIN patient p on p.id = par.fk_patient_id
+        <where>
             and p.del_flag = 0
-          <if test="ptName != null and ptName != ''">
-            and p.name like concat('%',#{ptName},'%')
-          </if>
-           <if test="ptSex != null and ptSex != ''">
-            and p.sex = #{ptSex}
-          </if>
-          <if test="fkPatientId != null">
-            and par.fk_patient_id = #{fkPatientId}
-          </if>
-          <if test="fkTenantId != null">
-            and par.fk_tenant_id = #{fkTenantId}
-          </if>
-          <if test="groupId != null and groupId != ''">
-            and par.group_id = #{groupId}
-          </if>
-          <if test="assayMonth != null and assayMonth != ''">
-            and par.assay_month = #{assayMonth}
-          </if>
-          <if test="itemCodeList != null and itemCodeList.size() > 0">
-            and par.item_code in  
+            <if test="ptName != null and ptName != ''">
+                and p.name like concat('%',#{ptName},'%')
+            </if>
+            <if test="ptSex != null and ptSex != ''">
+                and p.sex = #{ptSex}
+            </if>
+            <if test="fkPatientId != null">
+                and par.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="fkTenantId != null">
+                and par.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="groupId != null and groupId != ''">
+                and par.group_id = #{groupId}
+            </if>
+            <if test="assayMonth != null and assayMonth != ''">
+                and par.assay_month = #{assayMonth}
+            </if>
+            <if test="itemCodeList != null and itemCodeList.size() > 0">
+                and par.item_code in
                 <foreach collection="itemCodeList" item="item" open="(" separator="," close=")">
                     #{item}
                 </foreach>
-          </if>
-          <if test="startDateStr != null and endDateStr != null and startDateStr != '' and endDateStr != ''">
-            and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
-          </if>
-          <if test="minValue != null ">
-            and par.result &gt;= #{minValue}
-          </if>
-          <if test="maxValue != null">
-            and par.result &lt;= #{maxValue}
-          </if>
-          <if test="resultTips != null and resultTips != ''">
-            and par.result_tips = #{resultTips}
-          </if>
-          <if test="diaAbFlag != null and diaAbFlag != ''">
-            and par.dia_ab_flag = #{diaAbFlag}
-          </if>
-          <if test="reqIdList != null and reqIdList.size() > 0">
-            and par.req_id in   
+            </if>
+            <if test="startDateStr != null and endDateStr != null and startDateStr != '' and endDateStr != ''">
+                and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
+            </if>
+            <if test="minValue != null ">
+                and par.result &gt;= #{minValue}
+            </if>
+            <if test="maxValue != null">
+                and par.result &lt;= #{maxValue}
+            </if>
+            <if test="resultTips != null and resultTips != ''">
+                and par.result_tips = #{resultTips}
+            </if>
+            <if test="diaAbFlag != null and diaAbFlag != ''">
+                and par.dia_ab_flag = #{diaAbFlag}
+            </if>
+            <if test="reqIdList != null and reqIdList.size() > 0">
+                and par.req_id in
                 <foreach collection="reqIdList" item="item" open="(" separator="," close=")">
                     #{item}
                 </foreach>
-          </if>
-      </where>
-  </select>
-  <select id="listByCreateTime" resultMap="POResultMap">
+            </if>
+        </where>
+    </select>
+    <select id="listByCreateTime" resultMap="POResultMap">
         SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
         `value_unit`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
-        `assay_month`,`assay_date`,`flage`,`fk_tenant_id` from patient_assay_record  where create_time  > DATE_FORMAT(NOW(),'%y-%m-%d')
-  </select>
+        `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` from patient_assay_record where
+        create_time &gt; DATE_FORMAT(#{startCreateTime},'%y-%m-%d %H:%i:%s')
+        and create_time &lt; DATE_FORMAT(#{endCreateTime},'%y-%m-%d %H:%i:%s')
+    </select>
+
+    <select id="listByItemCode" resultMap="POResultMap">
+        SELECT fk_patient_id,req_id ,sample_time sample_time,item_code,result
+        from patient_assay_record
+        <where>
+            <if test="itemCodeList != null and itemCodeList.size() > 0">
+                and item_code in
+                <foreach collection="itemCodeList" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startCreateTime != null">
+                and create_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endCreateTime != null">
+                and create_time &lt; DATE_FORMAT(#{endCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <!-- <if test="fkTenantId != null"> and fk_tenant_id = #{fkTenantId} </if> -->
+        </where>
+        group by fk_patient_id,sample_time,req_id,item_code ORDER BY fk_patient_id ,item_code,sample_time
+    </select>
+
+
+    <select id="listByAfterCount" resultMap="POResultMap">
+        SELECT fk_patient_id ,req_id ,sample_time sample_time,count('1') ${strItemCode}
+        from patient_assay_record
+        <where>
+            <if test="startCreateTime != null">
+                and create_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endCreateTime != null">
+                and create_time &lt; DATE_FORMAT(#{endCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        group by fk_patient_id,sample_time,req_id having count('1') &gt; #{afterCount} ORDER BY fk_patient_id ,sample_time
+    </select>
+
+    <select id="getByBeforeCount" resultMap="POResultMap">
+        select t1.* from ( SELECT fk_patient_id,sample_time ,req_id ${strItemCode}
+        from patient_assay_record
+        <where>
+            <if test="fkPatientId != null">
+                and fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="startCreateTime != null">
+                and sample_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="sampleTime != null">
+                and sample_time &lt; DATE_FORMAT(#{sampleTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+        </where>
+        group by fk_patient_id,sample_time,req_id having count('1') &gt; #{beforeCount}) t1 ORDER BY t1.fk_patient_id ,t1.sample_time limit 1
+    </select>
 </mapper>

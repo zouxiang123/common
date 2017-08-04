@@ -280,9 +280,42 @@ public interface PatientAssayRecordMapper {
      * 
      * @Title: listByCreateTime
      * @param createTime
+     * @param endCreateTime
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByCreateTime(Date createTime);
+    List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime);
+
+    /**
+     * 查询
+     * 
+     * @Title: listByItemCode
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param itemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecord> listByItemCode(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
+                    @Param("itemCodeList") List<String> itemCode);
+
+    /**
+     * 根据化验单条数查询化验数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") String afterCount, @Param("startCreateTime") Date startCreateTime,
+                    @Param("endCreateTime") Date endCreateTime, @Param("fkTenantId") Integer fkTenantId, @Param("strItemCode") String strItemCode);
+
+    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") String beforeCount, @Param("sampleTime") Date sampleTime,
+                    @Param("startCreateTime") Date startCreateTime, @Param("strItemCode") String strItemCode, @Param("fkPatientId") Long fkPatientId,
+                    @Param("fkTenantId") Integer fkTenantId);
 
 }
