@@ -26,12 +26,13 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     public static String TIPS_HIGH = "4";
 
     // begin:2017-04-25===============================================================================================
-    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断） */
+    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断 5:根据化验条目判断） */
     public static final String LAB_AFTER_BEFORE = "lab_after_before";
     public static final String LAB_AFTER_BEFORE_ONE = "1";
     public static final String LAB_AFTER_BEFORE_TWO = "2";
     public static final String LAB_AFTER_BEFORE_THREE = "3";
     public static final String LAB_AFTER_BEFORE_FOUR = "4";
+    public static final String LAB_AFTER_BEFORE_FIVE = "5";
 
     /** 查询条件 item_code in ('CA','K') */
     public static final String WHERE_IN_ITEM_CODE_LIST = "itemCodeList";
@@ -48,6 +49,10 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     public static final String LAB_AFTER_CN = "(后)";
     /** 关键字：透析前后时间（<=24） */
     public static final String LAB_GJZ_SJ = "3";
+    /** 关键字：透析前表单项目条数 */
+    public static final String LAB_BEFORE_COUNT = "4";
+    /** 关键字：透析后表单项目条数 */
+    public static final String LAB_AFTER_COUNT = "5";
     // end:===============================================================================================
 
     /** 1：数字；2：字符 */
@@ -87,6 +92,10 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
 
+    private String itemCode1;
+
+    private String itemCode2;
+
     // 报告时间
     private String reportTimeShow;
 
@@ -101,6 +110,22 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private List<String> itemCodeList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
 
     private List<String> reqIdList;// 检验申请单ID集合对象
+
+    public String getItemCode1() {
+        return itemCode1;
+    }
+
+    public void setItemCode1(String itemCode1) {
+        this.itemCode1 = itemCode1;
+    }
+
+    public String getItemCode2() {
+        return itemCode2;
+    }
+
+    public void setItemCode2(String itemCode2) {
+        this.itemCode2 = itemCode2;
+    }
 
     public List<String> getReqIdList() {
         return reqIdList;

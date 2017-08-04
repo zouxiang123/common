@@ -34,6 +34,7 @@ import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
+import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBusiService {
@@ -44,18 +45,22 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
-
+    @Autowired
     private IPatientAssayRecordService patientAssayRecordService;
 
+    String labAfterBefore = SysParamUtil.getValueByName(10101, PatientAssayRecordPO.LAB_AFTER_BEFORE);
+
     @Override
-    public void save(Date createTime) {
-        if (createTime == null) {
-            createTime = DateFormatUtil.getDate();
-        }
+    public void save(Date startCreateTime, Date endCreateTime) {
+        UserUtil.setThreadTenant(10101);
         Date nowDate = new Date();
+        if (startCreateTime == null && endCreateTime == null) {
+            startCreateTime = DateFormatUtil.getStartTime(nowDate);
+            endCreateTime = DateFormatUtil.getEndTime(nowDate);
+        }
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(512);
         PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordMapper.listByCreateTime(createTime);
+        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordMapper.listByCreateTime(startCreateTime, endCreateTime);
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
@@ -80,7 +85,31 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setId(id++);
-                listPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                // 1：根据group_name判断
+                if (PatientAssayRecordPO.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
+                    // 申请单名
+                    listPatientAssayRecordBusi.add(newPatientAssayRecordBusi(patientAssayRecordBusi, patientAssayRecordBusi.getGroupName()));
+                }
+                // 2：根据sample_class判断
+                if (PatientAssayRecordPO.LAB_AFTER_BEFORE_TWO.equals(labAfterBefore)) {
+                    // 样本类型
+                    listPatientAssayRecordBusi.add(newPatientAssayRecordBusi(patientAssayRecordBusi, patientAssayRecordBusi.getSampleClass()));
+                }
+                // 3：根据item_code判断
+                if (PatientAssayRecordPO.LAB_AFTER_BEFORE_THREE.equals(labAfterBefore)) {
+                    // 项目名称
+                    listPatientAssayRecordBusi.add(newPatientAssayRecordBusi(patientAssayRecordBusi, patientAssayRecordBusi.getItemCode()));
+                }
+                // 4：根据sample_time判断
+                if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
+                    patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.NOT_AFTER_BEFORE);
+                    listPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                }
+                // 5：根据化验表单条数
+                if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FIVE.equals(labAfterBefore)) {
+                    patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.NOT_AFTER_BEFORE);
+                    listPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                }
                 i++;
                 if (i == 1000) {
                     patientAssayRecordBusiMapper.insertList(listPatientAssayRecordBusi);
@@ -93,15 +122,165 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         if (listPatientAssayRecordBusi.size() != 0) {
             patientAssayRecordBusiMapper.insertList(listPatientAssayRecordBusi);
         }
-        updateLisAfterBefore(listPatientAssayRecord);
+        // 4：根据sample_time判断
+        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
+            sampleTime(startCreateTime, endCreateTime);
+        }
+        // 5：根据化验表单条数
+        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FIVE.equals(labAfterBefore)) {
+            countResult(startCreateTime, endCreateTime);
+        }
         listPatientAssayRecord = null;
 
+    }
+
+    /**
+     * 根据化验项目判断透前投后
+     * 
+     * @Title: countResult
+     * @param startCreateTime
+     * @param endCreateTime
+     *
+     */
+    public void countResult(Date startCreateTime, Date endCreateTime) {
+        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_GJZ_SJ);// 关键字：设置为24小时
+        String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_BEFORE_COUNT);
+        String afterCount = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_AFTER_COUNT);
+        List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
+        // 根据项目编码过滤查询
+        List<DictDto> itemCodeList = DictUtil.listByPItemCode(PatientAssayRecordPO.WHERE_IN_ITEM_CODE_LIST);
+        StringBuffer strItemCode = new StringBuffer();
+        int i = 1;
+        for (DictDto dictDto : itemCodeList) {
+            strItemCode.append(" , max(case when item_code = '").append(dictDto.getItemCode()).append("' then result end ) itemCode" + i);
+            i++;
+        }
+        List<PatientAssayRecordPO> listAfterPatientAssayRecord = patientAssayRecordMapper.listByAfterCount(afterCount, startCreateTime, endCreateTime,
+                        UserUtil.getTenantId(), strItemCode.toString());
+
+        if (CollectionUtils.isNotEmpty(listAfterPatientAssayRecord)) {
+            long time1;
+            long time2;
+            long sj = StringUtil.isEmpty(sjStr) ? 0L : Long.valueOf(sjStr);
+
+            PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
+            // 化验的开始时间
+            Date startSampleTime = new Date();
+            for (PatientAssayRecordPO patientAssayRecord : listAfterPatientAssayRecord) {
+                startSampleTime = DateUtil.add(patientAssayRecord.getSampleTime(), 10, (Integer.parseInt(sjStr) * -1));
+                PatientAssayRecordPO getPatientAssayRecord = patientAssayRecordMapper.getByBeforeCount(beforeCount,
+                                patientAssayRecord.getSampleTime(), startSampleTime, strItemCode.toString(), patientAssayRecord.getFkPatientId(),
+                                UserUtil.getTenantId());
+                if (getPatientAssayRecord != null && getPatientAssayRecord.getSampleTime() != null) {
+
+                    time1 = patientAssayRecord.getSampleTime().getTime(); // 透析后的时间
+                    time2 = getPatientAssayRecord.getSampleTime().getTime();
+                    long dd = (time1 - time2) / (1000 * 3600); // 共计小时
+                    if (sj > dd) {
+
+                        patientAssayRecordBusi = new PatientAssayRecordBusi();
+                        BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+                        patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.LAB_AFTER);
+                        newPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                        patientAssayRecordBusi = null;
+                        patientAssayRecordBusi = new PatientAssayRecordBusi();
+                        patientAssayRecordBusi.setFkPatientId(getPatientAssayRecord.getFkPatientId());
+                        patientAssayRecordBusi.setReqId(getPatientAssayRecord.getReqId());
+                        patientAssayRecordBusi.setSampleTime(getPatientAssayRecord.getSampleTime());
+                        patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.LAB_BEFORE);
+                        newPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                        patientAssayRecordBusi = null;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 对sampleTime字段判断透析前还是透析后
+     * 
+     * @Title: sampleTime
+     * @param startCreateTime
+     * @param endCreateTime
+     *
+     */
+    public void sampleTime(Date startCreateTime, Date endCreateTime) {
+        // 根据项目编码过滤查询
+        List<DictDto> itemCodeList = DictUtil.listByPItemCode(PatientAssayRecordPO.WHERE_IN_ITEM_CODE_LIST);
+        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_GJZ_SJ);// 关键字：设置为24小时
+        List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
+        List<String> itemCode = new ArrayList<String>();
+        for (DictDto dictDto : itemCodeList) {
+            itemCode.add(dictDto.getItemCode());
+        }
+        List<PatientAssayRecord> listPatientAssayRecord = patientAssayRecordMapper.listByItemCode(startCreateTime, endCreateTime, itemCode);
+        if (listPatientAssayRecord.size() > 0) {
+            // 记录上一条数据患者id
+            Long oldFkPatientId = 0L;
+            // 记录上一条报告时间
+            Date oldSampleTime = null;
+            // 记录上一条申请id
+            String oldReqId = null;
+            // 记录上一条化验项目
+            String oldItemCode = null;
+            // 记录上一条化验数值
+            String oldResult = null;
+
+            long time1;
+            long time2;
+            long sj = StringUtil.isEmpty(sjStr) ? 0L : Long.valueOf(sjStr);
+            PatientAssayRecordBusi patientAssayRecordBusi;
+            for (PatientAssayRecord patientAssayRecord : listPatientAssayRecord) {
+                if (patientAssayRecord.getResult() == null) {
+                    continue;
+                }
+                if (oldFkPatientId.equals(patientAssayRecord.getFkPatientId())) {
+
+                    if (oldSampleTime != null && patientAssayRecord.getSampleTime() != null) {
+                        time1 = oldSampleTime.getTime();
+                        time2 = patientAssayRecord.getSampleTime().getTime();
+                        long dd = (time1 - time2) / (1000 * 3600); // 共计小时
+                        if (dd <= sj && StringUtil.equals(oldItemCode, patientAssayRecord.getItemCode())
+                                        && Double.valueOf(oldResult) > Double.valueOf(patientAssayRecord.getResult())) {
+                            patientAssayRecordBusi = new PatientAssayRecordBusi();
+                            BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+                            patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.LAB_AFTER);
+                            newPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                            patientAssayRecordBusi = null;
+                            patientAssayRecordBusi = new PatientAssayRecordBusi();
+                            patientAssayRecordBusi.setFkPatientId(oldFkPatientId);
+                            patientAssayRecordBusi.setReqId(oldReqId);
+                            patientAssayRecordBusi.setSampleTime(oldSampleTime);
+                            patientAssayRecordBusi.setDiaAbFlag(PatientAssayRecordPO.LAB_BEFORE);
+                            newPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                            patientAssayRecordBusi = null;
+                        }
+                    }
+                }
+                oldFkPatientId = patientAssayRecord.getFkPatientId();
+                oldSampleTime = patientAssayRecord.getSampleTime();
+                oldReqId = patientAssayRecord.getReqId();
+                oldItemCode = patientAssayRecord.getItemCode();
+                oldResult = patientAssayRecord.getResult();
+            }
+        }
+        if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {
+            this.updateListPatientAssayRecordBusi(newPatientAssayRecordBusi);
+        }
+
+    }
+
+    private void updateListPatientAssayRecordBusi(List<PatientAssayRecordBusi> newPatientAssayRecordBusi) {
+
+        for (PatientAssayRecordBusi patientAssayRecordBusi : newPatientAssayRecordBusi) {
+            patientAssayRecordBusiMapper.updateDiaAbFlagByReqId(patientAssayRecordBusi);
+        }
     }
 
     public void updateLisAfterBefore(List<PatientAssayRecordPO> listPatientAssayRecord) {
         // 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断）
         UserUtil.setThreadTenant(10101);
-        String labAfterBefore = SysParamUtil.getValueByName(10101, PatientAssayRecordPO.LAB_AFTER_BEFORE);
+        String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), PatientAssayRecordPO.LAB_AFTER_BEFORE);
         String assayMonth = DateFormatUtil.getCurrentDateStr(DateFormatUtil.FORMAT_YYYY_MM);
 
         // 根据指定的条件获取检验结果集
@@ -112,7 +291,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         }
 
         List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>(listPatientAssayRecord.size());
-        // 1：根据group_name判断
+        /* // 1：根据group_name判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String groupName = parPO.getGroupName();// 申请单名
@@ -135,7 +314,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                 PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, itemCode);
                 newList.add(newParPO);
             }
-        }
+        }*/
         // 4：根据sample_time判断
         if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
             // 根据项目编码过滤查询
@@ -209,8 +388,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
                     long dd = (time1 - time2) / (1000 * 3600); // 共计小时
                     if (dd <= sj) {
-                        po1 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_AFTER);
-                        po2 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_BEFORE);
                         newList.add(po1);
                         newList.add(po2);
                     }
@@ -227,43 +404,10 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
      * @param ifStr
      * @return PatientAssayRecordPO @throws
      */
-    private PatientAssayRecordPO newPatientAssayRecordPO(PatientAssayRecordPO parPO, String ifStr) {
+    private PatientAssayRecordBusi newPatientAssayRecordBusi(PatientAssayRecordBusi patientAssayRecordBusi, String ifStr) {
         String diaAbFlag = diaAbFlag(ifStr); // 透析前后标示
-        parPO = newPatientAssayRecordPOToDiaAbFlag(parPO, diaAbFlag);
-        return parPO;
-    }
-
-    /**
-     * @Title: newPatientAssayRecordPO
-     * @Description:生成新的对象2
-     * @param parPO
-     * @param diaAbFlag
-     * @return PatientAssayRecordPO @throws
-     */
-    private PatientAssayRecordPO newPatientAssayRecordPOToDiaAbFlag(PatientAssayRecordPO parPO, String diaAbFlag) {
-        // 非透析前后不做任何处理
-        if (PatientAssayRecordPO.NOT_AFTER_BEFORE.equals(diaAbFlag)) {
-            parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
-            return parPO;
-        }
-        String itemCode = parPO.getItemCode();// 原始item_code
-        String itemName = parPO.getItemName();// 项目名称
-        String newItemCode = itemCode + "_" + diaAbFlag;// 新的项目编码
-
-        // 新的项目编码（透析前）
-        if (PatientAssayRecordPO.LAB_BEFORE.equals(diaAbFlag)) {
-            itemName = itemName + PatientAssayRecordPO.LAB_BEFORE_CN;
-        }
-        // 新的项目编码（透析后）
-        if (PatientAssayRecordPO.LAB_AFTER.equals(diaAbFlag)) {
-            itemName = itemName + PatientAssayRecordPO.LAB_AFTER_CN;
-        }
-
-        parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
-        parPO.setItemCode(newItemCode);// 存储新的项目编码
-        parPO.setItemName(itemName);// 存储项目名称
-
-        return parPO;
+        patientAssayRecordBusi.setDiaAbFlag(diaAbFlag);
+        return patientAssayRecordBusi;
     }
 
     private void updateListPatientAssayRecord(List<PatientAssayRecordPO> newList) {

@@ -13,6 +13,6 @@ import java.util.Date;
 public interface IPatientAssayRecordBusiService {
 
     // 保存病人化验检查结果表
-    void save(Date createTime);
+    void save(Date startCreateTime, Date endCreateTime);
 
 }

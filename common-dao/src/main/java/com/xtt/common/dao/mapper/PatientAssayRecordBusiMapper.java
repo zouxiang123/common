@@ -36,4 +36,14 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     void updateByInspectionId(PatientAssayRecord patientAssayRecord);
+
+    /**
+     * 根据reqId，patientId，SampleTime 更新投后透前逻辑
+     * 
+     * @Title: updateDiaAbFlagByReqId
+     * @param patientAssayRecordBusi
+     *
+     */
+    void updateDiaAbFlagByReqId(PatientAssayRecordBusi patientAssayRecordBusi);
+
 }
