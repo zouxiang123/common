@@ -25,34 +25,6 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     /** 偏高 */
     public static String TIPS_HIGH = "4";
 
-    // begin:2017-04-25===============================================================================================
-    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断 5:根据化验条目判断） */
-    public static final String LAB_AFTER_BEFORE = "lab_after_before";
-    public static final String LAB_AFTER_BEFORE_ONE = "1";
-    public static final String LAB_AFTER_BEFORE_TWO = "2";
-    public static final String LAB_AFTER_BEFORE_THREE = "3";
-    public static final String LAB_AFTER_BEFORE_FOUR = "4";
-    public static final String LAB_AFTER_BEFORE_FIVE = "5";
-
-    /** 查询条件 item_code in ('CA','K') */
-    public static final String WHERE_IN_ITEM_CODE_LIST = "itemCodeList";
-
-    /** 关键字：透析前 透析后 */
-    public static final String LAB_AFTER_BEFORE_KEYWORD = "lab_after_before_keyword";
-    /** 非透析前和透析后 */
-    public static final String NOT_AFTER_BEFORE = "0";
-    /** 关键字： 透析前 */
-    public static final String LAB_BEFORE = "1";
-    public static final String LAB_BEFORE_CN = "(前)";
-    /** 关键字：透析后 */
-    public static final String LAB_AFTER = "2";
-    public static final String LAB_AFTER_CN = "(后)";
-    /** 关键字：透析前后时间（<=24） */
-    public static final String LAB_GJZ_SJ = "3";
-    /** 关键字：透析前表单项目条数 */
-    public static final String LAB_BEFORE_COUNT = "4";
-    /** 关键字：透析后表单项目条数 */
-    public static final String LAB_AFTER_COUNT = "5";
     // end:===============================================================================================
 
     /** 1：数字；2：字符 */

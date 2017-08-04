@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.stuxuhai.jpinyin.PinyinFormat;
 import com.github.stuxuhai.jpinyin.PinyinHelper;
+import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
@@ -293,7 +294,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     @Override
     public void updateLisAfterBefore() {
         // 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断）
-        String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), PatientAssayRecordPO.LAB_AFTER_BEFORE);
+        String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
         String assayMonth = DateFormatUtil.getCurrentDateStr(DateFormatUtil.FORMAT_YYYY_MM);
 
         // 根据指定的条件获取检验结果集
@@ -306,7 +307,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
         List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
         // 1：根据group_name判断
-        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
+        if (AssayConsts.LAB_AFTER_BEFORE_ONE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String groupName = parPO.getGroupName();// 申请单名
                 PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, groupName);
@@ -314,7 +315,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
             }
         }
         // 2：根据sample_class判断
-        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_TWO.equals(labAfterBefore)) {
+        if (AssayConsts.LAB_AFTER_BEFORE_TWO.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String sampleClass = parPO.getSampleClass();// 样本类型
                 PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, sampleClass);
@@ -322,7 +323,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
             }
         }
         // 3：根据item_code判断
-        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_THREE.equals(labAfterBefore)) {
+        if (AssayConsts.LAB_AFTER_BEFORE_THREE.equals(labAfterBefore)) {
             for (PatientAssayRecordPO parPO : listPatientAssayRecord) {
                 String itemCode = parPO.getItemCode();// 项目名称
                 PatientAssayRecordPO newParPO = newPatientAssayRecordPO(parPO, itemCode);
@@ -330,9 +331,9 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
             }
         }
         // 4：根据sample_time判断
-        if (PatientAssayRecordPO.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
+        if (AssayConsts.LAB_AFTER_BEFORE_FOUR.equals(labAfterBefore)) {
             // 根据项目编码过滤查询
-            List<DictDto> itemCodeList = DictUtil.listByPItemCode(PatientAssayRecordPO.WHERE_IN_ITEM_CODE_LIST);
+            List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
             List<String> itemCode = new ArrayList<String>();
             for (DictDto dictDto : itemCodeList) {
                 itemCode.add(dictDto.getItemCode());
@@ -367,15 +368,15 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     private String diaAbFlag(String where) {
         String ab = "0";// 非透析前后
         // 关键字
-        String labBefore = DictUtil.getItemCode(PatientAssayRecordPO.LAB_AFTER_BEFORE_KEYWORD, PatientAssayRecordPO.LAB_BEFORE);// 透析前=1
-        String labAfter = DictUtil.getItemCode(PatientAssayRecordPO.LAB_AFTER_BEFORE_KEYWORD, PatientAssayRecordPO.LAB_AFTER);// 透析后=2
+        String labBefore = DictUtil.getItemCode(AssayConsts.LAB_AFTER_BEFORE_KEYWORD, AssayConsts.LAB_BEFORE);// 透析前=1
+        String labAfter = DictUtil.getItemCode(AssayConsts.LAB_AFTER_BEFORE_KEYWORD, AssayConsts.LAB_AFTER);// 透析后=2
         // 透析前
         if (StringUtil.isNotEmpty(labBefore) && where.indexOf(labBefore) >= 0) {
-            ab = PatientAssayRecordPO.LAB_BEFORE;
+            ab = AssayConsts.LAB_BEFORE;
         }
         // 透析后
         if (StringUtil.isNotEmpty(labAfter) && where.indexOf(labAfter) >= 0) {
-            ab = PatientAssayRecordPO.LAB_AFTER;
+            ab = AssayConsts.LAB_AFTER;
         }
         return ab;
     }
@@ -388,7 +389,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
      */
     private List<PatientAssayRecordPO> listPatientAssayRecordPO(List<PatientAssayRecordPO> listPO) {
         List<PatientAssayRecordPO> newList = new ArrayList<PatientAssayRecordPO>();
-        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", PatientAssayRecordPO.LAB_GJZ_SJ);// 关键字：设置为24小时
+        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GJZ_SJ);// 关键字：设置为24小时
         if (StringUtil.isNotEmpty(sjStr)) {
             Long sj = Long.valueOf(sjStr);
             for (int i = 0; i < listPO.size() - 1; i++) {
@@ -402,8 +403,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
                     long dd = (time1 - time2) / (1000 * 3600); // 共计小时
                     if (dd <= sj) {
-                        po1 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_AFTER);
-                        po2 = newPatientAssayRecordPOToDiaAbFlag(po1, PatientAssayRecordPO.LAB_BEFORE);
+                        po1 = newPatientAssayRecordPOToDiaAbFlag(po1, AssayConsts.LAB_AFTER);
+                        po2 = newPatientAssayRecordPOToDiaAbFlag(po1, AssayConsts.LAB_BEFORE);
                         newList.add(po1);
                         newList.add(po2);
                     }
@@ -435,7 +436,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
      */
     private PatientAssayRecordPO newPatientAssayRecordPOToDiaAbFlag(PatientAssayRecordPO parPO, String diaAbFlag) {
         // 非透析前后不做任何处理
-        if (PatientAssayRecordPO.NOT_AFTER_BEFORE.equals(diaAbFlag)) {
+        if (AssayConsts.NOT_AFTER_BEFORE.equals(diaAbFlag)) {
             parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
             return parPO;
         }
@@ -444,12 +445,12 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         String newItemCode = itemCode + "_" + diaAbFlag;// 新的项目编码
 
         // 新的项目编码（透析前）
-        if (PatientAssayRecordPO.LAB_BEFORE.equals(diaAbFlag)) {
-            itemName = itemName + PatientAssayRecordPO.LAB_BEFORE_CN;
+        if (AssayConsts.LAB_BEFORE.equals(diaAbFlag)) {
+            itemName = itemName + AssayConsts.LAB_BEFORE_CN;
         }
         // 新的项目编码（透析后）
-        if (PatientAssayRecordPO.LAB_AFTER.equals(diaAbFlag)) {
-            itemName = itemName + PatientAssayRecordPO.LAB_AFTER_CN;
+        if (AssayConsts.LAB_AFTER.equals(diaAbFlag)) {
+            itemName = itemName + AssayConsts.LAB_AFTER_CN;
         }
 
         parPO.setDiaAbFlag(diaAbFlag); // 存储透析前后标示
@@ -472,7 +473,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         po.setAssayMonth(assayMonth);
         po.setItemCodeList(itemCodeList);
         po.setReqIdList(reqIdList);
-        po.setDiaAbFlag(PatientAssayRecordPO.NOT_AFTER_BEFORE);// 只处理未处理的非透析前后的数据
+        po.setDiaAbFlag(AssayConsts.NOT_AFTER_BEFORE);// 只处理未处理的非透析前后的数据
         List<PatientAssayRecordPO> listPatientAssayRecord = listPatientAssayRecord(po);
         return listPatientAssayRecord;
     }
