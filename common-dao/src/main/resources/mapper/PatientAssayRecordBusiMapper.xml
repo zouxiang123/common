@@ -474,6 +474,6 @@
         AND dhl.fk_dict_code = #{fkDictCode }
       </if>
     </where> 
-    ORDER BY id
+    ORDER BY parb.assay_date ASC
   </select>
 </mapper>

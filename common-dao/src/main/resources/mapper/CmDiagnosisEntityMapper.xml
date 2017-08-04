@@ -229,9 +229,12 @@
     ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
     where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
     and v.fk_entity_id=e.id and e.fk_patient_id=#{fkPatientId}
+    <if test="fkTenantId != null">
+        AND e.fk_tenant_id = #{fkTenantId}
+    </if>
     <if test="itemCode != null">
       and e.item_code = #{itemCode,jdbcType=VARCHAR}
     </if>
-    order by e.id desc
+    order by e.create_time desc
   </select>
 </mapper>
