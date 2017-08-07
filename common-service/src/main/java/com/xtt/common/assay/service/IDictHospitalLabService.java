@@ -113,14 +113,14 @@ public interface IDictHospitalLabService {
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAllGroup();
+    public List<DictHospitalLabPO> selectAllGroup(Integer tenantId);
 
     /**
      * 维护化验项
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAdminGroup();
+    public List<DictHospitalLabPO> selectAdminGroup(Integer fkTenantId);
 
     /**
      * 查询所有

@@ -120,14 +120,14 @@ public interface DictHospitalLabMapper {
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAllGroup();
+    public List<DictHospitalLabPO> selectAllGroup(Integer tenantId);
 
     /**
      * 维护化验项
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAdminGroup();
+    public List<DictHospitalLabPO> selectAdminGroup(Integer fkTenantId);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
