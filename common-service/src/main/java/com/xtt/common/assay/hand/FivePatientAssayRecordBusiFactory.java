@@ -57,7 +57,10 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
-        Long id = PrimaryKeyUtil.getPrimaryKey("PatientAssayRecordBusi", UserUtil.getTenantId(), listPatientAssayRecord.size());
+        if (listPatientAssayRecordBusi.size() == 0) {
+            return;
+        }
+        Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
         int i = 1;
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 检查项目唯一ID为空时候不插入
@@ -77,6 +80,16 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                patientAssayRecordBusi.setAssayMonth(getAssayMonth(patientAssayRecordBusi.getReportTime()));
+                try {
+                    String result = patientAssayRecordBusi.getResult();
+                    if (result != null) {
+                        Double matcherToNum = matcherToNum(result);
+                        patientAssayRecordBusi.setResultActual(matcherToNum);
+                    }
+                } catch (Exception e) {
+                    log.error("result exception:", e);
+                }
                 patientAssayRecordBusi.setId(id++);
                 // 5：根据化验表单条数
                 patientAssayRecordBusi.setDiaAbFlag(AssayConsts.NOT_AFTER_BEFORE);

@@ -10,6 +10,8 @@ package com.xtt.common.assay.hand;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +20,8 @@ import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.util.DictUtil;
 import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.time.DateFormatUtil;
+import com.xtt.platform.util.time.DateUtil;
 
 //抽象工厂
 public abstract class AbstractPatientAssayRecordBusi {
@@ -83,4 +87,44 @@ public abstract class AbstractPatientAssayRecordBusi {
         patientAssayRecordBusi.setDiaAbFlag(diaAbFlag);
         return patientAssayRecordBusi;
     }
+
+    /**
+     * 将报告时间转换成月份
+     * 
+     * @Title: getAssayMonth
+     * @param sampleTime
+     * @return
+     *
+     */
+    public String getAssayMonth(Date reportTime) {
+        return DateUtil.format(new Date(), DateFormatUtil.FORMAT_YYYY_MM);
+    }
+
+    public Double matcherToNum(String parmStr) {
+        Double retDB = null;
+        boolean num = isNum(parmStr); // 是否包含数字
+
+        if (StringUtil.isNotEmpty(parmStr) && num) {
+            try {
+                String zzStr = "([-\\+]?[0-9]([0-9]*)(\\.[0-9]+)?)|(^0$)";
+                Pattern p = Pattern.compile(zzStr);
+                Matcher m = p.matcher(parmStr);
+                if (m.find() == true) {
+                    String group = m.group(1);
+                    retDB = Double.valueOf(group);
+                }
+            } catch (Exception e) {
+                e.getMessage();
+            }
+        }
+        return retDB;
+    }
+
+    public static boolean isNum(String str) {
+        String regex = "[0-9]+?";
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
+
 }
