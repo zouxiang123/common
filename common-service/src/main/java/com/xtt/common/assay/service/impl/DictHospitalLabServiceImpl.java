@@ -157,8 +157,8 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
     }
 
     @Override
-    public List<DictHospitalLabPO> selectAllGroup() {
-        return dictHospitalLabMapper.selectAllGroup();
+    public List<DictHospitalLabPO> selectAllGroup(Integer tenantId) {
+        return dictHospitalLabMapper.selectAllGroup(tenantId);
     }
 
     @Override
@@ -189,8 +189,8 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
     }
 
     @Override
-    public List<DictHospitalLabPO> selectAdminGroup() {
-        return dictHospitalLabMapper.selectAdminGroup();
+    public List<DictHospitalLabPO> selectAdminGroup(Integer fkTenantId) {
+        return dictHospitalLabMapper.selectAdminGroup(fkTenantId);
     }
 
     @Override

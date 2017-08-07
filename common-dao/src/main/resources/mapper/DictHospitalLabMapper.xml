@@ -489,21 +489,21 @@
   </select>
   
    <!-- 查询所有的化验项  -->
-  <select id="selectAllGroup" resultMap="POResultMap">
+  <select id="selectAllGroup" resultMap="POResultMap" parameterType="java.lang.Integer"> 
     select 
         <include refid="Base_Column_List" />
      from dict_hospital_lab 
-     where flage=1
+     where flage=1 and fk_tenant_id=#{tenantId}
      group by group_name
      ORDER BY group_name
   </select>
   
    <!-- 维护所有的化验项  -->
-  <select id="selectAdminGroup" resultMap="POResultMap">
+  <select id="selectAdminGroup" resultMap="POResultMap" parameterType="java.lang.Integer">
     select 
         <include refid="Base_Column_List" />
      from dict_hospital_lab 
-     where flage=1
+     where flage=1 and fk_tenant_id=#{fkTenantId}
      ORDER BY group_name
   </select>
   
