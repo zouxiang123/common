@@ -613,10 +613,10 @@
         ORDER BY assay_month
     </select>
     <!-- 查询透前透后统计报表数据 -->
-    <select id="listForBeforeAfterReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultType="POResultMap">
+    <select id="listForBeforeAfterReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         SELECT
         <include refid="Common_Column_List" />
-        FROM patient_assay_record parb
+        FROM patient_assay_record_busi parb
         <where>
             <if test="fkPatientId != null">
                 and parb.fk_patient_id = #{fkPatientId}

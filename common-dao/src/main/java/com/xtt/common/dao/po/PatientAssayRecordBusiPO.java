@@ -8,6 +8,7 @@
  */
 package com.xtt.common.dao.po;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,6 +29,9 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
      * 2:fk_patient_id,item_code,assay_date ASC
      */
     private Integer queryOrderBy;
+
+    private BigDecimal minValue;
+    private BigDecimal maxValue;
 
     public String getPatientName() {
         return patientName;
@@ -96,6 +100,22 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
      */
     public void setQueryOrderBy(Integer queryOrderBy) {
         this.queryOrderBy = queryOrderBy;
+    }
+
+    public BigDecimal getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(BigDecimal minValue) {
+        this.minValue = minValue;
+    }
+
+    public BigDecimal getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(BigDecimal maxValue) {
+        this.maxValue = maxValue;
     }
 
 }
