@@ -22,7 +22,7 @@
     <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
     <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
     <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
-    <result column="assay_month" jdbcType="INTEGER" property="assayMonth" />
+    <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
     <result column="assay_date" jdbcType="DATE" property="assayDate" />
     <result column="flage" jdbcType="BIT" property="flage" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
@@ -74,7 +74,7 @@
       #{result,jdbcType=VARCHAR}, #{resultActual,jdbcType=DOUBLE}, #{valueUnit,jdbcType=VARCHAR}, 
       #{resultTips,jdbcType=VARCHAR}, #{reference,jdbcType=VARCHAR}, #{reqId,jdbcType=VARCHAR}, 
       #{sampleClass,jdbcType=VARCHAR}, #{sampleTime,jdbcType=TIMESTAMP}, #{reportTime,jdbcType=TIMESTAMP}, 
-      #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{assayMonth,jdbcType=INTEGER}, 
+      #{inspectionId,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{assayMonth,jdbcType=VARCHAR}, 
       #{assayDate,jdbcType=DATE}, #{flage,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
@@ -214,7 +214,7 @@
         #{diaAbFlag,jdbcType=CHAR},
       </if>
       <if test="assayMonth != null">
-        #{assayMonth,jdbcType=INTEGER},
+        #{assayMonth,jdbcType=VARCHAR},
       </if>
       <if test="assayDate != null">
         #{assayDate,jdbcType=DATE},
@@ -294,7 +294,7 @@
         dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
       </if>
       <if test="assayMonth != null">
-        assay_month = #{assayMonth,jdbcType=INTEGER},
+        assay_month = #{assayMonth,jdbcType=VARCHAR},
       </if>
       <if test="assayDate != null">
         assay_date = #{assayDate,jdbcType=DATE},
@@ -341,7 +341,7 @@
       report_time = #{reportTime,jdbcType=TIMESTAMP},
       inspection_id = #{inspectionId,jdbcType=VARCHAR},
       dia_ab_flag = #{diaAbFlag,jdbcType=CHAR},
-      assay_month = #{assayMonth,jdbcType=INTEGER},
+      assay_month = #{assayMonth,jdbcType=VARCHAR},
       assay_date = #{assayDate,jdbcType=DATE},
       flage = #{flage,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},

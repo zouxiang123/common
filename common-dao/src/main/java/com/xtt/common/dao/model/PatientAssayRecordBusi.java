@@ -111,7 +111,7 @@ public class PatientAssayRecordBusi {
      * 化验月份
      * patient_assay_record_busi.assay_month
      */
-    private Integer assayMonth;
+    private String assayMonth;
 
     /**
      * 化验日期
@@ -394,14 +394,14 @@ public class PatientAssayRecordBusi {
     /**
      * 化验月份
      */
-    public Integer getAssayMonth() {
+    public String getAssayMonth() {
         return assayMonth;
     }
 
     /**
      * 化验月份
      */
-    public void setAssayMonth(Integer assayMonth) {
+    public void setAssayMonth(String assayMonth) {
         this.assayMonth = assayMonth;
     }
 
