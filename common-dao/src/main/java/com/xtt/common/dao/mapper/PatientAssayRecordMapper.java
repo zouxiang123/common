@@ -271,7 +271,12 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecord> selectPatientAssayRecordByAssayDate(@Param("month") String month, @Param("tenantId") Integer tenantId);
 
     /**
-     * @Title: listPatientAssayRecord @Description:根据指定条件获取病患检验结果数据 @param po @return List<PatientAssayRecordPO> @throws
+     * 根据指定条件获取病患检验结果数据
+     * 
+     * @Title: listPatientAssayRecord
+     * @param po
+     * @return
+     *
      */
     List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po);
 
@@ -287,7 +292,7 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime);
 
     /**
-     * 查询
+     * 根据itemCode 查询化验单
      * 
      * @Title: listByItemCode
      * @param startCreateTime
@@ -314,6 +319,18 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") String afterCount, @Param("startCreateTime") Date startCreateTime,
                     @Param("endCreateTime") Date endCreateTime, @Param("fkTenantId") Integer fkTenantId, @Param("strItemCode") String strItemCode);
 
+    /**
+     * 根据化验单条数查询化验数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @return
+     *
+     */
     PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") String beforeCount, @Param("sampleTime") Date sampleTime,
                     @Param("startCreateTime") Date startCreateTime, @Param("strItemCode") String strItemCode, @Param("fkPatientId") Long fkPatientId,
                     @Param("fkTenantId") Integer fkTenantId);

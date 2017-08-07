@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
@@ -216,5 +218,59 @@ public interface IPatientAssayRecordService {
      * 更新检验 @Title: lisAfterBefore @Description: void @throws
      */
     void updateLisAfterBefore();
+
+    /**
+     * 根据创建时间查询出当天的数据
+     * 
+     * @Title: listByCreateTime
+     * @param createTime
+     * @param endCreateTime
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime);
+
+    /**
+     * 根据itemCode 查询化验单
+     * 
+     * @Title: listByItemCode
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param itemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecord> listByItemCode(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
+                    @Param("itemCodeList") List<String> itemCode);
+
+    /**
+     * 根据化验项目条目查询得到所有的数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listByAfterCount(String afterCount, Date startCreateTime, Date endCreateTime, Integer fkTenantId, String strItemCode);
+
+    /**
+     * 根据化验项目条目查询只去最近的一条
+     * 
+     * @Title: getByBeforeCount
+     * @param beforeCount
+     * @param sampleTime
+     * @param startCreateTime
+     * @param strItemCode
+     * @param fkPatientId
+     * @param fkTenantId
+     * @return
+     *
+     */
+    PatientAssayRecordPO getByBeforeCount(String beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long fkPatientId,
+                    Integer fkTenantId);
 
 }

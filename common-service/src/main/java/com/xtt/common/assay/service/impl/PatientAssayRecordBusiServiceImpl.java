@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
+import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.util.UserUtil;
 
@@ -30,6 +31,24 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             query.setFkTenantId(UserUtil.getTenantId());
         }
         return patientAssayRecordBusiMapper.listByCondition(query);
+    }
+
+    @Override
+    public int countByInspectionId(String inspectionId) {
+
+        return patientAssayRecordBusiMapper.countByInspectionId(inspectionId);
+    }
+
+    @Override
+    public void insertList(List<PatientAssayRecordBusi> listPatientAssayRecordBusi) {
+        patientAssayRecordBusiMapper.insertList(listPatientAssayRecordBusi);
+
+    }
+
+    @Override
+    public void updateDiaAbFlagByReqId(PatientAssayRecordBusi patientAssayRecordBusi) {
+        patientAssayRecordBusiMapper.updateDiaAbFlagByReqId(patientAssayRecordBusi);
+
     }
 
 }

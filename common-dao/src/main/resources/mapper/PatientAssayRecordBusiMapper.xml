@@ -408,15 +408,6 @@
   
   </insert>
   
-  <update id="updateByInspectionId">
-         update patient_assay_record_busi
-        set      
-        item_code = #{itemCode,jdbcType=VARCHAR},
-        item_name = #{itemName,jdbcType=VARCHAR},
-        dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
-        where inspection_id = #{inspectionId,jdbcType=BIGINT}
-  
-  </update>
   <!-- 根据自定义条件查询常用项 -->
   <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
     select 
