@@ -652,6 +652,10 @@
             <if test="diaAbFlag != null and diaAbFlag != ''">
                 and parb.dia_ab_flag = #{diaAbFlag}
             </if>
+            <if test="patientIds !=null and patientIds.size()>0">
+                AND parb.fk_patient_id in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
         </where>
     </select>
 </mapper>
