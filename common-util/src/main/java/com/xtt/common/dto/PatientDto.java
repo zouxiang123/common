@@ -151,7 +151,10 @@ public class PatientDto {
     private String multiTenantId;
 
     private Boolean delFlag;
-
+    /**
+     * 患者邮箱
+     */
+    private String email;
     /**
      * 患者历史透析次数
      */
@@ -594,6 +597,14 @@ public class PatientDto {
 
     public void setMultiTenantId(String multiTenantId) {
         this.multiTenantId = multiTenantId;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }
