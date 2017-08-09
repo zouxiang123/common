@@ -440,4 +440,8 @@
             AND u.fk_tenant_id = #{fkTenantId}
         </if>
     </select>
+     <select id="checkUser" resultMap="ExtendResultMap" parameterType="com.xtt.common.dao.po.SysUserPO">
+        SELECT u.name ,st.`name` as multiTenantName  FROM sys_user u join  sys_user_tenant sut ON u.id=sut.fk_user_id JOIN
+sys_tenant st ON sut.fk_tenant_id=st.id  WHERE u.account=#{account} AND u.fk_tenant_id in(${multiTenant}) 
+    </select>
 </mapper>

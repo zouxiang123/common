@@ -361,6 +361,11 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.getGroupUserByAccount(account, CommonConstants.USER_TYPE_GROUP, tenantId);
     }
 
+    public List<SysUserPO> checkUser(SysUserPO user) {
+
+        return sysUserMapper.checkUser(user);
+    }
+
     private SysUserPO login(String account, String password, Integer tenantId, String sysOwner) {
         SysUserPO user = sysUserMapper.login(account, password, tenantId, sysOwner);
         // 设置当前用户关联的租户和关联的系统

@@ -300,4 +300,14 @@ public interface IUserService {
      */
     String uploadAutograph(MultipartFile imgFile, int x, int y, int width, int height) throws IllegalStateException, IOException;
 
+    /**
+     * 检查用户是否已经存在本集团的子租户中
+     * 
+     * @Title: checkUser
+     * @param user
+     * @return
+     *
+     */
+    List<SysUserPO> checkUser(SysUserPO user);
+
 }
