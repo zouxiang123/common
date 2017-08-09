@@ -62,7 +62,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     @Override
     public List<PatientAssayRecordPO> selectByCondition(PatientAssayRecordPO record) {
-        record.setMultiTenant(UserUtil.getMultiTenant());
+        record.setMultiTenant(UserUtil.getGroupTenant());
         return patientAssayRecordMapper.selectByCondition(record);
     }
 
@@ -97,7 +97,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     @Override
     public List<PatientAssayRecordPO> listCategory(PatientAssayRecordPO record) {
-        record.setMultiTenant(UserUtil.getMultiTenant());
+        record.setMultiTenant(UserUtil.getGroupTenant());
         return patientAssayRecordMapper.listCategory(record);
     }
 
