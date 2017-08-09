@@ -178,4 +178,14 @@ public interface SysUserMapper {
      */
     SysUserPO getGroupFullById(@Param("id") Long id, @Param("tenantId") Integer tenantId);
 
+    /**
+     * 查询集团用户是否存在用户名
+     * 
+     * @Title: checkUser
+     * @param multiTenant
+     * @return
+     *
+     */
+    List<SysUserPO> checkUser(SysUserPO user);
+
 }
