@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 @Repository
@@ -140,6 +141,28 @@ public interface PatientAssayRecordBusiMapper {
      * @return
      *
      */
+
     List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(@Param("fkPatientId") Long fkPatientId,
                     @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date);
+
+    void updatePatientAssay(List<DictHospitalLabPO> getdHL);
+
+    void insertPatientAssay(List<DictHospitalLabPO> getdHL);
+
+    /**
+     * 删除所有数据
+     * 
+     * @Title: delteteAll
+     *
+     */
+    void delteteAll();
+
+    /**
+     * 根据患者id删除
+     * 
+     * @Title: deleteByPatient
+     * @param fkPatientId
+     *
+     */
+    void deleteByPatientId(@Param("fkPatientId") Long fkPatientId);
 }

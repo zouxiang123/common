@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 public interface IPatientAssayRecordBusiService {
@@ -189,6 +190,28 @@ public interface IPatientAssayRecordBusiService {
      * @return
      *
      */
+
     List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date);
+
+    void updatePatientAssay(List<DictHospitalLabPO> getdHL);
+
+    void insertPatientAssay(List<DictHospitalLabPO> getdHL);
+
+    /**
+     * 删除所有
+     * 
+     * @Title: delteteAll
+     *
+     */
+    void delteteAll();
+
+    /**
+     * 根据患者id删除
+     * 
+     * @Title: deleteByPatient
+     * @param fkPatientId
+     *
+     */
+    void deleteByPatientId(Long fkPatientId);
 
 }

@@ -564,35 +564,44 @@
         group by fk_patient_id,sample_time,req_id,item_code ORDER BY fk_patient_id ,item_code,sample_time
     </select>
 
-    <!-- 根据化验单条数查询 -->
+    <!-- 根据化验单条数查询(透后) -->
     <select id="listByAfterCount" resultMap="POResultMap">
         SELECT fk_patient_id ,req_id ,sample_time sample_time,count('1') ${strItemCode}
-        from patient_assay_record
+        from patient_assay_record_busi
         <where>
-            <if test="startCreateTime != null">
-                and create_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+             <if test="patientId != null">
+                 fk_patient_id = #{patientId}
             </if>
-            <if test="endCreateTime != null">
-                and create_time &lt; DATE_FORMAT(#{endCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            <if test="startCreateDate != null">
+                and assay_date &gt; DATE_FORMAT(#{startCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="endCreateDate != null">
+                and assay_date &lt; DATE_FORMAT(#{endCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="groupName != null">
+                and group_name = #{groupName}
             </if>
         </where>
-        group by fk_patient_id,sample_time,req_id having count('1') &gt; #{afterCount} ORDER BY fk_patient_id ,sample_time
+        group by fk_patient_id,sample_time,req_id having count('1') = #{afterCount}
     </select>
     <!-- 根据化验项目条目查询只去最近的一条 -->
     <select id="getByBeforeCount" resultMap="POResultMap">
-        select t1.* from ( SELECT fk_patient_id,sample_time ,req_id ${strItemCode}
+         SELECT fk_patient_id,sample_time ,req_id ${strItemCode}
         from patient_assay_record
         <where>
-            <if test="fkPatientId != null">
-                and fk_patient_id = #{fkPatientId}
+             <if test="patientId != null">
+                 fk_patient_id = #{patientId}
             </if>
-            <if test="startCreateTime != null">
-                and sample_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            <if test="startCreateDate != null">
+                and assay_date &gt; DATE_FORMAT(#{startCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
             </if>
-            <if test="sampleTime != null">
-                and sample_time &lt; DATE_FORMAT(#{sampleTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            <if test="endCreateDate != null">
+                and assay_date &lt; DATE_FORMAT(#{endCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+            </if>
+            <if test="groupName != null">
+                and group_name = #{groupName}
             </if>
         </where>
-        group by fk_patient_id,sample_time,req_id having count('1') &gt; #{beforeCount}) t1 ORDER BY t1.fk_patient_id ,t1.sample_time limit 1
+        group by fk_patient_id,sample_time,req_id having count('1') = #{beforeCount} ORDER BY sample_time desc limit 1
     </select>
 </mapper>

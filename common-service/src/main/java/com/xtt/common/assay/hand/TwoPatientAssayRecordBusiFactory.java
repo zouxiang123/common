@@ -51,7 +51,7 @@ public class TwoPatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
-        if (listPatientAssayRecordBusi.size() == 0) {
+        if (listPatientAssayRecord.size() == 0) {
             return;
         }
         Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
@@ -75,6 +75,7 @@ public class TwoPatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setAssayMonth(getAssayMonth(patientAssayRecordBusi.getReportTime()));
+                patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();
                     if (result != null) {

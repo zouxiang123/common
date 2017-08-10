@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayBackInspectioidMapper">
+<resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayBackInspectioid">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="req_id" jdbcType="VARCHAR" property="reqId" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="sample_time" jdbcType="TIMESTAMP" property="sampleTime" />
+    <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayBackInspectioid">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_back_inspectioid (req_id, fk_patient_id, sample_time, 
+      dia_ab_flag, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{reqId,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{sampleTime,jdbcType=TIMESTAMP}, 
+      #{diaAbFlag,jdbcType=CHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayBackInspectioid">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_back_inspectioid
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="reqId != null">
+        req_id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="sampleTime != null">
+        sample_time,
+      </if>
+      <if test="diaAbFlag != null">
+        dia_ab_flag,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="reqId != null">
+        #{reqId,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="sampleTime != null">
+        #{sampleTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="diaAbFlag != null">
+        #{diaAbFlag,jdbcType=CHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  
+    <!-- user define -->
+  <insert id="insertList">
+   insert into patient_assay_back_inspectioid (req_id, fk_patient_id, sample_time, 
+      dia_ab_flag, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+       <foreach collection="list" item="item" index="index" separator="union all" >
+        select 
+            #{item.reqId,jdbcType=VARCHAR},
+            #{item.fkPatientId,jdbcType=BIGINT}, 
+            #{item.sampleTime,jdbcType=TIMESTAMP}, 
+            #{item.diaAbFlag,jdbcType=CHAR},
+            #{item.fkTenantId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, 
+            #{item.createUserId,jdbcType=BIGINT}, 
+            #{item.updateTime,jdbcType=TIMESTAMP}, 
+            #{item.updateUserId,jdbcType=BIGINT}
+       from dual
+        </foreach>
+  </insert>
+  <select id="selectByPatientId" resultMap="BaseResultMap">
+        SELECT `req_id`, `fk_patient_id`, `sample_time`, `dia_ab_flag` 
+        FROM `patient_assay_back_inspectioid`
+        <where>
+            <if test="fkPatientId != null">
+                fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+            <if test="reqId != null">
+               and req_id = #{reqId,jdbcType=VARCHAR}
+            </if>
+        </where> 
+  
+  </select>
+</mapper>

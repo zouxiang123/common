@@ -59,7 +59,8 @@ public interface IPatientAssayRecordService {
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByAfterCount(String afterCount, Date startCreateTime, Date endCreateTime, Integer fkTenantId, String strItemCode);
+    List<PatientAssayRecordPO> listByAfterCount(String afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+                    Integer tenantId, String strItemCode);
 
     /**
      * 根据化验项目条目查询只去最近的一条
@@ -69,12 +70,13 @@ public interface IPatientAssayRecordService {
      * @param sampleTime
      * @param startCreateTime
      * @param strItemCode
-     * @param fkPatientId
+     * @param patientId
      * @param fkTenantId
+     * @param groupName
      * @return
      *
      */
-    PatientAssayRecordPO getByBeforeCount(String beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long fkPatientId,
-                    Integer fkTenantId);
+    PatientAssayRecordPO getByBeforeCount(String beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
+                    Integer fkTenantId, String groupName);
 
 }

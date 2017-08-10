@@ -11,6 +11,7 @@ package com.xtt.common.assay.hand;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
@@ -19,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IPatientAssayBackInspectioidService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.PatientAssayBackInspectioid;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
@@ -29,9 +32,7 @@ import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
-import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
-import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecordBusi {
@@ -44,6 +45,9 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
     @Autowired
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
 
+    @Autowired
+    private IPatientAssayBackInspectioidService patientAssayBackInspectioidService;
+
     @Override
     public void save(Date startCreateTime, Date endCreateTime) {
         Date nowDate = new Date();
@@ -53,11 +57,12 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         }
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         PatientAssayRecordBusi patientAssayRecordBusi;
+        // List<PatientAssayRecordPO> listPatientAssayRecord = new ArrayList<>(523853);
         List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime);
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
-        if (listPatientAssayRecordBusi.size() == 0) {
+        if (listPatientAssayRecord.size() == 0) {
             return;
         }
         Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
@@ -81,6 +86,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setAssayMonth(getAssayMonth(patientAssayRecordBusi.getReportTime()));
+                patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();
                     if (result != null) {
@@ -92,7 +98,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                 }
                 patientAssayRecordBusi.setId(id++);
                 // 5：根据化验表单条数
-                patientAssayRecordBusi.setDiaAbFlag(AssayConsts.NOT_AFTER_BEFORE);
+                patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_BEFORE);
                 listPatientAssayRecordBusi.add(patientAssayRecordBusi);
                 i++;
                 if (i == 1000) {
@@ -106,81 +112,106 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         if (listPatientAssayRecordBusi.size() != 0) {
             PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
         }
-        countResult(startCreateTime, endCreateTime);
-
         listPatientAssayRecord = null;
     }
 
-    /**
-     * 根据化验项目判断透前投后
-     * 
-     * @Title: countResult
-     * @param startCreateTime
-     * @param endCreateTime
-     *
-     */
-    public void countResult(Date startCreateTime, Date endCreateTime) {
-        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GJZ_SJ);// 关键字：设置为24小时
+    public void cleanDate(Map<String, List<Date>> map) {
+        Date nowDate = new Date();
         String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_BEFORE_COUNT);
         String afterCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_AFTER_COUNT);
-        List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
+        String groupName = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GROUP_NAME);
         // 根据项目编码过滤查询
         List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
         StringBuffer strItemCode = new StringBuffer();
+        Date startCreateDate;
+        Date endCreateDate;
         int i = 1;
+        Integer tenantId = UserUtil.getTenantId();
+        Long patientId;
+        boolean isUpdate;
+        PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
+        List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
+        PatientAssayBackInspectioid patientAssayBackInspectioid;
+        List<PatientAssayBackInspectioid> insertPatientAssayBackInspectioidList = new ArrayList<>();
+        // 评级项目名称
         for (DictDto dictDto : itemCodeList) {
             strItemCode.append(" , max(case when item_code = '").append(dictDto.getItemCode()).append("' then result end ) itemCode" + i);
             i++;
         }
-        List<PatientAssayRecordPO> listAfterPatientAssayRecord = patientAssayRecordService.listByAfterCount(afterCount, startCreateTime,
-                        endCreateTime, UserUtil.getTenantId(), strItemCode.toString());
-
-        if (CollectionUtils.isNotEmpty(listAfterPatientAssayRecord)) {
-            long time1;
-            long time2;
-            long sj = StringUtil.isEmpty(sjStr) ? 0L : Long.valueOf(sjStr);
-
-            PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
-            // 化验的开始时间
-            Date startSampleTime = new Date();
-            for (PatientAssayRecordPO patientAssayRecord : listAfterPatientAssayRecord) {
-                startSampleTime = DateUtil.add(patientAssayRecord.getSampleTime(), 10, (Integer.parseInt(sjStr) * -1));
-                PatientAssayRecordPO getPatientAssayRecord = patientAssayRecordService.getByBeforeCount(beforeCount,
-                                patientAssayRecord.getSampleTime(), startSampleTime, strItemCode.toString(), patientAssayRecord.getFkPatientId(),
-                                UserUtil.getTenantId());
-                if (getPatientAssayRecord != null && getPatientAssayRecord.getSampleTime() != null) {
-                    if (itemCodeList.size() == 1
-                                    && Double.valueOf(patientAssayRecord.getItemCode1()) > Double.valueOf(getPatientAssayRecord.getItemCode1())) {
-                        continue;
+        // 对需要清洗数据的患者循环
+        for (String strPatientId : map.keySet()) {
+            patientId = Long.valueOf(strPatientId);
+            List<Date> listDate = map.get(strPatientId);
+            // 患者中存在多个时间只取最后一个
+            startCreateDate = listDate.get(listDate.size() - 1);
+            endCreateDate = nowDate;
+            // 查询时间区域中透后的数据筛选条件有“患者id”，“透析后数据有多少条”，“项目名称”，“时间段”
+            List<PatientAssayRecordPO> listAfterPatientAssayRecord = patientAssayRecordService.listByAfterCount(afterCount, startCreateDate,
+                            endCreateDate, groupName, patientId, tenantId, strItemCode.toString());
+            // 查询到投后项目循环查找透前
+            for (PatientAssayRecordPO afterPatientAssayRecord : listAfterPatientAssayRecord) {
+                endCreateDate = afterPatientAssayRecord.getSampleTime();
+                // 更加投后的化验时间查找最近的一条透前
+                PatientAssayRecordPO beforePatientAssayRecord = patientAssayRecordService.getByBeforeCount(beforeCount, startCreateDate,
+                                endCreateDate, strItemCode.toString(), patientId, tenantId, groupName);
+                // 如果查询到透前不为空判断项目是否透前大于透后
+                if (beforePatientAssayRecord != null) {
+                    isUpdate = true;
+                    for (int j = 0; j < itemCodeList.size() - 1; j++) {
+                        if (isUpdate == false) {
+                            continue;
+                        }
+                        isUpdate = Double.valueOf(beforePatientAssayRecord.getItemCode1()) > Double.valueOf(afterPatientAssayRecord.getItemCode1());
                     }
-                    if (itemCodeList.size() == 2
-                                    && Double.valueOf(patientAssayRecord.getItemCode1()) > Double.valueOf(getPatientAssayRecord.getItemCode1())
-                                    && Double.valueOf(patientAssayRecord.getItemCode2()) > Double.valueOf(getPatientAssayRecord.getItemCode2())) {
-                        continue;
-                    }
-                    time1 = patientAssayRecord.getSampleTime().getTime(); // 透析后的时间
-                    time2 = getPatientAssayRecord.getSampleTime().getTime();
-                    long dd = (time1 - time2) / (1000 * 3600); // 共计小时
-                    if (sj > dd) {
-
+                    // 当条件都满足时候更新透前透后标识
+                    if (isUpdate) {
                         patientAssayRecordBusi = new PatientAssayRecordBusi();
-                        BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+                        patientAssayRecordBusi.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
+                        patientAssayRecordBusi.setReqId(afterPatientAssayRecord.getReqId());
+                        patientAssayRecordBusi.setSampleTime(afterPatientAssayRecord.getSampleTime());
                         patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_AFTER);
-                        newPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                        patientAssayRecordBusi = null;
-                        patientAssayRecordBusi = new PatientAssayRecordBusi();
-                        patientAssayRecordBusi.setFkPatientId(getPatientAssayRecord.getFkPatientId());
-                        patientAssayRecordBusi.setReqId(getPatientAssayRecord.getReqId());
-                        patientAssayRecordBusi.setSampleTime(getPatientAssayRecord.getSampleTime());
-                        patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_BEFORE);
-                        newPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                        patientAssayRecordBusi = null;
+                        updateRecordList.add(patientAssayRecordBusi);
+                        patientAssayBackInspectioid = new PatientAssayBackInspectioid();
+                        patientAssayBackInspectioid.setReqId(afterPatientAssayRecord.getReqId());
+                        patientAssayBackInspectioid.setSampleTime(afterPatientAssayRecord.getSampleTime());
+                        patientAssayBackInspectioid.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
+                        patientAssayBackInspectioid.setFkTenantId(UserUtil.getTenantId());
+                        patientAssayBackInspectioid.setDiaAbFlag(AssayConsts.LAB_AFTER);
+                        patientAssayBackInspectioid.setCreateTime(nowDate);
+                        patientAssayBackInspectioid.setUpdateTime(nowDate);
+                        patientAssayBackInspectioid.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                        patientAssayBackInspectioid.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                        insertPatientAssayBackInspectioidList.add(patientAssayBackInspectioid);
                     }
                 }
             }
-        }
-        if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {
-            this.updateListPatientAssayRecordBusi(newPatientAssayRecordBusi);
+            if (CollectionUtils.isNotEmpty(updateRecordList)) {
+                this.updateListPatientAssayRecordBusi(updateRecordList);
+            }
+            if (CollectionUtils.isNotEmpty(insertPatientAssayBackInspectioidList)) {
+                patientAssayBackInspectioidService.insertList(insertPatientAssayBackInspectioidList);
+            }
         }
     }
+
+    /**
+     * 根据备份的透后申请单号更新化验表
+     * 
+     * @Title: updateBaskDiaAbFlag
+     *
+     */
+    public void updateBaskDiaAbFlag() {
+        List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
+        PatientAssayRecordBusi patientAssayRecordBusi;
+        List<PatientAssayBackInspectioid> listPatientAssayBackInspectioid = patientAssayBackInspectioidService.selectByPatientId(null);
+        for (PatientAssayBackInspectioid patientAssayBackInspectioid : listPatientAssayBackInspectioid) {
+            patientAssayRecordBusi = new PatientAssayRecordBusi();
+            BeanUtil.copyProperties(patientAssayBackInspectioid, patientAssayRecordBusi);
+            updateRecordList.add(patientAssayRecordBusi);
+        }
+        if (CollectionUtils.isNotEmpty(updateRecordList)) {
+            this.updateListPatientAssayRecordBusi(updateRecordList);
+        }
+    }
+
 }

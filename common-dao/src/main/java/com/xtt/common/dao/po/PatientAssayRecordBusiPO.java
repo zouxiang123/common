@@ -22,6 +22,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private Date endDate;
     private String fkDictCode;// 关联项编号
 
+    private String reference; // 化验参考值
+
     private String[] multResultTips;
     /**
      * 默认：parb.assay_date ASC <br>
@@ -32,6 +34,14 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     private BigDecimal minValue;
     private BigDecimal maxValue;
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
 
     public String getPatientName() {
         return patientName;

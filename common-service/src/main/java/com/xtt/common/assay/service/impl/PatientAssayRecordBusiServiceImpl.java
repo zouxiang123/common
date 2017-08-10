@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.util.UserUtil;
 
@@ -128,6 +129,29 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date) {
         return patientAssayRecordBusiMapper.listLatestByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date);
+    }
+
+    public void updatePatientAssay(List<DictHospitalLabPO> getdHL) {
+        patientAssayRecordBusiMapper.updatePatientAssay(getdHL);
+
+    }
+
+    @Override
+    public void insertPatientAssay(List<DictHospitalLabPO> getdHL) {
+        patientAssayRecordBusiMapper.insertPatientAssay(getdHL);
+
+    }
+
+    @Override
+    public void delteteAll() {
+        patientAssayRecordBusiMapper.delteteAll();
+
+    }
+
+    @Override
+    public void deleteByPatientId(Long fkPatientId) {
+        patientAssayRecordBusiMapper.deleteByPatientId(fkPatientId);
+
     }
 
 }

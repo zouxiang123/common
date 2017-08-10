@@ -412,7 +412,9 @@
     <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         select
         <include refid="Common_Column_List" />
-        ,dhl.fk_dict_code fkDictCode
+        ,dhl.fk_dict_code fkDictCode,
+        dhl.reference,
+        parb.fk_tenant_id
         from patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON dhl.item_code = parb.item_code AND dhl.fk_tenant_id = parb.fk_tenant_id
         <where>
@@ -678,4 +680,19 @@
         ) t2
         WHERE t1.fk_dict_code = t2.fk_dict_code AND t1.fk_patient_id = t2.fk_patient_id AND t1.fk_tenant_id = t2.fk_tenant_id AND t1.minDay = t2.diffDay
     </select>
+    <update id="updatePatientAssay">
+    
+    </update>
+    
+    <insert id="insertPatientAssay">
+    
+    </insert>
+    <!-- 删除全部 -->
+    <delete id="delteteAll">
+        truncate table patient_assay_record_busi
+    </delete>
+    <!-- 根据患者id删除 -->
+    <delete id="deleteByPatientId">
+        delete from patient_assay_record_busi where fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+    </delete>
 </mapper>

@@ -107,14 +107,16 @@ public interface PatientAssayRecordMapper {
      * @param endCreateTime
      * @param tenantId
      * @param strItemCode
+     * @param groupName
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") String afterCount, @Param("startCreateTime") Date startCreateTime,
-                    @Param("endCreateTime") Date endCreateTime, @Param("fkTenantId") Integer fkTenantId, @Param("strItemCode") String strItemCode);
+    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") String beforeCount, @Param("startCreateDate") Date startCreateDate,
+                    @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
+                    @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
 
     /**
-     * 根据化验单条数查询化验数据
+     * 根据化验单条数查询透后化验数据
      * 
      * @Title: listByBeforeCount
      * @param beforeCount
@@ -125,8 +127,8 @@ public interface PatientAssayRecordMapper {
      * @return
      *
      */
-    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") String beforeCount, @Param("sampleTime") Date sampleTime,
-                    @Param("startCreateTime") Date startCreateTime, @Param("strItemCode") String strItemCode, @Param("fkPatientId") Long fkPatientId,
-                    @Param("fkTenantId") Integer fkTenantId);
+    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") String afterCount, @Param("startCreateDate") Date startCreateDate,
+                    @Param("endCreateDate") Date endCreateDate, @Param("groupName") String groupName, @Param("patientId") Long patientId,
+                    @Param("fkTenantId") Integer tenantId, @Param("strItemCode") String strItemCode);
 
 }

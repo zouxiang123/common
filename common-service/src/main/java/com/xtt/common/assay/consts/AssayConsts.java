@@ -52,6 +52,9 @@ public class AssayConsts {
     /** 关键字：透析后表单项目条数 */
     public static final String LAB_AFTER_COUNT = "5";
 
+    /** 关键字：化验项目的名称 */
+    public static final String LAB_GROUP_NAME = "化验项";
+
     /** 正常 */
     public static final String TIPS_NORMAL = "1";
     /** 无法识别的 */

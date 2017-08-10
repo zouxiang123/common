@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
@@ -24,6 +25,7 @@ import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
 
 //抽象工厂
+@Service
 public abstract class AbstractPatientAssayRecordBusi {
 
     @Autowired
@@ -100,6 +102,13 @@ public abstract class AbstractPatientAssayRecordBusi {
         return DateUtil.format(new Date(), DateFormatUtil.FORMAT_YYYY_MM);
     }
 
+    public Date getAssyaDate(String strDate) {
+        if (strDate == null) {
+            return null;
+        }
+        return DateUtil.parseDate(strDate, DateFormatUtil.FORMAT_DATE1);
+    }
+
     public Double matcherToNum(String parmStr) {
         Double retDB = null;
         boolean num = isNum(parmStr); // 是否包含数字
@@ -125,6 +134,26 @@ public abstract class AbstractPatientAssayRecordBusi {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(str);
         return m.find();
+    }
+
+    /**
+     * 删除全部
+     * 
+     * @Title: deleteAll
+     *
+     */
+    public void deleteAll() {
+        PatientAssayRecordBusiService.delteteAll();
+    }
+
+    /**
+     * 根据患者删除
+     * 
+     * @Title: deleteAll
+     *
+     */
+    public void deleteByPatient(Long fkPatientId) {
+        PatientAssayRecordBusiService.deleteByPatientId(fkPatientId);
     }
 
 }
