@@ -128,4 +128,18 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据患者id和ItemCodes查询最新的一条数字
+     * 
+     * @Title: listLatestByFkDictCodes
+     * @param fkPatientId
+     * @param fkDictCodes
+     * @param fkTenantId
+     * @param date
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(@Param("fkPatientId") Long fkPatientId,
+                    @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date);
 }

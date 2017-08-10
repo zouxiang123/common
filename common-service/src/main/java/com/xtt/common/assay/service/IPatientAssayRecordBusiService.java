@@ -178,4 +178,17 @@ public interface IPatientAssayRecordBusiService {
      */
     List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
 
+    /**
+     * 根据患者id和fkDictCodes查询格日期最近的一条数据
+     * 
+     * @Title: listLatestByFkDictCode
+     * @param fkPatientId
+     * @param itemCodes
+     * @param tenantId
+     * @param date
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date);
+
 }

@@ -125,4 +125,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         return patientAssayRecordBusiMapper.listForBeforeAfterReport(record);
     }
 
+    @Override
+    public List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date) {
+        return patientAssayRecordBusiMapper.listLatestByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date);
+    }
+
 }
