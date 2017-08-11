@@ -23,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CkdStage;
 import com.xtt.common.dao.model.County;
@@ -49,7 +49,7 @@ import com.xtt.common.diagnosis.service.IPatientDiagnosisService;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -127,7 +127,7 @@ public class PatientDiagnosisController {
         // 病史信息
         initMedicalHistory(model.getModelMap(), mh);
         // 慢性肾病类型
-        model.addObject(CmDictConstants.NEPHROSIS_TYPE, CmDictUtil.getListByType(CmDictConstants.NEPHROSIS_TYPE, cd == null ? null : cd.getType()));
+        model.addObject(CmDictConsts.NEPHROSIS_TYPE, DictUtil.listByPItemCode(CmDictConsts.NEPHROSIS_TYPE, cd == null ? null : cd.getType()));
         // 初始化慢性肾功能衰竭
         initCrf(model.getModelMap(), crf);
         // 初始化慢性肾功能不全急性加重
@@ -164,8 +164,8 @@ public class PatientDiagnosisController {
             patient.setSysOwner(sys);
         }
         model.addObject("patient", patient);
-        model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
-                        CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
+                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         return model;
     }
 
@@ -610,107 +610,107 @@ public class PatientDiagnosisController {
     /** 初始化病史信息 */
     private void initMedicalHistory(Map<String, Object> map, MedicalHistoryPO mh) {
 
-        map.put(CmDictConstants.FIRST_DIALYSIS_METHOD,
-                        CmDictUtil.getListByType(CmDictConstants.FIRST_DIALYSIS_METHOD, mh == null ? null : mh.getFirstDialysisMethod()));
-        map.put("hasCva", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasCva()));
-        map.put("hasVascularDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasVascularDisease()));
-        map.put("hasSeriousDisease", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasSeriousDisease()));
-        map.put("hasPsychosis", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, mh == null ? null : mh.getHasPsychosis()));
-        map.put(CmDictConstants.HEMORRHAGE, CmDictUtil.getListByType(CmDictConstants.HEMORRHAGE, mh == null ? null : mh.getHemorrhage()));
-        map.put(CmDictConstants.HEART_DEFECTS, CmDictUtil.getListByType(CmDictConstants.HEART_DEFECTS, mh == null ? null : mh.getHeartDefects()));
+        map.put(CmDictConsts.FIRST_DIALYSIS_METHOD,
+                        DictUtil.listByPItemCode(CmDictConsts.FIRST_DIALYSIS_METHOD, mh == null ? null : mh.getFirstDialysisMethod()));
+        map.put("hasCva", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, mh == null ? null : mh.getHasCva()));
+        map.put("hasVascularDisease", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, mh == null ? null : mh.getHasVascularDisease()));
+        map.put("hasSeriousDisease", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, mh == null ? null : mh.getHasSeriousDisease()));
+        map.put("hasPsychosis", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, mh == null ? null : mh.getHasPsychosis()));
+        map.put(CmDictConsts.HEMORRHAGE, DictUtil.listByPItemCode(CmDictConsts.HEMORRHAGE, mh == null ? null : mh.getHemorrhage()));
+        map.put(CmDictConsts.HEART_DEFECTS, DictUtil.listByPItemCode(CmDictConsts.HEART_DEFECTS, mh == null ? null : mh.getHeartDefects()));
 
         // 血透开始原因
-        map.put("xtStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getXtStartReason()));
+        map.put("xtStartReason", DictUtil.listByPItemCode(CmDictConsts.BS_KSYY, mh == null ? null : mh.getXtStartReason()));
         // 血透结束原因
-        map.put("xtEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getXtEndReason()));
+        map.put("xtEndReason", DictUtil.listByPItemCode(CmDictConsts.BS_JSYY, mh == null ? null : mh.getXtEndReason()));
         // 腹透开始原因
-        map.put("ftStartReason", CmDictUtil.getListByType(CmDictConstants.BS_KSYY, mh == null ? null : mh.getFtStartReason()));
+        map.put("ftStartReason", DictUtil.listByPItemCode(CmDictConsts.BS_KSYY, mh == null ? null : mh.getFtStartReason()));
         // 腹透结束原因
-        map.put("ftEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getFtEndReason()));
+        map.put("ftEndReason", DictUtil.listByPItemCode(CmDictConsts.BS_JSYY, mh == null ? null : mh.getFtEndReason()));
         // 肾移植结束原因
-        map.put("syzEndReason", CmDictUtil.getListByType(CmDictConstants.BS_JSYY, mh == null ? null : mh.getSyzEndReason()));
+        map.put("syzEndReason", DictUtil.listByPItemCode(CmDictConsts.BS_JSYY, mh == null ? null : mh.getSyzEndReason()));
         // 过敏原因
-        map.put("gmResouce", CmDictUtil.getListByType(CmDictConstants.BS_GMY, mh == null ? null : mh.getGmResouce()));
+        map.put("gmResouce", DictUtil.listByPItemCode(CmDictConsts.BS_GMY, mh == null ? null : mh.getGmResouce()));
 
         // 传染病诊断名称
-        map.put("bs_crbzdmc", CmDictUtil.getListByType(CmDictConstants.BS_CRBZDMC, mh == null ? null : mh.getCrbDiaName()));
+        map.put("bs_crbzdmc", DictUtil.listByPItemCode(CmDictConsts.BS_CRBZDMC, mh == null ? null : mh.getCrbDiaName()));
         // 传染病活动状态
-        map.put("bs_crbhdzt", CmDictUtil.getListByType(CmDictConstants.BS_CRBHDZT, mh == null ? null : mh.getCrbDiaStatus()));
+        map.put("bs_crbhdzt", DictUtil.listByPItemCode(CmDictConsts.BS_CRBHDZT, mh == null ? null : mh.getCrbDiaStatus()));
         // 传染病治疗情况
-        map.put("bs_crbzlqk", CmDictUtil.getListByType(CmDictConstants.BS_CRBZLQK, mh == null ? null : mh.getCrbCase()));
+        map.put("bs_crbzlqk", DictUtil.listByPItemCode(CmDictConsts.BS_CRBZLQK, mh == null ? null : mh.getCrbCase()));
     }
 
     /** 初始化慢性肾功能衰竭 */
     private void initCrf(Map<String, Object> map, CrfPO crf) {
-        map.put(CmDictConstants.CLINICAL_PGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_PGN, crf == null ? null : crf.getPgn()));
-        map.put(CmDictConstants.CLINICAL_SGN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_SGN, crf == null ? null : crf.getSgn()));
-        map.put(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.CLINICAL_HEREDITARY_NEPHROPATHY,
+        map.put(CmDictConsts.CLINICAL_PGN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_PGN, crf == null ? null : crf.getPgn()));
+        map.put(CmDictConsts.CLINICAL_SGN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_SGN, crf == null ? null : crf.getSgn()));
+        map.put(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY,
                         crf == null ? null : crf.getHereditaryNephropathy()));
-        map.put(CmDictConstants.CLINICAL_TIN, CmDictUtil.getListByType(CmDictConstants.CLINICAL_TIN, crf == null ? null : crf.getTin()));
-        map.put(CmDictConstants.UN_AND_STONE, CmDictUtil.getListByType(CmDictConstants.UN_AND_STONE, crf == null ? null : crf.getUnAndStone()));
-        map.put(CmDictConstants.RENAL_RESECTION,
-                        CmDictUtil.getListByType(CmDictConstants.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
-        map.put("urologicNeoplasms", CmDictUtil.getListByType(CmDictConstants.HAVE_OR_NOT, crf == null ? null : crf.getUrologicNeoplasms()));
-        map.put("crfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, crf == null ? null : crf.getUnknownReason()));
+        map.put(CmDictConsts.CLINICAL_TIN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_TIN, crf == null ? null : crf.getTin()));
+        map.put(CmDictConsts.UN_AND_STONE, DictUtil.listByPItemCode(CmDictConsts.UN_AND_STONE, crf == null ? null : crf.getUnAndStone()));
+        map.put(CmDictConsts.RENAL_RESECTION,
+                        DictUtil.listByPItemCode(CmDictConsts.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
+        map.put("urologicNeoplasms", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, crf == null ? null : crf.getUrologicNeoplasms()));
+        map.put("crfUnknownReason", DictUtil.listByPItemCode(CmDictConsts.IS_OR_NOT, crf == null ? null : crf.getUnknownReason()));
     }
 
     /** 初始化慢性肾功能不全急性加重 */
     private void initSeriousCrf(Map<String, Object> map, SeriousCrfPO seriousCrf) {
-        map.put(CmDictConstants.SERIOUS_CRF_REASON,
-                        CmDictUtil.getListByType(CmDictConstants.SERIOUS_CRF_REASON, seriousCrf == null ? null : seriousCrf.getReason()));
+        map.put(CmDictConsts.SERIOUS_CRF_REASON,
+                        DictUtil.listByPItemCode(CmDictConsts.SERIOUS_CRF_REASON, seriousCrf == null ? null : seriousCrf.getReason()));
     }
 
     /** 初始化急性肾功能衰竭 */
     private void initArf(Map<String, Object> map, ArfPO arf) {
-        map.put(CmDictConstants.ARF_REASON, CmDictUtil.getListByType(CmDictConstants.ARF_REASON, arf == null ? null : arf.getReason()));
-        map.put("arfUnknownReason", CmDictUtil.getListByType(CmDictConstants.IS_OR_NOT, arf == null ? null : arf.getUnknownReason()));
+        map.put(CmDictConsts.ARF_REASON, DictUtil.listByPItemCode(CmDictConsts.ARF_REASON, arf == null ? null : arf.getReason()));
+        map.put("arfUnknownReason", DictUtil.listByPItemCode(CmDictConsts.IS_OR_NOT, arf == null ? null : arf.getUnknownReason()));
     }
 
     /** 初始化病理诊断 */
     private void initPathologicDiagnosisResult(Map<String, Object> map, PathologicDiagnosisResultPO pd) {
-        map.put(CmDictConstants.PATHOLOGY_PGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_PGN, pd == null ? null : pd.getPgn()));
-        map.put(CmDictConstants.PATHOLOGY_SGN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_SGN, pd == null ? null : pd.getSgn()));
-        map.put(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_HEREDITARY_NEPHROPATHY,
+        map.put(CmDictConsts.PATHOLOGY_PGN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_PGN, pd == null ? null : pd.getPgn()));
+        map.put(CmDictConsts.PATHOLOGY_SGN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_SGN, pd == null ? null : pd.getSgn()));
+        map.put(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY,
                         pd == null ? null : pd.getHereditaryNephropathy()));
-        map.put(CmDictConstants.PATHOLOGY_TIN, CmDictUtil.getListByType(CmDictConstants.PATHOLOGY_TIN, pd == null ? null : pd.getTin()));
+        map.put(CmDictConsts.PATHOLOGY_TIN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_TIN, pd == null ? null : pd.getTin()));
     }
 
     /** 初始化CKD/AKI分期数据 */
     private void initCkdStage(Map<String, Object> map, CkdStagePO ckd) {
-        map.put(CmDictConstants.CKD_TYPE, CmDictUtil.getListByType(CmDictConstants.CKD_TYPE, ckd == null ? null : ckd.getCkdType()));
-        map.put(CmDictConstants.CKD_STAGE, CmDictUtil.getListByType(CmDictConstants.CKD_STAGE, ckd == null ? null : ckd.getCkdStage()));
-        map.put(CmDictConstants.AKI_TYPE, CmDictUtil.getListByType(CmDictConstants.AKI_TYPE, ckd == null ? null : ckd.getAkiType()));
-        map.put(CmDictConstants.AKI_STAGE_RIFLE, CmDictUtil.getListByType(CmDictConstants.AKI_STAGE_RIFLE, ckd == null ? null : ckd.getAkiStage()));
-        map.put(CmDictConstants.AKI_STAGE, CmDictUtil.getListByType(CmDictConstants.AKI_STAGE, ckd == null ? null : ckd.getAkiStage()));
+        map.put(CmDictConsts.CKD_TYPE, DictUtil.listByPItemCode(CmDictConsts.CKD_TYPE, ckd == null ? null : ckd.getCkdType()));
+        map.put(CmDictConsts.CKD_STAGE, DictUtil.listByPItemCode(CmDictConsts.CKD_STAGE, ckd == null ? null : ckd.getCkdStage()));
+        map.put(CmDictConsts.AKI_TYPE, DictUtil.listByPItemCode(CmDictConsts.AKI_TYPE, ckd == null ? null : ckd.getAkiType()));
+        map.put(CmDictConsts.AKI_STAGE_RIFLE, DictUtil.listByPItemCode(CmDictConsts.AKI_STAGE_RIFLE, ckd == null ? null : ckd.getAkiStage()));
+        map.put(CmDictConsts.AKI_STAGE, DictUtil.listByPItemCode(CmDictConsts.AKI_STAGE, ckd == null ? null : ckd.getAkiStage()));
     }
 
     /** 初始化治疗前合并症 */
     private void initCureSymptomAndCondition(Map<String, Object> map, CureSymptomAndConditionPO csac) {
-        map.put(CmDictConstants.MAIN_SYMPTOM, CmDictUtil.getListByType(CmDictConstants.MAIN_SYMPTOM, csac == null ? null : csac.getMainSymptom()));
+        map.put(CmDictConsts.MAIN_SYMPTOM, DictUtil.listByPItemCode(CmDictConsts.MAIN_SYMPTOM, csac == null ? null : csac.getMainSymptom()));
         // =================================================治疗前合并症
-        map.put(CmDictConstants.GKWZDXWL_INFO, CmDictUtil.getListByType(CmDictConstants.GKWZDXWL_INFO, csac == null ? null : csac.getGkwzdxwl()));// 1:骨矿物质代谢紊乱
+        map.put(CmDictConsts.GKWZDXWL_INFO, DictUtil.listByPItemCode(CmDictConsts.GKWZDXWL_INFO, csac == null ? null : csac.getGkwzdxwl()));// 1:骨矿物质代谢紊乱
 
-        map.put(CmDictConstants.DFYBX_INFO, CmDictUtil.getListByType(CmDictConstants.DFYBX_INFO, csac == null ? null : csac.getDfypx()));// 2:淀粉样变性
+        map.put(CmDictConsts.DFYBX_INFO, DictUtil.listByPItemCode(CmDictConsts.DFYBX_INFO, csac == null ? null : csac.getDfypx()));// 2:淀粉样变性
 
-        map.put(CmDictConstants.HXXT_INFO, CmDictUtil.getListByType(CmDictConstants.HXXT_INFO, csac == null ? null : csac.getHxxt()));// 3:呼吸系统
+        map.put(CmDictConsts.HXXT_INFO, DictUtil.listByPItemCode(CmDictConsts.HXXT_INFO, csac == null ? null : csac.getHxxt()));// 3:呼吸系统
 
-        map.put(CmDictConstants.XHXT_INFO, CmDictUtil.getListByType(CmDictConstants.XHXT_INFO, csac == null ? null : csac.getXhxt()));// 4:消化系统
+        map.put(CmDictConsts.XHXT_INFO, DictUtil.listByPItemCode(CmDictConsts.XHXT_INFO, csac == null ? null : csac.getXhxt()));// 4:消化系统
 
-        map.put(CmDictConstants.XXGXT_INFO, CmDictUtil.getListByType(CmDictConstants.XXGXT_INFO, csac == null ? null : csac.getXxgxt()));// 5:心血管系统
+        map.put(CmDictConsts.XXGXT_INFO, DictUtil.listByPItemCode(CmDictConsts.XXGXT_INFO, csac == null ? null : csac.getXxgxt()));// 5:心血管系统
 
-        map.put(CmDictConstants.SJXT_INFO, CmDictUtil.getListByType(CmDictConstants.SJXT_INFO, csac == null ? null : csac.getSjxt()));// 6:神经系统
+        map.put(CmDictConsts.SJXT_INFO, DictUtil.listByPItemCode(CmDictConsts.SJXT_INFO, csac == null ? null : csac.getSjxt()));// 6:神经系统
 
-        map.put(CmDictConstants.PFSY_INFO, CmDictUtil.getListByType(CmDictConstants.PFSY_INFO, csac == null ? null : csac.getPfsy()));// 7:皮肤瘙痒
+        map.put(CmDictConsts.PFSY_INFO, DictUtil.listByPItemCode(CmDictConsts.PFSY_INFO, csac == null ? null : csac.getPfsy()));// 7:皮肤瘙痒
 
-        map.put(CmDictConstants.XYXT_INFO, CmDictUtil.getListByType(CmDictConstants.XYXT_INFO, csac == null ? null : csac.getXyxt()));// 8:血液系统
+        map.put(CmDictConsts.XYXT_INFO, DictUtil.listByPItemCode(CmDictConsts.XYXT_INFO, csac == null ? null : csac.getXyxt()));// 8:血液系统
 
-        map.put(CmDictConstants.HBZL_INFO, CmDictUtil.getListByType(CmDictConstants.HBZL_INFO, csac == null ? null : csac.getHbzl()));// 9:合并肿瘤
+        map.put(CmDictConsts.HBZL_INFO, DictUtil.listByPItemCode(CmDictConsts.HBZL_INFO, csac == null ? null : csac.getHbzl()));// 9:合并肿瘤
 
-        map.put(CmDictConstants.HBGR_INFO, CmDictUtil.getListByType(CmDictConstants.HBGR_INFO, csac == null ? null : csac.getHbgr()));// 10:合并感染
+        map.put(CmDictConsts.HBGR_INFO, DictUtil.listByPItemCode(CmDictConsts.HBGR_INFO, csac == null ? null : csac.getHbgr()));// 10:合并感染
 
-        map.put(CmDictConstants.ZSMYXJB_INFO, CmDictUtil.getListByType(CmDictConstants.ZSMYXJB_INFO, csac == null ? null : csac.getZsmyxjb()));// 11:自身免疫性疾病
+        map.put(CmDictConsts.ZSMYXJB_INFO, DictUtil.listByPItemCode(CmDictConsts.ZSMYXJB_INFO, csac == null ? null : csac.getZsmyxjb()));// 11:自身免疫性疾病
 
-        map.put(CmDictConstants.NFMJDXXT_INFO, CmDictUtil.getListByType(CmDictConstants.NFMJDXXT_INFO, csac == null ? null : csac.getNfmjdxxt()));// 12:内分泌及代谢系统
+        map.put(CmDictConsts.NFMJDXXT_INFO, DictUtil.listByPItemCode(CmDictConsts.NFMJDXXT_INFO, csac == null ? null : csac.getNfmjdxxt()));// 12:内分泌及代谢系统
     }
 
 }

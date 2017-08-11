@@ -17,11 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 @Controller
@@ -35,7 +35,7 @@ public class PatientOutcomeController {
         model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
         model.addAttribute("sysOwner", sys);
         model.addAttribute("patientId", patientId);
-        model.addAttribute(CmDictConstants.PATIENT_OUTCOME_TYPE, CmDictUtil.getListByType(CmDictConstants.PATIENT_OUTCOME_TYPE));
+        model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
         return "patient/patient_outcome_record";
     }
 

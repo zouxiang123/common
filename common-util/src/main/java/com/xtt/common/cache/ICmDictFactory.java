@@ -14,37 +14,40 @@ import com.xtt.common.dto.DictDto;
 
 public interface ICmDictFactory {
     /**
+     * 根据itemCode获取名称
      * 
-     * @Title: getName 获取字典名称
-     * @param type
-     *            字典类型
-     * @param value
-     *            字典值
-     * @return 字典名称
-     * 
+     * @Title: getItemName
+     * @param pItemCode
+     *            类别编号
+     * @param itemCode
+     *            编号
+     * @return
+     *
      */
-    public String getName(String type, String value);
+    public String getItemName(String pItemCode, String itemCode);
 
     /**
+     * 根据类别编号获取字典集合
      * 
-     * @Title: getListByType 获取字典集合
-     * @param type
-     *            字典类型
-     * @return 字典集合
-     * 
+     * @Title: getListByPItemCode
+     * @param pItemCode
+     *            类别编号
+     * @return
+     *
      */
-    public List<DictDto> getListByType(String type);
+    public List<DictDto> listByPItemCode(String pItemCode);
 
     /**
+     * 根据名称获取对应的值
      * 
-     * @Title: getValue 获取字典名称
-     * @param type
-     *            字典类型
-     * @param name
-     *            字典名称
-     * @return 字典对应的值
-     * 
+     * @Title: getItemCode
+     * @param pItemCode
+     *            类别编号
+     * @param itemName
+     *            名称
+     * @return
+     *
      */
-    public String getValue(String type, String name);
+    public String getItemCode(String pItemCode, String itemName);
 
 }

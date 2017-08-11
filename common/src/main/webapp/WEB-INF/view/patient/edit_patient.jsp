@@ -19,7 +19,7 @@
 					<input type="hidden" id="tempImagePath" name="tempImagePath" />
 					<jsp:include page="edit_patient_basic.jsp"></jsp:include>
 					<ul class="pager center-block">
-						<button type="button" id="btnCancel" class="btn btn-ls" style="margin-top: 20px;" onclick="history.go(-1);">取消</button>
+						<button type="button" id="btnCancel" class="btn btn-ls" style="margin-top: 20px;" onclick="window.location.reload(true);">取消</button>
 						<button type="button" id="btnSave" class="btn btn-def btn-ls" style="margin-top: 20px;" onclick="patientFormSubmit();">保存</button>
 					</ul>
 				</form>

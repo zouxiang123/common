@@ -24,13 +24,14 @@ import com.xtt.common.assay.service.IDictHospitalLabService;
 import com.xtt.common.assay.service.IPatientAssayDictionaryService;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICommonCacheService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDict;
+import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayDictionaryPO;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 @Controller
@@ -48,7 +49,7 @@ public class CmDictController {
     @RequestMapping("maintain")
     public ModelAndView maintain(@RequestParam(required = true) String sys) {
         ModelAndView model = new ModelAndView("system/dictionary_maintain");
-        model.addObject(CmDictConstants.ASSAY_TEXT_TYPE, CmDictUtil.getListByType(CmDictConstants.ASSAY_TEXT_TYPE));
+        model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.listByPItemCode(CmDictConsts.ASSAY_TEXT_TYPE));
         model.addObject("sysOwner", sys);
         return model;
     }
@@ -176,8 +177,8 @@ public class CmDictController {
         boolean successFlag = true;
         if (record.getId() == null) {// 添加操作
             record.setItemName(record.getItemName().trim());
-            if (StringUtils.isNotBlank(CmDictUtil.getName(record.getpItemCode(), record.getItemCode()))
-                            || StringUtils.isNotBlank(CmDictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字和对应的值是否存在
+            if (StringUtils.isNotBlank(DictUtil.getItemName(record.getpItemCode(), record.getItemCode()))
+                            || StringUtils.isNotBlank(DictUtil.getItemCode(record.getpItemCode(), record.getItemName()))) {// 检查名字和对应的值是否存在
                 map.put("status", CommonConstants.WARNING);
                 successFlag = false;
             } else if (checkDictionaryOrderByExists(record)) {
@@ -189,7 +190,7 @@ public class CmDictController {
             if (record.getIsEnable() == null) {// 不是更新状态操作
                 record.setItemName(record.getItemName().trim());// 去除左右空格
                 if (!d.getItemName().equals(record.getItemName()))// 名称发生了变化
-                    if (StringUtils.isNotBlank(CmDictUtil.getValue(record.getpItemCode(), record.getItemName()))) {// 检查名字是否存在
+                    if (StringUtils.isNotBlank(DictUtil.getItemCode(record.getpItemCode(), record.getItemName()))) {// 检查名字是否存在
                         map.put("status", CommonConstants.WARNING);
                         successFlag = false;
                     }
@@ -238,4 +239,47 @@ public class CmDictController {
         return map;
     }
 
+    /**
+     * 查询是否为常用项
+     * 
+     * @Title: selectTop
+     * @param record
+     * @return
+     *
+     */
+    @RequestMapping("selectTop")
+    @ResponseBody
+    public Map<String, Object> selectTop(DictHospitalLab record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        Map<String, Object> map = new HashMap<String, Object>();
+        DictHospitalLab dic = dictHospitalLabService.selectTop(record);
+        // 默认标志
+        String resultFlag = CommonConstants.FAILURE;
+        if (dic.getIsTop() != null && dic.getIsTop()) {
+            resultFlag = CommonConstants.SUCCESS;
+        }
+        map.put(CommonConstants.STATUS, resultFlag);
+        return map;
+    }
+
+    /**
+     * 获取置顶的检查项
+     * 
+     * @Title: getAssayListByTop
+     * @param record
+     * @return
+     * 
+     */
+    @RequestMapping("getAssayListByTop")
+    @ResponseBody
+    public Map<String, Object> getAssayListByTop() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        DictHospitalLabPO record = new DictHospitalLabPO();
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setIsTop(Boolean.TRUE);
+        List<DictHospitalLabPO> list = dictHospitalLabService.getByCondition(record);
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        map.put("items", list);
+        return map;
+    }
 }

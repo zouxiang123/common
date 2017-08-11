@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.LoginUser;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
@@ -127,10 +127,10 @@ public class LoginController {
                     loginUser.setPositionShow(sysUser.getPosition());
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_DOCTOR) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_DOCTOR);
-                    loginUser.setPositionShow(CmDictUtil.getName(CmDictConstants.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.DOCTOR_PROFESSIONAL_TITLE, loginUser.getPosition()));
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_NURSE) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_NURSE);
-                    loginUser.setPositionShow(CmDictUtil.getName(CmDictConstants.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
+                    loginUser.setPositionShow(DictUtil.getItemName(CmDictConsts.NURSE_PROFESSIONAL_TITLE, loginUser.getPosition()));
                 } else if (sysUser.getParentRoleId().indexOf(CommonConstants.ROLE_OTHER) > -1) {
                     loginUser.setRoleType(CommonConstants.ROLE_OTHER);
                     loginUser.setPositionShow(sysUser.getPosition());

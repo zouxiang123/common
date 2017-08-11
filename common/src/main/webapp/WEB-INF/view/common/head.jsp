@@ -2,7 +2,7 @@
 <%@ page import="java.util.Map"%>
 <%@ page import="com.xtt.common.util.ContextAuthUtil"%>
 <%@ page import="com.xtt.common.constants.CommonConstants"%>
-<%@ page import="com.xtt.common.constants.SysParamConstants"%>
+<%@ page import="com.xtt.common.constants.CmSysParamConsts"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>

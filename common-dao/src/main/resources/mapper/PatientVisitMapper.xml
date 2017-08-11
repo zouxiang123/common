@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientVisitMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientVisit">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="uuid_code" jdbcType="VARCHAR" property="uuidCode" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="his_pt_id" jdbcType="VARCHAR" property="hisPtId" />
+    <result column="pt_type" jdbcType="VARCHAR" property="ptType" />
+    <result column="visit_date" jdbcType="VARCHAR" property="visitDate" />
+    <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
+    <result column="times" jdbcType="VARCHAR" property="times" />
+    <result column="clinic_label" jdbcType="VARCHAR" property="clinicLabel" />
+    <result column="charge_type" jdbcType="VARCHAR" property="chargeType" />
+    <result column="pt_identity" jdbcType="VARCHAR" property="ptIdentity" />
+    <result column="symptom" jdbcType="VARCHAR" property="symptom" />
+    <result column="in_time" jdbcType="TIMESTAMP" property="inTime" />
+    <result column="out_time" jdbcType="TIMESTAMP" property="outTime" />
+    <result column="in_dept" jdbcType="VARCHAR" property="inDept" />
+    <result column="out_dept" jdbcType="VARCHAR" property="outDept" />
+    <result column="disgnosis" jdbcType="VARCHAR" property="disgnosis" />
+    <result column="doctor" jdbcType="VARCHAR" property="doctor" />
+    <result column="total_costs" jdbcType="VARCHAR" property="totalCosts" />
+    <result column="total_payments" jdbcType="VARCHAR" property="totalPayments" />
+    <result column="total_balance" jdbcType="VARCHAR" property="totalBalance" />
+    <result column="insurance_type" jdbcType="VARCHAR" property="insuranceType" />
+    <result column="pt_status" jdbcType="VARCHAR" property="ptStatus" />
+    <result column="new_flag" jdbcType="BIT" property="newFlag" />
+    <result column="opt_flag" jdbcType="VARCHAR" property="optFlag" />
+    <result column="hospital_service" jdbcType="VARCHAR" property="hospitalService" />
+    <result column="room_no" jdbcType="VARCHAR" property="roomNo" />
+    <result column="bed_no" jdbcType="VARCHAR" property="bedNo" />
+    <result column="bed_name" jdbcType="VARCHAR" property="bedName" />
+    <result column="zg_status_name" jdbcType="VARCHAR" property="zgStatusName" />
+    <result column="zg_desc" jdbcType="VARCHAR" property="zgDesc" />
+    <result column="allergy_type" jdbcType="VARCHAR" property="allergyType" />
+    <result column="allergy_desc" jdbcType="VARCHAR" property="allergyDesc" />
+    <result column="allergy_severity" jdbcType="VARCHAR" property="allergySeverity" />
+    <result column="allergy_reaction" jdbcType="VARCHAR" property="allergyReaction" />
+    <result column="identification_date" jdbcType="TIMESTAMP" property="identificationDate" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, uuid_code, fk_patient_id, his_pt_id, pt_type, visit_date, card_no, times, clinic_label, 
+    charge_type, pt_identity, symptom, in_time, out_time, in_dept, out_dept, disgnosis, 
+    doctor, total_costs, total_payments, total_balance, insurance_type, pt_status, new_flag, 
+    opt_flag, hospital_service, room_no, bed_no, bed_name, zg_status_name, zg_desc, allergy_type, 
+    allergy_desc, allergy_severity, allergy_reaction, identification_date, remark, del_flag, 
+    fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_visit
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_visit
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientVisit">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_visit (id, uuid_code, fk_patient_id, 
+      his_pt_id, pt_type, visit_date, 
+      card_no, times, clinic_label, 
+      charge_type, pt_identity, symptom, 
+      in_time, out_time, in_dept, 
+      out_dept, disgnosis, doctor, 
+      total_costs, total_payments, total_balance, 
+      insurance_type, pt_status, new_flag, 
+      opt_flag, hospital_service, room_no, 
+      bed_no, bed_name, zg_status_name, 
+      zg_desc, allergy_type, allergy_desc, 
+      allergy_severity, allergy_reaction, identification_date, 
+      remark, del_flag, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{uuidCode,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, 
+      #{hisPtId,jdbcType=VARCHAR}, #{ptType,jdbcType=VARCHAR}, #{visitDate,jdbcType=VARCHAR}, 
+      #{cardNo,jdbcType=VARCHAR}, #{times,jdbcType=VARCHAR}, #{clinicLabel,jdbcType=VARCHAR}, 
+      #{chargeType,jdbcType=VARCHAR}, #{ptIdentity,jdbcType=VARCHAR}, #{symptom,jdbcType=VARCHAR}, 
+      #{inTime,jdbcType=TIMESTAMP}, #{outTime,jdbcType=TIMESTAMP}, #{inDept,jdbcType=VARCHAR}, 
+      #{outDept,jdbcType=VARCHAR}, #{disgnosis,jdbcType=VARCHAR}, #{doctor,jdbcType=VARCHAR}, 
+      #{totalCosts,jdbcType=VARCHAR}, #{totalPayments,jdbcType=VARCHAR}, #{totalBalance,jdbcType=VARCHAR}, 
+      #{insuranceType,jdbcType=VARCHAR}, #{ptStatus,jdbcType=VARCHAR}, #{newFlag,jdbcType=BIT}, 
+      #{optFlag,jdbcType=VARCHAR}, #{hospitalService,jdbcType=VARCHAR}, #{roomNo,jdbcType=VARCHAR}, 
+      #{bedNo,jdbcType=VARCHAR}, #{bedName,jdbcType=VARCHAR}, #{zgStatusName,jdbcType=VARCHAR}, 
+      #{zgDesc,jdbcType=VARCHAR}, #{allergyType,jdbcType=VARCHAR}, #{allergyDesc,jdbcType=VARCHAR}, 
+      #{allergySeverity,jdbcType=VARCHAR}, #{allergyReaction,jdbcType=VARCHAR}, #{identificationDate,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientVisit">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_visit
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uuidCode != null">
+        uuid_code,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="hisPtId != null">
+        his_pt_id,
+      </if>
+      <if test="ptType != null">
+        pt_type,
+      </if>
+      <if test="visitDate != null">
+        visit_date,
+      </if>
+      <if test="cardNo != null">
+        card_no,
+      </if>
+      <if test="times != null">
+        times,
+      </if>
+      <if test="clinicLabel != null">
+        clinic_label,
+      </if>
+      <if test="chargeType != null">
+        charge_type,
+      </if>
+      <if test="ptIdentity != null">
+        pt_identity,
+      </if>
+      <if test="symptom != null">
+        symptom,
+      </if>
+      <if test="inTime != null">
+        in_time,
+      </if>
+      <if test="outTime != null">
+        out_time,
+      </if>
+      <if test="inDept != null">
+        in_dept,
+      </if>
+      <if test="outDept != null">
+        out_dept,
+      </if>
+      <if test="disgnosis != null">
+        disgnosis,
+      </if>
+      <if test="doctor != null">
+        doctor,
+      </if>
+      <if test="totalCosts != null">
+        total_costs,
+      </if>
+      <if test="totalPayments != null">
+        total_payments,
+      </if>
+      <if test="totalBalance != null">
+        total_balance,
+      </if>
+      <if test="insuranceType != null">
+        insurance_type,
+      </if>
+      <if test="ptStatus != null">
+        pt_status,
+      </if>
+      <if test="newFlag != null">
+        new_flag,
+      </if>
+      <if test="optFlag != null">
+        opt_flag,
+      </if>
+      <if test="hospitalService != null">
+        hospital_service,
+      </if>
+      <if test="roomNo != null">
+        room_no,
+      </if>
+      <if test="bedNo != null">
+        bed_no,
+      </if>
+      <if test="bedName != null">
+        bed_name,
+      </if>
+      <if test="zgStatusName != null">
+        zg_status_name,
+      </if>
+      <if test="zgDesc != null">
+        zg_desc,
+      </if>
+      <if test="allergyType != null">
+        allergy_type,
+      </if>
+      <if test="allergyDesc != null">
+        allergy_desc,
+      </if>
+      <if test="allergySeverity != null">
+        allergy_severity,
+      </if>
+      <if test="allergyReaction != null">
+        allergy_reaction,
+      </if>
+      <if test="identificationDate != null">
+        identification_date,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uuidCode != null">
+        #{uuidCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="hisPtId != null">
+        #{hisPtId,jdbcType=VARCHAR},
+      </if>
+      <if test="ptType != null">
+        #{ptType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null">
+        #{visitDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="clinicLabel != null">
+        #{clinicLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeType != null">
+        #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="ptIdentity != null">
+        #{ptIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="symptom != null">
+        #{symptom,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inDept != null">
+        #{inDept,jdbcType=VARCHAR},
+      </if>
+      <if test="outDept != null">
+        #{outDept,jdbcType=VARCHAR},
+      </if>
+      <if test="disgnosis != null">
+        #{disgnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="doctor != null">
+        #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCosts != null">
+        #{totalCosts,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPayments != null">
+        #{totalPayments,jdbcType=VARCHAR},
+      </if>
+      <if test="totalBalance != null">
+        #{totalBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceType != null">
+        #{insuranceType,jdbcType=VARCHAR},
+      </if>
+      <if test="ptStatus != null">
+        #{ptStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newFlag != null">
+        #{newFlag,jdbcType=BIT},
+      </if>
+      <if test="optFlag != null">
+        #{optFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalService != null">
+        #{hospitalService,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null">
+        #{roomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bedNo != null">
+        #{bedNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bedName != null">
+        #{bedName,jdbcType=VARCHAR},
+      </if>
+      <if test="zgStatusName != null">
+        #{zgStatusName,jdbcType=VARCHAR},
+      </if>
+      <if test="zgDesc != null">
+        #{zgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyType != null">
+        #{allergyType,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyDesc != null">
+        #{allergyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allergySeverity != null">
+        #{allergySeverity,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyReaction != null">
+        #{allergyReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationDate != null">
+        #{identificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientVisit">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_visit
+    <set>
+      <if test="uuidCode != null">
+        uuid_code = #{uuidCode,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="hisPtId != null">
+        his_pt_id = #{hisPtId,jdbcType=VARCHAR},
+      </if>
+      <if test="ptType != null">
+        pt_type = #{ptType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null">
+        visit_date = #{visitDate,jdbcType=VARCHAR},
+      </if>
+      <if test="cardNo != null">
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="times != null">
+        times = #{times,jdbcType=VARCHAR},
+      </if>
+      <if test="clinicLabel != null">
+        clinic_label = #{clinicLabel,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeType != null">
+        charge_type = #{chargeType,jdbcType=VARCHAR},
+      </if>
+      <if test="ptIdentity != null">
+        pt_identity = #{ptIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="symptom != null">
+        symptom = #{symptom,jdbcType=VARCHAR},
+      </if>
+      <if test="inTime != null">
+        in_time = #{inTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="outTime != null">
+        out_time = #{outTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="inDept != null">
+        in_dept = #{inDept,jdbcType=VARCHAR},
+      </if>
+      <if test="outDept != null">
+        out_dept = #{outDept,jdbcType=VARCHAR},
+      </if>
+      <if test="disgnosis != null">
+        disgnosis = #{disgnosis,jdbcType=VARCHAR},
+      </if>
+      <if test="doctor != null">
+        doctor = #{doctor,jdbcType=VARCHAR},
+      </if>
+      <if test="totalCosts != null">
+        total_costs = #{totalCosts,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPayments != null">
+        total_payments = #{totalPayments,jdbcType=VARCHAR},
+      </if>
+      <if test="totalBalance != null">
+        total_balance = #{totalBalance,jdbcType=VARCHAR},
+      </if>
+      <if test="insuranceType != null">
+        insurance_type = #{insuranceType,jdbcType=VARCHAR},
+      </if>
+      <if test="ptStatus != null">
+        pt_status = #{ptStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="newFlag != null">
+        new_flag = #{newFlag,jdbcType=BIT},
+      </if>
+      <if test="optFlag != null">
+        opt_flag = #{optFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="hospitalService != null">
+        hospital_service = #{hospitalService,jdbcType=VARCHAR},
+      </if>
+      <if test="roomNo != null">
+        room_no = #{roomNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bedNo != null">
+        bed_no = #{bedNo,jdbcType=VARCHAR},
+      </if>
+      <if test="bedName != null">
+        bed_name = #{bedName,jdbcType=VARCHAR},
+      </if>
+      <if test="zgStatusName != null">
+        zg_status_name = #{zgStatusName,jdbcType=VARCHAR},
+      </if>
+      <if test="zgDesc != null">
+        zg_desc = #{zgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyType != null">
+        allergy_type = #{allergyType,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyDesc != null">
+        allergy_desc = #{allergyDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="allergySeverity != null">
+        allergy_severity = #{allergySeverity,jdbcType=VARCHAR},
+      </if>
+      <if test="allergyReaction != null">
+        allergy_reaction = #{allergyReaction,jdbcType=VARCHAR},
+      </if>
+      <if test="identificationDate != null">
+        identification_date = #{identificationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientVisit">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_visit
+    set uuid_code = #{uuidCode,jdbcType=VARCHAR},
+      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      his_pt_id = #{hisPtId,jdbcType=VARCHAR},
+      pt_type = #{ptType,jdbcType=VARCHAR},
+      visit_date = #{visitDate,jdbcType=VARCHAR},
+      card_no = #{cardNo,jdbcType=VARCHAR},
+      times = #{times,jdbcType=VARCHAR},
+      clinic_label = #{clinicLabel,jdbcType=VARCHAR},
+      charge_type = #{chargeType,jdbcType=VARCHAR},
+      pt_identity = #{ptIdentity,jdbcType=VARCHAR},
+      symptom = #{symptom,jdbcType=VARCHAR},
+      in_time = #{inTime,jdbcType=TIMESTAMP},
+      out_time = #{outTime,jdbcType=TIMESTAMP},
+      in_dept = #{inDept,jdbcType=VARCHAR},
+      out_dept = #{outDept,jdbcType=VARCHAR},
+      disgnosis = #{disgnosis,jdbcType=VARCHAR},
+      doctor = #{doctor,jdbcType=VARCHAR},
+      total_costs = #{totalCosts,jdbcType=VARCHAR},
+      total_payments = #{totalPayments,jdbcType=VARCHAR},
+      total_balance = #{totalBalance,jdbcType=VARCHAR},
+      insurance_type = #{insuranceType,jdbcType=VARCHAR},
+      pt_status = #{ptStatus,jdbcType=VARCHAR},
+      new_flag = #{newFlag,jdbcType=BIT},
+      opt_flag = #{optFlag,jdbcType=VARCHAR},
+      hospital_service = #{hospitalService,jdbcType=VARCHAR},
+      room_no = #{roomNo,jdbcType=VARCHAR},
+      bed_no = #{bedNo,jdbcType=VARCHAR},
+      bed_name = #{bedName,jdbcType=VARCHAR},
+      zg_status_name = #{zgStatusName,jdbcType=VARCHAR},
+      zg_desc = #{zgDesc,jdbcType=VARCHAR},
+      allergy_type = #{allergyType,jdbcType=VARCHAR},
+      allergy_desc = #{allergyDesc,jdbcType=VARCHAR},
+      allergy_severity = #{allergySeverity,jdbcType=VARCHAR},
+      allergy_reaction = #{allergyReaction,jdbcType=VARCHAR},
+      identification_date = #{identificationDate,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

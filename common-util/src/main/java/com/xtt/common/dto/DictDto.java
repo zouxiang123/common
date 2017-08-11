@@ -16,9 +16,19 @@ public class DictDto {
     private String itemCode;
 
     /**
+     * 目前暂时用于医嘱维护字典的置换液-配置
+     */
+    private String cItemCode;
+
+    /**
      * 页面显示 cm_dict.item_name
      */
     private String itemName;
+
+    /**
+     * 类型描述 cm_dict.item_desc
+     */
+    private String itemDesc;
 
     /**
      * 排序 cm_dict.order_by
@@ -42,6 +52,12 @@ public class DictDto {
 
     // 是否选中
     private Boolean isChecked = false;
+    // 兼容HD start------
+    private String name;
+    private String value;
+    private String type;
+    private String typeDesc;
+    // 兼容HD end------
 
     public String getpItemCode() {
         return pItemCode;
@@ -57,6 +73,16 @@ public class DictDto {
 
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
+        // 兼容HD
+        this.value = itemCode;
+    }
+
+    public String getcItemCode() {
+        return cItemCode;
+    }
+
+    public void setcItemCode(String cItemCode) {
+        this.cItemCode = cItemCode;
     }
 
     public String getItemName() {
@@ -65,6 +91,8 @@ public class DictDto {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+        // 兼容HD
+        this.name = itemName;
     }
 
     public Integer getOrderBy() {
@@ -105,6 +133,68 @@ public class DictDto {
 
     public void setIsChecked(Boolean isChecked) {
         this.isChecked = isChecked;
+    }
+
+    public String getItemDesc() {
+        return itemDesc;
+    }
+
+    public void setItemDesc(String itemDesc) {
+        this.itemDesc = itemDesc;
+        // 兼容HD
+        this.typeDesc = itemDesc;
+    }
+
+    /**
+     * 兼容HD<br>
+     * 使用 {@link #getItemName()}
+     * 
+     * @Title: getName
+     * @return
+     *
+     */
+    @Deprecated
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * 兼容HD<br>
+     * 使用 {@link #getItemCode()}
+     * 
+     * @Title: getValue
+     * @return
+     *
+     */
+    @Deprecated
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * 兼容HD<br>
+     * 使用 {@link #getpItemCode()}
+     * 
+     * @Title: getType
+     * @return
+     *
+     */
+    @Deprecated
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * 兼容HD<br>
+     * 使用 {@link #getItemDesc()}
+     * 
+     * @Title: getTypeDesc
+     * @return
+     *
+     */
+    @Deprecated
+    public String getTypeDesc() {
+        return typeDesc;
     }
 
 }

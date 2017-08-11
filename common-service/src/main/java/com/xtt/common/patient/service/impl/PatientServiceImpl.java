@@ -21,7 +21,8 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.common.service.IFamilyInitialService;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.PatientDiagnosisMapper;
 import com.xtt.common.dao.mapper.PatientHistoryMapper;
@@ -35,12 +36,11 @@ import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.CmDictUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
-import com.xtt.platform.util.FamilyUtil;
-import com.xtt.platform.util.SpellUtil;
+import com.xtt.platform.util.PinyinUtil;
 
 /**
  * @ClassName: PatientServiceImpl
@@ -63,6 +63,8 @@ public class PatientServiceImpl implements IPatientService {
     ICommonService commonService;
     @Autowired
     private IPatientOwnerService patientOwnerService;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     /**
      * 更新缓存数据
@@ -91,8 +93,9 @@ public class PatientServiceImpl implements IPatientService {
         if (prePatient == null && StringUtils.isNotBlank(patient.getName())
                         || prePatient != null && !prePatient.getName().equals(patient.getName())) {
             patient.setName(patient.getName().trim());
-            String spellInitials = SpellUtil.getSpellInitials(patient.getName());
-            patient.setInitial(FamilyUtil.getInitial(patient.getName().substring(0, 1)).toUpperCase());
+            String spellInitials = PinyinUtil.getSpellInitials(patient.getName());
+            patient.setInitial(familyInitialService.getInitial(patient.getName().substring(0, 1)));
+
             if (StringUtils.isNotEmpty(spellInitials)) {
                 patient.setSpellInitials(spellInitials);
             }
@@ -234,8 +237,8 @@ public class PatientServiceImpl implements IPatientService {
             patient = patientMapper.selectById(id);
         }
         if (patient != null) {
-            patient.setSexShow(CmDictUtil.getName(CmDictConstants.SEX, patient.getSex()));
-            patient.setMedicareCardTypeShow(CmDictUtil.getName(CmDictConstants.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
+            patient.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, patient.getSex()));
+            patient.setMedicareCardTypeShow(DictUtil.getItemName(CmDictConsts.MEDICARE_CARD_TYPE, patient.getMedicareCardType()));
         }
         return patient;
     }

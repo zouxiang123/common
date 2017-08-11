@@ -25,7 +25,6 @@ public class PatientAssayRecord {
     private String hisPtId;
 
     /**
-     * 组ID
      * patient_assay_record.group_id
      */
     private String groupId;
@@ -145,10 +144,27 @@ public class PatientAssayRecord {
     private String checkPerson;
 
     /**
-     * 检查项目唯一ID
      * patient_assay_record.inspection_id
      */
     private String inspectionId;
+
+    /**
+     * 新的项目
+     * patient_assay_record.new_item_name
+     */
+    private String newItemName;
+
+    /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     * patient_assay_record.dia_ab_flag
+     */
+    private String diaAbFlag;
+
+    /**
+     * 组合后的新的项目编码
+     * patient_assay_record.new_item_code
+     */
+    private String newItemCode;
 
     /**
      * 租户ID
@@ -183,6 +199,12 @@ public class PatientAssayRecord {
      * patient_assay_record.test_method
      */
     private String testMethod;
+
+    /**
+     * 是否是院外化验项: 0否  1是
+     * patient_assay_record.flage
+     */
+    private Boolean flage;
 
     /**
      */
@@ -225,14 +247,12 @@ public class PatientAssayRecord {
     }
 
     /**
-     * 组ID
      */
     public String getGroupId() {
         return groupId;
     }
 
     /**
-     * 组ID
      */
     public void setGroupId(String groupId) {
         this.groupId = groupId;
@@ -507,17 +527,57 @@ public class PatientAssayRecord {
     }
 
     /**
-     * 检查项目唯一ID
      */
     public String getInspectionId() {
         return inspectionId;
     }
 
     /**
-     * 检查项目唯一ID
      */
     public void setInspectionId(String inspectionId) {
         this.inspectionId = inspectionId;
+    }
+
+    /**
+     * 新的项目
+     */
+    public String getNewItemName() {
+        return newItemName;
+    }
+
+    /**
+     * 新的项目
+     */
+    public void setNewItemName(String newItemName) {
+        this.newItemName = newItemName;
+    }
+
+    /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     */
+    public String getDiaAbFlag() {
+        return diaAbFlag;
+    }
+
+    /**
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
+     */
+    public void setDiaAbFlag(String diaAbFlag) {
+        this.diaAbFlag = diaAbFlag;
+    }
+
+    /**
+     * 组合后的新的项目编码
+     */
+    public String getNewItemCode() {
+        return newItemCode;
+    }
+
+    /**
+     * 组合后的新的项目编码
+     */
+    public void setNewItemCode(String newItemCode) {
+        this.newItemCode = newItemCode;
     }
 
     /**
@@ -598,5 +658,19 @@ public class PatientAssayRecord {
      */
     public void setTestMethod(String testMethod) {
         this.testMethod = testMethod;
+    }
+
+    /**
+     * 是否是院外化验项: 0否  1是
+     */
+    public Boolean getFlage() {
+        return flage;
+    }
+
+    /**
+     * 是否是院外化验项: 0否  1是
+     */
+    public void setFlage(Boolean flage) {
+        this.flage = flage;
     }
 }

@@ -8,6 +8,11 @@ $(function() {
     }});
 })
  */
+
+
+var dtConfirm = {
+		okBtnCall:null
+};
  //////////////插件-开始//////////////
 ;(function($){
      
@@ -21,7 +26,7 @@ $(function() {
     var defOptions = {
         // 偏移量
         offsetX:0
-        ,offsetY:22
+        ,offsetY:24
         // 格式化输出
         ,format:'hh:mm'
         ,hourName:'时'
@@ -31,6 +36,9 @@ $(function() {
         // 点确定触发的事件
         ,onOK:function(val,target){
             target.val(val);
+            if(dtConfirm.okBtnCall != null){
+            	dtConfirm.okBtnCall(val,date,target);
+            }
         }
     }
      
@@ -105,6 +113,7 @@ $(function() {
          var $panel =  $('<div class="timepick"></div>').css({
             display:"none"
             ,position:"absolute"
+            ,"z-index":"9999"
             ,'background-color':'#fff'
             ,border:'1px solid #ccc'
         });
@@ -180,7 +189,7 @@ $(function() {
         var o = {        
             "h+" : dateInstance.getHours(),                   //小时    
             "m+" : dateInstance.getMinutes(),                 //分    
-            "s+" : dateInstance.getSeconds(),                 //秒       
+            "s+" : "00",                 //秒       
         };   
         if(/(y+)/.test(pattern)) {
             pattern = pattern.replace(RegExp.$1, (dateInstance.getFullYear()+"").substring(4 - RegExp.$1.length));   

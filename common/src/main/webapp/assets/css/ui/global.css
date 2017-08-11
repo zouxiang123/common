@@ -607,7 +607,7 @@ p {
     margin-top: -2px;
 }
 .b-r-7{
-    border-radius: 7.5px !important;
+    border-radius: 10px !important;
 }
 .b-r-2{
     border-radius: 2.6px;
@@ -741,8 +741,8 @@ input[type=checkbox] + label:before {
     display: inline-block;
     -webkit-appearance: none;
     appearance: none;
-    width: 13px;
-    height: 13px;
+    width: 15px;
+    height: 15px;
     margin: 0;
     border: 0;
     -webkit-box-sizing: border-box;
@@ -755,25 +755,25 @@ input[type=checkbox] + label:before {
     content: "";
     background: url('../../img/ui/radio-box.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px !important;
+    background-size: 15px 15px !important;
 }
 label input[type=radio].u-radio-1,
 input[type=radio].u-radio-1 + label:before {
     background: url('../../img/ui/radio1.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=checkbox].u-checkbox-1,
 input[type=checkbox].u-checkbox-1 + label:before {
     background: url('../../img/ui/checkbox1.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=checkbox],
 input[type=checkbox] + label:before {
     background: url('../../img/ui/check-box.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=radio]:checked,label input[type=checkbox]:checked,
 input[type=radio]:checked+ label:before,
@@ -782,25 +782,25 @@ input[type=checkbox]:checked+ label:before {
     vertical-align: middle;
     background: url('../../img/ui/radio-box-checked.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=radio].u-radio-1:checked,
 input[type=radio].u-radio-1:checked+ label:before {
     background: url('../../img/ui/radio1-check.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=checkbox].u-checkbox-1:checked,
 input[type=checkbox].u-checkbox-1:checked+ label:before  {
     background: url('../../img/ui/checkbox1-check.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 label input[type=checkbox]:checked,
 input[type=checkbox]:checked+ label:before {
     background: url('../../img/ui/check-box-checked.png');
     background-repeat: no-repeat;
-    background-size: 13px 13px;
+    background-size: 15px 15px;
 }
 input[type=radio]:focus,
 input[type=checkbox]:focus {
@@ -977,11 +977,16 @@ table.table-fixedheader>thead tr th, table.table-fixedheader>tbody tr td {
 .table-left-17 thead tr th {
   text-align: left;
   padding-left: 17px !important;
+  font-weight: 400 !important;
+}
+.table-left-17 thead tr th a{
+    color: #31AAFF;
 }
 
 .table-left-17 tbody tr td {
   text-align: left;
   padding-left: 17px;
+  height: 36px;
 }
 .table-border > thead > tr > th,
 .table-border > tbody > tr > td,

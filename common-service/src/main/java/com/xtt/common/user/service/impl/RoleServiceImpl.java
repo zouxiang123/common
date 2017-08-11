@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.constants.SysParamConstants;
+import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.dao.mapper.SysObjMapper;
 import com.xtt.common.dao.mapper.SysRole2objMapper;
 import com.xtt.common.dao.mapper.SysRoleMapper;
@@ -53,7 +53,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public List<SysObj> getAllMenuList(String[] types, String sysOwner) {
-        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(SysParamConstants.VERSION), UserUtil.getTenantId(), types, null);
+        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), UserUtil.getTenantId(), types, null);
     }
 
     @Override
@@ -130,7 +130,7 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public List<SysObj> getNotChecked(Long[] roleIds, String[] types, String sysOwner) {
-        return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName(SysParamConstants.VERSION), UserUtil.getTenantId(), roleIds, types,
+        return sysObjMapper.selectNotChecked(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), UserUtil.getTenantId(), roleIds, types,
                         sysOwner);
     }
 
@@ -139,7 +139,7 @@ public class RoleServiceImpl implements IRoleService {
         String[] types = { "api" };
         if (sysObjMapper.selectByKey(obj.getKey(), types, obj.getSysOwner()) != null)
             return CommonConstants.WARNING;
-        obj.setVersion(SysParamUtil.getValueByName(SysParamConstants.VERSION));
+        obj.setVersion(SysParamUtil.getValueByName(CmSysParamConsts.VERSION));
         obj.setFkTenantId(UserUtil.getTenantId());
         obj.setType("api");
         DataUtil.setSystemFieldValue(obj);

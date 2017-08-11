@@ -24,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysDbSourceService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Province;
@@ -34,7 +34,7 @@ import com.xtt.common.dao.po.QueryPO;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -73,8 +73,8 @@ public class PatientController {
             }
             model.addObject("patientCardList", cardList);// 卡号信息
         }
-        model.addObject(CmDictConstants.MEDICARE_CARD_TYPE,
-                        CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
+                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
 
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
@@ -119,8 +119,8 @@ public class PatientController {
         retMap.put("patient", patient);
         retMap.put("patientCardList", patientCardService.selectByPatientId(patientId));
         // 卡号类型
-        retMap.put(CmDictConstants.MEDICARE_CARD_TYPE,
-                        CmDictUtil.getListByType(CmDictConstants.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        retMap.put(CmDictConsts.MEDICARE_CARD_TYPE,
+                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
         return retMap;
     }

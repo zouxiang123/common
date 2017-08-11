@@ -19,14 +19,9 @@ var tab_nav = {
                 var refresh = $(this).data("refresh");
                 if (refresh == "1") {
                     var iframe = $("#" + bodyId).find("iframe")[0];
-                    iframe.onload = iframe.onreadystatechange = function() {// 添加界面加载完成事件
-                        if (this.readyState && this.readyState != 'complete')
-                            return;
-                        else {
-                            $("#" + bodyId).removeClass("hide");
-                        }
-                    };
-                    $("#" + bodyId).find("iframe").attr("src", $(this).data("url"));
+                    iframe.contentDocument.body.innerHTML = "";
+                    iframe.src = $(this).data("url");
+                    $("#" + bodyId).removeClass("hide");
                 } else {
                     $("#" + bodyId).removeClass("hide");
                 }
@@ -34,18 +29,27 @@ var tab_nav = {
                 tab_nav.addIframe(bodyId, $(this).data("url"));
             }
             $("#" + bodyId).siblings().addClass("hide");
+            // trigger define event
+            $("#tabsDiv").trigger("tab_nav.click", [ $(this) ]);
         });
         $(window).on("resize", function() {
             var height = $(window).height() - ($("#tabsBodyDiv").offset().top + 10);
             $("iframe").height(height);
         });
     },
+    /**
+     * 添加tab { id : 唯一tab id, name : "tab 名称", url : '打开页面url', refresh : "是否需要刷新", removeCall : "关闭tab时，激活页面执行的回调函数名称" }
+     * 
+     * @param param
+     * @returns {Boolean}
+     */
     addTab : function(param) {
         var p = {
             id : new Date().getTime(),
             name : "new tab",
             url : null,
-            refresh : "1"
+            refresh : "1",
+            removeCall : null
         };
         $.extend(p, param);
         if ($("#tabsDiv [data-target='" + p.id + "']").length > 0) {// 已经存在，不添加新窗口
@@ -70,8 +74,14 @@ var tab_nav = {
         }
         $("#tabsDiv").append(tabHtml);
         // 设置添加tab的来源id为当前激活的tabid
-        $("#tabsDiv [data-target='" + p.id + "']").data("fromId", $("#tabsDiv [data-url].active").data("target"));
-        $("#tabsDiv [data-target='" + p.id + "']").trigger("click");
+        var el = $("#tabsDiv [data-target='" + p.id + "']");
+        el.data("fromId", $("#tabsDiv [data-url].active").data("target"));
+        if (!isEmpty(p.removeCall)) {
+            el.data("removeCall", p.removeCall);
+        }
+        // trigger define add event
+        $("#tabsDiv").trigger("tab_nav.add", [ el ]);
+        el.trigger("click");
     },
     addIframe : function(id, url) {
         var body = $("#basicIframeDiv").clone(true);
@@ -88,29 +98,39 @@ var tab_nav = {
         if (isEmpty(el)) {
             el = $("#tabsDiv [data-url].active");
         }
-        if ($(el).data("fixed") == "1") {// 如果当前tab是固定tab,不能移除
+        el = $(el);
+        if (el.data("fixed") == "1") {// 如果当前tab是固定tab,不能移除
             return false;
         }
-        var formId = $(el).data("fromId");
+        var formId = el.data("fromId");
+        var callFun = el.data("removeCall");
         // 删除iframe body
         $("#" + el.data("target")).remove();
+        // trigger remove event
+        $("#tabsDiv").trigger("tab_nav.remove", [ el ]);
         // 删除tab
         $(el).remove();
-        if (isEmpty(formId)) {// 没有来源id时，打开第一个
-            $("#tabsDiv [data-url]:first").trigger("click");
-        } else {// 有来源id时，打开来源tab
-            $("#tabsDiv [data-target='" + formId + "']").trigger("click");
+        // 没有来源id时，打开第一个,有来源id时，打开来源tab
+        var clickEl = isEmpty(formId) ? $("#tabsDiv [data-url]:first") : $("#tabsDiv [data-target='" + formId + "']");
+        clickEl.trigger("click");
+        var bodyId = clickEl.data("target");
+        if ($("#" + bodyId).length > 0) {
+            var iframeWindow = $("#" + bodyId).find("iframe")[0].contentWindow;
+            if (iframeWindow.existsFunction(callFun)) {
+                iframeWindow.eval(callFun + "()");
+            }
         }
     }
 };
 /**
  * 删除当前tab
+ * 
  */
 function removeActiveTab() {
     tab_nav.removeActiveTab();
 }
 /**
- * 添加tab
+ * 添加tab { id : 唯一tab id, name : "tab 名称", url : '打开页面url', refresh : "是否需要刷新", removeCall : "关闭tab时，激活页面执行的回调函数名称" }
  */
 function addTab(param) {
     tab_nav.addTab(param);

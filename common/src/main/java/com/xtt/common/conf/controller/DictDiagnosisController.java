@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDictDiagnosis;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 
 @Controller
 @RequestMapping("/system/dictDiagnosis/")
@@ -36,9 +36,9 @@ public class DictDiagnosisController {
     @RequestMapping("view")
     public ModelAndView view() {
         ModelAndView model = new ModelAndView("system/dict_diagnosis_items");
-        model.addObject(CmDictConstants.FORM_ELEMENT_TYPE, CmDictUtil.getListByType(CmDictConstants.FORM_ELEMENT_TYPE));
-        model.addObject(CmDictConstants.FORM_ITEM_DATA_TYPE, CmDictUtil.getListByType(CmDictConstants.FORM_ITEM_DATA_TYPE));
-        model.addObject(CmDictConstants.FORM_ITEM_UNIT, CmDictUtil.getListByType(CmDictConstants.FORM_ITEM_UNIT));
+        model.addObject(CmDictConsts.FORM_ELEMENT_TYPE, DictUtil.listByPItemCode(CmDictConsts.FORM_ELEMENT_TYPE));
+        model.addObject(CmDictConsts.FORM_ITEM_DATA_TYPE, DictUtil.listByPItemCode(CmDictConsts.FORM_ITEM_DATA_TYPE));
+        model.addObject(CmDictConsts.FORM_ITEM_UNIT, DictUtil.listByPItemCode(CmDictConsts.FORM_ITEM_UNIT));
         return model;
     }
 

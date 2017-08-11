@@ -21,6 +21,7 @@ public class SysUserDto {
     private String initial;
     private String password;
     private String imagePath;
+    private String autographPath;
     private String sex;
     private Date birthday;
     private String position;
@@ -82,6 +83,14 @@ public class SysUserDto {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getAutographPath() {
+        return autographPath;
+    }
+
+    public void setAutographPath(String autographPath) {
+        this.autographPath = autographPath;
     }
 
     public String getSex() {

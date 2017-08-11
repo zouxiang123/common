@@ -23,9 +23,7 @@ public class CalendarUtil {
      * 
      */
     public static Date getWeekFirstDay() {
-        Calendar cal = Calendar.getInstance();
-
-        return getWeekFirstDay(cal);
+        return getWeekFirstDay(DateFormatUtil.getDate());
     }
 
     /**
@@ -36,9 +34,8 @@ public class CalendarUtil {
      * 
      */
     public static Date getWeekLastDay() {
-        Calendar cal = Calendar.getInstance();
 
-        return getWeekFirstDay(cal);
+        return getWeekLastDay(new Date());
     }
 
     /**
@@ -53,7 +50,7 @@ public class CalendarUtil {
     public static Date getWeekLastDay(int weekNo) {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.WEEK_OF_YEAR, weekNo);
-        return getWeekLastDay(cal);
+        return getWeekLastDay(cal.getTime());
     }
 
     /**
@@ -65,10 +62,11 @@ public class CalendarUtil {
      * @return
      * 
      */
-    public static Date getWeekFirstDay(int weekNo) {
+    public static Date getWeekFirstDay(Date date, int weekNo) {
         Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
         cal.add(Calendar.WEEK_OF_YEAR, weekNo);
-        return getWeekFirstDay(cal);
+        return getWeekFirstDay(cal.getTime());
     }
 
     /**
@@ -79,7 +77,9 @@ public class CalendarUtil {
      * @return
      * 
      */
-    public static Date getWeekFirstDay(Calendar cal) {
+    public static Date getWeekFirstDay(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
         if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
             cal.add(Calendar.DATE, -7);
         }
@@ -94,11 +94,10 @@ public class CalendarUtil {
      * @return
      * 
      */
-    public static Date getWeekLastDay(Calendar cal) {
-        if (cal.get(Calendar.DAY_OF_WEEK) == 1) {
-            cal.add(Calendar.DATE, -7);
-        }
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    public static Date getWeekLastDay(Date Date) {
+        Date firstDay = getWeekFirstDay(Date);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(firstDay);
         cal.add(Calendar.DATE, 6);
         return cal.getTime();
     }
@@ -140,7 +139,7 @@ public class CalendarUtil {
      */
     public static int getDayOfWeek() {
 
-        return getDayOfWeek(Calendar.getInstance());
+        return getDayOfWeek(new Date());
     }
 
     /**
@@ -151,8 +150,9 @@ public class CalendarUtil {
      * @return
      * 
      */
-    public static int getDayOfWeek(Calendar cal) {
-
+    public static int getDayOfWeek(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
         return convertDayOfWeek(cal.get(Calendar.DAY_OF_WEEK));
     }
 
@@ -222,8 +222,23 @@ public class CalendarUtil {
     }
 
     public static void setMonth(Calendar cal, int month) {
-        month = (month - 1) % 12;
+        month = month == 0 ? 11 : (month - 1) % 12;
         cal.set(Calendar.MONTH, month);
+    }
+
+    /**
+     * 根据日历类型，加减日期
+     * 
+     * @Title: add
+     * @param calenderTime
+     * @param addNumber
+     *
+     */
+    public static Date add(Date date, int calenderTime, int addNumber) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(calenderTime, addNumber);
+        return cal.getTime();
     }
 
     public static void main(String[] args) {

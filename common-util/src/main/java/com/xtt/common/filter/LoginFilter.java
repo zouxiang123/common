@@ -85,8 +85,13 @@ public class LoginFilter implements Filter {
             chain.doFilter(request, response);
             return;
         }
-
-        String url = CommonConstants.BASE_URL.concat(request.getContextPath());
+        String url = CommonConstants.BASE_URL;
+        String contextPath = request.getContextPath();
+        if (url.endsWith("/")) {
+            url = url.concat(contextPath.startsWith("/") ? contextPath.substring(1) : contextPath);
+        } else {
+            url = url.concat(contextPath.startsWith("/") ? contextPath : ("/" + contextPath));
+        }
         if (needRedirect) {
             // 校验是否为登入登出操作
             String goToUrl = null;

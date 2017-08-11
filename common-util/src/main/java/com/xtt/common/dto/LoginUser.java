@@ -1,12 +1,14 @@
 /**   
  * @Title: LoginUser.java 登录者信息
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: 陈光浩   
  * @date: 2015年9月16日 上午9:20:22 
  *
  */
 package com.xtt.common.dto;
+
+import java.util.Date;
 
 public class LoginUser {
     private Long id;
@@ -19,6 +21,7 @@ public class LoginUser {
     private String roleType;
     private String positionShow;
     private String sysOwner;
+    private String skin;
     // APP用
     private Long patientId;
     private Integer countSubAccount;
@@ -27,6 +30,8 @@ public class LoginUser {
     private Boolean isSib;
     private String sex;
     private Integer age;
+    private String mobile;
+    private Date birthday;
 
     public Long getId() {
         return id;
@@ -156,12 +161,36 @@ public class LoginUser {
         this.sysOwner = sysOwner;
     }
 
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
     public Integer getAge() {
         return age;
     }
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
 }

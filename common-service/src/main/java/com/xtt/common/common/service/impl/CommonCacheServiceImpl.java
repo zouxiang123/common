@@ -22,16 +22,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.cache.CmDictCache;
+import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
+import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.conf.service.ICmFormulaConfService;
-import com.xtt.common.constants.CmDictConstants;
+import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.dao.model.FamilyInitial;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
@@ -42,6 +45,7 @@ import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
+import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
 import com.xtt.common.dto.PatientDto;
@@ -53,7 +57,7 @@ import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.CmDictUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
@@ -82,6 +86,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private IUserService userService;
     @Autowired
     private ICmFormulaConfService cmFormulaConfService;
+    @Autowired
+    private IFamilyInitialService familyInitialService;
 
     @Override
     public void cacheDict(Integer tenantId) {
@@ -165,7 +171,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            Map<String, String> sexMap = CmDictUtil.getNamesByType(CmDictConstants.SEX);
+            Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
             for (PatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
@@ -196,7 +202,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             for (int c = 0; c < formList.size(); c++) {
                 form = formList.get(c);
                 map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
-                                CmDictUtil.getNamesByType(CmDictConstants.FORM_ITEM_UNIT)));
+                                DictUtil.getMapByPItemCode(CmDictConsts.FORM_ITEM_UNIT)));
                 // cache category forms
                 categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
                 if (!categoryMap.containsKey(categoryMapKey)) {
@@ -250,6 +256,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
         List<SysTenant> tenantList = sysTenantService.selectAll();
+        // Cache family initial
+        cacheFamilyInitial();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
             for (int i = 0; i < tenantList.size(); i++) {
@@ -289,5 +297,19 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             }
             FormulaCache.cacheALL(cacheMap);
         }
+    }
+
+    @Override
+    public void cacheFamilyInitial() {
+        RedisCacheUtil.deletePattern(FamilyInitialCache.getKey(null));
+        FamilyInitial query = new FamilyInitial();
+        List<FamilyInitial> list = familyInitialService.listByCondition(query);
+        Map<String, FamilyInitialDto> map = new HashMap<>(list.size());
+        for (FamilyInitial record : list) {
+            FamilyInitialDto toObj = new FamilyInitialDto();
+            BeanUtils.copyProperties(record, toObj);
+            map.put(FamilyInitialCache.getKey(record.getName()), toObj);
+        }
+        FamilyInitialCache.init(map);
     }
 }
