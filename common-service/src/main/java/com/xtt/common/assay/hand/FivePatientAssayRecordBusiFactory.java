@@ -115,7 +115,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         listPatientAssayRecord = null;
     }
 
-    public void cleanDate(Map<String, List<Date>> map) {
+    public void cleanDate(Map<Long, List<Date>> map) {
         Date nowDate = new Date();
         String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_BEFORE_COUNT);
         String afterCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_AFTER_COUNT);
@@ -127,7 +127,6 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         Date endCreateDate;
         int i = 1;
         Integer tenantId = UserUtil.getTenantId();
-        Long patientId;
         boolean isUpdate;
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
@@ -139,9 +138,8 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
             i++;
         }
         // 对需要清洗数据的患者循环
-        for (String strPatientId : map.keySet()) {
-            patientId = Long.valueOf(strPatientId);
-            List<Date> listDate = map.get(strPatientId);
+        for (Long patientId : map.keySet()) {
+            List<Date> listDate = map.get(patientId);
             // 患者中存在多个时间只取最后一个
             startCreateDate = listDate.get(listDate.size() - 1);
             endCreateDate = nowDate;

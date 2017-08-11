@@ -214,4 +214,16 @@ public interface IPatientAssayRecordBusiService {
      */
     void deleteByPatientId(Long fkPatientId);
 
+    /**
+     * 保存同步信息
+     * 
+     * @Title: sava
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param patientId
+     * @param isDelete
+     *
+     */
+    void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete, Integer fktenantId);
+
 }

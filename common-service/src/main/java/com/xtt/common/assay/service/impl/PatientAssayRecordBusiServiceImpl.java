@@ -17,18 +17,36 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.hand.FivePatientAssayRecordBusiFactory;
+import com.xtt.common.assay.hand.FourPatientAssayRecordBusiFactory;
+import com.xtt.common.assay.hand.OnePatientAssayRecordBusiFactory;
+import com.xtt.common.assay.hand.ThreePatientAssayRecordBusiFactory;
+import com.xtt.common.assay.hand.TwoPatientAssayRecordBusiFactory;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
+import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBusiService {
 
     @Autowired
     private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
+    @Autowired
+    private OnePatientAssayRecordBusiFactory onePatientAssayRecordBusiFactory;
+    @Autowired
+    private TwoPatientAssayRecordBusiFactory twoPatientAssayRecordBusiFactory;
+    @Autowired
+    private ThreePatientAssayRecordBusiFactory threePatientAssayRecordBusiFactory;
+    @Autowired
+    private FourPatientAssayRecordBusiFactory fourPatientAssayRecordBusiFactory;
+    @Autowired
+    private FivePatientAssayRecordBusiFactory fivePatientAssayRecordBusiFactory;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -151,6 +169,47 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public void deleteByPatientId(Long fkPatientId) {
         patientAssayRecordBusiMapper.deleteByPatientId(fkPatientId);
+
+    }
+
+    @Override
+    public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
+                    Integer fktenantId) {
+        UserUtil.setThreadTenant(fktenantId);
+        String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
+        DateUtil.add(new Date(), 2, -1);
+        switch (labAfterBefore) {
+        case "1":
+            onePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            break;
+        case "2":
+            twoPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            break;
+        case "3":
+            threePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            break;
+        case "4":
+            fourPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            break;
+        case "5":
+            // 是否删除
+            if (isDelete) {
+                if (mapPatientId == null) {
+                    fivePatientAssayRecordBusiFactory.deleteAll();
+                    fivePatientAssayRecordBusiFactory.save(DateUtil.add(new Date(), 2, -10), new Date());
+                    fivePatientAssayRecordBusiFactory.updateBaskDiaAbFlag();
+                } else {
+                    fivePatientAssayRecordBusiFactory.deleteByPatient(patientId);
+                }
+            } else {
+                fivePatientAssayRecordBusiFactory.save(DateUtil.add(new Date(), 2, -10), new Date());
+                fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);
+            }
+            break;
+
+        default:
+            break;
+        }
 
     }
 
