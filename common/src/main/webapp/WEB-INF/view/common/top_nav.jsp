@@ -25,9 +25,9 @@
 						src="${ctx}/images${login_user.imagePath }">
 				</a>
 					<ul class="dropdown-menu">
-						<li><a href="${ctx}/system/accountSetting.shtml" class="account-setting">账号设置</a></li>
-						<li><a href="${ctx }/about.shtml" class="nav-about">关于我们</a></li>
-						<li><a href="${ctx}/feedback.shtml" class="feedback">意见反馈</a></li>
+						<li><a href="${COMMON_SERVER_ADDR}/system/accountSetting.shtml" class="account-setting">账号设置</a></li>
+						<li><a href="${COMMON_SERVER_ADDR }/about.shtml" class="nav-about">关于我们</a></li>
+						<li><a href="${COMMON_SERVER_ADDR}/feedback.shtml" class="feedback">意见反馈</a></li>
 						<li><a href="#" onclick="logout();" class="log-out">退出系统</a></li>
 					</ul></li>
 			</ul>
