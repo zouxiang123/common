@@ -444,4 +444,9 @@
         SELECT u.name ,st.`name` as multiTenantName  FROM sys_user u join  sys_user_tenant sut ON u.id=sut.fk_user_id JOIN
 sys_tenant st ON sut.fk_tenant_id=st.id  WHERE u.account=#{account} AND u.fk_tenant_id in(${multiTenant}) 
     </select>
+    
+    
+    <select id="selectByAccount" resultMap="ExtendResultMap" parameterType="String">
+    SELECT su.account,su.`password`,sut.fk_tenant_id FROM sys_user su JOIN sys_user_tenant sut ON su.id=sut.fk_user_id WHERE su.account=#{account}
+    </select>
 </mapper>

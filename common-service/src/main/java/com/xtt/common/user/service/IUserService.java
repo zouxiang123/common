@@ -310,4 +310,14 @@ public interface IUserService {
      */
     List<SysUserPO> checkUser(SysUserPO user);
 
+    /**
+     * 根据账户查询用户
+     * 
+     * @Title: selectByAccount
+     * @param user
+     * @return
+     *
+     */
+    List<SysUserPO> selectByAccount(SysUserPO user);
+
 }
