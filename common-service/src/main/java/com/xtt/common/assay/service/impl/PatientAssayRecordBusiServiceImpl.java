@@ -8,8 +8,10 @@
  */
 package com.xtt.common.assay.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -145,10 +147,11 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date) {
-        return patientAssayRecordBusiMapper.listLatestByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date);
+    public List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date) {
+        return patientAssayRecordBusiMapper.listLatestOneByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date);
     }
 
+    @Override
     public void updatePatientAssay(List<DictHospitalLabPO> getdHL) {
         patientAssayRecordBusiMapper.updatePatientAssay(getdHL);
 
@@ -210,7 +213,22 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         default:
             break;
         }
+    }
 
+    @Override
+    public List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count) {
+        List<Map<String, Object>> paramList = new ArrayList<>(2);
+        Map<String, Object> param = new HashMap<>();
+        param.put("fkPatientId", fkPatientId);
+        param.put("fkDictCode", dictCode);
+        param.put("fkTenantId", tenantId);
+        param.put("count", count);
+        param.put("date", date);
+        param.put("isBefore", true);
+        paramList.add(param);
+        param.put("isBefore", false);
+        paramList.add(param);
+        return patientAssayRecordBusiMapper.listLatestByFkDictCode(paramList);
     }
 
 }

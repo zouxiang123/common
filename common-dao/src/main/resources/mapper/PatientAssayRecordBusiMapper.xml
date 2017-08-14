@@ -660,15 +660,15 @@
             </if>
         </where>
     </select>
-    <!-- 根据患者id和ItemCodes查询最新的一条数字 -->
-    <select id="listLatestByFkDictCodes" resultMap="POResultMap">
+    <!-- 根据患者id和fkDictCodes查询离日期最近的一条数据 -->
+    <select id="listLatestOneByFkDictCodes" resultMap="POResultMap">
         SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode
         FROM 
         (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE}))) minDay,dhl.fk_dict_code,dhl.fk_tenant_id
         FROM patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
-            AND dhl.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+            AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,dhl.fk_dict_code,parb.fk_tenant_id
         ) t1,
         (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual
@@ -676,7 +676,7 @@
         FROM patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
-            AND dhl.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+            AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         ) t2
         WHERE t1.fk_dict_code = t2.fk_dict_code AND t1.fk_patient_id = t2.fk_patient_id AND t1.fk_tenant_id = t2.fk_tenant_id AND t1.minDay = t2.diffDay
     </select>
@@ -695,4 +695,24 @@
     <delete id="deleteByPatientId">
         delete from patient_assay_record_busi where fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
     </delete>
+    <!-- 查询距离date最近的count*2（前后）条数据 -->
+    <select id="listLatestByFkDictCode" resultMap="POResultMap">
+        SELECT t.* FROM (
+       <foreach collection="paramList" item="item" separator=" UNION ALL ">
+            SELECT <include refid="Common_Column_List" />
+            ,dhl.fk_dict_code fkDictCode
+            FROM patient_assay_record_busi parb
+            JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
+            WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
+            <if test="item.isBefore">
+              AND parb.assay_date &gt; #{item.date}   
+            </if>
+            <if test="!item.isBefore">
+                AND parb.assay_date &lt;= #{item.date}  
+            </if>
+            AND dhl.fk_dict_code = #{item.fkDictCode}
+            LIMIT #{item.count}
+       </foreach>
+       ) t ORDER BY t.assay_date DESC
+    </select>
 </mapper>

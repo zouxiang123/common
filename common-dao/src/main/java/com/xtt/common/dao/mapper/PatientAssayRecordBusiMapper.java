@@ -131,9 +131,9 @@ public interface PatientAssayRecordBusiMapper {
     List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
 
     /**
-     * 根据患者id和ItemCodes查询最新的一条数字
+     * 根据患者id和fkDictCodes查询离日期最近的一条数据
      * 
-     * @Title: listLatestByFkDictCodes
+     * @Title: listLatestOneByFkDictCodes
      * @param fkPatientId
      * @param fkDictCodes
      * @param fkTenantId
@@ -142,7 +142,7 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
 
-    List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(@Param("fkPatientId") Long fkPatientId,
+    List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(@Param("fkPatientId") Long fkPatientId,
                     @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date);
 
     void updatePatientAssay(List<DictHospitalLabPO> getdHL);
@@ -165,4 +165,13 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     void deleteByPatientId(@Param("fkPatientId") Long fkPatientId);
+
+    /**
+     * 查询距离date最近的count*2（前后）条数据
+     * 
+     * @Title: listLatestByFkDictCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(@Param("paramList") List<Map<String, Object>> paramList);
 }

@@ -180,7 +180,7 @@ public interface IPatientAssayRecordBusiService {
     List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record);
 
     /**
-     * 根据患者id和fkDictCodes查询格日期最近的一条数据
+     * 根据患者id和fkDictCodes查询离日期最近的一条数据
      * 
      * @Title: listLatestByFkDictCode
      * @param fkPatientId
@@ -191,7 +191,7 @@ public interface IPatientAssayRecordBusiService {
      *
      */
 
-    List<PatientAssayRecordBusiPO> listLatestByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date);
+    List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date);
 
     void updatePatientAssay(List<DictHospitalLabPO> getdHL);
 
@@ -225,5 +225,19 @@ public interface IPatientAssayRecordBusiService {
      *
      */
     void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete, Integer fktenantId);
+
+    /**
+     * 查询距离date最近的count*2（前后）条数据
+     * 
+     * @Title: listLatestByFkDictCode
+     * @param fkPatientId
+     * @param dictCode
+     * @param tenantId
+     * @param date
+     * @param count
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count);
 
 }
