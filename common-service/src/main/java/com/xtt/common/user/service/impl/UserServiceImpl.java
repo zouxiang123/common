@@ -500,9 +500,9 @@ public class UserServiceImpl implements IUserService {
         }
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password) && tenantId != null) {
             // 如果不是切换系统，且密码不为空，md5 password
-            if (isSwitch == null && StringUtil.isNotBlank(password)) {
+            /*  if (isSwitch == null && StringUtil.isNotBlank(password)) {
                 password = MD5Util.md5(password);
-            }
+            }*/
             boolean isGroupAdmin = groupAdmin == null ? false : groupAdmin;
             SysUserPO sysUser = null;
             if (!isGroupAdmin) {
@@ -664,4 +664,8 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.listByTenantId(tenantId, sysOwner, delFlag);
     }
 
+    @Override
+    public List<SysUserPO> selectByAccount(SysUserPO user) {
+        return sysUserMapper.selectByAccount(user.getAccount());
+    }
 }

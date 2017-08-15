@@ -188,4 +188,13 @@ public interface SysUserMapper {
      */
     List<SysUserPO> checkUser(SysUserPO user);
 
+    /**
+     * 根据账户查询用户
+     * 
+     * @Title: selectByAccount
+     * @param account
+     * @return
+     *
+     */
+    List<SysUserPO> selectByAccount(String account);
 }
