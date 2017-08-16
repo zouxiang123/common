@@ -21,4 +21,6 @@ public class CmSysParamConsts {
     public static final String showPatientHisId = "1";
     /** 患者卡号类型 HisType */
     public static final String showPatientCradType = "03";
+    /** 打印服务地址 */
+    public static final String PRINT_SERVER_ADDR = "print_server_addr";
 }
