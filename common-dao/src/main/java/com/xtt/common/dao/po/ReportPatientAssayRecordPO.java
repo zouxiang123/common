@@ -8,6 +8,7 @@
  */
 package com.xtt.common.dao.po;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
@@ -44,6 +45,7 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private String batchNo;// 批次号
     private Long patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
+    private Collection<String> itemCodes;// 多个itemCode编号
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -254,4 +256,13 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     public void setFkUserId(Long fkUserId) {
         this.fkUserId = fkUserId;
     }
+
+    public Collection<String> getItemCodes() {
+        return itemCodes;
+    }
+
+    public void setItemCodes(Collection<String> itemCodes) {
+        this.itemCodes = itemCodes;
+    }
+
 }

@@ -11,6 +11,7 @@ package com.xtt.common.report.controller;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,8 +40,8 @@ import com.xtt.common.assay.service.IReportPatientAssayRecordService;
 import com.xtt.common.assay.util.AssayGroupRuleUtil;
 import com.xtt.common.constants.AssayConsts;
 import com.xtt.common.constants.CmDictConsts;
-import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.constants.CmSysParamConsts;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayConfPO;
@@ -368,41 +369,22 @@ public class AssayReportController {
      * 自动生成化验统计数据
      * 
      * @Title: insertAutoHistory
+     * @param tenantId
+     * @param itemCodes
      * @return
-     * 
+     *
      */
     @RequestMapping("subInterface/insertAutoHistory")
     @ResponseBody
-    public Map<String, Object> insertAutoHistory(Integer tenantId) {
+    public Map<String, Object> insertAutoHistory(Integer tenantId, Collection<String> itemCodes) {
         UserUtil.setThreadTenant(tenantId);
         Map<String, Object> map = new HashMap<String, Object>();
 
         DictHospitalLab dictHospitalLab = new DictHospitalLab();
         dictHospitalLab.setFkTenantId(tenantId);
         List<String> assayMonthList = dictHospitalLabService.selectAllAssayMonth(dictHospitalLab);// 获取所有的化验月份
-
-        reportPatientAssayRecordService.deleteAll();// 删除所有的化验统计
-
-        String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);
         for (String assayMonth : assayMonthList) {
-            PatientAssayConfPO patientAssayConf = patientAssayConfService.selectDateScopeByMonth(assayMonth, tenantId);
-            Date startDate = patientAssayConf.getStartDate();
-            String startDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getStartDate());
-            String endDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getEndDate());
-
-            if (StringUtils.isNotBlank(testItemSwitch) && testItemSwitch.toUpperCase().equals(CmSysParamConsts.TEST_ITEM_SWITCH_COPY)) {
-                int days = DateFormatUtil.getDaysBetweenDates(startDateStr, endDateStr);
-                for (int i = 0; i <= days; i++) {
-                    Date date = CalendarUtil.add(startDate, Calendar.DATE, i);
-                    String dateStr = DateFormatUtil.convertDateToStr(date);
-                    reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(dateStr, assayMonth, UserUtil.getTenantId());
-                    reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, assayMonth, UserUtil.getTenantId());
-                }
-            } else {
-                String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, assayMonth, tenantId);
-                // 删除临时数据
-                deleteTempData(batchNo);
-            }
+            insertMonthData(assayMonth, UserUtil.getTenantId(), itemCodes);
         }
 
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
@@ -424,38 +406,7 @@ public class AssayReportController {
         // 确认日期格式正确性，避免产生脏数据
         monthStr = DateFormatUtil.convertDateToStr(DateFormatUtil.convertStrToDate(monthStr, DateFormatUtil.FORMAT_YYYY_MM),
                         DateFormatUtil.FORMAT_YYYY_MM);
-
-        /** 删除当月的所有记录 */
-        ReportPatientAssayRecordPO condition = new ReportPatientAssayRecordPO();
-        condition.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
-        condition.setAssayMonth(monthStr);
-        condition.setFkTenantId(UserUtil.getTenantId());
-        reportPatientAssayRecordService.deleteByCondition(condition);
-
-        String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);// 化验统计的方式
-
-        if (StringUtils.isNotBlank(testItemSwitch) && testItemSwitch.toUpperCase().equals(CmSysParamConsts.TEST_ITEM_SWITCH_COPY)) {
-            /** 获取当月的开始日期和结束日期 */
-            PatientAssayConfPO patientAssayConf = patientAssayConfService.selectDateScopeByMonth(monthStr, UserUtil.getTenantId());
-            Date startDate = patientAssayConf.getStartDate();
-            String startDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getStartDate());
-            String endDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getEndDate());
-            int days = DateFormatUtil.getDaysBetweenDates(startDateStr, endDateStr);
-
-            // 模拟每天统计的功能
-            for (int i = 0; i <= days; i++) {
-                Date date = CalendarUtil.add(startDate, Calendar.DATE, i);
-                String dateStr = DateFormatUtil.convertDateToStr(date);
-                reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(dateStr, monthStr, UserUtil.getTenantId());
-                reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, UserUtil.getTenantId());
-            }
-        } else {
-            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr,
-                            UserUtil.getTenantId());
-            // 删除临时数据
-            deleteTempData(batchNo);
-        }
-
+        insertMonthData(monthStr, UserUtil.getTenantId(), null);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -482,14 +433,17 @@ public class AssayReportController {
 
         String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);
         /**
-         * 策略逻辑统计 [TestItemSwitch[copy|simple]] 复制更新方式处理 业务逻辑实现 1、判断当前月份是否存在数据【统计化验结果表 report_patient_assay_record】 1.1 存在执行 2 1.2 不存在
-         * 复制上个月数据为当前月所有患者化验数据 2、获取 参数租户，参数日期 所有患者化验结果表【原始患者化验原始数据 patient_assay_record】 3、判断指定患者是否存在化验结果数据和化验项 3.1存在修改指定患者化验项数据 【判断
-         * report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】 3.2不存在新增 患者 和 化验项数据 【判断
-         * report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】
+         * 策略逻辑统计 [TestItemSwitch[copy|simple]] 复制更新方式处理 业务逻辑实现 <br>
+         * 1、判断当前月份是否存在数据【统计化验结果表 report_patient_assay_record】 1.1 存在执行 2 <br>
+         * 1.2 不存在 复制上个月数据为当前月所有患者化验数据 <br>
+         * 2、获取 参数租户，参数日期 所有患者化验结果表【原始患者化验原始数据 patient_assay_record】 <br>
+         * 3、判断指定患者是否存在化验结果数据和化验项 <br>
+         * 3.1存在修改指定患者化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】<br>
+         * 3.2不存在新增 患者 和 化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】
          */
         if (StringUtils.isNotBlank(testItemSwitch) && testItemSwitch.toUpperCase().equals(CmSysParamConsts.TEST_ITEM_SWITCH_COPY)) {
-            reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(dateStr, monthStr, tenantId);
-            reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, tenantId);
+            reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(monthStr, tenantId, null);
+            reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, tenantId, null);
         } else {
             // 原始设计方案
             // 当月化验数据插入
@@ -498,26 +452,62 @@ public class AssayReportController {
             condition.setAssayMonth(monthStr);
             condition.setFkTenantId(tenantId);
             reportPatientAssayRecordService.deleteByCondition(condition);
-            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr, tenantId);
+            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr, tenantId, null);
             // 删除临时数据
             deleteTempData(batchNo);
-            /*
-            int month = cal.get(Calendar.MONTH) + 1;
-            
-            // 当季度化验数据插入
-            if (month % 3 == 0) {
-                String season = cal.get(Calendar.YEAR) + "-" + (month / 3) + "";
-                condition = new ReportPatientAssayRecordPO();
-                condition.setDateType(DictHospitalLabPO.DATE_TYPE_SEASON);
-                condition.setAssaySeason(season);
-                condition.setFkTenantId(tenantId);
-                reportPatientAssayRecordService.deleteByCondition(condition);
-                reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_SEASON, monthStr, tenantId);
-            }*/
         }
 
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 数据插入动作
+     * 
+     * @Title: insertData
+     * @param monthStr
+     * @param tenantId
+     * @param itemCodes
+     *            指定项目
+     *
+     */
+    private void insertMonthData(String monthStr, Integer tenantId, Collection<String> itemCodes) {
+        String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);// 化验统计的方式
+        /** 删除当月的所有记录 */
+        ReportPatientAssayRecordPO condition = new ReportPatientAssayRecordPO();
+        condition.setFkTenantId(tenantId);
+        condition.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
+        condition.setAssayMonth(monthStr);
+        condition.setItemCodes(itemCodes);
+        reportPatientAssayRecordService.deleteByCondition(condition);
+
+        if (CmSysParamConsts.TEST_ITEM_SWITCH_COPY.equalsIgnoreCase(testItemSwitch)) { // 复制上月化验数据
+            /** 获取当月的开始日期和结束日期 */
+            PatientAssayConfPO patientAssayConf = patientAssayConfService.selectDateScopeByMonth(monthStr, tenantId);
+            Date startDate = patientAssayConf.getStartDate();
+            String startDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getStartDate());
+            String endDateStr = DateFormatUtil.convertDateToStr(patientAssayConf.getEndDate());
+            int days = DateFormatUtil.getDaysBetweenDates(startDateStr, endDateStr);
+            /**
+             * 策略逻辑统计 [TestItemSwitch[copy|simple]] 复制更新方式处理 业务逻辑实现 <br>
+             * 1、判断当前月份是否存在数据【统计化验结果表 report_patient_assay_record】 1.1 存在执行 2 <br>
+             * 1.2 不存在 复制上个月数据为当前月所有患者化验数据 <br>
+             * 2、获取 参数租户，参数日期 所有患者化验结果表【原始患者化验原始数据 patient_assay_record】 <br>
+             * 3、判断指定患者是否存在化验结果数据和化验项 <br>
+             * 3.1存在修改指定患者化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】<br>
+             * 3.2不存在新增 患者 和 化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】
+             */
+            for (int i = 0; i <= days; i++) {
+                Date date = CalendarUtil.add(startDate, Calendar.DATE, i);
+                String dateStr = DateFormatUtil.convertDateToStr(date);
+                reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(monthStr, tenantId, itemCodes);
+                reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, tenantId, itemCodes);
+            }
+        } else {
+            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr, tenantId, itemCodes);
+            // 删除临时数据
+            deleteTempData(batchNo);
+        }
     }
 
     /**

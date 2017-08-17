@@ -95,7 +95,7 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
             dicPo.setUpdateTime(currDate);
             dicPo.setUpdateUserId(1L);
 
-            List<DictHospitalLabPO> selectAllByItemCode = dictHospitalLabMapper.selectAllByItemCode(itemCode);
+            List<DictHospitalLabPO> selectAllByItemCode = dictHospitalLabMapper.selectAllByItemCode(itemCode, parseInt);
             if (selectAllByItemCode == null || selectAllByItemCode.size() == 0) {
                 String groupId = dicPo.getGroupId();
                 String groupName = dicPo.getGroupName();

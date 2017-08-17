@@ -8,7 +8,9 @@
  */
 package com.xtt.common.assay.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,6 +86,25 @@ public class AssayGroupServiceImpl implements IAssayGroupService {
     @Override
     public List<AssayGroupConfDetail> selectDetail(Long fkAssayGroupConfId) {
         return assayGroupConfDetailMapper.selectByFkAssayGroupConfId(fkAssayGroupConfId);
+    }
+
+    @Override
+    public AssayGroupConfDetail getByItemCode(String itemCode, Integer tenantId) {
+        return assayGroupConfDetailMapper.getByItemCode(itemCode, tenantId);
+    }
+
+    @Override
+    public Set<String> listGroupItemCodes(String itemCode, Integer tenantId) {
+        AssayGroupConfDetail conf = getByItemCode(itemCode, tenantId);
+        if (conf == null) {
+            return null;
+        }
+        List<AssayGroupConfDetail> details = selectDetail(conf.getFkAssayGroupConfId());
+        Set<String> itemCodes = new HashSet<>(details.size());
+        details.forEach(detail -> {
+            itemCodes.add(detail.getItemCode());
+        });
+        return itemCodes;
     }
 
 }

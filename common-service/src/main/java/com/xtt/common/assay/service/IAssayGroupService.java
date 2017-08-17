@@ -9,6 +9,7 @@
 package com.xtt.common.assay.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.xtt.common.dao.model.AssayGroupConf;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
@@ -62,4 +63,26 @@ public interface IAssayGroupService {
      *
      */
     List<AssayGroupConfDetail> selectDetail(Long fkAssayGroupConfId);
+
+    /**
+     * 根据itemCode获取对应的组
+     * 
+     * @Title: getByItemCode
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    AssayGroupConfDetail getByItemCode(String itemCode, Integer tenantId);
+
+    /**
+     * 根据itemCode获取所属同类组下所有itemCode
+     * 
+     * @Title: listGroupItemCodes
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    Set<String> listGroupItemCodes(String itemCode, Integer tenantId);
 }

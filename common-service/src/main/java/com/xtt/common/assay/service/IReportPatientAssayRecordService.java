@@ -8,21 +8,13 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
 
 public interface IReportPatientAssayRecordService {
-    /**
-     * 自动插入化验项统计表
-     * 
-     * @Title: insertAuto
-     * @param dateType
-     * 
-     */
-    @Deprecated
-    void insertAuto(String dateType, String monthAndYear);
 
     /**
      * 根据租户id，自动插入化验项统计表
@@ -31,9 +23,10 @@ public interface IReportPatientAssayRecordService {
      * @param dateType
      * @param monthAndYear
      * @param tenantId
+     * @param itemCodes
      * 
      */
-    String insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId);
+    String insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId, Collection<String> itemCodes);
 
     /**
      * 根据租户ID，保存化验项统计 1、当前月不存在数据，自动复制上月数据 2、如果存在，自动获取所有最新数据覆盖
@@ -45,9 +38,10 @@ public interface IReportPatientAssayRecordService {
      *            当前月份
      * @param tenantId
      *            租户ID
+     * @param itemCodes
      *
      */
-    void insertAutoCopyByTenantId(String paramDate, String monthAndYear, Integer tenantId);
+    void insertAutoCopyByTenantId(String paramDate, String monthAndYear, Integer tenantId, Collection<String> itemCodes);
 
     /**
      * 同步拷贝上个月数据到当月作为基础数据
@@ -56,9 +50,10 @@ public interface IReportPatientAssayRecordService {
      * @param paramDate
      * @param monthAndYear
      * @param tenantId
+     * @param itemCodes
      *
      */
-    void insertAutoCopyPreMonthDataByTenantId(String paramDate, String monthAndYear, Integer tenantId);
+    void insertAutoCopyPreMonthDataByTenantId(String monthAndYear, Integer tenantId, Collection<String> itemCodes);
 
     /**
      * 根据日期类型分组查询化验统计

@@ -9,6 +9,7 @@
 package com.xtt.common.assay.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +35,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public List<Map<String, Object>> getReportData(Long patientId, Date startTime, Date endTime, String itemCode) {
-        return patientAssayRecordMapper.selectReportData(patientId, startTime, endTime, itemCode);
+    public List<Map<String, Object>> getReportData(Long patientId, Date startTime, Date endTime, String itemCode, Collection<String> itemCodes) {
+        return patientAssayRecordMapper.selectReportData(patientId, startTime, endTime, itemCode, itemCodes);
     }
 
     @Override

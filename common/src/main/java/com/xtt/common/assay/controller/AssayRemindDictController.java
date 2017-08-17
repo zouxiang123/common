@@ -1,10 +1,16 @@
 package com.xtt.common.assay.controller;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +30,14 @@ import com.xtt.common.dao.po.AssayGroupConfPO;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayClassPO;
 import com.xtt.common.dao.po.PatientAssayMonthRScopePO;
+import com.xtt.common.dto.LoginUser;
+import com.xtt.common.report.controller.AssayReportController;
 import com.xtt.common.util.UserUtil;
 
 @Controller
 @RequestMapping("/assay/assayRemindDict")
 public class AssayRemindDictController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssayRemindDictController.class);
 
     @Autowired
     private IDictHospitalLabService dictHospitalLabService;
@@ -43,6 +52,8 @@ public class AssayRemindDictController {
     // 病患化验类
     @Autowired
     private IAssayGroupService assayGroupService;
+    @Autowired
+    private AssayReportController assayReportController;
 
     @RequestMapping("view")
     public ModelAndView view() {
@@ -98,7 +109,6 @@ public class AssayRemindDictController {
      */
     @RequestMapping("selectAllPatientAssayClass")
     public Map<String, Object> selectAllPatientAssayClass(@RequestParam String assayClass) {
-        System.out.println("assayClass");
         Map<String, Object> map = new HashMap<String, Object>();
         List<PatientAssayClassPO> assayClassData = assayClassService.selectAllByAssayClass(assayClass);
         List<PatientAssayClassPO> assayClassGroupNameData = assayClassService.selectAllGroupName(assayClass);
@@ -212,7 +222,17 @@ public class AssayRemindDictController {
     @ResponseBody
     public Map<String, Object> deleteAssayGroupConf(Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
+        List<AssayGroupConfDetail> details = assayGroupService.selectDetail(id);
+        Set<String> itemCodes = new HashSet<>();
+        itemCodes.add(String.valueOf(id));
+        if (CollectionUtils.isNotEmpty(details)) {
+            details.forEach(detail -> {
+                itemCodes.add(detail.getItemCode());
+            });
+        }
         assayGroupService.deleteByPrimaryKey(id);
+        // 刷新化验报表数据
+        refreshReportAssayData(itemCodes);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -224,7 +244,34 @@ public class AssayRemindDictController {
     @ResponseBody
     public Map<String, Object> saveAssayGroupConf(@RequestBody AssayGroupConfPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        assayGroupService.save(record);
+        Set<String> itemCodes = new HashSet<>();
+        if (record.getId() != null) {
+            // 查询历史对应的itemCodes
+            List<AssayGroupConfDetail> details = assayGroupService.selectDetail(record.getId());
+            if (CollectionUtils.isNotEmpty(details)) {
+                details.forEach(detail -> {
+                    itemCodes.add(detail.getItemCode());
+                });
+            }
+            itemCodes.add(String.valueOf(record.getId()));
+        }
+        try {
+            assayGroupService.save(record);
+        } catch (DuplicateKeyException e) {
+            LOGGER.error("failed to saveAssayGroupConf,case by:", e);
+            map.put(CommonConstants.STATUS, CommonConstants.WARNING);
+            return map;
+        }
+        // 获取最新对应的itemCodes
+        List<AssayGroupConfDetail> details = assayGroupService.selectDetail(record.getId());
+        itemCodes.add(String.valueOf(record.getId()));
+        if (CollectionUtils.isNotEmpty(details)) {
+            details.forEach(detail -> {
+                itemCodes.add(detail.getItemCode());
+            });
+        }
+        // 刷新化验报表数据
+        refreshReportAssayData(itemCodes);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -240,6 +287,22 @@ public class AssayRemindDictController {
         map.put("list", list);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 异步刷新化验报表数据
+     * 
+     * @Title: refreshReportAssayData
+     * @param itemCodes
+     *
+     */
+    private void refreshReportAssayData(Set<String> itemCodes) {
+        // 刷新对应的化验报表数据
+        LoginUser user = UserUtil.getLoginUser();
+        new Thread(() -> {
+            UserUtil.setThreadLoginUser(user);
+            assayReportController.insertAutoHistory(user.getTenantId(), itemCodes);
+        }).start();
     }
 
 }

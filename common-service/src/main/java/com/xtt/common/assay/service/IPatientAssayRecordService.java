@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +33,12 @@ public interface IPatientAssayRecordService {
      * @param startTime
      * @param endTime
      * @param itemCode
+     * @param itemCodes
      * @return
      * 
      */
 
-    List<Map<String, Object>> getReportData(Long patientId, Date startTime, Date endTime, String itemCode);
+    List<Map<String, Object>> getReportData(Long patientId, Date startTime, Date endTime, String itemCode, Collection<String> itemCodes);
 
     /**
      * 根据自定义条件获取数据

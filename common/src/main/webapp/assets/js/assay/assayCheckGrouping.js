@@ -383,8 +383,9 @@ function saveCheckRuleData() {
     if ($("#patientCheckGroupForm").valid()) {
         var patientCheckRule = $("#patientCheckGroupForm").serialize();
         var getItemCode = $("[name='hideItemCode']").val();// 项编码
+        patientCheckRule += "&itemCode=" + encodeURIComponent(getItemCode);
         $.ajax({
-            url : ctx + "/assay/groupRule/savePatientAssayGroupRule.shtml?getItemCodeValue=" + getItemCode + "",
+            url : ctx + "/assay/groupRule/savePatientAssayGroupRule.shtml",
             data : patientCheckRule,
             type : 'POST',
             dataType : 'json',

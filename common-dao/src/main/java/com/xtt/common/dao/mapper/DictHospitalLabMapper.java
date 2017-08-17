@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.AssayGroupConfDetail;
@@ -97,9 +98,10 @@ public interface DictHospitalLabMapper {
      * 通过itemCode来查询所有
      * 
      * @param itemCode
+     * @param fkTenantId
      * @return
      */
-    public List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
+    public List<DictHospitalLabPO> selectAllByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 查询所有的化验月份

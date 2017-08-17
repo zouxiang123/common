@@ -1,5 +1,6 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -82,12 +83,12 @@ public interface PatientAssayRecordMapper {
      * @param patientId
      * @param startTime
      * @param endTime
-     * @param pId
+     * @param itemCodes
      * @return
      * 
      */
     List<Map<String, Object>> selectReportData(@Param("patientId") Long patientId, @Param("startTime") Date startTime, @Param("endTime") Date endTime,
-                    @Param("itemCode") String itemCode);
+                    @Param("itemCode") String itemCode, @Param("itemCodes") Collection<String> itemCodes);
 
     /**
      * 根据时间查询报表信息

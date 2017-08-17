@@ -216,10 +216,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
-  <!-- 查询所有化验分组规则 -->
-  <select id="selectAllAssayGroupRule" resultMap="POResultMap" parameterType="java.lang.String" >
-  		select * from patient_assay_group_rule where item_code=#{itemsCode,jdbcType=VARCHAR} group by min_value asc
-  </select>
   <!-- 通过查询对象来修改 -->
   <update id="updateBySelective" parameterType="com.xtt.common.dao.po.PatientAssayGroupRulePO">
    <!--
@@ -272,12 +268,12 @@
   
   <!-- 判断输入的值是否存在 -->
   <select id="selectExitsByInput" resultMap="POResultMap" >
-  		select * from patient_assay_group_rule where min_value=#{inputValue,jdbcType=REAL} and item_code=#{getItemCode,jdbcType=VARCHAR}
+  		select * from patient_assay_group_rule where min_value=#{inputValue,jdbcType=REAL} and item_code=#{getItemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
   </select>
   
   
   <select id="selectByItemCode" resultMap="POResultMap">
-  		select * from patient_assay_group_rule where item_code=#{itemCode,jdbcType=VARCHAR} group by min_value asc
+  		select * from patient_assay_group_rule where item_code=#{itemCode} AND fk_tenant_id = #{fkTenantId} order by min_value asc
   </select>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayGroupRule" resultMap="POResultMap">
@@ -287,7 +283,7 @@
   	order by min_value
   </select>
   <!-- 删除 -->
-  <delete  id="deleteByItemCode" parameterType="java.lang.String" >
-  	delete from patient_assay_group_rule where item_code = #{itemCode,jdbcType=VARCHAR}
+  <delete  id="deleteByItemCode" >
+  	delete from patient_assay_group_rule where item_code = #{itemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
   </delete>
 </mapper>

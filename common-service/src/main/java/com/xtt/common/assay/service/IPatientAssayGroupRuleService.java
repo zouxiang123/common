@@ -30,11 +30,6 @@ public interface IPatientAssayGroupRuleService {
     List<PatientAssayGroupRulePO> selectAllAssayGroupRule(String itemsCode);
 
     /**
-     * 通过ID来修改化验分组规则
-     */
-    void updateAssayGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode);
-
-    /**
      * 通过ID来查询单个对象
      * 
      * @param id

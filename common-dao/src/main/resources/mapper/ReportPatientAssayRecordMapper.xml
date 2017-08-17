@@ -132,19 +132,21 @@
 		, result, fk_tenant_id, create_time, date_type
  		, result_tips
 	) SELECT temp.* FROM (
-		SELECT patr1.fk_patient_id, patr1.item_code, patr1.item_name, #{assayMonth}
+		<!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
+		SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.item_name, #{assayMonth}
 			, #{assaySeason}, #{assayYear}
 			, ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{dateType}
 			, IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt; ${sqlCondition})
 		    	AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) >= ${sqlCondition})), '1', '0') as result_tips
 		FROM patient_assay_temp_record patr1
-		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = patr1.item_code
+		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+		LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
         WHERE patr1.fk_tenant_id = #{fkTenantId} AND patr1.batch_no = #{batchNo}
-		GROUP BY patr1.fk_patient_id, patr1.item_code, item_name
+		GROUP BY fk_patient_id, item_code, item_name
 	) temp
   </insert>
   
-  <!-- 批量插入季度的化验统计数据 -->
+  <!-- 批量插入季度的化验统计数据-->
   <insert id="insertBatchBySeason" parameterType="com.xtt.common.dao.model.ReportPatientAssayRecord">
 	INSERT INTO report_patient_assay_record (fk_patient_id, item_code, assay_season
 		, item_name, assay_year, result, fk_tenant_id, create_time
@@ -152,16 +154,17 @@
 		, date_type
 		)
 	SELECT temp.* FROM (
-		SELECT patr1.fk_patient_id, patr1.item_code, patr1.assay_season
+		<!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
+		SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.assay_season
 			, MAX(patr1.item_name), MAX(patr1.assay_year), ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
 			, IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt;= ${sqlCondition})
 				AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) > ${sqlCondition})), '1', '0') as result_tips
 			, #{dateType}
 		FROM report_patient_assay_record patr1
-		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code =patr1.item_code
-		WHERE patr1.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-		AND patr1.assay_season = #{assaySeason}
-		GROUP BY patr1.fk_patient_id,patr1.item_code,patr1.assay_season
+		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code =patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+		LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
+		WHERE patr1.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER} AND patr1.assay_season = #{assaySeason}
+		GROUP BY fk_patient_id,item_code,assay_season
 	) temp
   </insert>
   
@@ -310,11 +313,20 @@
   		<if test="dateType != null and dateType != ''">
   			and date_type = #{dateType}
   		</if>
+  		<if test="itemCode != null">
+			AND item_code = #{itemCode}
+		</if>
+		<if test="itemCodes !=null and itemCodes.size()>0">
+			AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+		</if>
   	</where>
   </delete>
   
   <select id="selectExistCurrentMothodByMonth" resultType="int">
   	select count(fk_patient_id) from report_patient_assay_record where assay_month = #{month} and fk_tenant_id = #{tenantId}
+  	<if test="itemCodes !=null and itemCodes.size()>0">
+		AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+	</if>
   </select>
   
   <insert id="insertPreMonthDate">
@@ -333,6 +345,9 @@
 			report_patient_assay_record 
 		where 
 			assay_month = #{preMonth} and fk_tenant_id = #{tenantId}
+			<if test="itemCodes !=null and itemCodes.size()>0">
+				AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+			</if>
 			and fk_patient_id not in(select  id from patient where del_flag = 1 and fk_tenant_id = #{tenantId})
   </insert>
     

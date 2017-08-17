@@ -6,7 +6,7 @@ import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 
 public class PatientAssayGroupRuleListVO {
-
+    private String itemCode;
     private List<PatientAssayGroupRulePO> patientAssayGroupRuleList;
 
     private DictHospitalLabPO dictHospitalLabPO;//
@@ -26,4 +26,13 @@ public class PatientAssayGroupRuleListVO {
     public void setPatientAssayGroupRuleList(List<PatientAssayGroupRulePO> patientAssayGroupRuleList) {
         this.patientAssayGroupRuleList = patientAssayGroupRuleList;
     }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
 }

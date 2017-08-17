@@ -124,6 +124,9 @@
 	AND dhl.value_type = 1
 	AND par.assay_date &gt;= #{startDateStr,jdbcType=VARCHAR}
 	AND par.assay_date &lt;= #{endDateStr,jdbcType=VARCHAR}
+	<if test="itemCodes !=null and itemCodes.size()>0">
+		AND par.item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+	</if>
   </insert>
   <!-- 根据批次号删除数据 -->
   <delete id="deleteByBatchNo" parameterType="java.lang.String">

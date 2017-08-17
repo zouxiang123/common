@@ -1,5 +1,6 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -127,10 +128,12 @@ public interface ReportPatientAssayRecordMapper {
      * @Title: selectExistCurrentMothodByMonth
      * @param month
      * @param tenantId
+     * @param itemCodes
      * @return
      *
      */
-    int selectExistCurrentMothodByMonth(@Param("month") String month, @Param("tenantId") Integer tenantId);
+    int selectExistCurrentMothodByMonth(@Param("month") String month, @Param("tenantId") Integer tenantId,
+                    @Param("itemCodes") Collection<String> itemCodes);
 
     /**
      * 同步复制上月数据同步到本月
@@ -146,10 +149,13 @@ public interface ReportPatientAssayRecordMapper {
      *            上月
      * @param tenantId
      *            租户ID
+     * @param itemCodes
+     *            项目编号
      *
      */
     void insertPreMonthDate(@Param("currentMonth") String currentMonth, @Param("currentSeason") String currentSeason,
-                    @Param("currentYear") Integer currentYear, @Param("preMonth") String preMonth, @Param("tenantId") Integer tenantId);
+                    @Param("currentYear") Integer currentYear, @Param("preMonth") String preMonth, @Param("tenantId") Integer tenantId,
+                    @Param("itemCodes") Collection<String> itemCodes);
 
     /**
      * 获取患者化验结果记录 条件[租户ID,患者ID，月份，itemcode]
