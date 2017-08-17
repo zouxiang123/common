@@ -86,7 +86,7 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
      */
     @Override
     public List<DictHospitalLabPO> selectAllByItemCode(String itemCode) {
-        return dictHospitalLabMapper.selectAllByItemCode(itemCode);
+        return dictHospitalLabMapper.selectAllByItemCode(itemCode, UserUtil.getTenantId());
     }
 
     /**

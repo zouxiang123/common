@@ -226,8 +226,10 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         param.put("date", date);
         param.put("isBefore", true);
         paramList.add(param);
-        param.put("isBefore", false);
-        paramList.add(param);
+        Map<String, Object> paramAfter = new HashMap<>(param.size());
+        paramAfter.putAll(param);
+        paramAfter.put("isBefore", false);
+        paramList.add(paramAfter);
         return patientAssayRecordBusiMapper.listLatestByFkDictCode(paramList);
     }
 

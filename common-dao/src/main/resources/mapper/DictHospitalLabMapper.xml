@@ -473,7 +473,7 @@
   
   <!-- 通过ItemCode来查询minValue，maxValue，isTop，dataType -->
   <select id="selectAllByItemCode" resultMap="POResultMap">
-    select is_top, id,date_type, personal_min_value, personal_max_value from dict_hospital_lab where item_code = #{itemCode,jdbcType=VARCHAR}
+    select is_top, id,date_type, personal_min_value, personal_max_value from dict_hospital_lab where item_code = #{itemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
   </select>
   
   <!-- 查询所有的GroupName，  -->
@@ -526,16 +526,25 @@
   </select>
   
   <!-- 查询化验项及选中的分组项 -->
-  <select id="selectAllItemByGroupDetail" parameterType="com.xtt.common.dao.model.AssayGroupConfDetail" resultMap="POResultMap">
-    SELECT dhl.item_code, dhl.item_name, dhl.group_id, dhl.group_name,IF(agcd.item_code is null, 0, 1) as selectFlag
-    FROM dict_hospital_lab dhl
-    LEFT JOIN assay_group_conf_detail agcd 
+    <select id="selectAllItemByGroupDetail" parameterType="com.xtt.common.dao.model.AssayGroupConfDetail" resultMap="POResultMap">
+        SELECT dhl.item_code, dhl.item_name, dhl.group_id, dhl.group_name,IF(agcd.item_code is null, 0, 1) as selectFlag
+        FROM dict_hospital_lab dhl
+        LEFT JOIN assay_group_conf_detail agcd
         ON dhl.item_code = agcd.item_code
         AND dhl.fk_tenant_id=#{fkTenantId}
         AND dhl.fk_tenant_id = agcd.fk_tenant_id
-        AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
-    ORDER BY selectFlag desc, dhl.group_name, dhl.item_name
-  </select>
+        <if test="fkAssayGroupConfId != null">
+            AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
+        </if>
+        WHERE NOT EXISTS (
+            SELECT 1 FROM assay_group_conf_detail
+            WHERE fk_tenant_id = dhl.fk_tenant_id AND item_code = dhl.item_code
+            <if test="fkAssayGroupConfId != null">
+                and fk_assay_group_conf_id != #{fkAssayGroupConfId}
+            </if>
+        )
+        ORDER BY selectFlag desc, dhl.group_name, dhl.item_name
+    </select>
   
   <!-- 查询id，group_id，group_name，item_code，Item_name,Unit,reference -->
   <select id="selectSomeField" resultMap="POResultMap">
