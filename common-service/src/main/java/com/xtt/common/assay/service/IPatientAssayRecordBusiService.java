@@ -187,11 +187,28 @@ public interface IPatientAssayRecordBusiService {
      * @param itemCodes
      * @param tenantId
      * @param date
+     * @param isBefore
+     *            是否透前（null时不区分透前透后）
      * @return
      *
      */
 
-    List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date);
+    List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date,
+                    Boolean isBefore);
+
+    /**
+     * 据患者id和fkDictCode查询离日期最近的一条数据
+     * 
+     * @Title: getLatestOneByFkDictCode
+     * @param fkPatientId
+     * @param fkDictCode
+     * @param tenantId
+     * @param date
+     * @param isBefore
+     * @return
+     *
+     */
+    PatientAssayRecordBusiPO getLatestOneByFkDictCode(Long fkPatientId, String fkDictCode, Integer tenantId, Date date, Boolean isBefore);
 
     void updatePatientAssay(List<DictHospitalLabPO> getdHL);
 
@@ -235,9 +252,11 @@ public interface IPatientAssayRecordBusiService {
      * @param tenantId
      * @param date
      * @param count
+     * @param diaAbFlag
      * @return
      *
      */
-    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count);
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
+                    String diaAbFlag);
 
 }

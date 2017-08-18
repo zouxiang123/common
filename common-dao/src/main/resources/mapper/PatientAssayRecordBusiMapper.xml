@@ -668,6 +668,7 @@
         FROM patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
+            <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
             AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,dhl.fk_dict_code,parb.fk_tenant_id
         ) t1,
@@ -676,6 +677,7 @@
         FROM patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
+            <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
             AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         ) t2
         WHERE t1.fk_dict_code = t2.fk_dict_code AND t1.fk_patient_id = t2.fk_patient_id AND t1.fk_tenant_id = t2.fk_tenant_id AND t1.minDay = t2.diffDay
@@ -704,6 +706,9 @@
             FROM patient_assay_record_busi parb
             JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
+            <if test="diaAbFlag != null and diaAbFlag != ''"> 
+                AND parb.dia_ab_flag = #{diaAbFlag}
+            </if>
             AND dhl.fk_dict_code = #{item.fkDictCode}
             <if test="item.isBefore"><!-- 日期之前 -->
               AND parb.assay_date &lt; #{item.date} 

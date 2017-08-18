@@ -138,12 +138,14 @@ public interface PatientAssayRecordBusiMapper {
      * @param fkDictCodes
      * @param fkTenantId
      * @param date
+     * @param diaAbFlag
      * @return
      *
      */
 
     List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(@Param("fkPatientId") Long fkPatientId,
-                    @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date);
+                    @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date,
+                    @Param("diaAbFlag") String diaAbFlag);
 
     void updatePatientAssay(List<DictHospitalLabPO> getdHL);
 

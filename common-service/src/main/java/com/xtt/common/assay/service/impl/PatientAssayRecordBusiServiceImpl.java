@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -147,8 +148,18 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date) {
-        return patientAssayRecordBusiMapper.listLatestOneByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date);
+    public List<PatientAssayRecordBusiPO> listLatestOneByFkDictCodes(Long fkPatientId, Collection<String> fkDictCodes, Integer tenantId, Date date,
+                    Boolean isBefore) {
+        return patientAssayRecordBusiMapper.listLatestOneByFkDictCodes(fkPatientId, fkDictCodes, tenantId, date,
+                        isBefore == null ? null : (isBefore ? AssayConsts.BEFORE_HD : AssayConsts.AFTER_HD));
+    }
+
+    @Override
+    public PatientAssayRecordBusiPO getLatestOneByFkDictCode(Long fkPatientId, String fkDictCode, Integer tenantId, Date date, Boolean isBefore) {
+        List<String> codes = new ArrayList<>(1);
+        codes.add(fkDictCode);
+        List<PatientAssayRecordBusiPO> list = listLatestOneByFkDictCodes(fkPatientId, codes, tenantId, date, isBefore);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     @Override
@@ -216,7 +227,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count) {
+    public List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
+                    String diaAbFlag) {
         List<Map<String, Object>> paramList = new ArrayList<>(2);
         Map<String, Object> param = new HashMap<>();
         param.put("fkPatientId", fkPatientId);
@@ -224,6 +236,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         param.put("fkTenantId", tenantId);
         param.put("count", count);
         param.put("date", date);
+        param.put("diaAbFlag", diaAbFlag);
         param.put("isBefore", true);
         paramList.add(param);
         Map<String, Object> paramAfter = new HashMap<>(param.size());
