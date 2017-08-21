@@ -12,47 +12,62 @@ public class PatientOutcome {
     private Long id;
 
     /**
-     * 患者id patient_outcome.fk_patient_id
+     * 患者id
+     * patient_outcome.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡) patient_outcome.type
+     * 类型:(1:腹透,2:移植,3:死亡)	
+     * patient_outcome.type
      */
     private String type;
 
     /**
-     * 转归日期 patient_outcome.record_date
+     * 类型原因
+     * patient_outcome.type_reason
+     */
+    private String typeReason;
+
+    /**
+     * 转归日期
+     * patient_outcome.record_date
      */
     private Date recordDate;
 
     /**
-     * 原因 patient_outcome.reason
+     * 原因
+     * patient_outcome.reason
      */
     private String reason;
 
     /**
-     * 所属系统 patient_outcome.sys_owner
+     * 所属系统
+     * patient_outcome.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 转出到的系统 patient_outcome.to_sys_owner
+     * 转出到的系统
+     * patient_outcome.to_sys_owner
      */
     private String toSysOwner;
 
     /**
-     * 租户id patient_outcome.fk_tenant_id
+     * 租户id
+     * patient_outcome.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 转出医院 patient_outcome.to_tenant_id
+     * 转出医院
+     * patient_outcome.to_tenant_id
      */
     private Integer toTenantId;
 
     /**
-     * 转出医院名称 patient_outcome.to_tenant_name
+     * 转出医院名称
+     * patient_outcome.to_tenant_name
      */
     private String toTenantName;
 
@@ -103,17 +118,31 @@ public class PatientOutcome {
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public void setType(String type) {
         this.type = type;
+    }
+
+    /**
+     * 类型原因
+     */
+    public String getTypeReason() {
+        return typeReason;
+    }
+
+    /**
+     * 类型原因
+     */
+    public void setTypeReason(String typeReason) {
+        this.typeReason = typeReason;
     }
 
     /**

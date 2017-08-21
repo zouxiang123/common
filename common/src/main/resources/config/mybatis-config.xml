@@ -25,7 +25,7 @@
 	</settings>
 	<plugins>
 		<!-- 分页拦截器 -->
-		<plugin interceptor="com.xtt.platform.framework.core.interceptor.MyBaitsPageInterceptor">
+		<plugin interceptor="com.xtt.platform.framework.core.interceptor.MyBatisPageInterceptor">
 			<property name="databaseType" value="mysql"/>
 		</plugin>
 	</plugins>

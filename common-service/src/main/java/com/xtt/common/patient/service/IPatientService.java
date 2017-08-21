@@ -136,4 +136,25 @@ public interface IPatientService {
      *
      */
     public boolean checkMobileExist(String mobile, Long neId);
+
+    /**
+     * 根据患者证件号查询患者
+     * 
+     * @Title: getByIdNumber
+     * @param idNumber
+     * @return
+     *
+     */
+    PatientPO getByIdNumber(String idNumber);
+
+    /**
+     * 通过手机号查询患者信息
+     * 
+     * @Title: listByMobile
+     * @param mobile
+     * @param neId
+     * @return
+     *
+     */
+    public List<PatientPO> listByMobile(String mobile, Long neId);
 }

@@ -88,4 +88,13 @@ public interface PatientMapper {
      * @return
      */
     int getCountByMobile(@Param("mobile") String mobile, @Param("neId") Long neId);
+
+    /**
+     * 通过手机号查询患者信息
+     * 
+     * @param mobile
+     * @param neId
+     * @return
+     */
+    List<PatientPO> listByMobile(@Param("mobile") String mobile, @Param("neId") Long neId);
 }

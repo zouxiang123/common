@@ -320,4 +320,20 @@ public interface IUserService {
      */
     List<SysUserPO> selectByAccount(SysUserPO user);
 
+    /**
+     * 保存皮肤
+     *
+     * @param skin
+     * @return
+     */
+    void saveSkin(String skin);
+
+    /**
+     * 获取随机护士
+     * 
+     * @param constantType
+     * @return
+     */
+    SysUser getRoundUser(Integer constantType);
+
 }

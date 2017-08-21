@@ -361,6 +361,7 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.getGroupUserByAccount(account, CommonConstants.USER_TYPE_GROUP, tenantId);
     }
 
+    @Override
     public List<SysUserPO> checkUser(SysUserPO user) {
 
         return sysUserMapper.checkUser(user);
@@ -529,6 +530,7 @@ public class UserServiceImpl implements IUserService {
                 loginUser.setMultiSysOwner(sysUser.getSysOwner());
                 loginUser.setMultiTenant(sysUser.getMultiTenant());
                 loginUser.setUserType(sysUser.getUserType());
+                loginUser.setSkin(sysUser.getSkin());
                 UserUtil.setLoginUser(token, loginUser);
                 if (!isGroupAdmin) {// 集团管理员不需要设置角色相关信息
                     UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
@@ -668,4 +670,22 @@ public class UserServiceImpl implements IUserService {
     public List<SysUserPO> selectByAccount(SysUserPO user) {
         return sysUserMapper.selectByAccount(user.getAccount());
     }
+
+    @Override
+    public void saveSkin(String skin) {
+        SysUserTenant sut = sysUserTenantService.getByUserId(UserUtil.getLoginUserId());
+        sut.setSkin(skin);
+        DataUtil.setUpdateSystemFieldValue(sut);
+        sysUserTenantService.updateByPrimaryKeySelective(sut);
+        // refresh redis cache
+        LoginUser loginUser = UserUtil.getLoginUser();
+        loginUser.setSkin(skin);
+        UserUtil.setLoginUser(loginUser);
+    }
+
+    @Override
+    public SysUser getRoundUser(Integer constantType) {
+        return sysUserMapper.getRoundUser(constantType, UserUtil.getTenantId());
+    }
+
 }

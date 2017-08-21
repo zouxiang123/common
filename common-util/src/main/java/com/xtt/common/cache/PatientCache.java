@@ -104,7 +104,6 @@ public class PatientCache {
      *
      */
     public static String getNameById(Long id) {
-        String key = getKey(id);
         PatientDto patient = getById(id);
         if (patient != null) {
             return patient.getName();

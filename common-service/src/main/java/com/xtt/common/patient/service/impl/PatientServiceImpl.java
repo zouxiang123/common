@@ -302,4 +302,19 @@ public class PatientServiceImpl implements IPatientService {
         int cnt = patientMapper.getCountByMobile(mobile, neId);
         return cnt > 0 ? true : false;
     }
+
+    @Override
+    public PatientPO getByIdNumber(String idNumber) {
+        List<PatientPO> list = patientMapper.listByIdNumber(idNumber, null);
+        if (CollectionUtils.isNotEmpty(list)) {
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<PatientPO> listByMobile(String mobile, Long neId) {
+        return patientMapper.listByMobile(mobile, neId);
+    }
+
 }

@@ -295,7 +295,7 @@
 	<select id="listByTenantId" resultMap="ExtendResultMap">
 		SELECT
 			u.*
-            ,ut.role_type roleType, ut.telephone, ut.position
+            ,ut.role_type roleType, ut.telephone, ut.position, ut.skin
 			,GROUP_CONCAT(r.`name`) as roleName,group_concat(r.id) as roleId
 		FROM
 			sys_user u
@@ -367,7 +367,7 @@
 	<select id="login" resultMap="ExtendResultMap">
 		select u.*
             ,group_concat(ur.fk_role_id) as roleId
-            ,ut.role_type roleType, ut.telephone, ut.position
+            ,ut.role_type roleType, ut.telephone, ut.position, ut.skin
 		from sys_user u 
         inner join sys_user2role ur on u.id=ur.fk_user_id
         JOIN sys_user_tenant ut on ut.fk_user_id = u.id
@@ -403,7 +403,7 @@
     <select id="getFullById" resultMap="ExtendResultMap">
         select u.*
             ,group_concat(ur.fk_role_id) as roleId
-            ,ut.role_type roleType, ut.telephone, ut.position
+            ,ut.role_type roleType, ut.telephone, ut.position, ut.skin
             ,utt.sysOwner, utt.multiTenant
         from sys_user u 
         LEFT join sys_user2role ur on u.id=ur.fk_user_id
@@ -440,13 +440,23 @@
             AND u.fk_tenant_id = #{fkTenantId}
         </if>
     </select>
-     <select id="checkUser" resultMap="ExtendResultMap" parameterType="com.xtt.common.dao.po.SysUserPO">
-        SELECT u.name ,st.`name` as multiTenantName  FROM sys_user u join  sys_user_tenant sut ON u.id=sut.fk_user_id JOIN
-sys_tenant st ON sut.fk_tenant_id=st.id  WHERE u.account=#{account} AND u.fk_tenant_id in(${multiTenant}) 
+    
+    <select id="checkUser" parameterType="com.xtt.common.dao.po.SysUserPO" resultMap="ExtendResultMap">
+        SELECT u.name ,st.`name` as multiTenantName  FROM sys_user u 
+        JOIN sys_user_tenant sut ON u.id=sut.fk_user_id 
+        JOIN sys_tenant st ON sut.fk_tenant_id=st.id  
+        WHERE u.account=#{account} AND u.fk_tenant_id in(${multiTenant}) 
     </select>
     
+    <select id="selectByAccount" parameterType="String" resultMap="ExtendResultMap">
+        SELECT su.account,su.`password`,sut.fk_tenant_id FROM sys_user su JOIN sys_user_tenant sut ON su.id=sut.fk_user_id WHERE su.account=#{account}
+    </select>
     
-    <select id="selectByAccount" resultMap="ExtendResultMap" parameterType="String">
-    SELECT su.account,su.`password`,sut.fk_tenant_id FROM sys_user su JOIN sys_user_tenant sut ON su.id=sut.fk_user_id WHERE su.account=#{account}
+    <!-- 获取随机护士 -->
+    <select id="getRoundUser" resultMap="BaseResultMap">
+        SELECT u.* FROM sys_user u
+        JOIN sys_user2role sr ON sr.fk_user_id = u.id
+        JOIN sys_role r ON sr.fk_role_id = r.id
+        WHERE r.constant_type=#{constantType} AND r.fk_tenant_id = #{fkTenantId} ORDER BY RAND() LIMIT 1;
     </select>
 </mapper>

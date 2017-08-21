@@ -36,6 +36,7 @@ public class SysUserPO extends SysUser {
     private String sysOwner;
     /** 用户关联的租户（多个） */
     private String multiTenant;
+    private String skin;
 
     public String getRoleName() {
         return roleName;
@@ -146,6 +147,14 @@ public class SysUserPO extends SysUser {
 
     public void setMultiTenantName(String multiTenantName) {
         this.multiTenantName = multiTenantName;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
     }
 
 }

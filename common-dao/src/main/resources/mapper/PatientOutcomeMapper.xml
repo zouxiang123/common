@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientOutcomeMapper">
-   <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOutcome">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientOutcome">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="type_reason" jdbcType="VARCHAR" property="typeReason" />
     <result column="record_date" jdbcType="DATE" property="recordDate" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
@@ -24,8 +25,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_patient_id, type, record_date, reason, sys_owner, to_sys_owner, fk_tenant_id, 
-    to_tenant_id, to_tenant_name, create_time, create_user_id, update_time, update_user_id
+    id, fk_patient_id, type, type_reason, record_date, reason, sys_owner, to_sys_owner, 
+    fk_tenant_id, to_tenant_id, to_tenant_name, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -48,15 +50,17 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into patient_outcome (id, fk_patient_id, type, 
-      record_date, reason, sys_owner, 
-      to_sys_owner, fk_tenant_id, to_tenant_id, 
-      to_tenant_name, create_time, create_user_id, 
-      update_time, update_user_id)
+      type_reason, record_date, reason, 
+      sys_owner, to_sys_owner, fk_tenant_id, 
+      to_tenant_id, to_tenant_name, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
-      #{recordDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, 
-      #{toSysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{toTenantId,jdbcType=INTEGER}, 
-      #{toTenantName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{typeReason,jdbcType=VARCHAR}, #{recordDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
+      #{sysOwner,jdbcType=VARCHAR}, #{toSysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{toTenantId,jdbcType=INTEGER}, #{toTenantName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOutcome">
     <!--
@@ -72,6 +76,9 @@
       </if>
       <if test="type != null">
         type,
+      </if>
+      <if test="typeReason != null">
+        type_reason,
       </if>
       <if test="recordDate != null">
         record_date,
@@ -116,6 +123,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="typeReason != null">
+        #{typeReason,jdbcType=VARCHAR},
       </if>
       <if test="recordDate != null">
         #{recordDate,jdbcType=DATE},
@@ -164,6 +174,9 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
+      <if test="typeReason != null">
+        type_reason = #{typeReason,jdbcType=VARCHAR},
+      </if>
       <if test="recordDate != null">
         record_date = #{recordDate,jdbcType=DATE},
       </if>
@@ -207,6 +220,7 @@
     update patient_outcome
     set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
       type = #{type,jdbcType=VARCHAR},
+      type_reason = #{typeReason,jdbcType=VARCHAR},
       record_date = #{recordDate,jdbcType=DATE},
       reason = #{reason,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
@@ -252,13 +266,13 @@
         AND po.fk_tenant_id = #{fkTenantId}
       </if>
       <if test="excludeTypes !=null">
-        AND po.type not in <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">#{item}</foreach>
+        AND po.type not in <foreach close=")" collection="excludeTypes" item="item" open="(" separator=",">#{item}</foreach>
       </if>
       <if test="multiTenant != null">
         AND po.fk_tenant_id in (${multiTenant })
       </if>
       <if test="types !=null">
-        AND po.type in <foreach collection="types" item="item" open="(" separator="," close=")">#{item}</foreach>
+        AND po.type in <foreach close=")" collection="types" item="item" open="(" separator=",">#{item}</foreach>
       </if>
   	</where>
   	ORDER BY po.record_date DESC, po.id DESC
@@ -271,8 +285,8 @@
             SELECT po1.fk_patient_id, MAX(po1.record_date) AS time
             FROM patient_outcome po1
             WHERE po1.sys_owner = #{sysOwner}
-                <if test="patientIds != null and patientIds.size()>0">
-                   AND po1.fk_patient_id in <foreach collection="patientIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+                <if test="patientIds != null and patientIds.size()&gt;0">
+                   AND po1.fk_patient_id in <foreach close=")" collection="patientIds" item="item" open="(" separator=",">#{item}</foreach>
                 </if>
                 <if test="month != null and month != ''">
                    AND DATE_FORMAT(po1.record_date,'%Y-%m') = #{month}

@@ -25,6 +25,7 @@ public class LoginUser {
     private String multiTenant;// 该用户拥有权限的租户id
     private String groupTenant;// 当前集团下租户列表,以“,”分隔
     private String multiSysOwner;// 该用户拥有权限的系统
+    private String skin;
     // APP用
     private Long patientId;
     private Integer countSubAccount;
@@ -162,6 +163,14 @@ public class LoginUser {
 
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
     }
 
     public Integer getAge() {

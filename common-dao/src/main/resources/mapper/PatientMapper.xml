@@ -579,4 +579,10 @@
         select count(id) from patient where mobile = #{mobile} 
         <if test="neId != null"> AND id != #{neId}</if>
     </select>
+
+    <!-- 通过手机号查询患者信息 -->
+    <select id="listByMobile" resultMap="POResultMap">
+        select * from patient where mobile = #{mobile}
+        <if test="neId != null"> AND id != #{neId}</if>
+    </select>
 </mapper>

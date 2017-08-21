@@ -105,7 +105,7 @@ public interface SysUserMapper {
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 
     /**
-     * 根据id查询数据
+     * <<<<<<< HEAD 根据id查询数据
      *
      * @Title: getById
      * @param id
@@ -197,4 +197,14 @@ public interface SysUserMapper {
      *
      */
     List<SysUserPO> selectByAccount(String account);
+
+    /**
+     * 获取随机护士
+     * 
+     * @param constantType
+     * @param fkTenantId
+     * @return
+     */
+    SysUser getRoundUser(@Param("constantType") Integer constantType, @Param("fkTenantId") Integer fkTenantId);
+
 }

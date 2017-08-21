@@ -139,4 +139,16 @@ public class PatientCardServiceImpl implements IPatientCardService {
     public List<PatientCard> listByCardNoTypeTenant(String cardNo, String cardType, Integer tenant, Long nePatientId) {
         return patientCardMapper.listByCardNoTypeTenant(cardNo, cardType, tenant, nePatientId);
     }
+
+    @Override
+    public String getCardNo(PatientCardPO record) {
+        record.setDelFlag(false);
+        record.setNewFlag(true);
+        record.setFkTenantId(UserUtil.getTenantId());
+        List<PatientCardPO> list = patientCardMapper.selectByCondition(record);
+        if (CollectionUtils.isEmpty(list)) {
+            return null;
+        }
+        return list.get(0).getCardNo();
+    }
 }

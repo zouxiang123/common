@@ -24,12 +24,6 @@ public class SysUserTenant {
     private Integer fkTenantId;
 
     /**
-     * 所属系统
-     * sys_user_tenant.sys_owner
-     */
-    private String sysOwner;
-
-    /**
      * 角色类别（医生，护士，管理员等）
      * sys_user_tenant.role_type
      */
@@ -46,6 +40,18 @@ public class SysUserTenant {
      * sys_user_tenant.telephone
      */
     private String telephone;
+
+    /**
+     * 皮肤
+     * sys_user_tenant.skin
+     */
+    private String skin;
+
+    /**
+     * 所属系统
+     * sys_user_tenant.sys_owner
+     */
+    private String sysOwner;
 
     /**
      * 创建时间
@@ -112,20 +118,6 @@ public class SysUserTenant {
     }
 
     /**
-     * 所属系统
-     */
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    /**
-     * 所属系统
-     */
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
-    }
-
-    /**
      * 角色类别（医生，护士，管理员等）
      */
     public String getRoleType() {
@@ -165,6 +157,34 @@ public class SysUserTenant {
      */
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    /**
+     * 皮肤
+     */
+    public String getSkin() {
+        return skin;
+    }
+
+    /**
+     * 皮肤
+     */
+    public void setSkin(String skin) {
+        this.skin = skin;
+    }
+
+    /**
+     * 所属系统
+     */
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    /**
+     * 所属系统
+     */
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 
     /**
