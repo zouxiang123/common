@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.hand;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -17,9 +18,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
+import com.xtt.common.assay.service.IAssayHospDictGroupService;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
+import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.AssayHospDict;
+import com.xtt.common.dao.model.AssayHospDictGroup;
+import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.PatientAssayRecordPO;
+import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
@@ -30,6 +42,15 @@ public abstract class AbstractPatientAssayRecordBusi {
 
     @Autowired
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
+
+    @Autowired
+    private IAssayHospDictService assayHospDictService;
+
+    @Autowired
+    private IAssayHospDictGroupService assayHospDictGroupService;
+
+    @Autowired
+    private IAssayHospDictGroupMappingService assayHospDictGroupMappingService;
 
     /**
      * 清洗数据方法
@@ -147,6 +168,17 @@ public abstract class AbstractPatientAssayRecordBusi {
     }
 
     /**
+     * 根据租户id删除数据
+     * 
+     * @Title: deleteByTenant
+     * @param fkTenantId
+     *
+     */
+    public void deleteByTenant(Integer fkTenantId) {
+        PatientAssayRecordBusiService.deleteByTenant(fkTenantId);
+    }
+
+    /**
      * 根据患者删除
      * 
      * @Title: deleteAll
@@ -154,6 +186,88 @@ public abstract class AbstractPatientAssayRecordBusi {
      */
     public void deleteByPatient(Long fkPatientId) {
         PatientAssayRecordBusiService.deleteByPatientId(fkPatientId);
+    }
+
+    /**
+     * 维护字典表
+     * 
+     * @Title: selectInsert
+     * @param par
+     *
+     */
+    public void insertAssayHospDict(PatientAssayRecordPO par) {
+        // 固定输出数据
+        Date currDate = DateUtil.getCurrDate();
+        String itemCode = par.getItemCode();
+        String groupId = par.getGroupId();
+        Integer tenantId = UserUtil.getTenantId();
+        if (assayHospDictService.getCountByItemCode(itemCode) == 0) {
+            AssayHospDict assayHospDict = new AssayHospDict();
+            BeanUtil.copyProperties(par, assayHospDict);
+            BigDecimal valueMax = par.getValueMax();// 最大值
+            BigDecimal valueMin = par.getValueMin();// 最小值
+            if (valueMax != null) {
+                assayHospDict.setMaxValue(valueMax);
+                assayHospDict.setPersonalMaxValue(valueMax);
+            }
+            if (valueMin != null) {
+                assayHospDict.setMinValue(valueMin);
+                assayHospDict.setPersonalMinValue(valueMin);
+            }
+
+            String result = par.getResult();
+            if (StringUtil.isNumber(result)) {
+                assayHospDict.setValueType(1);
+                assayHospDict.setDateType("n");
+            } else {
+                assayHospDict.setValueType(2);
+                assayHospDict.setDateType("s");
+            }
+
+            assayHospDict.setUnit(par.getValueUnit());
+            assayHospDict.setCreateTime(currDate);
+            assayHospDict.setUpdateTime(currDate);
+            assayHospDict.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            assayHospDict.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            DataUtil.setSystemFieldValue(assayHospDict);
+            assayHospDictService.insert(assayHospDict);
+        }
+        if (assayHospDictGroupService.getCountByGroupId(groupId) == 0) {
+            AssayHospDictGroup assayHospDictGroup = new AssayHospDictGroup();
+            assayHospDictGroup.setGroupId(par.getGroupId());
+            assayHospDictGroup.setGroupName(par.getGroupName());
+            assayHospDictGroup.setFkTenantId(tenantId);
+            assayHospDictGroup.setCreateTime(currDate);
+            assayHospDictGroup.setUpdateTime(currDate);
+            assayHospDictGroup.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            assayHospDictGroup.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            assayHospDictGroupService.insert(assayHospDictGroup);
+        }
+        if (assayHospDictGroupMappingService.getCountByGroupId(groupId, itemCode) == 0) {
+            AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
+            assayHospDictGroupMapping.setFkItemCode(itemCode);
+            assayHospDictGroupMapping.setFkGroupId(groupId);
+            assayHospDictGroupMapping.setFkTenantId(tenantId);
+            assayHospDictGroupMapping.setCreateTime(currDate);
+            assayHospDictGroupMapping.setUpdateTime(currDate);
+            assayHospDictGroupMapping.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            assayHospDictGroupMapping.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
+        }
+
+    }
+
+    /**
+     * 根据租户id删除数据
+     * 
+     * @Title: deleteAssayHospDict
+     *
+     */
+    public void deleteAssayHospDict() {
+        Integer tenantId = UserUtil.getTenantId();
+        assayHospDictService.deleteByTenant(tenantId);
+        assayHospDictGroupService.deleteByTenant(tenantId);
+        assayHospDictGroupMappingService.deleteByTenant(tenantId);
     }
 
 }

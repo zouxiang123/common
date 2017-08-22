@@ -537,10 +537,13 @@
     <!-- 根据创建时间查询出当天的数据 -->
     <select id="listByCreateTime" resultMap="POResultMap">
         SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
-        `value_unit`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
+        `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
         `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` from patient_assay_record where
         create_time &gt; DATE_FORMAT(#{startCreateTime},'%y-%m-%d %H:%i:%s')
         and create_time &lt; DATE_FORMAT(#{endCreateTime},'%y-%m-%d %H:%i:%s')
+          <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId}
+            </if>
     </select>
     <!-- 根据itemCode 查询化验单 -->
     <select id="listByItemCode" resultMap="POResultMap">

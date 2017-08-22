@@ -353,7 +353,11 @@
   </update>
   
   <!-- user define -->
-  <resultMap type="com.xtt.common.dao.po.PatientAssayRecordBusiPO" id="POResultMap" extends="BaseResultMap"></resultMap>
+  <resultMap type="com.xtt.common.dao.po.PatientAssayRecordBusiPO" id="POResultMap" extends="BaseResultMap">
+     <result column="value_type" jdbcType="BIGINT" property="valueType" />
+     <result column="min_value" jdbcType="DECIMAL" property="minValue" />
+    <result column="max_value" jdbcType="DECIMAL" property="maxValue" /> 
+  </resultMap>
   <!-- 常用列，主表别名需叫parb -->
   <sql id="Common_Column_List">
     parb.fk_patient_id, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
@@ -412,14 +416,23 @@
     <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         select
         <include refid="Common_Column_List" />
-        ,dhl.fk_dict_code fkDictCode,
-        dhl.reference,
-        parb.fk_tenant_id
-        from patient_assay_record_busi parb
-        JOIN dict_hospital_lab dhl ON dhl.item_code = parb.item_code AND dhl.fk_tenant_id = parb.fk_tenant_id
+        ,parb.id
+        ,parb.sample_class
+        ,parb.reference
+        ,parb.fk_tenant_id
+        ,parb.create_user_id
+        ,ahd.value_type
+        ,ahd.min_value
+        ,ahd.max_value
+        ,ahd.unit
+        from patient_assay_record_busi parb  
+        LEFT JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id
         <where>
+            <if test="reqId != null">
+               and parb.req_id = #{reqId}
+            </if>
             <if test="fkPatientId != null">
-                parb.fk_patient_id = #{fkPatientId}
+               and parb.fk_patient_id = #{fkPatientId}
             </if>
             <if test="groupId != null">
                 AND parb.group_id = #{groupId}
@@ -481,21 +494,8 @@
                 AND parb.result_tips in
                 <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
             </if>
-            <if test="fkDictCode != null">
-                AND dhl.fk_dict_code = #{fkDictCode }
-            </if>
         </where>
-        <choose>
-            <when test="queryOrderBy == 1">
-               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date DESC
-            </when>
-            <when test="queryOrderBy == 2">
-               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date ASC
-            </when>
-            <otherwise>
-               ORDER BY parb.assay_date ASC
-            </otherwise>
-        </choose>
+       
     </select>
   <!-- 根据化验单号更新透前透后标识 -->
   <update id="updateDiaAbFlagByReqId">
@@ -509,7 +509,7 @@
     <!-- 查询所有类别 -->
     <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         select
-        <include refid="Common_Column_List" />
+            req_id,group_name,sample_time,report_time,max(fk_patient_id) fk_patient_id
         from patient_assay_record_busi parb
         <where>
             <if test="fkPatientId != null">
@@ -525,15 +525,26 @@
                 AND parb.fk_patient_id in
                 <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
-            <if test="startDate != null">
-                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+            <if test="dateType == 'sampleTime'">
+                 <if test="startDate != null">
+                    AND parb.sample_time &gt;= #{startDate,jdbcType=DATE}
+                 </if>
+                <if test="endDate != null">
+                    AND parb.sample_time &lt;= #{endDate,jdbcType=DATE}
+                </if>
             </if>
-            <if test="endDate != null">
-                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+             <if test="dateType == 'reportTime'">
+                 <if test="startDate != null">
+                    AND parb.report_time &gt;= #{startDate,jdbcType=DATE}
+                </if>
+                <if test="endDate != null">
+                    AND parb.report_time &lt;= #{endDate,jdbcType=DATE}
+                </if>
             </if>
+           
         </where>
         GROUP BY parb.req_id
-        ORDER BY parb.assay_date ASC
+        ORDER BY parb.assay_date desc
     </select>
     <!-- 根据item_code 查询对应的化验项数据 -->
     <select id="listReportData" resultType="map">
@@ -664,26 +675,61 @@
     <select id="listLatestOneByFkDictCodes" resultMap="POResultMap">
         SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode,t2.assay_date
         FROM 
-        (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE}))) minDay,dhl.fk_dict_code,dhl.fk_tenant_id
+        (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE}))) minDay,ahd.fk_dict_code,ahd.fk_tenant_id
         FROM patient_assay_record_busi parb
-        JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
+        JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
+<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
             <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
             AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,dhl.fk_dict_code,parb.fk_tenant_id
+=======
+            AND ahd.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+        GROUP BY parb.fk_patient_id,ahd.fk_dict_code,parb.fk_tenant_id
+>>>>>>> ec4b251 化验信息优化
         ) t1,
+<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
         (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual,parb.assay_date
         ,dhl.fk_dict_code,dhl.fk_tenant_id
+=======
+        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual
+        ,ahd.fk_dict_code,ahd.fk_tenant_id
+>>>>>>> ec4b251 化验信息优化
         FROM patient_assay_record_busi parb
-        JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
+        JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
+<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
             <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
             AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+=======
+            AND ahd.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+>>>>>>> ec4b251 化验信息优化
         ) t2
         WHERE t1.fk_dict_code = t2.fk_dict_code AND t1.fk_patient_id = t2.fk_patient_id AND t1.fk_tenant_id = t2.fk_tenant_id AND t1.minDay = t2.diffDay
     </select>
+    <!-- 根据化验单号化验项更新数据 -->
     <update id="updatePatientAssay">
-    
+        update patient_assay_record_busi
+    set      
+      result = #{result,jdbcType=VARCHAR},
+      result_actual = #{resultActual,jdbcType=DOUBLE},     
+      result_tips = #{resultTips,jdbcType=VARCHAR},     
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    <where>
+        <if test="id != null">
+            id = #{id,jdbcType=BIGINT}
+        </if>
+       <if test="itemCode != null">
+                and item_code = #{itemCode}
+        </if> 
+        <if test="reqId != null">
+               and req_id = #{reqId}
+        </if> 
+        <if test="fkTenantId != null">
+               and fk_tenant_id = #{fkTenantId}
+        </if>
+    </where>
     </update>
     
     <insert id="insertPatientAssay">
@@ -695,7 +741,7 @@
     </delete>
     <!-- 根据患者id删除 -->
     <delete id="deleteByPatientId">
-        delete from patient_assay_record_busi where fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+        delete from patient_assay_record_busi where fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
     </delete>
     <!-- 查询距离date最近的count*2（前后）条数据 -->
     <select id="listLatestByFkDictCode" resultMap="POResultMap">
@@ -722,5 +768,35 @@
             ) t${index}
        </foreach>
        ) t ORDER BY t.assay_date DESC
+    </select>
+        
+    <select id="selectCommonByItemCode" resultMap="POResultMap">
+        SELECT parb.fk_patient_id,parb.assay_month,parb.item_code,parb.result,parb.fk_tenant_id FROM patient_assay_record_busi parb
+        JOIN (SELECT max(assay_date) assay_date,fk_patient_id,item_code,fk_tenant_id FROM patient_assay_record_busi
+        WHERE item_code in
+        <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+        <if test="startDate != null">
+            and assay_date &gt;= #{startDate,jdbcType=DATE}
+        </if>
+        <if test="endDate != null">
+            and assay_date &lt;= #{endDate,jdbcType=DATE}
+        </if>
+        GROUP BY fk_patient_id,item_code,assay_month) t
+        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
+        JOIN patient p on p.id = parb.fk_patient_id
+        where
+        p.del_flag = 0
+        <if test="patientIds.size != 0">
+            or parb.fk_patient_id in
+            <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+        </if>
+    </select>
+    
+    <delete id="deleteByTenant">
+        delete from patient_assay_record_busi where fk_tenant_id =  #{fkTenantId}
+    </delete>
+    
+    <select id="listByReqId">
+    
     </select>
 </mapper>

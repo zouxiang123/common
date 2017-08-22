@@ -74,7 +74,7 @@ public class TwoPatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setAssayMonth(getAssayMonth(patientAssayRecordBusi.getReportTime()));
+                patientAssayRecordBusi.setAssayMonth(patientAssayRecord.getAssayMonth());
                 patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();

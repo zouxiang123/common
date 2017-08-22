@@ -31,7 +31,7 @@ import com.xtt.common.dao.mapper.ReportPatientAssayRecordMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.PatientAssayFilterRule;
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayConfPO;
 import com.xtt.common.dao.po.PatientAssayFilterRulePO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
@@ -63,7 +63,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
     @Override
     public String insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId, Collection<String> itemCodes) {
         String batchNo = UUID.randomUUID().toString();
-        if (DictHospitalLabPO.DATE_TYPE_MONTH.equals(dateType)) {
+        if (AssayHospDictPO.DATE_TYPE_MONTH.equals(dateType)) {
             // 插入月份临时数据
             PatientAssayConfPO conf = patientAssayConfService.selectDateScopeByMonth(monthAndYear, tenantId);
 
@@ -122,7 +122,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                 reportCondition.setAssayYear(year + "");
                 reportCondition.setAssaySeason(year + "-" + season);
                 reportCondition.setBatchNo(batchNo);
-                if (DictHospitalLabPO.DATE_TYPE_MONTH.equals(dateType)) {
+                if (AssayHospDictPO.DATE_TYPE_MONTH.equals(dateType)) {
                     reportPatientAssayRecordMapper.insertBatchByMonth(reportCondition);
                 } else {
                     reportPatientAssayRecordMapper.insertBatchBySeason(reportCondition);
@@ -228,7 +228,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                     rpar.setResultTips(par.getResultTips());
                     rpar.setAssaySeason(currentSeason);
                     rpar.setAssayYear(String.valueOf(year));
-                    rpar.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
+                    rpar.setDateType(AssayHospDictPO.DATE_TYPE_MONTH);
 
                     reportPatientAssayRecordMapper.insertSelective(rpar);
                     continue;

@@ -1,9 +1,9 @@
 /**   
- * @Title: IDictHospitalLabService.java 
- * @Package com.xtt.common.patient
+ * @Title: IAssayHospDictService.java 
+ * @Package com.xtt.common.assay.service
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年4月22日 下午12:54:10 
+ * @author: Administrator   
+ * @date: 2017年8月21日 上午11:50:15 
  *
  */
 package com.xtt.common.assay.service;
@@ -12,17 +12,56 @@ import java.util.Collection;
 import java.util.List;
 
 import com.xtt.common.dao.model.AssayGroupConfDetail;
-import com.xtt.common.dao.model.DictHospitalLab;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.model.AssayHospDict;
+import com.xtt.common.dao.po.AssayHospDictPO;
 
-public interface IDictHospitalLabService {
+public interface IAssayHospDictService {
+
+    /**
+     * 插入数据
+     * 
+     * @Title: insert
+     * @param record
+     * @return
+     *
+     */
+    int insert(AssayHospDict record);
+
+    /**
+     * 批量插入
+     * 
+     * @Title: insertList
+     * @param list
+     *
+     */
+    void insertList(List<AssayHospDict> list);
+
+    /**
+     * 根据itemCode 查询是否存在
+     * 
+     * @Title: getCountByItemCode
+     * @param ItemCode
+     * @return
+     *
+     */
+    int getCountByItemCode(String itemCode);
+
+    /**
+     * 根据租户删除数据
+     * 
+     * @Title: deleteByTenant
+     * @param tenantId
+     *
+     */
+    void deleteByTenant(Integer tenantId);
+
     /**
      * 手动录入化验项
      * 
      * @param record
      * @return
      */
-    int insertSelective(DictHospitalLabPO record);
+    int insertSelective(AssayHospDictPO record);
 
     /**
      * 根据itemCode查询医院字典表数据
@@ -32,7 +71,7 @@ public interface IDictHospitalLabService {
      * @return
      * 
      */
-    DictHospitalLabPO getByItemCode(String itemCode);
+    AssayHospDictPO getByItemCode(String itemCode);
 
     /**
      * 查询化验项详情
@@ -42,7 +81,7 @@ public interface IDictHospitalLabService {
      * @return
      *
      */
-    DictHospitalLabPO selectTop(DictHospitalLab record);
+    AssayHospDictPO selectTop(AssayHospDictPO record);
 
     /**
      * 获取所有的分类数据
@@ -51,7 +90,7 @@ public interface IDictHospitalLabService {
      * @return
      * 
      */
-    List<DictHospitalLabPO> getAllCategory(DictHospitalLabPO record);
+    List<AssayHospDictPO> getAllCategory(AssayHospDictPO record);
 
     /**
      * 根据条件获取检查项
@@ -61,7 +100,7 @@ public interface IDictHospitalLabService {
      * @return
      * 
      */
-    List<DictHospitalLabPO> getByCondition(DictHospitalLabPO record);
+    List<AssayHospDictPO> getByCondition(AssayHospDictPO record);
 
     /**
      * 解除关联
@@ -79,7 +118,7 @@ public interface IDictHospitalLabService {
      * @param record
      * 
      */
-    String updateDictById(DictHospitalLab record);
+    String updateDictById(AssayHospDictPO assayHospDict);
 
     /**
      * 通过ItemCode来查询isTop，dataType，maxValue，minValue
@@ -87,36 +126,36 @@ public interface IDictHospitalLabService {
      * @param itemCode
      * @return
      */
-    List<DictHospitalLabPO> selectAllByItemCode(String itemCode);
+    List<AssayHospDictPO> selectAllByItemCode(String itemCode);
 
     /**
      * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
      */
-    void updateDictHospitalLabSomeValue(DictHospitalLab record);
+    void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDictPO);
 
     /**
      * 查询父节点GroupName，ID
      */
-    public List<DictHospitalLabPO> selectGroupName();
+    public List<AssayHospDictPO> selectGroupName();
 
     /**
      * 查询所有化验项
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAllGroup();
+    public List<AssayHospDictPO> selectAllGroup();
 
     /**
      * 维护化验项
      * 
      * @return
      */
-    public List<DictHospitalLabPO> selectAdminGroup();
+    public List<AssayHospDictPO> selectAdminGroup();
 
     /**
      * 查询所有
      */
-    public List<DictHospitalLabPO> selectAll();
+    public List<AssayHospDictPO> selectAll();
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
@@ -126,7 +165,7 @@ public interface IDictHospitalLabService {
      * @return
      * 
      */
-    public List<DictHospitalLabPO> selectAllCategoryByClass(DictHospitalLab dictHospitalLab);
+    public List<AssayHospDictPO> selectAllCategoryByClass(AssayHospDictPO dictHospitalLab);
 
     /**
      * 根据大中小血类查询所有化验项及选中情况
@@ -136,7 +175,7 @@ public interface IDictHospitalLabService {
      * @return
      * 
      */
-    public List<DictHospitalLabPO> selectAllItemByClass(DictHospitalLab dictHospitalLab);
+    public List<AssayHospDictPO> selectAllItemByClass(AssayHospDictPO dictHospitalLab);
 
     /**
      * 查询化验项及选中的分组项
@@ -146,14 +185,14 @@ public interface IDictHospitalLabService {
      * @return
      *
      */
-    public List<DictHospitalLabPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
+    public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
 
     /**
      * 添加化验单
      * 
      * @param list
      */
-    void insertDictHospital(List<DictHospitalLabPO> list);
+    void insertDictHospital(List<AssayHospDictPO> list);
 
     /**
      * 删除手动录入的化验单
@@ -169,7 +208,7 @@ public interface IDictHospitalLabService {
      * @param list
      * @return
      */
-    Long getDictId(DictHospitalLabPO list);
+    Long getDictId(AssayHospDictPO list);
 
     /**
      * 更新化验单
@@ -177,7 +216,7 @@ public interface IDictHospitalLabService {
      * @param list
      * @return
      */
-    int updateDictHospital(DictHospitalLabPO record);
+    int updateDictHospital(AssayHospDictPO record);
 
     /**
      * 校验化验项名称是否与his系统重复
@@ -185,7 +224,7 @@ public interface IDictHospitalLabService {
      * @param record
      * @return
      */
-    int queryByGroupName(DictHospitalLabPO record);
+    int queryByGroupName(AssayHospDictPO record);
 
     /**
      * 检测项目编号是否重复
@@ -193,7 +232,7 @@ public interface IDictHospitalLabService {
      * @param record
      * @return
      */
-    int queryByItemCode(DictHospitalLabPO record);
+    int queryByItemCode(AssayHospDictPO record);
 
     /**
      * 根据关联code查询数据
@@ -203,5 +242,6 @@ public interface IDictHospitalLabService {
      * @return
      *
      */
-    List<DictHospitalLabPO> selectByFkCodes(Collection<String> dictCodes);
+    List<AssayHospDictPO> selectByFkCodes(Collection<String> dictCodes);
+
 }

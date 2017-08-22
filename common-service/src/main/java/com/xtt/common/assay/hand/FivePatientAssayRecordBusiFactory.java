@@ -68,6 +68,8 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
         int i = 1;
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
+            // 维护字典表
+            this.insertAssayHospDict(patientAssayRecord);
             // 检查项目唯一ID为空时候不插入
             if (patientAssayRecord.getInspectionId() == null) {
                 continue;
@@ -85,7 +87,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setAssayMonth(getAssayMonth(patientAssayRecordBusi.getReportTime()));
+                patientAssayRecordBusi.setAssayMonth(patientAssayRecord.getAssayMonth());
                 patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();
@@ -107,6 +109,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                     i = 1;
                 }
                 patientAssayRecordBusi = null;
+
             }
         }
         if (listPatientAssayRecordBusi.size() != 0) {

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 public interface IPatientAssayRecordBusiService {
@@ -128,16 +128,6 @@ public interface IPatientAssayRecordBusiService {
     List<PatientAssayRecordBusiPO> listByItemCodes(Set<String> itemCodes, Date startDate, Date endDate);
 
     /**
-     * 根据分组id查询数据
-     * 
-     * @Title: listByGroupId
-     * @param record
-     * @return
-     *
-     */
-    List<PatientAssayRecordBusiPO> listByGroupId(PatientAssayRecordBusiPO record);
-
-    /**
      * 根据id删除数据
      * 
      * @Title: removeById
@@ -210,9 +200,9 @@ public interface IPatientAssayRecordBusiService {
      */
     PatientAssayRecordBusiPO getLatestOneByFkDictCode(Long fkPatientId, String fkDictCode, Integer tenantId, Date date, Boolean isBefore);
 
-    void updatePatientAssay(List<DictHospitalLabPO> getdHL);
+    void updatePatientAssay(List<AssayHospDictPO> getdHL);
 
-    void insertPatientAssay(List<DictHospitalLabPO> getdHL);
+    void insertPatientAssay(List<AssayHospDictPO> getdHL);
 
     /**
      * 删除所有
@@ -258,5 +248,34 @@ public interface IPatientAssayRecordBusiService {
      */
     List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
                     String diaAbFlag);
+
+    /**
+     * 查询常规化验项目
+     * 
+     * @Title: selectCommonByItemCode
+     * @param patientAssayRecordBusi
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> selectCommonByItemCode(PatientAssayRecordBusiPO patientAssayRecordBusi);
+
+    /**
+     * 根据租户id删除数据
+     * 
+     * @Title: deleteByTenant
+     * @param fkTenantId
+     *
+     */
+    void deleteByTenant(Integer fkTenantId);
+
+    /**
+     * 根据申请单号查询
+     * 
+     * @Title: listByReqId
+     * @param par
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par);
 
 }

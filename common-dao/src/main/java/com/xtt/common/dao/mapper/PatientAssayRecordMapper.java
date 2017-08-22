@@ -80,10 +80,12 @@ public interface PatientAssayRecordMapper {
      * @Title: listByCreateTime
      * @param createTime
      * @param endCreateTime
+     * @param integer
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime);
+    List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
+                    @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 根据itemCode 查询化验单

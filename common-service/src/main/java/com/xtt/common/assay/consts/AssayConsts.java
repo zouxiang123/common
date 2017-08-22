@@ -59,8 +59,8 @@ public class AssayConsts {
     public static final String TIPS_NORMAL = "1";
     /** 无法识别的 */
     public static final String TIPS_UNKNOWN = "2";
-    /** 偏低 */
-    public static final String TIPS_LOW = "3";
     /** 偏高 */
-    public static final String TIPS_HIGH = "4";
+    public static final String TIPS_HIGH = "3";
+    /** 偏低 */
+    public static final String TIPS_LOW = "4";
 }

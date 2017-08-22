@@ -401,7 +401,7 @@
   	</if>
   </select>
   
-  <select id="selectByDictHospitalLab" resultType="com.xtt.common.dao.model.DictHospitalLab">
-  	select item_code as itemCode,value_type as valueType from dict_hospital_lab
+  <select id="selectByDictHospitalLab" resultType="com.xtt.common.dao.model.AssayHospDict">
+  	select item_code as itemCode,value_type as valueType from assay_hosp_dict
   </select>
 </mapper>

@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.model.PatientAssayData;
 import com.xtt.common.dao.model.PatientAssayRecord;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayDataPO;
 
 @Repository
@@ -62,6 +62,6 @@ public interface PatientAssayDataMapper {
      * @Title: selectByDictHospitalLab
      * @return
      */
-    List<DictHospitalLab> selectByDictHospitalLab();
+    List<AssayHospDictPO> selectByDictHospitalLab();
 
 }

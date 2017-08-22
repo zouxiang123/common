@@ -18,6 +18,7 @@ import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
+import com.xtt.common.util.UserUtil;
 
 @Service
 public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService {
@@ -32,7 +33,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     @Override
     public List<PatientAssayRecordPO> listByCreateTime(Date startCreateTime, Date endCreateTime) {
 
-        return patientAssayRecordMapper.listByCreateTime(startCreateTime, endCreateTime);
+        return patientAssayRecordMapper.listByCreateTime(startCreateTime, endCreateTime, UserUtil.getTenantId());
     }
 
     @Override

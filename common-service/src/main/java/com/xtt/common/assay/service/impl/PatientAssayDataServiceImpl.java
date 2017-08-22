@@ -19,9 +19,9 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IPatientAssayDataService;
 import com.xtt.common.dao.mapper.PatientAssayDataMapper;
-import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.model.PatientAssayData;
 import com.xtt.common.dao.model.PatientAssayRecord;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayDataPO;
 import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
@@ -53,13 +53,13 @@ public class PatientAssayDataServiceImpl implements IPatientAssayDataService {
         String endDate = DateFormatUtil.convertDateToStr(DateUtil.addDays(transformationDate, -1), "yyyy-MM-dd");
 
         // 获取部署医院化验项常量 数据类型 [快速]
-        List<DictHospitalLab> dictHospitalLabArrays = patientAssayDataMapper.selectByDictHospitalLab();
+        List<AssayHospDictPO> dictHospitalLabArrays = patientAssayDataMapper.selectByDictHospitalLab();
         Map<String, Integer> dictHospitalLabMap = new HashMap<String, Integer>();
         if (CollectionUtils.isEmpty(dictHospitalLabArrays)) {
             return;
         }
 
-        for (DictHospitalLab dhl : dictHospitalLabArrays) {
+        for (AssayHospDictPO dhl : dictHospitalLabArrays) {
             dictHospitalLabMap.put(dhl.getItemCode(), dhl.getValueType());
         }
 

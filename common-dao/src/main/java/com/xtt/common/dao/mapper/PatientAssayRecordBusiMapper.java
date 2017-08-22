@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 @Repository
@@ -147,9 +147,16 @@ public interface PatientAssayRecordBusiMapper {
                     @Param("fkDictCodes") Collection<String> fkDictCodes, @Param("fkTenantId") Integer fkTenantId, @Param("date") Date date,
                     @Param("diaAbFlag") String diaAbFlag);
 
-    void updatePatientAssay(List<DictHospitalLabPO> getdHL);
+    /**
+     * 更新数值
+     * 
+     * @Title: updatePatientAssay
+     * @param patientAssayRecordBusi
+     *
+     */
+    void updatePatientAssay(PatientAssayRecordBusi patientAssayRecordBusi);
 
-    void insertPatientAssay(List<DictHospitalLabPO> getdHL);
+    void insertPatientAssay(List<AssayHospDictPO> getdHL);
 
     /**
      * 删除所有数据
@@ -176,4 +183,32 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     List<PatientAssayRecordBusiPO> listLatestByFkDictCode(@Param("paramList") List<Map<String, Object>> paramList);
+
+    /**
+     * 查询常规化验项
+     * 
+     * @Title: selectCommonByItemCode
+     * @param patientAssayRecordBusi
+     *
+     */
+    List<PatientAssayRecordBusi> selectCommonByItemCode(PatientAssayRecordBusiPO patientAssayRecordBusi);
+
+    /**
+     * 根据租户id删除数据
+     * 
+     * @Title: deleteByTenant
+     * @param fkTenantId
+     *
+     */
+    void deleteByTenant(@Param("fkTenantId") Integer fkTenantId);
+
+    /**
+     * 根据申请单号查询
+     * 
+     * @Title: listByReqId
+     * @param par
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par);
 }

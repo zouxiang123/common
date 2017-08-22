@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,17 @@ import com.xtt.common.assay.hand.FourPatientAssayRecordBusiFactory;
 import com.xtt.common.assay.hand.OnePatientAssayRecordBusiFactory;
 import com.xtt.common.assay.hand.ThreePatientAssayRecordBusiFactory;
 import com.xtt.common.assay.hand.TwoPatientAssayRecordBusiFactory;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
+import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
 
 @Service
@@ -50,6 +55,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     private FourPatientAssayRecordBusiFactory fourPatientAssayRecordBusiFactory;
     @Autowired
     private FivePatientAssayRecordBusiFactory fivePatientAssayRecordBusiFactory;
+    @Autowired
+    private IAssayHospDictService assayHospDictService;
+    private String randomAlphanumeric;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -64,7 +72,18 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         if (record.getFkTenantId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
         }
-        return patientAssayRecordBusiMapper.listCategory(record);
+        if (StringUtil.isNotBlank(record.getStrStartDate())) {
+            record.setStartDate(DateFormatUtil.getStartTime(record.getStrStartDate()));
+        }
+        if (StringUtil.isNotBlank(record.getStrEndDate())) {
+            record.setEndDate(DateFormatUtil.getEndTime(record.getStrEndDate()));
+        }
+        List<PatientAssayRecordBusiPO> listAssayRecordBusi = patientAssayRecordBusiMapper.listCategory(record);
+        for (PatientAssayRecordBusiPO patientAssayRecordBusi : listAssayRecordBusi) {
+            patientAssayRecordBusi.setStrSampleTime(DateUtil.format(patientAssayRecordBusi.getSampleTime(), "yyyy-MM-dd HH:mm"));
+            patientAssayRecordBusi.setStrReportTime(DateUtil.format(patientAssayRecordBusi.getReportTime(), "yyyy-MM-dd HH:mm"));
+        }
+        return listAssayRecordBusi;
     }
 
     @Override
@@ -95,11 +114,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         record.setStartDate(startDate);
         record.setEndDate(endDate);
         record.setQueryOrderBy(1);
-        return listByCondition(record);
-    }
-
-    @Override
-    public List<PatientAssayRecordBusiPO> listByGroupId(PatientAssayRecordBusiPO record) {
         return listByCondition(record);
     }
 
@@ -163,14 +177,68 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public void updatePatientAssay(List<DictHospitalLabPO> getdHL) {
-        patientAssayRecordBusiMapper.updatePatientAssay(getdHL);
+    public void updatePatientAssay(List<AssayHospDictPO> getdHL) {
+        PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
+        String result;
+        for (AssayHospDictPO dictHospitalLab : getdHL) {
+            patientAssayRecordBusi.setReqId(dictHospitalLab.getReqId());
+            result = dictHospitalLab.getResult();
+            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(result)) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+            }
+            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(result)) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+            }
+            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(result)
+                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(result)) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+            }
+            patientAssayRecordBusi.setResult(result);
+            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+            patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
+            DataUtil.setUpdateSystemFieldValue(patientAssayRecordBusi);
+            patientAssayRecordBusiMapper.updatePatientAssay(patientAssayRecordBusi);
+        }
 
     }
 
     @Override
-    public void insertPatientAssay(List<DictHospitalLabPO> getdHL) {
-        patientAssayRecordBusiMapper.insertPatientAssay(getdHL);
+    public void insertPatientAssay(List<AssayHospDictPO> getdHL) {
+        Date nowDate = new Date();
+        AssayHospDictPO assayHospDictPO = getdHL.get(0);
+        String result = assayHospDictPO.getResult();
+        assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
+        AssayHospDictPO dictHospitalLab = assayHospDictService.selectTop(getdHL.get(0));
+        PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
+        patientAssayRecordBusi.setFkPatientId(assayHospDictPO.getFkPatientId());
+        patientAssayRecordBusi.setGroupId(dictHospitalLab.getGroupId());
+        patientAssayRecordBusi.setGroupName(dictHospitalLab.getGroupName());
+        patientAssayRecordBusi.setReportTime(dictHospitalLab.getAssayDate());
+        patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
+        patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
+        patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
+        patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+        patientAssayRecordBusi.setReference(dictHospitalLab.getReference());
+        patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
+
+        if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+        }
+        if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
+            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+        }
+        if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
+                        && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+        }
+        patientAssayRecordBusi.setSampleTime(nowDate);
+        patientAssayRecordBusi.setReportTime(nowDate);
+        patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
+        String strNowDate = DateUtil.format(nowDate, DateFormatUtil.FORMAT_DATE_YYYYMMDD);
+        String strRandom = RandomStringUtils.randomAlphanumeric(6);
+        patientAssayRecordBusi.setReqId(strNowDate.concat("_").concat(strRandom));
+        DataUtil.setSystemFieldValue(patientAssayRecordBusi);
+        patientAssayRecordBusiMapper.insertSelective(patientAssayRecordBusi);
 
     }
 
@@ -244,6 +312,23 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         paramAfter.put("isBefore", false);
         paramList.add(paramAfter);
         return patientAssayRecordBusiMapper.listLatestByFkDictCode(paramList);
+    }
+
+    @Override
+    public List<PatientAssayRecordBusi> selectCommonByItemCode(PatientAssayRecordBusiPO patientAssayRecordBusi) {
+
+        return patientAssayRecordBusiMapper.selectCommonByItemCode(patientAssayRecordBusi);
+    }
+
+    @Override
+    public void deleteByTenant(Integer fkTenantId) {
+        patientAssayRecordBusiMapper.deleteByTenant(fkTenantId);
+
+    }
+
+    @Override
+    public List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par) {
+        return patientAssayRecordBusiMapper.listByCondition(par);
     }
 
 }

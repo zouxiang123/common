@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.xtt.common.assay.service.IGenerationDictService;
+import com.xtt.common.dao.mapper.AssayHospDictMapper;
 import com.xtt.common.dao.mapper.CmPatientMapper;
-import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.CmQueryPO;
-import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -29,7 +29,7 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
 
     // 检验项目字典
     @Resource
-    private DictHospitalLabMapper dictHospitalLabMapper;
+    private AssayHospDictMapper assayHospDictMapper;
 
     // 病患基本信息
     @Resource
@@ -58,7 +58,7 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
         int parseInt = UserUtil.getTenantId();
 
         for (PatientAssayRecordPO po : lisDict) {
-            DictHospitalLabPO dicPo = new DictHospitalLabPO();
+            AssayHospDictPO dicPo = new AssayHospDictPO();
 
             String itemName = po.getItemName();
             String itemCode = po.getItemCode();
@@ -100,12 +100,12 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
             dicPo.setUpdateTime(currDate);
             dicPo.setUpdateUserId(1L);
 
-            List<DictHospitalLabPO> selectAllByItemCode = dictHospitalLabMapper.selectAllByItemCode(itemCode, parseInt);
+            List<AssayHospDictPO> selectAllByItemCode = assayHospDictMapper.selectAllByItemCode(itemCode, parseInt);
             if (selectAllByItemCode == null || selectAllByItemCode.size() == 0) {
                 String groupId = dicPo.getGroupId();
                 String groupName = dicPo.getGroupName();
                 if (StringUtil.isNotEmpty(groupId) && StringUtil.isNotEmpty(groupName)) {
-                    dictHospitalLabMapper.insert(dicPo);
+                    assayHospDictMapper.insert(dicPo);
                     ++i;
                 } else {
                     ++j;

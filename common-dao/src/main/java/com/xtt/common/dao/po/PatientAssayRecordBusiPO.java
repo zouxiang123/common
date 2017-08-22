@@ -20,7 +20,16 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private Collection<String> itemCodes;
     private Date startDate;
     private Date endDate;
+    private Integer valueType;
+
+    private String strStartDate;
+    private String strEndDate;
+    private String dateType;
     private String fkDictCode;// 关联项编号
+    // 采集时间字符串
+    private String strSampleTime;
+    // 报告时间字符串
+    private String strReportTime;
 
     private String reference; // 化验参考值
 
@@ -34,6 +43,54 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     private BigDecimal minValue;
     private BigDecimal maxValue;
+
+    public Integer getValueType() {
+        return valueType;
+    }
+
+    public void setValueType(Integer valueType) {
+        this.valueType = valueType;
+    }
+
+    public String getDateType() {
+        return dateType;
+    }
+
+    public void setDateType(String dateType) {
+        this.dateType = dateType;
+    }
+
+    public String getStrStartDate() {
+        return strStartDate;
+    }
+
+    public void setStrStartDate(String strStartDate) {
+        this.strStartDate = strStartDate;
+    }
+
+    public String getStrEndDate() {
+        return strEndDate;
+    }
+
+    public void setStrEndDate(String strEndDate) {
+        this.strEndDate = strEndDate;
+    }
+
+    public String getStrSampleTime() {
+        return strSampleTime;
+    }
+
+    public void setStrSampleTime(String strSampleTime) {
+        this.strSampleTime = strSampleTime;
+    }
+
+    public String getStrReportTime() {
+        return strReportTime;
+    }
+
+    public void setStrReportTime(String strReportTime) {
+        this.strReportTime = strReportTime;
+    }
 
     public String getReference() {
         return reference;
