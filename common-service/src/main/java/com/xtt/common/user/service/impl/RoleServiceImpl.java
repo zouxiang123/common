@@ -139,7 +139,6 @@ public class RoleServiceImpl implements IRoleService {
         if (sysObjMapper.selectByKey(obj.getKey(), types, obj.getSysOwner()) != null)
             return CommonConstants.WARNING;
         obj.setVersion(SysParamUtil.getValueByName(CmSysParamConsts.VERSION));
-        obj.setFkTenantId(UserUtil.getTenantId());
         obj.setType("api");
         DataUtil.setSystemFieldValue(obj);
         obj.setId(null);

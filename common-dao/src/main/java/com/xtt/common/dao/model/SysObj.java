@@ -66,16 +66,10 @@ public class SysObj {
     private String pCode;
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * 所属系统（HD：血透 PD：腹透）
      * sys_obj.sys_owner
      */
     private String sysOwner;
-
-    /**
-     * 租户id
-     * sys_obj.fk_tenant_id
-     */
-    private Integer fkTenantId;
 
     /**
      * 创建时间
@@ -240,31 +234,17 @@ public class SysObj {
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public String getSysOwner() {
         return sysOwner;
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
-    }
-
-    /**
-     * 租户id
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     * 租户id
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
     }
 
     /**
