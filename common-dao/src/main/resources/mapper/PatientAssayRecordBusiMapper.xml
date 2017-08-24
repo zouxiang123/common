@@ -662,7 +662,7 @@
     </select>
     <!-- 根据患者id和fkDictCodes查询离日期最近的一条数据 -->
     <select id="listLatestOneByFkDictCodes" resultMap="POResultMap">
-        SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode
+        SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode,t2.assay_date
         FROM 
         (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE}))) minDay,dhl.fk_dict_code,dhl.fk_tenant_id
         FROM patient_assay_record_busi parb
@@ -672,7 +672,7 @@
             AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,dhl.fk_dict_code,parb.fk_tenant_id
         ) t1,
-        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual
+        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual,parb.assay_date
         ,dhl.fk_dict_code,dhl.fk_tenant_id
         FROM patient_assay_record_busi parb
         JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
@@ -706,8 +706,8 @@
             FROM patient_assay_record_busi parb
             JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
-            <if test="diaAbFlag != null and diaAbFlag != ''"> 
-                AND parb.dia_ab_flag = #{diaAbFlag}
+            <if test="item.diaAbFlag != null and item.diaAbFlag != ''"> 
+                AND parb.dia_ab_flag = #{item.diaAbFlag}
             </if>
             AND dhl.fk_dict_code = #{item.fkDictCode}
             <if test="item.isBefore"><!-- 日期之前 -->
