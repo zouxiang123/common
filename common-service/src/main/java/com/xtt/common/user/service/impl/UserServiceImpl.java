@@ -135,6 +135,9 @@ public class UserServiceImpl implements IUserService {
             }
             updateByPrimaryKeySelective(user);// 更新用户数据
         } else {
+            if (user.getSkin() == null) {
+                user.setSkin(CommonConstants.USER_SKIN_DEFAULT);
+            }
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             if (user.getFkTenantId() == null) {
