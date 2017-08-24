@@ -128,6 +128,9 @@ public class UserServiceImpl implements IUserService {
                 user.setPassword(MD5Util.md5(user.getPassword()));
             updateByPrimaryKeySelective(user);// 更新用户数据
         } else {
+            if (user.getSkin() == null) {
+                user.setSkin(CommonConstants.USER_SKIN_DEFAULT);
+            }
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             user.setFkTenantId(UserUtil.getTenantId());
