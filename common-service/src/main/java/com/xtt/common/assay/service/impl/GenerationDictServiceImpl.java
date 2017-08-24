@@ -13,9 +13,9 @@ import com.xtt.common.assay.service.IGenerationDictService;
 import com.xtt.common.dao.mapper.DictHospitalLabMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
 import com.xtt.common.dao.mapper.PatientMapper;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
-import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateUtil;
@@ -100,7 +100,7 @@ public class GenerationDictServiceImpl implements IGenerationDictService {
             dicPo.setUpdateTime(currDate);
             dicPo.setUpdateUserId(1L);
 
-            List<DictHospitalLabPO> selectAllByItemCode = dictHospitalLabMapper.selectAllByItemCode(itemCode);
+            List<DictHospitalLabPO> selectAllByItemCode = dictHospitalLabMapper.selectAllByItemCode(itemCode, UserUtil.getTenantId());
             if (selectAllByItemCode == null || selectAllByItemCode.size() == 0) {
                 String groupId = dicPo.getGroupId();
                 String groupName = dicPo.getGroupName();

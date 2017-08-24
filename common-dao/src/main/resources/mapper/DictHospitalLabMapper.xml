@@ -473,7 +473,7 @@
   
   <!-- 通过ItemCode来查询minValue，maxValue，isTop，dataType -->
   <select id="selectAllByItemCode" resultMap="POResultMap">
-    select is_top, id,date_type, personal_min_value, personal_max_value from dict_hospital_lab where item_code = #{itemCode,jdbcType=VARCHAR}
+    select is_top, id,date_type, personal_min_value, personal_max_value from dict_hospital_lab where item_code = #{itemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId} 
   </select>
   
   <select id="selectAllAssayMonth" parameterType="com.xtt.common.dao.model.DictHospitalLab" resultType="java.lang.String">
@@ -486,7 +486,7 @@
   
   <!-- 查询所有的GroupName，  -->
   <select id="selectGroupName" resultMap="POResultMap">
-    select group_name,id,item_code,item_name,group_id from dict_hospital_lab group by group_name
+    select group_name,id,item_code,item_name,group_id from dict_hospital_lab WHERE fk_tenant_id = #{fkTenantId} group by group_name
   </select>
   
    <!-- 查询所有的化验项  -->
@@ -649,6 +649,9 @@
             </if>
             <if test="groupId != null">
                 and group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                AND fk_tenant_id=#{fkTenantId}
             </if>
         </where>
     </select>

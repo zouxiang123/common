@@ -115,7 +115,6 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public String saveUser(SysUserPO user) {
-
         if (StringUtil.isNotBlank(user.getName())) {
             user.setName(user.getName().trim());
             user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));
@@ -287,6 +286,7 @@ public class UserServiceImpl implements IUserService {
                 if (CollectionUtils.isNotEmpty(systems)) {
                     for (DictDto dict : systems) {
                         record = new SysUserTenant();
+                        record.setSkin(user.getSkin() == null ? CommonConstants.USER_SKIN_DEFAULT : user.getSkin());// 设置默认皮肤
                         record.setRoleType(user.getRoleType());
                         record.setPosition(user.getPosition());
                         record.setTelephone(user.getTelephone());

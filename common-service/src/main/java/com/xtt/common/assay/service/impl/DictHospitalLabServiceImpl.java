@@ -87,7 +87,7 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
      */
     @Override
     public List<DictHospitalLabPO> selectAllByItemCode(String itemCode) {
-        return dictHospitalLabMapper.selectAllByItemCode(itemCode);
+        return dictHospitalLabMapper.selectAllByItemCode(itemCode, UserUtil.getTenantId());
     }
 
     @Override
@@ -117,7 +117,7 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
      */
     @Override
     public List<DictHospitalLabPO> selectGroupName() {
-        return dictHospitalLabMapper.selectGroupName();
+        return dictHospitalLabMapper.selectGroupName(UserUtil.getTenantId());
 
     }
 
@@ -170,6 +170,9 @@ public class DictHospitalLabServiceImpl implements IDictHospitalLabService {
 
     @Override
     public Long getDictId(DictHospitalLabPO list) {
+        if (list.getFkTenantId() == null) {
+            list.setFkTenantId(UserUtil.getTenantId());
+        }
         return dictHospitalLabMapper.getDictId(list);
     }
     /*	@Override

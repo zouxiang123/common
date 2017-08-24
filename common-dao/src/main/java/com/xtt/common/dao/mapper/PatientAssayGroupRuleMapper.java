@@ -71,16 +71,6 @@ public interface PatientAssayGroupRuleMapper {
     int saveByBatch(PatientAssayGroupRule[] patientAssayGroupRule);
 
     /**
-     * 查询所有的化验分组规则
-     */
-    List<PatientAssayGroupRulePO> selectAllAssayGroupRule(String itemsCode);
-
-    /**
-     * 通过查询某个对象来修改
-     */
-    void updateBySelective(PatientAssayGroupRulePO patientAssayGroupRulePO);
-
-    /**
      * 通过ID来查询对象
      * 
      * @param id
@@ -91,20 +81,32 @@ public interface PatientAssayGroupRuleMapper {
     /**
      * 通过传进来的值在数据库中是否存在
      * 
-     * @param f
+     * @Title: selectExitsByInput
+     * @param inputValue
+     * @param itemCode
+     * @param fkTenantId
      * @return
+     *
      */
-    List<PatientAssayGroupRulePO> selectExitsByInput(@Param("inputValue") Float inputValue, @Param("getItemCode") String getItemCode);
+    List<PatientAssayGroupRulePO> selectExitsByInput(@Param("inputValue") Float inputValue, @Param("itemCode") String itemCode,
+                    @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 通过ItemCode来查询
+     * 
+     * @Title: selectByItemCode
+     * @param itemCode
+     * @param fkTenantId
+     * @return
+     *
      */
-    List<PatientAssayGroupRulePO> selectByItemCode(String itemCode);
+    List<PatientAssayGroupRulePO> selectByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 删除所有关于ItemCode的数据
      * 
      * @param itemCode
+     * @param fkTenantId
      */
-    void deleteByItemCode(String itemCode);
+    void deleteByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 }

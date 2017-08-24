@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import com.xtt.common.dao.mapper.PatientAssayGroupRuleMapper;
 import com.xtt.common.dao.model.PatientAssayGroupRule;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.UserUtil;
 
 @Service
 public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleService {
@@ -54,11 +56,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             // 最后 一条数据的最大值就是本身
             if (i == PatientAssayGroupRulePOList.size() - 1) {
                 PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             } else {
                 // 设置每条数据的最大值
                 PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             }
         }
     }
@@ -92,11 +94,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             // 最后 一条数据的最大值就是本身
             if (i == PatientAssayGroupRulePOList.size() - 1) {
                 PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             } else {
                 // 设置每条数据的最大值
                 PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             }
         }
     }
@@ -106,7 +108,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public List<PatientAssayGroupRulePO> selectAllAssayGroupRule(String itemsCode) {
-        List<PatientAssayGroupRulePO> tempList = patientAssayGroupRuleMapper.selectAllAssayGroupRule(itemsCode);
+        List<PatientAssayGroupRulePO> tempList = selectByItemCode(itemsCode);
         String createTime = null;
         String updateTime = null;
         try {
@@ -130,10 +132,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public void updateAssayGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode) {
-        for (int i = 0; i < ruleList.size(); i++) {
-            patientAssayGroupRuleMapper.updateBySelective(ruleList.get(i));
+        if (CollectionUtils.isNotEmpty(ruleList)) {
+            ruleList.forEach(rule -> {
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(rule);
+            });
         }
-
         // 获得最小值，设置最大值
         List<PatientAssayGroupRulePO> PatientAssayGroupRulePOList = this.selectByItemCode(itemCode);
 
@@ -147,11 +150,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             // 最后 一条数据的最大值就是本身
             if (i == PatientAssayGroupRulePOList.size() - 1) {
                 PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             } else {
                 // 设置每条数据的最大值
                 PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             }
         }
 
@@ -170,7 +173,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public int selectExitsByInput(Float inputValue, String getItemCode) {
-        List<PatientAssayGroupRulePO> list = patientAssayGroupRuleMapper.selectExitsByInput(inputValue, getItemCode);
+        List<PatientAssayGroupRulePO> list = patientAssayGroupRuleMapper.selectExitsByInput(inputValue, getItemCode, UserUtil.getTenantId());
         // 没有查到说明输入的值可以用，1表示可以用
         if (list == null || list.size() == 0) {
             return 1;
@@ -184,7 +187,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public List<PatientAssayGroupRulePO> selectByItemCode(String itemCode) {
-        return patientAssayGroupRuleMapper.selectByItemCode(itemCode);
+        return patientAssayGroupRuleMapper.selectByItemCode(itemCode, UserUtil.getTenantId());
     }
 
     /**
@@ -207,6 +210,6 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public void deleteByItemCode(String itemCode) {
-        patientAssayGroupRuleMapper.deleteByItemCode(itemCode);
+        patientAssayGroupRuleMapper.deleteByItemCode(itemCode, UserUtil.getTenantId());
     }
 }
