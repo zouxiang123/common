@@ -321,15 +321,15 @@
 			u.id,u.account,u.birthday,u.mobile,u.`name`,u.user_type,u.del_flag
             ,GROUP_CONCAT(DISTINCT ut.telephone) telephone
             ,GROUP_CONCAT(DISTINCT r.`name`) as roleName
-            ,GROUP_CONCAT(r.`id`) as roleId
-            ,GROUP_CONCAT(st.name)  as  multiTenantName
+            ,GROUP_CONCAT(DISTINCT r.`id`) as roleId
+            ,GROUP_CONCAT(DISTINCT st.name)  as  multiTenantName
 		FROM
 			sys_user u
 		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
         JOIN sys_user_tenant ut on ut.fk_user_id = u.id
          JOIN sys_tenant st ON ut.fk_tenant_id=st.id
 		LEFT JOIN sys_role r ON sr.fk_role_id = r.id and r.sys_owner = ut.sys_owner and r.fk_tenant_id = ut.fk_tenant_id
-		where u.del_flag=0
+		<where>
         <!-- 非集团用户根据用户所属哪些租户进行查询 -->
         <if test="groupFlag == null or !groupFlag">
             AND ut.fk_tenant_id=#{fkTenantId}
@@ -350,6 +350,7 @@
         <if test="sysOwner != null and sysOwner != ''">
             AND ut.sys_owner = #{sysOwner}
         </if>
+          </where>
 		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.del_flag
 		ORDER BY u.del_flag,u.id ASC
 	</select>

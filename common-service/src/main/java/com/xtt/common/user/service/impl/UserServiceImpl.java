@@ -135,6 +135,9 @@ public class UserServiceImpl implements IUserService {
             }
             updateByPrimaryKeySelective(user);// 更新用户数据
         } else {
+            if (user.getSkin() == null) {
+                user.setSkin(CommonConstants.USER_SKIN_DEFAULT);
+            }
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             if (user.getFkTenantId() == null) {
@@ -457,7 +460,8 @@ public class UserServiceImpl implements IUserService {
         return updateByPrimaryKeySelective(user);
     }
 
-    private int updateByPrimaryKeySelective(SysUser user) {
+    @Override
+    public int updateByPrimaryKeySelective(SysUser user) {
         int count = sysUserMapper.updateByPrimaryKeySelective(user);
         // refresh cache
         SysUser sysUser = selectById(user.getId());
@@ -687,5 +691,4 @@ public class UserServiceImpl implements IUserService {
     public SysUser getRoundUser(Integer constantType) {
         return sysUserMapper.getRoundUser(constantType, UserUtil.getTenantId());
     }
-
 }
