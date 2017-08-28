@@ -460,7 +460,8 @@ public class UserServiceImpl implements IUserService {
         return updateByPrimaryKeySelective(user);
     }
 
-    private int updateByPrimaryKeySelective(SysUser user) {
+    @Override
+    public int updateByPrimaryKeySelective(SysUser user) {
         int count = sysUserMapper.updateByPrimaryKeySelective(user);
         // refresh cache
         SysUser sysUser = selectById(user.getId());
@@ -690,5 +691,4 @@ public class UserServiceImpl implements IUserService {
     public SysUser getRoundUser(Integer constantType) {
         return sysUserMapper.getRoundUser(constantType, UserUtil.getTenantId());
     }
-
 }

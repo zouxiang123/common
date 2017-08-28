@@ -336,4 +336,14 @@ public interface IUserService {
      */
     SysUser getRoundUser(Integer constantType);
 
+    /**
+     * 更新用户
+     * 
+     * @Title: updateByPrimaryKeySelective
+     * @param user
+     * @return
+     *
+     */
+    int updateByPrimaryKeySelective(SysUser user);
+
 }
