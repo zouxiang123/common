@@ -40,9 +40,10 @@ public interface SysTenantMapper {
      *
      * @param account
      * @param sysOwner
+     * @param delFlag
      * @return
      */
-    List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner);
+    List<SysTenant> listByAccount(@Param("account") String account, @Param("sysOwner") String sysOwner, @Param("delFlag") Boolean delFlag);
 
     /**
      * 根据集团id查询所有普通租户

@@ -90,7 +90,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
 
     @Override
     public List<SysTenant> listByAccount(String account, String sysOwner) {
-        return sysTenantMapper.listByAccount(account, sysOwner);
+        return sysTenantMapper.listByAccount(account, sysOwner, false);
     }
 
     @Override
