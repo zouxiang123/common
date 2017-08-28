@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IPatientAssayResultService;
-import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
@@ -73,7 +72,7 @@ public class CmPatientServiceImpl implements ICmPatientService {
         CmPatientPO p = selectById(id, false);
         PatientDto patientDto = new PatientDto();
         BeanUtils.copyProperties(p, patientDto);
-        PatientCache.refresh(patientDto);
+        // PatientCache.refresh(patientDto);
     }
 
     @Override
@@ -220,13 +219,13 @@ public class CmPatientServiceImpl implements ICmPatientService {
      */
     private CmPatientPO selectById(Long id, boolean fromCache) {
         CmPatientPO patient = null;
-        if (fromCache) {
+        /* if (fromCache) {
             PatientDto patientDto = PatientCache.getById(id);
             if (patientDto != null) {
                 patient = new CmPatientPO();
                 BeanUtils.copyProperties(patientDto, patient);
             }
-        }
+        }*/
         if (patient == null) {
             patient = cmPatientMapper.selectById(id);
         }

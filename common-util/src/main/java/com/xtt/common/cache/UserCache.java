@@ -23,7 +23,7 @@ import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 public class UserCache {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PatientCache.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCache.class);
 
     public static String getKey(Integer tenantId, Long id) {
         return tenantId + "sysUser" + (id == null ? "*" : id);

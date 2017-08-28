@@ -25,7 +25,6 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
-import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
@@ -44,14 +43,12 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
-import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
-import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
@@ -170,7 +167,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     @Override
     public void cachePatient(Integer tenantId) {
-        RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
+        /*  RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
         List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
@@ -183,7 +180,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cacheObjs.add(toObj);
             }
             PatientCache.cacheAll(cacheObjs);
-        }
+        }*/
     }
 
     @Override
