@@ -139,7 +139,7 @@
             , IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt; ${sqlCondition})
                 AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) >= ${sqlCondition})), '1', '0') as result_tips
         FROM patient_assay_temp_record patr1
-        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+        LEFT JOIN assay_hosp_dict dhl ON dhl.item_code = patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
         LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
         WHERE patr1.fk_tenant_id = #{fkTenantId} AND patr1.batch_no = #{batchNo}
         GROUP BY fk_patient_id, item_code, item_name
@@ -161,7 +161,7 @@
                 AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) > ${sqlCondition})), '1', '0') as result_tips
             , #{dateType}
         FROM report_patient_assay_record patr1
-        LEFT JOIN dict_hospital_lab dhl ON dhl.item_code =patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+        LEFT JOIN assay_hosp_dict dhl ON dhl.item_code =patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
         LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
         WHERE patr1.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER} AND patr1.assay_season = #{assaySeason}
         GROUP BY fk_patient_id,item_code,assay_season

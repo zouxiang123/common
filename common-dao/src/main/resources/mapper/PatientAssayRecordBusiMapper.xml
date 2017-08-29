@@ -750,7 +750,7 @@
             select t${index}.* FROM (SELECT <include refid="Common_Column_List" />
             ,dhl.fk_dict_code fkDictCode
             FROM patient_assay_record_busi parb
-            JOIN dict_hospital_lab dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
+            JOIN assay_hosp_dict dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
             <if test="item.diaAbFlag != null and item.diaAbFlag != ''"> 
                 AND parb.dia_ab_flag = #{item.diaAbFlag}

@@ -47,11 +47,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public void insertList(List<AssayHospDict> list) {
-        assayHospDictMapper.insertList(list);
-    }
-
-    @Override
     public int getCountByItemCode(String itemCode) {
         return assayHospDictMapper.getCountByItemCode(itemCode, UserUtil.getTenantId());
     }

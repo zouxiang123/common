@@ -623,31 +623,6 @@ join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.f
       </if>
     </where>
   </select>
-    <!-- 手动添加化验单 -->
-    <insert id="insertDictHospital" parameterType="java.util.List">
-    <!--
-        批量添加化验项
-    -->
-      insert into dict_hospital_lab (id, group_id, group_name, 
-         item_code, item_name, min_value, 
-         max_value, value_type, reference, 
-         order_by, fk_dict_code, fk_tenant_id, 
-         unit, create_time, create_user_id, 
-         update_time, update_user_id, date_type, 
-         personal_min_value, personal_max_value, is_top, flage,
-         method)
-      values 
-      <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, 
-         #{item.itemCode,jdbcType=VARCHAR}, #{item.itemName,jdbcType=VARCHAR}, #{item.minValue,jdbcType=DOUBLE}, 
-         #{item.maxValue,jdbcType=DOUBLE}, #{item.valueType,jdbcType=INTEGER}, #{item.reference,jdbcType=VARCHAR}, 
-         #{item.orderBy,jdbcType=INTEGER}, #{item.fkDictCode,jdbcType=VARCHAR}, #{item.fkTenantId,jdbcType=INTEGER}, 
-         #{item.unit,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, 
-         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=BIGINT}, #{item.dateType,jdbcType=VARCHAR}, 
-         #{item.personalMinValue,jdbcType=DECIMAL}, #{item.personalMaxValue,jdbcType=DECIMAL}, #{item.isTop,jdbcType=BIT}, 
-         #{item.flage,jdbcType=BIT},#{item.method,jdbcType=LONGVARCHAR})
-      </foreach>
-    </insert>
     <!-- 获取字典表对应化验单id -->
     <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
         SELECT id from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
