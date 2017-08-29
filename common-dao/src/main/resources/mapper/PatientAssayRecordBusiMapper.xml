@@ -679,31 +679,17 @@
         FROM patient_assay_record_busi parb
         JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
-<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
             <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
-            AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
-        GROUP BY parb.fk_patient_id,dhl.fk_dict_code,parb.fk_tenant_id
-=======
-            AND ahd.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
+            AND ahd.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,ahd.fk_dict_code,parb.fk_tenant_id
->>>>>>> ec4b251 化验信息优化
         ) t1,
-<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
         (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual,parb.assay_date
-        ,dhl.fk_dict_code,dhl.fk_tenant_id
-=======
-        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual
         ,ahd.fk_dict_code,ahd.fk_tenant_id
->>>>>>> ec4b251 化验信息优化
         FROM patient_assay_record_busi parb
         JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
-<<<<<<< Upstream, based on branch 'develop_assay_improve' of git@192.168.1.168:dev/common.git
             <if test="diaAbFlag != null"> AND parb.dia_ab_flag = #{diaAbFlag}</if>
-            AND dhl.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
-=======
-            AND ahd.fk_dict_code = <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
->>>>>>> ec4b251 化验信息优化
+            AND ahd.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         ) t2
         WHERE t1.fk_dict_code = t2.fk_dict_code AND t1.fk_patient_id = t2.fk_patient_id AND t1.fk_tenant_id = t2.fk_tenant_id AND t1.minDay = t2.diffDay
     </select>
@@ -748,14 +734,14 @@
        SELECT t.* FROM (
        <foreach collection="paramList" item="item" index="index" separator=" UNION ALL ">
             select t${index}.* FROM (SELECT <include refid="Common_Column_List" />
-            ,dhl.fk_dict_code fkDictCode
+            ,ahd.fk_dict_code fkDictCode
             FROM patient_assay_record_busi parb
-            JOIN assay_hosp_dict dhl ON parb.item_code = dhl.item_code AND parb.fk_tenant_id = dhl.fk_tenant_id
+            JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
             <if test="item.diaAbFlag != null and item.diaAbFlag != ''"> 
                 AND parb.dia_ab_flag = #{item.diaAbFlag}
             </if>
-            AND dhl.fk_dict_code = #{item.fkDictCode}
+            AND ahd.fk_dict_code = #{item.fkDictCode}
             <if test="item.isBefore"><!-- 日期之前 -->
               AND parb.assay_date &lt; #{item.date} 
               ORDER BY parb.assay_date DESC
