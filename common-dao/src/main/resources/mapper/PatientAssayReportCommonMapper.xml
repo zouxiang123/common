@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xtt.common.dao.mapper.PatientAssayBackCommonMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayBackCommon">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayReportCommonMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayReportCommon">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
@@ -16,11 +16,11 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
-  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayBackCommon">
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayReportCommon">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_assay_back_common (id, fk_patient_id, assay_month, 
+    insert into patient_assay_report_common (id, fk_patient_id, assay_month, 
       item_code, result, fk_tenant_id, 
       create_time, create_user_id, update_time, 
       update_user_id)
@@ -29,11 +29,11 @@
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayBackCommon">
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayReportCommon">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_assay_back_common
+    insert into patient_assay_report_common
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -100,11 +100,11 @@
     </trim>
   </insert>
  <!-- user define -->
-    <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayBackCommonPO">
+    <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayReportCommonPO">
     </resultMap>
     
   <insert id="insertList">
-        insert into patient_assay_back_common (id, fk_patient_id, assay_month, 
+        insert into patient_assay_report_common (id, fk_patient_id, assay_month, 
       item_code, result, fk_tenant_id, 
       create_time, create_user_id, update_time, 
       update_user_id)
@@ -124,7 +124,7 @@
       </foreach>
   </insert>
   <delete id="deleteByTenant">
-    delete from patient_assay_back_common 
+    delete from patient_assay_report_common 
     where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
     <if test="itemCode != null">
         and item_code = #{itemCode,jdbcType=VARCHAR}
@@ -136,7 +136,7 @@
   <!-- 根据日期查询 -->
   <select id="selectByAssayDate" resultMap="POResultMap">
     SELECT p.name ,item_code,result 
-    from patient_assay_back_common padc 
+    from patient_assay_report_common padc 
     LEFT JOIN  patient p on padc.fk_patient_id = p.id
     where padc.assay_month = '2017-07' 
 		and padc.fk_tenant_id = 10101 
@@ -148,7 +148,7 @@
   </select>
   
   <delete id="deleteByItemCodes">
-        delete from patient_assay_back_common 
+        delete from patient_assay_report_common 
         where item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach> 
          <if test="fkTenantId">
             and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}

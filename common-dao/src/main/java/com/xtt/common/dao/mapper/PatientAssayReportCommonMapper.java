@@ -5,15 +5,15 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.xtt.common.dao.model.PatientAssayBackCommon;
-import com.xtt.common.dao.po.PatientAssayBackCommonPO;
+import com.xtt.common.dao.model.PatientAssayReportCommon;
+import com.xtt.common.dao.po.PatientAssayReportCommonPO;
 
 @Repository
-public interface PatientAssayBackCommonMapper {
+public interface PatientAssayReportCommonMapper {
 
-    int insert(PatientAssayBackCommon record);
+    int insert(PatientAssayReportCommon record);
 
-    int insertSelective(PatientAssayBackCommon record);
+    int insertSelective(PatientAssayReportCommon record);
 
     /**
      * 批量插入
@@ -22,7 +22,7 @@ public interface PatientAssayBackCommonMapper {
      * @param list
      *
      */
-    void insertList(List<PatientAssayBackCommon> list);
+    void insertList(List<PatientAssayReportCommon> list);
 
     /**
      * 删除数据
@@ -31,7 +31,7 @@ public interface PatientAssayBackCommonMapper {
      * @param patientAssayBackCommon
      *
      */
-    void deleteByTenant(PatientAssayBackCommon patientAssayBackCommon);
+    void deleteByTenant(PatientAssayReportCommon patientAssayBackCommon);
 
     /**
      * 根据日期查询
@@ -41,7 +41,7 @@ public interface PatientAssayBackCommonMapper {
      * @return
      *
      */
-    List<PatientAssayBackCommonPO> selectByAssayDate(PatientAssayBackCommonPO patientAssayBackCommon);
+    List<PatientAssayReportCommonPO> selectByAssayDate(PatientAssayReportCommonPO patientAssayBackCommon);
 
     /**
      * 根据患者标签查询
@@ -51,7 +51,7 @@ public interface PatientAssayBackCommonMapper {
      * @return
      *
      */
-    List<PatientAssayBackCommonPO> selectByPatientLabel(PatientAssayBackCommonPO patientAssayBackCommon);
+    List<PatientAssayReportCommonPO> selectByPatientLabel(PatientAssayReportCommonPO patientAssayBackCommon);
 
     /**
      * 根据化验项删除数据

@@ -17,15 +17,15 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.assay.service.IPatientAssayBackCommonService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
+import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.mapper.PatientAssayBackCommonMapper;
-import com.xtt.common.dao.model.PatientAssayBackCommon;
+import com.xtt.common.dao.mapper.PatientAssayReportCommonMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.model.PatientAssayReportCommon;
 import com.xtt.common.dao.po.AssayHospDictPO;
-import com.xtt.common.dao.po.PatientAssayBackCommonPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
+import com.xtt.common.dao.po.PatientAssayReportCommonPO;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
@@ -33,38 +33,38 @@ import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
 
 @Service
-public class PatientAssayBackCommonServiceImpl implements IPatientAssayBackCommonService {
+public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportCommonService {
 
     @Autowired
-    private PatientAssayBackCommonMapper patientAssayBackCommonMapper;
+    private PatientAssayReportCommonMapper patientAssayReportCommonMapper;
 
     @Autowired
     private IPatientAssayRecordBusiService patientAssayRecordBusiService;
 
     @Override
-    public void insertList(List<PatientAssayBackCommon> list) {
-        patientAssayBackCommonMapper.insertList(list);
+    public void insertList(List<PatientAssayReportCommon> list) {
+        patientAssayReportCommonMapper.insertList(list);
 
     }
 
     @Override
-    public void deleteByTenant(PatientAssayBackCommon patientAssayBackCommon) {
-        patientAssayBackCommonMapper.deleteByTenant(patientAssayBackCommon);
+    public void deleteByTenant(PatientAssayReportCommon PatientAssayReportCommon) {
+        patientAssayReportCommonMapper.deleteByTenant(PatientAssayReportCommon);
     }
 
     @Override
-    public List<PatientAssayBackCommonPO> selectByAssayDate(PatientAssayBackCommonPO patientAssayBackCommon) {
-        return patientAssayBackCommonMapper.selectByAssayDate(patientAssayBackCommon);
+    public List<PatientAssayReportCommonPO> selectByAssayDate(PatientAssayReportCommonPO PatientAssayReportCommon) {
+        return patientAssayReportCommonMapper.selectByAssayDate(PatientAssayReportCommon);
     }
 
     @Override
-    public List<PatientAssayBackCommonPO> selectByPatientLabel(PatientAssayBackCommonPO patientAssayBackCommon) {
-        return patientAssayBackCommonMapper.selectByPatientLabel(patientAssayBackCommon);
+    public List<PatientAssayReportCommonPO> selectByPatientLabel(PatientAssayReportCommonPO PatientAssayReportCommon) {
+        return patientAssayReportCommonMapper.selectByPatientLabel(PatientAssayReportCommon);
     }
 
     @Override
     public void deleteByItemCodes(List<String> itemCodes) {
-        patientAssayBackCommonMapper.deleteByItemCodes(itemCodes, UserUtil.getTenantId());
+        patientAssayReportCommonMapper.deleteByItemCodes(itemCodes, UserUtil.getTenantId());
 
     }
 
@@ -74,21 +74,21 @@ public class PatientAssayBackCommonServiceImpl implements IPatientAssayBackCommo
         AssayHospDictPO dictAssay = new AssayHospDictPO();
         dictAssay.setIsTop(true);
         Date nowDate = new Date();
-        List<PatientAssayBackCommon> assayCommonlist = new ArrayList<PatientAssayBackCommon>();
+        List<PatientAssayReportCommon> assayCommonlist = new ArrayList<PatientAssayReportCommon>();
         this.deleteByItemCodes(itemCodes);
         if (isDelete) {
             PatientAssayRecordBusiPO patientAssayRecordBusi = new PatientAssayRecordBusiPO();
             patientAssayRecordBusi.setItemCodes(itemCodes);
             List<PatientAssayRecordBusi> listpatientAssayRecordBusi = patientAssayRecordBusiService.selectCommonByItemCode(patientAssayRecordBusi);
-            PatientAssayBackCommon patientAssayBackCommon = null;
+            PatientAssayReportCommon PatientAssayReportCommon = null;
             for (PatientAssayRecordBusi recordBusi : listpatientAssayRecordBusi) {
-                patientAssayBackCommon = new PatientAssayBackCommon();
-                BeanUtil.copyProperties(recordBusi, patientAssayBackCommon);
-                patientAssayBackCommon.setCreateTime(nowDate);
-                patientAssayBackCommon.setUpdateTime(nowDate);
-                patientAssayBackCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayBackCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayCommonlist.add(patientAssayBackCommon);
+                PatientAssayReportCommon = new PatientAssayReportCommon();
+                BeanUtil.copyProperties(recordBusi, PatientAssayReportCommon);
+                PatientAssayReportCommon.setCreateTime(nowDate);
+                PatientAssayReportCommon.setUpdateTime(nowDate);
+                PatientAssayReportCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                PatientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayCommonlist.add(PatientAssayReportCommon);
             }
 
             this.insertList(assayCommonlist);
@@ -125,11 +125,11 @@ public class PatientAssayBackCommonServiceImpl implements IPatientAssayBackCommo
     @Override
     public void save(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId) {
         Date nowDate = new Date();
-        List<PatientAssayBackCommon> assayCommonlist = new ArrayList<PatientAssayBackCommon>();
-        PatientAssayBackCommon patientAssayBackCommon = new PatientAssayBackCommon();
-        patientAssayBackCommon.setAssayMonth(DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM));
-        patientAssayBackCommon.setFkTenantId(UserUtil.getTenantId());
-        this.deleteByTenant(patientAssayBackCommon);
+        List<PatientAssayReportCommon> assayCommonlist = new ArrayList<PatientAssayReportCommon>();
+        PatientAssayReportCommon PatientAssayReportCommon = new PatientAssayReportCommon();
+        PatientAssayReportCommon.setAssayMonth(DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM));
+        PatientAssayReportCommon.setFkTenantId(UserUtil.getTenantId());
+        this.deleteByTenant(PatientAssayReportCommon);
         PatientAssayRecordBusiPO patientAssayRecordBusi = new PatientAssayRecordBusiPO();
         patientAssayRecordBusi.setStartDate(DateFormatUtil.getStartTime(getFirstDayOfMonth(monthDate)));
         patientAssayRecordBusi.setEndDate(DateFormatUtil.getEndTime(getLastDayOfMonth(monthDate)));
@@ -138,19 +138,19 @@ public class PatientAssayBackCommonServiceImpl implements IPatientAssayBackCommo
         // 删除已经转归的患者id
         patientAssayRecordBusi.setPatientIds(deletePatientId);
         List<PatientAssayRecordBusi> listpatientAssayRecordBusi = patientAssayRecordBusiService.selectCommonByItemCode(patientAssayRecordBusi);
-        patientAssayBackCommon = null;
-        Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayBackCommon.class.getSimpleName(), UserUtil.getTenantId(),
+        PatientAssayReportCommon = null;
+        Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayReportCommon.class.getSimpleName(), UserUtil.getTenantId(),
                         listpatientAssayRecordBusi.size());
         int j = 0;
         for (PatientAssayRecordBusi recordBusi : listpatientAssayRecordBusi) {
-            patientAssayBackCommon = new PatientAssayBackCommon();
-            BeanUtil.copyProperties(recordBusi, patientAssayBackCommon);
-            patientAssayBackCommon.setCreateTime(nowDate);
-            patientAssayBackCommon.setUpdateTime(nowDate);
-            patientAssayBackCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-            patientAssayBackCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-            patientAssayBackCommon.setId(id++);
-            assayCommonlist.add(patientAssayBackCommon);
+            PatientAssayReportCommon = new PatientAssayReportCommon();
+            BeanUtil.copyProperties(recordBusi, PatientAssayReportCommon);
+            PatientAssayReportCommon.setCreateTime(nowDate);
+            PatientAssayReportCommon.setUpdateTime(nowDate);
+            PatientAssayReportCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            PatientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            PatientAssayReportCommon.setId(id++);
+            assayCommonlist.add(PatientAssayReportCommon);
             j++;
             if (j == 1000) {
                 this.insertList(assayCommonlist);

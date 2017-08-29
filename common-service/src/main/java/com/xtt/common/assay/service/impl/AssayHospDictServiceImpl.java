@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IGenerationDictService;
-import com.xtt.common.assay.service.IPatientAssayBackCommonService;
+import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.AssayHospDictMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
@@ -39,7 +39,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Autowired(required = true)
     private IGenerationDictService generationDictService;
     @Autowired
-    private IPatientAssayBackCommonService patientAssayBackCommonService;
+    private IPatientAssayReportCommonService patientAssayBackCommonService;
 
     @Override
     public int insert(AssayHospDict record) {

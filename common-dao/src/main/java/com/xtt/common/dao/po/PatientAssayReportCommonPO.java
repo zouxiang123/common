@@ -8,9 +8,9 @@
  */
 package com.xtt.common.dao.po;
 
-import com.xtt.common.dao.model.PatientAssayBackCommon;
+import com.xtt.common.dao.model.PatientAssayReportCommon;
 
-public class PatientAssayBackCommonPO extends PatientAssayBackCommon {
+public class PatientAssayReportCommonPO extends PatientAssayReportCommon {
 
     // 患者名称
     private String name;

@@ -11,10 +11,10 @@ package com.xtt.common.assay.service;
 import java.util.Date;
 import java.util.List;
 
-import com.xtt.common.dao.model.PatientAssayBackCommon;
-import com.xtt.common.dao.po.PatientAssayBackCommonPO;
+import com.xtt.common.dao.model.PatientAssayReportCommon;
+import com.xtt.common.dao.po.PatientAssayReportCommonPO;
 
-public interface IPatientAssayBackCommonService {
+public interface IPatientAssayReportCommonService {
 
     /**
      * 批量插入
@@ -23,7 +23,7 @@ public interface IPatientAssayBackCommonService {
      * @param list
      *
      */
-    void insertList(List<PatientAssayBackCommon> list);
+    void insertList(List<PatientAssayReportCommon> list);
 
     /**
      * 删除数据
@@ -32,18 +32,18 @@ public interface IPatientAssayBackCommonService {
      * @param patientAssayBackCommon
      *
      */
-    void deleteByTenant(PatientAssayBackCommon patientAssayBackCommon);
+    void deleteByTenant(PatientAssayReportCommon patientAssayReportCommon);
 
     /**
      * 根据月份查询
      */
-    List<PatientAssayBackCommonPO> selectByAssayDate(PatientAssayBackCommonPO patientAssayBackCommon);
+    List<PatientAssayReportCommonPO> selectByAssayDate(PatientAssayReportCommonPO patientAssayReportCommon);
 
     /**
      * 根据患者标签/患者类型查询
      */
 
-    List<PatientAssayBackCommonPO> selectByPatientLabel(PatientAssayBackCommonPO patientAssayBackCommon);
+    List<PatientAssayReportCommonPO> selectByPatientLabel(PatientAssayReportCommonPO patientAssayReportCommon);
 
     /**
      * 根据化验项删除数据

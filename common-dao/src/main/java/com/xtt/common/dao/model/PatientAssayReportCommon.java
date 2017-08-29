@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * patient_assay_back_common
  */
-public class PatientAssayBackCommon {
+public class PatientAssayReportCommon {
     /**
      * patient_assay_back_common.id
      */
