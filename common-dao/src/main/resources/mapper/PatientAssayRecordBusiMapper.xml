@@ -499,12 +499,13 @@
     </select>
   <!-- 根据化验单号更新透前透后标识 -->
   <update id="updateDiaAbFlagByReqId">
-      update patient_assay_record_busi 
-      SET dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
-      where 
-      req_id = #{reqId,jdbcType=VARCHAR}
-      and fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
-      and sample_time = #{sampleTime,jdbcType=TIMESTAMP}
+    update patient_assay_record_busi 
+    SET dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
+    where 
+    req_id = #{reqId,jdbcType=VARCHAR}
+    and fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+    and sample_time = #{sampleTime,jdbcType=TIMESTAMP}
+    AND fk_tenant_id = #{fkTenantId}
   </update>
     <!-- 查询所有类别 -->
     <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
