@@ -14,15 +14,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
-import com.xtt.common.assay.service.IPatientAssayBackInspectioidService;
-import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
-import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.PatientAssayBackInspectioid;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
@@ -31,94 +24,11 @@ import com.xtt.common.dto.DictDto;
 import com.xtt.common.util.BusinessDateUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.BeanUtil;
-import com.xtt.platform.util.PrimaryKeyUtil;
-import com.xtt.platform.util.time.DateFormatUtil;
 
-@Service
-public class FivePatientAssayRecordBusiFactory extends AssayHandFactory {
-
-    private static final Logger log = LoggerFactory.getLogger(FivePatientAssayRecordBusiFactory.class);
-
-    @Autowired
-    private IPatientAssayRecordService patientAssayRecordService;
-
-    @Autowired
-    private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
-
-    @Autowired
-    private IPatientAssayBackInspectioidService patientAssayBackInspectioidService;
+public class FiveAssayHand extends AssayHandFactory {
 
     @Override
-    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
-        Date nowDate = new Date();
-        if (startCreateTime == null && endCreateTime == null) {
-            startCreateTime = DateFormatUtil.getStartTime(nowDate);
-            endCreateTime = DateFormatUtil.getEndTime(nowDate);
-        }
-        List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
-        PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime, fkPatientId);
-        if (log.isDebugEnabled()) {
-            log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
-        }
-        if (listPatientAssayRecord.size() == 0) {
-            return;
-        }
-        Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
-        int i = 1;
-        for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
-            // 维护字典表
-            this.insertAssayHospDict(patientAssayRecord);
-            // 检查项目唯一ID为空时候不插入
-            if (patientAssayRecord.getInspectionId() == null) {
-                continue;
-            }
-            int countByInspectionId = PatientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId());
-            if (countByInspectionId != 0) {
-                continue;
-            } else {
-                if (patientAssayRecord.getResult() == null) {
-                    continue;
-                }
-                patientAssayRecordBusi = new PatientAssayRecordBusi();
-                BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
-                patientAssayRecordBusi.setCreateTime(nowDate);
-                patientAssayRecordBusi.setUpdateTime(nowDate);
-                patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setAssayMonth(patientAssayRecord.getAssayMonth());
-                patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
-                try {
-                    String result = patientAssayRecordBusi.getResult();
-                    if (result != null) {
-                        Double matcherToNum = matcherToNum(result);
-                        patientAssayRecordBusi.setResultActual(matcherToNum);
-                    }
-                } catch (Exception e) {
-                    log.error("result exception:", e);
-                }
-                patientAssayRecordBusi.setId(id++);
-                // 5：根据化验表单条数
-                patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_BEFORE);
-                listPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                i++;
-                if (i == 1000) {
-                    PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
-                    listPatientAssayRecordBusi.clear();
-                    i = 1;
-                }
-                patientAssayRecordBusi = null;
-
-            }
-        }
-        if (listPatientAssayRecordBusi.size() != 0) {
-            PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
-        }
-        listPatientAssayRecord = null;
-    }
-
-    public void cleanDate(Map<Long, List<Date>> map) {
+    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, List<PatientAssayRecordPO> listAssayRecord) {
         Date nowDate = new Date();
         String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_BEFORE_COUNT);
         String afterCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_AFTER_COUNT);
@@ -171,14 +81,14 @@ public class FivePatientAssayRecordBusiFactory extends AssayHandFactory {
                         patientAssayRecordBusi.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
                         patientAssayRecordBusi.setReqId(afterPatientAssayRecord.getReqId());
                         patientAssayRecordBusi.setSampleTime(afterPatientAssayRecord.getSampleTime());
-                        patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_AFTER);
+                        patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
                         updateRecordList.add(patientAssayRecordBusi);
                         patientAssayBackInspectioid = new PatientAssayBackInspectioid();
                         patientAssayBackInspectioid.setReqId(afterPatientAssayRecord.getReqId());
                         patientAssayBackInspectioid.setSampleTime(afterPatientAssayRecord.getSampleTime());
                         patientAssayBackInspectioid.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
                         patientAssayBackInspectioid.setFkTenantId(UserUtil.getTenantId());
-                        patientAssayBackInspectioid.setDiaAbFlag(AssayConsts.LAB_AFTER);
+                        patientAssayBackInspectioid.setDiaAbFlag(AssayConsts.AFTER_HD);
                         patientAssayBackInspectioid.setCreateTime(nowDate);
                         patientAssayBackInspectioid.setUpdateTime(nowDate);
                         patientAssayBackInspectioid.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
@@ -196,6 +106,11 @@ public class FivePatientAssayRecordBusiFactory extends AssayHandFactory {
                 patientAssayBackInspectioidService.insertList(insertPatientAssayBackInspectioidList);
             }
         }
+    }
+
+    @Override
+    String getDiaAbAlag(PatientAssayRecordPO record) {
+        return AssayConsts.BEFORE_HD;
     }
 
 }

@@ -40,10 +40,8 @@ public class AssayConsts {
     /** 非透析前和透析后 */
     public static final String NOT_AFTER_BEFORE = "0";
     /** 关键字： 透析前 */
-    public static final String LAB_BEFORE = "1";
     public static final String LAB_BEFORE_CN = "(前)";
     /** 关键字：透析后 */
-    public static final String LAB_AFTER = "2";
     public static final String LAB_AFTER_CN = "(后)";
     /** 关键字：透析前后时间（<=24） */
     public static final String LAB_GJZ_SJ = "3";

@@ -22,14 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
-import com.xtt.common.assay.hand.FivePatientAssayRecordBusiFactory;
-import com.xtt.common.assay.hand.FourPatientAssayRecordBusiFactory;
-import com.xtt.common.assay.hand.OnePatientAssayRecordBusiFactory;
-import com.xtt.common.assay.hand.ThreePatientAssayRecordBusiFactory;
-import com.xtt.common.assay.hand.TwoPatientAssayRecordBusiFactory;
+import com.xtt.common.assay.hand.AssayHandFactory;
+import com.xtt.common.assay.hand.FiveAssayHand;
+import com.xtt.common.assay.hand.FourAssayHand;
+import com.xtt.common.assay.hand.OneAssayHand;
+import com.xtt.common.assay.hand.TwoAssayHand;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
-import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
@@ -46,20 +45,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
-    // @Autowired
-    private OnePatientAssayRecordBusiFactory onePatientAssayRecordBusiFactory;
-    // @Autowired
-    private TwoPatientAssayRecordBusiFactory twoPatientAssayRecordBusiFactory;
-    // @Autowired
-    private ThreePatientAssayRecordBusiFactory threePatientAssayRecordBusiFactory;
-    // @Autowired
-    private FourPatientAssayRecordBusiFactory fourPatientAssayRecordBusiFactory;
-    // @Autowired
-    private FivePatientAssayRecordBusiFactory fivePatientAssayRecordBusiFactory;
+
     @Autowired
     private IAssayHospDictService assayHospDictService;
-    @Autowired
-    private IPatientAssayReportCommonService patientAssayReportCommonService;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -267,44 +255,28 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         endCreateTime = new Date();
         String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
         DateUtil.add(new Date(), 2, -1);
+        AssayHandFactory assayHandFactory = null;
         switch (labAfterBefore) {
         case "1":
-            onePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
+            assayHandFactory = new OneAssayHand();
             break;
         case "2":
-            twoPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
+            assayHandFactory = new TwoAssayHand();
             break;
         case "3":
-            threePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
+            assayHandFactory = new OneAssayHand();
             break;
         case "4":
-            fourPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
+            assayHandFactory = new FourAssayHand();
             break;
         case "5":
-            // 是否删除
-            if (isDelete) {
-                // patientId为空时候根据租户号删除数据
-                if (patientId == null) {
-                    fivePatientAssayRecordBusiFactory.deleteByTenant(fkTenantId);// 根据id删除数据
-                    fivePatientAssayRecordBusiFactory.deleteAssayHospDict(fkTenantId);// 删除字典表
-                    patientAssayReportCommonService.deleteByTenant(fkTenantId);// 删除预处理常用化验项表
-                    fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);// 保存化验信息
-                    fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);// 清洗数据
-                    fivePatientAssayRecordBusiFactory.updateBaskDiaAbFlag();// 跟新备份转归信息
-                    // 根据patientId删除数据
-                } else {
-                    fivePatientAssayRecordBusiFactory.deleteByPatient(patientId, fkTenantId);// 删除基础表数据
-                    fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);// 保存化验信息
-                    fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);// 清洗数据
-                }
-            } else {
-                fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
-                fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);
-            }
+            assayHandFactory = new FiveAssayHand();
             break;
-
         default:
             break;
+        }
+        if (assayHandFactory != null) {
+            assayHandFactory.save(startCreateTime, endCreateTime, patientId, mapPatientId);
         }
     }
 

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayDictionaryService;
 import com.xtt.common.common.service.ICmDictService;
@@ -74,7 +75,7 @@ public class CmDictController {
     @ResponseBody
     public Map<String, Object> getAssayList(AssayHospDictPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        record.setValueType(AssayHospDictPO.VALUE_TYPE_NUMBER);
+        record.setValueType(AssayConsts.VALUE_TYPE_NUMBER);
         List<AssayHospDictPO> list = assayHospDictService.getByCondition(record);
         map.put("status", CommonConstants.SUCCESS);
         map.put("items", list);
@@ -90,7 +91,7 @@ public class CmDictController {
 
         AssayHospDictPO condition = new AssayHospDictPO();
         condition.setFkTenantId(UserUtil.getTenantId());
-        condition.setValueType(AssayHospDictPO.VALUE_TYPE_NUMBER);
+        condition.setValueType(AssayConsts.VALUE_TYPE_NUMBER);
         map.put("items", assayHospDictService.getAllCategory(condition));
         return map;
     }

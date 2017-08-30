@@ -540,8 +540,8 @@
             `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
             `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` 
         FROM patient_assay_record
-        WHERE create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP)
-        AND create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP)
+        WHERE create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
+        AND create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}
         <if test="fkTenantId != null">
             AND fk_tenant_id = #{fkTenantId}
         </if>
