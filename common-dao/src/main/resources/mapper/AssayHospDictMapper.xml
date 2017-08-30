@@ -344,12 +344,15 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
    <!-- user define -->
-     <resultMap type="com.xtt.common.dao.po.AssayHospDictPO" id="POResultMap" extends="ResultMapWithBLOBs"></resultMap>
+   <resultMap type="com.xtt.common.dao.po.AssayHospDictPO" id="POResultMap" extends="ResultMapWithBLOBs">
+        <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+   </resultMap>
    
    <sql id="AHD_Column_List">
         ahd.id, ahd.item_code, ahd.item_name, ahd.min_value, ahd.max_value, ahd.unit, ahd.reference, ahd.method, ahd.order_by, ahd.fk_dict_code, ahd.value_type, ahd.is_top, 
-        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.flage, ahd.fk_tenant_id, ahdg.group_id, ahdg.group_name
-       
+        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.flage, ahd.fk_tenant_id
+        , ahdg.group_id, ahdg.group_name
    </sql>
    <!-- 根据ItemCode查询是否唯一 -->
    <select id="getCountByItemCode" resultType="int">
@@ -369,98 +372,89 @@
    <delete id="deleteByTenant">
         delete from assay_hosp_dict where fk_tenant_id = #{tenantId,jdbcType=INTEGER}
    </delete>
-   
-   <select id="selectByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-      SELECT dhl.*
+   <!-- 根据自定义条件查询数据 -->
+   <select id="listByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+      SELECT 
+        <include refid="AHD_Column_List" />
         ,pad.item_name AS fkItemName 
-      FROM (SELECT <include refid="AHD_Column_List"/> from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id) dhl
+      FROM assay_hosp_dict ahd 
+      JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+      JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
       LEFT JOIN patient_assay_dictionary pad ON pad.item_code = dhl.fk_dict_code
      <where>
       <if test="groupId != null and groupId != ''">
-        and dhl.group_id = #{groupId}
+        and ahdg.group_id = #{groupId}
       </if>
       <if test="groupName != null and groupName != ''">
-        and dhl.group_name = #{groupName}
+        and ahdg.group_name = #{groupName}
       </if>
       <if test="itemCode != null and itemCode != ''">
-        and dhl.item_code = #{itemCode}
+        and ahd.item_code = #{itemCode}
       </if>
       <if test="itemName != null and itemName != ''">
-        and dhl.item_name = #{itemName}
+        and ahd.item_name = #{itemName}
       </if>
       <if test="minValue != null">
-        and dhl.min_value = #{minValue}
+        and ahd.min_value = #{minValue}
       </if>
       <if test="maxValue != null">
-        and dhl.max_value = #{maxValue}
+        and ahd.max_value = #{maxValue}
       </if>
       <if test="unit != null and unit != ''">
-        and dhl.unit = #{unit}
+        and ahd.unit = #{unit}
       </if>
       <if test="reference != null and reference != ''">
-        and dhl.reference = #{reference}
+        and ahd.reference = #{reference}
       </if>
       <if test="orderBy != null">
-        and dhl.order_by = #{orderBy}
+        and ahd.order_by = #{orderBy}
       </if>
       <if test="fkDictCode != null and fkDictCode != ''">
-        and dhl.fk_dict_code = #{fkDictCode}
+        and ahd.fk_dict_code = #{fkDictCode}
       </if>
       <if test="fkTenantId != null">
-        and dhl.fk_tenant_id = #{fkTenantId}
-      </if>
-      <if test="createTime != null">
-        and dhl.create_time = #{createTime}
-      </if>
-      <if test="createUserId != null">
-        and dhl.create_user_id = #{createUserId}
-      </if>
-      <if test="updateTime != null">
-        and dhl.update_time = #{updateTime}
-      </if>
-      <if test="updateUserId != null">
-        and dhl.update_user_id = #{updateUserId}
+        and ahd.fk_tenant_id = #{fkTenantId}
       </if>
       <if test="isTop != null">
-        and dhl.is_top = #{isTop}
+        and ahd.is_top = #{isTop}
       </if>
       <if test="valueType != null" >
-        and dhl.value_type = #{valueType,jdbcType=INTEGER}
+        and ahd.value_type = #{valueType,jdbcType=INTEGER}
       </if>
       <if test="dictCodes != null">
-        and dhl.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+        and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
       </if>
     </where>
-    ORDER BY dhl.group_name ASC,dhl.item_code ASC
+    ORDER BY ahd.group_name ASC,ahd.item_code ASC
   </select>
   
   <select id="selectAssayByDateType" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
     SELECT ahd.item_code, ahd.item_name
-    FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    FROM assay_hosp_dict ahd 
+    join assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
     WHERE ahd.fk_tenant_id = #{fkTenantId}
     AND ahd.date_type = #{dateType,jdbcType=VARCHAR}
     AND ahdg.group_id is NOT NULL
     AND ahdg.group_name is NOT NULL
     order by ahd.item_name
   </select>
-  
-  <select id="selectTop" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-                   SELECT
-                <include refid="AHD_Column_List"/>
-            FROM
-                assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-            WHERE
-                ahd.fk_tenant_id = #{fkTenantId}
-            AND ahdg.group_id = #{groupId}
-            AND ahd.item_code= #{itemCode}
-  </select>
+    <!-- 查询所有置顶项 -->
+    <select id="selectTop" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+        SELECT
+        <include refid="AHD_Column_List" />
+        FROM assay_hosp_dict ahd 
+        JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+        WHERE ahd.fk_tenant_id = #{fkTenantId}
+        AND ahdg.group_id = #{groupId}
+        AND ahd.item_code= #{itemCode}
+    </select>
   
   <select id="selectAllCategory" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-      SELECT ahdg.group_id,ahdg.group_name FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
+      SELECT ahdg.group_id,ahdg.group_name FROM assay_hosp_dict ahd 
+      JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+      JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
       WHERE ahd.fk_tenant_id = #{fkTenantId} 
       <if test="valueType != null" >
         and ahd.value_type = #{valueType,jdbcType=INTEGER}
@@ -468,8 +462,8 @@ join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.f
       GROUP BY ahdg.group_id,ahdg.group_name
       ORDER BY ahdg.group_name ASC
   </select>
-  
-  <update id="delAssayMapping" parameterType="java.lang.Long">
+  <!-- 根据id删除关联关系 -->
+  <update id="deleteAssayMapping" parameterType="java.lang.Long">
       update assay_hosp_dict set fk_dict_code = null where id = #{id}
   </update>
   
@@ -479,199 +473,103 @@ join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.f
     select is_top, id,date_type, personal_min_value, personal_max_value from assay_hosp_dict where item_code = #{itemCode} AND fk_tenant_id = #{fkTenantId}
   </select>
   
-  <!-- 查询所有的GroupName，  -->
-  <select id="selectGroupName" resultMap="POResultMap">
-    select ahdg.group_name,id,ahd.item_code,ahd.item_name,ahdg.group_id from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id group by ahdg.group_name
-  </select>
-  
    <!-- 查询所有的化验项  -->
   <select id="selectAllGroup" resultMap="POResultMap">
-    select 
+    SELECT 
         <include refid="AHD_Column_List" />
-     from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     where ahd.flage=1
-     group by ahdg.group_name
-     ORDER BY ahdg.group_name
-  </select>
-  
-   <!-- 维护所有的化验项  -->
-  <select id="selectAdminGroup" resultMap="POResultMap">
-    select 
-        <include refid="AHD_Column_List" />
-     from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     where ahd.flage=1
+     FROM assay_hosp_dict ahd 
+     JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+     JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
+     WHERE ahd.flage=1 AND ahd.fk_tenant_id = #{fkTenantId}
+     GROUP BY ahdg.group_name
      ORDER BY ahdg.group_name
   </select>
   
   <!-- 根据大中小血类查询所有化验单及选中情况 -->
   <select id="selectAllCategoryByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-    SELECT dhl.group_id, dhl.group_name, max(IF(pac.id is null, 0, 1)) as selectFlag, 1 categoryFlag
-    FROM (select 
-        <include refid="AHD_Column_List" />
-     from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id) ah
-    LEFT JOIN patient_assay_class pac ON pac.item_code = ah.item_code and ah.fk_tenant_id = pac.fk_tenant_id 
+    SELECT ahdg.group_id, ahdg.group_name
+        , max(IF(pac.id is null, 0, 1)) as selectFlag, 1 categoryFlag
+    FROM assay_hosp_dict_group_mapping ahdgm
+    JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN patient_assay_class pac ON pac.item_code = ahdgm.item_code and pac.fk_tenant_id = ahdgm.fk_tenant_id 
     <if test="assayClass != null">
         AND pac.assay_class = #{assayClass}
     </if>
-    where ah.fk_tenant_id = #{fkTenantId}
-    GROUP BY ah.group_id
-    ORDER BY ah.group_name ASC
+    where ahdgm.fk_tenant_id = #{fkTenantId}
+    GROUP BY ahdg.group_id
+    ORDER BY ahdg.group_name ASC
   </select>
   
   <!-- 根据大中小血类查询所有化验项及选中情况 -->
   <select id="selectAllItemByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-    SELECT dhl.item_code, dhl.item_name, dhl.group_id, dhl.group_name, IF(pac.id is null, 0, 1) as selectFlag, 0 categoryFlag
-    FROM (select 
-        <include refid="AHD_Column_List" />
-     from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id) ah
-    LEFT JOIN patient_assay_class pac ON pac.item_code = ah.item_code and ah.fk_tenant_id = pac.fk_tenant_id 
+    SELECT ahd.item_code, ahd.item_name
+           , ahdg.group_id, ahdg.group_name
+           , IF(pac.id is null, 0, 1) as selectFlag, 0 categoryFlag
+    FROM assay_hosp_dict ahd 
+    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN patient_assay_class pac ON pac.item_code = ahd.item_code and pac.fk_tenant_id = ahd.fk_tenant_id 
     <if test="assayClass != null">
         AND pac.assay_class = #{assayClass}
     </if>
-    where ah.fk_tenant_id =  #{fkTenantId}
-    ORDER BY ah.group_name, ah.item_name
+    WHERE ahd.fk_tenant_id = #{fkTenantId}
+    ORDER BY ahdg.group_id, ahd.item_name
   </select>
   
   <!-- 查询化验项及选中的分组项 -->
   <select id="selectAllItemByGroupDetail" parameterType="com.xtt.common.dao.model.AssayGroupConfDetail" resultMap="POResultMap">
-    SELECT dhl.item_code, dhl.item_name, dhl.group_id, dhl.group_name,IF(agcd.item_code is null, 0, 1) as selectFlag
-    FROM (select 
-        <include refid="AHD_Column_List" />
-     from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id) ah
-    LEFT JOIN assay_group_conf_detail agcd 
-        ON ah.item_code = agcd.item_code
-        AND ah.fk_tenant_id=#{fkTenantId}
-        AND ah.fk_tenant_id = agcd.fk_tenant_id
-        AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
-    ORDER BY selectFlag desc, ah.group_name, ah.item_name
-  </select>
-  
-  <!-- 查询id，group_id，group_name，item_code，Item_name,Unit,reference -->
-  <select id="selectSomeField" resultMap="POResultMap">
-     SELECT ahd.id,ahdg.group_id,ahdg.group_name,ahd.unit,ahd.item_code,ahd.item_name,ahd.reference
-      FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     <where>
-      <if test="groupId != null">
-      and  ahdg.group_id = #{groupId,jdbcType=VARCHAR}
-      </if>
-      <if test="groupName != null">
-      and  ahdg.group_name = #{groupName,jdbcType=VARCHAR}
-      </if>
-      <if test="itemCode != null">
-       and  ahd.item_code = #{itemCode,jdbcType=VARCHAR}
-      </if>
-      <if test="itemName != null">
-       and  ahd.item_name = #{itemName,jdbcType=VARCHAR}
-      </if>
-      <if test="minValue != null">
-      and  ahd.min_value = #{minValue,jdbcType=DOUBLE}
-      </if>
-      <if test="maxValue != null">
-      and  ahd.max_value = #{maxValue,jdbcType=DOUBLE}
-      </if>
-      <if test="valueType != null">
-      and  ahd.value_type = #{valueType,jdbcType=INTEGER}
-      </if>
-      <if test="reference != null">
-      and  ahd.reference = #{reference,jdbcType=VARCHAR}
-      </if>
-      <if test="orderBy != null">
-      and  ahd.order_by = #{orderBy,jdbcType=INTEGER}
-      </if>
-      <if test="fkDictCode != null">
-      and  ahd.fk_dict_code = #{fkDictCode,jdbcType=VARCHAR}
-      </if>
-      <if test="fkTenantId != null">
-      and  ahd.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-      </if>
-      <if test="unit != null">
-      and  ahd.unit = #{unit,jdbcType=VARCHAR}
-      </if>
-      <if test="createTime != null">
-      and  ahd.create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="createUserId != null">
-      and  ahd.create_user_id = #{createUserId,jdbcType=BIGINT}
-      </if>
-      <if test="updateTime != null">
-      and  ahd.update_time = #{updateTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="updateUserId != null">
-      and  ahd.update_user_id = #{updateUserId,jdbcType=BIGINT}
-      </if>
-      <if test="dateType != null">
-      and  ahd.date_type = #{dateType,jdbcType=VARCHAR}
-      </if>
-      <if test="personalMinValue != null">
-      and  ahd.personal_min_value = #{personalMinValue,jdbcType=DECIMAL}
-      </if>
-      <if test="personalMaxValue != null">
-      and  ahd.personal_max_value = #{personalMaxValue,jdbcType=DECIMAL}
-      </if>
-      <if test="isTop != null">
-      and  ahd.is_top = #{isTop,jdbcType=BIT}
-      </if>
-      <if test="method != null">
-      and  ahd.method = #{method,jdbcType=LONGVARCHAR}
-      </if>
-    </where>
+    SELECT ahd.item_code, ahd.item_name
+          , ahdg.group_id, ahdg.group_name
+          , IF(agcd.item_code is null, 0, 1) as selectFlag
+    FROM assay_hosp_dict ahd 
+    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN assay_group_conf_detail agcd ON ahdg.item_code = agcd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id 
+            AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
+    WHERE ahd.fk_tenant_id = #{fkTenantId}
+    AND NOT EXISTS (
+            SELECT 1 FROM assay_group_conf_detail
+            WHERE fk_tenant_id = ahd.fk_tenant_id AND item_code = ahd.item_code
+            <if test="fkAssayGroupConfId != null">
+                and fk_assay_group_conf_id != #{fkAssayGroupConfId}
+            </if>
+        )
+    ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
   </select>
     <!-- 获取字典表对应化验单id -->
     <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
-        SELECT id from assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
+        SELECT ahd.id from assay_hosp_dict ahd
+        JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
         <where>
             <if test="itemName != null">
                 and ahd.item_name = #{itemName,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
             </if>
             <if test="groupId != null">
                 and ahdg.group_id = #{groupId,jdbcType=VARCHAR}
             </if>
         </where>
     </select>
-    <delete id="deleteById" parameterType="java.lang.Long">
-        <!--
-            删除手动录入的化验单
-        -->
-        delete from assay_hosp_dict
-        where id = #{id,jdbcType=BIGINT}
-     </delete>
     <!-- 校验化验项名称是否与his系统重复 -->
-    <select id="queryByGroupName" parameterType="com.xtt.common.dao.po.AssayHospDictPO"
-        resultType="java.lang.Integer">
-        SELECT
-        count(id)
-        FROM
-        (
-        SELECT ahd.id FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    <select id="queryByGroupName" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Integer">
+        SELECT count(ahdg.group_name)
+        FROM assay_hosp_dict_group ahdg
         <where>
             <if test="groupId != null">
                 AND ahdg.group_id = #{groupId,jdbcType=VARCHAR}
             </if>
             <if test="fkTenantId != null">
-              and  ahd.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+                and ahdg.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
             </if>
-            AND ahd.flage IS NULL OR ahd.flage = 0
         </where>
         GROUP BY ahdg.group_name
-        ) AS temp;
     </select>
     <!-- 检测项目代号是否重复： -->
-    <select id="queryByItemCode" parameterType="com.xtt.common.dao.po.AssayHospDictPO"
-        resultType="java.lang.Integer">
-        SELECT
-        count(id)
-        FROM
-        (
-        SELECT id FROM assay_hosp_dict
+    <select id="queryByItemCode" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Integer">
+        SELECT count(id) FROM assay_hosp_dict
         <where>
             <if test="itemCode != null">
                 and item_code = #{itemCode,jdbcType=VARCHAR}
@@ -680,9 +578,8 @@ join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.f
                 and id != #{id,jdbcType=BIGINT}
             </if>
             <if test="fkTenantId != null">
-               and  fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
             </if>
         </where>
-        ) AS temp
     </select>
 </mapper>

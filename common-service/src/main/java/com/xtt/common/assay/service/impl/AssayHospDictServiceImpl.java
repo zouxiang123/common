@@ -62,7 +62,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         AssayHospDictPO query = new AssayHospDictPO();
         query.setItemCode(itemCode);
         query.setFkTenantId(UserUtil.getTenantId());
-        List<AssayHospDictPO> list = assayHospDictMapper.selectByCondition(query);
+        List<AssayHospDictPO> list = getByCondition(query);
         if (list != null && !list.isEmpty())
             return list.get(0);
         return null;
@@ -76,13 +76,15 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public List<AssayHospDictPO> getByCondition(AssayHospDictPO record) {
-        record.setFkTenantId(UserUtil.getTenantId());
-        return assayHospDictMapper.selectByCondition(record);
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
+        return assayHospDictMapper.listByCondition(record);
     }
 
     @Override
     public void deleteAssayMapping(Long id) {
-        assayHospDictMapper.delAssayMapping(id);
+        assayHospDictMapper.deleteAssayMapping(id);
     }
 
     @Override
@@ -135,23 +137,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     }
 
-    /**
-     * 查询所有的父节点GroupName
-     */
-    @Override
-    public List<AssayHospDictPO> selectGroupName() {
-        return assayHospDictMapper.selectGroupName();
-
-    }
-
-    /**
-     * 查询所有
-     */
-    @Override
-    public List<AssayHospDictPO> selectAll() {
-        return assayHospDictMapper.selectByCondition(new AssayHospDictPO());
-    }
-
     @Override
     public List<AssayHospDictPO> selectAllCategoryByClass(AssayHospDictPO dictHospitalLab) {
         dictHospitalLab.setFkTenantId(UserUtil.getTenantId());
@@ -181,7 +166,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public List<AssayHospDictPO> selectAllGroup() {
-        return assayHospDictMapper.selectAllGroup();
+        return assayHospDictMapper.selectAllGroup(UserUtil.getTenantId());
     }
 
     @Override
@@ -193,13 +178,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public Long getDictId(AssayHospDictPO list) {
+        if (list.getFkTenantId() == null) {
+            list.setFkTenantId(UserUtil.getTenantId());
+        }
         return assayHospDictMapper.getDictId(list);
     }
-    /*  @Override
-        public int deleteByGroupId(String groupId) {
-            // TODO Auto-generated method stub
-            return assayHospDictMapper.deleteByGroupId(groupId);
-        }*/
 
     public void listDictService() {
         String currentDate = DateUtil.format(new Date(), "yyyy-MM-dd");
@@ -212,13 +195,8 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public List<AssayHospDictPO> selectAdminGroup() {
-        return assayHospDictMapper.selectAdminGroup();
-    }
-
-    @Override
     public int deleteById(Long id) {
-        return assayHospDictMapper.deleteById(id);
+        return assayHospDictMapper.deleteByPrimaryKey(id);
     }
 
     @Override
@@ -241,13 +219,20 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         AssayHospDictPO record = new AssayHospDictPO();
         record.setFkTenantId(UserUtil.getTenantId());
         record.setDictCodes(dictCodes);
-        return assayHospDictMapper.selectByCondition(record);
+        return getByCondition(record);
     }
 
     @Override
     public AssayHospDictPO selectTop(AssayHospDictPO record) {
 
         return assayHospDictMapper.selectTop(record);
+    }
+
+    @Override
+    public List<AssayHospDictPO> listAllManualAdd() {
+        AssayHospDictPO record = new AssayHospDictPO();
+        record.setFlage(true);
+        return getByCondition(record);
     }
 
 }

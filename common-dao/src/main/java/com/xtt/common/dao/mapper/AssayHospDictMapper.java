@@ -77,12 +77,12 @@ public interface AssayHospDictMapper {
     /**
      * 根据条件查询数据
      * 
-     * @Title: selectByCondition
+     * @Title: listByCondition
      * @param query
      * @return
      * 
      */
-    List<AssayHospDictPO> selectByCondition(AssayHospDictPO query);
+    List<AssayHospDictPO> listByCondition(AssayHospDictPO query);
 
     /**
      * 查询所有的分类数据
@@ -102,7 +102,7 @@ public interface AssayHospDictMapper {
      * @param id
      * 
      */
-    void delAssayMapping(Long id);
+    void deleteAssayMapping(Long id);
 
     /**
      * 根据报表类型查询化验项
@@ -124,23 +124,13 @@ public interface AssayHospDictMapper {
     public List<AssayHospDictPO> selectAllByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 
     /**
-     * 查询所有的GroupName，ID
-     */
-    public List<AssayHospDictPO> selectGroupName();
-
-    /**
-     * 查询所有化验项
+     * 查询所有化验项分组
+     * 
+     * @param fkTenantId
      * 
      * @return
      */
-    public List<AssayHospDictPO> selectAllGroup();
-
-    /**
-     * 维护化验项
-     * 
-     * @return
-     */
-    public List<AssayHospDictPO> selectAdminGroup();
+    public List<AssayHospDictPO> selectAllGroup(@Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
@@ -173,23 +163,10 @@ public interface AssayHospDictMapper {
     public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
 
     /**
-     * 查询id，group_id，group_name，item_code，Item_name,Unit
-     */
-    public List<AssayHospDictPO> selectSomeField(AssayHospDictPO dictHospitalLab);
-
-    /**
      * @param list
      *            手动添加化验项字典表
      */
     void insertDictHospital(List<AssayHospDictPO> list);
-
-    /**
-     * 删除手动录入的化验项
-     * 
-     * @param groupId
-     * @return
-     */
-    int deleteById(Long id);
 
     /**
      * 获取对应化验单id

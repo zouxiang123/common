@@ -125,28 +125,11 @@ public interface IAssayHospDictService {
     void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDictPO);
 
     /**
-     * 查询父节点GroupName，ID
-     */
-    public List<AssayHospDictPO> selectGroupName();
-
-    /**
      * 查询所有化验项
      * 
      * @return
      */
     public List<AssayHospDictPO> selectAllGroup();
-
-    /**
-     * 维护化验项
-     * 
-     * @return
-     */
-    public List<AssayHospDictPO> selectAdminGroup();
-
-    /**
-     * 查询所有
-     */
-    public List<AssayHospDictPO> selectAll();
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
@@ -234,5 +217,14 @@ public interface IAssayHospDictService {
      *
      */
     List<AssayHospDictPO> selectByFkCodes(Collection<String> dictCodes);
+
+    /**
+     * 查询所有手动添加数据
+     * 
+     * @Title: listAllManualAdd
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listAllManualAdd();
 
 }
