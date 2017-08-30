@@ -49,7 +49,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
     private IPatientAssayBackInspectioidService patientAssayBackInspectioidService;
 
     @Override
-    public void save(Date startCreateTime, Date endCreateTime) {
+    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
         if (startCreateTime == null && endCreateTime == null) {
             startCreateTime = DateFormatUtil.getStartTime(nowDate);
@@ -57,8 +57,7 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         }
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         PatientAssayRecordBusi patientAssayRecordBusi;
-        // List<PatientAssayRecordPO> listPatientAssayRecord = new ArrayList<>(523853);
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime);
+        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime, fkPatientId);
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
@@ -186,32 +185,14 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                     }
                 }
             }
+            // 更新透前透后标识符
             if (CollectionUtils.isNotEmpty(updateRecordList)) {
                 this.updateListPatientAssayRecordBusi(updateRecordList);
             }
+            // 备份透后数据到patient_assay_back_inspectioid
             if (CollectionUtils.isNotEmpty(insertPatientAssayBackInspectioidList)) {
                 patientAssayBackInspectioidService.insertList(insertPatientAssayBackInspectioidList);
             }
-        }
-    }
-
-    /**
-     * 根据备份的透后申请单号更新化验表
-     * 
-     * @Title: updateBaskDiaAbFlag
-     *
-     */
-    public void updateBaskDiaAbFlag() {
-        List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
-        PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayBackInspectioid> listPatientAssayBackInspectioid = patientAssayBackInspectioidService.selectByPatientId(null);
-        for (PatientAssayBackInspectioid patientAssayBackInspectioid : listPatientAssayBackInspectioid) {
-            patientAssayRecordBusi = new PatientAssayRecordBusi();
-            BeanUtil.copyProperties(patientAssayBackInspectioid, patientAssayRecordBusi);
-            updateRecordList.add(patientAssayRecordBusi);
-        }
-        if (CollectionUtils.isNotEmpty(updateRecordList)) {
-            this.updateListPatientAssayRecordBusi(updateRecordList);
         }
     }
 

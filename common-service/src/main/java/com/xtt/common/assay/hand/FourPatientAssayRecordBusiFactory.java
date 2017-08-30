@@ -17,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
@@ -44,8 +46,9 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
     @Autowired
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     @Override
-    public void save(Date startCreateTime, Date endCreateTime) {
+    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
         if (startCreateTime == null && endCreateTime == null) {
             startCreateTime = DateFormatUtil.getStartTime(nowDate);
@@ -53,7 +56,7 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         }
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime);
+        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime, fkPatientId);
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
@@ -67,10 +70,12 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
             if (patientAssayRecord.getInspectionId() == null) {
                 continue;
             }
+            // 根据项目唯一ID判断是否已经插入
             int countByInspectionId = PatientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId());
             if (countByInspectionId != 0) {
                 continue;
             } else {
+                // 化验没数值删除
                 if (patientAssayRecord.getResult() == null) {
                     continue;
                 }
@@ -84,10 +89,8 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                 patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();
-                    if (result != null) {
-                        Double matcherToNum = matcherToNum(result);
-                        patientAssayRecordBusi.setResultActual(matcherToNum);
-                    }
+                    Double matcherToNum = matcherToNum(result);
+                    patientAssayRecordBusi.setResultActual(matcherToNum);
                 } catch (Exception e) {
                     log.error("result exception:", e);
                 }
@@ -107,7 +110,6 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         if (listPatientAssayRecordBusi.size() != 0) {
             PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
         }
-        sampleTime(startCreateTime, endCreateTime);
         listPatientAssayRecord = null;
     }
 
@@ -123,40 +125,42 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
         // 根据项目编码过滤查询
         List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
         String sjStr = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GJZ_SJ);// 关键字：设置为24小时
+        String groupName = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GROUP_NAME);// 化验单名称
         List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
         List<String> itemCode = new ArrayList<String>();
         for (DictDto dictDto : itemCodeList) {
             itemCode.add(dictDto.getItemCode());
         }
-        List<PatientAssayRecord> listPatientAssayRecord = patientAssayRecordService.listByItemCode(startCreateTime, endCreateTime, itemCode);
+        List<PatientAssayRecord> listPatientAssayRecord = patientAssayRecordService.listByItemCode(startCreateTime, endCreateTime, itemCode,
+                        groupName);
         if (listPatientAssayRecord.size() > 0) {
             // 记录上一条数据患者id
             Long oldFkPatientId = 0L;
             // 记录上一条报告时间
-            Date oldSampleTime = null;
+            Date oldReportTime = null;
             // 记录上一条申请id
             String oldReqId = null;
             // 记录上一条化验项目
             String oldItemCode = null;
             // 记录上一条化验数值
-            String oldResult = null;
+            Double oldResultActual = null;
 
             long time1;
             long time2;
             long sj = StringUtil.isEmpty(sjStr) ? 0L : Long.valueOf(sjStr);
             PatientAssayRecordBusi patientAssayRecordBusi;
             for (PatientAssayRecord patientAssayRecord : listPatientAssayRecord) {
-                if (patientAssayRecord.getResult() == null) {
+                if (patientAssayRecord.getResultActual() == null) {
                     continue;
                 }
                 if (oldFkPatientId.equals(patientAssayRecord.getFkPatientId())) {
 
-                    if (oldSampleTime != null && patientAssayRecord.getSampleTime() != null) {
-                        time1 = oldSampleTime.getTime();
+                    if (oldReportTime != null && patientAssayRecord.getReportTime() != null) {
+                        time1 = oldReportTime.getTime();
                         time2 = patientAssayRecord.getSampleTime().getTime();
                         long dd = (time1 - time2) / (1000 * 3600); // 共计小时
                         if (dd <= sj && StringUtil.equals(oldItemCode, patientAssayRecord.getItemCode())
-                                        && Double.valueOf(oldResult) > Double.valueOf(patientAssayRecord.getResult())) {
+                                        && oldResultActual > patientAssayRecord.getResultActual()) {
                             patientAssayRecordBusi = new PatientAssayRecordBusi();
                             BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
                             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_AFTER);
@@ -165,7 +169,7 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                             patientAssayRecordBusi = new PatientAssayRecordBusi();
                             patientAssayRecordBusi.setFkPatientId(oldFkPatientId);
                             patientAssayRecordBusi.setReqId(oldReqId);
-                            patientAssayRecordBusi.setSampleTime(oldSampleTime);
+                            patientAssayRecordBusi.setReportTime(oldReportTime);
                             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.LAB_BEFORE);
                             newPatientAssayRecordBusi.add(patientAssayRecordBusi);
                             patientAssayRecordBusi = null;
@@ -173,10 +177,10 @@ public class FourPatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
                     }
                 }
                 oldFkPatientId = patientAssayRecord.getFkPatientId();
-                oldSampleTime = patientAssayRecord.getSampleTime();
+                oldReportTime = patientAssayRecord.getReportTime();
                 oldReqId = patientAssayRecord.getReqId();
                 oldItemCode = patientAssayRecord.getItemCode();
-                oldResult = patientAssayRecord.getResult();
+                oldResultActual = patientAssayRecord.getResultActual();
             }
         }
         if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {

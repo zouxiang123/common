@@ -217,40 +217,26 @@ public interface IPatientAssayRecordBusiService {
      * 
      * @Title: deleteByPatient
      * @param fkPatientId
+     * @param fkTenantId
      *
      */
-    void deleteByPatientId(Long fkPatientId);
+    void deleteByPatientId(Long fkPatientId, Integer fkTenantId);
 
     /**
-     * 保存同步信息
      * 
-     * @Title: sava
+     * @Title: save
      * @param startCreateTime
      * @param endCreateTime
+     * @param mapPatientId
      * @param patientId
      * @param isDelete
+     * @param fktenantId
      *
      */
     void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete, Integer fktenantId);
 
     /**
-     * 查询距离date最近的count*2（前后）条数据
-     * 
-     * @Title: listLatestByFkDictCode
-     * @param fkPatientId
-     * @param dictCode
-     * @param tenantId
-     * @param date
-     * @param count
-     * @param diaAbFlag
-     * @return
-     *
-     */
-    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
-                    String diaAbFlag);
-
-    /**
-     * 查询常规化验项目
+     * HEAD 查询常规化验项目
      * 
      * @Title: selectCommonByItemCode
      * @param patientAssayRecordBusi
@@ -277,5 +263,21 @@ public interface IPatientAssayRecordBusiService {
      *
      */
     List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par);
+
+    /**
+     * 查询距离date最近的count*2（前后）条数据
+     * 
+     * @Title: listLatestByFkDictCode
+     * @param fkPatientId
+     * @param dictCode
+     * @param tenantId
+     * @param date
+     * @param count
+     * @param diaAbFlag
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
+                    String diaAbFlag);
 
 }

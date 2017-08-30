@@ -32,7 +32,7 @@ public interface IPatientAssayReportCommonService {
      * @param patientAssayBackCommon
      *
      */
-    void deleteByTenant(PatientAssayReportCommon patientAssayReportCommon);
+    void deleteByTenant(Integer fkTenantId);
 
     /**
      * 根据月份查询

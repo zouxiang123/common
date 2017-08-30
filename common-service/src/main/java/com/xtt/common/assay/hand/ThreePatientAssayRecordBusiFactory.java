@@ -39,7 +39,7 @@ public class ThreePatientAssayRecordBusiFactory extends AbstractPatientAssayReco
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
 
     @Override
-    public void save(Date startCreateTime, Date endCreateTime) {
+    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
         if (startCreateTime == null && endCreateTime == null) {
             startCreateTime = DateFormatUtil.getStartTime(nowDate);
@@ -47,7 +47,7 @@ public class ThreePatientAssayRecordBusiFactory extends AbstractPatientAssayReco
         }
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime);
+        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime, fkPatientId);
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }

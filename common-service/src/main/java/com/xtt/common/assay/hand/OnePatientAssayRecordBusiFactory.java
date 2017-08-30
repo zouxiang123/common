@@ -12,14 +12,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IPatientAssayBackInspectioidService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.PatientAssayBackInspectioid;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.UserUtil;
@@ -34,12 +38,13 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
 
     @Autowired
     private IPatientAssayRecordService patientAssayRecordService;
-
     @Autowired
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;
+    @Autowired
+    private IPatientAssayBackInspectioidService patientAssayBackInspectioidService;
 
     @Override
-    public void save(Date startCreateTime, Date endCreateTime) {
+    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
         if (startCreateTime == null && endCreateTime == null) {
             // 当天开始时间
@@ -50,7 +55,8 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
         // 创建对象存储需要插入的数据
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         PatientAssayRecordBusi patientAssayRecordBusi;
-        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime);
+        List<PatientAssayRecordPO> listPatientAssayRecord = patientAssayRecordService.listByCreateTime(startCreateTime, endCreateTime, fkPatientId);
+        List<PatientAssayBackInspectioid> insertPatientAssayBackInspectioidList = new ArrayList<>();
         if (log.isDebugEnabled()) {
             log.debug("查询病人化验检查结果表成功总共查询到" + listPatientAssayRecord.size());
         }
@@ -60,7 +66,10 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
         // 获取主键表数据
         Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayRecordBusi.class.getSimpleName(), UserUtil.getTenantId(), listPatientAssayRecord.size());
         int i = 1;
+        PatientAssayBackInspectioid patientAssayBackInspectioid;
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
+            // 维护字典表
+            this.insertAssayHospDict(patientAssayRecord);
             // 检查项目唯一ID为空时候不插入
             if (patientAssayRecord.getInspectionId() == null) {
                 continue;
@@ -82,10 +91,8 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
                 patientAssayRecordBusi.setAssayDate(getAssyaDate(patientAssayRecord.getAssayDate()));
                 try {
                     String result = patientAssayRecordBusi.getResult();
-                    if (result != null) {
-                        Double matcherToNum = matcherToNum(result);
-                        patientAssayRecordBusi.setResultActual(matcherToNum);
-                    }
+                    Double matcherToNum = matcherToNum(result);
+                    patientAssayRecordBusi.setResultActual(matcherToNum);
                 } catch (Exception e) {
                     log.error("result exception:", e);
                 }
@@ -93,6 +100,17 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
                 // 1：根据group_name判断
                 // 申请单名
                 listPatientAssayRecordBusi.add(newPatientAssayRecordBusi(patientAssayRecordBusi, patientAssayRecordBusi.getGroupName()));
+                patientAssayBackInspectioid = new PatientAssayBackInspectioid();
+                patientAssayBackInspectioid.setReqId(patientAssayRecordBusi.getReqId());
+                patientAssayBackInspectioid.setSampleTime(patientAssayRecordBusi.getSampleTime());
+                patientAssayBackInspectioid.setFkPatientId(patientAssayRecordBusi.getFkPatientId());
+                patientAssayBackInspectioid.setFkTenantId(UserUtil.getTenantId());
+                patientAssayBackInspectioid.setDiaAbFlag(AssayConsts.LAB_AFTER);
+                patientAssayBackInspectioid.setCreateTime(nowDate);
+                patientAssayBackInspectioid.setUpdateTime(nowDate);
+                patientAssayBackInspectioid.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                patientAssayBackInspectioid.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                insertPatientAssayBackInspectioidList.add(patientAssayBackInspectioid);
                 i++;
                 if (i == 1000) {
                     PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
@@ -104,6 +122,10 @@ public class OnePatientAssayRecordBusiFactory extends AbstractPatientAssayRecord
         }
         if (listPatientAssayRecordBusi.size() != 0) {
             PatientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
+        }
+        // 备份透后数据到patient_assay_back_inspectioid
+        if (CollectionUtils.isNotEmpty(insertPatientAssayBackInspectioidList)) {
+            patientAssayBackInspectioidService.insertList(insertPatientAssayBackInspectioidList);
         }
         listPatientAssayRecord = null;
     }

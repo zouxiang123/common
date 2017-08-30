@@ -171,21 +171,13 @@ public interface PatientAssayRecordBusiMapper {
      * 
      * @Title: deleteByPatient
      * @param fkPatientId
+     * @param fkTenantId
      *
      */
-    void deleteByPatientId(@Param("fkPatientId") Long fkPatientId);
+    void deleteByPatientId(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId" + "fkTenantId") Integer fkTenantId);
 
     /**
-     * 查询距离date最近的count*2（前后）条数据
-     * 
-     * @Title: listLatestByFkDictCode
-     * @return
-     *
-     */
-    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(@Param("paramList") List<Map<String, Object>> paramList);
-
-    /**
-     * 查询常规化验项
+     * HEAD 查询常规化验项
      * 
      * @Title: selectCommonByItemCode
      * @param patientAssayRecordBusi
@@ -211,4 +203,13 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par);
+
+    /**
+     * 查询距离date最近的count*2（前后）条数据
+     * 
+     * @Title: listLatestByFkDictCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listLatestByFkDictCode(@Param("paramList") List<Map<String, Object>> paramList);
 }

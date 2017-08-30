@@ -28,6 +28,15 @@ public interface IAssayHospDictService {
     int insert(AssayHospDict record);
 
     /**
+     * 批量插入
+     * 
+     * @Title: insertList
+     * @param list
+     *
+     */
+    void insertList(List<AssayHospDict> list);
+
+    /**
      * 根据itemCode 查询是否存在
      * 
      * @Title: getCountByItemCode
@@ -226,5 +235,15 @@ public interface IAssayHospDictService {
      *
      */
     List<AssayHospDictPO> listAllManualAdd();
+
+    /**
+     * 查询不重复的item_code
+     * 
+     * @Title: seleteItemCodeByCondition
+     * @param assayHospDict
+     * @return
+     *
+     */
+    List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO AssayHospDictPO);
 
 }

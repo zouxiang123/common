@@ -11,8 +11,6 @@ package com.xtt.common.assay.service;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 
@@ -29,10 +27,11 @@ public interface IPatientAssayRecordService {
      * @Title: listByCreateTime
      * @param createTime
      * @param endCreateTime
+     * @param fkPatientId
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime);
+    List<PatientAssayRecordPO> listByCreateTime(Date startCreateTime, Date endCreateTime, Long fkPatientId);
 
     /**
      * 根据itemCode 查询化验单
@@ -41,11 +40,11 @@ public interface IPatientAssayRecordService {
      * @param startCreateTime
      * @param endCreateTime
      * @param itemCode
+     * @param groupName
      * @return
      *
      */
-    List<PatientAssayRecord> listByItemCode(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
-                    @Param("itemCodeList") List<String> itemCode);
+    List<PatientAssayRecord> listByItemCode(Date startCreateTime, Date endCreateTime, List<String> itemCode, String groupName);
 
     /**
      * 根据化验项目条目查询得到所有的数据

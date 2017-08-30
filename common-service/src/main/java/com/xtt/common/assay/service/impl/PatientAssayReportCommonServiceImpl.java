@@ -48,8 +48,8 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
     }
 
     @Override
-    public void deleteByTenant(PatientAssayReportCommon PatientAssayReportCommon) {
-        patientAssayReportCommonMapper.deleteByTenant(PatientAssayReportCommon);
+    public void deleteByTenant(Integer fkTenantId) {
+        patientAssayReportCommonMapper.deleteByTenant(fkTenantId);
     }
 
     @Override
@@ -129,7 +129,7 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
         PatientAssayReportCommon PatientAssayReportCommon = new PatientAssayReportCommon();
         PatientAssayReportCommon.setAssayMonth(DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM));
         PatientAssayReportCommon.setFkTenantId(UserUtil.getTenantId());
-        this.deleteByTenant(PatientAssayReportCommon);
+        this.deleteByTenant(tenantId);
         PatientAssayRecordBusiPO patientAssayRecordBusi = new PatientAssayRecordBusiPO();
         patientAssayRecordBusi.setStartDate(DateFormatUtil.getStartTime(getFirstDayOfMonth(monthDate)));
         patientAssayRecordBusi.setEndDate(DateFormatUtil.getEndTime(getLastDayOfMonth(monthDate)));

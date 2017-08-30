@@ -380,7 +380,7 @@
       FROM assay_hosp_dict ahd 
       JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
       JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-      LEFT JOIN patient_assay_dictionary pad ON pad.item_code = dhl.fk_dict_code
+      LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.item_code
      <where>
       <if test="groupId != null and groupId != ''">
         and ahdg.group_id = #{groupId}
@@ -425,7 +425,7 @@
         and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
       </if>
     </where>
-    ORDER BY ahd.group_name ASC,ahd.item_code ASC
+    ORDER BY ahdg.group_name ASC,ahd.item_code ASC
   </select>
   
   <select id="selectAssayByDateType" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
@@ -470,7 +470,9 @@
   
   <!-- 通过ItemCode来查询minValue，maxValue，isTop，dataType -->
   <select id="selectAllByItemCode" resultMap="POResultMap">
-    select is_top, id,date_type, personal_min_value, personal_max_value from assay_hosp_dict where item_code = #{itemCode} AND fk_tenant_id = #{fkTenantId}
+    select is_top, id,date_type, personal_min_value, personal_max_value from assay_hosp_dict 
+    where item_code = #{itemCode,jdbcType=VARCHAR}
+       and fk_tenant_id = #{fkTenantId}
   </select>
   
    <!-- 查询所有的化验项  -->
@@ -509,6 +511,7 @@
     JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
     JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
     LEFT JOIN patient_assay_class pac ON pac.item_code = ahd.item_code and pac.fk_tenant_id = ahd.fk_tenant_id 
+
     <if test="assayClass != null">
         AND pac.assay_class = #{assayClass}
     </if>
@@ -535,7 +538,105 @@
             </if>
         )
     ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
+
   </select>
+  
+  <!-- 查询id，group_id，group_name，item_code，Item_name,Unit,reference -->
+  <select id="selectSomeField" resultMap="POResultMap">
+     SELECT ahd.id,ahdg.group_id,ahdg.group_name,ahd.unit,ahd.item_code,ahd.item_name,ahd.reference
+      FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
+     <where>
+      <if test="groupId != null">
+      and  ahdg.group_id = #{groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="groupName != null">
+      and  ahdg.group_name = #{groupName,jdbcType=VARCHAR}
+      </if>
+      <if test="itemCode != null">
+       and  ahd.item_code = #{itemCode,jdbcType=VARCHAR}
+      </if>
+      <if test="itemName != null">
+       and  ahd.item_name = #{itemName,jdbcType=VARCHAR}
+      </if>
+      <if test="minValue != null">
+      and  ahd.min_value = #{minValue,jdbcType=DOUBLE}
+      </if>
+      <if test="maxValue != null">
+      and  ahd.max_value = #{maxValue,jdbcType=DOUBLE}
+      </if>
+      <if test="valueType != null">
+      and  ahd.value_type = #{valueType,jdbcType=INTEGER}
+      </if>
+      <if test="reference != null">
+      and  ahd.reference = #{reference,jdbcType=VARCHAR}
+      </if>
+      <if test="orderBy != null">
+      and  ahd.order_by = #{orderBy,jdbcType=INTEGER}
+      </if>
+      <if test="fkDictCode != null">
+      and  ahd.fk_dict_code = #{fkDictCode,jdbcType=VARCHAR}
+      </if>
+      <if test="fkTenantId != null">
+      and  ahd.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+      </if>
+      <if test="unit != null">
+      and  ahd.unit = #{unit,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+      and  ahd.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUserId != null">
+      and  ahd.create_user_id = #{createUserId,jdbcType=BIGINT}
+      </if>
+      <if test="updateTime != null">
+      and  ahd.update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null">
+      and  ahd.update_user_id = #{updateUserId,jdbcType=BIGINT}
+      </if>
+      <if test="dateType != null">
+      and  ahd.date_type = #{dateType,jdbcType=VARCHAR}
+      </if>
+      <if test="personalMinValue != null">
+      and  ahd.personal_min_value = #{personalMinValue,jdbcType=DECIMAL}
+      </if>
+      <if test="personalMaxValue != null">
+      and  ahd.personal_max_value = #{personalMaxValue,jdbcType=DECIMAL}
+      </if>
+      <if test="isTop != null">
+      and  ahd.is_top = #{isTop,jdbcType=BIT}
+      </if>
+      <if test="method != null">
+      and  ahd.method = #{method,jdbcType=LONGVARCHAR}
+      </if>
+    </where>
+  </select>
+    <!-- 手动添加化验单 -->
+    <insert id="insertDictHospital" parameterType="java.util.List">
+    <!--
+        批量添加化验项
+    -->
+      insert into dict_hospital_lab (id, group_id, group_name, 
+         item_code, item_name, min_value, 
+         max_value, value_type, reference, 
+         order_by, fk_dict_code, fk_tenant_id, 
+         unit, create_time, create_user_id, 
+         update_time, update_user_id, date_type, 
+         personal_min_value, personal_max_value, is_top, flage,
+         method)
+      values 
+      <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, 
+         #{item.itemCode,jdbcType=VARCHAR}, #{item.itemName,jdbcType=VARCHAR}, #{item.minValue,jdbcType=DOUBLE}, 
+         #{item.maxValue,jdbcType=DOUBLE}, #{item.valueType,jdbcType=INTEGER}, #{item.reference,jdbcType=VARCHAR}, 
+         #{item.orderBy,jdbcType=INTEGER}, #{item.fkDictCode,jdbcType=VARCHAR}, #{item.fkTenantId,jdbcType=INTEGER}, 
+         #{item.unit,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, 
+         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=BIGINT}, #{item.dateType,jdbcType=VARCHAR}, 
+         #{item.personalMinValue,jdbcType=DECIMAL}, #{item.personalMaxValue,jdbcType=DECIMAL}, #{item.isTop,jdbcType=BIT}, 
+         #{item.flage,jdbcType=BIT},#{item.method,jdbcType=LONGVARCHAR})
+      </foreach>
+    </insert>
     <!-- 获取字典表对应化验单id -->
     <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
         SELECT ahd.id from assay_hosp_dict ahd
@@ -581,5 +682,75 @@
                 and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
             </if>
         </where>
+    </select>
+    <select id="seleteItemCodeByCondition" resultMap="POResultMap">
+        SELECT  
+                ahd.id
+                ,ahd.item_code
+                ,ahd.item_name
+                ,ahd.reference
+                ,ahd.unit
+                ,ahd.fk_dict_code
+                ,pad.item_name AS fkItemName
+        FROM assay_hosp_dict ahd 
+        LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.fk_dict_code
+    <where>
+        <if test="groupId != null and groupId != ''">
+        and ahd.group_id = #{groupId}
+        </if>
+        <if test="groupName != null and groupName != ''">
+        and ahd.group_name = #{groupName}
+        </if>
+        <if test="itemCode != null and itemCode != ''">
+        and ahd.item_code = #{itemCode}
+        </if>
+        <if test="itemName != null and itemName != ''">
+        and ahd.item_name = #{itemName}
+        </if>
+        <if test="minValue != null">
+        and ahd.min_value = #{minValue}
+        </if>
+        <if test="maxValue != null">
+        and ahd.max_value = #{maxValue}
+        </if>
+        <if test="unit != null and unit != ''">
+        and ahd.unit = #{unit}
+        </if>
+        <if test="reference != null and reference != ''">
+        and ahd.reference = #{reference}
+        </if>
+        <if test="orderBy != null">
+        and ahd.order_by = #{orderBy}
+        </if>
+        <if test="fkDictCode != null and fkDictCode != ''">
+        and ahd.fk_dict_code = #{fkDictCode}
+        </if>
+        <if test="fkTenantId != null">
+        and ahd.fk_tenant_id = #{fkTenantId}
+        </if>
+        <if test="createTime != null">
+        and ahd.create_time = #{createTime}
+        </if>
+        <if test="createUserId != null">
+        and ahd.create_user_id = #{createUserId}
+        </if>
+        <if test="updateTime != null">
+        and ahd.update_time = #{updateTime}
+        </if>
+        <if test="updateUserId != null">
+        and ahd.update_user_id = #{updateUserId}
+        </if>
+        <if test="isTop != null">
+        and ahd.is_top = #{isTop}
+        </if>
+        <if test="valueType != null" >
+        and ahd.value_type = #{valueType,jdbcType=INTEGER}
+        </if>
+        <if test="dictCodes != null">
+        and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+    </where>
+    ORDER BY ahd.item_code ASC
+    
     </select>
 </mapper>

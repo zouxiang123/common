@@ -13,10 +13,11 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
+import com.xtt.common.assay.service.IAssayHospDictGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IGenerationDictService;
 import com.xtt.common.assay.service.IPatientAssayReportCommonService;
@@ -24,6 +25,7 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.AssayHospDictMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.AssayHospDict;
+import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.util.DataUtil;
@@ -33,17 +35,25 @@ import com.xtt.platform.util.time.DateUtil;
 @Service
 public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
-    @Autowired
-    private AssayHospDictMapper assayHospDictMapper;
-
     @Autowired(required = true)
     private IGenerationDictService generationDictService;
     @Autowired
-    private IPatientAssayReportCommonService patientAssayBackCommonService;
+    private IPatientAssayReportCommonService patientAssayReportCommonService;
+    @Autowired
+    private AssayHospDictMapper assayHospDictMapper;
+    @Autowired
+    private IAssayHospDictGroupService assayHospDictGroupService;
+    @Autowired
+    private IAssayHospDictGroupMappingService assayHospDictGroupMappingService;
 
     @Override
     public int insert(AssayHospDict record) {
         return assayHospDictMapper.insert(record);
+    }
+
+    @Override
+    public void insertList(List<AssayHospDict> list) {
+        assayHospDictMapper.insertList(list);
     }
 
     @Override
@@ -89,15 +99,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public String updateDictById(AssayHospDictPO record) {
-        if (StringUtils.isNotBlank(record.getFkDictCode())) {
-            // 检查是否已关联
-            AssayHospDictPO query = new AssayHospDictPO();
-            query.setFkTenantId(UserUtil.getTenantId());
-            query.setFkDictCode(record.getFkDictCode());
-            List<AssayHospDictPO> list = this.getByCondition(query);
-            if (list != null && !list.isEmpty())
-                return CommonConstants.WARNING;
-        }
         record.setFkTenantId(UserUtil.getTenantId());
         record.setUpdateTime(new Date());
         record.setUpdateUserId(UserUtil.getLoginUserId());
@@ -118,7 +119,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
      */
     @Override
     public void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDict) {
-        AssayHospDictPO newRecord = assayHospDictMapper.selectByPrimaryKey(assayHospDict.getId());
+        AssayHospDict newRecord = assayHospDictMapper.selectByPrimaryKey(assayHospDict.getId());
         List<String> itemCodes = new ArrayList<>();
         itemCodes.add(newRecord.getItemCode());
         Integer tenantId = UserUtil.getTenantId();
@@ -126,7 +127,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         if (assayHospDict.getIsTop() != newRecord.getIsTop()) {
             new Thread(() -> {
                 UserUtil.setThreadTenant(tenantId);
-                patientAssayBackCommonService.updateItemCode(itemCodes, assayHospDict.getIsTop(), tenantId);
+                patientAssayReportCommonService.updateItemCode(itemCodes, assayHospDict.getIsTop(), tenantId);
             }).start();
         }
         DataUtil.setSystemFieldValue(newRecord);
@@ -157,10 +158,15 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public int insertSelective(AssayHospDictPO record) {
+        // 数据插入assay_hosp_dict
         int num = assayHospDictMapper.insertSelective(record);
-        if (num > 0) {
-            listDictService();
-        }
+        AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
+        assayHospDictGroupMapping.setFkItemCode(record.getItemCode());
+        assayHospDictGroupMapping.setFkGroupId(record.getGroupId());
+        assayHospDictGroupMapping.setFkTenantId(UserUtil.getTenantId());
+        DataUtil.setSystemFieldValue(assayHospDictGroupMapping);
+        // 数据插入assay_hosp_dict_group
+        assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
         return num;
     }
 
@@ -233,6 +239,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         AssayHospDictPO record = new AssayHospDictPO();
         record.setFlage(true);
         return getByCondition(record);
+    }
+
+    @Override
+    public List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO assayHospDict) {
+        return assayHospDictMapper.seleteItemCodeByCondition(assayHospDict);
     }
 
 }

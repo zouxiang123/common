@@ -80,12 +80,13 @@ public interface PatientAssayRecordMapper {
      * @Title: listByCreateTime
      * @param createTime
      * @param endCreateTime
+     * @param fkPatientId
      * @param integer
      * @return
      *
      */
     List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
-                    @Param("fkTenantId") Integer fkTenantId);
+                    @Param("fkTenantId") Integer fkTenantId, @Param("fkPatientId") Long fkPatientId);
 
     /**
      * 根据itemCode 查询化验单
@@ -94,11 +95,13 @@ public interface PatientAssayRecordMapper {
      * @param startCreateTime
      * @param endCreateTime
      * @param itemCode
+     * @param groupName
+     * @param integer
      * @return
      *
      */
     List<PatientAssayRecord> listByItemCode(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
-                    @Param("itemCodeList") List<String> itemCode);
+                    @Param("itemCodeList") List<String> itemCode, @Param("groupName") String groupName, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 根据化验单条数查询化验数据

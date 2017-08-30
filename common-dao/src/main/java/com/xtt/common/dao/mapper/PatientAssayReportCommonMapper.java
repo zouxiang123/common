@@ -31,7 +31,7 @@ public interface PatientAssayReportCommonMapper {
      * @param patientAssayBackCommon
      *
      */
-    void deleteByTenant(PatientAssayReportCommon patientAssayBackCommon);
+    void deleteByTenant(Integer fkTenatId);
 
     /**
      * 根据日期查询

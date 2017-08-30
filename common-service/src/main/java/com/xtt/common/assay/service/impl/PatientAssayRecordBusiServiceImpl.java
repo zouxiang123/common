@@ -29,6 +29,7 @@ import com.xtt.common.assay.hand.ThreePatientAssayRecordBusiFactory;
 import com.xtt.common.assay.hand.TwoPatientAssayRecordBusiFactory;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
+import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
@@ -45,19 +46,20 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
-    @Autowired
+    // @Autowired
     private OnePatientAssayRecordBusiFactory onePatientAssayRecordBusiFactory;
-    @Autowired
+    // @Autowired
     private TwoPatientAssayRecordBusiFactory twoPatientAssayRecordBusiFactory;
-    @Autowired
+    // @Autowired
     private ThreePatientAssayRecordBusiFactory threePatientAssayRecordBusiFactory;
-    @Autowired
+    // @Autowired
     private FourPatientAssayRecordBusiFactory fourPatientAssayRecordBusiFactory;
-    @Autowired
+    // @Autowired
     private FivePatientAssayRecordBusiFactory fivePatientAssayRecordBusiFactory;
     @Autowired
     private IAssayHospDictService assayHospDictService;
-    private String randomAlphanumeric;
+    @Autowired
+    private IPatientAssayReportCommonService patientAssayReportCommonService;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -168,19 +170,11 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                         isBefore == null ? null : (isBefore ? AssayConsts.BEFORE_HD : AssayConsts.AFTER_HD));
     }
 
-    @Override
-    public PatientAssayRecordBusiPO getLatestOneByFkDictCode(Long fkPatientId, String fkDictCode, Integer tenantId, Date date, Boolean isBefore) {
-        List<String> codes = new ArrayList<>(1);
-        codes.add(fkDictCode);
-        List<PatientAssayRecordBusiPO> list = listLatestOneByFkDictCodes(fkPatientId, codes, tenantId, date, isBefore);
-        return CollectionUtils.isEmpty(list) ? null : list.get(0);
-    }
-
-    @Override
     public void updatePatientAssay(List<AssayHospDictPO> getdHL) {
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         String result;
         for (AssayHospDictPO dictHospitalLab : getdHL) {
+            patientAssayRecordBusi.setId(dictHospitalLab.getId());
             patientAssayRecordBusi.setReqId(dictHospitalLab.getReqId());
             result = dictHospitalLab.getResult();
             if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(result)) {
@@ -199,47 +193,57 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             DataUtil.setUpdateSystemFieldValue(patientAssayRecordBusi);
             patientAssayRecordBusiMapper.updatePatientAssay(patientAssayRecordBusi);
         }
+    }
 
+    @Override
+    public PatientAssayRecordBusiPO getLatestOneByFkDictCode(Long fkPatientId, String fkDictCode, Integer tenantId, Date date, Boolean isBefore) {
+        List<String> codes = new ArrayList<>(1);
+        codes.add(fkDictCode);
+        List<PatientAssayRecordBusiPO> list = listLatestOneByFkDictCodes(fkPatientId, codes, tenantId, date, isBefore);
+        return CollectionUtils.isEmpty(list) ? null : list.get(0);
     }
 
     @Override
     public void insertPatientAssay(List<AssayHospDictPO> getdHL) {
         Date nowDate = new Date();
-        AssayHospDictPO assayHospDictPO = getdHL.get(0);
-        String result = assayHospDictPO.getResult();
-        assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
-        AssayHospDictPO dictHospitalLab = assayHospDictService.selectTop(getdHL.get(0));
-        PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
-        patientAssayRecordBusi.setFkPatientId(assayHospDictPO.getFkPatientId());
-        patientAssayRecordBusi.setGroupId(dictHospitalLab.getGroupId());
-        patientAssayRecordBusi.setGroupName(dictHospitalLab.getGroupName());
-        patientAssayRecordBusi.setReportTime(dictHospitalLab.getAssayDate());
-        patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
-        patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
-        patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
-        patientAssayRecordBusi.setResultActual(Double.valueOf(result));
-        patientAssayRecordBusi.setReference(dictHospitalLab.getReference());
-        patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
-
-        if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
-        }
-        if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
-            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
-        }
-        if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
-                        && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-            patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
-        }
-        patientAssayRecordBusi.setSampleTime(nowDate);
-        patientAssayRecordBusi.setReportTime(nowDate);
-        patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
         String strNowDate = DateUtil.format(nowDate, DateFormatUtil.FORMAT_DATE_YYYYMMDD);
         String strRandom = RandomStringUtils.randomAlphanumeric(6);
-        patientAssayRecordBusi.setReqId(strNowDate.concat("_").concat(strRandom));
-        DataUtil.setSystemFieldValue(patientAssayRecordBusi);
-        patientAssayRecordBusiMapper.insertSelective(patientAssayRecordBusi);
+        for (AssayHospDictPO assayHospDictPO : getdHL) {
+            if (StringUtil.isEmpty(assayHospDictPO.getResultTips())) {
+                continue;
+            }
+            String result = assayHospDictPO.getResult();
+            assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
+            AssayHospDictPO dictHospitalLab = assayHospDictService.selectTop(assayHospDictPO);
+            PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
+            patientAssayRecordBusi.setFkPatientId(assayHospDictPO.getFkPatientId());
+            patientAssayRecordBusi.setGroupId(dictHospitalLab.getGroupId());
+            patientAssayRecordBusi.setGroupName(dictHospitalLab.getGroupName());
+            patientAssayRecordBusi.setReportTime(dictHospitalLab.getAssayDate());
+            patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
+            patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
+            patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
+            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+            patientAssayRecordBusi.setReference(dictHospitalLab.getReference());
+            patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
 
+            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+            }
+            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+            }
+            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
+                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+            }
+            patientAssayRecordBusi.setSampleTime(nowDate);
+            patientAssayRecordBusi.setReportTime(nowDate);
+            patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
+            patientAssayRecordBusi.setReqId(strNowDate.concat("_").concat(strRandom));
+            DataUtil.setSystemFieldValue(patientAssayRecordBusi);
+            patientAssayRecordBusiMapper.insertSelective(patientAssayRecordBusi);
+        }
     }
 
     @Override
@@ -249,42 +253,51 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public void deleteByPatientId(Long fkPatientId) {
-        patientAssayRecordBusiMapper.deleteByPatientId(fkPatientId);
+    public void deleteByPatientId(Long fkPatientId, Integer fkTenantId) {
+        patientAssayRecordBusiMapper.deleteByPatientId(fkPatientId, fkTenantId);
 
     }
 
     @Override
     public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
-                    Integer fktenantId) {
-        UserUtil.setThreadTenant(fktenantId);
+                    Integer fkTenantId) {
+        UserUtil.setThreadTenant(fkTenantId);
+        startCreateTime = DateUtil.add(new Date(), 2, -10);
+        endCreateTime = new Date();
         String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
         DateUtil.add(new Date(), 2, -1);
         switch (labAfterBefore) {
         case "1":
-            onePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            onePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
             break;
         case "2":
-            twoPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            twoPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
             break;
         case "3":
-            threePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            threePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
             break;
         case "4":
-            fourPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime);
+            fourPatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
             break;
         case "5":
             // 是否删除
             if (isDelete) {
-                if (mapPatientId == null) {
-                    fivePatientAssayRecordBusiFactory.deleteAll();
-                    fivePatientAssayRecordBusiFactory.save(DateUtil.add(new Date(), 2, -10), new Date());
-                    fivePatientAssayRecordBusiFactory.updateBaskDiaAbFlag();
+                // patientId为空时候根据租户号删除数据
+                if (patientId == null) {
+                    fivePatientAssayRecordBusiFactory.deleteByTenant(fkTenantId);// 根据id删除数据
+                    fivePatientAssayRecordBusiFactory.deleteAssayHospDict(fkTenantId);// 删除字典表
+                    patientAssayReportCommonService.deleteByTenant(fkTenantId);// 删除预处理常用化验项表
+                    fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);// 保存化验信息
+                    fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);// 清洗数据
+                    fivePatientAssayRecordBusiFactory.updateBaskDiaAbFlag();// 跟新备份转归信息
+                    // 根据patientId删除数据
                 } else {
-                    fivePatientAssayRecordBusiFactory.deleteByPatient(patientId);
+                    fivePatientAssayRecordBusiFactory.deleteByPatient(patientId, fkTenantId);// 删除基础表数据
+                    fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);// 保存化验信息
+                    fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);// 清洗数据
                 }
             } else {
-                fivePatientAssayRecordBusiFactory.save(DateUtil.add(new Date(), 2, -10), new Date());
+                fivePatientAssayRecordBusiFactory.save(startCreateTime, endCreateTime, patientId);
                 fivePatientAssayRecordBusiFactory.cleanDate(mapPatientId);
             }
             break;
