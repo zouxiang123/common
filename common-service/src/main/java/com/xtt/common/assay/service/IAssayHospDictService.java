@@ -171,13 +171,6 @@ public interface IAssayHospDictService {
     public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
 
     /**
-     * 添加化验单
-     * 
-     * @param list
-     */
-    void insertDictHospital(List<AssayHospDictPO> list);
-
-    /**
      * 删除手动录入的化验单
      * 
      * @param groupId

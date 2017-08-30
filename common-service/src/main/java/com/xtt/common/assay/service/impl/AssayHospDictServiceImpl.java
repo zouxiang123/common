@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
 import com.xtt.common.assay.service.IAssayHospDictGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
-import com.xtt.common.assay.service.IGenerationDictService;
 import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.AssayHospDictMapper;
@@ -27,16 +26,12 @@ import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.AssayHospDict;
 import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.po.AssayHospDictPO;
-import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
-    @Autowired(required = true)
-    private IGenerationDictService generationDictService;
     @Autowired
     private IPatientAssayReportCommonService patientAssayReportCommonService;
     @Autowired
@@ -120,7 +115,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDict) {
         AssayHospDict newRecord = assayHospDictMapper.selectByPrimaryKey(assayHospDict.getId());
-        List<String> itemCodes = new ArrayList<>();
+        List<String> itemCodes = new ArrayList<>(1);
         itemCodes.add(newRecord.getItemCode());
         Integer tenantId = UserUtil.getTenantId();
         // 当常用化验项发生变化时候，异步调用常用化验项预处理增加或者删除元素
@@ -176,28 +171,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-
-    public void insertDictHospital(List<AssayHospDictPO> list) {
-        assayHospDictMapper.insertDictHospital(list);
-        listDictService();
-    }
-
-    @Override
     public Long getDictId(AssayHospDictPO list) {
         if (list.getFkTenantId() == null) {
             list.setFkTenantId(UserUtil.getTenantId());
         }
         return assayHospDictMapper.getDictId(list);
-    }
-
-    public void listDictService() {
-        String currentDate = DateUtil.format(new Date(), "yyyy-MM-dd");
-        String dBefore = DateUtil.getSpecifiedDayBefore(currentDate);
-        String dLast = DateUtil.getSpecifiedDayAfter(currentDate);
-        CmQueryPO query = new CmQueryPO();
-        query.setStartDate(dBefore);
-        query.setEndDate(dLast);
-        generationDictService.lisDictService(query);
     }
 
     @Override

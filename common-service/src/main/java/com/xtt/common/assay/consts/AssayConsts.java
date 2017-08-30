@@ -63,4 +63,17 @@ public class AssayConsts {
     public static final String TIPS_HIGH = "3";
     /** 偏低 */
     public static final String TIPS_LOW = "4";
+    /**
+     * 化验日期类别--月
+     */
+    public static final String REPORT_DATE_TYPE_MONTH = "m";
+    /**
+     * 化验日期类别--季
+     */
+    public static final String REPORT_DATE_TYPE_SEASON = "s";
+    /**
+     * 数值类别--数值
+     */
+    public static final Integer VALUE_TYPE_NUMBER = 1;
+
 }

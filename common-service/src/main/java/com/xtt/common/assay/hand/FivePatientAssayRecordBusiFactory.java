@@ -28,6 +28,7 @@ import com.xtt.common.dao.model.PatientAssayBackInspectioid;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
+import com.xtt.common.util.BusinessDateUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
@@ -144,7 +145,8 @@ public class FivePatientAssayRecordBusiFactory extends AbstractPatientAssayRecor
             List<Date> listDate = map.get(patientId);
             // 患者中存在多个时间只取最后一个
             startCreateDate = listDate.get(listDate.size() - 1);
-            endCreateDate = nowDate;
+            startCreateDate = BusinessDateUtil.getDayStartOrEnd(startCreateDate, true);
+            endCreateDate = BusinessDateUtil.getDayStartOrEnd(nowDate, false);
             // 查询时间区域中透后的数据筛选条件有“患者id”，“透析后数据有多少条”，“项目名称”，“时间段”
             List<PatientAssayRecordPO> listAfterPatientAssayRecord = patientAssayRecordService.listByAfterCount(afterCount, startCreateDate,
                             endCreateDate, groupName, patientId, tenantId, strItemCode.toString());

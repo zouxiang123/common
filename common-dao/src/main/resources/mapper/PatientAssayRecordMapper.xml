@@ -537,13 +537,14 @@
     <!-- 根据创建时间查询出当天的数据 -->
     <select id="listByCreateTime" resultMap="POResultMap">
         SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
-        `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
-        `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` from patient_assay_record where
-        create_time &gt; DATE_FORMAT(#{startCreateTime},'%y-%m-%d %H:%i:%s')
-        and create_time &lt; DATE_FORMAT(#{endCreateTime},'%y-%m-%d %H:%i:%s')
-          <if test="fkTenantId != null">
-                and fk_tenant_id = #{fkTenantId}
-            </if>
+            `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
+            `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` 
+        FROM patient_assay_record
+        WHERE create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP)
+        AND create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP)
+        <if test="fkTenantId != null">
+            AND fk_tenant_id = #{fkTenantId}
+        </if>
     </select>
     <!-- 根据itemCode 查询化验单 -->
     <select id="listByItemCode" resultMap="POResultMap">
@@ -557,12 +558,14 @@
                 </foreach>
             </if>
             <if test="startCreateTime != null">
-                and create_time &gt; DATE_FORMAT(#{startCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
             </if>
             <if test="endCreateTime != null">
-                and create_time &lt; DATE_FORMAT(#{endCreateTime,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}
             </if>
-            <!-- <if test="fkTenantId != null"> and fk_tenant_id = #{fkTenantId} </if> -->
+            <if test="fkTenantId != null"> 
+                and fk_tenant_id = #{fkTenantId} 
+            </if>
         </where>
         group by fk_patient_id,sample_time,req_id,item_code ORDER BY fk_patient_id ,item_code,sample_time
     </select>
@@ -576,10 +579,10 @@
                  fk_patient_id = #{patientId}
             </if>
             <if test="startCreateDate != null">
-                and assay_date &gt; DATE_FORMAT(#{startCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and report_time &gt;= #{startCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="endCreateDate != null">
-                and assay_date &lt; DATE_FORMAT(#{endCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and report_time &lt;= #{endCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="groupName != null">
                 and group_name = #{groupName}
@@ -596,10 +599,10 @@
                  fk_patient_id = #{patientId}
             </if>
             <if test="startCreateDate != null">
-                and assay_date &gt; DATE_FORMAT(#{startCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and report_time &gt;= #{startCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="endCreateDate != null">
-                and assay_date &lt; DATE_FORMAT(#{endCreateDate,jdbcType=TIMESTAMP},'%y-%m-%d %H:%i:%s')
+                and report_time &lt;= #{endCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="groupName != null">
                 and group_name = #{groupName}

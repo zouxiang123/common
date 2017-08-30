@@ -14,12 +14,6 @@ import java.util.Date;
 import com.xtt.common.dao.model.AssayHospDict;
 
 public class AssayHospDictPO extends AssayHospDict {
-
-    public static final String DATE_TYPE_MONTH = "m";
-    public static final String DATE_TYPE_SEASON = "s";
-
-    public static final Integer VALUE_TYPE_NUMBER = 1;
-
     private Collection<String> dictCodes;
 
     private String fkItemName;
