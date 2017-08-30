@@ -42,7 +42,7 @@ import com.xtt.platform.util.time.DateUtil;
 
 //抽象工厂
 @Service
-public abstract class AbstractPatientAssayRecordBusi {
+public abstract class AssayHandFactory {
 
     @Autowired
     private IPatientAssayRecordBusiService PatientAssayRecordBusiService;

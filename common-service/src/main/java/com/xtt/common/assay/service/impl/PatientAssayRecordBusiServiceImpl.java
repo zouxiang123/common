@@ -170,6 +170,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                         isBefore == null ? null : (isBefore ? AssayConsts.BEFORE_HD : AssayConsts.AFTER_HD));
     }
 
+    @Override
     public void updatePatientAssay(List<AssayHospDictPO> getdHL) {
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         String result;

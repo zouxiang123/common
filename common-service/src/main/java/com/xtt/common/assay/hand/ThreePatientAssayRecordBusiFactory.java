@@ -28,7 +28,7 @@ import com.xtt.platform.util.PrimaryKeyUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
 @Service
-public class ThreePatientAssayRecordBusiFactory extends AbstractPatientAssayRecordBusi {
+public class ThreePatientAssayRecordBusiFactory extends AssayHandFactory {
 
     private static final Logger log = LoggerFactory.getLogger(ThreePatientAssayRecordBusiFactory.class);
 
