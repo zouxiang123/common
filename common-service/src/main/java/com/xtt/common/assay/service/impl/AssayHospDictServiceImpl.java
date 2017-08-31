@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
-import com.xtt.common.assay.service.IAssayHospDictGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayReportCommonService;
 import com.xtt.common.constants.CommonConstants;
@@ -37,18 +36,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Autowired
     private AssayHospDictMapper assayHospDictMapper;
     @Autowired
-    private IAssayHospDictGroupService assayHospDictGroupService;
-    @Autowired
     private IAssayHospDictGroupMappingService assayHospDictGroupMappingService;
 
     @Override
     public int insert(AssayHospDict record) {
         return assayHospDictMapper.insert(record);
-    }
-
-    @Override
-    public void insertList(List<AssayHospDict> list) {
-        assayHospDictMapper.insertList(list);
     }
 
     @Override

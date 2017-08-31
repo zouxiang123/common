@@ -26,15 +26,6 @@ public interface AssayHospDictMapper {
     int updateByPrimaryKey(AssayHospDict record);
 
     /**
-     * 批量插入
-     * 
-     * @Title: insertList
-     * @param list
-     *
-     */
-    void insertList(List<AssayHospDict> list);
-
-    /**
      * 查询是否重复
      * 
      * @Title: getCountByItemCode
