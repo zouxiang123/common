@@ -27,7 +27,7 @@ import com.xtt.platform.util.lang.StringUtil;
 public class FourAssayHand extends AssayHandFactory {
 
     @Override
-    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, List<PatientAssayRecordPO> listAssayRecord) {
+    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         // 根据项目编码过滤查询
         List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
         String sjStr = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GJZ_SJ);// 关键字：设置为24小时
@@ -70,13 +70,6 @@ public class FourAssayHand extends AssayHandFactory {
                             patientAssayRecordBusi = new PatientAssayRecordBusi();
                             BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
                             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
-                            newPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                            patientAssayRecordBusi = null;
-                            patientAssayRecordBusi = new PatientAssayRecordBusi();
-                            patientAssayRecordBusi.setFkPatientId(oldFkPatientId);
-                            patientAssayRecordBusi.setReqId(oldReqId);
-                            patientAssayRecordBusi.setReportTime(oldReportTime);
-                            patientAssayRecordBusi.setDiaAbFlag(AssayConsts.BEFORE_HD);
                             newPatientAssayRecordBusi.add(patientAssayRecordBusi);
                             patientAssayRecordBusi = null;
                         }

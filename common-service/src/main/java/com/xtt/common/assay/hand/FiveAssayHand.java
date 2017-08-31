@@ -16,8 +16,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.xtt.common.assay.consts.AssayConsts;
-import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.PatientAssayBackInspectioid;
+import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
@@ -28,7 +27,7 @@ import com.xtt.common.util.UserUtil;
 public class FiveAssayHand extends AssayHandFactory {
 
     @Override
-    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, List<PatientAssayRecordPO> listAssayRecord) {
+    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
         String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_BEFORE_COUNT);
         String afterCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_AFTER_COUNT);
@@ -43,8 +42,8 @@ public class FiveAssayHand extends AssayHandFactory {
         boolean isUpdate;
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
-        PatientAssayBackInspectioid patientAssayBackInspectioid;
-        List<PatientAssayBackInspectioid> insertPatientAssayBackInspectioidList = new ArrayList<>();
+        PatientAssayInspectioidBack patientAssayInspectioidBack;
+        List<PatientAssayInspectioidBack> insertPatientAssayInspectioidBackList = new ArrayList<>();
         // 评级项目名称
         for (DictDto dictDto : itemCodeList) {
             strItemCode.append(" , max(case when item_code = '").append(dictDto.getItemCode()).append("' then result end ) itemCode" + i);
@@ -83,17 +82,6 @@ public class FiveAssayHand extends AssayHandFactory {
                         patientAssayRecordBusi.setSampleTime(afterPatientAssayRecord.getSampleTime());
                         patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
                         updateRecordList.add(patientAssayRecordBusi);
-                        patientAssayBackInspectioid = new PatientAssayBackInspectioid();
-                        patientAssayBackInspectioid.setReqId(afterPatientAssayRecord.getReqId());
-                        patientAssayBackInspectioid.setSampleTime(afterPatientAssayRecord.getSampleTime());
-                        patientAssayBackInspectioid.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
-                        patientAssayBackInspectioid.setFkTenantId(UserUtil.getTenantId());
-                        patientAssayBackInspectioid.setDiaAbFlag(AssayConsts.AFTER_HD);
-                        patientAssayBackInspectioid.setCreateTime(nowDate);
-                        patientAssayBackInspectioid.setUpdateTime(nowDate);
-                        patientAssayBackInspectioid.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                        patientAssayBackInspectioid.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                        insertPatientAssayBackInspectioidList.add(patientAssayBackInspectioid);
                     }
                 }
             }
@@ -102,8 +90,8 @@ public class FiveAssayHand extends AssayHandFactory {
                 this.updateListPatientAssayRecordBusi(updateRecordList);
             }
             // 备份透后数据到patient_assay_back_inspectioid
-            if (CollectionUtils.isNotEmpty(insertPatientAssayBackInspectioidList)) {
-                patientAssayBackInspectioidService.insertList(insertPatientAssayBackInspectioidList);
+            if (CollectionUtils.isNotEmpty(insertPatientAssayInspectioidBackList)) {
+                patientAssayInspectioidBackService.insertList(insertPatientAssayInspectioidBackList);
             }
         }
     }

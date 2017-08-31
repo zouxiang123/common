@@ -6,6 +6,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     <result column="inspectioid" jdbcType="VARCHAR" property="inspectioid" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
     <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
   </resultMap>
@@ -13,10 +14,10 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_assay_inspectioid_back (inspectioid, dia_ab_flag, fk_tenant_id
-      )
-    values (#{inspectioid,jdbcType=VARCHAR}, #{diaAbFlag,jdbcType=CHAR}, #{fkTenantId,jdbcType=INTEGER}
-      )
+    insert into patient_assay_inspectioid_back (inspectioid, fk_patient_id, dia_ab_flag, 
+      fk_tenant_id)
+    values (#{inspectioid,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{diaAbFlag,jdbcType=CHAR}, 
+      #{fkTenantId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayInspectioidBack">
     <!--
@@ -26,6 +27,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="inspectioid != null">
         inspectioid,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
       </if>
       <if test="diaAbFlag != null">
         dia_ab_flag,
@@ -38,6 +42,9 @@
       <if test="inspectioid != null">
         #{inspectioid,jdbcType=VARCHAR},
       </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
       <if test="diaAbFlag != null">
         #{diaAbFlag,jdbcType=CHAR},
       </if>
@@ -46,4 +53,35 @@
       </if>
     </trim>
   </insert>
+
+    <!-- user define -->
+    <insert id="insertList">
+        insert into patient_assay_inspectioid_back (inspectioid, fk_patient_id, dia_ab_flag, fk_tenant_id)
+        <foreach collection="list" item="item" index="index" separator="union all">
+            select
+            #{item.inspectioid,jdbcType=VARCHAR},
+            #{item.fkPatientId,jdbcType=BIGINT},
+            #{item.diaAbFlag,jdbcType=CHAR},
+            #{item.fkTenantId,jdbcType=INTEGER}
+            from dual
+        </foreach>
+    </insert>
+    <!-- 根据自定义条件查询数据 -->
+    <select id="listByCondition" resultMap="BaseResultMap">
+        SELECT * FROM patient_assay_inspectioid_back
+        <where>
+            <if test="inspectioid != null">
+               inspectioid = #{inspectioid}
+            </if>
+            <if test="fkPatientId != null">
+               AND fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="diaAbFlag != null">
+               AND dia_ab_flag = #{diaAbFlag,jdbcType=CHAR}
+            </if>
+            <if test="fkTenantId != null">
+               AND fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
 </mapper>

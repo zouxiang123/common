@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
-import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 
 @Repository
@@ -27,8 +26,16 @@ public interface PatientAssayRecordBusiMapper {
     int updateByPrimaryKey(PatientAssayRecordBusi record);
 
     /*user define*/
-
-    int countByInspectionId(String inspectionId);
+    /**
+     * 根据记录单唯一标识和租户id查询数据
+     * 
+     * @Title: countByInspectionId
+     * @param inspectionId
+     * @param fkTenantId
+     * @return
+     *
+     */
+    int countByInspectionId(@Param("inspectionId") String inspectionId, @Param("fkTenantId") Integer fkTenantId);
 
     void insertList(@Param("list") List<PatientAssayRecordBusi> list);
 
@@ -156,16 +163,6 @@ public interface PatientAssayRecordBusiMapper {
      */
     void updatePatientAssay(PatientAssayRecordBusi patientAssayRecordBusi);
 
-    void insertPatientAssay(List<AssayHospDictPO> getdHL);
-
-    /**
-     * 删除所有数据
-     * 
-     * @Title: delteteAll
-     *
-     */
-    void delteteAll();
-
     /**
      * 根据患者id删除
      * 
@@ -174,7 +171,7 @@ public interface PatientAssayRecordBusiMapper {
      * @param fkTenantId
      *
      */
-    void deleteByPatientId(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId" + "fkTenantId") Integer fkTenantId);
+    void deleteByPatientId(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * HEAD 查询常规化验项
@@ -195,16 +192,6 @@ public interface PatientAssayRecordBusiMapper {
     void deleteByTenant(@Param("fkTenantId") Integer fkTenantId);
 
     /**
-     * 根据申请单号查询
-     * 
-     * @Title: listByReqId
-     * @param par
-     * @return
-     *
-     */
-    List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par);
-
-    /**
      * 查询距离date最近的count*2（前后）条数据
      * 
      * @Title: listLatestByFkDictCode
@@ -212,4 +199,14 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     List<PatientAssayRecordBusiPO> listLatestByFkDictCode(@Param("paramList") List<Map<String, Object>> paramList);
+
+    /**
+     * 根据备份的标识更新标识数据
+     * 
+     * @Title: updateDiaAbFlagByInspectioidBack
+     * @param fkPatientId
+     * @param fkTenantId
+     *
+     */
+    void updateDiaAbFlagByInspectioidBack(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
 }

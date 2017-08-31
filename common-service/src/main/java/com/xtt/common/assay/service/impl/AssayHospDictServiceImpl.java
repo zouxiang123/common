@@ -215,7 +215,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public List<AssayHospDictPO> listAllManualAdd() {
         AssayHospDictPO record = new AssayHospDictPO();
-        record.setFlage(true);
+        record.setIsAuto(false);
         return getByCondition(record);
     }
 

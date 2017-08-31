@@ -19,12 +19,12 @@
     <result column="date_type" jdbcType="VARCHAR" property="dateType" />
     <result column="personal_min_value" jdbcType="DECIMAL" property="personalMinValue" />
     <result column="personal_max_value" jdbcType="DECIMAL" property="personalMaxValue" />
-    <result column="flage" jdbcType="BIT" property="flage" />
+    <result column="is_auto" jdbcType="BIT" property="isAuto" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
-    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.AssayHospDict">
     <!--
@@ -37,8 +37,8 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, item_code, item_name, min_value, max_value, unit, reference, order_by, fk_dict_code, 
-    value_type, is_top, date_type, personal_min_value, personal_max_value, flage, fk_tenant_id, 
-    create_time, create_user_id, update_user_id, update_time
+    value_type, is_top, date_type, personal_min_value, personal_max_value, is_auto, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -72,17 +72,17 @@
       min_value, max_value, unit, 
       reference, order_by, fk_dict_code, 
       value_type, is_top, date_type, 
-      personal_min_value, personal_max_value, flage, 
+      personal_min_value, personal_max_value, is_auto, 
       fk_tenant_id, create_time, create_user_id, 
-      update_user_id, update_time, method
+      update_time, update_user_id, method
       )
     values (#{id,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
       #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
       #{reference,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{fkDictCode,jdbcType=VARCHAR}, 
       #{valueType,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, #{dateType,jdbcType=VARCHAR}, 
-      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{flage,jdbcType=BIT}, 
+      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{isAuto,jdbcType=BIT}, 
       #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{method,jdbcType=LONGVARCHAR}
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayHospDict">
@@ -133,8 +133,8 @@
       <if test="personalMaxValue != null">
         personal_max_value,
       </if>
-      <if test="flage != null">
-        flage,
+      <if test="isAuto != null">
+        is_auto,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -145,11 +145,11 @@
       <if test="createUserId != null">
         create_user_id,
       </if>
-      <if test="updateUserId != null">
-        update_user_id,
-      </if>
       <if test="updateTime != null">
         update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
       </if>
       <if test="method != null">
         method,
@@ -198,8 +198,8 @@
       <if test="personalMaxValue != null">
         #{personalMaxValue,jdbcType=DECIMAL},
       </if>
-      <if test="flage != null">
-        #{flage,jdbcType=BIT},
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -210,11 +210,11 @@
       <if test="createUserId != null">
         #{createUserId,jdbcType=BIGINT},
       </if>
-      <if test="updateUserId != null">
-        #{updateUserId,jdbcType=BIGINT},
-      </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
       </if>
       <if test="method != null">
         #{method,jdbcType=LONGVARCHAR},
@@ -266,8 +266,8 @@
       <if test="personalMaxValue != null">
         personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
       </if>
-      <if test="flage != null">
-        flage = #{flage,jdbcType=BIT},
+      <if test="isAuto != null">
+        is_auto = #{isAuto,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -278,11 +278,11 @@
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=BIGINT},
       </if>
-      <if test="updateUserId != null">
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
-      </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
       <if test="method != null">
         method = #{method,jdbcType=LONGVARCHAR},
@@ -308,12 +308,12 @@
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
-      flage = #{flage,jdbcType=BIT},
+      is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
       method = #{method,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -335,23 +335,23 @@
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
-      flage = #{flage,jdbcType=BIT},
+      is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
    <!-- user define -->
-   <resultMap type="com.xtt.common.dao.po.AssayHospDictPO" id="POResultMap" extends="ResultMapWithBLOBs">
+   <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.AssayHospDictPO">
         <result column="group_id" jdbcType="VARCHAR" property="groupId" />
         <result column="group_name" jdbcType="VARCHAR" property="groupName" />
    </resultMap>
    
    <sql id="AHD_Column_List">
         ahd.id, ahd.item_code, ahd.item_name, ahd.min_value, ahd.max_value, ahd.unit, ahd.reference, ahd.method, ahd.order_by, ahd.fk_dict_code, ahd.value_type, ahd.is_top, 
-        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.flage, ahd.fk_tenant_id
+        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.is_auto, ahd.fk_tenant_id
         , ahdg.group_id, ahdg.group_name
    </sql>
    <!-- 根据ItemCode查询是否唯一 -->
@@ -418,8 +418,11 @@
       <if test="isTop != null">
         and ahd.is_top = #{isTop}
       </if>
-      <if test="valueType != null" >
+      <if test="valueType != null">
         and ahd.value_type = #{valueType,jdbcType=INTEGER}
+      </if>
+      <if test="isAuto != null">
+        and ahd.is_auto = #{isAuto}
       </if>
       <if test="dictCodes != null">
         and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
@@ -456,7 +459,7 @@
       JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
       JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
       WHERE ahd.fk_tenant_id = #{fkTenantId} 
-      <if test="valueType != null" >
+      <if test="valueType != null">
         and ahd.value_type = #{valueType,jdbcType=INTEGER}
       </if>
       GROUP BY ahdg.group_id,ahdg.group_name
@@ -482,7 +485,7 @@
      FROM assay_hosp_dict ahd 
      JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
      JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     WHERE ahd.flage=1 AND ahd.fk_tenant_id = #{fkTenantId}
+     WHERE ahd.is_auto=1 AND ahd.fk_tenant_id = #{fkTenantId}
      GROUP BY ahdg.group_name
      ORDER BY ahdg.group_name
   </select>
@@ -538,105 +541,7 @@
             </if>
         )
     ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
-
   </select>
-  
-  <!-- 查询id，group_id，group_name，item_code，Item_name,Unit,reference -->
-  <select id="selectSomeField" resultMap="POResultMap">
-     SELECT ahd.id,ahdg.group_id,ahdg.group_name,ahd.unit,ahd.item_code,ahd.item_name,ahd.reference
-      FROM assay_hosp_dict ahd join assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     <where>
-      <if test="groupId != null">
-      and  ahdg.group_id = #{groupId,jdbcType=VARCHAR}
-      </if>
-      <if test="groupName != null">
-      and  ahdg.group_name = #{groupName,jdbcType=VARCHAR}
-      </if>
-      <if test="itemCode != null">
-       and  ahd.item_code = #{itemCode,jdbcType=VARCHAR}
-      </if>
-      <if test="itemName != null">
-       and  ahd.item_name = #{itemName,jdbcType=VARCHAR}
-      </if>
-      <if test="minValue != null">
-      and  ahd.min_value = #{minValue,jdbcType=DOUBLE}
-      </if>
-      <if test="maxValue != null">
-      and  ahd.max_value = #{maxValue,jdbcType=DOUBLE}
-      </if>
-      <if test="valueType != null">
-      and  ahd.value_type = #{valueType,jdbcType=INTEGER}
-      </if>
-      <if test="reference != null">
-      and  ahd.reference = #{reference,jdbcType=VARCHAR}
-      </if>
-      <if test="orderBy != null">
-      and  ahd.order_by = #{orderBy,jdbcType=INTEGER}
-      </if>
-      <if test="fkDictCode != null">
-      and  ahd.fk_dict_code = #{fkDictCode,jdbcType=VARCHAR}
-      </if>
-      <if test="fkTenantId != null">
-      and  ahd.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-      </if>
-      <if test="unit != null">
-      and  ahd.unit = #{unit,jdbcType=VARCHAR}
-      </if>
-      <if test="createTime != null">
-      and  ahd.create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="createUserId != null">
-      and  ahd.create_user_id = #{createUserId,jdbcType=BIGINT}
-      </if>
-      <if test="updateTime != null">
-      and  ahd.update_time = #{updateTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="updateUserId != null">
-      and  ahd.update_user_id = #{updateUserId,jdbcType=BIGINT}
-      </if>
-      <if test="dateType != null">
-      and  ahd.date_type = #{dateType,jdbcType=VARCHAR}
-      </if>
-      <if test="personalMinValue != null">
-      and  ahd.personal_min_value = #{personalMinValue,jdbcType=DECIMAL}
-      </if>
-      <if test="personalMaxValue != null">
-      and  ahd.personal_max_value = #{personalMaxValue,jdbcType=DECIMAL}
-      </if>
-      <if test="isTop != null">
-      and  ahd.is_top = #{isTop,jdbcType=BIT}
-      </if>
-      <if test="method != null">
-      and  ahd.method = #{method,jdbcType=LONGVARCHAR}
-      </if>
-    </where>
-  </select>
-    <!-- 手动添加化验单 -->
-    <insert id="insertDictHospital" parameterType="java.util.List">
-    <!--
-        批量添加化验项
-    -->
-      insert into dict_hospital_lab (id, group_id, group_name, 
-         item_code, item_name, min_value, 
-         max_value, value_type, reference, 
-         order_by, fk_dict_code, fk_tenant_id, 
-         unit, create_time, create_user_id, 
-         update_time, update_user_id, date_type, 
-         personal_min_value, personal_max_value, is_top, flage,
-         method)
-      values 
-      <foreach collection="list" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, 
-         #{item.itemCode,jdbcType=VARCHAR}, #{item.itemName,jdbcType=VARCHAR}, #{item.minValue,jdbcType=DOUBLE}, 
-         #{item.maxValue,jdbcType=DOUBLE}, #{item.valueType,jdbcType=INTEGER}, #{item.reference,jdbcType=VARCHAR}, 
-         #{item.orderBy,jdbcType=INTEGER}, #{item.fkDictCode,jdbcType=VARCHAR}, #{item.fkTenantId,jdbcType=INTEGER}, 
-         #{item.unit,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, 
-         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=BIGINT}, #{item.dateType,jdbcType=VARCHAR}, 
-         #{item.personalMinValue,jdbcType=DECIMAL}, #{item.personalMaxValue,jdbcType=DECIMAL}, #{item.isTop,jdbcType=BIT}, 
-         #{item.flage,jdbcType=BIT},#{item.method,jdbcType=LONGVARCHAR})
-      </foreach>
-    </insert>
     <!-- 获取字典表对应化验单id -->
     <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
         SELECT ahd.id from assay_hosp_dict ahd
@@ -743,7 +648,7 @@ join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.f
         <if test="isTop != null">
         and ahd.is_top = #{isTop}
         </if>
-        <if test="valueType != null" >
+        <if test="valueType != null">
         and ahd.value_type = #{valueType,jdbcType=INTEGER}
         </if>
         <if test="dictCodes != null">

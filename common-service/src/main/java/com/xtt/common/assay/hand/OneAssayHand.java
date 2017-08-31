@@ -17,7 +17,7 @@ import com.xtt.common.dao.po.PatientAssayRecordPO;
 public class OneAssayHand extends AssayHandFactory {
 
     @Override
-    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, List<PatientAssayRecordPO> listAssayRecord) {
+    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
 
     }
 

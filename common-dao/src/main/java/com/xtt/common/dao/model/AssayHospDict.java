@@ -87,10 +87,10 @@ public class AssayHospDict {
     private BigDecimal personalMaxValue;
 
     /**
-     * 是否是院外化验项: 0否  1是
-     * assay_hosp_dict.flage
+     * 是否自动生成标识(0:否;1:是)
+     * assay_hosp_dict.is_auto
      */
-    private Boolean flage;
+    private Boolean isAuto;
 
     /**
      * 租户id
@@ -111,16 +111,16 @@ public class AssayHospDict {
     private Long createUserId;
 
     /**
-     * 修改人
-     * assay_hosp_dict.update_user_id
-     */
-    private Long updateUserId;
-
-    /**
      * 修改时间
      * assay_hosp_dict.update_time
      */
     private Date updateTime;
+
+    /**
+     * 修改人
+     * assay_hosp_dict.update_user_id
+     */
+    private Long updateUserId;
 
     /**
      * 测试方法
@@ -315,17 +315,17 @@ public class AssayHospDict {
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否自动生成标识(0:否;1:是)
      */
-    public Boolean getFlage() {
-        return flage;
+    public Boolean getIsAuto() {
+        return isAuto;
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否自动生成标识(0:否;1:是)
      */
-    public void setFlage(Boolean flage) {
-        this.flage = flage;
+    public void setIsAuto(Boolean isAuto) {
+        this.isAuto = isAuto;
     }
 
     /**
@@ -371,20 +371,6 @@ public class AssayHospDict {
     }
 
     /**
-     * 修改人
-     */
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    /**
-     * 修改人
-     */
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
-    /**
      * 修改时间
      */
     public Date getUpdateTime() {
@@ -396,6 +382,20 @@ public class AssayHospDict {
      */
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    /**
+     * 修改人
+     */
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    /**
+     * 修改人
+     */
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 
     /**

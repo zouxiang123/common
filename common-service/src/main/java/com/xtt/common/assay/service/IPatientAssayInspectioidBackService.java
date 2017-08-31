@@ -10,20 +10,20 @@ package com.xtt.common.assay.service;
 
 import java.util.List;
 
-import com.xtt.common.dao.model.PatientAssayBackInspectioid;
+import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 
-public interface IPatientAssayBackInspectioidService {
+public interface IPatientAssayInspectioidBackService {
 
-    void insertList(List<PatientAssayBackInspectioid> list);
+    void insertList(List<PatientAssayInspectioidBack> list);
 
     /**
      * 根据患者id查询
      * 
      * @Title: selectByPatientId
-     * @param patientAssayBackInspectioid
+     * @param record
      * @return
      *
      */
-    List<PatientAssayBackInspectioid> selectByPatientId(PatientAssayBackInspectioid patientAssayBackInspectioid);
+    List<PatientAssayInspectioidBack> listByPatientId(PatientAssayInspectioidBack record);
 
 }

@@ -8,6 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="group_id" jdbcType="VARCHAR" property="groupId" />
     <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="is_auto" jdbcType="BIT" property="isAuto" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -18,7 +19,7 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, group_id, group_name, fk_tenant_id, create_time, create_user_id, update_time, 
+    id, group_id, group_name, is_auto, fk_tenant_id, create_time, create_user_id, update_time, 
     update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -42,11 +43,13 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into assay_hosp_dict_group (id, group_id, group_name, 
-      fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
+      is_auto, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{isAuto,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayHospDictGroup">
     <!--
@@ -62,6 +65,9 @@
       </if>
       <if test="groupName != null">
         group_name,
+      </if>
+      <if test="isAuto != null">
+        is_auto,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -88,6 +94,9 @@
       </if>
       <if test="groupName != null">
         #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -118,6 +127,9 @@
       <if test="groupName != null">
         group_name = #{groupName,jdbcType=VARCHAR},
       </if>
+      <if test="isAuto != null">
+        is_auto = #{isAuto,jdbcType=BIT},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -143,6 +155,7 @@
     update assay_hosp_dict_group
     set group_id = #{groupId,jdbcType=VARCHAR},
       group_name = #{groupName,jdbcType=VARCHAR},
+      is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

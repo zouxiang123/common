@@ -35,10 +35,11 @@ public interface IPatientAssayRecordBusiService {
      * 
      * @Title: countByInspectionId
      * @param inspectionId
+     * @param fkTenantId
      * @return
      *
      */
-    int countByInspectionId(String inspectionId);
+    int countByInspectionId(String inspectionId, Integer fkTenantId);
 
     /**
      * 批量插入
@@ -205,14 +206,6 @@ public interface IPatientAssayRecordBusiService {
     void insertPatientAssay(List<AssayHospDictPO> getdHL);
 
     /**
-     * 删除所有
-     * 
-     * @Title: delteteAll
-     *
-     */
-    void delteteAll();
-
-    /**
      * 根据患者id删除
      * 
      * @Title: deleteByPatient
@@ -279,5 +272,15 @@ public interface IPatientAssayRecordBusiService {
      */
     List<PatientAssayRecordBusiPO> listLatestByFkDictCode(Long fkPatientId, String dictCode, Integer tenantId, Date date, int count,
                     String diaAbFlag);
+
+    /**
+     * 根据备份的标识更新标识数据
+     * 
+     * @Title: updateDiaAbFlagByInspectioidBack
+     * @param fkPatientId
+     * @param tenantId
+     *
+     */
+    void updateDiaAbFlagByInspectioidBack(Long fkPatientId, Integer tenantId);
 
 }

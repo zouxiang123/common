@@ -363,10 +363,10 @@
     parb.fk_patient_id, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
     parb.result_tips, parb.dia_ab_flag, parb.assay_month, parb.assay_date, parb.req_id, parb.sample_time, parb.report_time, parb.reference
   </sql>
-  
-  <select id="countByInspectionId" resultType="java.lang.Integer">
-        SELECT count('1') from patient_assay_record_busi where inspection_id = #{inspectionId}
-  </select>
+    <!-- 根据唯一标识和租户id查询数据是否存在 -->
+    <select id="countByInspectionId" resultType="java.lang.Integer">
+        SELECT count(1) from patient_assay_record_busi where inspection_id = #{inspectionId} AND fk_tenant_id = #{fkTenantId}
+    </select>
   
   <insert id="insertList" parameterType="java.util.List">
   insert into patient_assay_record_busi (id, fk_patient_id, group_id, 
@@ -697,38 +697,33 @@
     <!-- 根据化验单号化验项更新数据 -->
     <update id="updatePatientAssay">
         update patient_assay_record_busi
-    set      
-      result = #{result,jdbcType=VARCHAR},
-      result_actual = #{resultActual,jdbcType=DOUBLE},     
-      result_tips = #{resultTips,jdbcType=VARCHAR},     
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
-    <where>
-        <if test="id != null">
-            id = #{id,jdbcType=BIGINT}
-        </if>
-       <if test="itemCode != null">
+        set
+        result = #{result,jdbcType=VARCHAR},
+        result_actual = #{resultActual,jdbcType=DOUBLE},
+        result_tips = #{resultTips,jdbcType=VARCHAR},
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_user_id = #{updateUserId,jdbcType=BIGINT}
+        <where>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT}
+            </if>
+            <if test="itemCode != null">
                 and item_code = #{itemCode}
-        </if> 
-        <if test="reqId != null">
-               and req_id = #{reqId}
-        </if> 
-        <if test="fkTenantId != null">
-               and fk_tenant_id = #{fkTenantId}
-        </if>
-    </where>
+            </if>
+            <if test="reqId != null">
+                and req_id = #{reqId}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId}
+            </if>
+        </where>
     </update>
-    
-    <insert id="insertPatientAssay">
-    
-    </insert>
-    <!-- 删除全部 -->
-    <delete id="delteteAll">
-        truncate table patient_assay_record_busi
-    </delete>
     <!-- 根据患者id删除 -->
     <delete id="deleteByPatientId">
-        delete from patient_assay_record_busi where fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+        delete from patient_assay_record_busi where fk_tenant_id = #{fkTenantId}
+        <if test="fkPatientId != null">
+           AND fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+        </if>
     </delete>
     <!-- 查询距离date最近的count*2（前后）条数据 -->
     <select id="listLatestByFkDictCode" resultMap="POResultMap">
@@ -782,8 +777,16 @@
     <delete id="deleteByTenant">
         delete from patient_assay_record_busi where fk_tenant_id =  #{fkTenantId}
     </delete>
-    
-    <select id="listByReqId">
-    
-    </select>
+    <!-- 根据备份的标识更新标识数据 -->
+    <update id="updateDiaAbFlagByInspectioidBack">
+    UPDATE patient_assay_record_busi parb
+    JOIN patient_assay_inspectioid_back paib ON paib.inspectioid = parb.inspectioid AND paib.fk_tenant_id = parb.fk_tenant_id
+    SET parb.dia_ab_flag = paib.dia_ab_flag
+    <where>
+        parb.fk_tenant_id = #{fkTenantId}
+        <if test="fkPatientId != null">
+           AND parb.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
+        </if>
+    </where>
+    </update>
 </mapper>

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.hand.AssayHandDelete;
 import com.xtt.common.assay.hand.AssayHandFactory;
 import com.xtt.common.assay.hand.FiveAssayHand;
 import com.xtt.common.assay.hand.FourAssayHand;
@@ -124,9 +125,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public int countByInspectionId(String inspectionId) {
+    public int countByInspectionId(String inspectionId, Integer fkTenantId) {
 
-        return patientAssayRecordBusiMapper.countByInspectionId(inspectionId);
+        return patientAssayRecordBusiMapper.countByInspectionId(inspectionId, fkTenantId);
     }
 
     @Override
@@ -236,12 +237,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public void delteteAll() {
-        patientAssayRecordBusiMapper.delteteAll();
-
-    }
-
-    @Override
     public void deleteByPatientId(Long fkPatientId, Integer fkTenantId) {
         patientAssayRecordBusiMapper.deleteByPatientId(fkPatientId, fkTenantId);
 
@@ -251,29 +246,31 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
                     Integer fkTenantId) {
         UserUtil.setThreadTenant(fkTenantId);
-        startCreateTime = DateUtil.add(new Date(), 2, -10);
-        endCreateTime = new Date();
         String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
-        DateUtil.add(new Date(), 2, -1);
         AssayHandFactory assayHandFactory = null;
-        switch (labAfterBefore) {
-        case "1":
-            assayHandFactory = new OneAssayHand();
-            break;
-        case "2":
-            assayHandFactory = new TwoAssayHand();
-            break;
-        case "3":
-            assayHandFactory = new OneAssayHand();
-            break;
-        case "4":
-            assayHandFactory = new FourAssayHand();
-            break;
-        case "5":
-            assayHandFactory = new FiveAssayHand();
-            break;
-        default:
-            break;
+        if (isDelete) {// 如果是删除操作，不需要清洗，只需重新把透析透后标识带过来；
+            deleteByPatientId(patientId, fkTenantId);
+            assayHandFactory = new AssayHandDelete();
+        } else {
+            switch (labAfterBefore) {
+            case "1":
+                assayHandFactory = new OneAssayHand();
+                break;
+            case "2":
+                assayHandFactory = new TwoAssayHand();
+                break;
+            case "3":
+                assayHandFactory = new OneAssayHand();
+                break;
+            case "4":
+                assayHandFactory = new FourAssayHand();
+                break;
+            case "5":
+                assayHandFactory = new FiveAssayHand();
+                break;
+            default:
+                break;
+            }
         }
         if (assayHandFactory != null) {
             assayHandFactory.save(startCreateTime, endCreateTime, patientId, mapPatientId);
@@ -315,6 +312,11 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public List<PatientAssayRecordBusiPO> listByReqId(PatientAssayRecordBusiPO par) {
         return patientAssayRecordBusiMapper.listByCondition(par);
+    }
+
+    @Override
+    public void updateDiaAbFlagByInspectioidBack(Long fkPatientId, Integer tenantId) {
+        patientAssayRecordBusiMapper.updateDiaAbFlagByInspectioidBack(fkPatientId, tenantId);
     }
 
 }

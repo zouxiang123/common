@@ -11,6 +11,12 @@ public class PatientAssayInspectioidBack {
     private String inspectioid;
 
     /**
+     * 患者id
+     * patient_assay_inspectioid_back.fk_patient_id
+     */
+    private Long fkPatientId;
+
+    /**
      * 透前透后唯一标识
      * patient_assay_inspectioid_back.dia_ab_flag
      */
@@ -34,6 +40,20 @@ public class PatientAssayInspectioidBack {
      */
     public void setInspectioid(String inspectioid) {
         this.inspectioid = inspectioid;
+    }
+
+    /**
+     * 患者id
+     */
+    public Long getFkPatientId() {
+        return fkPatientId;
+    }
+
+    /**
+     * 患者id
+     */
+    public void setFkPatientId(Long fkPatientId) {
+        this.fkPatientId = fkPatientId;
     }
 
     /**

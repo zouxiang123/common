@@ -164,12 +164,6 @@ public interface AssayHospDictMapper {
     public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
 
     /**
-     * @param list
-     *            手动添加化验项字典表
-     */
-    void insertDictHospital(List<AssayHospDictPO> list);
-
-    /**
      * 获取对应化验单id
      * 
      * @param list
