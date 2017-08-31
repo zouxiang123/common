@@ -124,6 +124,7 @@ public abstract class AssayHandFactory {
         List<PatientAssayInspectioidBack> inspectioidBackList = new ArrayList<>();
         AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
         Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
+        Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 检查项目唯一ID为空时候不插入
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId())) {
@@ -137,6 +138,10 @@ public abstract class AssayHandFactory {
                 if (StringUtil.isBlank(patientAssayRecord.getResult())) {
                     continue;
                 }
+                if (existsInspectionId.contains(patientAssayRecord.getInspectionId())) {// 如果插入过，无须再插入
+                    continue;
+                }
+                existsInspectionId.add(patientAssayRecord.getInspectionId());
                 String assayDictKey = patientAssayRecord.getItemCode() + "_" + patientAssayRecord.getGroupId();
                 if (!assayHospDictMap.containsKey(assayDictKey)) {
                     assayHospDictMap.put(assayDictKey, patientAssayRecord);
@@ -180,9 +185,7 @@ public abstract class AssayHandFactory {
         }
         // 插入字典表数据
         if (assayHospDictMap.size() > 0) {
-            assayHospDictMap.forEach((key, patientAssayRecord) -> {
-                this.insertAssayHospDict(patientAssayRecord);
-            });
+            insertAssayHospDict(assayHospDictMap);
         }
         listPatientAssayRecord = null;
     }
@@ -353,69 +356,76 @@ public abstract class AssayHandFactory {
     /**
      * 维护字典表
      * 
-     * @Title: selectInsert
-     * @param par
+     * @Title: insertAssayHospDict
+     * @param assayHospDictMap
      *
      */
-    public void insertAssayHospDict(PatientAssayRecordPO par) {
+    public void insertAssayHospDict(Map<String, PatientAssayRecordPO> assayHospDictMap) {
         // 固定输出数据
-        Date currDate = DateUtil.getCurrDate();
-        String itemCode = par.getItemCode();
-        String groupId = par.getGroupId();
-        Integer tenantId = UserUtil.getTenantId();
-        if (assayHospDictService.getCountByItemCode(itemCode) == 0) {
-            AssayHospDict assayHospDict = new AssayHospDict();
-            BeanUtil.copyProperties(par, assayHospDict);
-            BigDecimal valueMax = par.getValueMax();// 最大值
-            BigDecimal valueMin = par.getValueMin();// 最小值
-            if (valueMax != null) {
-                assayHospDict.setMaxValue(valueMax);
-                assayHospDict.setPersonalMaxValue(valueMax);
-            }
-            if (valueMin != null) {
-                assayHospDict.setMinValue(valueMin);
-                assayHospDict.setPersonalMinValue(valueMin);
-            }
+        Date currDate = new Date();
+        Set<String> itemCodeSet = new HashSet<>(assayHospDictMap.size());
+        Set<String> groupIdSet = new HashSet<>(assayHospDictMap.size());
+        assayHospDictMap.forEach((key, par) -> {
+            String itemCode = par.getItemCode();
+            String groupId = par.getGroupId();
+            Integer tenantId = UserUtil.getTenantId();
+            if (assayHospDictService.getCountByItemCode(itemCode) == 0 && !itemCodeSet.contains(itemCode)) {
+                AssayHospDict assayHospDict = new AssayHospDict();
+                BeanUtil.copyProperties(par, assayHospDict);
+                BigDecimal valueMax = par.getValueMax();// 最大值
+                BigDecimal valueMin = par.getValueMin();// 最小值
+                if (valueMax != null) {
+                    assayHospDict.setMaxValue(valueMax);
+                    assayHospDict.setPersonalMaxValue(valueMax);
+                }
+                if (valueMin != null) {
+                    assayHospDict.setMinValue(valueMin);
+                    assayHospDict.setPersonalMinValue(valueMin);
+                }
 
-            String result = par.getResult();
-            if (StringUtil.isNumber(result)) {
-                assayHospDict.setValueType(1);
-                assayHospDict.setDateType("n");
-            } else {
-                assayHospDict.setValueType(2);
-                assayHospDict.setDateType("s");
+                String result = par.getResult();
+                if (StringUtil.isNumber(result)) {
+                    assayHospDict.setValueType(1);
+                    assayHospDict.setDateType("n");
+                } else {
+                    assayHospDict.setValueType(2);
+                    assayHospDict.setDateType("s");
+                }
+                assayHospDict.setIsAuto(true);
+                assayHospDict.setUnit(par.getValueUnit());
+                assayHospDict.setCreateTime(currDate);
+                assayHospDict.setUpdateTime(currDate);
+                assayHospDict.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayHospDict.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                DataUtil.setSystemFieldValue(assayHospDict);
+                assayHospDictService.insert(assayHospDict);
+                itemCodeSet.add(itemCode);
             }
-            assayHospDict.setUnit(par.getValueUnit());
-            assayHospDict.setCreateTime(currDate);
-            assayHospDict.setUpdateTime(currDate);
-            assayHospDict.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-            assayHospDict.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-            DataUtil.setSystemFieldValue(assayHospDict);
-            assayHospDictService.insert(assayHospDict);
-        }
-        if (assayHospDictGroupService.getCountByGroupId(groupId) == 0) {
-            AssayHospDictGroup assayHospDictGroup = new AssayHospDictGroup();
-            assayHospDictGroup.setGroupId(par.getGroupId());
-            assayHospDictGroup.setGroupName(par.getGroupName());
-            assayHospDictGroup.setFkTenantId(tenantId);
-            assayHospDictGroup.setIsAuto(true);
-            assayHospDictGroup.setCreateTime(currDate);
-            assayHospDictGroup.setUpdateTime(currDate);
-            assayHospDictGroup.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-            assayHospDictGroup.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-            assayHospDictGroupService.insert(assayHospDictGroup);
-        }
-        if (assayHospDictGroupMappingService.getCountByGroupId(groupId, itemCode) == 0) {
-            AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
-            assayHospDictGroupMapping.setFkItemCode(itemCode);
-            assayHospDictGroupMapping.setFkGroupId(groupId);
-            assayHospDictGroupMapping.setFkTenantId(tenantId);
-            assayHospDictGroupMapping.setCreateTime(currDate);
-            assayHospDictGroupMapping.setUpdateTime(currDate);
-            assayHospDictGroupMapping.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-            assayHospDictGroupMapping.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-            assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
-        }
+            if (assayHospDictGroupService.getCountByGroupId(groupId) == 0 && !groupIdSet.contains(groupId)) {
+                AssayHospDictGroup assayHospDictGroup = new AssayHospDictGroup();
+                assayHospDictGroup.setGroupId(par.getGroupId());
+                assayHospDictGroup.setGroupName(par.getGroupName());
+                assayHospDictGroup.setFkTenantId(tenantId);
+                assayHospDictGroup.setIsAuto(true);
+                assayHospDictGroup.setCreateTime(currDate);
+                assayHospDictGroup.setUpdateTime(currDate);
+                assayHospDictGroup.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayHospDictGroup.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayHospDictGroupService.insert(assayHospDictGroup);
+                groupIdSet.add(groupId);
+            }
+            if (assayHospDictGroupMappingService.getCountByGroupId(groupId, itemCode) == 0) {
+                AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
+                assayHospDictGroupMapping.setFkItemCode(itemCode);
+                assayHospDictGroupMapping.setFkGroupId(groupId);
+                assayHospDictGroupMapping.setFkTenantId(tenantId);
+                assayHospDictGroupMapping.setCreateTime(currDate);
+                assayHospDictGroupMapping.setUpdateTime(currDate);
+                assayHospDictGroupMapping.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayHospDictGroupMapping.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+                assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
+            }
+        });
     }
 
     /**

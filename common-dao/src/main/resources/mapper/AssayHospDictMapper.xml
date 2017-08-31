@@ -19,7 +19,7 @@
     <result column="date_type" jdbcType="VARCHAR" property="dateType" />
     <result column="personal_min_value" jdbcType="DECIMAL" property="personalMinValue" />
     <result column="personal_max_value" jdbcType="DECIMAL" property="personalMaxValue" />
-    <result column="flage" jdbcType="BIT" property="flage" />
+    <result column="is_auto" jdbcType="BIT" property="isAuto" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -37,7 +37,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, item_code, item_name, min_value, max_value, unit, reference, order_by, fk_dict_code, 
-    value_type, is_top, date_type, personal_min_value, personal_max_value, flage, fk_tenant_id, 
+    value_type, is_top, date_type, personal_min_value, personal_max_value, is_auto, fk_tenant_id, 
     create_time, create_user_id, update_time, update_user_id
   </sql>
   <sql id="Blob_Column_List">
@@ -72,7 +72,7 @@
       min_value, max_value, unit, 
       reference, order_by, fk_dict_code, 
       value_type, is_top, date_type, 
-      personal_min_value, personal_max_value, flage, 
+      personal_min_value, personal_max_value, is_auto, 
       fk_tenant_id, create_time, create_user_id, 
       update_time, update_user_id, method
       )
@@ -80,7 +80,7 @@
       #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
       #{reference,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{fkDictCode,jdbcType=VARCHAR}, 
       #{valueType,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, #{dateType,jdbcType=VARCHAR}, 
-      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{flage,jdbcType=BIT}, 
+      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{isAuto,jdbcType=BIT}, 
       #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR}
       )
@@ -133,8 +133,8 @@
       <if test="personalMaxValue != null">
         personal_max_value,
       </if>
-      <if test="flage != null">
-        flage,
+      <if test="isAuto != null">
+        is_auto,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -198,8 +198,8 @@
       <if test="personalMaxValue != null">
         #{personalMaxValue,jdbcType=DECIMAL},
       </if>
-      <if test="flage != null">
-        #{flage,jdbcType=BIT},
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -266,8 +266,8 @@
       <if test="personalMaxValue != null">
         personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
       </if>
-      <if test="flage != null">
-        flage = #{flage,jdbcType=BIT},
+      <if test="isAuto != null">
+        is_auto = #{isAuto,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -308,7 +308,7 @@
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
-      flage = #{flage,jdbcType=BIT},
+      is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -335,7 +335,7 @@
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
-      flage = #{flage,jdbcType=BIT},
+      is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
