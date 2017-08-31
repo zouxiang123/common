@@ -11,6 +11,7 @@ package com.xtt.common.assay.hand;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -122,9 +123,8 @@ public abstract class AssayHandFactory {
         int i = 1;
         List<PatientAssayInspectioidBack> inspectioidBackList = new ArrayList<>();
         AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
-            // 维护字典表
-            this.insertAssayHospDict(patientAssayRecord);
             // 检查项目唯一ID为空时候不插入
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId())) {
                 continue;
@@ -136,6 +136,10 @@ public abstract class AssayHandFactory {
             } else {
                 if (StringUtil.isBlank(patientAssayRecord.getResult())) {
                     continue;
+                }
+                String assayDictKey = patientAssayRecord.getItemCode() + "_" + patientAssayRecord.getGroupId();
+                if (!assayHospDictMap.containsKey(assayDictKey)) {
+                    assayHospDictMap.put(assayDictKey, patientAssayRecord);
                 }
                 patientAssayRecordBusi = new PatientAssayRecordBusi();
                 BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
@@ -173,6 +177,12 @@ public abstract class AssayHandFactory {
         }
         if (listPatientAssayRecordBusi.size() != 0) {
             patientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
+        }
+        // 插入字典表数据
+        if (assayHospDictMap.size() > 0) {
+            assayHospDictMap.forEach((key, patientAssayRecord) -> {
+                this.insertAssayHospDict(patientAssayRecord);
+            });
         }
         listPatientAssayRecord = null;
     }
@@ -375,7 +385,6 @@ public abstract class AssayHandFactory {
                 assayHospDict.setValueType(2);
                 assayHospDict.setDateType("s");
             }
-            assayHospDict.setIsAuto(true);
             assayHospDict.setUnit(par.getValueUnit());
             assayHospDict.setCreateTime(currDate);
             assayHospDict.setUpdateTime(currDate);
