@@ -6,9 +6,9 @@ package com.xtt.common.dao.model;
 public class PatientAssayInspectioidBack {
     /**
      * 检查项目唯一ID
-     * patient_assay_inspectioid_back.inspectioid
+     * patient_assay_inspectioid_back.inspection_id
      */
-    private String inspectioid;
+    private String inspectionId;
 
     /**
      * 患者id
@@ -31,15 +31,15 @@ public class PatientAssayInspectioidBack {
     /**
      * 检查项目唯一ID
      */
-    public String getInspectioid() {
-        return inspectioid;
+    public String getInspectionId() {
+        return inspectionId;
     }
 
     /**
      * 检查项目唯一ID
      */
-    public void setInspectioid(String inspectioid) {
-        this.inspectioid = inspectioid;
+    public void setInspectionId(String inspectionId) {
+        this.inspectionId = inspectionId;
     }
 
     /**

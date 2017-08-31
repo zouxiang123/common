@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    <result column="inspectioid" jdbcType="VARCHAR" property="inspectioid" />
+    <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
     <result column="dia_ab_flag" jdbcType="CHAR" property="diaAbFlag" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
@@ -14,9 +14,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_assay_inspectioid_back (inspectioid, fk_patient_id, dia_ab_flag, 
+    insert into patient_assay_inspectioid_back (inspection_id, fk_patient_id, dia_ab_flag, 
       fk_tenant_id)
-    values (#{inspectioid,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{diaAbFlag,jdbcType=CHAR}, 
+    values (#{inspectionId,jdbcType=VARCHAR}, #{fkPatientId,jdbcType=BIGINT}, #{diaAbFlag,jdbcType=CHAR}, 
       #{fkTenantId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayInspectioidBack">
@@ -25,8 +25,8 @@
     -->
     insert into patient_assay_inspectioid_back
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="inspectioid != null">
-        inspectioid,
+      <if test="inspectionId != null">
+        inspection_id,
       </if>
       <if test="fkPatientId != null">
         fk_patient_id,
@@ -39,8 +39,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="inspectioid != null">
-        #{inspectioid,jdbcType=VARCHAR},
+      <if test="inspectionId != null">
+        #{inspectionId,jdbcType=VARCHAR},
       </if>
       <if test="fkPatientId != null">
         #{fkPatientId,jdbcType=BIGINT},
@@ -56,10 +56,10 @@
 
     <!-- user define -->
     <insert id="insertList">
-        insert into patient_assay_inspectioid_back (inspectioid, fk_patient_id, dia_ab_flag, fk_tenant_id)
-        <foreach collection="list" item="item" index="index" separator="union all">
+        insert into patient_assay_inspectioid_back (inspection_id, fk_patient_id, dia_ab_flag, fk_tenant_id)
+        <foreach collection="list" index="index" item="item" separator="union all">
             select
-            #{item.inspectioid,jdbcType=VARCHAR},
+            #{item.inspectionId,jdbcType=VARCHAR},
             #{item.fkPatientId,jdbcType=BIGINT},
             #{item.diaAbFlag,jdbcType=CHAR},
             #{item.fkTenantId,jdbcType=INTEGER}
@@ -70,8 +70,8 @@
     <select id="listByCondition" resultMap="BaseResultMap">
         SELECT * FROM patient_assay_inspectioid_back
         <where>
-            <if test="inspectioid != null">
-               inspectioid = #{inspectioid}
+            <if test="inspectionId != null">
+               inspection_id = #{inspectionId}
             </if>
             <if test="fkPatientId != null">
                AND fk_patient_id = #{fkPatientId}

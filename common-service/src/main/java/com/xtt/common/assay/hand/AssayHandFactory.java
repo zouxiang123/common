@@ -11,8 +11,10 @@ package com.xtt.common.assay.hand;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -41,6 +43,7 @@ import com.xtt.common.dao.model.AssayHospDictGroup;
 import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
@@ -135,6 +138,7 @@ public abstract class AssayHandFactory {
                 }
                 patientAssayRecordBusi = new PatientAssayRecordBusi();
                 BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+                patientAssayRecordBusi.setFlage(false);
                 patientAssayRecordBusi.setCreateTime(nowDate);
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
@@ -215,14 +219,36 @@ public abstract class AssayHandFactory {
     /**
      * 根据申请单号更新透前透后字段
      * 
-     * @Title: updateListPatientAssayRecordBusi
-     * @param newPatientAssayRecordBusi
+     * @Title: updateDiaAbFlagByReqId
+     * @param reqList
      *
      */
-    public void updateListPatientAssayRecordBusi(List<PatientAssayRecordBusi> newPatientAssayRecordBusi) {
-
-        for (PatientAssayRecordBusi patientAssayRecordBusi : newPatientAssayRecordBusi) {
+    public void updateDiaAbFlagByReqId(List<PatientAssayRecordBusi> reqList) {
+        Set<String> existsInspectionIds = new HashSet<>();
+        List<PatientAssayInspectioidBack> inspectionIdBackList = new ArrayList<>();
+        for (PatientAssayRecordBusi patientAssayRecordBusi : reqList) {
             patientAssayRecordBusiService.updateDiaAbFlagByReqId(patientAssayRecordBusi);
+            // 查询需要备份的项目
+            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+            BeanUtil.copyProperties(patientAssayRecordBusi, query);
+            query.setDiaAbFlag(AssayConsts.AFTER_HD);
+            List<PatientAssayRecordBusiPO> updateList = patientAssayRecordBusiService.listByCondition(query);
+            if (CollectionUtils.isNotEmpty(updateList)) {
+                updateList.forEach(parb -> {
+                    if (!existsInspectionIds.contains(parb.getInspectionId())) {
+                        PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
+                                        parb.getDiaAbFlag(), parb.getFkTenantId());
+                        if (inspectioidBack != null) {
+                            inspectionIdBackList.add(inspectioidBack);
+                            existsInspectionIds.add(parb.getInspectionId());
+                        }
+                    }
+                });
+            }
+        }
+        // 备份透后数据到patient_assay_inspectioid_back
+        if (CollectionUtils.isNotEmpty(inspectionIdBackList)) {
+            patientAssayInspectioidBackService.insertList(inspectionIdBackList);
         }
     }
 
@@ -401,17 +427,17 @@ public abstract class AssayHandFactory {
      * 获取透后标识对象
      * 
      * @Title: getInspectioidBack
-     * @param inspectioid
+     * @param inspectionId
      * @param patientId
      * @param diaAbFlag
      * @param tenantId
      * @return
      *
      */
-    protected PatientAssayInspectioidBack getInspectioidBack(String inspectioid, Long patientId, String diaAbFlag, Integer tenantId) {
+    protected PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
         if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
             PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
-            record.setInspectioid(inspectioid);
+            record.setInspectionId(inspectionId);
             record.setFkPatientId(patientId);
             record.setDiaAbFlag(diaAbFlag);
             record.setFkTenantId(tenantId);

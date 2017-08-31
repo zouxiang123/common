@@ -203,10 +203,10 @@ public interface PatientAssayRecordBusiMapper {
     /**
      * 根据备份的标识更新标识数据
      * 
-     * @Title: updateDiaAbFlagByInspectioidBack
+     * @Title: updateDiaAbFlagByInspectionIdBack
      * @param fkPatientId
      * @param fkTenantId
      *
      */
-    void updateDiaAbFlagByInspectioidBack(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
+    void updateDiaAbFlagByInspectionIdBack(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
 }

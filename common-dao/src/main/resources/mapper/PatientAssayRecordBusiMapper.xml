@@ -494,6 +494,9 @@
                 AND parb.result_tips in
                 <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
             </if>
+            <if test="sampleTime != null">
+                AND parb.sample_time = #{sampleTime,jdbcType=TIMESTAMP}
+            </if>
         </where>
        
     </select>
@@ -778,9 +781,9 @@
         delete from patient_assay_record_busi where fk_tenant_id =  #{fkTenantId}
     </delete>
     <!-- 根据备份的标识更新标识数据 -->
-    <update id="updateDiaAbFlagByInspectioidBack">
+    <update id="updateDiaAbFlagByInspectionIdBack">
     UPDATE patient_assay_record_busi parb
-    JOIN patient_assay_inspectioid_back paib ON paib.inspectioid = parb.inspectioid AND paib.fk_tenant_id = parb.fk_tenant_id
+    JOIN patient_assay_inspectioid_back paib ON paib.inspection_id = parb.inspection_id AND paib.fk_tenant_id = parb.fk_tenant_id
     SET parb.dia_ab_flag = paib.dia_ab_flag
     <where>
         parb.fk_tenant_id = #{fkTenantId}

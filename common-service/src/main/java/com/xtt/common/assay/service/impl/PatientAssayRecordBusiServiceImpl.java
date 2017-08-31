@@ -330,8 +330,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public void updateDiaAbFlagByInspectioidBack(Long fkPatientId, Integer tenantId) {
-        patientAssayRecordBusiMapper.updateDiaAbFlagByInspectioidBack(fkPatientId, tenantId);
+    public void updateDiaAbFlagByInspectionIdBack(Long fkPatientId, Integer tenantId) {
+        patientAssayRecordBusiMapper.updateDiaAbFlagByInspectionIdBack(fkPatientId, tenantId);
     }
 
 }

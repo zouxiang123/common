@@ -25,7 +25,7 @@ public class AssayHandDelete extends AssayHandFactory {
 
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> mapPatientId, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
-        patientAssayRecordBusiService.updateDiaAbFlagByInspectioidBack(fkPatientId, UserUtil.getTenantId());
+        patientAssayRecordBusiService.updateDiaAbFlagByInspectionIdBack(fkPatientId, UserUtil.getTenantId());
     }
 
 }

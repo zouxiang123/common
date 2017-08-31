@@ -276,11 +276,11 @@ public interface IPatientAssayRecordBusiService {
     /**
      * 根据备份的标识更新标识数据
      * 
-     * @Title: updateDiaAbFlagByInspectioidBack
+     * @Title: updateDiaAbFlagByInspectionIdBack
      * @param fkPatientId
      * @param tenantId
      *
      */
-    void updateDiaAbFlagByInspectioidBack(Long fkPatientId, Integer tenantId);
+    void updateDiaAbFlagByInspectionIdBack(Long fkPatientId, Integer tenantId);
 
 }

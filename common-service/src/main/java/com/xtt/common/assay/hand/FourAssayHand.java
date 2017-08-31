@@ -88,7 +88,7 @@ public class FourAssayHand extends AssayHandFactory {
             }
         }
         if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {
-            this.updateListPatientAssayRecordBusi(newPatientAssayRecordBusi);
+            this.updateDiaAbFlagByReqId(newPatientAssayRecordBusi);
         }
     }
 

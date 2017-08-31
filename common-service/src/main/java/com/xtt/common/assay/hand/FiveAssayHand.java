@@ -16,7 +16,6 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.xtt.common.assay.consts.AssayConsts;
-import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
@@ -42,8 +41,6 @@ public class FiveAssayHand extends AssayHandFactory {
         boolean isUpdate;
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
-        PatientAssayInspectioidBack patientAssayInspectioidBack;
-        List<PatientAssayInspectioidBack> insertPatientAssayInspectioidBackList = new ArrayList<>();
         // 评级项目名称
         for (DictDto dictDto : itemCodeList) {
             strItemCode.append(" , max(case when item_code = '").append(dictDto.getItemCode()).append("' then result end ) itemCode" + i);
@@ -87,11 +84,7 @@ public class FiveAssayHand extends AssayHandFactory {
             }
             // 更新透前透后标识符
             if (CollectionUtils.isNotEmpty(updateRecordList)) {
-                this.updateListPatientAssayRecordBusi(updateRecordList);
-            }
-            // 备份透后数据到patient_assay_back_inspectioid
-            if (CollectionUtils.isNotEmpty(insertPatientAssayInspectioidBackList)) {
-                patientAssayInspectioidBackService.insertList(insertPatientAssayInspectioidBackList);
+                this.updateDiaAbFlagByReqId(updateRecordList);
             }
         }
     }
