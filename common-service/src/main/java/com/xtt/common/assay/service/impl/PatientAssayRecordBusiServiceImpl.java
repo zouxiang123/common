@@ -41,7 +41,6 @@ import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
@@ -256,7 +255,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
                     Integer fkTenantId) {
         UserUtil.setThreadTenant(fkTenantId);
-        String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
         AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
         if (assayFilterRule == null) {
             LOGGER.error("assay_filter_rule表中category字段为空");
@@ -267,17 +265,17 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             deleteByPatientId(patientId, fkTenantId);
             assayHandFactory = new AssayHandDelete();
         } else {
-            switch (labAfterBefore) {
-            case "1":
+            switch (assayFilterRule.getCategory()) {
+            case AssayConsts.LAB_AFTER_BEFORE_ONE:
                 assayHandFactory = new AssayHandOne();
                 break;
-            case "2":
+            case AssayConsts.LAB_AFTER_BEFORE_TWO:
                 assayHandFactory = new AssayHandTwo();
                 break;
-            case "3":
+            case AssayConsts.LAB_AFTER_BEFORE_THREE:
                 assayHandFactory = new AssayHandThree();
                 break;
-            case "4":
+            case AssayConsts.LAB_AFTER_BEFORE_FOUR:
                 assayHandFactory = new AssayHandFour();
                 break;
             default:

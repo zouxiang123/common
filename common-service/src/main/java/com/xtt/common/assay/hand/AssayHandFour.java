@@ -19,9 +19,7 @@ import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
-import com.xtt.common.dto.DictDto;
 import com.xtt.common.util.BusinessDateUtil;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 public class AssayHandFour extends AssayHandFactory {
@@ -33,8 +31,9 @@ public class AssayHandFour extends AssayHandFactory {
         Integer beforeCount = assayFilterRule.getItemCountBefore();
         Integer afterCount = assayFilterRule.getItemCountAfter();
         String groupName = assayFilterRule.getGroupName();
+        String strItemCodes = assayFilterRule.getItemCode();
+        String[] itemCodes = strItemCodes.split(",");
         // 根据项目编码过滤查询
-        List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
         StringBuffer strItemCode = new StringBuffer();
         Date startCreateDate;
         Date endCreateDate;
@@ -44,8 +43,8 @@ public class AssayHandFour extends AssayHandFactory {
         PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
         List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
         // 评级项目名称
-        for (DictDto dictDto : itemCodeList) {
-            strItemCode.append(" , max(case when item_code = '").append(dictDto.getItemCode()).append("' then result end ) itemCode" + i);
+        for (String itemCode : itemCodes) {
+            strItemCode.append(" , max(case when item_code = '").append(itemCode).append("' then result end ) itemCode" + i);
             i++;
         }
         // 对需要清洗数据的患者循环
@@ -67,7 +66,7 @@ public class AssayHandFour extends AssayHandFactory {
                 // 如果查询到透前不为空判断项目是否透前大于透后
                 if (beforePatientAssayRecord != null) {
                     isUpdate = true;
-                    for (int j = 0; j < itemCodeList.size() - 1; j++) {
+                    for (int j = 0; j < itemCodes.length - 1; j++) {
                         if (isUpdate == false) {
                             continue;
                         }

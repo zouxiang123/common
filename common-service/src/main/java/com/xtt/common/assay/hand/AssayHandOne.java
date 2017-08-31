@@ -23,7 +23,7 @@ public class AssayHandOne extends AssayHandFactory {
 
     @Override
     String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {
-        return diaAbFlag(record.getSampleClass(), labBefore, labAfter);
+        return diaAbFlag(record.getGroupName(), labBefore, labAfter);
     }
 
 }

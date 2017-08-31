@@ -24,34 +24,11 @@ public class AssayConsts {
     /** 透后 */
     public static final String AFTER_HD = "2";
 
-    /** 检验透析前后判断逻辑控制（检验结果表<patient_assay_record> 1：根据group_name判断 2：根据sample_class判断 3：根据item_code判断 4：根据sample_time判断 5:根据化验条目判断） */
-    public static final String LAB_AFTER_BEFORE = "lab_after_before";
+    /** 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;) */
     public static final String LAB_AFTER_BEFORE_ONE = "1";
     public static final String LAB_AFTER_BEFORE_TWO = "2";
     public static final String LAB_AFTER_BEFORE_THREE = "3";
     public static final String LAB_AFTER_BEFORE_FOUR = "4";
-    public static final String LAB_AFTER_BEFORE_FIVE = "5";
-
-    /** 查询条件 item_code in ('CA','K') */
-    public static final String WHERE_IN_ITEM_CODE_LIST = "itemCodeList";
-
-    /** 关键字：透析前 透析后 */
-    public static final String LAB_AFTER_BEFORE_KEYWORD = "lab_after_before_keyword";
-    /** 非透析前和透析后 */
-    public static final String NOT_AFTER_BEFORE = "0";
-    /** 关键字： 透析前 */
-    public static final String LAB_BEFORE_CN = "(前)";
-    /** 关键字：透析后 */
-    public static final String LAB_AFTER_CN = "(后)";
-    /** 关键字：透析前后时间（<=24） */
-    public static final String LAB_GJZ_SJ = "3";
-    /** 关键字：透析前表单项目条数 */
-    public static final String LAB_BEFORE_COUNT = "4";
-    /** 关键字：透析后表单项目条数 */
-    public static final String LAB_AFTER_COUNT = "5";
-
-    /** 关键字：化验项目的名称 */
-    public static final String LAB_GROUP_NAME = "化验项";
 
     /** 正常 */
     public static final String TIPS_NORMAL = "1";

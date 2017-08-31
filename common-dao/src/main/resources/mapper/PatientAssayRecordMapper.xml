@@ -588,7 +588,7 @@
                 and report_time &lt;= #{endCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="groupName != null">
-                and group_name = #{groupName}
+                and group_name like concat(#{groupName},'%')
             </if>
         </where>
         group by fk_patient_id,sample_time,req_id having count('1') = #{afterCount ,jdbcType=INTEGER}
@@ -608,7 +608,7 @@
                 and report_time &lt;= #{endCreateDate,jdbcType=TIMESTAMP}
             </if>
             <if test="groupName != null">
-                and group_name = #{groupName}
+                and group_name like concat(#{groupName},'%')
             </if>
         </where>
         group by fk_patient_id,sample_time,req_id having count('1') = #{beforeCount,jdbcType=INTEGER} ORDER BY sample_time desc limit 1
