@@ -25,6 +25,12 @@ public class AssayFilterRule {
     private String groupName;
 
     /**
+     * 化验项
+     * assay_filter_rule.item_code
+     */
+    private String itemCode;
+
+    /**
      * 透前关键字
      * assay_filter_rule.keyword_before
      */
@@ -124,6 +130,20 @@ public class AssayFilterRule {
      */
     public void setGroupName(String groupName) {
         this.groupName = groupName;
+    }
+
+    /**
+     * 化验项
+     */
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    /**
+     * 化验项
+     */
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
     }
 
     /**

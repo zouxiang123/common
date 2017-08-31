@@ -136,4 +136,20 @@ public interface PatientAssayRecordMapper {
                     @Param("endCreateDate") Date endCreateDate, @Param("groupName") String groupName, @Param("patientId") Long patientId,
                     @Param("fkTenantId") Integer tenantId, @Param("strItemCode") String strItemCode);
 
+    /**
+     * 根据患者id item_code查询
+     * 
+     * @Title: listByPatientId
+     * @param startTime
+     * @param endTime
+     * @param itemCode
+     * @param fkPatientId
+     * @param resultActual2
+     * @param fkTenantId
+     * @return
+     *
+     */
+    Integer countByPatientId(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("itemCode") String itemCode,
+                    @Param("fkPatientId") Long fkPatientId, @Param("resultActual") Double resultActual, @Param("fkTenantId") Integer fkTenantId);
+
 }

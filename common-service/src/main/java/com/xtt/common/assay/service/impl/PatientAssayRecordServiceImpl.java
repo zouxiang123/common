@@ -56,4 +56,9 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     }
 
+    @Override
+    public Integer countByPatientId(Date startTime, Date endTime, String itemCode, Long fkPatientId, Double resultActual) {
+        return patientAssayRecordMapper.countByPatientId(startTime, endTime, itemCode, fkPatientId, resultActual, UserUtil.getTenantId());
+    }
+
 }

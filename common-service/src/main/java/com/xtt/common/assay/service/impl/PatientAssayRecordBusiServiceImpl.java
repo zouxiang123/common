@@ -18,8 +18,12 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.hand.AssayHandDelete;
@@ -28,9 +32,11 @@ import com.xtt.common.assay.hand.FiveAssayHand;
 import com.xtt.common.assay.hand.FourAssayHand;
 import com.xtt.common.assay.hand.OneAssayHand;
 import com.xtt.common.assay.hand.TwoAssayHand;
+import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
+import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
@@ -43,9 +49,12 @@ import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBusiService {
-
+    protected final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
+
+    @Autowired
+    private IAssayFilterRuleService assayFilterRuleService;
 
     @Autowired
     private IAssayHospDictService assayHospDictService;
@@ -243,10 +252,16 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
                     Integer fkTenantId) {
         UserUtil.setThreadTenant(fkTenantId);
         String labAfterBefore = SysParamUtil.getValueByName(UserUtil.getTenantId(), AssayConsts.LAB_AFTER_BEFORE);
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        if (assayFilterRule == null) {
+            LOGGER.error("assay_filter_rule表中category字段为空");
+            return;
+        }
         AssayHandFactory assayHandFactory = null;
         if (isDelete) {// 如果是删除操作，不需要清洗，只需重新把透析透后标识带过来；
             deleteByPatientId(patientId, fkTenantId);

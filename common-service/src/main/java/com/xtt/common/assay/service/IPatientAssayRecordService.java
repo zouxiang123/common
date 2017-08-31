@@ -47,6 +47,20 @@ public interface IPatientAssayRecordService {
     List<PatientAssayRecord> listByItemCode(Date startCreateTime, Date endCreateTime, List<String> itemCode, String groupName);
 
     /**
+     * 根据患者id itemCode查询
+     * 
+     * @Title: listByPatientId
+     * @param startTime
+     * @param endTime
+     * @param itemCode
+     * @param fkPatientId
+     * @param resultActual
+     * @return
+     *
+     */
+    Integer countByPatientId(Date startTime, Date endTime, String itemCode, Long fkPatientId, Double resultActual);
+
+    /**
      * 根据化验项目条目查询得到所有的数据
      * 
      * @Title: listByBeforeCount

@@ -9,6 +9,7 @@
 package com.xtt.common.assay.hand;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -16,28 +17,32 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
-import com.xtt.common.dto.DictDto;
-import com.xtt.common.util.DictUtil;
-import com.xtt.platform.util.BeanUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.time.DateFormatUtil;
 
 public class FourAssayHand extends AssayHandFactory {
 
     @Override
-    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
+    public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long patientId) {
         // 根据项目编码过滤查询
-        List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
-        String sjStr = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GJZ_SJ);// 关键字：设置为24小时
-        String groupName = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GROUP_NAME);// 化验单名称
-        List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
-        List<String> itemCode = new ArrayList<String>();
-        for (DictDto dictDto : itemCodeList) {
-            itemCode.add(dictDto.getItemCode());
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        // 以","分割
+        String strItemCode = assayFilterRule.getItemCode();
+        if (strItemCode == null) {
+            LOGGER.error("assay_filter_rule表中item_code字段为空");
+            return;
         }
-        List<PatientAssayRecord> listPatientAssayRecord = patientAssayRecordService.listByItemCode(startCreateTime, endCreateTime, itemCode,
+        String[] itemCodes = strItemCode.split(",");
+        String groupName = assayFilterRule.getGroupName();// 化验单名称
+        List<PatientAssayRecordBusi> newPatientAssayRecordBusi = new ArrayList<>();
+        List<String> listItemCode = new ArrayList<String>();
+        Collections.addAll(listItemCode, itemCodes);
+        List<PatientAssayRecord> listPatientAssayRecord = patientAssayRecordService.listByItemCode(startCreateTime, endCreateTime, listItemCode,
                         groupName);
         if (listPatientAssayRecord.size() > 0) {
             // 记录上一条数据患者id
@@ -46,46 +51,45 @@ public class FourAssayHand extends AssayHandFactory {
             Date oldReportTime = null;
             // 记录上一条申请id
             String oldReqId = null;
-            // 记录上一条化验项目
-            String oldItemCode = null;
-            // 记录上一条化验数值
-            Double oldResultActual = null;
-
-            long time1;
-            long time2;
-            long sj = StringUtil.isEmpty(sjStr) ? 0L : Long.valueOf(sjStr);
             PatientAssayRecordBusi patientAssayRecordBusi;
             for (PatientAssayRecord patientAssayRecord : listPatientAssayRecord) {
                 if (patientAssayRecord.getResultActual() == null) {
                     continue;
                 }
-                if (oldFkPatientId.equals(patientAssayRecord.getFkPatientId())) {
 
-                    if (oldReportTime != null && patientAssayRecord.getReportTime() != null) {
-                        time1 = oldReportTime.getTime();
-                        time2 = patientAssayRecord.getSampleTime().getTime();
-                        long dd = (time1 - time2) / (1000 * 3600); // 共计小时
-                        if (dd <= sj && StringUtil.equals(oldItemCode, patientAssayRecord.getItemCode())
-                                        && oldResultActual > patientAssayRecord.getResultActual()) {
-                            patientAssayRecordBusi = new PatientAssayRecordBusi();
-                            BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
-                            patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
-                            newPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                            patientAssayRecordBusi = null;
-                        }
-                    }
+                // 当化验单重复出现时候不处理
+                if (StringUtil.isNotEmpty(oldReqId) && StringUtil.equals(oldReqId, patientAssayRecord.getReqId())
+                                && oldReportTime.compareTo(patientAssayRecord.getReportTime()) == 0
+                                && StringUtil.equals(oldFkPatientId.toString(), patientAssayRecord.getFkPatientId().toString())) {
+                    continue;
                 }
-                oldFkPatientId = patientAssayRecord.getFkPatientId();
-                oldReportTime = patientAssayRecord.getReportTime();
-                oldReqId = patientAssayRecord.getReqId();
-                oldItemCode = patientAssayRecord.getItemCode();
-                oldResultActual = patientAssayRecord.getResultActual();
+                Date endTime = patientAssayRecord.getReportTime();
+                Date startTime = DateFormatUtil.getStartTime(patientAssayRecord.getReportTime());
+                String itemCode = patientAssayRecord.getItemCode();
+                Long fkPatientId = patientAssayRecord.getFkPatientId();
+                Double resultActual = patientAssayRecord.getResultActual();
+                Integer count = patientAssayRecordService.countByPatientId(startTime, endTime, itemCode, fkPatientId, resultActual);
+                // 获取当天这个患者化验项相同的数据
+
+                // 如果当天存在一条比当前化验单数值小时 当前化验单标记为透后并跳出当前循环
+                if (count > 0) {
+                    patientAssayRecordBusi = new PatientAssayRecordBusi();
+                    patientAssayRecordBusi.setFkPatientId(patientAssayRecord.getFkPatientId());
+                    patientAssayRecordBusi.setReqId(patientAssayRecord.getReqId());
+                    patientAssayRecordBusi.setReportTime(patientAssayRecord.getReportTime());
+                    patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
+                    newPatientAssayRecordBusi.add(patientAssayRecordBusi);
+                    patientAssayRecordBusi = null;
+                    oldFkPatientId = patientAssayRecord.getFkPatientId();
+                    oldReportTime = patientAssayRecord.getReportTime();
+                    oldReqId = patientAssayRecord.getReqId();
+                    break;
+                }
             }
         }
         if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {
             this.updateListPatientAssayRecordBusi(newPatientAssayRecordBusi);
         }
-
     }
 
     @Override

@@ -21,12 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
 import com.xtt.common.assay.service.IAssayHospDictGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayInspectioidBackService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
+import com.xtt.common.assay.service.impl.AssayFilterRuleServiceImpl;
 import com.xtt.common.assay.service.impl.AssayHospDictGroupMappingServiceImpl;
 import com.xtt.common.assay.service.impl.AssayHospDictGroupServiceImpl;
 import com.xtt.common.assay.service.impl.AssayHospDictServiceImpl;
@@ -72,6 +74,9 @@ public abstract class AssayHandFactory {
 
     protected IPatientAssayRecordService patientAssayRecordService = SpringUtil
                     .getBean(StringUtil.firstToLowerCase(PatientAssayRecordServiceImpl.class.getSimpleName()), IPatientAssayRecordService.class);
+
+    protected IAssayFilterRuleService assayFilterRuleService = SpringUtil
+                    .getBean(StringUtil.firstToLowerCase(AssayFilterRuleServiceImpl.class.getSimpleName()), IAssayFilterRuleService.class);
 
     /**
      * 根据创建时间查询数据
@@ -205,7 +210,7 @@ public abstract class AssayHandFactory {
         }
         insertAssayRecord(listAssayRecord);
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
-    };
+    }
 
     /**
      * 根据申请单号更新透前透后字段
