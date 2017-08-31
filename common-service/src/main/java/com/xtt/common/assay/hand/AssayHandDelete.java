@@ -19,7 +19,7 @@ import com.xtt.common.util.UserUtil;
 public class AssayHandDelete extends AssayHandFactory {
 
     @Override
-    String getDiaAbAlag(PatientAssayRecordPO record) {// 根据样品关键字
+    String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {// 根据样品关键字
         return AssayConsts.BEFORE_HD;
     }
 

@@ -38,6 +38,7 @@ import com.xtt.common.assay.service.impl.PatientAssayInspectioidBackServiceImpl;
 import com.xtt.common.assay.service.impl.PatientAssayRecordBusiServiceImpl;
 import com.xtt.common.assay.service.impl.PatientAssayRecordServiceImpl;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.AssayHospDict;
 import com.xtt.common.dao.model.AssayHospDictGroup;
 import com.xtt.common.dao.model.AssayHospDictGroupMapping;
@@ -46,7 +47,6 @@ import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
@@ -121,6 +121,7 @@ public abstract class AssayHandFactory {
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         int i = 1;
         List<PatientAssayInspectioidBack> inspectioidBackList = new ArrayList<>();
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 维护字典表
             this.insertAssayHospDict(patientAssayRecord);
@@ -147,7 +148,8 @@ public abstract class AssayHandFactory {
                 patientAssayRecordBusi.setAssayDate(patientAssayRecord.getSampleTime());// 检查日期默认取样品时间
                 patientAssayRecordBusi.setResultActual(matcherToNum(patientAssayRecordBusi.getResult()));
                 patientAssayRecordBusi.setId(id++);
-                patientAssayRecordBusi.setDiaAbFlag(getDiaAbAlag(patientAssayRecord));
+                patientAssayRecordBusi.setDiaAbFlag(
+                                getDiaAbAlag(patientAssayRecord, assayFilterRule.getKeywordBefore(), assayFilterRule.getKeywordAfter()));
                 // 备份透后记录
                 PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(patientAssayRecordBusi.getInspectionId(),
                                 patientAssayRecordBusi.getFkPatientId(), patientAssayRecordBusi.getDiaAbFlag(),
@@ -183,7 +185,7 @@ public abstract class AssayHandFactory {
      * @return
      *
      */
-    abstract String getDiaAbAlag(PatientAssayRecordPO record);
+    abstract String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter);
 
     /**
      * 插入之后处理透前透后标识
@@ -258,11 +260,8 @@ public abstract class AssayHandFactory {
      * @param where
      * @return String @throws
      */
-    public String diaAbFlag(String where) {
+    public String diaAbFlag(String where, String labBefore, String labAfter) {
         String ab = AssayConsts.BEFORE_HD;// 默认透前
-        // 关键字
-        String labBefore = DictUtil.getItemCode(AssayConsts.LAB_AFTER_BEFORE_KEYWORD, AssayConsts.BEFORE_HD);// 透析前=1
-        String labAfter = DictUtil.getItemCode(AssayConsts.LAB_AFTER_BEFORE_KEYWORD, AssayConsts.AFTER_HD);// 透析后=2
         // 透析前
         if (StringUtil.isNotEmpty(labBefore) && where.indexOf(labBefore) >= 0) {
             ab = AssayConsts.BEFORE_HD;
@@ -272,19 +271,6 @@ public abstract class AssayHandFactory {
             ab = AssayConsts.AFTER_HD;
         }
         return ab;
-    }
-
-    /**
-     * @Title: newPatientAssayRecordPO
-     * @Description:生成新的对象
-     * @param parPO
-     * @param ifStr
-     * @return PatientAssayRecordPO @throws
-     */
-    public PatientAssayRecordBusi newPatientAssayRecordBusi(PatientAssayRecordBusi patientAssayRecordBusi, String ifStr) {
-        String diaAbFlag = diaAbFlag(ifStr); // 透析前后标示
-        patientAssayRecordBusi.setDiaAbFlag(diaAbFlag);
-        return patientAssayRecordBusi;
     }
 
     /**

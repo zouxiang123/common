@@ -72,7 +72,7 @@ public interface IPatientAssayRecordService {
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByAfterCount(String afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+    List<PatientAssayRecordPO> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
                     Integer tenantId, String strItemCode);
 
     /**
@@ -89,7 +89,7 @@ public interface IPatientAssayRecordService {
      * @return
      *
      */
-    PatientAssayRecordPO getByBeforeCount(String beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
+    PatientAssayRecordPO getByBeforeCount(Integer beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
                     Integer fkTenantId, String groupName);
 
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.dto.DictDto;
@@ -23,14 +24,15 @@ import com.xtt.common.util.BusinessDateUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
-public class FiveAssayHand extends AssayHandFactory {
+public class AssayHandFour extends AssayHandFactory {
 
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
-        String beforeCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_BEFORE_COUNT);
-        String afterCount = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_AFTER_COUNT);
-        String groupName = DictUtil.getItemCode("lab_after_before_keyword", AssayConsts.LAB_GROUP_NAME);
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        Integer beforeCount = assayFilterRule.getItemCountBefore();
+        Integer afterCount = assayFilterRule.getItemCountAfter();
+        String groupName = assayFilterRule.getGroupName();
         // 根据项目编码过滤查询
         List<DictDto> itemCodeList = DictUtil.listByPItemCode(AssayConsts.WHERE_IN_ITEM_CODE_LIST);
         StringBuffer strItemCode = new StringBuffer();
@@ -90,7 +92,7 @@ public class FiveAssayHand extends AssayHandFactory {
     }
 
     @Override
-    String getDiaAbAlag(PatientAssayRecordPO record) {
+    String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {
         return AssayConsts.BEFORE_HD;
     }
 

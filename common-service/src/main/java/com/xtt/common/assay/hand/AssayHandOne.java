@@ -14,7 +14,7 @@ import java.util.Map;
 
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 
-public class OneAssayHand extends AssayHandFactory {
+public class AssayHandOne extends AssayHandFactory {
 
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
@@ -22,8 +22,8 @@ public class OneAssayHand extends AssayHandFactory {
     }
 
     @Override
-    String getDiaAbAlag(PatientAssayRecordPO record) {
-        return diaAbFlag(record.getSampleClass());
+    String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {
+        return diaAbFlag(record.getSampleClass(), labBefore, labAfter);
     }
 
 }

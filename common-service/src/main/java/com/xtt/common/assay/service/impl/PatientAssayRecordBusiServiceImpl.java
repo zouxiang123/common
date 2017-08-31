@@ -28,10 +28,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.hand.AssayHandDelete;
 import com.xtt.common.assay.hand.AssayHandFactory;
-import com.xtt.common.assay.hand.FiveAssayHand;
-import com.xtt.common.assay.hand.FourAssayHand;
-import com.xtt.common.assay.hand.OneAssayHand;
-import com.xtt.common.assay.hand.TwoAssayHand;
+import com.xtt.common.assay.hand.AssayHandFour;
+import com.xtt.common.assay.hand.AssayHandOne;
+import com.xtt.common.assay.hand.AssayHandThree;
+import com.xtt.common.assay.hand.AssayHandTwo;
 import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
@@ -269,19 +269,16 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         } else {
             switch (labAfterBefore) {
             case "1":
-                assayHandFactory = new OneAssayHand();
+                assayHandFactory = new AssayHandOne();
                 break;
             case "2":
-                assayHandFactory = new TwoAssayHand();
+                assayHandFactory = new AssayHandTwo();
                 break;
             case "3":
-                assayHandFactory = new OneAssayHand();
+                assayHandFactory = new AssayHandThree();
                 break;
             case "4":
-                assayHandFactory = new FourAssayHand();
-                break;
-            case "5":
-                assayHandFactory = new FiveAssayHand();
+                assayHandFactory = new AssayHandFour();
                 break;
             default:
                 break;

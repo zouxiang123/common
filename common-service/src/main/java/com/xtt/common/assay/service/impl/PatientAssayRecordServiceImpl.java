@@ -43,14 +43,14 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public PatientAssayRecordPO getByBeforeCount(String beforeCount, Date startCreateDate, Date endCreateDate, String strItemCode, Long patientId,
+    public PatientAssayRecordPO getByBeforeCount(Integer beforeCount, Date startCreateDate, Date endCreateDate, String strItemCode, Long patientId,
                     Integer fkTenantId, String groupName) {
 
         return patientAssayRecordMapper.getByBeforeCount(beforeCount, startCreateDate, endCreateDate, strItemCode, patientId, fkTenantId, groupName);
     }
 
     @Override
-    public List<PatientAssayRecordPO> listByAfterCount(String afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+    public List<PatientAssayRecordPO> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
                     Integer tenantId, String strItemCode) {
         return patientAssayRecordMapper.listByAfterCount(afterCount, startCreateDate, endCreateDate, groupName, patientId, tenantId, strItemCode);
 

@@ -14,11 +14,11 @@ import java.util.Map;
 
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 
-public class TwoAssayHand extends AssayHandFactory {
+public class AssayHandTwo extends AssayHandFactory {
 
     @Override
-    String getDiaAbAlag(PatientAssayRecordPO record) {// 根据样品关键字
-        return diaAbFlag(record.getSampleClass());
+    String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {// 根据样品关键字
+        return diaAbFlag(record.getSampleClass(), labBefore, labAfter);
     }
 
     @Override

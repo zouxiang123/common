@@ -116,7 +116,7 @@ public interface PatientAssayRecordMapper {
      * @return
      *
      */
-    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") String beforeCount, @Param("startCreateDate") Date startCreateDate,
+    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") Integer beforeCount, @Param("startCreateDate") Date startCreateDate,
                     @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
                     @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
 
@@ -132,7 +132,7 @@ public interface PatientAssayRecordMapper {
      * @return
      *
      */
-    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") String afterCount, @Param("startCreateDate") Date startCreateDate,
+    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") Integer afterCount, @Param("startCreateDate") Date startCreateDate,
                     @Param("endCreateDate") Date endCreateDate, @Param("groupName") String groupName, @Param("patientId") Long patientId,
                     @Param("fkTenantId") Integer tenantId, @Param("strItemCode") String strItemCode);
 

@@ -25,7 +25,7 @@ import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
-public class FourAssayHand extends AssayHandFactory {
+public class AssayHandThree extends AssayHandFactory {
 
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long patientId) {
@@ -93,7 +93,7 @@ public class FourAssayHand extends AssayHandFactory {
     }
 
     @Override
-    String getDiaAbAlag(PatientAssayRecordPO record) {
+    String getDiaAbAlag(PatientAssayRecordPO record, String labBefore, String labAfter) {
         return AssayConsts.BEFORE_HD;
     }
 }
