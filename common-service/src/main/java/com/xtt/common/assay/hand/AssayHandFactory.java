@@ -211,7 +211,7 @@ public abstract class AssayHandFactory {
      */
     public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId, Map<Long, List<Date>> mapPatientId) {
         List<PatientAssayRecordPO> listAssayRecord = listPatientAssayRecordByCreateTime(startCreateTime, endCreateTime, fkPatientId);
-        if (CollectionUtils.isNotEmpty(listAssayRecord)) {
+        if (CollectionUtils.isEmpty(listAssayRecord)) {
             return;
         }
         insertAssayRecord(listAssayRecord);

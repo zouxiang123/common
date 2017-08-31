@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -58,9 +59,9 @@ public class AssayHandThree extends AssayHandFactory {
                 }
 
                 // 当化验单重复出现时候不处理
-                if (StringUtil.isNotEmpty(oldReqId) && StringUtil.equals(oldReqId, patientAssayRecord.getReqId())
+                if (StringUtil.isNotEmpty(oldReqId) && oldReportTime != null && Objects.equals(oldReqId, patientAssayRecord.getReqId())
                                 && oldReportTime.compareTo(patientAssayRecord.getReportTime()) == 0
-                                && StringUtil.equals(oldFkPatientId.toString(), patientAssayRecord.getFkPatientId().toString())) {
+                                && Objects.equals(oldFkPatientId, patientAssayRecord.getFkPatientId())) {
                     continue;
                 }
                 Date endTime = patientAssayRecord.getReportTime();
