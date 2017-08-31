@@ -47,6 +47,18 @@ public class AssayConsts {
      */
     public static final String REPORT_DATE_TYPE_SEASON = "s";
     /**
+     * 报表数据过滤规则 -- 最大值
+     */
+    public static final String REPORT_FILTER_RULE_MAX_VALUE = "1";
+    /**
+     * 报表数据过滤规则 -- 最小值
+     */
+    public static final String REPORT_FILTER_RULE_MIN_VALUE = "2";
+    /**
+     * 报表数据过滤规则 -- 平均值
+     */
+    public static final String REPORT_FILTER_RULE_AVG = "3";
+    /**
      * 数值类别--数值
      */
     public static final Integer VALUE_TYPE_NUMBER = 1;

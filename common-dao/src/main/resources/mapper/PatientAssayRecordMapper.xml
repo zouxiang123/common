@@ -471,16 +471,6 @@
         <result column="sampleTimeShow" jdbcType="VARCHAR" property="sampleTimeShow" />
         <result column="reportTimeShow" jdbcType="VARCHAR" property="reportTimeShow" />
     </resultMap>
-    
-    <!-- 通过结果生成字典数据 -->
-    <select id="getLisDict" parameterType="java.lang.String" resultMap="POResultMap">
-        SELECT * FROM patient_assay_record where 1=1
-        <if test="startDateStr != null">
-            AND assay_date &gt;= #{startDateStr}
-        </if>
-        group BY item_code
-        order by group_name;
-    </select>
 
     <!-- 根据指定条件获取病患检验结果数据 -->
     <select id="listPatientAssayRecord" parameterType="com.xtt.common.dao.po.PatientAssayRecordPO" resultMap="POResultMap">
@@ -512,7 +502,7 @@
                 </foreach>
             </if>
             <if test="startDateStr != null and endDateStr != null and startDateStr != '' and endDateStr != ''">
-                and par.assay_date BETWEEN #{startDateStr} and #{endDateStr}
+                and par.report_time BETWEEN #{startDateStr} and #{endDateStr}
             </if>
             <if test="minValue != null ">
                 and par.result &gt;= #{minValue}
@@ -538,7 +528,7 @@
     <select id="listByCreateTime" resultMap="POResultMap">
         SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
             `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
-            `assay_month`,`assay_date`,`flage`,`fk_tenant_id`,`req_id` 
+            `assay_month`,`flage`,`fk_tenant_id`,`req_id` 
         FROM patient_assay_record
         WHERE create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
         AND create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}

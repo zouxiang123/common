@@ -55,16 +55,6 @@ public interface PatientAssayRecordMapper {
 
     /* 自定义 */
     /**
-     * 通过结果生成字典数据
-     * 
-     * @Title: getLisDict
-     * @param record
-     * @return
-     * 
-     */
-    List<PatientAssayRecordPO> getLisDict(@Param("startDateStr") java.lang.String startDateStr);
-
-    /**
      * 根据指定条件获取病患检验结果数据
      * 
      * @Title: listPatientAssayRecord

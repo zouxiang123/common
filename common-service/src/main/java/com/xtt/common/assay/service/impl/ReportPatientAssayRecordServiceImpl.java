@@ -26,14 +26,13 @@ import com.xtt.common.assay.service.IPatientAssayConfService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IReportPatientAssayRecordService;
 import com.xtt.common.constants.CmDictConsts;
-import com.xtt.common.dao.mapper.PatientAssayFilterRuleMapper;
+import com.xtt.common.dao.mapper.AssayReportFilterRuleMapper;
 import com.xtt.common.dao.mapper.PatientAssayTempRecordMapper;
 import com.xtt.common.dao.mapper.ReportPatientAssayRecordMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
-import com.xtt.common.dao.model.PatientAssayFilterRule;
+import com.xtt.common.dao.model.AssayReportFilterRule;
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
 import com.xtt.common.dao.po.PatientAssayConfPO;
-import com.xtt.common.dao.po.PatientAssayFilterRulePO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayTempRecordPO;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
@@ -50,7 +49,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
     @Autowired
     private PatientAssayTempRecordMapper patientAssayTempRecordMapper;
     @Autowired
-    private PatientAssayFilterRuleMapper patientAssayFilterRuleMapper;
+    private AssayReportFilterRuleMapper assayReportFilterRuleMapper;
     @Autowired
     private ReportPatientAssayRecordMapper reportPatientAssayRecordMapper;
     @Autowired
@@ -76,9 +75,9 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
             patientAssayTempRecordMapper.insertBatchByRecord(tempCondition);
         }
 
-        PatientAssayFilterRule ruleCondition = new PatientAssayFilterRule();
+        AssayReportFilterRule ruleCondition = new AssayReportFilterRule();
         ruleCondition.setFkTenantId(tenantId);
-        List<PatientAssayFilterRule> filterRuleList = patientAssayFilterRuleMapper.selectAll(ruleCondition);
+        List<AssayReportFilterRule> filterRuleList = assayReportFilterRuleMapper.selectAll(ruleCondition);
         filterByRule(filterRuleList, tenantId, monthAndYear, dateType, batchNo);// 根据过滤规则过滤
         return batchNo;
     }
@@ -94,17 +93,17 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
      * @param batchNo
      *
      */
-    private void filterByRule(List<PatientAssayFilterRule> filterRuleList, Integer fkTenantId, String monthAndYear, String dateType, String batchNo) {
+    private void filterByRule(List<AssayReportFilterRule> filterRuleList, Integer fkTenantId, String monthAndYear, String dateType, String batchNo) {
         String sqlCondition = null;
 
-        for (PatientAssayFilterRule filterRule : filterRuleList) {
+        for (AssayReportFilterRule filterRule : filterRuleList) {
             // 如果过滤函数
             if ("002".equals(filterRule.getRuleCode())) {
-                if (PatientAssayFilterRulePO.FUNCTION_NAME_MAX_VALUE.equals(filterRule.getFunctionName())) {
+                if (AssayConsts.REPORT_FILTER_RULE_MAX_VALUE.equals(filterRule.getFunctionName())) {
                     sqlCondition = "MAX(cast(patr1.result as decimal(10,2)))";
-                } else if (PatientAssayFilterRulePO.FUNCTION_NAME_MIN_VALUE.equals(filterRule.getFunctionName())) {
+                } else if (AssayConsts.REPORT_FILTER_RULE_MIN_VALUE.equals(filterRule.getFunctionName())) {
                     sqlCondition = "min(cast(patr1.result as decimal(10,2)))";
-                } else if (PatientAssayFilterRulePO.FUNCTION_NAME_AVG.equals(filterRule.getFunctionName())) {
+                } else if (AssayConsts.REPORT_FILTER_RULE_AVG.equals(filterRule.getFunctionName())) {
                     sqlCondition = "round(AVG(patr1.result), 2)";
                 }
 

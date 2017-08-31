@@ -497,8 +497,21 @@
             <if test="sampleTime != null">
                 AND parb.sample_time = #{sampleTime,jdbcType=TIMESTAMP}
             </if>
+            <if test="fkDictCode != null">
+                AND ahd.fk_dict_code = #{fkDictCode }
+            </if>
         </where>
-       
+       <choose>
+            <when test="queryOrderBy == 1">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date DESC
+            </when>
+            <when test="queryOrderBy == 2">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date ASC
+            </when>
+            <otherwise>
+               ORDER BY parb.assay_date ASC
+            </otherwise>
+        </choose>
     </select>
   <!-- 根据化验单号更新透前透后标识 -->
   <update id="updateDiaAbFlagByReqId">

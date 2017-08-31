@@ -216,8 +216,9 @@ public interface IPatientAssayRecordBusiService {
     void deleteByPatientId(Long fkPatientId, Integer fkTenantId);
 
     /**
+     * 从数据源获取数据并插入
      * 
-     * @Title: save
+     * @Title: insertFromSource
      * @param startCreateTime
      * @param endCreateTime
      * @param mapPatientId
@@ -226,7 +227,8 @@ public interface IPatientAssayRecordBusiService {
      * @param fktenantId
      *
      */
-    void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete, Integer fktenantId);
+    void selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
+                    Integer fktenantId);
 
     /**
      * HEAD 查询常规化验项目

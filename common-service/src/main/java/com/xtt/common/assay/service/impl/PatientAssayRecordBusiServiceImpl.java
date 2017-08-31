@@ -22,8 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.hand.AssayHandDelete;
@@ -251,8 +249,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public void save(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
+    public void selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
                     Integer fkTenantId) {
         UserUtil.setThreadTenant(fkTenantId);
         AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
