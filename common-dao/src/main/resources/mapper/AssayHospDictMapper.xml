@@ -537,8 +537,10 @@
     FROM assay_hosp_dict ahd 
     JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
     JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-    LEFT JOIN assay_group_conf_detail agcd ON ahdg.item_code = agcd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id 
+    LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id 
+     <if test="fkAssayGroupConfId != null">
             AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
+     </if>
     WHERE ahd.fk_tenant_id = #{fkTenantId}
     AND NOT EXISTS (
             SELECT 1 FROM assay_group_conf_detail
@@ -547,6 +549,7 @@
                 and fk_assay_group_conf_id != #{fkAssayGroupConfId}
             </if>
         )
+    GROUP BY ahd.item_code
     ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
   </select>
     <!-- 获取字典表对应化验单id -->
