@@ -118,11 +118,11 @@ public interface AssayHospDictMapper {
     /**
      * 查询所有化验项分组
      * 
-     * @param fkTenantId
+     * @param assayHospDict
      * 
      * @return
      */
-    public List<AssayHospDictPO> selectAllGroup(@Param("fkTenantId") Integer fkTenantId);
+    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO assayHospDict);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况

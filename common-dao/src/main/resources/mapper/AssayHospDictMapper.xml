@@ -485,7 +485,14 @@
      FROM assay_hosp_dict ahd 
      JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
      JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-     WHERE ahd.is_auto=1 AND ahd.fk_tenant_id = #{fkTenantId}
+    <where>
+        <if test="isAuto !=null">
+            ahd.is_auto= #{isAuto}
+        </if>
+        <if test="fkTenantId != null">
+            AND ahd.fk_tenant_id = #{fkTenantId}
+        </if>
+    </where>
      GROUP BY ahdg.group_name
      ORDER BY ahdg.group_name
   </select>

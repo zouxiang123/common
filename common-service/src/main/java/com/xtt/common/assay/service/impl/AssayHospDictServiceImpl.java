@@ -158,8 +158,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public List<AssayHospDictPO> selectAllGroup() {
-        return assayHospDictMapper.selectAllGroup(UserUtil.getTenantId());
+    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO assayHospDict) {
+        if (assayHospDict.getFkTenantId() == null) {
+            assayHospDict.setFkTenantId(UserUtil.getTenantId());
+        }
+        return assayHospDictMapper.selectAllGroup(assayHospDict);
     }
 
     @Override

@@ -127,9 +127,11 @@ public interface IAssayHospDictService {
     /**
      * 查询所有化验项
      * 
+     * @param record
+     * 
      * @return
      */
-    public List<AssayHospDictPO> selectAllGroup();
+    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO record);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况

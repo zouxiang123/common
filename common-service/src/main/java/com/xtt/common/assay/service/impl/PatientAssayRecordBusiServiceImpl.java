@@ -205,7 +205,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         String strNowDate = DateUtil.format(nowDate, DateFormatUtil.FORMAT_DATE_YYYYMMDD);
         String strRandom = RandomStringUtils.randomAlphanumeric(6);
         for (AssayHospDictPO assayHospDictPO : getdHL) {
-            if (StringUtil.isEmpty(assayHospDictPO.getResultTips())) {
+            if (StringUtil.isEmpty(assayHospDictPO.getResult())) {
                 continue;
             }
             String result = assayHospDictPO.getResult();
