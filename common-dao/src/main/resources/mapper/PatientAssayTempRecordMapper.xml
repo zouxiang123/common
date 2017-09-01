@@ -117,11 +117,10 @@
   <insert id="insertBatchByRecord" parameterType="com.xtt.common.dao.model.PatientAssayTempRecord">
   	INSERT INTO patient_assay_temp_record
   	(fk_patient_id, item_code, item_name, result, result_tips, assay_date, fk_tenant_id, batch_no)
-	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result, par.result_tips, DATE_FORMAT(par.assay_date,'%Y-%m-%d'), #{fkTenantId}, #{batchNo}
+	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result_actual, par.result_tips, DATE_FORMAT(par.assay_date,'%Y-%m-%d'), #{fkTenantId}, #{batchNo}
 	FROM patient_assay_record_busi par
-	LEFT JOIN assay_hosp_dict ahd ON ahd.item_code = par.item_code AND ahd.fk_tenant_id = par.fk_tenant_id
 	WHERE par.fk_tenant_id = #{fkTenantId}
-	AND ahd.value_type = 1
+	AND par.result_actual IS NOT NULL
 	AND par.assay_date &gt;= #{startDate,jdbcType=DATE}
 	AND par.assay_date &lt;= #{endDate,jdbcType=DATE}
     <if test="itemCodes !=null and itemCodes.size()>0">
