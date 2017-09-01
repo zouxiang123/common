@@ -671,8 +671,8 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<SysUserPO> selectByAccount(SysUserPO user) {
-        return sysUserMapper.selectByAccount(user.getAccount());
+    public List<SysUserPO> listByAccount(SysUserPO user) {
+        return sysUserMapper.listByAccount(user);
     }
 
     @Override

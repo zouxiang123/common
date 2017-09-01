@@ -318,7 +318,7 @@ public interface IUserService {
      * @return
      *
      */
-    List<SysUserPO> selectByAccount(SysUserPO user);
+    List<SysUserPO> listByAccount(SysUserPO user);
 
     /**
      * 保存皮肤
