@@ -52,4 +52,14 @@ public interface IAssayHospDictGroupService {
      */
     void deleteByTenant(Integer tenantId);
 
+    /**
+     * 根据标签获取添加类型
+     * 
+     * @Title: listGroupNameByfale
+     * @param flag
+     * @return
+     *
+     */
+    List<AssayHospDictGroup> listGroupNameByfale(Boolean isAuto);
+
 }

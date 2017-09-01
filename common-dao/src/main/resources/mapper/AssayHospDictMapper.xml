@@ -496,7 +496,7 @@
         , max(IF(pac.id is null, 0, 1)) as selectFlag, 1 categoryFlag
     FROM assay_hosp_dict_group_mapping ahdgm
     JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-    LEFT JOIN patient_assay_class pac ON pac.item_code = ahdgm.item_code and pac.fk_tenant_id = ahdgm.fk_tenant_id 
+    LEFT JOIN patient_assay_class pac ON pac.item_code = ahdgm.fk_item_code and pac.fk_tenant_id = ahdgm.fk_tenant_id 
     <if test="assayClass != null">
         AND pac.assay_class = #{assayClass}
     </if>

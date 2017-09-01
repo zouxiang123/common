@@ -181,5 +181,9 @@
     <delete id="deleteByTenant">
         delete from assay_hosp_dict_group where fk_tenant_id = #{tenantId,jdbcType=INTEGER}
     </delete>
+    <!-- 根据flag 标识符查询数据 -->
+    <select id="listGroupNameByfale" resultMap="BaseResultMap">
+        SELECT group_id,group_name from assay_hosp_dict_group where is_auto = #{isAuto,jdbcType=BIT}
+    </select>
 
 </mapper>

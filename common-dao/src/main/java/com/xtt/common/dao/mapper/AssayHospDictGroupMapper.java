@@ -203,4 +203,14 @@ public interface AssayHospDictGroupMapper {
      */
     AssayHospDictPO selectTop(AssayHospDictPO record);
 
+    /**
+     * 根据添加类型获取数据
+     * 
+     * @Title: listGroupNameByfale
+     * @param flag
+     * @return
+     *
+     */
+    List<AssayHospDictGroup> listGroupNameByfale(@Param("isAuto") Boolean isAuto);
+
 }

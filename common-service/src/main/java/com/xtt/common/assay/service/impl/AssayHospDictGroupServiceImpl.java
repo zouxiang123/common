@@ -45,4 +45,9 @@ public class AssayHospDictGroupServiceImpl implements IAssayHospDictGroupService
 
     }
 
+    @Override
+    public List<AssayHospDictGroup> listGroupNameByfale(Boolean isAuto) {
+        return assayHospDictGroupMapper.listGroupNameByfale(isAuto);
+    }
+
 }
