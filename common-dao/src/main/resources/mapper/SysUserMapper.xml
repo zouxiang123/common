@@ -448,9 +448,16 @@
         JOIN sys_tenant st ON sut.fk_tenant_id=st.id  
         WHERE u.account=#{account} AND u.fk_tenant_id in(${multiTenant}) 
     </select>
-    
-    <select id="selectByAccount" parameterType="String" resultMap="ExtendResultMap">
-        SELECT su.account,su.`password`,sut.fk_tenant_id FROM sys_user su JOIN sys_user_tenant sut ON su.id=sut.fk_user_id WHERE su.account=#{account}
+    <!--     根据账户查询系统用户信息 --> 
+   <select id="listByAccount" parameterType="com.xtt.common.dao.po.SysUserPO" resultMap="ExtendResultMap">
+        SELECT su.account,su.`password`,sut.fk_tenant_id,st.name FROM sys_user su JOIN sys_user_tenant sut ON su.id=sut.fk_user_id join sys_tenant st 
+        on sut.fk_tenant_id=st.id 
+        <where>
+            account=#{account}
+         <if test="fkTenantId != null">
+             AND sut.fk_tenant_id = #{fkTenantId}
+          </if>
+        </where>
     </select>
     
     <!-- 获取随机护士 -->

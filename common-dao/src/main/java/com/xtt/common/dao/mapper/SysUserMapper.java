@@ -196,7 +196,7 @@ public interface SysUserMapper {
      * @return
      *
      */
-    List<SysUserPO> selectByAccount(String account);
+    List<SysUserPO> listByAccount(SysUserPO user);
 
     /**
      * 获取随机护士
