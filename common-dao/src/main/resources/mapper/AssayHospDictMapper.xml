@@ -382,7 +382,7 @@
       JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
       LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.item_code
      <where>
-      <if test="groupId != null and groupId != ''">
+      <if test="groupId != null ">
         and ahdg.group_id = #{groupId}
       </if>
       <if test="groupName != null and groupName != ''">

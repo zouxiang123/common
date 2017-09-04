@@ -795,7 +795,7 @@
         JOIN patient p on p.id = parb.fk_patient_id
         where
         p.del_flag = 0
-        <if test="patientIds.size != 0">
+        <if test="patientIds != null and patientIds.size() &gt; 0">
             or parb.fk_patient_id in
             <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
         </if>
