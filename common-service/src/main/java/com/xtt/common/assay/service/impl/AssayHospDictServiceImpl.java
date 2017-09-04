@@ -27,6 +27,7 @@ import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class AssayHospDictServiceImpl implements IAssayHospDictService {
@@ -227,6 +228,26 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDictPO) {
         return assayHospDictMapper.queryByItemCodeandGroupId(assayHospDictPO);
+    }
+
+    @Override
+    public void updateAssay(AssayHospDictPO record) {
+        // itemCode 没有更新时
+        if (StringUtil.equals(record.getItemCode(), record.getOldItemCode())) {
+            this.updateDictHospital(record);
+        } else { // 更新了itemCode
+            this.updateDictHospital(record);
+            // 新增对应关系
+            AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
+            assayHospDictGroupMapping.setFkGroupId(record.getGroupId());
+            assayHospDictGroupMapping.setFkItemCode(record.getItemCode());
+            assayHospDictGroupMapping.setFkTenantId(UserUtil.getTenantId());
+            DataUtil.setSystemFieldValue(assayHospDictGroupMapping);
+            assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
+            // 删除对应关系
+            assayHospDictGroupMappingService.deleteByGroupIdAndItemCode(record.getGroupId(), record.getOldItemCode(), UserUtil.getTenantId());
+        }
+
     }
 
 }

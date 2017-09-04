@@ -242,4 +242,14 @@ public interface IAssayHospDictService {
      */
     Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDictPO);
 
+    /**
+     * 更新化验单
+     * 
+     * @Title: updateAssay
+     * @param record
+     * @return
+     *
+     */
+    void updateAssay(AssayHospDictPO record);
+
 }
