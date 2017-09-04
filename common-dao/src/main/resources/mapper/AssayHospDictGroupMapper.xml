@@ -179,7 +179,7 @@
     </select>
     <!-- 根据租户号删除数据 -->
     <delete id="deleteByTenant">
-        delete from assay_hosp_dict_group where fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+        delete from assay_hosp_dict_group where fk_tenant_id = #{tenantId,jdbcType=INTEGER} and  is_auto = 1
     </delete>
     <!-- 根据flag 标识符查询数据 -->
     <select id="listGroupNameByfale" resultMap="BaseResultMap">

@@ -225,6 +225,10 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             patientAssayRecordBusi.setReference(dictHospitalLab.getReference());
             patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
+            patientAssayRecordBusi.setAssayDate(nowDate);
+            patientAssayRecordBusi.setAssayMonth(DateUtil.format(nowDate, DateFormatUtil.FORMAT_YYYY_MM));
+            patientAssayRecordBusi.setFlage(true);
+            patientAssayRecordBusi.setDiaAbFlag(AssayConsts.BEFORE_HD);
 
             if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
                 patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
