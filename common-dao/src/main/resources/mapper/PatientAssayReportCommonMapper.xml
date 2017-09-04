@@ -125,13 +125,15 @@
   </insert>
   <!-- 根据日期查询 -->
   <select id="selectByAssayDate" resultMap="POResultMap">
-    SELECT p.name ,padc.item_code,padc.result 
-    from patient_assay_report_common padc 
+    SELECT p.name, p.id fk_patient_id
+        , padc.item_code, padc.result 
+    FROM patient p 
     <if test="patientLabelIds != null and patientLabelIds.length>0">
-       JOIN patient_label_ref plr ON plr.fk_patient_id = padc.fk_patient_id and 
-       plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+       JOIN patient_label_ref plr ON plr.fk_patient_id = p.id 
+          AND plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+       INNER JOIN patient_label pl ON pl.id = plr.fk_label_id AND (CASE WHEN pl.is_defualt = 1 THEN plr.fk_user_id=#{userId} ELSE 1=1 END)
     </if> 
-    LEFT JOIN  patient p on padc.fk_patient_id = p.id
+    LEFT JOIN patient_assay_report_common padc ON padc.fk_patient_id = p.id AND padc.fk_tenant_id = p.fk_tenant_id
     <where>
         <if test="assayMonth != null">
            padc.assay_month = #{assayMonth}
@@ -139,7 +141,11 @@
         <if test="fkTenantId != null">
            AND padc.fk_tenant_id = #{fkTenantId}
         </if>
+        <if test="isTemp != null">
+           AND p.is_temp = #{isTemp}
+        </if>
     </where>
+    ORDER BY p.initial ASC, p.id
   </select>
   <!-- 根据自定义条件查询数据 -->
     <delete id="deleteByCondition" parameterType="com.xtt.common.dao.po.PatientAssayReportCommonPO">

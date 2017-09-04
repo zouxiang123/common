@@ -10,6 +10,7 @@ package com.xtt.common.assay.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import com.xtt.common.dao.model.PatientAssayReportCommon;
 import com.xtt.common.dao.po.PatientAssayReportCommonPO;
@@ -67,14 +68,16 @@ public interface IPatientAssayReportCommonService {
     /**
      * 保存数据
      * 
-     * @param listItemCode
      * 
-     * @Title: save
-     * @param deletePatientId
+     * @Title: insertAuto
+     * @param allPatientIds
+     *            全部患者id
+     * @param filterPatientIds
+     *            过滤患者id
      * @param monthDate
      * @param tenantId
      *
      */
-    void insertAuto(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId);
+    void insertAuto(List<Long> allPatientIds, Set<Long> filterPatientIds, Date monthDate, Integer tenantId);
 
 }

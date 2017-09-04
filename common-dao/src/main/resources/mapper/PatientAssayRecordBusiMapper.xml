@@ -779,8 +779,7 @@
     <select id="selectCommonByItemCode" resultMap="POResultMap">
         SELECT parb.fk_patient_id,parb.assay_month,parb.item_code,parb.result,parb.fk_tenant_id FROM patient_assay_record_busi parb
         JOIN (SELECT max(assay_date) assay_date,fk_patient_id,item_code,fk_tenant_id FROM patient_assay_record_busi
-        WHERE item_code in
-        <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+        WHERE item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
         <if test="startDate != null">
             and assay_date &gt;= #{startDate,jdbcType=DATE}
         </if>
@@ -790,15 +789,12 @@
         <if test="fkTenantId != null">
             and fk_tenant_id = #{fkTenantId}
         </if>
-        GROUP BY fk_patient_id,item_code,assay_month) t
-        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
-        JOIN patient p on p.id = parb.fk_patient_id
-        where
-        p.del_flag = 0
-        <if test="patientIds != null and patientIds.size() &gt; 0">
-            or parb.fk_patient_id in
+        <if test="patientIds !=null and patientIds.size() != 0">
+            and fk_patient_id not in
             <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
         </if>
+        GROUP BY fk_patient_id,item_code,assay_month) t
+        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
     </select>
     
     <delete id="deleteByTenant">
