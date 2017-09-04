@@ -360,7 +360,7 @@
   </resultMap>
   <!-- 常用列，主表别名需叫parb -->
   <sql id="Common_Column_List">
-    parb.fk_patient_id, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
+    parb.fk_patient_id, parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
     parb.result_tips, parb.dia_ab_flag, parb.assay_month, parb.assay_date, parb.req_id, parb.sample_time, parb.report_time, parb.reference
   </sql>
     <!-- 根据唯一标识和租户id查询数据是否存在 -->
@@ -646,7 +646,9 @@
     <select id="listForBeforeAfterReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         SELECT
         <include refid="Common_Column_List" />
+        ,p.name patientName,p.sex
         FROM patient_assay_record_busi parb
+        JOIN patient p ON p.id = parb.fk_patient_id
         <where>
             <if test="fkPatientId != null">
                 and parb.fk_patient_id = #{fkPatientId}
@@ -685,6 +687,12 @@
             <if test="patientIds !=null and patientIds.size()>0">
                 AND parb.fk_patient_id in
                 <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="patientName != null and patientName != ''">
+                and (p.name like concat('%',#{patientName},'%') or p.spell_initials like concat('%',#{patientName},'%'))
+            </if>
+            <if test="sex != null and sex != ''">
+                and p.sex = #{sex}
             </if>
         </where>
     </select>

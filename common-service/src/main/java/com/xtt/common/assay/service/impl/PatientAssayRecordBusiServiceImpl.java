@@ -155,6 +155,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<PatientAssayRecordBusiPO> listForBeforeAfterReport(PatientAssayRecordBusiPO record) {
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
         return patientAssayRecordBusiMapper.listForBeforeAfterReport(record);
     }
 

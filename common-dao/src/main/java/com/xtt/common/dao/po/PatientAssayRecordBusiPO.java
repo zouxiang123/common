@@ -13,9 +13,13 @@ import java.util.Collection;
 import java.util.Date;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.time.DateFormatUtil;
 
 public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String patientName;
+    private String sex;
+
     private Collection<Long> patientIds;
     private Collection<String> itemCodes;
     private Date startDate;
@@ -43,6 +47,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     private BigDecimal minValue;
     private BigDecimal maxValue;
+    private String startDateStr;
+    private String endDateStr;
 
     public Integer getValueType() {
         return valueType;
@@ -92,10 +98,12 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
         this.strReportTime = strReportTime;
     }
 
+    @Override
     public String getReference() {
         return reference;
     }
 
+    @Override
     public void setReference(String reference) {
         this.reference = reference;
     }
@@ -183,6 +191,36 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setMaxValue(BigDecimal maxValue) {
         this.maxValue = maxValue;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getStartDateStr() {
+        return startDateStr;
+    }
+
+    public void setStartDateStr(String startDateStr) {
+        if (StringUtil.isNotBlank(startDateStr)) {
+            startDate = DateFormatUtil.getDateByStr(startDateStr);
+        }
+        this.startDateStr = startDateStr;
+    }
+
+    public String getEndDateStr() {
+        return endDateStr;
+    }
+
+    public void setEndDateStr(String endDateStr) {
+        if (StringUtil.isNotBlank(endDateStr)) {
+            endDate = DateFormatUtil.getDateByStr(endDateStr);
+        }
+        this.endDateStr = endDateStr;
     }
 
 }
