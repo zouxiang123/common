@@ -29,6 +29,15 @@ public class AssayHospDictPO extends AssayHospDict {
     private String groupId; // 组id
     private String groupName; // 组名称
     private String reqId; // 申请单号
+    private String oldItemCode; // 历史itemcode
+
+    public String getOldItemCode() {
+        return oldItemCode;
+    }
+
+    public void setOldItemCode(String oldItemCode) {
+        this.oldItemCode = oldItemCode;
+    }
 
     public String getReqId() {
         return reqId;

@@ -42,4 +42,15 @@ public interface AssayHospDictGroupMappingMapper {
      *
      */
     void deleteByTenant(@Param("tenantId") Integer tenantId);
+
+    /**
+     * 根据groupId itemCode 删除数据
+     * 
+     * @Title: deleteByGroupIdAndItemCode
+     * @param groupId
+     * @param itemCode
+     * @param fkTenantId
+     *
+     */
+    void deleteByGroupIdAndItemCode(@Param("fkGroupId") String groupId, @Param("fkItemCode") String itemCode, @Param("tenantId") Integer fkTenantId);
 }

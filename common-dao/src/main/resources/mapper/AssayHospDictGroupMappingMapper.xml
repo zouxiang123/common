@@ -93,8 +93,24 @@
       </if>
     </where>
   </select>
-  
+  <!-- 根据租户号删除数据 -->
   <delete id="deleteByTenant">
     delete from assay_hosp_dict_group_mapping where fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+  </delete>
+  
+  <delete id="deleteByGroupIdAndItemCode">
+    delete 
+    from assay_hosp_dict_group_mapping 
+    <where>
+        <if test="fkGroupId != null">
+            and fk_group_id = #{fkGroupId,jdbcType=VARCHAR}
+        </if>
+        <if test="fkItemCode != null">
+            and fk_item_code = #{fkItemCode,jdbcType=VARCHAR}
+        </if>
+        <if test="tenantId != null">
+            and fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+        </if>
+    </where>
   </delete>
 </mapper>

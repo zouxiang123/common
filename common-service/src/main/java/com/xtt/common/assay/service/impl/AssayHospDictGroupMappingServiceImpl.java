@@ -46,4 +46,10 @@ public class AssayHospDictGroupMappingServiceImpl implements IAssayHospDictGroup
 
     }
 
+    @Override
+    public void deleteByGroupIdAndItemCode(String groupId, String itemCode, Integer fkTenantId) {
+        assayHospDictGroupMappingMapper.deleteByGroupIdAndItemCode(groupId, itemCode, fkTenantId);
+
+    }
+
 }

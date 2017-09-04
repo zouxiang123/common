@@ -232,4 +232,14 @@ public interface IAssayHospDictService {
      */
     List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO AssayHospDictPO);
 
+    /**
+     * 查询化验单是否有相同的化验项
+     * 
+     * @Title: queryByItemCodeandGroupId
+     * @param assayHospDict
+     * @return
+     *
+     */
+    Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDictPO);
+
 }

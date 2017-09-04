@@ -598,6 +598,22 @@
             </if>
         </where>
     </select>
+    <!-- 检测化验单项目是否重复： -->
+    <select id="queryByItemCodeandGroupId" resultType="java.lang.Integer">
+        SELECT count(1) 
+        from assay_hosp_dict_group_mapping
+        <where>
+            <if test="itemCode != null">
+                and fk_item_code = #{itemCode,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null">
+                and fk_group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+        </where>  
+    </select>
     <select id="seleteItemCodeByCondition" resultMap="POResultMap">
         SELECT  
                 ahd.id

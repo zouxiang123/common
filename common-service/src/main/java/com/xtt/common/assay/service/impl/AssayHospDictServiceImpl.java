@@ -146,7 +146,12 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public int insertSelective(AssayHospDictPO record) {
         // 数据插入assay_hosp_dict
-        int num = assayHospDictMapper.insertSelective(record);
+        int countItemCoe = queryByItemCode(record);
+        int num = 0;
+        if (countItemCoe == 0) {
+
+            num = assayHospDictMapper.insertSelective(record);
+        }
         AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
         assayHospDictGroupMapping.setFkItemCode(record.getItemCode());
         assayHospDictGroupMapping.setFkGroupId(record.getGroupId());
@@ -217,6 +222,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO assayHospDict) {
         return assayHospDictMapper.seleteItemCodeByCondition(assayHospDict);
+    }
+
+    @Override
+    public Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDictPO) {
+        return assayHospDictMapper.queryByItemCodeandGroupId(assayHospDictPO);
     }
 
 }

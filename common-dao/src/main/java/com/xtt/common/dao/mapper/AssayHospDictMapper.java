@@ -197,4 +197,14 @@ public interface AssayHospDictMapper {
      *
      */
     List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO assayHospDict);
+
+    /**
+     * 查询化验单是否有相同的化验项
+     * 
+     * @Title: queryByItemCodeandGroupId
+     * @param assayHospDict
+     * @return
+     *
+     */
+    Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDict);
 }

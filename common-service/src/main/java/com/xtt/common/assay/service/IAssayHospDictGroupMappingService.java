@@ -52,4 +52,15 @@ public interface IAssayHospDictGroupMappingService {
      *
      */
     void deleteByTenant(Integer tenantId);
+
+    /**
+     * 根据groupId itemCode 删除对应关系
+     * 
+     * @Title: deleteByGroupIdAndItemCode
+     * @param groupId
+     * @param itemCode
+     * @param fkTenantId
+     *
+     */
+    void deleteByGroupIdAndItemCode(String groupId, String itemCode, Integer fkTenantId);
 }
