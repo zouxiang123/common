@@ -75,6 +75,6 @@ public interface IPatientAssayReportCommonService {
      * @param tenantId
      *
      */
-    void save(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId);
+    void insertAuto(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId);
 
 }

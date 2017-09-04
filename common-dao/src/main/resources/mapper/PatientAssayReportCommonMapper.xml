@@ -123,35 +123,37 @@
         from dual
       </foreach>
   </insert>
-  <delete id="deleteByTenant">
-    delete from patient_assay_report_common 
-    where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-    <if test="itemCode != null">
-        and item_code = #{itemCode,jdbcType=VARCHAR}
-      </if>
-      <if test="assayMonth != null">
-        and assay_month = #{assayMonth,jdbcType=VARCHAR}
-      </if>
-  </delete>
   <!-- 根据日期查询 -->
   <select id="selectByAssayDate" resultMap="POResultMap">
-    SELECT p.name ,item_code,result 
+    SELECT p.name ,padc.item_code,padc.result 
     from patient_assay_report_common padc 
+    <if test="patientLabelIds != null and patientLabelIds.length>0">
+       JOIN patient_label_ref plr ON plr.fk_patient_id = padc.fk_patient_id and 
+       plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </if> 
     LEFT JOIN  patient p on padc.fk_patient_id = p.id
-    where padc.assay_month = '2017-07' 
-		and padc.fk_tenant_id = 10101 
-		<!-- and padc.fk_patient_id in (SELECT fk_patient_id from patient_label_ref where fk_label_id = '101010000000015') -->
+    <where>
+        <if test="assayMonth != null">
+           padc.assay_month = #{assayMonth}
+        </if>
+        <if test="fkTenantId != null">
+           AND padc.fk_tenant_id = #{fkTenantId}
+        </if>
+    </where>
   </select>
-  
-  <select id="selectByPatientLabel" resultMap="POResultMap">
-  
-  </select>
-  
-  <delete id="deleteByItemCodes">
-        delete from patient_assay_report_common 
-        where item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach> 
-         <if test="fkTenantId">
-            and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-         </if>
-  </delete>
+  <!-- 根据自定义条件查询数据 -->
+    <delete id="deleteByCondition" parameterType="com.xtt.common.dao.po.PatientAssayReportCommonPO">
+        delete from patient_assay_report_common
+        where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+        <if test="itemCodes !=null and itemCodes.size()>0">
+            item_code in
+            <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+        </if>
+        <if test="assayMonth != null">
+            AND assay_month = #{assayMonth}
+        </if>
+        <if test="itemCode != null">
+            AND item_code = #{itemCode}
+        </if>
+    </delete>
 </mapper>

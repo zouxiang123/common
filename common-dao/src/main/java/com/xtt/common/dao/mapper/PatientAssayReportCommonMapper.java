@@ -61,4 +61,13 @@ public interface PatientAssayReportCommonMapper {
      *
      */
     void deleteByItemCodes(@Param("itemCodes") List<String> itemCodes, @Param("fkTenantId") Integer fkTenanId);
+
+    /**
+     * 根据自定义条件删除数据
+     * 
+     * @Title: deleteByCondition
+     * @param record
+     *
+     */
+    void deleteByCondition(PatientAssayReportCommonPO record);
 }

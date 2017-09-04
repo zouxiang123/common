@@ -309,6 +309,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<PatientAssayRecordBusi> selectCommonByItemCode(PatientAssayRecordBusiPO patientAssayRecordBusi) {
+        if (patientAssayRecordBusi.getFkTenantId() == null) {
+            patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
+        }
 
         return patientAssayRecordBusiMapper.selectCommonByItemCode(patientAssayRecordBusi);
     }

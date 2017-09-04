@@ -9,7 +9,6 @@
 package com.xtt.common.assay.service.impl;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +25,7 @@ import com.xtt.common.dao.model.PatientAssayReportCommon;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayReportCommonPO;
+import com.xtt.common.util.BusinessDateUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
@@ -49,7 +49,9 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
 
     @Override
     public void deleteByTenant(Integer fkTenantId) {
-        patientAssayReportCommonMapper.deleteByTenant(fkTenantId);
+        PatientAssayReportCommonPO record = new PatientAssayReportCommonPO();
+        record.setFkTenantId(fkTenantId);
+        deleteByCondition(record);
     }
 
     @Override
@@ -64,8 +66,10 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
 
     @Override
     public void deleteByItemCodes(List<String> itemCodes) {
-        patientAssayReportCommonMapper.deleteByItemCodes(itemCodes, UserUtil.getTenantId());
-
+        PatientAssayReportCommonPO record = new PatientAssayReportCommonPO();
+        record.setItemCodes(itemCodes);
+        record.setFkTenantId(UserUtil.getTenantId());
+        deleteByCondition(record);
     }
 
     @Override
@@ -96,61 +100,39 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
 
     }
 
-    /**
-     * 得到本月第一天的日期
-     * 
-     * @Methods Name getFirstDayOfMonth
-     * @return Date
-     */
-    private Date getFirstDayOfMonth(Date date) {
-        Calendar cDay = Calendar.getInstance();
-        cDay.setTime(date);
-        cDay.set(Calendar.DAY_OF_MONTH, 1);
-        return cDay.getTime();
-    }
-
-    /**
-     * 得到本月最后一天的日期
-     * 
-     * @Methods Name getLastDayOfMonth
-     * @return Date
-     */
-    private Date getLastDayOfMonth(Date date) {
-        Calendar cDay = Calendar.getInstance();
-        cDay.setTime(date);
-        cDay.set(Calendar.DAY_OF_MONTH, cDay.getActualMaximum(Calendar.DAY_OF_MONTH));
-        return cDay.getTime();
-    }
-
     @Override
-    public void save(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId) {
+    public void insertAuto(List<String> listItemCode, List<Long> deletePatientId, Date monthDate, Integer tenantId) {
+        // 删除本月数据
+        String assayMonth = DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM);
+        PatientAssayReportCommonPO delCondition = new PatientAssayReportCommonPO();
+        delCondition.setFkTenantId(UserUtil.getTenantId());
+        delCondition.setAssayMonth(assayMonth);
+        deleteByCondition(delCondition);
+
         Date nowDate = new Date();
         List<PatientAssayReportCommon> assayCommonlist = new ArrayList<PatientAssayReportCommon>();
-        PatientAssayReportCommon PatientAssayReportCommon = new PatientAssayReportCommon();
-        PatientAssayReportCommon.setAssayMonth(DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM));
-        PatientAssayReportCommon.setFkTenantId(UserUtil.getTenantId());
-        this.deleteByTenant(tenantId);
         PatientAssayRecordBusiPO patientAssayRecordBusi = new PatientAssayRecordBusiPO();
-        patientAssayRecordBusi.setStartDate(DateFormatUtil.getStartTime(getFirstDayOfMonth(monthDate)));
-        patientAssayRecordBusi.setEndDate(DateFormatUtil.getEndTime(getLastDayOfMonth(monthDate)));
-        patientAssayRecordBusi.setAssayMonth(DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM));
+        patientAssayRecordBusi.setStartDate(BusinessDateUtil.getMonthStartOrEnd(monthDate, true));
+        patientAssayRecordBusi.setEndDate(BusinessDateUtil.getMonthStartOrEnd(monthDate, false));
+        patientAssayRecordBusi.setAssayMonth(assayMonth);
         patientAssayRecordBusi.setItemCodes(listItemCode);
         // 删除已经转归的患者id
         patientAssayRecordBusi.setPatientIds(deletePatientId);
         List<PatientAssayRecordBusi> listpatientAssayRecordBusi = patientAssayRecordBusiService.selectCommonByItemCode(patientAssayRecordBusi);
-        PatientAssayReportCommon = null;
         Long id = PrimaryKeyUtil.getPrimaryKey(PatientAssayReportCommon.class.getSimpleName(), UserUtil.getTenantId(),
                         listpatientAssayRecordBusi.size());
         int j = 0;
+        PatientAssayReportCommon patientAssayReportCommon = null;
         for (PatientAssayRecordBusi recordBusi : listpatientAssayRecordBusi) {
-            PatientAssayReportCommon = new PatientAssayReportCommon();
-            BeanUtil.copyProperties(recordBusi, PatientAssayReportCommon);
-            PatientAssayReportCommon.setCreateTime(nowDate);
-            PatientAssayReportCommon.setUpdateTime(nowDate);
-            PatientAssayReportCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-            PatientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-            PatientAssayReportCommon.setId(id++);
-            assayCommonlist.add(PatientAssayReportCommon);
+            patientAssayReportCommon = new PatientAssayReportCommon();
+            BeanUtil.copyProperties(recordBusi, patientAssayReportCommon);
+            patientAssayReportCommon.setAssayMonth(assayMonth);
+            patientAssayReportCommon.setCreateTime(nowDate);
+            patientAssayReportCommon.setUpdateTime(nowDate);
+            patientAssayReportCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            patientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            patientAssayReportCommon.setId(id++);
+            assayCommonlist.add(patientAssayReportCommon);
             j++;
             if (j == 1000) {
                 this.insertList(assayCommonlist);
@@ -164,4 +146,17 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
         }
     }
 
+    /**
+     * 根据自定义条件删除数据
+     * 
+     * @Title: deleteByCondition
+     * @param record
+     *
+     */
+    private void deleteByCondition(PatientAssayReportCommonPO record) {
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
+        patientAssayReportCommonMapper.deleteByCondition(record);
+    }
 }

@@ -787,6 +787,9 @@
         <if test="endDate != null">
             and assay_date &lt;= #{endDate,jdbcType=DATE}
         </if>
+        <if test="fkTenantId != null">
+            and fk_tenant_id = #{fkTenantId}
+        </if>
         GROUP BY fk_patient_id,item_code,assay_month) t
         ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
         JOIN patient p on p.id = parb.fk_patient_id
