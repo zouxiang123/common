@@ -742,9 +742,9 @@
             </if>
         </where>
     </update>
-    <!-- 根据患者id删除 -->
+    <!-- 根据患者id删除,手动新增的不删除 -->
     <delete id="deleteByPatientId">
-        delete from patient_assay_record_busi where fk_tenant_id = #{fkTenantId}
+        delete from patient_assay_record_busi where flage = false AND fk_tenant_id = #{fkTenantId}
         <if test="fkPatientId != null">
            AND fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
         </if>
