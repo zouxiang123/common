@@ -100,7 +100,6 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
                 PatientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
                 assayCommonlist.add(PatientAssayReportCommon);
             }
-
             this.insertList(assayCommonlist);
         }
 
@@ -204,4 +203,5 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
         }
         patientAssayReportCommonMapper.deleteByCondition(record);
     }
+
 }

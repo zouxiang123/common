@@ -152,7 +152,7 @@
         delete from patient_assay_report_common
         where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
         <if test="itemCodes !=null and itemCodes.size()>0">
-            item_code in
+            and item_code in
             <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
         </if>
         <if test="assayMonth != null">

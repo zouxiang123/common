@@ -544,18 +544,18 @@
             </if>
             <if test="dateType == 'sampleTime'">
                  <if test="startDate != null">
-                    AND parb.sample_time &gt;= #{startDate,jdbcType=DATE}
+                    AND parb.sample_time &gt;= #{startDate,jdbcType=TIMESTAMP}
                  </if>
                 <if test="endDate != null">
-                    AND parb.sample_time &lt;= #{endDate,jdbcType=DATE}
+                    AND parb.sample_time &lt;= #{endDate,jdbcType=TIMESTAMP}
                 </if>
             </if>
              <if test="dateType == 'reportTime'">
                  <if test="startDate != null">
-                    AND parb.report_time &gt;= #{startDate,jdbcType=DATE}
+                    AND parb.report_time &gt;= #{startDate,jdbcType=TIMESTAMP}
                 </if>
                 <if test="endDate != null">
-                    AND parb.report_time &lt;= #{endDate,jdbcType=DATE}
+                    AND parb.report_time &lt;= #{endDate,jdbcType=TIMESTAMP}
                 </if>
             </if>
            
@@ -722,6 +722,18 @@
     <update id="updatePatientAssay">
         update patient_assay_record_busi
         set
+        <if test="sampleTime != null">
+            sample_time = #{sampleTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="reportTime != null">
+            report_time = #{reportTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="assayMonth != null">
+            assay_month = #{assayMonth,jdbcType=VARCHAR},
+        </if>
+        <if test="assayDate != null">
+            assay_date = #{assayDate,jdbcType=DATE},
+        </if>
         result = #{result,jdbcType=VARCHAR},
         result_actual = #{resultActual,jdbcType=DOUBLE},
         result_tips = #{resultTips,jdbcType=VARCHAR},
