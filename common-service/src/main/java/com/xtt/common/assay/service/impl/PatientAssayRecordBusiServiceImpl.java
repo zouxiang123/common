@@ -31,6 +31,7 @@ import com.xtt.common.assay.hand.AssayHandOne;
 import com.xtt.common.assay.hand.AssayHandThree;
 import com.xtt.common.assay.hand.AssayHandTwo;
 import com.xtt.common.assay.service.IAssayFilterRuleService;
+import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
@@ -55,6 +56,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private IAssayHospDictService assayHospDictService;
+    @Autowired
+    private IAssayGroupService assayGroupService;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -84,8 +87,12 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode, Collection<String> itemCodes) {
-        return patientAssayRecordBusiMapper.listReportData(fkPatientId, startDate, endDate, itemCode, itemCodes);
+    public List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode) {
+        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        if (CollectionUtils.isNotEmpty(groupItemCodes)) {
+            itemCode = null;
+        }
+        return patientAssayRecordBusiMapper.listReportData(fkPatientId, startDate, endDate, itemCode, groupItemCodes);
     }
 
     @Override
@@ -121,11 +128,16 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode) {
+        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        if (CollectionUtils.isNotEmpty(groupItemCodes)) {
+            itemCode = null;
+        }
         PatientAssayRecordBusiPO record = new PatientAssayRecordBusiPO();
         record.setFkPatientId(patientId);
         record.setStartDate(startDate);
         record.setEndDate(endDate);
         record.setItemCode(itemCode);
+        record.setItemCodes(groupItemCodes);
         record.setFkTenantId(UserUtil.getTenantId());
         return patientAssayRecordBusiMapper.listForPersonReport(record);
     }

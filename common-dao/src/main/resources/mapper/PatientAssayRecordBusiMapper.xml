@@ -615,12 +615,15 @@
     </select>
     <!-- 查询患者个人统计报表数据 -->
     <select id="listForPersonReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultType="map">
-        select ymd,value,time from (
         SELECT DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as ymd,parb.result_actual as value, DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as time FROM patient_assay_record_busi parb
         <where>
             parb.fk_patient_id = #{fkPatientId}
             <if test="itemCode != null">
                 and parb.item_code = #{itemCode}
+            </if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND parb.item_code in
+                <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
             <if test="startDate != null">
                 and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
@@ -629,10 +632,7 @@
                 and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
             </if>
         </where>
-        GROUP BY parb.assay_date
         ORDER BY parb.assay_date desc
-        ) par
-        group by ymd
     </select>
     <!-- 根据租户id查询所有化验月份 -->
     <select id="listAllAssayMonthByTenantId" parameterType="java.lang.Integer" resultType="java.lang.String">

@@ -77,11 +77,10 @@ public interface IPatientAssayRecordBusiService {
      * @param startDate
      * @param endDate
      * @param itemCode
-     * @param itemCodes
      * @return
      *
      */
-    List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode, Collection<String> itemCodes);
+    List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode);
 
     /**
      * 查询患者的化验单(api用)
