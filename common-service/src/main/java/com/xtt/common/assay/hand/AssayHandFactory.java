@@ -223,11 +223,11 @@ public abstract class AssayHandFactory {
      *
      */
     public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId, Map<Long, List<Date>> mapPatientId) {
-        List<PatientAssayRecordPO> listAssayRecord = listPatientAssayRecordByCreateTime(startCreateTime, endCreateTime, fkPatientId);
+        /* List<PatientAssayRecordPO> listAssayRecord = listPatientAssayRecordByCreateTime(startCreateTime, endCreateTime, fkPatientId);
         if (CollectionUtils.isEmpty(listAssayRecord)) {
             return;
         }
-        insertAssayRecord(listAssayRecord);
+        insertAssayRecord(listAssayRecord);*/
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
     }
 

@@ -78,6 +78,7 @@ public class AssayHandFour extends AssayHandFactory {
                         patientAssayRecordBusi.setFkPatientId(afterPatientAssayRecord.getFkPatientId());
                         patientAssayRecordBusi.setReqId(afterPatientAssayRecord.getReqId());
                         patientAssayRecordBusi.setSampleTime(afterPatientAssayRecord.getSampleTime());
+                        patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
                         patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
                         updateRecordList.add(patientAssayRecordBusi);
                     }

@@ -207,4 +207,25 @@ public interface AssayHospDictMapper {
      *
      */
     Integer queryByItemCodeandGroupId(AssayHospDictPO assayHospDict);
+
+    /**
+     * 根据是否为常用化验项查询字典表
+     * 
+     * @Title: listIteCodeByIsTop
+     * @param isTop
+     * @param fkTenandId
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listIteCodeByIsTop(@Param("isTop") Boolean isTop, @Param("fkTenantId") Integer fkTenandId);
+
+    /**
+     * 去重查询所有的化验项
+     * 
+     * @Title: listAllByTenant
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listAllByTenant(@Param("fkTenantId") Integer fkTenantId);
 }

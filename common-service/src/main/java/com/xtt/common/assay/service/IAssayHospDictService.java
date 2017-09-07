@@ -252,4 +252,23 @@ public interface IAssayHospDictService {
      */
     void updateAssay(AssayHospDictPO record);
 
+    /**
+     * 根据是否为常用化验项查询字典表
+     * 
+     * @Title: listIteCodeByIsTop
+     * @param isTop
+     *
+     */
+    List<AssayHospDictPO> listIteCodeByIsTop(Boolean isTop);
+
+    /**
+     * 去重查询所有的化验项
+     * 
+     * @Title: listAllByTenant
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listAllByTenant(Integer fkTenantId);
+
 }

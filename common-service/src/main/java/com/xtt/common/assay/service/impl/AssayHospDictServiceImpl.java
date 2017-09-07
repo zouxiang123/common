@@ -250,4 +250,15 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     }
 
+    @Override
+    public List<AssayHospDictPO> listIteCodeByIsTop(Boolean isTop) {
+        return assayHospDictMapper.listIteCodeByIsTop(isTop, UserUtil.getTenantId());
+
+    }
+
+    @Override
+    public List<AssayHospDictPO> listAllByTenant(Integer fkTenantId) {
+        return assayHospDictMapper.listAllByTenant(fkTenantId);
+    }
+
 }

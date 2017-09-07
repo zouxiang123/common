@@ -425,6 +425,7 @@
         ,ahd.min_value
         ,ahd.max_value
         ,ahd.unit
+        ,parb.inspection_id
         from patient_assay_record_busi parb  
         LEFT JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id
         <where>

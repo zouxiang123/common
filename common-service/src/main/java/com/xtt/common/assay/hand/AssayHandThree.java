@@ -77,7 +77,8 @@ public class AssayHandThree extends AssayHandFactory {
                     patientAssayRecordBusi = new PatientAssayRecordBusi();
                     patientAssayRecordBusi.setFkPatientId(patientAssayRecord.getFkPatientId());
                     patientAssayRecordBusi.setReqId(patientAssayRecord.getReqId());
-                    patientAssayRecordBusi.setReportTime(patientAssayRecord.getReportTime());
+                    patientAssayRecordBusi.setSampleTime(patientAssayRecord.getSampleTime());
+                    patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
                     patientAssayRecordBusi.setDiaAbFlag(AssayConsts.AFTER_HD);
                     newPatientAssayRecordBusi.add(patientAssayRecordBusi);
                     patientAssayRecordBusi = null;

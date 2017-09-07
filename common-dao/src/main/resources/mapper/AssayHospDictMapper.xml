@@ -521,7 +521,6 @@
     JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
     JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
     LEFT JOIN patient_assay_class pac ON pac.item_code = ahd.item_code and pac.fk_tenant_id = ahd.fk_tenant_id 
-
     <if test="assayClass != null">
         AND pac.assay_class = #{assayClass}
     </if>
@@ -683,5 +682,36 @@
     </where>
     ORDER BY ahd.item_code ASC
     
+    </select>
+    <!-- 根据是否为常用化验项查询字典表 -->
+    <select id="listIteCodeByIsTop" resultMap="POResultMap">
+        SELECT ahd.item_code,ahd.item_name 
+        from assay_hosp_dict ahd
+        <where>
+            <if test="isTop != null">
+                ahd.is_top = #{isTop}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
+            </if>
+        </where>
+    </select>
+    <!-- 去重查询所有的化验项 -->
+    <select id="listAllByTenant" resultMap="POResultMap">
+        SELECT
+            ahd.item_code,
+            ahd.item_name,
+            ahd.unit,
+            ahd.reference,
+            ahd.fk_dict_code,
+            pad.item_name AS fkItemName
+        FROM
+            assay_hosp_dict ahd
+            LEFT JOIN patient_assay_dictionary pad ON ahd.fk_dict_code = pad.item_code
+        WHERE
+            ahd.fk_tenant_id = #{fkTenantId}
+        ORDER BY
+            ahd.item_code ASC
+        
     </select>
 </mapper>
