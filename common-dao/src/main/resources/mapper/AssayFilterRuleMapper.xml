@@ -222,16 +222,9 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
      <!-- user define -->
-  <select id="getAssayFilterRuleByTenantId" resultMap="BaseResultMap">
+  <select id="getByTenantId" resultMap="BaseResultMap">
     SELECT 
-        category
-        ,item_code
-        ,group_name
-        ,keyword_before
-        ,keyword_after
-        ,item_count_before,
-        item_count_after,
-        interval_day 
+        <include refid="Base_Column_List" />
     from assay_filter_rule
     <where>
         fk_tenant_id  = #{fkTenantId,jdbcType=INTEGER}

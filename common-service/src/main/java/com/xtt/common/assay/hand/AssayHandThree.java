@@ -31,7 +31,7 @@ public class AssayHandThree extends AssayHandFactory {
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long patientId) {
         // 根据项目编码过滤查询
-        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         // 以","分割
         String strItemCode = assayFilterRule.getItemCode();
         if (strItemCode == null) {

@@ -122,7 +122,7 @@ public abstract class AssayHandFactory {
         List<PatientAssayRecordBusi> listPatientAssayRecordBusi = new ArrayList<>(1008);
         int i = 1;
         List<PatientAssayInspectioidBack> inspectioidBackList = new ArrayList<>();
-        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
         Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {

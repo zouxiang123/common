@@ -27,7 +27,7 @@ public class AssayHandFour extends AssayHandFactory {
     @Override
     public void afterHandDiaAbAlag(Map<Long, List<Date>> map, Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         Date nowDate = new Date();
-        AssayFilterRule assayFilterRule = assayFilterRuleService.getAssayFilterRuleByTenantId(UserUtil.getTenantId());
+        AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         Integer beforeCount = assayFilterRule.getItemCountBefore();
         Integer afterCount = assayFilterRule.getItemCountAfter();
         String groupName = assayFilterRule.getGroupName();

@@ -21,10 +21,11 @@ public interface AssayFilterRuleMapper {
     /**
      * 根据租户号查询清洗数据逻辑
      * 
-     * @Title: getAssayFilterRuleByTenantId
+     * @Title: getByTenantId
      * @param fkTenantId
      * @return
      *
      */
-    AssayFilterRule getAssayFilterRuleByTenantId(Integer fkTenantId);
+    AssayFilterRule getByTenantId(Integer fkTenantId);
+
 }

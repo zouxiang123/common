@@ -20,6 +20,15 @@ public interface IAssayFilterRuleService {
      * @return
      *
      */
-    AssayFilterRule getAssayFilterRuleByTenantId(Integer fkTenantId);
+    AssayFilterRule getByTenantId(Integer fkTenantId);
+
+    /**
+     * 根据租户id更新清洗数据逻辑
+     * 
+     * @Title: updateByfkTenantId
+     * @param assayFilterRule
+     *
+     */
+    void updateByfkTenantId(AssayFilterRule assayFilterRule);
 
 }
