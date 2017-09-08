@@ -9,6 +9,7 @@
 package com.xtt.common.assay.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -79,49 +80,21 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
     }
 
     @Override
-    public void updateItemCode(List<String> itemCodes, Boolean isDelete, Integer tenantId) {
-
-        AssayHospDictPO dictAssay = new AssayHospDictPO();
-        dictAssay.setIsTop(true);
-        Date nowDate = new Date();
-        List<PatientAssayReportCommon> assayCommonlist = new ArrayList<PatientAssayReportCommon>();
-        this.deleteByItemCodes(itemCodes);
-        if (isDelete) {
-            PatientAssayRecordBusiPO patientAssayRecordBusi = new PatientAssayRecordBusiPO();
-            patientAssayRecordBusi.setItemCodes(itemCodes);
-            List<PatientAssayRecordBusi> listpatientAssayRecordBusi = patientAssayRecordBusiService.selectCommonByItemCode(patientAssayRecordBusi);
-            PatientAssayReportCommon PatientAssayReportCommon = null;
-            for (PatientAssayRecordBusi recordBusi : listpatientAssayRecordBusi) {
-                PatientAssayReportCommon = new PatientAssayReportCommon();
-                BeanUtil.copyProperties(recordBusi, PatientAssayReportCommon);
-                PatientAssayReportCommon.setCreateTime(nowDate);
-                PatientAssayReportCommon.setUpdateTime(nowDate);
-                PatientAssayReportCommon.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                PatientAssayReportCommon.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayCommonlist.add(PatientAssayReportCommon);
-            }
-            this.insertList(assayCommonlist);
-        }
-
-    }
-
-    @Override
-    public void insertAuto(List<Long> allPatientIds, Set<Long> filterPatientIds, Date monthDate, Integer tenantId) {
+    public void insertAuto(List<Long> allPatientIds, Set<Long> filterPatientIds, Date monthDate, Integer tenantId, Collection<String> itemCodes) {
         // 删除本月数据
         String assayMonth = DateUtil.format(monthDate, DateFormatUtil.FORMAT_YYYY_MM);
         PatientAssayReportCommonPO delCondition = new PatientAssayReportCommonPO();
         delCondition.setFkTenantId(UserUtil.getTenantId());
         delCondition.setAssayMonth(assayMonth);
+        delCondition.setItemCodes(itemCodes);
         deleteByCondition(delCondition);
 
         // 获取常用化验项
-        AssayHospDictPO dictAssay = new AssayHospDictPO();
-        dictAssay.setIsTop(true);
-        List<AssayHospDictPO> dicts = assayHospDictService.getByCondition(dictAssay);
-        List<String> listItemCode = new ArrayList<>();
+        List<AssayHospDictPO> dicts = assayHospDictService.listTopForCommonReport(tenantId, itemCodes);
         if (CollectionUtils.isNotEmpty(dicts)) {
-            for (AssayHospDictPO dictHospitalLab : dicts) {
-                listItemCode.add(dictHospitalLab.getItemCode());
+            itemCodes = new ArrayList<>(dicts.size());
+            for (AssayHospDictPO dict : dicts) {
+                itemCodes.add(dict.getItemCode());
             }
         } else {
             return;
@@ -133,7 +106,7 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
         patientAssayRecordBusi.setStartDate(BusinessDateUtil.getMonthStartOrEnd(monthDate, true));
         patientAssayRecordBusi.setEndDate(BusinessDateUtil.getMonthStartOrEnd(monthDate, false));
         patientAssayRecordBusi.setAssayMonth(assayMonth);
-        patientAssayRecordBusi.setItemCodes(listItemCode);
+        patientAssayRecordBusi.setItemCodes(itemCodes);
         // 删除已经转归的患者id
         patientAssayRecordBusi.setPatientIds(filterPatientIds);
         List<PatientAssayRecordBusi> listpatientAssayRecordBusi = patientAssayRecordBusiService.selectCommonByItemCode(patientAssayRecordBusi);
@@ -171,7 +144,11 @@ public class PatientAssayReportCommonServiceImpl implements IPatientAssayReportC
         allPatientIds.removeAll(filterPatientIds);
         if (CollectionUtils.isNotEmpty(allPatientIds)) {
             id = PrimaryKeyUtil.getPrimaryKey(PatientAssayReportCommon.class.getSimpleName(), UserUtil.getTenantId(), allPatientIds.size());
-            String itemCode = dicts.get(0).getItemCode();
+            String itemCode = "";
+            for (String code : itemCodes) {
+                itemCode = code;
+                break;
+            }
             for (int i = 0; i < allPatientIds.size(); i++) {
                 patientAssayReportCommon = new PatientAssayReportCommon();
                 patientAssayReportCommon.setId(id++);

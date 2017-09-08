@@ -8,7 +8,6 @@
  */
 package com.xtt.common.assay.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -94,16 +93,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public void updateSomeValue(AssayHospDictPO assayHospDict) {
         AssayHospDict newRecord = assayHospDictMapper.selectByPrimaryKey(assayHospDict.getId());
-        List<String> itemCodes = new ArrayList<>(1);
-        itemCodes.add(newRecord.getItemCode());
-        Integer tenantId = UserUtil.getTenantId();
-        // 当常用化验项发生变化时候，异步调用常用化验项预处理增加或者删除元素
-        if (assayHospDict.getIsTop() != newRecord.getIsTop()) {
-            new Thread(() -> {
-                UserUtil.setThreadTenant(tenantId);
-                patientAssayReportCommonService.updateItemCode(itemCodes, assayHospDict.getIsTop(), tenantId);
-            }).start();
-        }
         DataUtil.setSystemFieldValue(newRecord);
         newRecord.setPersonalMaxValue(assayHospDict.getPersonalMaxValue());
         newRecord.setPersonalMinValue(assayHospDict.getPersonalMinValue());
@@ -178,14 +167,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public List<AssayHospDictPO> selectByFkCodes(Collection<String> dictCodes) {
-        AssayHospDictPO record = new AssayHospDictPO();
-        record.setFkTenantId(UserUtil.getTenantId());
-        record.setDictCodes(dictCodes);
-        return getByCondition(record);
-    }
-
-    @Override
     public AssayHospDictPO getByGroupIdAndItemCode(AssayHospDictPO record) {
         if (record.getFkTenantId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
@@ -237,6 +218,16 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
             record.setFkTenantId(UserUtil.getTenantId());
         }
         return assayHospDictMapper.listBasicByCondition(record);
+    }
+
+    @Override
+    public List<AssayHospDictPO> listTopForCommonReport(Integer tenantId, Collection<String> itemCodes) {
+        return assayHospDictMapper.listTopForCommonReport(tenantId, itemCodes);
+    }
+
+    @Override
+    public AssayHospDictPO getById(Long id) {
+        return assayHospDictMapper.getById(id);
     }
 
 }

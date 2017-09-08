@@ -8,7 +8,7 @@
  */
 package com.xtt.common.dao.po;
 
-import java.util.List;
+import java.util.Collection;
 
 import com.xtt.common.dao.model.PatientAssayReportCommon;
 
@@ -22,7 +22,7 @@ public class PatientAssayReportCommonPO extends PatientAssayReportCommon {
     private Long userId;
     // 患者标签
     private Long[] patientLabelIds;
-    private List<String> itemCodes;
+    private Collection<String> itemCodes;
 
     public Long getUserId() {
         return userId;
@@ -56,11 +56,11 @@ public class PatientAssayReportCommonPO extends PatientAssayReportCommon {
         this.name = name;
     }
 
-    public List<String> getItemCodes() {
+    public Collection<String> getItemCodes() {
         return itemCodes;
     }
 
-    public void setItemCodes(List<String> itemCodes) {
+    public void setItemCodes(Collection<String> itemCodes) {
         this.itemCodes = itemCodes;
     }
 

@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.service;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -56,16 +57,6 @@ public interface IPatientAssayReportCommonService {
     void deleteByItemCodes(List<String> listItemCode);
 
     /**
-     * 更新常用化验项
-     * 
-     * @Title: updateItemCode
-     * @param itemCodes
-     * @param isdelete
-     *
-     */
-    void updateItemCode(List<String> itemCodes, Boolean isdelete, Integer tenantId);
-
-    /**
      * 保存数据
      * 
      * 
@@ -76,8 +67,9 @@ public interface IPatientAssayReportCommonService {
      *            过滤患者id
      * @param monthDate
      * @param tenantId
+     * @param itemCodes
      *
      */
-    void insertAuto(List<Long> allPatientIds, Set<Long> filterPatientIds, Date monthDate, Integer tenantId);
+    void insertAuto(List<Long> allPatientIds, Set<Long> filterPatientIds, Date monthDate, Integer tenantId, Collection<String> itemCodes);
 
 }

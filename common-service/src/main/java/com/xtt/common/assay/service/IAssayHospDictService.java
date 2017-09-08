@@ -187,16 +187,6 @@ public interface IAssayHospDictService {
     int queryByItemCode(AssayHospDictPO record);
 
     /**
-     * 根据关联code查询数据
-     * 
-     * @Title: selectByFkCodes
-     * @param dictCodes
-     * @return
-     *
-     */
-    List<AssayHospDictPO> selectByFkCodes(Collection<String> dictCodes);
-
-    /**
      * 查询所有手动添加数据
      * 
      * @Title: listAllManualAdd
@@ -243,5 +233,26 @@ public interface IAssayHospDictService {
      *
      */
     List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record);
+
+    /**
+     * 查询置顶项for常用化验项统计
+     * 
+     * @Title: listTopForCommonReport
+     * @param tenantId
+     * @param itemCodes
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listTopForCommonReport(Integer tenantId, Collection<String> itemCodes);
+
+    /**
+     * 获取id获取数据
+     * 
+     * @Title: getById
+     * @param id
+     * @return
+     *
+     */
+    AssayHospDictPO getById(Long id);
 
 }

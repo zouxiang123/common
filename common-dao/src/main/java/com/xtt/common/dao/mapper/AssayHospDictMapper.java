@@ -1,5 +1,6 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -209,4 +210,25 @@ public interface AssayHospDictMapper {
      *
      */
     List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record);
+
+    /**
+     * 查询置顶项for常用化验项统计
+     * 
+     * @Title: listTopForCommonReport
+     * @param fkTenandId
+     * @param itemCodes
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listTopForCommonReport(@Param("fkTenantId") Integer fkTenandId, @Param("itemCodes") Collection<String> itemCodes);
+
+    /**
+     * 根据id获取数据
+     * 
+     * @Title: getById
+     * @param id
+     * @return
+     *
+     */
+    AssayHospDictPO getById(Long id);
 }

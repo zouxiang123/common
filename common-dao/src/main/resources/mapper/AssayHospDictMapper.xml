@@ -646,5 +646,23 @@
         </where>
         ORDER BY ahd.item_code ASC
     </select>
-    
+    <!-- 查询置顶项for常用化验项统计 -->
+    <select id="listTopForCommonReport" resultMap="POResultMap">
+        SELECT if(ISNULL(agc.id),ahd.item_code,agc.id) item_code,if(ISNULL(agc.`name`),ahd.item_name,agc.`name`) item_name
+        ,ahd.unit ,ahd.fk_dict_code ,ahd.fk_tenant_id ,ahd.is_top , ahd.is_auto
+        FROM assay_hosp_dict ahd
+        LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id
+        LEFT JOIN assay_group_conf agc ON agcd.fk_assay_group_conf_id = agc.id
+        WHERE ahd.is_top = true AND ahd.fk_tenant_id = #{fkTenantId}
+        <if test="itemCodes != null and itemCodes.size() >0">
+            and ahd.item_code in
+            <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        GROUP BY item_code
+        ORDER BY item_code
+    </select>
+    <!-- 根据id获取数据 -->
+    <select id="getById" resultMap="POResultMap">
+        SELECT * FROM assay_hosp_dict WHERE id = #{id}
+    </select>
 </mapper>
