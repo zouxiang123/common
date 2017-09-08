@@ -65,14 +65,14 @@ public interface IAssayHospDictService {
     AssayHospDictPO getByItemCode(String itemCode);
 
     /**
-     * 查询化验项详情
+     * 根据分组id和itemCode查询数据
      * 
-     * @Title: selectTop
+     * @Title: getByGroupIdAndItemCode
      * @param record
      * @return
      *
      */
-    AssayHospDictPO selectTop(AssayHospDictPO record);
+    AssayHospDictPO getByGroupIdAndItemCode(AssayHospDictPO record);
 
     /**
      * 获取所有的分类数据
@@ -112,26 +112,9 @@ public interface IAssayHospDictService {
     String updateDictById(AssayHospDictPO assayHospDict);
 
     /**
-     * 通过ItemCode来查询isTop，dataType，maxValue，minValue
-     * 
-     * @param itemCode
-     * @return
-     */
-    List<AssayHospDictPO> selectAllByItemCode(String itemCode);
-
-    /**
      * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
      */
-    void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDictPO);
-
-    /**
-     * 查询所有化验项
-     * 
-     * @param record
-     * 
-     * @return
-     */
-    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO record);
+    void updateSomeValue(AssayHospDictPO assayHospDictPO);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
@@ -223,16 +206,6 @@ public interface IAssayHospDictService {
     List<AssayHospDictPO> listAllManualAdd();
 
     /**
-     * 查询不重复的item_code
-     * 
-     * @Title: seleteItemCodeByCondition
-     * @param assayHospDict
-     * @return
-     *
-     */
-    List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO AssayHospDictPO);
-
-    /**
      * 查询化验单是否有相同的化验项
      * 
      * @Title: queryByItemCodeandGroupId
@@ -259,16 +232,16 @@ public interface IAssayHospDictService {
      * @param isTop
      *
      */
-    List<AssayHospDictPO> listIteCodeByIsTop(Boolean isTop);
+    List<AssayHospDictPO> listByIsTop(Boolean isTop);
 
     /**
-     * 去重查询所有的化验项
+     * 根据自定义条件查询不包含groupId的数据
      * 
-     * @Title: listAllByTenant
-     * @param fkTenantId
+     * @Title: listBasicByCondition
+     * @param record
      * @return
      *
      */
-    List<AssayHospDictPO> listAllByTenant(Integer fkTenantId);
+    List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record);
 
 }

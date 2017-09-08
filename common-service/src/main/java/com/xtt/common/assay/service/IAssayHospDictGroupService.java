@@ -25,15 +25,6 @@ public interface IAssayHospDictGroupService {
     int insert(AssayHospDictGroup record);
 
     /**
-     * 批量插入
-     * 
-     * @Title: insertList
-     * @param list
-     *
-     */
-    void insertList(List<AssayHospDictGroup> list);
-
-    /**
      * 根据groupId查询是否重复
      * 
      * @Title: getCountByGroupId
@@ -53,13 +44,13 @@ public interface IAssayHospDictGroupService {
     void deleteByTenant(Integer tenantId);
 
     /**
-     * 根据标签获取添加类型
+     * 根据是否是手动添加查询数据
      * 
-     * @Title: listGroupNameByfale
+     * @Title: listByIsAuto
      * @param flag
      * @return
      *
      */
-    List<AssayHospDictGroup> listGroupNameByfale(Boolean isAuto);
+    List<AssayHospDictGroup> listByIsAuto(Boolean isAuto);
 
 }

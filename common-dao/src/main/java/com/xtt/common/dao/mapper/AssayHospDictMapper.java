@@ -113,16 +113,7 @@ public interface AssayHospDictMapper {
      * @param itemCode
      * @return
      */
-    public List<AssayHospDictPO> selectAllByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
-
-    /**
-     * 查询所有化验项分组
-     * 
-     * @param assayHospDict
-     * 
-     * @return
-     */
-    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO assayHospDict);
+    AssayHospDictPO getByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 根据大中小血类查询所有化验单及选中情况
@@ -179,24 +170,14 @@ public interface AssayHospDictMapper {
     int queryByItemCode(AssayHospDictPO record);
 
     /**
-     * 查询化验项详情
+     * 根据分组id和itemCode查询数据
      * 
-     * @Title: selectTop
+     * @Title: getByGroupIdAndItemCode
      * @param record
      * @return
      *
      */
-    AssayHospDictPO selectTop(AssayHospDictPO record);
-
-    /**
-     * 查询不重复的itemCode
-     * 
-     * @Title: seleteItemCodeByGroupDetail
-     * @param assayHospDict
-     * @return
-     *
-     */
-    List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO assayHospDict);
+    AssayHospDictPO getByGroupIdAndItemCode(AssayHospDictPO record);
 
     /**
      * 查询化验单是否有相同的化验项
@@ -211,21 +192,21 @@ public interface AssayHospDictMapper {
     /**
      * 根据是否为常用化验项查询字典表
      * 
-     * @Title: listIteCodeByIsTop
+     * @Title: listByIsTop
      * @param isTop
      * @param fkTenandId
      * @return
      *
      */
-    List<AssayHospDictPO> listIteCodeByIsTop(@Param("isTop") Boolean isTop, @Param("fkTenantId") Integer fkTenandId);
+    List<AssayHospDictPO> listByIsTop(@Param("isTop") Boolean isTop, @Param("fkTenantId") Integer fkTenandId);
 
     /**
-     * 去重查询所有的化验项
+     * 根据自定义条件查询不包含groupId的数据
      * 
-     * @Title: listAllByTenant
-     * @param fkTenantId
+     * @Title: listBasicByCondition
+     * @param record
      * @return
      *
      */
-    List<AssayHospDictPO> listAllByTenant(@Param("fkTenantId") Integer fkTenantId);
+    List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record);
 }

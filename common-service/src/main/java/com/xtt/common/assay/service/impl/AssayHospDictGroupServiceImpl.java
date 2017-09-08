@@ -25,11 +25,6 @@ public class AssayHospDictGroupServiceImpl implements IAssayHospDictGroupService
     private AssayHospDictGroupMapper assayHospDictGroupMapper;
 
     @Override
-    public void insertList(List<AssayHospDictGroup> list) {
-        assayHospDictGroupMapper.insertList(list);
-    }
-
-    @Override
     public int getCountByGroupId(String groupId) {
         return assayHospDictGroupMapper.getCountByGroupId(groupId, UserUtil.getTenantId());
     }
@@ -46,8 +41,8 @@ public class AssayHospDictGroupServiceImpl implements IAssayHospDictGroupService
     }
 
     @Override
-    public List<AssayHospDictGroup> listGroupNameByfale(Boolean isAuto) {
-        return assayHospDictGroupMapper.listGroupNameByfale(isAuto);
+    public List<AssayHospDictGroup> listByIsAuto(Boolean isAuto) {
+        return assayHospDictGroupMapper.listByIsAuto(isAuto, UserUtil.getTenantId());
     }
 
 }

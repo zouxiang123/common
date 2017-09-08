@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.constants.CommonConstants;
@@ -45,8 +42,6 @@ public class PatientAssayController {
     private ICmPatientService cmPatientService;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
-    @Autowired
-    private IAssayGroupService assayGroupService;
 
     @RequestMapping("record")
     public ModelAndView record(Long patientId) {
@@ -126,12 +121,8 @@ public class PatientAssayController {
     @ResponseBody
     public List<Map<String, Object>> getAssayReport(String startDateStr, String endDateStr, Long patientId, String itemCode)
                     throws UnsupportedEncodingException {
-        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
-        if (CollectionUtils.isNotEmpty(groupItemCodes)) {
-            itemCode = null;
-        }
         return patientAssayRecordBusiService.listReportData(patientId, BusinessReportUtil.getStartOrEndDate(startDateStr, true),
-                        BusinessReportUtil.getStartOrEndDate(endDateStr, false), itemCode, groupItemCodes);
+                        BusinessReportUtil.getStartOrEndDate(endDateStr, false), itemCode);
     }
 
     /**

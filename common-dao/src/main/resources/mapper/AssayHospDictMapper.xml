@@ -442,8 +442,8 @@
     AND ahdg.group_name is NOT NULL
     order by ahd.item_name
   </select>
-    <!-- 查询所有置顶项 -->
-    <select id="selectTop" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+  <!-- 根据分组id和itemcode查询数据 -->
+    <select id="getByGroupIdAndItemCode" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
         SELECT
         <include refid="AHD_Column_List" />
         FROM assay_hosp_dict ahd 
@@ -471,30 +471,9 @@
   </update>
   
   
-  <!-- 通过ItemCode来查询minValue，maxValue，isTop，dataType -->
-  <select id="selectAllByItemCode" resultMap="POResultMap">
-    select is_top, id,date_type, personal_min_value, personal_max_value from assay_hosp_dict 
-    where item_code = #{itemCode,jdbcType=VARCHAR}
-       and fk_tenant_id = #{fkTenantId}
-  </select>
-  
-   <!-- 查询所有的化验项  -->
-  <select id="selectAllGroup" resultMap="POResultMap">
-    SELECT 
-        <include refid="AHD_Column_List" />
-     FROM assay_hosp_dict ahd 
-     JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-     JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
-    <where>
-        <if test="isAuto !=null">
-            ahd.is_auto= #{isAuto}
-        </if>
-        <if test="fkTenantId != null">
-            AND ahd.fk_tenant_id = #{fkTenantId}
-        </if>
-    </where>
-     GROUP BY ahdg.group_name
-     ORDER BY ahdg.group_name
+  <!-- 通过ItemCode来查询数据 -->
+  <select id="getByItemCode" resultMap="POResultMap">
+    select * from assay_hosp_dict where item_code = #{itemCode,jdbcType=VARCHAR} and fk_tenant_id = #{fkTenantId}
   </select>
   
   <!-- 根据大中小血类查询所有化验单及选中情况 -->
@@ -613,80 +592,13 @@
             </if>
         </where>  
     </select>
-    <select id="seleteItemCodeByCondition" resultMap="POResultMap">
-        SELECT  
-                ahd.id
-                ,ahd.item_code
-                ,ahd.item_name
-                ,ahd.reference
-                ,ahd.unit
-                ,ahd.fk_dict_code
-                ,pad.item_name AS fkItemName
-        FROM assay_hosp_dict ahd 
-        LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.fk_dict_code
-    <where>
-        <if test="groupId != null and groupId != ''">
-        and ahd.group_id = #{groupId}
-        </if>
-        <if test="groupName != null and groupName != ''">
-        and ahd.group_name = #{groupName}
-        </if>
-        <if test="itemCode != null and itemCode != ''">
-        and ahd.item_code = #{itemCode}
-        </if>
-        <if test="itemName != null and itemName != ''">
-        and ahd.item_name = #{itemName}
-        </if>
-        <if test="minValue != null">
-        and ahd.min_value = #{minValue}
-        </if>
-        <if test="maxValue != null">
-        and ahd.max_value = #{maxValue}
-        </if>
-        <if test="unit != null and unit != ''">
-        and ahd.unit = #{unit}
-        </if>
-        <if test="reference != null and reference != ''">
-        and ahd.reference = #{reference}
-        </if>
-        <if test="orderBy != null">
-        and ahd.order_by = #{orderBy}
-        </if>
-        <if test="fkDictCode != null and fkDictCode != ''">
-        and ahd.fk_dict_code = #{fkDictCode}
-        </if>
-        <if test="fkTenantId != null">
-        and ahd.fk_tenant_id = #{fkTenantId}
-        </if>
-        <if test="createTime != null">
-        and ahd.create_time = #{createTime}
-        </if>
-        <if test="createUserId != null">
-        and ahd.create_user_id = #{createUserId}
-        </if>
-        <if test="updateTime != null">
-        and ahd.update_time = #{updateTime}
-        </if>
-        <if test="updateUserId != null">
-        and ahd.update_user_id = #{updateUserId}
-        </if>
-        <if test="isTop != null">
-        and ahd.is_top = #{isTop}
-        </if>
-        <if test="valueType != null">
-        and ahd.value_type = #{valueType,jdbcType=INTEGER}
-        </if>
-        <if test="dictCodes != null">
-        and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-    </where>
-    ORDER BY ahd.item_code ASC
-    
-    </select>
     <!-- 根据是否为常用化验项查询字典表 -->
-    <select id="listIteCodeByIsTop" resultMap="POResultMap">
-        SELECT ahd.item_code,ahd.item_name 
-        from assay_hosp_dict ahd
+    <select id="listByIsTop" resultMap="POResultMap">
+        SELECT
+        <include refid="AHD_Column_List" />
+        FROM assay_hosp_dict ahd
+        JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
         <where>
             <if test="isTop != null">
                 ahd.is_top = #{isTop}
@@ -695,23 +607,44 @@
                 and ahd.fk_tenant_id = #{fkTenantId}
             </if>
         </where>
+        GROUP BY ahd.item_code
+        ORDER BY ahd.item_name
     </select>
-    <!-- 去重查询所有的化验项 -->
-    <select id="listAllByTenant" resultMap="POResultMap">
+    <!-- 根据自定义条件查询不包含groupId的数据 -->
+    <select id="listBasicByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
         SELECT
-            ahd.item_code,
-            ahd.item_name,
-            ahd.unit,
-            ahd.reference,
-            ahd.fk_dict_code,
-            pad.item_name AS fkItemName
-        FROM
-            assay_hosp_dict ahd
-            LEFT JOIN patient_assay_dictionary pad ON ahd.fk_dict_code = pad.item_code
-        WHERE
-            ahd.fk_tenant_id = #{fkTenantId}
-        ORDER BY
-            ahd.item_code ASC
-        
+            ahd.*
+            , pad.item_name AS fkItemName
+        FROM assay_hosp_dict ahd
+        LEFT JOIN patient_assay_dictionary pad ON ahd.fk_dict_code = pad.item_code
+        <where>
+            <if test="itemCode != null and itemCode != ''">
+                ahd.item_code = #{itemCode}
+            </if>
+            <if test="unit != null and unit != ''">
+                and ahd.unit = #{unit}
+            </if>
+            <if test="fkDictCode != null and fkDictCode != ''">
+                and ahd.fk_dict_code = #{fkDictCode}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="isTop != null">
+                and ahd.is_top = #{isTop}
+            </if>
+            <if test="valueType != null">
+                and ahd.value_type = #{valueType,jdbcType=INTEGER}
+            </if>
+            <if test="isAuto != null">
+                and ahd.is_auto = #{isAuto}
+            </if>
+            <if test="dictCodes != null">
+                and ahd.fk_dict_code in
+                <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+        </where>
+        ORDER BY ahd.item_code ASC
     </select>
+    
 </mapper>

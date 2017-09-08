@@ -57,13 +57,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public AssayHospDictPO getByItemCode(String itemCode) {
-        AssayHospDictPO query = new AssayHospDictPO();
-        query.setItemCode(itemCode);
-        query.setFkTenantId(UserUtil.getTenantId());
-        List<AssayHospDictPO> list = getByCondition(query);
-        if (list != null && !list.isEmpty())
-            return list.get(0);
-        return null;
+        return assayHospDictMapper.getByItemCode(itemCode, UserUtil.getTenantId());
     }
 
     @Override
@@ -95,18 +89,10 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     /**
-     * 通过ItemCode来查询isTop，dataType，maxValue，minValue
-     */
-    @Override
-    public List<AssayHospDictPO> selectAllByItemCode(String itemCode) {
-        return assayHospDictMapper.selectAllByItemCode(itemCode, UserUtil.getTenantId());
-    }
-
-    /**
      * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
      */
     @Override
-    public void updateDictHospitalLabSomeValue(AssayHospDictPO assayHospDict) {
+    public void updateSomeValue(AssayHospDictPO assayHospDict) {
         AssayHospDict newRecord = assayHospDictMapper.selectByPrimaryKey(assayHospDict.getId());
         List<String> itemCodes = new ArrayList<>(1);
         itemCodes.add(newRecord.getItemCode());
@@ -164,14 +150,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public List<AssayHospDictPO> selectAllGroup(AssayHospDictPO assayHospDict) {
-        if (assayHospDict.getFkTenantId() == null) {
-            assayHospDict.setFkTenantId(UserUtil.getTenantId());
-        }
-        return assayHospDictMapper.selectAllGroup(assayHospDict);
-    }
-
-    @Override
     public Long getDictId(AssayHospDictPO list) {
         if (list.getFkTenantId() == null) {
             list.setFkTenantId(UserUtil.getTenantId());
@@ -208,9 +186,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public AssayHospDictPO selectTop(AssayHospDictPO record) {
-
-        return assayHospDictMapper.selectTop(record);
+    public AssayHospDictPO getByGroupIdAndItemCode(AssayHospDictPO record) {
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
+        return assayHospDictMapper.getByGroupIdAndItemCode(record);
     }
 
     @Override
@@ -218,11 +198,6 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         AssayHospDictPO record = new AssayHospDictPO();
         record.setIsAuto(false);
         return getByCondition(record);
-    }
-
-    @Override
-    public List<AssayHospDictPO> seleteItemCodeByCondition(AssayHospDictPO assayHospDict) {
-        return assayHospDictMapper.seleteItemCodeByCondition(assayHospDict);
     }
 
     @Override
@@ -251,14 +226,17 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     }
 
     @Override
-    public List<AssayHospDictPO> listIteCodeByIsTop(Boolean isTop) {
-        return assayHospDictMapper.listIteCodeByIsTop(isTop, UserUtil.getTenantId());
+    public List<AssayHospDictPO> listByIsTop(Boolean isTop) {
+        return assayHospDictMapper.listByIsTop(isTop, UserUtil.getTenantId());
 
     }
 
     @Override
-    public List<AssayHospDictPO> listAllByTenant(Integer fkTenantId) {
-        return assayHospDictMapper.listAllByTenant(fkTenantId);
+    public List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record) {
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
+        return assayHospDictMapper.listBasicByCondition(record);
     }
 
 }

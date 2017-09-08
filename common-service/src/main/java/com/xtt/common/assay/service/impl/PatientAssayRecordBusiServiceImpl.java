@@ -229,7 +229,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             }
             String result = assayHospDictPO.getResult();
             assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
-            AssayHospDictPO dictHospitalLab = assayHospDictService.selectTop(assayHospDictPO);
+            AssayHospDictPO dictHospitalLab = assayHospDictService.getByGroupIdAndItemCode(assayHospDictPO);
             PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
             patientAssayRecordBusi.setFkPatientId(assayHospDictPO.getFkPatientId());
             patientAssayRecordBusi.setGroupId(dictHospitalLab.getGroupId());
