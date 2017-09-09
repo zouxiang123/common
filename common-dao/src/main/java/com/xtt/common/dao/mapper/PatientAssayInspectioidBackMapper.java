@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayInspectioidBack;
@@ -30,4 +31,15 @@ public interface PatientAssayInspectioidBackMapper {
      *
      */
     List<PatientAssayInspectioidBack> listByCondition(PatientAssayInspectioidBack record);
+
+    /**
+     * 根据申请单和租户查询当前申请单的条数
+     * 
+     * @Title: countByInspectionId
+     * @param inspectionId
+     * @param fkTenantId
+     * @return
+     *
+     */
+    int countByInspectionId(@Param("inspectionId") String inspectionId, @Param("fkTenantId") Integer fkTenantId);
 }

@@ -46,4 +46,9 @@ public class PatientAssayInspectioidBackServiceImpl implements IPatientAssayInsp
     public List<PatientAssayInspectioidBack> listByPatientId(PatientAssayInspectioidBack record) {
         return patientAssayInspectioidBackMapper.listByCondition(record);
     }
+
+    @Override
+    public int countByInspectionId(String inspectionId, Integer fkTenantId) {
+        return patientAssayInspectioidBackMapper.countByInspectionId(inspectionId, fkTenantId);
+    }
 }

@@ -26,4 +26,15 @@ public interface IPatientAssayInspectioidBackService {
      */
     List<PatientAssayInspectioidBack> listByPatientId(PatientAssayInspectioidBack record);
 
+    /**
+     * 根据申请单和租户查询当前申请单的条数
+     * 
+     * @Title: countByInspectionId
+     * @param inspectionId
+     * @param fkTenantId
+     * @return
+     *
+     */
+    int countByInspectionId(String inspectionId, Integer fkTenantId);
+
 }

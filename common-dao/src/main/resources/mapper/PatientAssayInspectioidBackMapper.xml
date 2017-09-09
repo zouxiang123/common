@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientAssayInspectioidBackMapper">
   <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayInspectioidBack">
@@ -82,5 +82,9 @@
                AND fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
             </if>
         </where>
+    </select>
+    <!-- 根据申请单和租户查询当前申请单的条数 -->
+    <select id="countByInspectionId" resultType="java.lang.Integer">
+        SELECT count(1) FROM patient_assay_inspectioid_back WHERE inspection_id = #{inspectionId} AND fk_tenant_id = #{fkTenantId}
     </select>
 </mapper>

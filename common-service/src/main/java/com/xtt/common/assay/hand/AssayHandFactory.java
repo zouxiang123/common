@@ -251,11 +251,13 @@ public abstract class AssayHandFactory {
             if (CollectionUtils.isNotEmpty(updateList)) {
                 updateList.forEach(parb -> {
                     if (!existsInspectionIds.contains(parb.getInspectionId())) {
-                        PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
-                                        parb.getDiaAbFlag(), parb.getFkTenantId());
-                        if (inspectioidBack != null) {
-                            inspectionIdBackList.add(inspectioidBack);
-                            existsInspectionIds.add(parb.getInspectionId());
+                        if (patientAssayInspectioidBackService.countByInspectionId(parb.getInspectionId(), parb.getFkTenantId()) == 0) {
+                            PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
+                                            parb.getDiaAbFlag(), parb.getFkTenantId());
+                            if (inspectioidBack != null) {
+                                inspectionIdBackList.add(inspectioidBack);
+                                existsInspectionIds.add(parb.getInspectionId());
+                            }
                         }
                     }
                 });
