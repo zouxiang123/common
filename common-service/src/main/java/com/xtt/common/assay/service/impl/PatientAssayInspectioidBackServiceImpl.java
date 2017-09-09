@@ -10,6 +10,7 @@ package com.xtt.common.assay.service.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +26,24 @@ public class PatientAssayInspectioidBackServiceImpl implements IPatientAssayInsp
 
     @Override
     public void insertList(List<PatientAssayInspectioidBack> list) {
-        patientAssayInspectioidBackMapper.insertList(list);
+        if (CollectionUtils.isNotEmpty(list)) {// 一次插入一千条数据
+            int batchNo = 1000;// 每次插入条数
+            int size = list.size();
+            int page = size / batchNo;
+            if (size % batchNo != 0) {
+                page = page + 1;
+            }
+            for (int i = 0; i < page; i++) {
+                int fromIndex = i * batchNo;
+                int toIndex = fromIndex + batchNo;
+                toIndex = toIndex > size ? size : toIndex;
+                patientAssayInspectioidBackMapper.insertList(list.subList(fromIndex, toIndex));
+            }
+        }
     }
 
     @Override
     public List<PatientAssayInspectioidBack> listByPatientId(PatientAssayInspectioidBack record) {
         return patientAssayInspectioidBackMapper.listByCondition(record);
     }
-
 }

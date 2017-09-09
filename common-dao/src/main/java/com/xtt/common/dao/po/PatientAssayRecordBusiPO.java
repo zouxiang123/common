@@ -30,6 +30,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String strEndDate;
     private String dateType;
     private String fkDictCode;// 关联项编号
+
+    private Collection<String> fkDictCodes;
     // 采集时间字符串
     private String strSampleTime;
     // 报告时间字符串
@@ -41,7 +43,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     /**
      * 默认：parb.assay_date ASC <br>
      * 1:fk_patient_id,item_code,assay_date DESC <br>
-     * 2:fk_patient_id,item_code,assay_date ASC
+     * 2:fk_patient_id,item_code,assay_date ASC<br>
+     * 3:fk_patient_id,fk_dict_code,sample_time ASC
      */
     private Integer queryOrderBy;
 
@@ -49,6 +52,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private BigDecimal maxValue;
     private String startDateStr;
     private String endDateStr;
+    private Date startCreateTime;
+    private Date endCreateTime;
 
     public Integer getValueType() {
         return valueType;
@@ -171,7 +176,8 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     /**
      * 默认：parb.assay_date ASC <br>
      * 1:fk_patient_id,item_code,assay_date DESC <br>
-     * 2:fk_patient_id,item_code,assay_date ASC
+     * 2:fk_patient_id,item_code,assay_date ASC <br>
+     * 3:fk_patient_id,fk_dict_code,sample_time ASC
      */
     public void setQueryOrderBy(Integer queryOrderBy) {
         this.queryOrderBy = queryOrderBy;
@@ -221,6 +227,30 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
             endDate = DateFormatUtil.getDateByStr(endDateStr);
         }
         this.endDateStr = endDateStr;
+    }
+
+    public Collection<String> getFkDictCodes() {
+        return fkDictCodes;
+    }
+
+    public void setFkDictCodes(Collection<String> fkDictCodes) {
+        this.fkDictCodes = fkDictCodes;
+    }
+
+    public Date getStartCreateTime() {
+        return startCreateTime;
+    }
+
+    public void setStartCreateTime(Date startCreateTime) {
+        this.startCreateTime = startCreateTime;
+    }
+
+    public Date getEndCreateTime() {
+        return endCreateTime;
+    }
+
+    public void setEndCreateTime(Date endCreateTime) {
+        this.endCreateTime = endCreateTime;
     }
 
 }

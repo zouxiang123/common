@@ -418,14 +418,14 @@
         <include refid="Common_Column_List" />
         ,parb.id
         ,parb.sample_class
-        ,parb.reference
         ,parb.fk_tenant_id
         ,parb.create_user_id
+        ,parb.inspection_id
         ,ahd.value_type
         ,ahd.min_value
         ,ahd.max_value
         ,ahd.unit
-        ,parb.inspection_id
+        ,ahd.fk_dict_code fkDictCode
         from patient_assay_record_busi parb  
         LEFT JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id
         <where>
@@ -498,8 +498,17 @@
             <if test="sampleTime != null">
                 AND parb.sample_time = #{sampleTime,jdbcType=TIMESTAMP}
             </if>
+            <if test="startCreateTime != null">
+                AND parb.create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endCreateTime != null">
+                AND parb.create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}
+            </if>
             <if test="fkDictCode != null">
                 AND ahd.fk_dict_code = #{fkDictCode }
+            </if>
+            <if test="fkDictCodes != null and fkDictCodes.size() >0">
+                AND ahd.fk_dict_code in  <foreach collection="fkDictCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
         </where>
        <choose>
@@ -508,6 +517,9 @@
             </when>
             <when test="queryOrderBy == 2">
                ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date ASC
+            </when>
+            <when test="queryOrderBy == 3">
+               ORDER BY parb.fk_patient_id,ahd.fk_dict_code,parb.sample_time ASC
             </when>
             <otherwise>
                ORDER BY parb.assay_date ASC

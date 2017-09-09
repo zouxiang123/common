@@ -57,13 +57,12 @@
     <!-- user define -->
     <insert id="insertList">
         insert into patient_assay_inspectioid_back (inspection_id, fk_patient_id, dia_ab_flag, fk_tenant_id)
-        <foreach collection="list" index="index" item="item" separator="union all">
-            select
-            #{item.inspectionId,jdbcType=VARCHAR},
-            #{item.fkPatientId,jdbcType=BIGINT},
-            #{item.diaAbFlag,jdbcType=CHAR},
-            #{item.fkTenantId,jdbcType=INTEGER}
-            from dual
+        values 
+        <foreach collection="list" item="item" separator=",">
+            (#{item.inspectionId,jdbcType=VARCHAR}, 
+            #{item.fkPatientId,jdbcType=BIGINT}, 
+            #{item.diaAbFlag,jdbcType=CHAR}, 
+            #{item.fkTenantId,jdbcType=INTEGER})
         </foreach>
     </insert>
     <!-- 根据自定义条件查询数据 -->
