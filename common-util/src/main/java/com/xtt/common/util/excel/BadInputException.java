@@ -16,6 +16,7 @@ public class BadInputException extends IllegalArgumentException {
     public static final String KEY_INVALID_ROLE = "“%s”不是有效的角色名";
     public static final String KEY_INVALID_VALUE = "“%s”不是有效的值";
     public static final String KEY_INVALID_INTEGER = "“%s”不是有效的整数";
+    public static final String KEY_REPEAT_NUMBER = "“%s”手机号不能重复";
 
     private String errorValue;
 
