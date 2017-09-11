@@ -357,16 +357,16 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public PatientAssayRecordBusiPO getByBeforeCount(Integer beforeCount, Date startCreateDate, Date endCreateDate, String strItemCode,
-                    Long patientId, Integer fkTenantId, String groupName) {
+    public Map<String, Object> getByBeforeCount(Integer beforeCount, Date startCreateDate, Date endCreateDate, String strItemCode, Long patientId,
+                    Integer fkTenantId, String groupName) {
 
         return patientAssayRecordBusiMapper.getByBeforeCount(beforeCount, startCreateDate, endCreateDate, strItemCode, patientId, fkTenantId,
                         groupName);
     }
 
     @Override
-    public List<PatientAssayRecordBusiPO> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName,
-                    Long patientId, Integer tenantId, String strItemCode) {
+    public List<Map<String, Object>> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+                    Integer tenantId, String strItemCode) {
         return patientAssayRecordBusiMapper.listByAfterCount(afterCount, startCreateDate, endCreateDate, groupName, patientId, tenantId, strItemCode);
 
     }

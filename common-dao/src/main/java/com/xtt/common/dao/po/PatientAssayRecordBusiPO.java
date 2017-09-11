@@ -39,10 +39,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     private String reference; // 化验参考值
 
-    private String itemCode1;
-
-    private String itemCode2;
-
     private String[] multResultTips;
     /**
      * 默认：parb.assay_date ASC <br>
@@ -51,22 +47,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
      * 3:fk_patient_id,fk_dict_code,sample_time ASC
      */
     private Integer queryOrderBy;
-
-    public String getItemCode1() {
-        return itemCode1;
-    }
-
-    public void setItemCode1(String itemCode1) {
-        this.itemCode1 = itemCode1;
-    }
-
-    public String getItemCode2() {
-        return itemCode2;
-    }
-
-    public void setItemCode2(String itemCode2) {
-        this.itemCode2 = itemCode2;
-    }
 
     private BigDecimal minValue;
     private BigDecimal maxValue;
@@ -272,5 +252,4 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
     }
-
 }

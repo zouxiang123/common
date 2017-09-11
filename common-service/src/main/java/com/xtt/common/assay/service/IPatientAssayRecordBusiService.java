@@ -296,7 +296,7 @@ public interface IPatientAssayRecordBusiService {
      * @return
      *
      */
-    List<PatientAssayRecordBusiPO> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+    List<Map<String, Object>> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
                     Integer tenantId, String strItemCode);
 
     /**
@@ -313,7 +313,7 @@ public interface IPatientAssayRecordBusiService {
      * @return
      *
      */
-    PatientAssayRecordBusiPO getByBeforeCount(Integer beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
+    Map<String, Object> getByBeforeCount(Integer beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
                     Integer fkTenantId, String groupName);
 
 }
