@@ -70,7 +70,7 @@ public class AssayHandFour extends AssayHandFactory {
                         if (beforeRecordMap.get(key) != null && recordMap.get(key) != null) {// 透前需大于透后
                             isUpdate = ((Double) beforeRecordMap.get(key)).compareTo((Double) recordMap.get(key)) > 0;
                         } else {
-                            break;
+                            isUpdate = false;
                         }
                         if (!isUpdate) {
                             break;
