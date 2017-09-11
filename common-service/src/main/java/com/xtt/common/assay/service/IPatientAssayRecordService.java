@@ -11,7 +11,6 @@ package com.xtt.common.assay.service;
 import java.util.Date;
 import java.util.List;
 
-import com.xtt.common.dao.model.PatientAssayRecord;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 
 public interface IPatientAssayRecordService {
@@ -32,32 +31,5 @@ public interface IPatientAssayRecordService {
      *
      */
     List<PatientAssayRecordPO> listByCreateTime(Date startCreateTime, Date endCreateTime, Long fkPatientId);
-
-    /**
-     * 根据itemCode 查询化验单
-     * 
-     * @Title: listByItemCode
-     * @param startCreateTime
-     * @param endCreateTime
-     * @param itemCode
-     * @param groupName
-     * @return
-     *
-     */
-    List<PatientAssayRecord> listByItemCode(Date startCreateTime, Date endCreateTime, List<String> itemCode, String groupName);
-
-    /**
-     * 根据患者id itemCode查询
-     * 
-     * @Title: listByPatientId
-     * @param startTime
-     * @param endTime
-     * @param itemCode
-     * @param fkPatientId
-     * @param resultActual
-     * @return
-     *
-     */
-    Integer countByPatientId(Date startTime, Date endTime, String itemCode, Long fkPatientId, Double resultActual);
 
 }

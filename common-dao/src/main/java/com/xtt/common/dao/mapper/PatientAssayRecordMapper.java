@@ -78,35 +78,4 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
                     @Param("fkTenantId") Integer fkTenantId, @Param("fkPatientId") Long fkPatientId);
 
-    /**
-     * 根据itemCode 查询化验单
-     * 
-     * @Title: listByItemCode
-     * @param startCreateTime
-     * @param endCreateTime
-     * @param itemCode
-     * @param groupName
-     * @param integer
-     * @return
-     *
-     */
-    List<PatientAssayRecord> listByItemCode(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
-                    @Param("itemCodeList") List<String> itemCode, @Param("groupName") String groupName, @Param("fkTenantId") Integer fkTenantId);
-
-    /**
-     * 根据患者id item_code查询
-     * 
-     * @Title: listByPatientId
-     * @param startTime
-     * @param endTime
-     * @param itemCode
-     * @param fkPatientId
-     * @param resultActual2
-     * @param fkTenantId
-     * @return
-     *
-     */
-    Integer countByPatientId(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("itemCode") String itemCode,
-                    @Param("fkPatientId") Long fkPatientId, @Param("resultActual") Double resultActual, @Param("fkTenantId") Integer fkTenantId);
-
 }

@@ -23,8 +23,4 @@ public class CmSysParamConsts {
     public static final String showPatientCradType = "03";
     /** 打印服务地址 */
     public static final String PRINT_SERVER_ADDR = "print_server_addr";
-    /**
-     * 是否显示转归患者
-     */
-    public static final String showOutcomeRecordEdit = "0";
 }
