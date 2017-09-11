@@ -18,6 +18,7 @@ import org.apache.commons.collections.CollectionUtils;
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.BusinessDateUtil;
 import com.xtt.common.util.UserUtil;
@@ -44,7 +45,7 @@ public class AssayHandFour extends AssayHandFactory {
         List<PatientAssayRecordBusi> updateRecordList = new ArrayList<>();
         // 评级项目名称
         for (String itemCode : itemCodes) {
-            strItemCode.append(" , max(case when item_code = '").append(itemCode).append("' then result end ) itemCode" + i);
+            strItemCode.append(" , max(case when ahd.fk_dict_code = '").append(itemCode).append("' then result end ) itemCode" + i);
             i++;
         }
         // 对需要清洗数据的患者循环
@@ -55,13 +56,13 @@ public class AssayHandFour extends AssayHandFactory {
             startCreateDate = BusinessDateUtil.getDayStartOrEnd(startCreateDate, true);
             endCreateDate = BusinessDateUtil.getDayStartOrEnd(nowDate, false);
             // 查询时间区域中透后的数据筛选条件有“患者id”，“透析后数据有多少条”，“项目名称”，“时间段”
-            List<PatientAssayRecordPO> listAfterPatientAssayRecord = patientAssayRecordService.listByAfterCount(afterCount, startCreateDate,
+            List<PatientAssayRecordBusiPO> listAfterPatientAssayRecord = patientAssayRecordBusiService.listByAfterCount(afterCount, startCreateDate,
                             endCreateDate, groupName, patientId, tenantId, strItemCode.toString());
             // 查询到投后项目循环查找透前
-            for (PatientAssayRecordPO afterPatientAssayRecord : listAfterPatientAssayRecord) {
+            for (PatientAssayRecordBusiPO afterPatientAssayRecord : listAfterPatientAssayRecord) {
                 endCreateDate = afterPatientAssayRecord.getSampleTime();
                 // 更加投后的化验时间查找最近的一条透前
-                PatientAssayRecordPO beforePatientAssayRecord = patientAssayRecordService.getByBeforeCount(beforeCount, startCreateDate,
+                PatientAssayRecordBusiPO beforePatientAssayRecord = patientAssayRecordBusiService.getByBeforeCount(beforeCount, startCreateDate,
                                 endCreateDate, strItemCode.toString(), patientId, tenantId, groupName);
                 // 如果查询到透前不为空判断项目是否透前大于透后
                 if (beforePatientAssayRecord != null) {
@@ -70,7 +71,15 @@ public class AssayHandFour extends AssayHandFactory {
                         if (isUpdate == false) {
                             continue;
                         }
-                        isUpdate = Double.valueOf(beforePatientAssayRecord.getItemCode1()) > Double.valueOf(afterPatientAssayRecord.getItemCode1());
+                        if (itemCodes.length == 1) {
+                            isUpdate = Double.valueOf(beforePatientAssayRecord.getItemCode1()) > Double
+                                            .valueOf(afterPatientAssayRecord.getItemCode1());
+                        } else {
+                            isUpdate = ((Double.valueOf(beforePatientAssayRecord.getItemCode1()) > Double
+                                            .valueOf(afterPatientAssayRecord.getItemCode1()))
+                                            && (Double.valueOf(beforePatientAssayRecord.getItemCode2()) > Double
+                                                            .valueOf(afterPatientAssayRecord.getItemCode2())));
+                        }
                     }
                     // 当条件都满足时候更新透前透后标识
                     if (isUpdate) {
@@ -84,10 +93,10 @@ public class AssayHandFour extends AssayHandFactory {
                     }
                 }
             }
-            // 更新透前透后标识符
-            if (CollectionUtils.isNotEmpty(updateRecordList)) {
-                this.updateDiaAbFlagByReqId(updateRecordList);
-            }
+        }
+        // 更新透前透后标识符
+        if (CollectionUtils.isNotEmpty(updateRecordList)) {
+            this.updateDiaAbFlagByReqId(updateRecordList);
         }
     }
 

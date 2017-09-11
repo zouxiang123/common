@@ -94,39 +94,6 @@ public interface PatientAssayRecordMapper {
                     @Param("itemCodeList") List<String> itemCode, @Param("groupName") String groupName, @Param("fkTenantId") Integer fkTenantId);
 
     /**
-     * 根据化验单条数查询化验数据
-     * 
-     * @Title: listByBeforeCount
-     * @param beforeCount
-     * @param startCreateTime
-     * @param endCreateTime
-     * @param tenantId
-     * @param strItemCode
-     * @param groupName
-     * @return
-     *
-     */
-    PatientAssayRecordPO getByBeforeCount(@Param("beforeCount") Integer beforeCount, @Param("startCreateDate") Date startCreateDate,
-                    @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
-                    @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
-
-    /**
-     * 根据化验单条数查询透后化验数据
-     * 
-     * @Title: listByBeforeCount
-     * @param beforeCount
-     * @param startCreateTime
-     * @param endCreateTime
-     * @param tenantId
-     * @param strItemCode
-     * @return
-     *
-     */
-    List<PatientAssayRecordPO> listByAfterCount(@Param("afterCount") Integer afterCount, @Param("startCreateDate") Date startCreateDate,
-                    @Param("endCreateDate") Date endCreateDate, @Param("groupName") String groupName, @Param("patientId") Long patientId,
-                    @Param("fkTenantId") Integer tenantId, @Param("strItemCode") String strItemCode);
-
-    /**
      * 根据患者id item_code查询
      * 
      * @Title: listByPatientId

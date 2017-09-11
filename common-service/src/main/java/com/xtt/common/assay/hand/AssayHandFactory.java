@@ -227,7 +227,7 @@ public abstract class AssayHandFactory {
         if (CollectionUtils.isEmpty(listAssayRecord)) {
             return;
         }
-        insertAssayRecord(listAssayRecord);
+        // insertAssayRecord(listAssayRecord);
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
     }
 

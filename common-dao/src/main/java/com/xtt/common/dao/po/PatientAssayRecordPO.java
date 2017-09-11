@@ -64,10 +64,6 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
 
-    private String itemCode1;
-
-    private String itemCode2;
-
     // 报告时间
     private String reportTimeShow;
 
@@ -82,22 +78,6 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private List<String> itemCodeList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
 
     private List<String> reqIdList;// 检验申请单ID集合对象
-
-    public String getItemCode1() {
-        return itemCode1;
-    }
-
-    public void setItemCode1(String itemCode1) {
-        this.itemCode1 = itemCode1;
-    }
-
-    public String getItemCode2() {
-        return itemCode2;
-    }
-
-    public void setItemCode2(String itemCode2) {
-        this.itemCode2 = itemCode2;
-    }
 
     public List<String> getReqIdList() {
         return reqIdList;

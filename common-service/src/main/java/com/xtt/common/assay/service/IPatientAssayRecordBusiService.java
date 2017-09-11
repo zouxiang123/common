@@ -284,4 +284,36 @@ public interface IPatientAssayRecordBusiService {
      */
     void updateDiaAbFlagByInspectionIdBack(Long fkPatientId, Integer tenantId);
 
+    /**
+     * 根据化验项目条目查询得到所有的数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByAfterCount(Integer afterCount, Date startCreateDate, Date endCreateDate, String groupName, Long patientId,
+                    Integer tenantId, String strItemCode);
+
+    /**
+     * 根据化验项目条目查询只去最近的一条
+     * 
+     * @Title: getByBeforeCount
+     * @param beforeCount
+     * @param sampleTime
+     * @param startCreateTime
+     * @param strItemCode
+     * @param patientId
+     * @param fkTenantId
+     * @param groupName
+     * @return
+     *
+     */
+    PatientAssayRecordBusiPO getByBeforeCount(Integer beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
+                    Integer fkTenantId, String groupName);
+
 }

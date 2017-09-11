@@ -209,4 +209,53 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     void updateDiaAbFlagByInspectionIdBack(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
+
+    /**
+     * 根据化验单条数查询透后化验数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByAfterCount(@Param("afterCount") Integer afterCount, @Param("startCreateDate") Date startCreateDate,
+                    @Param("endCreateDate") Date endCreateDate, @Param("groupName") String groupName, @Param("patientId") Long patientId,
+                    @Param("fkTenantId") Integer tenantId, @Param("strItemCode") String strItemCode);
+
+    /**
+     * 根据化验单条数查询化验数据
+     * 
+     * @Title: listByBeforeCount
+     * @param beforeCount
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param tenantId
+     * @param strItemCode
+     * @param groupName
+     * @return
+     *
+     */
+    PatientAssayRecordBusiPO getByBeforeCount(@Param("beforeCount") Integer beforeCount, @Param("startCreateDate") Date startCreateDate,
+                    @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
+                    @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
+
+    /**
+     * 根据患者id item_code查询
+     * 
+     * @Title: listByPatientId
+     * @param startTime
+     * @param endTime
+     * @param itemCode
+     * @param fkPatientId
+     * @param resultActual2
+     * @param fkTenantId
+     * @return
+     *
+     */
+    Integer countByPatientId(@Param("startTime") Date startTime, @Param("endTime") Date endTime, @Param("itemCode") String itemCode,
+                    @Param("fkPatientId") Long fkPatientId, @Param("resultActual") Double resultActual, @Param("fkTenantId") Integer fkTenantId);
 }

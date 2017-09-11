@@ -837,4 +837,49 @@
         </if>
     </where>
     </update>
+    
+        <!-- 根据化验单条数查询(透后) -->
+    <select id="listByAfterCount" resultMap="POResultMap">
+        SELECT parb.fk_patient_id ,parb.req_id ,parb.sample_time  ${strItemCode}
+         from  assay_hosp_dict ahd
+        JOIN patient_assay_record_busi parb  on parb.item_code = ahd.item_code and parb.fk_tenant_id = ahd.fk_tenant_id
+        <where>
+             <if test="patientId != null">
+                 parb.fk_patient_id = #{patientId}
+            </if>
+            <if test="startCreateDate != null">
+                and parb.assay_date &gt;= DATE(#{startCreateDate,jdbcType=DATE})
+            </if>
+            <if test="endCreateDate != null">
+                and parb.assay_date &lt;= DATE(#{endCreateDate,jdbcType=DATE})
+            </if>
+            <if test="groupName != null">
+                and parb.group_name like concat(#{groupName},'%')
+            </if>
+        </where>
+        group by parb.req_id having count('1') = #{afterCount ,jdbcType=INTEGER}
+    </select>
+    <!-- 根据化验项目条目查询只去最近的一条 -->
+    <select id="getByBeforeCount" resultMap="POResultMap">
+         SELECT 
+            count('1') cnt
+            ${strItemCode}
+        from  assay_hosp_dict ahd
+        JOIN patient_assay_record_busi parb  on parb.item_code = ahd.item_code and parb.fk_tenant_id = ahd.fk_tenant_id
+        <where>
+             <if test="patientId != null">
+                 parb.fk_patient_id = #{patientId}
+            </if>
+            <if test="startCreateDate != null">
+                and parb.assay_date &gt;= DATE(#{startCreateDate,jdbcType=DATE})
+            </if>
+            <if test="endCreateDate != null">
+                and parb.assay_date &lt;= DATE(#{endCreateDate,jdbcType=DATE})
+            </if>
+            <if test="groupName != null">
+                and parb.group_name like concat(#{groupName},'%')
+            </if>
+        </where>
+        group by parb.req_id having cnt &gt; #{beforeCount,jdbcType=INTEGER} ORDER BY parb.assay_date desc limit 1
+    </select>
 </mapper>
