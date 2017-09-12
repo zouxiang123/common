@@ -469,7 +469,7 @@
                 AND parb.assay_month = #{assayMonth}
             </if>
             <if test="assayDate != null">
-                AND parb.assay_date = #{assayDate,jdbcType=DATE}
+                AND parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
             </if>
             <if test="flage != null">
                 AND parb.flage = #{flage,jdbcType=BIT}
@@ -486,10 +486,10 @@
                 <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
             <if test="startDate != null">
-                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+                AND parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
             <if test="endDate != null">
-                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+                AND parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
             <if test="multResultTips != null">
                 AND parb.result_tips in
@@ -553,7 +553,7 @@
                 AND parb.fk_tenant_id = #{fkTenantId}
             </if>
             <if test="assayDate != null">
-                AND parb.assay_date = #{assayDate,jdbcType=DATE}
+                AND parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
             </if>
             <if test="patientIds !=null and patientIds.size()>0">
                 AND parb.fk_patient_id in
@@ -590,10 +590,10 @@
                 AND binary parb.item_code = #{itemCode}
             </if>
             <if test="startDate != null">
-                AND parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+                AND parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
             <if test="endDate != null">
-                AND parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+                AND parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
             <if test="itemCodes !=null and itemCodes.size()>0">
                 AND parb.item_code in
@@ -613,10 +613,10 @@
                 parb.fk_patient_id=#{patientId}
             </if>
             <if test="startDate != null">
-                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+                and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
             <if test="endDate != null">
-                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+                and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
         </where>
         GROUP BY assay_date
@@ -627,7 +627,7 @@
         SELECT parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result,
             CONCAT(IFNULL(parb.reference, ''), IFNULL(parb.value_unit, '') ) reference, parb.result_tips
         FROM patient_assay_record_busi parb
-        WHERE parb.fk_patient_id = #{patientId} and parb.assay_date = #{assayDate,jdbcType=DATE}
+        WHERE parb.fk_patient_id = #{patientId} and parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
         ORDER BY parb.group_id, parb.item_code
     </select>
     <!-- 查询患者个人统计报表数据 -->
@@ -643,10 +643,10 @@
                 <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
             <if test="startDate != null">
-                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+                and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
             <if test="endDate != null">
-                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+                and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
         </where>
         ORDER BY parb.assay_date desc
@@ -684,10 +684,10 @@
                 <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
             <if test="startDate != null">
-                and parb.assay_date &gt;= #{startDate,jdbcType=DATE}
+                and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
             <if test="endDate != null">
-                and parb.assay_date &lt;= #{endDate,jdbcType=DATE}
+                and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
             <if test="minValue != null ">
                 and parb.result &gt;= #{minValue}
@@ -717,7 +717,7 @@
     <select id="listLatestOneByFkDictCodes" resultMap="POResultMap">
         SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode,t2.assay_date
         FROM 
-        (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE}))) minDay,ahd.fk_dict_code,ahd.fk_tenant_id
+        (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,DATE(#{date,jdbcType=DATE})))) minDay,ahd.fk_dict_code,ahd.fk_tenant_id
         FROM patient_assay_record_busi parb
         JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
@@ -725,7 +725,7 @@
             AND ahd.fk_dict_code in <foreach collection="fkDictCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
         GROUP BY parb.fk_patient_id,ahd.fk_dict_code,parb.fk_tenant_id
         ) t1,
-        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,#{date,jdbcType=DATE})) diffDay, parb.result,parb.result_actual,parb.assay_date
+        (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,DATE(#{date,jdbcType=DATE}))) diffDay, parb.result,parb.result_actual,parb.assay_date
         ,ahd.fk_dict_code,ahd.fk_tenant_id
         FROM patient_assay_record_busi parb
         JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
@@ -749,7 +749,7 @@
             assay_month = #{assayMonth,jdbcType=VARCHAR},
         </if>
         <if test="assayDate != null">
-            assay_date = #{assayDate,jdbcType=DATE},
+            assay_date = DATE(#{assayDate,jdbcType=DATE}),
         </if>
         result = #{result,jdbcType=VARCHAR},
         result_actual = #{resultActual,jdbcType=DOUBLE},
@@ -810,10 +810,10 @@
         JOIN (SELECT max(assay_date) assay_date,fk_patient_id,item_code,fk_tenant_id FROM patient_assay_record_busi
         WHERE item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
         <if test="startDate != null">
-            and assay_date &gt;= #{startDate,jdbcType=DATE}
+            and assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
         </if>
         <if test="endDate != null">
-            and assay_date &lt;= #{endDate,jdbcType=DATE}
+            and assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
         </if>
         <if test="fkTenantId != null">
             and fk_tenant_id = #{fkTenantId}

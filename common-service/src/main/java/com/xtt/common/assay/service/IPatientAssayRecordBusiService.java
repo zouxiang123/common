@@ -227,7 +227,7 @@ public interface IPatientAssayRecordBusiService {
      * @param fktenantId
      *
      */
-    void selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
+    Set<String> selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
                     Integer fktenantId);
 
     /**

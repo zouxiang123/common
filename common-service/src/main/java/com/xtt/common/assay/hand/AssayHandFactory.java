@@ -113,7 +113,7 @@ public abstract class AssayHandFactory {
      * @Title: insertAssayRecord
      *
      */
-    public void insertAssayRecord(List<PatientAssayRecordPO> listPatientAssayRecord) {
+    public Set<String> insertAssayRecord(List<PatientAssayRecordPO> listPatientAssayRecord) {
         Date nowDate = new Date();
         PatientAssayRecordBusi patientAssayRecordBusi;
         // 获取主键id
@@ -124,6 +124,8 @@ public abstract class AssayHandFactory {
         AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
         Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
+        // 转换过日期数据
+        Set<String> dateSet = new HashSet<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 检查项目唯一ID为空时候不插入
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId())) {
@@ -165,6 +167,7 @@ public abstract class AssayHandFactory {
                 if (inspectioidBack != null) {
                     inspectioidBackList.add(inspectioidBack);
                 }
+                dateSet.add(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate()));
                 listPatientAssayRecordBusi.add(patientAssayRecordBusi);
                 i++;
                 if (i == 1000) {
@@ -187,6 +190,7 @@ public abstract class AssayHandFactory {
             insertAssayHospDict(assayHospDictMap);
         }
         listPatientAssayRecord = null;
+        return dateSet;
     }
 
     /**
@@ -221,13 +225,15 @@ public abstract class AssayHandFactory {
      * @param mapPatientId
      *
      */
-    public void save(Date startCreateTime, Date endCreateTime, Long fkPatientId, Map<Long, List<Date>> mapPatientId) {
+    public Set<String> save(Date startCreateTime, Date endCreateTime, Long fkPatientId, Map<Long, List<Date>> mapPatientId) {
         List<PatientAssayRecordPO> listAssayRecord = listPatientAssayRecordByCreateTime(startCreateTime, endCreateTime, fkPatientId);
+        Set<String> dateSet = null;
         if (CollectionUtils.isEmpty(listAssayRecord)) {
-            return;
+            return dateSet;
         }
-        insertAssayRecord(listAssayRecord);
+        dateSet = insertAssayRecord(listAssayRecord);
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
+        return dateSet;
     }
 
     /**

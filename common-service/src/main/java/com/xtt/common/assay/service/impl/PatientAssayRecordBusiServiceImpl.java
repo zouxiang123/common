@@ -281,13 +281,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public void selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,
-                    Integer fkTenantId) {
+    public Set<String> selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId,
+                    boolean isDelete, Integer fkTenantId) {
         UserUtil.setThreadTenant(fkTenantId);
         AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         if (assayFilterRule == null) {
             LOGGER.error("assay_filter_rule表中category字段为空");
-            return;
+            return null;
         }
         AssayHandFactory assayHandFactory = null;
         if (isDelete) {// 如果是删除操作，不需要清洗，只需重新把透析透后标识带过来；
@@ -312,8 +312,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             }
         }
         if (assayHandFactory != null) {
-            assayHandFactory.save(startCreateTime, endCreateTime, patientId, mapPatientId);
+            return assayHandFactory.save(startCreateTime, endCreateTime, patientId, mapPatientId);
         }
+        return null;
     }
 
     @Override
@@ -386,6 +387,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
      * @param reqList
      *
      */
+    @Override
     public void updateDiaAbFlagByReqId(List<PatientAssayRecordBusi> reqList) {
         Set<String> existsInspectionIds = new HashSet<>();
         List<PatientAssayInspectioidBack> inspectionIdBackList = new ArrayList<>();
@@ -428,6 +430,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
      * @return
      *
      */
+    @Override
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
         if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
             PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
