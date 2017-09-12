@@ -90,7 +90,7 @@
     <!-- 根据化验项唯一标识删除数据 -->
     <delete id="deleteByInspectionId">
         DELETE FROM 
-            patient_Assay_Inspectioid_Back 
+            patient_assay_inspectioid_back 
         WHERE 
             inspection_id = #{inspectionId} 
             AND fk_patient_id = #{fkPatientId} 
