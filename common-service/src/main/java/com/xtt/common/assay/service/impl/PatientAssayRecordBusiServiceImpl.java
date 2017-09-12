@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -33,14 +35,17 @@ import com.xtt.common.assay.hand.AssayHandTwo;
 import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
+import com.xtt.common.assay.service.IPatientAssayInspectioidBackService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.AssayFilterRule;
+import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 import com.xtt.platform.util.time.DateUtil;
@@ -58,6 +63,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     private IAssayHospDictService assayHospDictService;
     @Autowired
     private IAssayGroupService assayGroupService;
+
+    @Autowired
+    private IPatientAssayInspectioidBackService patientAssayInspectioidBackService;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -369,6 +377,90 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                     Integer tenantId, String strItemCode) {
         return patientAssayRecordBusiMapper.listByAfterCount(afterCount, startCreateDate, endCreateDate, groupName, patientId, tenantId, strItemCode);
 
+    }
+
+    /**
+     * 根据申请单号更新透前透后字段
+     * 
+     * @Title: updateDiaAbFlagByReqId
+     * @param reqList
+     *
+     */
+    public void updateDiaAbFlagByReqId(List<PatientAssayRecordBusi> reqList) {
+        Set<String> existsInspectionIds = new HashSet<>();
+        List<PatientAssayInspectioidBack> inspectionIdBackList = new ArrayList<>();
+        for (PatientAssayRecordBusi patientAssayRecordBusi : reqList) {
+            this.updateDiaAbFlagByReqId(patientAssayRecordBusi);
+            // 查询需要备份的项目
+            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+            BeanUtil.copyProperties(patientAssayRecordBusi, query);
+            query.setDiaAbFlag(AssayConsts.AFTER_HD);
+            List<PatientAssayRecordBusiPO> updateList = this.listByCondition(query);
+            if (CollectionUtils.isNotEmpty(updateList)) {
+                updateList.forEach(parb -> {
+                    if (!existsInspectionIds.contains(parb.getInspectionId())) {
+                        if (patientAssayInspectioidBackService.countByInspectionId(parb.getInspectionId(), parb.getFkTenantId()) == 0) {
+                            PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
+                                            parb.getDiaAbFlag(), parb.getFkTenantId());
+                            if (inspectioidBack != null) {
+                                inspectionIdBackList.add(inspectioidBack);
+                                existsInspectionIds.add(parb.getInspectionId());
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        // 备份透后数据到patient_assay_inspectioid_back
+        if (CollectionUtils.isNotEmpty(inspectionIdBackList)) {
+            patientAssayInspectioidBackService.insertList(inspectionIdBackList);
+        }
+    }
+
+    /**
+     * 获取透后标识对象
+     * 
+     * @Title: getInspectioidBack
+     * @param inspectionId
+     * @param patientId
+     * @param diaAbFlag
+     * @param tenantId
+     * @return
+     *
+     */
+    public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
+        if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
+            PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
+            record.setInspectionId(inspectionId);
+            record.setFkPatientId(patientId);
+            record.setDiaAbFlag(diaAbFlag);
+            record.setFkTenantId(tenantId);
+            return record;
+        }
+        return null;
+    }
+
+    @Override
+    public void updateHandDiaAbFlag(PatientAssayRecordBusi assayRecord) {
+        assayRecord.setFkTenantId(UserUtil.getTenantId());
+        // 透后更新为透前时
+        if (Objects.equals(assayRecord.getDiaAbFlag(), AssayConsts.BEFORE_HD)) {
+            this.updateDiaAbFlagByReqId(assayRecord);
+            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+            BeanUtil.copyProperties(assayRecord, query);
+            List<PatientAssayRecordBusiPO> updateList = this.listByCondition(query);
+            if (CollectionUtils.isNotEmpty(updateList)) {
+                for (PatientAssayRecordBusiPO assayRecordBusiPO : updateList) {
+                    patientAssayInspectioidBackService.deleteByInspectionId(assayRecordBusiPO.getInspectionId(), assayRecordBusiPO.getFkPatientId(),
+                                    assayRecordBusiPO.getFkTenantId());
+                }
+            }
+            // 透前更新为透后
+        } else {
+            List<PatientAssayRecordBusi> assayRecordList = new ArrayList<>();
+            assayRecordList.add(assayRecord);
+            updateDiaAbFlagByReqId(assayRecordList);
+        }
     }
 
 }

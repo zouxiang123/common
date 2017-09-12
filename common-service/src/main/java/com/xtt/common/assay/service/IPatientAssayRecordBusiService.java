@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
@@ -315,5 +316,36 @@ public interface IPatientAssayRecordBusiService {
      */
     Map<String, Object> getByBeforeCount(Integer beforeCount, Date sampleTime, Date startCreateTime, String strItemCode, Long patientId,
                     Integer fkTenantId, String groupName);
+
+    /**
+     * 手动更新透前透后标识
+     * 
+     * @Title: updateDiaAbFlag
+     * @param assayRecord
+     *
+     */
+    void updateHandDiaAbFlag(PatientAssayRecordBusi assayRecord);
+
+    /**
+     * 根据申请单号更新透前透后字段
+     * 
+     * @Title: updateDiaAbFlagByReqId
+     * @param reqList
+     *
+     */
+    void updateDiaAbFlagByReqId(List<PatientAssayRecordBusi> reqList);
+
+    /**
+     * 获取透后标识对象
+     * 
+     * @Title: getInspectioidBack
+     * @param inspectionId
+     * @param patientId
+     * @param diaAbFlag
+     * @param tenantId
+     * @return
+     *
+     */
+    public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId);
 
 }

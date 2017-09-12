@@ -87,4 +87,13 @@
     <select id="countByInspectionId" resultType="java.lang.Integer">
         SELECT count(1) FROM patient_assay_inspectioid_back WHERE inspection_id = #{inspectionId} AND fk_tenant_id = #{fkTenantId}
     </select>
+    <!-- 根据化验项唯一标识删除数据 -->
+    <delete id="deleteByInspectionId">
+        DELETE FROM 
+            patient_Assay_Inspectioid_Back 
+        WHERE 
+            inspection_id = #{inspectionId} 
+            AND fk_patient_id = #{fkPatientId} 
+            AND fk_tenant_id = #{fkTenantId}
+    </delete>
 </mapper>

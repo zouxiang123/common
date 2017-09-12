@@ -45,7 +45,6 @@ import com.xtt.common.dao.model.AssayHospDictGroup;
 import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
-import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
@@ -160,9 +159,9 @@ public abstract class AssayHandFactory {
                 patientAssayRecordBusi.setDiaAbFlag(
                                 getDiaAbAlag(patientAssayRecord, assayFilterRule.getKeywordBefore(), assayFilterRule.getKeywordAfter()));
                 // 备份透后记录
-                PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(patientAssayRecordBusi.getInspectionId(),
-                                patientAssayRecordBusi.getFkPatientId(), patientAssayRecordBusi.getDiaAbFlag(),
-                                patientAssayRecordBusi.getFkTenantId());
+                PatientAssayInspectioidBack inspectioidBack = patientAssayRecordBusiService.getInspectioidBack(
+                                patientAssayRecordBusi.getInspectionId(), patientAssayRecordBusi.getFkPatientId(),
+                                patientAssayRecordBusi.getDiaAbFlag(), patientAssayRecordBusi.getFkTenantId());
                 if (inspectioidBack != null) {
                     inspectioidBackList.add(inspectioidBack);
                 }
@@ -229,44 +228,6 @@ public abstract class AssayHandFactory {
         }
         insertAssayRecord(listAssayRecord);
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
-    }
-
-    /**
-     * 根据申请单号更新透前透后字段
-     * 
-     * @Title: updateDiaAbFlagByReqId
-     * @param reqList
-     *
-     */
-    public void updateDiaAbFlagByReqId(List<PatientAssayRecordBusi> reqList) {
-        Set<String> existsInspectionIds = new HashSet<>();
-        List<PatientAssayInspectioidBack> inspectionIdBackList = new ArrayList<>();
-        for (PatientAssayRecordBusi patientAssayRecordBusi : reqList) {
-            patientAssayRecordBusiService.updateDiaAbFlagByReqId(patientAssayRecordBusi);
-            // 查询需要备份的项目
-            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
-            BeanUtil.copyProperties(patientAssayRecordBusi, query);
-            query.setDiaAbFlag(AssayConsts.AFTER_HD);
-            List<PatientAssayRecordBusiPO> updateList = patientAssayRecordBusiService.listByCondition(query);
-            if (CollectionUtils.isNotEmpty(updateList)) {
-                updateList.forEach(parb -> {
-                    if (!existsInspectionIds.contains(parb.getInspectionId())) {
-                        if (patientAssayInspectioidBackService.countByInspectionId(parb.getInspectionId(), parb.getFkTenantId()) == 0) {
-                            PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
-                                            parb.getDiaAbFlag(), parb.getFkTenantId());
-                            if (inspectioidBack != null) {
-                                inspectionIdBackList.add(inspectioidBack);
-                                existsInspectionIds.add(parb.getInspectionId());
-                            }
-                        }
-                    }
-                });
-            }
-        }
-        // 备份透后数据到patient_assay_inspectioid_back
-        if (CollectionUtils.isNotEmpty(inspectionIdBackList)) {
-            patientAssayInspectioidBackService.insertList(inspectionIdBackList);
-        }
     }
 
     /**
@@ -430,26 +391,4 @@ public abstract class AssayHandFactory {
         });
     }
 
-    /**
-     * 获取透后标识对象
-     * 
-     * @Title: getInspectioidBack
-     * @param inspectionId
-     * @param patientId
-     * @param diaAbFlag
-     * @param tenantId
-     * @return
-     *
-     */
-    protected PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
-        if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
-            PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
-            record.setInspectionId(inspectionId);
-            record.setFkPatientId(patientId);
-            record.setDiaAbFlag(diaAbFlag);
-            record.setFkTenantId(tenantId);
-            return record;
-        }
-        return null;
-    }
 }

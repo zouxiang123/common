@@ -42,4 +42,16 @@ public interface PatientAssayInspectioidBackMapper {
      *
      */
     int countByInspectionId(@Param("inspectionId") String inspectionId, @Param("fkTenantId") Integer fkTenantId);
+
+    /**
+     * 根据化验项唯一标识删除
+     * 
+     * @Title: deleteByInspectionId
+     * @param inspectionId
+     * @param fkPatientId
+     * @param fkTenantId
+     *
+     */
+    void deleteByInspectionId(@Param("inspectionId") String inspectionId, @Param("fkPatientId") Long fkPatientId,
+                    @Param("fkTenantId") Integer fkTenantId);
 }

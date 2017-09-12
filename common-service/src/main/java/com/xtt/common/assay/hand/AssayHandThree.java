@@ -88,7 +88,7 @@ public class AssayHandThree extends AssayHandFactory {
             }
         }
         if (CollectionUtils.isNotEmpty(newPatientAssayRecordBusi)) {
-            this.updateDiaAbFlagByReqId(newPatientAssayRecordBusi);
+            patientAssayRecordBusiService.updateDiaAbFlagByReqId(newPatientAssayRecordBusi);
         }
     }
 

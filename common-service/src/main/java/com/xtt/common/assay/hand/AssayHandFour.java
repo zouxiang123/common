@@ -91,7 +91,7 @@ public class AssayHandFour extends AssayHandFactory {
         }
         // 更新透前透后标识符
         if (CollectionUtils.isNotEmpty(updateRecordList)) {
-            this.updateDiaAbFlagByReqId(updateRecordList);
+            patientAssayRecordBusiService.updateDiaAbFlagByReqId(updateRecordList);
         }
     }
 

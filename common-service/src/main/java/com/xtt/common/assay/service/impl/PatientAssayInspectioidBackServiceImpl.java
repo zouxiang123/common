@@ -51,4 +51,10 @@ public class PatientAssayInspectioidBackServiceImpl implements IPatientAssayInsp
     public int countByInspectionId(String inspectionId, Integer fkTenantId) {
         return patientAssayInspectioidBackMapper.countByInspectionId(inspectionId, fkTenantId);
     }
+
+    @Override
+    public void deleteByInspectionId(String inspectionId, Long fkPatientId, Integer fkTenantId) {
+        patientAssayInspectioidBackMapper.deleteByInspectionId(inspectionId, fkPatientId, fkTenantId);
+
+    }
 }

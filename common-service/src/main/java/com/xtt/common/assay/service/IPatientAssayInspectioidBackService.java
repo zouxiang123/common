@@ -37,4 +37,15 @@ public interface IPatientAssayInspectioidBackService {
      */
     int countByInspectionId(String inspectionId, Integer fkTenantId);
 
+    /**
+     * 根据化验单唯一标识删除数据
+     * 
+     * @Title: deleteByInspectionId
+     * @param inspectionId
+     * @param fkPatientId
+     * @param fkTenantId
+     *
+     */
+    void deleteByInspectionId(String inspectionId, Long fkPatientId, Integer fkTenantId);
+
 }
