@@ -807,26 +807,57 @@
        </foreach>
        ) t ORDER BY t.assay_date DESC
     </select>
-        
+    <!-- 根据常用化验项item_code 查询常用化验项化验数据,相同的项目，取每月最新的一条 -->
     <select id="selectCommonByItemCode" resultMap="POResultMap">
-        SELECT parb.fk_patient_id,parb.assay_month,parb.item_code,parb.result,parb.fk_tenant_id FROM patient_assay_record_busi parb
-        JOIN (SELECT max(assay_date) assay_date,fk_patient_id,item_code,fk_tenant_id FROM patient_assay_record_busi
-        WHERE item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
-        <if test="startDate != null">
-            and assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
-        </if>
-        <if test="endDate != null">
-            and assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
-        </if>
-        <if test="fkTenantId != null">
-            and fk_tenant_id = #{fkTenantId}
-        </if>
-        <if test="patientIds !=null and patientIds.size() != 0">
-            and fk_patient_id not in
-            <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
-        </if>
-        GROUP BY fk_patient_id,item_code,assay_month) t
+        SELECT parb.fk_patient_id,parb.assay_month,parb.item_code,parb.result,parb.fk_tenant_id 
+        FROM patient_assay_record_busi parb
+        JOIN (
+            SELECT max(parb.assay_date) assay_date,parb.fk_patient_id,parb.item_code,parb.fk_tenant_id 
+            FROM patient_assay_record_busi parb
+            LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
+            WHERE parb.item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            <if test="startDate != null">
+                AND parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
+            </if>
+            <if test="endDate != null">
+                AND parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
+            </if>
+            <if test="fkTenantId != null">
+                AND parb.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="patientIds !=null and patientIds.size() != 0">
+                AND parb.fk_patient_id not in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+                AND agcd.id IS NULL
+            GROUP BY parb.fk_patient_id,item_code,parb.assay_month
+        ) t
         ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
+        UNION ALL <!-- 同类项分组的数据 -->
+        SELECT parb.fk_patient_id,parb.assay_month,agcd.fk_assay_group_conf_id item_code,parb.result,parb.fk_tenant_id
+        FROM patient_assay_record_busi parb
+        JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
+        JOIN (
+            SELECT max(parb.assay_date) assay_date, parb.fk_patient_id, agcd.fk_assay_group_conf_id item_code, parb.fk_tenant_id 
+            FROM patient_assay_record_busi parb
+            JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
+            WHERE agcd.fk_assay_group_conf_id in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            <if test="startDate != null">
+                and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
+            </if>
+            <if test="endDate != null">
+                and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
+            </if>
+            <if test="fkTenantId != null">
+                and parb.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="patientIds !=null and patientIds.size() != 0">
+                and parb.fk_patient_id not in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            GROUP BY parb.fk_patient_id,item_code,parb.assay_month
+        ) t
+        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=agcd.fk_assay_group_conf_id AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date        
     </select>
     
     <delete id="deleteByTenant">
