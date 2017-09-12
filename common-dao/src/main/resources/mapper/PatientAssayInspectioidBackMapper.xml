@@ -92,7 +92,7 @@
         DELETE FROM 
             patient_assay_inspectioid_back 
         WHERE 
-            inspection_id = #{inspectionId} 
+            inspection_id = #{inspectionId}
             AND fk_patient_id = #{fkPatientId} 
             AND fk_tenant_id = #{fkTenantId}
     </delete>

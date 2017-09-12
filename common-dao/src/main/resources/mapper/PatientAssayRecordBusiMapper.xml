@@ -539,6 +539,9 @@
     <if test="sampleTime != null">
         AND sample_time = #{sampleTime,jdbcType=TIMESTAMP}
     </if>
+    <if test="inspectionId != null">
+        AND inspection_id = #{inspectionId,jdbcType=VARCHAR}
+    </if>
   </update>
     <!-- 查询所有类别 -->
     <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">

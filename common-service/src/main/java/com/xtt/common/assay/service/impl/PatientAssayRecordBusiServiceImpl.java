@@ -446,7 +446,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public void updateHandDiaAbFlag(PatientAssayRecordBusi assayRecord) {
         assayRecord.setFkTenantId(UserUtil.getTenantId());
-        // 透后更新为透前时
         if (Objects.equals(assayRecord.getDiaAbFlag(), AssayConsts.BEFORE_HD)) {
             this.updateDiaAbFlagByReqId(assayRecord);
             PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
