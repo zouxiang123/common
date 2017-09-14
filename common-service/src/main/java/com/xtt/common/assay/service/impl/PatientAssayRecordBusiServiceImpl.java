@@ -247,7 +247,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
             patientAssayRecordBusi.setResultActual(Double.valueOf(result));
-            patientAssayRecordBusi.setReference(dictHospitalLab.getReference());
+            patientAssayRecordBusi.setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit()));
             patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setAssayMonth(DateUtil.format(DateFormatUtil.getStartTime(assayDateStr), DateFormatUtil.FORMAT_YYYY_MM));
