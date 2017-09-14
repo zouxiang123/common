@@ -297,7 +297,17 @@
   		</where>
   </select>
   <!-- 根据租户id查询for化验项提醒 -->
-  <select id="listByTenantIdForAssayNews" resultMap="BaseResultMap">
-    select item_code as itemCode,IF(item_name&lt;&gt;'',item_name,fk_assay_group_conf_name) as itemName,assay_day as assayDay  from patient_assay_class  where fk_tenant_id = #{fkTenantId}
-  </select>
+    <select id="listByTenantIdForAssayNews" resultMap="BaseResultMap">
+        select item_code as itemCode,IF(item_name&lt;&gt;'',item_name,fk_assay_group_conf_name) as itemName,assay_day as assayDay
+        ,fk_assay_group_conf_id,fk_assay_group_conf_name
+        from patient_assay_class where fk_tenant_id = #{fkTenantId}
+    </select>
+    <!-- 根据化验项同类分组id删除数据 -->
+    <delete id="deleteByFkAssayGroupConfId">
+        delete from patient_assay_class where fk_assay_group_conf_id = #{fkAssayGroupConfId}
+    </delete>
+    <!-- 根据化验项同类分组id查询数据 -->
+    <select id="getByFkAssayGroupConfId" resultMap="BaseResultMap">
+        select * from patient_assay_class where fk_assay_group_conf_id = #{fkAssayGroupConfId}
+    </select>
 </mapper>
