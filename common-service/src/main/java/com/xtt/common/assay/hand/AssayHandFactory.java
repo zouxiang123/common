@@ -149,8 +149,8 @@ public abstract class AssayHandFactory {
                 }
                 patientAssayRecordBusi = new PatientAssayRecordBusi();
                 BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+                // create time 取原始数据的create_time,以免后续查询获取不到数据
                 patientAssayRecordBusi.setFlage(false);
-                patientAssayRecordBusi.setCreateTime(nowDate);
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);

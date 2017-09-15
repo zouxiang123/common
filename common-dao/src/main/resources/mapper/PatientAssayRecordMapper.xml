@@ -528,7 +528,7 @@
     <select id="listByCreateTime" resultMap="POResultMap">
         SELECT `fk_patient_id`,`group_id`,`group_name`,`item_code`,`item_name`,`result`,`result_actual`,
             `value_unit`,`value_min`,`value_max`,`result_tips`,`reference`,`sample_class`,`sample_time`,`report_time`,`inspection_id`,`dia_ab_flag`,
-            `assay_month`,`flage`,`fk_tenant_id`,`req_id` 
+            `assay_month`,`flage`,`fk_tenant_id`,`req_id`, create_time
         FROM patient_assay_record
         WHERE create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
         AND create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}
