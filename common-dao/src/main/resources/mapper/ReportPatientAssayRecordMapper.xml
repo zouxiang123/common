@@ -207,8 +207,7 @@
 			, p.result
 	        , p.fk_patient_id fkPatientId
 		FROM report_patient_assay_record p
-		INNER JOIN patient pa
-		ON p.fk_patient_id = pa.id AND pa.del_flag = false
+		INNER JOIN patient pa ON p.fk_patient_id = pa.id 
 		<if test="patientLabelId != null">
 		INNER JOIN patient_label_ref plf
 		ON pa.id = plf.fk_patient_id AND plf.del_flag = false
@@ -267,7 +266,7 @@
 		</if> 
 		, pa.`name` as patientName
 	FROM report_patient_assay_record p
-	INNER JOIN patient pa ON pa.id = p.fk_patient_id AND pa.del_flag = false
+	INNER JOIN patient pa ON pa.id = p.fk_patient_id
   	<if test="patientLabelId != null">
 	  INNER JOIN patient_label_ref plf
 	  ON pa.id = plf.fk_patient_id AND plf.del_flag = false

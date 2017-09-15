@@ -44,6 +44,9 @@ public class AssayHandThree extends AssayHandFactory {
         query.setQueryOrderBy(3);
         query.setFkDictCodes(Arrays.asList(strItemCode.split(",")));
         query.setFkTenantId(UserUtil.getTenantId());
+        query.setFkPatientId(patientId);
+        query.setStartCreateTime(startCreateTime);
+        query.setEndCreateTime(endCreateTime);
         List<PatientAssayRecordBusiPO> assayList = patientAssayRecordBusiService.listByCondition(query);
         if (CollectionUtils.isNotEmpty(assayList)) {
             // 记录上一条记录的itemCode
