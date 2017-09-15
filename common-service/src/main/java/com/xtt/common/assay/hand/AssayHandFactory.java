@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -125,7 +126,7 @@ public abstract class AssayHandFactory {
         Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
         Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
         // 转换过日期数据
-        Set<String> dateSet = new HashSet<>();
+        Set<String> dateSet = new TreeSet<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 检查项目唯一ID为空时候不插入
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId())) {
