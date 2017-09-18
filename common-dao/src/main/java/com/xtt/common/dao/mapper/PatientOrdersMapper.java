@@ -74,4 +74,12 @@ public interface PatientOrdersMapper {
      * @return
      */
     List<PatientOrdersPO> listItemNames(PatientOrdersPO orders);
+
+    /**
+     * 获取患者对应的项目名称
+     *
+     * @param orders
+     * @return
+     */
+    List<PatientOrdersPO> listPatientOrdersPO(PatientOrdersPO orders);
 }
