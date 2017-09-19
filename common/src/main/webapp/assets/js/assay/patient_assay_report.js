@@ -18,7 +18,7 @@ function showAssayHistoryReport(itemCode, name, unit, isshow) {
          return;
      }*/
     $.ajax({
-        url : ctx + "/patient/assay/getAssayReport.shtml?tt=" + (new Date()).getTime(),
+        url : ctx + "/assay/patientAssayRecord/getAssayReport.shtml?tt=" + (new Date()).getTime(),
         type : "post",
         data : "startDateStr=" + s + "&endDateStr=" + e + "&patientId=" + patientId + "&itemCode=" + encodeURI($("body").data("itemCode")),
         dataType : "json",
@@ -47,9 +47,9 @@ function setLineOption(chartData, isshow) {
     legend_data.push(assayName);
     var seriesWeightData = new Array();
     var assayHistoryHtml = '';
-    for (var i = chartData.length - 1; i > 0; i--) {
-        var item = chartData[i];
-        var unitem = chartData[chartData.length - i];
+    for (var i = 0; i < chartData.length; i++) {
+        var item = chartData[chartData.length - i - 1];// 列表数据根据时间倒序
+        var unitem = chartData[i];
         seriesWeightData.push(unitem.value);
         xAxis_data.push((new Date(unitem.time)).pattern("yyyy/MM/dd"));
         assayHistoryHtml += "<tr><td>" + (new Date(item.time)).pattern("yyyy/MM/dd") + "</td>";

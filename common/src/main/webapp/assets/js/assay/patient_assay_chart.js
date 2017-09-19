@@ -18,7 +18,7 @@ function showAssayHistoryReport(itemCode, name, unit) {
         return;
     }
     $.ajax({
-        url : ctx + "/patient/assay/getAssayReport.shtml",
+        url : ctx + "/assay/patientAssayRecord/getAssayReport.shtml",
         type : "post",
         data : "startDateStr=" + s + "&endDateStr=" + e + "&patientId=" + patientId + "&itemCode=" + encodeURI($("body").data("itemCode")),
         dataType : "json",

@@ -2,7 +2,8 @@ var paginationObject = null;
 $(function() {
     $("#routineCheckNavId").addClass("active");
     $("#assaycardScroll").height($(window).height() - ($("#assaycardScroll").offset().top + 10));
-
+    addEvents();
+    searchDialogHidden();
     paginationObject = pagination.addPaging({
         bodyId : "assaycard",
         scrollEl : $("#assaycardScroll"),
@@ -10,10 +11,8 @@ $(function() {
             getAssayDateData();
         },
         pageSize : 20
-    })
+    });
     getAssayDateData();
-    addEvents();
-    searchDialogHidden();
 });
 
 /** 事件注册 */
@@ -28,7 +27,7 @@ function addEvents() {
     }, function(start, end, label) {
         $("#dateSelect").find("[type='radio' ]").each(function(index, element) {
             $("#dateSelect").find("[type='radio']").eq(index).removeAttr("checked");
-        })
+        });
     });
 
     // 初始化时间控件(不带时间段选择)
@@ -101,18 +100,10 @@ var tenantId = $("#tenantId").val();
 /** 获取所有化验时间数据 */
 function getAssayDateData() {
     var data = "?fkPatientId=" + $("#patientId").val() + "&" + paginationObject.getPagingData().str;
-    if (arguments[0]) {
-        data += "&dateType=" + arguments[0]
-    }
-    if (arguments[1]) {
-        data += "&strStartDate=" + arguments[1]
-    }
-    if (arguments[2]) {
-        data += "&strEndDate=" + arguments[2]
-    }
+    data += "&" + $("#searchForm").serialize();
     $
                     .ajax({
-                        url : ctx + "/patient/assay/getAssayDateRecord.shtml" + data,
+                        url : ctx + "/assay/patientAssayRecord/getAssayDateRecord.shtml" + data,
                         // data : data,
                         type : "post",
                         loading : true,
@@ -207,7 +198,7 @@ function getAssayRecord(needCategory) {
 
     // var assayDate = $("#assayTimesRecord tr.active").attr("data-date");
     $.ajax({
-        url : ctx + "/patient/assay/getAssayRecord.shtml",
+        url : ctx + "/assay/patientAssayRecord/getAssayRecord.shtml",
         // "&assayDate=" + assayDate +
         data : "fkPatientId=" + $("#patientId").val() + "&reqId=" + reqId + "&needCategory=" + needCategory + "" + option,
         type : "post",
@@ -301,7 +292,7 @@ function saveAssayResult(element) {
         });
         showConfirm("传染病标志:" + chk_value, function() {
             $.ajax({
-                url : ctx + "/patient/assay/saveAssayResult.shtml",
+                url : ctx + "/assay/patientAssayRecord/saveAssayResult.shtml",
                 data : $("#assayResultForm").serialize(),
                 type : "post",
                 loading : true,
@@ -961,7 +952,7 @@ function showAssayResultDialog() {
  */
 function assayResultDialog(callback) {
     $.ajax({
-        url : ctx + "/patient/assay/record.shtml",
+        url : ctx + "/assay/patientAssayRecord/record.shtml",
         data : "patientId=" + $("#patientId").val(),
         type : "post",
         loading : true,

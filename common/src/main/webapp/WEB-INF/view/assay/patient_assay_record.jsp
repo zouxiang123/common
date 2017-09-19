@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<jsp:include page="../common/head${page_device_suf }.jsp"></jsp:include>
+<jsp:include page="../common/head.jsp"></jsp:include>
 <title>化验检查信息</title>
 </head>
 <style>
@@ -12,7 +12,7 @@
       border-bottom-width:0px !important;
    }
 </style>
-<body>
+<body class="bg-white">
 <input type="hidden" value="${tenantId}" id="tenantId">
 <input type="hidden" value="${patient.id }" id="patientId" />
 <input type="hidden" value="${patient.delFlag }" id="delFlag" />
@@ -35,42 +35,32 @@
 	      <!--查询框-->
 	    <div class="u-tip" style="top: 50px;right: 200px; min-width: 330px;     display: none" id="searchDialog"><!--这个style里面的top和right是可以调的，使用时可能会有些不准-->
 	        <img src="${ctx }/assets/img/s1110.png" alt="" style="position: absolute;top: -20px;right: 30px;"><!--s1110.png在eclipse上是有的-->
-	        <form action="#" onsubmit="return searchSubmit(this);" id="searchForm">
+	        <form action="#" onsubmit="return false;" id="searchForm">
 	        <div class="m-l-30 m-t-30">
 	            <span>时间：</span>
-	            <c:if test="${labTimeFlag eq '1'}">
-	            <label class="u-radio">
-	                <input type="radio" name="timeType" id="sampleTime" checked="checked" value="sampleTime">
-	                采集时间
-	            </label>
+	            <c:if test="${labTimeFlag eq '1' or labTimeFlag eq '3'}">
+		            <label class="u-radio">
+		                <input type="radio" name="timeType" id="sampleTime" checked="checked" value="sampleTime">
+		                                采集时间
+		            </label>
 	            </c:if>
-	             <c:if test="${labTimeFlag eq  '2'}">
-	            <label class="u-radio">
-	                <input type="radio" name="timeType" id="reportTime" checked="checked" value="reportTime">
-	                报告时间
-	            </label>
-	            </c:if>
-	             <c:if test="${labTimeFlag eq '3'}">
-	            <label class="u-radio">
-	                <input type="radio" name="timeType" id="sampleTime" checked="checked" value="sampleTime">
-	                采集时间
-	            </label>
-	            <label class="u-radio">
-	                <input type="radio" name="timeType" id="reportTime" value="reportTime">
-	                报告时间
-	            </label>
+	            <c:if test="${labTimeFlag eq  '2' or labTimeFlag eq '3'}">
+		            <label class="u-radio">
+		                <input type="radio" name="timeType" id="reportTime" checked="checked" value="reportTime">
+	               		报告时间
+		            </label>
 	            </c:if>
 	        </div>
 	
 	        <div class="m-t-16" style="margin-left: 81px">
-	            <input type="text" style="width: 100px" class="border-gray p-t-5 p-b-5 m-r-8 m-l-8 text-center"  id="startDate">
+	            <input type="text" style="width: 100px" class="border-gray p-t-5 p-b-5 m-r-8 m-l-8 text-center" name="strStartDate" id="startDate">
 	            <span>至</span>
-	            <input type="text" style="width: 100px" class="border-gray p-t-5 p-b-5 m-l-8 text-center"  id="endtDate">
+	            <input type="text" style="width: 100px" class="border-gray p-t-5 p-b-5 m-l-8 text-center" name="strEndDate" id="endtDate">
 	        </div>
 	
 	        <div class="right m-t-20 m-b-14 p-t-14 border-top-line">
 	            <button type="button" class="btn btn-can dialog-buttontype" data-dismiss="modal" onclick="searchDialogHidden()">取消</button>
-	            <button id="finish" type="button" onclick="buttonSubmit(this);" class="btn btn-def dialog-buttontype m-r-24">确定</button>
+	            <button id="finish" type="button" onclick="searchSubmit(this);" class="btn btn-def dialog-buttontype m-r-24">确定</button>
 	        </div>
 	        </form>
 	    </div>
