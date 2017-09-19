@@ -652,7 +652,7 @@
                 and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
         </where>
-        ORDER BY parb.assay_date desc
+        ORDER BY parb.assay_date ASC
     </select>
     <!-- 根据租户id查询所有化验月份 -->
     <select id="listAllAssayMonthByTenantId" parameterType="java.lang.Integer" resultType="java.lang.String">
