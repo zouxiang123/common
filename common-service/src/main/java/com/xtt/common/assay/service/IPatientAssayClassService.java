@@ -31,4 +31,42 @@ public interface IPatientAssayClassService {
      * 通过patientAssayMonthRScope的月份来查询
      */
     public List<PatientAssayClassPO> selectByMonth(Integer month);
+
+    /**
+     * 根据租户id查询for化验项提醒
+     * 
+     * @Title: listAllforAssayNews
+     * @param tenantId
+     * @return
+     *
+     */
+    public List<PatientAssayClass> listByTenantIdForAssayNews(Integer tenantId);
+
+    /**
+     * 根据化验项分组id删除数据
+     * 
+     * @Title: deleteByFkAssayGroupConfId
+     * @param id
+     *
+     */
+    void deleteByFkAssayGroupConfId(Long id);
+
+    /**
+     * 根据化验项同类分组id查询数据
+     * 
+     * @Title: getByFkAssayGroupConfId
+     * @param id
+     * @return
+     *
+     */
+    PatientAssayClass getByFkAssayGroupConfId(Long id);
+
+    /**
+     * 根据id更新数据
+     * 
+     * @Title: updateById
+     * @param record
+     *
+     */
+    public void updateById(PatientAssayClass record);
 }

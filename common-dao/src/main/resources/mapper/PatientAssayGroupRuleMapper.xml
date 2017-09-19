@@ -268,22 +268,22 @@
   
   <!-- 判断输入的值是否存在 -->
   <select id="selectExitsByInput" resultMap="POResultMap" >
-  		select * from patient_assay_group_rule where min_value=#{inputValue,jdbcType=REAL} and item_code=#{getItemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
+        select * from patient_assay_group_rule where min_value=#{inputValue,jdbcType=REAL} and item_code=#{getItemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
   </select>
   
   
   <select id="selectByItemCode" resultMap="POResultMap">
-  		select * from patient_assay_group_rule where item_code=#{itemCode} AND fk_tenant_id = #{fkTenantId} order by min_value asc
+        select * from patient_assay_group_rule where item_code=#{itemCode} AND fk_tenant_id = #{fkTenantId} order by min_value asc
   </select>
   
   <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayGroupRule" resultMap="POResultMap">
-  	select * from patient_assay_group_rule 
-  	where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-  	and item_code = #{itemCode,jdbcType=VARCHAR}
-  	order by min_value
+    select * from patient_assay_group_rule 
+    where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+    and item_code = #{itemCode,jdbcType=VARCHAR}
+    order by min_value
   </select>
   <!-- 删除 -->
   <delete  id="deleteByItemCode" >
-  	delete from patient_assay_group_rule where item_code = #{itemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
+    delete from patient_assay_group_rule where item_code = #{itemCode,jdbcType=VARCHAR} AND fk_tenant_id = #{fkTenantId}
   </delete>
 </mapper>

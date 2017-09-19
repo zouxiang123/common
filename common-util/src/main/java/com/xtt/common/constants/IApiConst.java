@@ -21,5 +21,13 @@ public interface IApiConst {
 
     // 4.调用生成医嘱信息
     String GENERATE_ORDER = "generate_order";
+    /**
+     * lis删除所有
+     */
+    String LIS_SUB_TYPE_RM_ALL = "lis_rm_all";
+    /**
+     * list删除单个患者
+     */
+    String LIS_SUB_TYPE_RM_ONE = "lis_rm_one";
 
 }

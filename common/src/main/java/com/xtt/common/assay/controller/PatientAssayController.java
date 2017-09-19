@@ -13,26 +13,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.assay.service.IAssayGroupService;
-import com.xtt.common.assay.service.IPatientAssayRecordService;
+import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayResultService;
+import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.po.PatientAssayRecordPO;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessReportUtil;
+import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 
 @Controller
@@ -41,23 +40,27 @@ public class PatientAssayController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientAssayController.class);
 
     @Autowired
-    private IPatientAssayRecordService patientAssayRecordService;
+    private IPatientAssayRecordBusiService patientAssayRecordBusiService;
     @Autowired
     private IPatientService patientService;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
-    @Autowired
-    private IAssayGroupService assayGroupService;
 
     @RequestMapping("record")
-    public ModelAndView record(Long patientId) {
+    public ModelAndView record(@RequestParam(value = "patientId") Long patientId) {
         ModelAndView model = new ModelAndView("assay/patient_assay_record");
-        PatientAssayRecordPO record = new PatientAssayRecordPO();
+
+        // 是否显示传染病标志
+        PatientAssayRecordBusiPO record = new PatientAssayRecordBusiPO();
         record.setFkPatientId(patientId);
+        model.addObject("tenantId", UserUtil.getTenantId());
         model.addObject("assayResult", patientAssayResultService.getByPatientId(patientId));
         model.addObject("patientId", patientId);
-        model.addObject("tenantId", UserUtil.getTenantId());
         model.addObject("patient", patientService.selectById(patientId));
+        // 报告日期，检查日期 开关配置
+        model.addObject("labTimeFlag", SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_ASSAY_LOAD_CONDITION_TIME_SWITCH));
+        model.addObject("roleType", UserUtil.getRoleType());
+
         return model;
     }
 
@@ -71,24 +74,34 @@ public class PatientAssayController {
      */
     @RequestMapping("getAssayDateRecord")
     @ResponseBody
-    public Map<String, Object> getAssayDateRecord(PatientAssayRecordPO record) {
+    public Map<String, Object> getAssayDateRecord(PatientAssayRecordBusiPO record) {
         long start = System.currentTimeMillis();
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<PatientAssayRecordPO> items = patientAssayRecordService.getAssayDateRecord(record);
-        List<PatientAssayRecordPO> records = new ArrayList<PatientAssayRecordPO>();
-        List<PatientAssayRecordPO> categoryList = new ArrayList<PatientAssayRecordPO>();
-        // 类别切换时默认显示最新一次检查的数据
-        if (items != null && !items.isEmpty()) {
-            PatientAssayRecordPO temp = items.get(0);
-            PatientAssayRecordPO query = new PatientAssayRecordPO();
-            query.setAssayDate(temp.getAssayDate());
-            query.setFkPatientId(temp.getFkPatientId());
-            categoryList = patientAssayRecordService.getCategoryList(query);
-            records = patientAssayRecordService.getByCondition(query);
+        if (record.getPageNo() == 0) {
+            record.setPageNo(1);
+            record.setPageSize(20);
         }
-        map.put("categoryList", categoryList);
+        record.setIspaging(true);// 使用数据库分页
+        // 查询检验透析前后统计
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<PatientAssayRecordBusiPO> items = patientAssayRecordBusiService.listCategory(record);
+        List<PatientAssayRecordBusiPO> records = new ArrayList<PatientAssayRecordBusiPO>();
+        // List<PatientAssayRecordBusiPO> categoryList = new ArrayList<PatientAssayRecordBusiPO>();
+        // 类别切换时默认显示最新一次检查的数据
+        if (items != null && !items.isEmpty() && record.getPageNo() == 1) {
+            PatientAssayRecordBusiPO temp = items.get(0);
+            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+            query.setReqId(temp.getReqId());
+            query.setFkPatientId(temp.getFkPatientId());
+            query.setReportTime(temp.getReportTime());
+            records = patientAssayRecordBusiService.listByCondition(query);
+        }
         map.put("records", records);
         map.put("items", items);
+
+        map.put("record", record);
+        // 报告日期，检查日期 开关配置
+        String labTimeFlag = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_ASSAY_LOAD_CONDITION_TIME_SWITCH);
+        map.put("labTimeFlag", labTimeFlag);
         LOGGER.info("get assay date record total cost {} ms", System.currentTimeMillis() - start);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
@@ -104,12 +117,10 @@ public class PatientAssayController {
      */
     @RequestMapping("getAssayRecord")
     @ResponseBody
-    public Map<String, Object> getAssayRecord(PatientAssayRecordPO record, Boolean needCategory) {
+    public Map<String, Object> getAssayRecord(PatientAssayRecordBusiPO record, Boolean needCategory) {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<String, Object>();
-        if (needCategory != null && needCategory)
-            map.put("categoryList", patientAssayRecordService.getCategoryList(record));
-        map.put("records", patientAssayRecordService.getByCondition(record));
+        map.put("records", patientAssayRecordBusiService.listByCondition(record));
         LOGGER.info("get assay record total cost {} ms", System.currentTimeMillis() - start);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
@@ -127,12 +138,8 @@ public class PatientAssayController {
     @ResponseBody
     public List<Map<String, Object>> getAssayReport(String startDateStr, String endDateStr, Long patientId, String itemCode)
                     throws UnsupportedEncodingException {
-        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
-        if (CollectionUtils.isNotEmpty(groupItemCodes)) {
-            itemCode = null;
-        }
-        return patientAssayRecordService.getReportData(patientId, BusinessReportUtil.getStartOrEndDate(startDateStr, true),
-                        BusinessReportUtil.getStartOrEndDate(endDateStr, false), itemCode, groupItemCodes);
+        return patientAssayRecordBusiService.listReportData(patientId, BusinessReportUtil.getStartOrEndDate(startDateStr, true),
+                        BusinessReportUtil.getStartOrEndDate(endDateStr, false), itemCode);
     }
 
     /**
@@ -149,25 +156,6 @@ public class PatientAssayController {
         Map<String, Object> map = new HashMap<String, Object>();
         patientAssayResultService.saveAssayResult(record);
         map.put("id", record.getId());
-        map.put("status", CommonConstants.SUCCESS);
-        return map;
-    }
-
-    /**
-     * 
-     * 根据条件查询患者某项目最新的数据
-     * 
-     * @Title: getLatestByCondition
-     * @param record
-     * @return
-     *
-     */
-    @RequestMapping("selectItemLatestDataByCondition")
-    @ResponseBody
-    public Map<String, Object> selectItemLatestDataByCondition(@RequestBody PatientAssayRecordPO record) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        List<PatientAssayRecordPO> list = patientAssayRecordService.selectItemLatestDataByCondition(record);
-        map.put("items", list);
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }

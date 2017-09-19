@@ -11,9 +11,10 @@ import com.xtt.common.assay.service.IPatientAssayConfService;
 import com.xtt.common.dao.model.PatientAssayConf;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Controller
-@RequestMapping("/patientAssayConf")
+@RequestMapping("/assay/patientAssayConf")
 public class PatientAssayConfController {
 
     @Autowired
@@ -33,9 +34,11 @@ public class PatientAssayConfController {
      */
     @RequestMapping("update")
     public void update(PatientAssayConf patientAssayConf) {
+        if (StringUtil.isBlank(patientAssayConf.getEndDate())) {
+            return;
+        }
         // 判断是否要新建
         if (patientAssayConf.getId() == null) {
-
             patientAssayConf.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(patientAssayConf);
             patientAssayConfService.insert(patientAssayConf);

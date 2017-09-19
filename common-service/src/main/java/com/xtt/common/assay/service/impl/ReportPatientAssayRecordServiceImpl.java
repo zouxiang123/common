@@ -22,19 +22,18 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IPatientAssayConfService;
+import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IReportPatientAssayRecordService;
+import com.xtt.common.constants.AssayConsts;
 import com.xtt.common.constants.CmDictConsts;
-import com.xtt.common.dao.mapper.PatientAssayFilterRuleMapper;
-import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
+import com.xtt.common.dao.mapper.AssayReportFilterRuleMapper;
 import com.xtt.common.dao.mapper.PatientAssayTempRecordMapper;
 import com.xtt.common.dao.mapper.ReportPatientAssayRecordMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
-import com.xtt.common.dao.model.PatientAssayFilterRule;
-import com.xtt.common.dao.model.PatientAssayRecord;
+import com.xtt.common.dao.model.AssayReportFilterRule;
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
-import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayConfPO;
-import com.xtt.common.dao.po.PatientAssayFilterRulePO;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayTempRecordPO;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
 import com.xtt.common.util.DictUtil;
@@ -50,35 +49,35 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
     @Autowired
     private PatientAssayTempRecordMapper patientAssayTempRecordMapper;
     @Autowired
-    private PatientAssayFilterRuleMapper patientAssayFilterRuleMapper;
+    private AssayReportFilterRuleMapper assayReportFilterRuleMapper;
     @Autowired
     private ReportPatientAssayRecordMapper reportPatientAssayRecordMapper;
     @Autowired
     private IPatientAssayConfService patientAssayConfService;
     @Autowired
-    private PatientAssayRecordMapper patientAssayRecordMapper;
-    @Autowired
     private IAssayGroupService assayGroupService;
+    @Autowired
+    private IPatientAssayRecordBusiService patientAssayRecordBusiService;
 
     @Override
     public String insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId, Collection<String> itemCodes) {
         String batchNo = UUID.randomUUID().toString();
-        if (DictHospitalLabPO.DATE_TYPE_MONTH.equals(dateType)) {
+        if (AssayConsts.REPORT_DATE_TYPE_MONTH.equals(dateType)) {
             // 插入月份临时数据
             PatientAssayConfPO conf = patientAssayConfService.selectDateScopeByMonth(monthAndYear, tenantId);
 
             PatientAssayTempRecordPO tempCondition = new PatientAssayTempRecordPO();
             tempCondition.setFkTenantId(tenantId);
             tempCondition.setBatchNo(batchNo);
-            tempCondition.setStartDateStr(DateFormatUtil.convertDateToStr(conf.getStartDate()));
-            tempCondition.setEndDateStr(DateFormatUtil.convertDateToStr(conf.getEndDate()));
+            tempCondition.setStartDate(conf.getStartDate());
+            tempCondition.setEndDate(conf.getEndDate());
             tempCondition.setItemCodes(itemCodes);
             patientAssayTempRecordMapper.insertBatchByRecord(tempCondition);
         }
 
-        PatientAssayFilterRule ruleCondition = new PatientAssayFilterRule();
+        AssayReportFilterRule ruleCondition = new AssayReportFilterRule();
         ruleCondition.setFkTenantId(tenantId);
-        List<PatientAssayFilterRule> filterRuleList = patientAssayFilterRuleMapper.selectAll(ruleCondition);
+        List<AssayReportFilterRule> filterRuleList = assayReportFilterRuleMapper.selectAll(ruleCondition);
         filterByRule(filterRuleList, tenantId, monthAndYear, dateType, batchNo);// 根据过滤规则过滤
         return batchNo;
     }
@@ -94,17 +93,17 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
      * @param batchNo
      *
      */
-    private void filterByRule(List<PatientAssayFilterRule> filterRuleList, Integer fkTenantId, String monthAndYear, String dateType, String batchNo) {
+    private void filterByRule(List<AssayReportFilterRule> filterRuleList, Integer fkTenantId, String monthAndYear, String dateType, String batchNo) {
         String sqlCondition = null;
 
-        for (PatientAssayFilterRule filterRule : filterRuleList) {
+        for (AssayReportFilterRule filterRule : filterRuleList) {
             // 如果过滤函数
             if ("002".equals(filterRule.getRuleCode())) {
-                if (PatientAssayFilterRulePO.FUNCTION_NAME_MAX_VALUE.equals(filterRule.getFunctionName())) {
+                if (AssayConsts.REPORT_FILTER_RULE_MAX_VALUE.equals(filterRule.getFunctionName())) {
                     sqlCondition = "MAX(cast(patr1.result as decimal(10,2)))";
-                } else if (PatientAssayFilterRulePO.FUNCTION_NAME_MIN_VALUE.equals(filterRule.getFunctionName())) {
+                } else if (AssayConsts.REPORT_FILTER_RULE_MIN_VALUE.equals(filterRule.getFunctionName())) {
                     sqlCondition = "min(cast(patr1.result as decimal(10,2)))";
-                } else if (PatientAssayFilterRulePO.FUNCTION_NAME_AVG.equals(filterRule.getFunctionName())) {
+                } else if (AssayConsts.REPORT_FILTER_RULE_AVG.equals(filterRule.getFunctionName())) {
                     sqlCondition = "round(AVG(patr1.result), 2)";
                 }
 
@@ -122,7 +121,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                 reportCondition.setAssayYear(year + "");
                 reportCondition.setAssaySeason(year + "-" + season);
                 reportCondition.setBatchNo(batchNo);
-                if (DictHospitalLabPO.DATE_TYPE_MONTH.equals(dateType)) {
+                if (AssayConsts.REPORT_DATE_TYPE_MONTH.equals(dateType)) {
                     reportPatientAssayRecordMapper.insertBatchByMonth(reportCondition);
                 } else {
                     reportPatientAssayRecordMapper.insertBatchBySeason(reportCondition);
@@ -198,11 +197,13 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
         Integer year = cal.get(Calendar.YEAR);
         Integer season = cal.get(Calendar.MONTH) / 3 + 1;
         String currentSeason = year + "-" + season;
-
+        PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+        query.setFkTenantId(tenantId);
+        query.setAssayDate(DateFormatUtil.convertStrToDate(paramDate));
         /*同步指定日期原始患者化验结果数据*/
-        List<PatientAssayRecord> notSynchroResults = patientAssayRecordMapper.selectPatientAssayRecordByAssayDate(paramDate, tenantId);
+        List<PatientAssayRecordBusiPO> notSynchroResults = patientAssayRecordBusiService.listByCondition(query);
         if (notSynchroResults != null && notSynchroResults.size() > 0) {
-            for (PatientAssayRecord par : notSynchroResults) {
+            for (PatientAssayRecordBusiPO par : notSynchroResults) {
                 /*判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id*/
                 par.setItemCode(handItemCode(par.getItemCode(), tenantId));
 
@@ -226,7 +227,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                     rpar.setResultTips(par.getResultTips());
                     rpar.setAssaySeason(currentSeason);
                     rpar.setAssayYear(String.valueOf(year));
-                    rpar.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
+                    rpar.setDateType(AssayConsts.REPORT_DATE_TYPE_MONTH);
 
                     reportPatientAssayRecordMapper.insertSelective(rpar);
                     continue;

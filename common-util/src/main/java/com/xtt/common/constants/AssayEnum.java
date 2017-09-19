@@ -13,7 +13,7 @@ public enum AssayEnum {
     // -----
     IPTH("甲状旁腺激素", "IPTH"), K("钾", "K"), BUN("尿素", "BUN"), preBUN("透前尿素", "PRE-BUN"), afterBUN("透后尿素", "AFTER-BUN"),
     // -----
-    CR("肌酐", "CR"), BNP("B型钠尿肽", "BNP"), PA("前白蛋白", "PA"), ALB("ALB", "ALB"), B2("微球蛋白", "B2"), VB12("维生素B12", "VB12"), FOL("叶酸", "FOL"),
+    CR("肌酐", "CR"), BNP("B型钠尿肽", "BNP"), PA("前白蛋白", "PA"), ALB("白蛋白", "ALB"), B2("微球蛋白", "B2"), VB12("维生素B12", "VB12"), FOL("叶酸", "FOL"),
     // -----
     HCT("红细胞比容", "HCT"), AKP("碱性磷酸酶", "AKP"), TG("甘油三酯", "TG"), TCH("胆固醇", "TCH"), LDL("低密度脂蛋白胆固醇", "LDL"), HDL("高密度脂蛋白胆固醇", "HDL"),
     // -----

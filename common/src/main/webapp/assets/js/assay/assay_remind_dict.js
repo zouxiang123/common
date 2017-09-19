@@ -6,6 +6,7 @@ var selectedRoleNode;
 // DictHospitalLab所有数据
 var allDictHospitalLabPOData = '';
 $(document).ready(function() {
+    setAssayTopActive("remind_dict");
     $("input[daterangepicker]").daterangepicker({
         "singleDatePicker" : true,
         "autoUpdateInput" : true,
@@ -61,43 +62,51 @@ function loadDictHospitalLab() {
 
 // 保存病患化验类
 function savePatientAssayClass() {
-
-    $("#loading_center").show();
-
     var detailList = new Array();
+    var flag = true;
+    $("#resultList").find("input[name='assayDay']").each(
+                    function() {
+                        if (isEmpty($(this).val())) {
+                            flag = false;
+                            $("#assayClassDiv").scrollTop(
+                                            $(this).offset().top + $(this).height() + 20 - $("#assayClassDiv").offset().top
+                                                            - $("#assayClassDiv").height());
+                            showAlert("逾期天数不能为空");
+                            return false;
+                        }
+                    });
+    if (flag) {
+        $("#resultList").find("input[name='itemCode']").each(function(i, obj) {
+            detailList.push({
+                /*assayClass : $("[name='assayClass']:checked").val(),*/
+                itemCode : $(this).val(),
+                itemName : $("#resultList").find("input[name='itemName']")[i].value,
+                fkAssayGroupConfId : $("#resultList").find("input[name='fkAssayGroupConfId']")[i].value,
+                fkAssayGroupConfName : $("#resultList").find("input[name='fkAssayGroupConfName']")[i].value,
+                groupId : $("#resultList").find("input[name='groupId']")[i].value,
+                groupName : $("#resultList").find("input[name='groupName']")[i].value,
+                assayDay : $("#resultList").find("input[name='assayDay']")[i].value,
+            });
 
-    $("#resultList").find("input[name='itemCode']").each(function(i, obj) {
-        detailList.push({
-            /*assayClass : $("[name='assayClass']:checked").val(),*/
-            itemCode : $(this).val(),
-            itemName : $("#resultList").find("input[name='itemName']")[i].value,
-            fkAssayGroupConfId : $("#resultList").find("input[name='fkAssayGroupConfId']")[i].value,
-            fkAssayGroupConfName : $("#resultList").find("input[name='fkAssayGroupConfName']")[i].value,
-            groupId : $("#resultList").find("input[name='groupId']")[i].value,
-            groupName : $("#resultList").find("input[name='groupName']")[i].value,
-            assayDay : $("#resultList").find("input[name='assayDay']")[i].value,
         });
-
-    });
-    var json = {
-        /*assayClass : $("[name='assayClass']:checked").val(),*/
-        detailList : detailList
-    };
-    $.ajax({
-        url : ctx + '/assay/assayRemindDict/savePatientAssayClass.shtml',
-        data : JSON.stringify(json),
-        dataType : 'json',
-        type : 'POST',
-        loading : true,
-        contentType : 'application/json;charset=utf-8',
-        success : function(data) {
-            $("#assayGroupDialog").modal("hide");
-            loadAssayGroupList();
-            showTips("保存成功");
-
-            $("#loading_center").hide();
-        }
-    });
+        var json = {
+            /*assayClass : $("[name='assayClass']:checked").val(),*/
+            detailList : detailList
+        };
+        $.ajax({
+            url : ctx + '/assay/assayRemindDict/savePatientAssayClass.shtml',
+            data : JSON.stringify(json),
+            dataType : 'json',
+            type : 'POST',
+            loading : true,
+            contentType : 'application/json;charset=utf-8',
+            success : function(data) {
+                $("#assayGroupDialog").modal("hide");
+                loadAssayGroupList();
+                showTips("保存成功");
+            }
+        });
+    }
 }
 
 // 查询所有病患化验类
@@ -146,46 +155,6 @@ function loadPatientAssayMonth() {
 function saveMonthFun() {
     // 修改配置时间(patient_assay_time_scope)
     updateTimeConfigure();
-    /*// 1yue
-    var january = $("[name='january']:checked").val();
-    // 2yue
-    var february = $("[name='february']:checked").val();
-    // 3yue
-    var march = $("[name='march']:checked").val();
-    // 4yue
-    var april = $("[name='april']:checked").val();
-    // 5yue
-    var may = $("[name='may']:checked").val();
-    // 6yue
-    var june = $("[name='june']:checked").val();
-    // 7yue
-    var july = $("[name='july']:checked").val();
-    // 8yue
-    var august = $("[name='august']:checked").val();
-    // 9yue
-    var september = $("[name='september']:checked").val();
-    // 10yue
-    var october = $("[name='october']:checked").val();
-    // 11yue
-    var november = $("[name='november']:checked").val();
-    // 12yue
-    var december = $("[name='december']:checked").val();
-    var assayClas = [ january, february, march, april, may, june, july, august, september, october, november, december ];
-    $.ajax({
-    	url : ctx + '/assay/assayRemindDict/saveAssayMonth.shtml',
-    	dataType : 'json',
-    	data : JSON.stringify(assayClas),
-    	contentType : 'application/json;charset=utf-8',
-    	type : 'POST',
-    	async : false,
-    	success : function(data) {
-    		if (data.result == "success") {
-    			showTips("保存成功！");
-    			// 调用查询方法
-    			loadPatientAssayMonth();
-    		}
-    	}
-    });*/
 }
 
 /**
@@ -193,7 +162,7 @@ function saveMonthFun() {
  */
 function loadTimeConfigure() {
     $.ajax({
-        url : ctx + '/patientAssayConf/view.shtml',
+        url : ctx + '/assay/patientAssayConf/view.shtml',
         dataType : 'json',
         type : 'POST',
         success : function(result) {
@@ -213,15 +182,16 @@ function updateTimeConfigure() {
     var endDate = $("#endDate").val();
     var confId = $("#confId").val();
     $.ajax({
-        url : ctx + '/patientAssayConf/update.shtml',
+        url : ctx + '/assay/patientAssayConf/update.shtml',
         dataType : 'json',
         type : 'POST',
-        async : false,
+        loading : true,
         data : {
             "id" : confId,
             "endDate" : endDate
         },
         success : function(result) {
+            showTips("保存成功");
         }
     });
 }
@@ -246,6 +216,7 @@ function selectAllByAssayClass() {
         dataType : 'json',
         data : "assayClass=" + $("[name='assayClass']:checked").val(),
         type : 'POST',
+        loading : true,
         success : function(data) {
 
             var bodyHtml = "";
@@ -253,25 +224,35 @@ function selectAllByAssayClass() {
             if (data.list.length > 0) {
                 for (var i = 0; i < data.list.length; i++) {
                     var item = data.list[i];
-                    var hidden = '<input type="hidden" name="itemCode" value="' + item.itemCode + '">';
-                    hidden += '<input type="hidden" name="itemName" value="' + item.itemName + '">';
-                    hidden += '<input type="hidden" name="fkAssayGroupConfId" value="' + item.fkAssayGroupConfId + '">';
-                    hidden += '<input type="hidden" name="fkAssayGroupConfName" value="' + item.fkAssayGroupConfName + '">';
-                    hidden += '<input type="hidden" name="groupId" value="' + item.groupId + '">';
-                    hidden += '<input type="hidden" name="groupName" value="' + item.groupName + '">';
-                    bodyHtml += '<tr>';
-                    bodyHtml += '<td class="text-center">' + hidden + item.itemName + item.fkAssayGroupConfName + '</td>';
-                    bodyHtml += '<td class="text-center">' + item.groupName + '</td>';
-                    bodyHtml += '<td class="text-center"><input type="text" name="assayDay" value="' + item.assayDay + '"></td>'
-                    bodyHtml += '<td class="text-center">';
-                    bodyHtml += '	<input type="button" class=" btn-def" onclick="$(this).parent().parent().remove()" value="删除">';
-                    bodyHtml += '</td>';
-                    bodyHtml += '</tr>';
+                    bodyHtml += getOneAssayClassHtml(item);
                 }
                 $("#resultList").html(bodyHtml);
             }
         }
     });
+}
+/**
+ * 获取单个逾期项提醒html
+ * 
+ * @param item
+ */
+function getOneAssayClassHtml(item) {
+    var html = "";
+    var hidden = '<input type="hidden" name="itemCode" value="' + convertEmpty(item.itemCode) + '">';
+    hidden += '<input type="hidden" name="itemName" value="' + convertEmpty(item.itemName) + '">';
+    hidden += '<input type="hidden" name="fkAssayGroupConfId" value="' + convertEmpty(item.fkAssayGroupConfId) + '">';
+    hidden += '<input type="hidden" name="fkAssayGroupConfName" value="' + convertEmpty(item.fkAssayGroupConfName) + '">';
+    hidden += '<input type="hidden" name="groupId" value="' + convertEmpty(item.groupId) + '">';
+    hidden += '<input type="hidden" name="groupName" value="' + convertEmpty(item.groupName) + '">';
+    html += '<tr>';
+    html += '<td class="text-center">' + hidden + convertEmpty(item.itemName) + convertEmpty(item.fkAssayGroupConfName) + '</td>';
+    html += '<td class="text-center">' + convertEmpty(item.groupName) + '</td>';
+    html += '<td class="text-center"><input type="text" name="assayDay" value="' + convertEmpty(item.assayDay) + '"></td>'
+    html += '<td class="text-center">';
+    html += '   <input type="button" class=" btn-def" onclick="$(this).parent().parent().remove()' + convertEmpty(item.delClick) + '" value="删除">';
+    html += '</td>';
+    html += '</tr>';
+    return html;
 }
 
 // 根据大中小血查询化验项及选中情况
@@ -283,6 +264,7 @@ function selectAssayByClass() {
             "assayClass" : $("[name='assayClass']:checked").val()
         },
         type : 'POST',
+        loading : true,
         success : function(data) {
             loadOperateTree(data.itemList);
         }
@@ -362,6 +344,7 @@ function loadAssayGroupList() {
         url : ctx + '/assay/assayRemindDict/selectAssayGroupConfAll.shtml',
         dataType : 'json',
         type : 'POST',
+        loading : true,
         success : function(data) {
             var bodyHtml = "";
             trimJosnArray(data.list);
@@ -388,24 +371,14 @@ function loadAssayGroupList() {
  */
 function selectAssayGroup(id, name) {
     // $("[name='assayClass']:checked").length == 0 ||
-    if (checkExistInSelected(null, id)) {
-        return;
-    }
-    var hidden = '<input type="hidden" name="itemCode">';
-    hidden += '<input type="hidden" name="itemName">';
-    hidden += '<input type="hidden" name="fkAssayGroupConfId" value="' + id + '">';
-    hidden += '<input type="hidden" name="fkAssayGroupConfName" value="' + name + '">';
-    hidden += '<input type="hidden" name="groupId">';
-    hidden += '<input type="hidden" name="groupName" value="同类化验分组">';
-    var bodyHtml = '<tr>';
-    bodyHtml += '<td class="text-center">' + hidden + name + '</td>';
-    bodyHtml += '<td class="text-center">同类化验分组</td>';
-    bodyHtml += '<td class="text-center"><input type="text" name="assayDay" value="30"></td>';
-    bodyHtml += '<td class="text-center">';
-    bodyHtml += '	<input type="button" class=" btn-def" onclick="$(this).parent().parent().remove()" value="删除">';
-    bodyHtml += '</td>';
-    bodyHtml += '</tr>';
-    $("#resultList").append(bodyHtml);
+    checkExistInSelected(null, id, function(itemCode) {
+        $("#resultList").append(getOneAssayClassHtml({
+            itemCode : itemCode,
+            fkAssayGroupConfId : id,
+            fkAssayGroupConfName : name,
+            groupName : "同类化验分组"
+        }));
+    })
 }
 
 /**
@@ -419,25 +392,15 @@ function selectNode(event, treeId, treeNode) {
     var zTree = $.fn.zTree.getZTreeObj("dictHospitalLabTree");
     treeNode.checked = true;
     zTree.updateNode(treeNode)
-    if (/*$("[name='assayClass']:checked").length == 0 || */checkExistInSelected(treeNode.itemCode)) {
-        return;
-    }
-    var hidden = '<input type="hidden" name="itemCode" value="' + treeNode.itemCode + '">';
-    hidden += '<input type="hidden" name="itemName" value="' + treeNode.itemName + '">';
-    hidden += '<input type="hidden" name="fkAssayGroupConfId">';
-    hidden += '<input type="hidden" name="fkAssayGroupConfName">';
-    hidden += '<input type="hidden" name="groupId" value="' + treeNode.groupId + '">';
-    hidden += '<input type="hidden" name="groupName" value="' + treeNode.groupName + '">';
-    var bodyHtml = '<tr>';
-    bodyHtml += '<td class="text-center">' + hidden + treeNode.itemName + '</td>';
-    bodyHtml += '<td class="text-center">' + treeNode.groupName + '</td>';
-    bodyHtml += '<td class="text-center"><input type="text" name="assayDay" value="30"></td>';
-    bodyHtml += '<td class="text-center">';
-    bodyHtml += '	<input id="del" type="button" class=" btn-def" onclick="$(this).parent().parent().remove() ,delAndCancel(\'' + treeNode.tId
-                    + '\')" value="删除">';
-    bodyHtml += '</td>';
-    bodyHtml += '</tr>';
-    $("#resultList").append(bodyHtml);
+    checkExistInSelected(treeNode.itemCode, null, function() {
+        $("#resultList").append(getOneAssayClassHtml({
+            itemCode : treeNode.itemCode,
+            itemName : treeNode.itemName,
+            groupId : treeNode.groupId,
+            groupName : treeNode.groupName,
+            delClick : ',delAndCancel(\'' + treeNode.tId + '\')'
+        }));
+    })
 }
 /**
  * 删除化验项同时去掉选中复选框
@@ -455,27 +418,64 @@ function delAndCancel(tid) {
  * 
  * @param itemCode
  * @param fkAssayGroupConfId
- * @returns {Boolean}
+ * @param callback
  */
-function checkExistInSelected(itemCode, fkAssayGroupConfId) {
+function checkExistInSelected(itemCode, fkAssayGroupConfId, callback) {
     var exist = false;
     if (isEmpty(itemCode) && isEmpty(fkAssayGroupConfId)) {
-        return true;
+        return exist;
     }
     if (!isEmpty(itemCode)) {
         $("#resultList").find("input[name='itemCode']").each(function() {
-            if (itemCode == $(this).val()) {
-                exist = true;
-                return;
+            var itemCodes = $(this).val().split(",");
+            for (var i = 0; i < itemCodes.length; i++) {
+                if (itemCodes[i] == itemCode) {
+                    exist = true;
+                    break;
+                }
+            }
+            if (exist) {
+                return false;
             }
         });
+        if (!exist && !isEmpty(callback)) {
+            callback();
+        }
     } else if (!isEmpty(fkAssayGroupConfId)) {
         $("#resultList").find("input[name='fkAssayGroupConfId']").each(function() {
             if (fkAssayGroupConfId == $(this).val()) {
                 exist = true;
-                return;
+                return false;
             }
         });
+        if (!exist) {// 判断同类组中的项目是否已存在
+            $.ajax({
+                url : ctx + '/assay/assayRemindDict/getGroupConfDetailItemCodes.shtml',
+                data : {
+                    fkAssayGroupConfId : fkAssayGroupConfId
+                },
+                dataType : 'json',
+                type : 'POST',
+                loading : true,
+                success : function(data) {
+                    if (data.status == "1") {
+                        var itemCodes = data.rs.split(",");
+                        for (var i = 0; i < itemCodes.length; i++) {
+                            exist = checkExistInSelected(itemCodes[i]);
+                            if (exist) {
+                                break;
+                            }
+                        }
+                        if (!exist && !isEmpty(callback)) {
+                            callback(data.rs);
+                        }
+                    }
+                }
+            });
+        }
+    }
+    if (exist) {
+        showAlert("项目在化验逾期项提醒中已存在");
     }
     return exist;
 }
@@ -494,6 +494,7 @@ function showAssayGroupDialog(id) {
         data : "id=" + convertEmpty(id),
         dataType : 'json',
         type : 'POST',
+        loading : true,
         success : function(data) {
             if (!isEmpty(id)) {
                 $("#assayGroupForm_id").val(data.assayGroupConf.id)
@@ -551,6 +552,7 @@ function saveAssayGroupConf() {
         data : JSON.stringify(json),
         dataType : 'json',
         type : 'POST',
+        loading : true,
         contentType : 'application/json;charset=utf-8',
         success : function(data) {
             $("#assayGroupDialog").modal("hide");
@@ -569,9 +571,12 @@ function deleteAssayGroupConf(id) {
         data : "id=" + id,
         dataType : 'json',
         type : 'POST',
+        loading : true,
         success : function(data) {
             showTips("删除成功");
             loadAssayGroupList();
+            // 化验逾期项维护数据
+            selectAllByAssayClass();
         }
     });
 }

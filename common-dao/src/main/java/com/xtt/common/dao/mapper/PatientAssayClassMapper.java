@@ -74,4 +74,32 @@ public interface PatientAssayClassMapper {
 
     List<PatientAssayClassPO> selectAllByCondiction(PatientAssayClass record);
 
+    /**
+     * 根据租户id查询for化验项提醒
+     * 
+     * @Title: listByTenantIdForAssayNews
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<PatientAssayClass> listByTenantIdForAssayNews(Integer fkTenantId);
+
+    /**
+     * 根据化验项同类分组id删除数据
+     * 
+     * @Title: deleteByFkAssayGroupConfId
+     * @param fkAssayGroupConfId
+     *
+     */
+    void deleteByFkAssayGroupConfId(Long fkAssayGroupConfId);
+
+    /**
+     * 根据化验项同类分组id查询
+     * 
+     * @Title: getByFkAssayGroupConfId
+     * @param fkAssayGroupConfId
+     *
+     */
+    PatientAssayClass getByFkAssayGroupConfId(Long fkAssayGroupConfId);
+
 }

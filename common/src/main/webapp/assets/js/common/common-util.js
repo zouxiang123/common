@@ -5,7 +5,7 @@
  * @returns {Boolean}
  */
 function isEmpty(obj) {
-    if (typeof (obj) == "undefined" || obj == null || obj === "") {
+    if (typeof (obj) == "undefined" || obj == null || obj === "" || obj == 'null') {
         return true;
     }
     return false;
@@ -215,6 +215,19 @@ function isPInt(str) {
     var g = /^[1-9]\d*$/;
     return g.test(str);
 }
+
+/**
+ * 字符串转数字
+ * 
+ * @param str
+ * @returns Number
+ */
+function str2Num(str) {
+    if (isEmpty(str))
+        return 0;
+    return parseFloat(str);
+}
+
 /**
  * 停止冒泡
  * 
@@ -337,20 +350,6 @@ function trimJosnArray(jsons) {
     }
     return jsons;
 }
-
-/** 获取包含error的组件 */
-function getValidateErrorObj(obj, index) {
-    if (isEmpty(obj) || obj.length == 0)
-        return obj;
-    index = isEmpty(index) ? 0 : (++index);
-    if (index == 20)// 最多遍历十层
-        return obj;
-    if (obj.find("[data-error]").length > 0) {
-        return obj;
-    } else {
-        return getValidateErrorObj(obj.parent(), index);
-    }
-}
 /**
  * 重置form表单，清空hidden域的值
  * 
@@ -423,10 +422,46 @@ function lPad(str, bit) {
     return str;
 }
 
+/**
+ * 将内容首字母大写转换，如果数组则转换后拼接成字符串
+ * 
+ * @param str
+ * @returns {*}
+ */
+function upperFirstLetter(str) {
+    if (Object.prototype.toString.call(str) === '[object Array]') {
+        var result = '';
+        $.each(str, function(i, v) {
+            var s = v.replace(/\b\w+\b/g, function(word) {
+                return word.substring(0, 1).toUpperCase() + word.substring(1);
+            });
+            result += s;
+        });
+        return result;
+    } else {
+        return str.replace(/\b\w+\b/g, function(word) {
+            return word.substring(0, 1).toUpperCase() + word.substring(1);
+        });
+    }
+}
+
+/** 判断函数是否存在 */
+function existsFunction(funcName) {
+    try {
+        if (typeof (eval(funcName)) === "function") {
+            return true;
+        }
+    } catch (e) {
+        console.log(e);
+    }
+    return false;
+}
+/**
+ * 将表单数据序列化为json数据
+ */
 $.fn.serializeJson = function() {
     var serializeObj = {};
     var array = this.serializeArray();
-    // var str=this.serialize();
     $(array).each(function() {
         if (serializeObj[this.name]) {
             if ($.isArray(serializeObj[this.name])) {
@@ -440,25 +475,27 @@ $.fn.serializeJson = function() {
     });
     return serializeObj;
 };
-
-/** 对象和数组的深拷贝 */
-function cloneObject(sObj) {
-    if (isEmpty(sObj)) {
-        return sObj;
+/**
+ * 将数字内容转化为精确的数字值 如果有小数位，精确到2位
+ * 
+ * @param value
+ * @returns {number}
+ */
+function numberFormat(value) {
+    if (isEmpty(value))
+        return 0;
+    return Number(parseFloat(value).toFixed(2));
+};
+/**
+ * 关闭打开的窗口
+ */
+function closeWindow() {
+    if (!isEmpty(window.AndroidWebView)) {
+        window.AndroidWebView.close();
     }
-    var s = {};
-    if (sObj instanceof (Array)) {
-        s = [];
-    }
-    for ( var i in sObj) {
-        console.log(typeof sObj[i]);
-        if (!isEmpty(sObj[i]) && (typeof sObj[i] === "object")) {
-            s[i] = cloneObject(sObj[i]);
-        } else {
-            s[i] = sObj[i];
-        }
-    }
-    return s;
+    window.opener = null;
+    window.open('', '_self');
+    window.close();
 }
 /**
  * 获取cookie的值
@@ -475,6 +512,15 @@ function getCookie(name) {
 }
 /**
  * 设置cookie
+ * 
+ * @param name
+ *            cookie名称
+ * @param value
+ *            cookie值
+ * @param path
+ *            路径(默认为"/")
+ * @param millisecond
+ *            有效时间ms
  */
 function setCookie(name, value, path, millisecond) {
     if (!isEmpty(millisecond)) {
@@ -497,14 +543,21 @@ function delCookie(name) {
         document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
 
-/** 判断函数是否存在 */
-function existsFunction(funcName) {
-    try {
-        if (typeof (eval(funcName)) === "function") {
-            return true;
+$(function() {
+    // 阻止用户点Backspace返回上一页
+    $(document).keydown(function(e) {
+        var target = e.target;
+        var tag = e.target.tagName.toUpperCase();
+        if (e.keyCode == 8) {
+            if ((tag == 'INPUT' && !$(target).attr("readonly")) || (tag == 'TEXTAREA' && !$(target).attr("readonly"))) {
+                if ((target.type.toUpperCase() == "RADIO") || (target.type.toUpperCase() == "CHECKBOX")) {
+                    return false;
+                } else {
+                    return true;
+                }
+            } else {
+                return false;
+            }
         }
-    } catch (e) {
-        console.log(e);
-    }
-    return false;
-}
+    });
+});

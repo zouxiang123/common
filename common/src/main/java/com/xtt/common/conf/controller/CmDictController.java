@@ -20,17 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.assay.service.IDictHospitalLabService;
-import com.xtt.common.assay.service.IPatientAssayDictionaryService;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDict;
-import com.xtt.common.dao.model.DictHospitalLab;
 import com.xtt.common.dao.po.CmDictPO;
-import com.xtt.common.dao.po.DictHospitalLabPO;
-import com.xtt.common.dao.po.PatientAssayDictionaryPO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -39,10 +34,6 @@ import com.xtt.common.util.UserUtil;
 public class CmDictController {
     @Autowired
     private ICmDictService cmDictService;
-    @Autowired
-    private IDictHospitalLabService dictHospitalLabService;
-    @Autowired
-    private IPatientAssayDictionaryService patientAssayDictionaryService;
     @Autowired
     private ICommonCacheService commonCacheService;
 
@@ -60,83 +51,6 @@ public class CmDictController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("status", cmDictService.deleteByPrimaryKey(dictId));
         commonCacheService.cacheDict(UserUtil.getTenantId());
-        return map;
-    }
-
-    /**
-     * 获取所有的检查项
-     * 
-     * @Title: getAssayList
-     * @param record
-     * @return
-     * 
-     */
-    @RequestMapping("getAssayList")
-    @ResponseBody
-    public Map<String, Object> getAssayList(DictHospitalLabPO record) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        record.setValueType(DictHospitalLabPO.VALUE_TYPE_NUMBER);
-        List<DictHospitalLabPO> list = dictHospitalLabService.getByCondition(record);
-        map.put("status", CommonConstants.SUCCESS);
-        map.put("items", list);
-        return map;
-    }
-
-    /** 获取所有的化验单检查类别列表 */
-    @RequestMapping("getAssayCategoryList")
-    @ResponseBody
-    public Map<String, Object> getAssayCategoryList() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("status", CommonConstants.SUCCESS);
-
-        DictHospitalLabPO condition = new DictHospitalLabPO();
-        condition.setFkTenantId(UserUtil.getTenantId());
-        condition.setValueType(DictHospitalLabPO.VALUE_TYPE_NUMBER);
-        map.put("items", dictHospitalLabService.getAllCategory(condition));
-        return map;
-    }
-
-    /**
-     * 删除关联
-     * 
-     * @Title: deleteAssayMapping
-     * @return
-     */
-    @RequestMapping("deleteAssayMapping")
-    @ResponseBody
-    public Map<String, Object> deleteAssayMapping(Long id) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        dictHospitalLabService.deleteAssayMapping(id);
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-        return map;
-    }
-
-    /**
-     * 更新字典表
-     * 
-     * @Title: updateDict
-     * @return
-     */
-    @RequestMapping("updateDict")
-    @ResponseBody
-    public Map<String, Object> updateDict(DictHospitalLabPO record) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(CommonConstants.STATUS, dictHospitalLabService.updateDictById(record));
-        return map;
-    }
-
-    /**
-     * 获取需要关联的字典表数据
-     * 
-     * @Title: getPatientAssayDict
-     * @return
-     */
-    @RequestMapping("getPatientAssayDict")
-    @ResponseBody
-    public Map<String, Object> getPatientAssayDict(PatientAssayDictionaryPO record) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("items", patientAssayDictionaryService.getByFuzzyCondition(record));
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
 
@@ -236,50 +150,6 @@ public class CmDictController {
         Map<String, Object> map = new HashMap<String, Object>();
         commonCacheService.cacheDict(UserUtil.getTenantId());
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-        return map;
-    }
-
-    /**
-     * 查询是否为常用项
-     * 
-     * @Title: selectTop
-     * @param record
-     * @return
-     *
-     */
-    @RequestMapping("selectTop")
-    @ResponseBody
-    public Map<String, Object> selectTop(DictHospitalLab record) {
-        record.setFkTenantId(UserUtil.getTenantId());
-        Map<String, Object> map = new HashMap<String, Object>();
-        DictHospitalLab dic = dictHospitalLabService.selectTop(record);
-        // 默认标志
-        String resultFlag = CommonConstants.FAILURE;
-        if (dic.getIsTop() != null && dic.getIsTop()) {
-            resultFlag = CommonConstants.SUCCESS;
-        }
-        map.put(CommonConstants.STATUS, resultFlag);
-        return map;
-    }
-
-    /**
-     * 获取置顶的检查项
-     * 
-     * @Title: getAssayListByTop
-     * @param record
-     * @return
-     * 
-     */
-    @RequestMapping("getAssayListByTop")
-    @ResponseBody
-    public Map<String, Object> getAssayListByTop() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        DictHospitalLabPO record = new DictHospitalLabPO();
-        record.setFkTenantId(UserUtil.getTenantId());
-        record.setIsTop(Boolean.TRUE);
-        List<DictHospitalLabPO> list = dictHospitalLabService.getByCondition(record);
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-        map.put("items", list);
         return map;
     }
 }

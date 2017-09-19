@@ -4,250 +4,222 @@
 <!DOCTYPE html>
 <html>
 <head>
-<%@ include file="../common/head.jsp"%>
-<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/assets/css/global.css?version=${version }"/>
-<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/assets/css/index.css?version=${version }"/>
-<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/assets/css/single.css?version=${version }"/>
+<%@ include file="../common/head_standard.jsp"%>
 <title>化验项统计</title>
+<style>
+#assayTopDiv span.active {
+    color: #31aaff
+}
+
+table>tbody tr.active {
+    background: rgba(217, 224, 230, 0.5);
+}
+</style>
 </head>
-<body style="padding-top:0px;" class="bg-white">
-	<jsp:include page="../common/report_datepick_new.jsp" flush="true"></jsp:include>
-	<!-- 代表的是PC登陆 -->
-	<div class="container-fluid">
-      <div class="row">
-      <div class="col-sm-12 col-md-12 bg-white main"  style="padding: <c:if test="${page_device_suf}">1</c:if>0px 0px 0px 0px;">
-        	<div class="fill-parent" style="margin-top: -4px;">
-				<div class="list-item border-top-line margin-top-8">
-					<div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;" id="reportDateDiv">
-						<span class="tip-line" style="background: #31AAFF;"></span>
-						<span class="tab-title">常用项：</span>
-						<button type="button" class="pull-right m-l-10 open-show">报表设置</button>
-					</div>
-					<div class="tab-body">
-						<div style="padding-left: 20px;padding-right: 20px;padding-top: 5px;padding-bottom: 5px;" id="assayTopDiv">
-						</div>
-					</div>
-				</div>
-				<div class="u-pop-up-from"></div>
-        	  	<form id="selectForm" action="#" style="display: none;">
-					<div class="list-item">
-						<div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-							<span class="tip-line" style="background: #31AAFF;"></span>
-							<span class="tab-title">查询条件：</span>
-						</div>
-						<div class="tab-body">
-						   <span class="margin-left-20">选中年份：</span><input type="text" class="text-center margin-left-20 width-150 form-control" style="background-color: #fff;display: inline-block;height: 26px;" name="assayYear" id="reportDate" readonly="readonly" datetimepicker/>
-							<div style="display: none;"><select class="selectpicker-small margin-left-20" style="margin-right: 0px;" name="dateType" id="dateType">
-								<option value="m">按月分组</option>
-								<option value="s">按季度分组</option>
-							</select></div>
-							<span class="margin-left-20">检查类别：</span><select class="selectpicker-big margin-left-20" style="margin-right: 0px;" name="groupId" id="groupId" onchange="changeGroupId()"></select>
-							<span class="margin-left-20">检查项列表：</span> <select class="selectpicker-big margin-left-20" style="margin-right: 0px;" name="itemCode" id="itemCode" onchange="changeItemCode()"></select>
-						</div>
-						<!-- <div class="tab-body" style="margin-top: 10px;">
-							<span class="margin-left-20" style="min-width: 80px;">标签管理：</span>
-							<select class="selectpicker-big margin-left-20" id="patientLabelId" name="patientLabelId"></select>
-						</div> -->
-					</div>
-					<div class="list-item border-top-line margin-top-8">
-						<div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-							<span class="tip-line" style="background: #31AAFF;"></span>
-							<span class="tab-title">检查项规则：</span>
-						</div>
-						<div class="tab-body">
-							<span class="margin-left-20" style="min-width: 80px;">达标范围：</span><input type="text" class="text-center margin-left-20 margin-right-20 width-150" name="minValue" id="minValue"/>~<input type="text" class="text-center margin-left-20 width-150" name="maxValue" id="maxValue"/>
-							&nbsp;&nbsp;<span style="display:none ; ;color: red"  id="errorShowInfor">请输入达标范围</span>
-						</div>
-						<div class="tab-body" style="margin-top: 10px;">
-							<span class="margin-left-20" style="min-width: 80px;">分组规则：</span>
-							<div style="margin-left: 20px; display: inline-block;" id="ruleListDiv"></div>
+<body>
+    <jsp:include page="../common/report_datepick_new2.jsp" flush="true"></jsp:include>
+    <div class="xtt">
+        <div class="bed-head pb-4 mt-20" style="border-bottom: 0px !important;">
+            <div class="bb-line" id="reportDateDiv">
+                <div class="tab-head-text tab-leftsetting">
+                    <span style="border: none; margin-left: -12px">数据统计</span>
+                </div>
+                <div class="tablesetting u-float-r ml-10">
+                    <button type="button" class="open-show" data-show="#promptDialog">报表设置</button>
+                </div>
+                <div class="tablesetting u-float-r">
+                    <button type="button" id="downloadYear">报表下载</button>
+                </div>
+                
+                <div class="tablesetting u-float-r" style="display:none" >
+                    <button type="button" id="downloadDetail">报表下载</button>
+                </div>
 
-							<button type="button" class="btn btn-default width-76" id="addRuleBtn" onclick="addRuleBtnEvent();">添加</button>
-						</div>
-					</div>
-              	</form>
+                <div class="u-pop-up-from"></div>
+                <form id="selectForm" action="#" style="display: none;">
+                    <div class="mb-10">
+                        <div class="tab-list-text2 line-height-35">选择年份：</div>
+                        <div class="bb-dashed pb-10 u-display-inlineBlock">
+                            <input type="text" style="width: 280px" name="assayYear" id="reportDate" readonly="readonly" datetimepicker>
+                        </div>
+                    </div>
+
+                    <div class="mb-10">
+                        <div class="bb-dashed pb-10 u-display-inlineBlock" style="display: none">
+                            <label class="u-select w-100"> <select class="w-100" name="dateType" id="dateType">
+                                    <option value="m">按月分组</option>
+                                    <option value="s">按季度分组</option>
+                            </select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-10">
+                        <div class="tab-list-text2 line-height-35">检查类别：</div>
+                        <div class="bb-dashed pb-10 u-display-inlineBlock width-280">
+                            <label class="u-select w-100"> <select class="w-100" name="groupId" id="groupId" onchange="changeGroupId()"></select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mb-10">
+                        <div class="tab-list-text2 line-height-35">检查项列表：</div>
+                        <div class="bb-dashed pb-10 u-display-inlineBlock width-280">
+                            <label class="u-select w-100"> <select class="w-100" name="itemCode" id="itemCode" onchange="changeItemCode()"></select>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="tab-list-text2 line-height-35">达标范围：</div>
+                        <div class="bb-dashed pb-10 u-display-inlineBlock">
+                            <input type="text" style="width: 120px" name="minValue" id="minValue"> <span class="ml-8 mr-8">~</span> <input
+                                type="text" style="width: 120px" name="maxValue" id="maxValue">
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="tab-list-text2 line-height-35">分组规则：</div>
+                        <div class="bb-line pb-10 u-display-inlineBlock width-280">
+                            <div class="u-display-inlineBlock position-relative mt-10" id="ruleListDiv"></div>
+                            <button type="button" class="u-btn-blue mr-8 mt-10" onclick="addRuleBtnEvent();">添加</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            
-            <div class="simple-line simple-line-text border-top-line margin-top-8 margin-bottom-20" id="dateTitle">
-                <div class="simple-line-container margin-top-18 no-border-all active" id="yearTitle">
-                    <span class="tabbar">年度报表<span></span></span>
+        </div>
+
+        <div class="ml-12 mt-6 mb-10">
+            <span>常用项：</span>
+            <div class="mt-6 mb-6 cursor" style="line-height: 30px;" id="assayTopDiv"></div>
+        </div>
+
+        <div class="bb-line ml-12 mr-12">
+            <div class="tab-head-text tab-leftsetting" id="dateTitle">
+                <span class="active u-border-r" id="yearTitle">年度报表</span> 
+                <span style="display: none; line-height: 35px; border-left: none"></span>
+            </div>
+        </div>
+
+        <div id="contentDiv">
+            <div>
+                <div class="echartshalf">
+                    <div class="echartname">达标统计</div>
+                    <label class="u-checkbox echartsave"> <input type="checkbox" name="echarts1" id="shownum" checked> <span
+                        class="icon-checkbox"></span> 显示数据
+                    </label>
+                    <div id="dbbarChart" class="mt-24" style="width: 100%; height: 98%"></div>
                 </div>
-                <div class="simple-line-container margin-top-18 no-border-all" style="display: none;">
-                    <span class="tabbar"></span>
+
+                <div class="echartshalf">
+                    <div class="echartname">中位数统计</div>
+                    <label class="u-checkbox echartsave"> <input type="checkbox" name="echarts2" id="shownum2" checked> <span
+                        class="icon-checkbox"></span> 显示数据
+                    </label>
+                    <div id="zwsLineChart" class="mt-24" style="width: 100%; height: 98%"></div>
+                </div>
+
+                <div class="echartshalf mt-10">
+                    <div class="echartname">达标率统计</div>
+                    <label class="u-checkbox echartsave"> <input type="checkbox" name="echarts3" id="shownum3" checked> <span
+                        class="icon-checkbox"></span> 显示数据
+                    </label>
+                    <div id="chart2" class="mt-24" style="width: 100%; height: 250px"></div>
+                </div>
+
+                <div class="ml-22 mt-6 mb-10">化验项列表</div>
+                <div class="ml-12 mr-12 mb-10">
+                    <table class="u-table u-table-bordered">
+                        <thead id="mainThead"></thead>
+                        <tbody id="mainTbody"></tbody>
+                    </table>
                 </div>
             </div>
-            
-            <div id="contentDiv">
-	            <div>
-		            <div class="fill-parent margin-top-8">
-		                <div class="col-sm-6 col-md-6 clear-padding-margin">
-		                    <div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                        <span class="tip-line" style="background: #31AAFF;"></span>
-		                        <span class="tab-title">达标统计：</span>
-		                    </div>
-		                    <div class="tab-content bg-white">
-		                        <div class="padding-15" id="dbbarChart" style="height: 250px;"></div>
-		                    </div>
-		                </div>
-		
-		                <div class="col-sm-6 col-md-6 clear-padding-margin">
-		                	<div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                        <span class="tip-line" style="background: #31AAFF;"></span>
-		                        <span class="tab-title">中位数统计：</span>
-		                    </div>
-		                    <div class="tab-content bg-white">
-		                        <div class="padding-15" id="zwsLineChart" style="height: 250px;"></div>
-		                    </div>
-		                </div>
-		                
-		                <div class="col-sm-6 col-md-6 clear-padding-margin border-top-line">
-		                     <div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                        <span class="tip-line" style="background: #31AAFF;"></span>
-		                        <span class="tab-title">达标率统计：</span>
-		                    </div>
-		                    <div class="tab-content bg-white">
-		                        <div class="padding-15" id="chart2" style="height: 250px;"></div>
-		                    </div>
-		                </div>
-		            </div>
-	            
-		            <div class="col-sm-12 col-md-12 border-top-line margin-top-8" style="padding-left: 0 !important;padding-right: 0 !important;">
-		                <div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                    <span class="tip-line" style="background: #31AAFF;"></span>
-		                    <span class="tab-title">化验项列表：</span>
-		
-		                    <button type="button" class="btn quick-btn pull-right" id="downloadYear">下载</button>
-		                </div>
-		
-		                <div class="tab-body">
-		                    <div class="table-responsive bg-white margin-top-10 margin-bottom-10">
-		                        <table class="table table-border table-align-left-15">
-		                            <thead id="mainThead">
-			                            
-		                            </thead>
-		                            <tbody id="mainTbody">
-		                            
-		                            </tbody>
-		                        </table>
-		                    </div>
-		                </div>
-		            </div>
-	            </div>
-            
-	             <div style="display: none;">
-	             	<div class="fill-parent border-top-line margin-top-8">
-	             		<div class="col-sm-12 col-md-12 clear-padding-margin bg-white">
-		                    <div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                        <span class="tip-line" style="background: #31AAFF;"></span>
-		                        <span class="tab-title">达标统计：</span>
-		                    </div>
-		                    <div class="tab-body" id="brandStatistics">
-								<div class="col-sm-6 col-md-6 clear-padding-margin">
-									<div class="table-responsive bg-white margin-top-10 margin-bottom-10">
-				                        <table class="table table-border table-align-left-15">
-				                            <thead id="mainThead">
-					                            
-				                            </thead>
-				                            <tbody id="mainTbody">
-				                            
-				                            </tbody>
-				                        </table>
-				                    </div>
-									<div class="table-responsive table-default">
-										<table class="table table-border" style="margin-bottom: 0px;">
-											<thead>
-												<tr>
-													<th>类型</th>
-													<th>数量</th>
-													<th>占比</th>
-												</tr>
-											</thead>
-											<tbody id="okTbody"></tbody>
-										</table>
-									</div>
-								</div>
-								<div class="col-sm-6 col-md-6 clear-padding-margin">
-									 <div class="padding-15" id="monthSeasonOkPie" style="height: 225px;"></div>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-12 col-md-12 clear-padding-margin bg-white">
-							<div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                        <span class="tip-line" style="background: #31AAFF;"></span>
-		                        <span class="tab-title">分组统计：</span>
-		                    </div>
-		                    <div class="tab-body" id="brandStatistics">
-								<div class="col-sm-6 col-md-6 clear-padding-margin">
-									<div class="table-responsive table-default">
-										<table class="table table-border" style="margin-bottom: 0px;">
-											<thead>
-												<tr>
-													<th>组</th>
-													<th>数量</th>
-													<th>占比</th>
-												</tr>
-											</thead>
-											<tbody id="groupTbody"></tbody>
-										</table>
-									</div>
-								</div>
-								<div class="col-sm-6 col-md-6 clear-padding-margin">
-									 <div class="padding-15" id="groupPie" style="height: 225px;"></div>
-								</div>
-							</div>
-						</div>
-		            </div>
-		            
-	             	<div class="col-sm-12 col-md-12 border-top-line margin-top-8" style="padding-left: 0 !important;padding-right: 0 !important;">
-		                <div class="tab-header" style="border-bottom: 0 !important;padding-left: 0 !important;">
-		                    <span class="tip-line" style="background: #31AAFF;"></span>
-		                    <span class="tab-title">名单列表：</span>
-		
-		                    <button type="button" class="btn quick-btn pull-right" id="downloadDetail">下载</button>
-		                </div>
-		
-		                <div class="tab-body" id="patientDiv">
-		                    <div class="table-responsive bg-white margin-top-10 margin-bottom-10">
-		                        <table class="table table-border table-align-left-15">
-		                            <thead>
-			                            <tr>
-											<th>患者名字</th>
-											<th>化验值</th>
-											<!-- <th>是否达标</th> -->
-			                            </tr>
-		                            </thead>
-		                            <tbody id="itemTbody">
-		                            
-		                            </tbody>
-		                        </table>
-		                    </div>
-		                </div>
-		            </div>
-	             </div>
+
+            <div style="display: none">
+                <div class="qualityecharts1">
+                    <span class="position-relative" style="top: 24px; left: 2px">达标统计 </span> <label class="u-checkbox u-float-r mt-20 pr-24"
+                        style="z-index: 10;"> <input type="checkbox" name="echarts4" id="shownum4" checked> <span class="icon-checkbox"></span>
+                        显示统计数据
+                    </label>
+                    <div id="monthSeasonOkPie" style="width: 100%; height: 100%; top: -28px;"></div>
+                </div>
+                <div class="ml-12 mr-12 mb-10" style="margin-top: -20px;">
+                    <table class="u-table u-table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">类型</th>
+                                <th style="width: 30%">数量</th>
+                                <th style="width: 30%">占比</th>
+                                <th style="width: 10%">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="okTbody"></tbody>
+                    </table>
+                </div>
+
+                <div id="grouped" style="display: none">
+                    <div class="qualityecharts1">
+                        <span class="position-relative" style="top: 24px; left: 2px">分组统计 </span> <label class="u-checkbox u-float-r mt-20 pr-24"
+                            style="z-index: 10;"> <input type="checkbox" name="echarts5" id="shownum5" checked> <span class="icon-checkbox"></span>
+                            显示统计数据
+                        </label>
+                        <div id="groupPie" style="width: 100%; height: 100%; top: -28px;"></div>
+                    </div>
+                    <div class="ml-12 mr-12 mb-10">
+                        <table class="u-table u-table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%">分组</th>
+                                    <th style="width: 30%">数量</th>
+                                    <th style="width: 30%">占比</th>
+                                    <th style="width: 10%">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="groupTbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="qualityecharts1" id="noGroup" style="display: none">
+                    <span class="position-relative" style="top: 24px; left: 2px"> 分组统计 </span>
+                    <div style="top: -18px; height: 260px;" class="empty-echarts"></div>
+                </div>
+
+                <div class="ml-12 mt-20" id="patientDiv">患者名单详情</div>
+                <div class="ml-12 mr-14 mb-8 mt-10">
+                    <table class="u-table u-table-bordered">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%">姓名</th>
+                                <th style="width: 70%">化验值</th>
+                            </tr>
+                        </thead>
+                        <tbody id="itemTbody"></tbody>
+                    </table>
+                </div>
             </div>
-      </div><!-- main -->
+        </div>
+
     </div>
-  </div>
-    <script type="text/javascript" src="${ctx}/framework/echarts/2.2.7/echarts-simple.js"></script>
-	<script src="${ctx }/assets/js/report/assay_report.js?version=${version}"></script>
-	<script type="text/javascript">
-	 	$(function(){
-	 		$("#dictionaryMaintainNavId").addClass("active");
-			
-			$("#dictionaryTopTab").css("margin-left", "-"+($("#dictionaryTopTab").width()/2) + "px");
-			$(".u-pop-up-from").append($("#selectForm").andSelf());
 
-			setReportDatePick($("#reportDateDiv"), {
-				dateType:  'nothing',
-				defaultValue : new Date().getFullYear(),
-				dateFormat: 'yyyy',
-				formId: 'selectForm',
-				customForm : true,
-				callback : function(d) {
-					getReportByCondition();
-				}
-			});
-	 	});
-	</script>
+    <script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/echarts/3.2.3/echarts_3.2.3_min.js"></script>
+    <script src="${ctx }/assets/js/report/assay_report.js?version=${version}"></script>
+    <script type="text/javascript">
+          $(function() {
+              $("#dictionaryTopTab").css("margin-left", "-" + ($("#dictionaryTopTab").width() / 2) + "px");
+              $(".u-pop-up-from").append($("#selectForm").andSelf());
+
+              setReportDatePick($("#reportDateDiv"), {
+                  dateType : 'nothing',
+                  defaultValue : new Date().getFullYear(),
+                  dateFormat : 'yyyy',
+                  formId : 'selectForm',
+                  customForm : true,
+                  callback : function(d) {
+                      getReportByCondition();
+                  }
+              });
+          });
+      </script>
 </body>
 </html>

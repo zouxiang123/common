@@ -5743,9 +5743,3 @@ label input[type=radio],
 input[type=radio] + label:before{
   background:url('../img/radio-circle.png');
 }
-.active_littlestudent{
-    background: #31aaff;
-}
-.active_littlestudent span{
-    color: #ffffff !important;
-}

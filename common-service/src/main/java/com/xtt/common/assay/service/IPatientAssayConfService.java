@@ -49,5 +49,5 @@ public interface IPatientAssayConfService {
      * @return
      * 
      */
-    String selectMonthAndYearByDate(Date date, Integer tenantId);
+    String selectMonthAndYearByDate(Date date, Integer tenantId, PatientAssayConf conf);
 }

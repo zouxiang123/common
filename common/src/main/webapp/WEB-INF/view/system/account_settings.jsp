@@ -206,8 +206,8 @@
     </div>
 </div>
 </div>
-<script src="${ctx }/framework/jquery/1.11.3/jquery.form.js"></script>
-<script src="${ctx }/framework/uploadPreview.min.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.form.js"></script>
+<script src="${COMMON_SERVER_ADDR}/framework/uploadPreview.min.js?version=${version}"></script>
 <script src="${ctx }/assets/js/system/account_settings.js?version=${version}"></script>
 </body>
 </html>

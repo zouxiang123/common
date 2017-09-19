@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientAssayRecordPO.java 
- * @Package com.xtt.hd.dao.po
+ * @Package com.xtt.common.dao.po
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年1月29日 上午9:46:36 
@@ -24,6 +24,8 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     public static String TIPS_LOW = "3";
     /** 偏高 */
     public static String TIPS_HIGH = "4";
+
+    // end:===============================================================================================
 
     /** 1：数字；2：字符 */
     private BigDecimal minValue;
@@ -61,6 +63,53 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
     private String assayClass;
     private Collection<String> dictCodes;
     private Collection<String> itemCodes;
+
+    // 报告时间
+    private String reportTimeShow;
+
+    // 样本时间
+    private String sampleTimeShow;
+    // 统计报表使用
+    private String isTemp;
+
+    private String ptName;// 姓名
+    private String ptSex; // 性别(男:M 女：F)
+
+    private List<String> itemCodeList;// 检验项目模糊查询用到格式：('BDB','FE','BDB')
+
+    private List<String> reqIdList;// 检验申请单ID集合对象
+
+    public List<String> getReqIdList() {
+        return reqIdList;
+    }
+
+    public void setReqIdList(List<String> reqIdList) {
+        this.reqIdList = reqIdList;
+    }
+
+    public String getPtName() {
+        return ptName;
+    }
+
+    public void setPtName(String ptName) {
+        this.ptName = ptName;
+    }
+
+    public String getPtSex() {
+        return ptSex;
+    }
+
+    public void setPtSex(String ptSex) {
+        this.ptSex = ptSex;
+    }
+
+    public List<String> getItemCodeList() {
+        return itemCodeList;
+    }
+
+    public void setItemCodeList(List<String> itemCodeList) {
+        this.itemCodeList = itemCodeList;
+    }
 
     public Collection<String> getDictCodes() {
         return dictCodes;
@@ -292,6 +341,30 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     public void setAssayClass(String assayClass) {
         this.assayClass = assayClass;
+    }
+
+    public String getReportTimeShow() {
+        return reportTimeShow;
+    }
+
+    public void setReportTimeShow(String reportTimeShow) {
+        this.reportTimeShow = reportTimeShow;
+    }
+
+    public String getSampleTimeShow() {
+        return sampleTimeShow;
+    }
+
+    public void setSampleTimeShow(String sampleTimeShow) {
+        this.sampleTimeShow = sampleTimeShow;
+    }
+
+    public String getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(String isTemp) {
+        this.isTemp = isTemp;
     }
 
 }

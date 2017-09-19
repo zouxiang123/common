@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AssayHospDictMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="min_value" jdbcType="DECIMAL" property="minValue" />
+    <result column="max_value" jdbcType="DECIMAL" property="maxValue" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="reference" jdbcType="VARCHAR" property="reference" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="fk_dict_code" jdbcType="VARCHAR" property="fkDictCode" />
+    <result column="value_type" jdbcType="INTEGER" property="valueType" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="date_type" jdbcType="VARCHAR" property="dateType" />
+    <result column="personal_min_value" jdbcType="DECIMAL" property="personalMinValue" />
+    <result column="personal_max_value" jdbcType="DECIMAL" property="personalMaxValue" />
+    <result column="is_auto" jdbcType="BIT" property="isAuto" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="method" jdbcType="LONGVARCHAR" property="method" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, item_code, item_name, min_value, max_value, unit, reference, order_by, fk_dict_code, 
+    value_type, is_top, date_type, personal_min_value, personal_max_value, is_auto, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    method
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from assay_hosp_dict
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from assay_hosp_dict
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into assay_hosp_dict (id, item_code, item_name, 
+      min_value, max_value, unit, 
+      reference, order_by, fk_dict_code, 
+      value_type, is_top, date_type, 
+      personal_min_value, personal_max_value, is_auto, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id, method
+      )
+    values (#{id,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+      #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
+      #{reference,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{fkDictCode,jdbcType=VARCHAR}, 
+      #{valueType,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, #{dateType,jdbcType=VARCHAR}, 
+      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{isAuto,jdbcType=BIT}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into assay_hosp_dict
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="minValue != null">
+        min_value,
+      </if>
+      <if test="maxValue != null">
+        max_value,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="reference != null">
+        reference,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="fkDictCode != null">
+        fk_dict_code,
+      </if>
+      <if test="valueType != null">
+        value_type,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="dateType != null">
+        date_type,
+      </if>
+      <if test="personalMinValue != null">
+        personal_min_value,
+      </if>
+      <if test="personalMaxValue != null">
+        personal_max_value,
+      </if>
+      <if test="isAuto != null">
+        is_auto,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="method != null">
+        method,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="minValue != null">
+        #{minValue,jdbcType=DECIMAL},
+      </if>
+      <if test="maxValue != null">
+        #{maxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="reference != null">
+        #{reference,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="fkDictCode != null">
+        #{fkDictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="valueType != null">
+        #{valueType,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="dateType != null">
+        #{dateType,jdbcType=VARCHAR},
+      </if>
+      <if test="personalMinValue != null">
+        #{personalMinValue,jdbcType=DECIMAL},
+      </if>
+      <if test="personalMaxValue != null">
+        #{personalMaxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="isAuto != null">
+        #{isAuto,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="method != null">
+        #{method,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update assay_hosp_dict
+    <set>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="minValue != null">
+        min_value = #{minValue,jdbcType=DECIMAL},
+      </if>
+      <if test="maxValue != null">
+        max_value = #{maxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="reference != null">
+        reference = #{reference,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="fkDictCode != null">
+        fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
+      </if>
+      <if test="valueType != null">
+        value_type = #{valueType,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="dateType != null">
+        date_type = #{dateType,jdbcType=VARCHAR},
+      </if>
+      <if test="personalMinValue != null">
+        personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
+      </if>
+      <if test="personalMaxValue != null">
+        personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="isAuto != null">
+        is_auto = #{isAuto,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="method != null">
+        method = #{method,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update assay_hosp_dict
+    set item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      min_value = #{minValue,jdbcType=DECIMAL},
+      max_value = #{maxValue,jdbcType=DECIMAL},
+      unit = #{unit,jdbcType=VARCHAR},
+      reference = #{reference,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
+      value_type = #{valueType,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=BIT},
+      date_type = #{dateType,jdbcType=VARCHAR},
+      personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
+      personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      is_auto = #{isAuto,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      method = #{method,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AssayHospDict">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update assay_hosp_dict
+    set item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      min_value = #{minValue,jdbcType=DECIMAL},
+      max_value = #{maxValue,jdbcType=DECIMAL},
+      unit = #{unit,jdbcType=VARCHAR},
+      reference = #{reference,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
+      value_type = #{valueType,jdbcType=INTEGER},
+      is_top = #{isTop,jdbcType=BIT},
+      date_type = #{dateType,jdbcType=VARCHAR},
+      personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
+      personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      is_auto = #{isAuto,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <!-- user define -->
+   <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.AssayHospDictPO">
+        <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+   </resultMap>
+   
+   <sql id="AHD_Column_List">
+        ahd.id, ahd.item_code, ahd.item_name, ahd.min_value, ahd.max_value, ahd.unit, ahd.reference, ahd.method, ahd.order_by, ahd.fk_dict_code, ahd.value_type, ahd.is_top, 
+        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.is_auto, ahd.fk_tenant_id
+        , ahdg.group_id, ahdg.group_name
+   </sql>
+   <!-- 根据ItemCode查询是否唯一 -->
+   <select id="getCountByItemCode" resultType="int">
+    SELECT count('1') 
+    from assay_hosp_dict
+    <where>
+         <if test="itemCode != null">
+            and item_code = #{itemCode,jdbcType=VARCHAR}
+        </if>
+        <if test="tenantId != null">
+            and fk_tenant_id = #{tenantId,jdbcType=INTEGER}
+          </if>
+    </where> 
+   </select>
+   
+   <!-- 根据租户id删除数据 -->
+   <delete id="deleteByTenant">
+        delete from assay_hosp_dict where fk_tenant_id = #{tenantId,jdbcType=INTEGER} and is_auto = 1
+   </delete>
+   <!-- 根据自定义条件查询数据 -->
+   <select id="listByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+      SELECT 
+        <include refid="AHD_Column_List" />
+        ,pad.item_name AS fkItemName 
+      FROM assay_hosp_dict ahd 
+      JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+      JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+      LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.item_code
+     <where>
+      <if test="groupId != null ">
+        and ahdg.group_id = #{groupId}
+      </if>
+      <if test="groupName != null and groupName != ''">
+        and ahdg.group_name = #{groupName}
+      </if>
+      <if test="itemCode != null and itemCode != ''">
+        and ahd.item_code = #{itemCode}
+      </if>
+      <if test="itemName != null and itemName != ''">
+        and ahd.item_name = #{itemName}
+      </if>
+      <if test="minValue != null">
+        and ahd.min_value = #{minValue}
+      </if>
+      <if test="maxValue != null">
+        and ahd.max_value = #{maxValue}
+      </if>
+      <if test="unit != null and unit != ''">
+        and ahd.unit = #{unit}
+      </if>
+      <if test="reference != null and reference != ''">
+        and ahd.reference = #{reference}
+      </if>
+      <if test="orderBy != null">
+        and ahd.order_by = #{orderBy}
+      </if>
+      <if test="fkDictCode != null and fkDictCode != ''">
+        and ahd.fk_dict_code = #{fkDictCode}
+      </if>
+      <if test="fkTenantId != null">
+        and ahd.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="isTop != null">
+        and ahd.is_top = #{isTop}
+      </if>
+      <if test="valueType != null">
+        and ahd.value_type = #{valueType,jdbcType=INTEGER}
+      </if>
+      <if test="isAuto != null">
+        and ahd.is_auto = #{isAuto}
+      </if>
+      <if test="dictCodes != null">
+        and ahd.fk_dict_code in <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+      </if>
+    </where>
+    ORDER BY ahdg.group_name ASC,ahd.item_code ASC
+  </select>
+  
+  <select id="selectAssayByDateType" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+    SELECT ahd.item_code, ahd.item_name
+    FROM assay_hosp_dict ahd 
+    join assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    join assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    WHERE ahd.fk_tenant_id = #{fkTenantId}
+    AND ahd.date_type = #{dateType,jdbcType=VARCHAR}
+    AND ahdg.group_id is NOT NULL
+    AND ahdg.group_name is NOT NULL
+    order by ahd.item_name
+  </select>
+  <!-- 根据分组id和itemcode查询数据 -->
+    <select id="getByGroupIdAndItemCode" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+        SELECT
+        <include refid="AHD_Column_List" />
+        FROM assay_hosp_dict ahd 
+        JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+        WHERE ahd.fk_tenant_id = #{fkTenantId}
+        AND ahdg.group_id = #{groupId}
+        AND ahd.item_code= #{itemCode}
+    </select>
+  
+  <select id="selectAllCategory" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+      SELECT ahdg.group_id,ahdg.group_name FROM assay_hosp_dict ahd 
+      JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+      JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id 
+      WHERE ahd.fk_tenant_id = #{fkTenantId} 
+      <if test="valueType != null">
+        and ahd.value_type = #{valueType,jdbcType=INTEGER}
+      </if>
+      GROUP BY ahdg.group_id,ahdg.group_name
+      ORDER BY ahdg.group_name ASC
+  </select>
+  <!-- 根据id删除关联关系 -->
+  <update id="deleteAssayMapping" parameterType="java.lang.Long">
+      update assay_hosp_dict set fk_dict_code = null where id = #{id}
+  </update>
+  
+  
+  <!-- 通过ItemCode来查询数据 -->
+  <select id="getByItemCode" resultMap="POResultMap">
+    select * from assay_hosp_dict where item_code = #{itemCode,jdbcType=VARCHAR} and fk_tenant_id = #{fkTenantId}
+  </select>
+  
+  <!-- 根据大中小血类查询所有化验单及选中情况 -->
+  <select id="selectAllCategoryByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+    SELECT ahdg.group_id, ahdg.group_name
+        , max(IF(pac.id is null, 0, 1)) as selectFlag, 1 categoryFlag
+    FROM assay_hosp_dict_group_mapping ahdgm
+    JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN patient_assay_class pac ON pac.item_code = ahdgm.fk_item_code and pac.fk_tenant_id = ahdgm.fk_tenant_id 
+    <if test="assayClass != null">
+        AND pac.assay_class = #{assayClass}
+    </if>
+    where ahdgm.fk_tenant_id = #{fkTenantId}
+    GROUP BY ahdg.group_id
+    ORDER BY ahdg.group_name ASC
+  </select>
+  
+  <!-- 根据大中小血类查询所有化验项及选中情况 -->
+  <select id="selectAllItemByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+    SELECT ahd.item_code, ahd.item_name
+           , ahdg.group_id, ahdg.group_name
+           , IF(pac.id is null, 0, 1) as selectFlag, 0 categoryFlag
+    FROM assay_hosp_dict ahd 
+    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN patient_assay_class pac ON pac.item_code = ahd.item_code and pac.fk_tenant_id = ahd.fk_tenant_id 
+    <if test="assayClass != null">
+        AND pac.assay_class = #{assayClass}
+    </if>
+    WHERE ahd.fk_tenant_id = #{fkTenantId}
+    ORDER BY ahdg.group_id, ahd.item_name
+  </select>
+  
+  <!-- 查询化验项及选中的分组项 -->
+  <select id="selectAllItemByGroupDetail" parameterType="com.xtt.common.dao.model.AssayGroupConfDetail" resultMap="POResultMap">
+    SELECT ahd.item_code, ahd.item_name
+          , ahdg.group_id, ahdg.group_name
+          , IF(agcd.item_code is null, 0, 1) as selectFlag
+    FROM assay_hosp_dict ahd 
+    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+    LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id 
+     <if test="fkAssayGroupConfId != null">
+            AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
+     </if>
+    WHERE ahd.fk_tenant_id = #{fkTenantId}
+    AND NOT EXISTS (
+            SELECT 1 FROM assay_group_conf_detail
+            WHERE fk_tenant_id = ahd.fk_tenant_id AND item_code = ahd.item_code
+            <if test="fkAssayGroupConfId != null">
+                and fk_assay_group_conf_id != #{fkAssayGroupConfId}
+            </if>
+        )
+    GROUP BY ahd.item_code
+    ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
+  </select>
+    <!-- 获取字典表对应化验单id -->
+    <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
+        SELECT ahd.id from assay_hosp_dict ahd
+        JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+        <where>
+            <if test="itemName != null">
+                and ahd.item_name = #{itemName,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="groupId != null">
+                and ahdg.group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <!-- 校验化验项名称是否与his系统重复 -->
+    <select id="queryByGroupName" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Integer">
+        SELECT count(ahdg.group_name)
+        FROM assay_hosp_dict_group ahdg
+        <where>
+            <if test="groupId != null">
+                AND ahdg.group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and ahdg.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+        </where>
+        GROUP BY ahdg.group_name
+    </select>
+    <!-- 检测项目代号是否重复： -->
+    <select id="queryByItemCode" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Integer">
+        SELECT count(id) FROM assay_hosp_dict
+        <where>
+            <if test="itemCode != null">
+                and item_code = #{itemCode,jdbcType=VARCHAR}
+            </if>
+            <if test="id != null">
+                and id != #{id,jdbcType=BIGINT}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+    <!-- 检测化验单项目是否重复： -->
+    <select id="queryByItemCodeandGroupId" resultType="java.lang.Integer">
+        SELECT count(1) 
+        from assay_hosp_dict_group_mapping
+        <where>
+            <if test="itemCode != null">
+                and fk_item_code = #{itemCode,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null">
+                and fk_group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+        </where>  
+    </select>
+    <!-- 根据是否为常用化验项查询字典表 -->
+    <select id="listByIsTop" resultMap="POResultMap">
+        SELECT
+        <include refid="AHD_Column_List" />
+        FROM assay_hosp_dict ahd
+        JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+        <where>
+            <if test="isTop != null">
+                ahd.is_top = #{isTop}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
+            </if>
+        </where>
+        GROUP BY ahd.item_code
+        ORDER BY ahd.item_name
+    </select>
+    <!-- 根据自定义条件查询不包含groupId的数据 -->
+    <select id="listBasicByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
+        SELECT
+            ahd.*
+            , pad.item_name AS fkItemName
+        FROM assay_hosp_dict ahd
+        LEFT JOIN patient_assay_dictionary pad ON ahd.fk_dict_code = pad.item_code
+        <where>
+            <if test="itemCode != null and itemCode != ''">
+                ahd.item_code = #{itemCode}
+            </if>
+            <if test="unit != null and unit != ''">
+                and ahd.unit = #{unit}
+            </if>
+            <if test="fkDictCode != null and fkDictCode != ''">
+                and ahd.fk_dict_code = #{fkDictCode}
+            </if>
+            <if test="fkTenantId != null">
+                and ahd.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="isTop != null">
+                and ahd.is_top = #{isTop}
+            </if>
+            <if test="valueType != null">
+                and ahd.value_type = #{valueType,jdbcType=INTEGER}
+            </if>
+            <if test="isAuto != null">
+                and ahd.is_auto = #{isAuto}
+            </if>
+            <if test="dictCodes != null">
+                and ahd.fk_dict_code in
+                <foreach close=")" collection="dictCodes" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+        </where>
+        ORDER BY ahd.item_code ASC
+    </select>
+    <!-- 查询置顶项for常用化验项统计 -->
+    <select id="listTopForCommonReport" resultMap="POResultMap">
+        SELECT if(ISNULL(agc.id),ahd.item_code,agc.id) item_code,if(ISNULL(agc.`name`),ahd.item_name,agc.`name`) item_name
+        ,ahd.unit ,ahd.fk_dict_code ,ahd.fk_tenant_id ,ahd.is_top , ahd.is_auto
+        FROM assay_hosp_dict ahd
+        LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id
+        LEFT JOIN assay_group_conf agc ON agcd.fk_assay_group_conf_id = agc.id
+        WHERE ahd.is_top = true AND ahd.fk_tenant_id = #{fkTenantId}
+        <if test="itemCodes != null and itemCodes.size() >0">
+            and ahd.item_code in
+            <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        GROUP BY item_code
+        ORDER BY item_code
+    </select>
+    <!-- 根据id获取数据 -->
+    <select id="getById" resultMap="POResultMap">
+        SELECT * FROM assay_hosp_dict WHERE id = #{id}
+    </select>
+</mapper>

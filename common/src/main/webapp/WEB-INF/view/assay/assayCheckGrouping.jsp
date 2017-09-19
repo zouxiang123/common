@@ -5,20 +5,19 @@
 <html>
 <head>
 <%@ include file="../common/head.jsp"%>
-
- 	<link rel="stylesheet" href="${ctx }/framework/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css">
-	
-	<script type="text/javascript" src="${ctx }/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<title>化验项统计</title>
+<title>化验分组配置</title>
 <style>
 	*{list-style:none;}
 	#assayGroupTable_Thead tr td{padding-left:50px;}
 </style>
 </head>
+
 <body>
 	<div class="container-fluid">
       <div class="row">
-			<div class="col-sm-12 col-md-12 main bg-white" style="padding: 0px;">
+		<div class="col-sm-12 col-md-12 main bg-white" style="padding: 0px;">
+            <!-- 头部标签的  -->
+            <jsp:include page="assay_config_head.jsp"/>
             <div class="fill-parent">
             <div class="list-card-item">
 		  		<div class="tab-header">
@@ -47,15 +46,14 @@
                </div>
                <form id="patientCheckGroupForm">
 		               <div class="tab-body" style="margin-top: 5px;">
-							<input type="hidden" name="dictHospitalLabPO.id" value="" id="dictHospitalLabId"/>
+							<input type="hidden" name="assayHospDict.id" value="" id="dictHospitalLabId"/>
 		                    <span style="margin-left:20px;">是否常规项</span>：
-		                    <div class="item-box"><input id="isTopTrue" type="radio"  name="dictHospitalLabPO.isTop" value="1"><label class="item-col-sm-width" for="isTopTrue">是</label></div>
-		                     <div class="item-box"><input id="isTopFalse" type="radio"  name="dictHospitalLabPO.isTop" value="0"><label class="item-col-sm-width" for="isTopFalse">否</label></div>
+		                    <div class="item-box"><input id="isTopTrue" type="radio"  name="assayHospDict.isTop" value="1"><label class="item-col-sm-width" for="isTopTrue">是</label></div>
+		                     <div class="item-box"><input id="isTopFalse" type="radio"  name="assayHospDict.isTop" value="0"><label class="item-col-sm-width" for="isTopFalse">否</label></div>
 		                    <div style="display: inline-block;margin-left: 20px;"></div>
 		               </div>
 		               <div class="tab-body" style="margin-top:10px;">
-			               		<input type="hidden" name="id" value="" id="dictHospitalLabId"/>
-			                    <span class="margin-left-20" style="min-width: 80px;">达标范围</span>：<input type="text" class="text-center margin-left-20 width-150" name="dictHospitalLabPO.personalMinValue" id="minValue"/> ~ <input type="text" class="text-center margin-left-20 width-150" name="dictHospitalLabPO.personalMaxValue" id="maxValue"/>
+			                    <span class="margin-left-20" style="min-width: 80px;">达标范围</span>：<input type="text" class="text-center margin-left-20 width-150" name="assayHospDict.personalMinValue" id="minValue"/> ~ <input type="text" class="text-center margin-left-20 width-150" name="assayHospDict.personalMaxValue" id="maxValue"/>
 			                  
 			                   <div style="display: inline-block;margin-left: 20px;"></div>
 		               </div>
@@ -90,10 +88,10 @@
     
     <!-- assayCheckGroup页面 -->
    
-    <script type="text/javascript" src="${ctx}/framework/echarts/2.2.7/echarts-simple.js"></script>
 	<script src="${ctx }/assets/js/assay/assayCheckGrouping.js?version=${version}"></script>
 	<script type="text/javascript">
 	 	$(function(){
+	 	   setAssayTopActive("group_rule");
 			$("#dictionaryTopTab").css("margin-left", "-"+($("#dictionaryTopTab").width()/2) + "px");
 			
 			//日历控件初始化

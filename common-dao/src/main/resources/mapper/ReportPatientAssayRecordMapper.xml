@@ -128,44 +128,44 @@
   <!-- 批量插入月份的化验统计数据 -->
   <insert id="insertBatchByMonth" parameterType="com.xtt.common.dao.model.ReportPatientAssayRecord">
   	INSERT INTO report_patient_assay_record (fk_patient_id, item_code, item_name, assay_month
-		, assay_season, assay_year
-		, result, fk_tenant_id, create_time, date_type
- 		, result_tips
-	) SELECT temp.* FROM (
-		<!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
-		SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.item_name, #{assayMonth}
-			, #{assaySeason}, #{assayYear}
-			, ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{dateType}
-			, IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt; ${sqlCondition})
-		    	AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) >= ${sqlCondition})), '1', '0') as result_tips
-		FROM patient_assay_temp_record patr1
-		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code = patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
-		LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
+        , assay_season, assay_year
+        , result, fk_tenant_id, create_time, date_type
+        , result_tips
+    ) SELECT temp.* FROM (
+        <!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
+        SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.item_name, #{assayMonth}
+            , #{assaySeason}, #{assayYear}
+            , ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{dateType}
+            , IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt; ${sqlCondition})
+                AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) >= ${sqlCondition})), '1', '0') as result_tips
+        FROM patient_assay_temp_record patr1
+        LEFT JOIN assay_hosp_dict dhl ON dhl.item_code = patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+        LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
         WHERE patr1.fk_tenant_id = #{fkTenantId} AND patr1.batch_no = #{batchNo}
-		GROUP BY fk_patient_id, item_code, item_name
-	) temp
+        GROUP BY fk_patient_id, item_code, item_name
+    ) temp
   </insert>
   
-  <!-- 批量插入季度的化验统计数据-->
+  <!-- 批量插入季度的化验统计数据 -->
   <insert id="insertBatchBySeason" parameterType="com.xtt.common.dao.model.ReportPatientAssayRecord">
-	INSERT INTO report_patient_assay_record (fk_patient_id, item_code, assay_season
-		, item_name, assay_year, result, fk_tenant_id, create_time
-		, result_tips
-		, date_type
-		)
-	SELECT temp.* FROM (
-		<!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
-		SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.assay_season
-			, MAX(patr1.item_name), MAX(patr1.assay_year), ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
-			, IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt;= ${sqlCondition})
-				AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) > ${sqlCondition})), '1', '0') as result_tips
-			, #{dateType}
-		FROM report_patient_assay_record patr1
-		LEFT JOIN dict_hospital_lab dhl ON dhl.item_code =patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
-		LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
-		WHERE patr1.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER} AND patr1.assay_season = #{assaySeason}
-		GROUP BY fk_patient_id,item_code,assay_season
-	) temp
+    INSERT INTO report_patient_assay_record (fk_patient_id, item_code, assay_season
+        , item_name, assay_year, result, fk_tenant_id, create_time
+        , result_tips
+        , date_type
+        )
+    SELECT temp.* FROM (
+        <!-- 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id -->
+        SELECT patr1.fk_patient_id, if(ISNULL(agcd.fk_assay_group_conf_id),patr1.item_code,agcd.fk_assay_group_conf_id) item_code, patr1.assay_season
+            , MAX(patr1.item_name), MAX(patr1.assay_year), ${sqlCondition}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+            , IF(((MAX(dhl.personal_min_value) is null OR MAX(dhl.personal_min_value) &lt;= ${sqlCondition})
+                AND (MAX(dhl.personal_max_value) is null OR MAX(dhl.personal_max_value) > ${sqlCondition})), '1', '0') as result_tips
+            , #{dateType}
+        FROM report_patient_assay_record patr1
+        LEFT JOIN assay_hosp_dict dhl ON dhl.item_code =patr1.item_code AND dhl.fk_tenant_id = patr1.fk_tenant_id
+        LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = patr1.item_code AND agcd.fk_tenant_id = patr1.fk_tenant_id
+        WHERE patr1.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER} AND patr1.assay_season = #{assaySeason}
+        GROUP BY fk_patient_id,item_code,assay_season
+    ) temp
   </insert>
   
   <!-- 根据日期类型分组查询化验信息 -->
@@ -207,8 +207,7 @@
 			, p.result
 	        , p.fk_patient_id fkPatientId
 		FROM report_patient_assay_record p
-		INNER JOIN patient pa
-		ON p.fk_patient_id = pa.id AND pa.del_flag = false
+		INNER JOIN patient pa ON p.fk_patient_id = pa.id 
 		<if test="patientLabelId != null">
 		INNER JOIN patient_label_ref plf
 		ON pa.id = plf.fk_patient_id AND plf.del_flag = false
@@ -267,7 +266,7 @@
 		</if> 
 		, pa.`name` as patientName
 	FROM report_patient_assay_record p
-	INNER JOIN patient pa ON pa.id = p.fk_patient_id AND pa.del_flag = false
+	INNER JOIN patient pa ON pa.id = p.fk_patient_id
   	<if test="patientLabelId != null">
 	  INNER JOIN patient_label_ref plf
 	  ON pa.id = plf.fk_patient_id AND plf.del_flag = false
@@ -313,20 +312,20 @@
   		<if test="dateType != null and dateType != ''">
   			and date_type = #{dateType}
   		</if>
-  		<if test="itemCode != null">
-			AND item_code = #{itemCode}
-		</if>
-		<if test="itemCodes !=null and itemCodes.size()>0">
-			AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
-		</if>
+        <if test="itemCode != null">
+            AND item_code = #{itemCode}
+        </if>
+        <if test="itemCodes !=null and itemCodes.size()>0">
+            AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+        </if>
   	</where>
   </delete>
   
   <select id="selectExistCurrentMothodByMonth" resultType="int">
   	select count(fk_patient_id) from report_patient_assay_record where assay_month = #{month} and fk_tenant_id = #{tenantId}
-  	<if test="itemCodes !=null and itemCodes.size()>0">
-		AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
-	</if>
+    <if test="itemCodes !=null and itemCodes.size()>0">
+        AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+    </if>
   </select>
   
   <insert id="insertPreMonthDate">
@@ -345,9 +344,9 @@
 			report_patient_assay_record 
 		where 
 			assay_month = #{preMonth} and fk_tenant_id = #{tenantId}
-			<if test="itemCodes !=null and itemCodes.size()>0">
-				AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
-			</if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
 			and fk_patient_id not in(select  id from patient where del_flag = 1 and fk_tenant_id = #{tenantId})
   </insert>
     

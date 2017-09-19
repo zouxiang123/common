@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.assay.service.IAssayGroupService;
-import com.xtt.common.assay.service.IDictHospitalLabService;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayClassService;
 import com.xtt.common.assay.service.IPatientAssayMonthRScopeService;
 import com.xtt.common.assay.vo.PatientAssayClassVO;
@@ -27,12 +27,13 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.AssayGroupConf;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.po.AssayGroupConfPO;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayClassPO;
 import com.xtt.common.dao.po.PatientAssayMonthRScopePO;
 import com.xtt.common.dto.LoginUser;
 import com.xtt.common.report.controller.AssayReportController;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 
 @Controller
 @RequestMapping("/assay/assayRemindDict")
@@ -40,7 +41,7 @@ public class AssayRemindDictController {
     private static final Logger LOGGER = LoggerFactory.getLogger(AssayRemindDictController.class);
 
     @Autowired
-    private IDictHospitalLabService dictHospitalLabService;
+    private IAssayHospDictService assayHospDictService;
 
     // 病患化验类
     @Autowired
@@ -58,8 +59,6 @@ public class AssayRemindDictController {
     @RequestMapping("view")
     public ModelAndView view() {
         ModelAndView mav = new ModelAndView("assay/assay_remind_dict");
-        /*List<DictionaryPO> tempList = DictionaryUtil.getListByType(DictionaryConstants.ASSAYTYPE);
-        mav.addObject("listDictionaryPO", tempList);*/
         return mav;
     }
 
@@ -73,11 +72,11 @@ public class AssayRemindDictController {
     @RequestMapping("selectAssayByClass")
     public Map<String, Object> selectAssayByClass(String assayClass) {
         // 查询化验单
-        DictHospitalLabPO condition = new DictHospitalLabPO();
+        AssayHospDictPO condition = new AssayHospDictPO();
         condition.setFkTenantId(UserUtil.getTenantId());
         condition.setAssayClass(assayClass);
-        List<DictHospitalLabPO> categoryList = dictHospitalLabService.selectAllCategoryByClass(condition);
-        List<DictHospitalLabPO> itemList = dictHospitalLabService.selectAllItemByClass(condition);
+        List<AssayHospDictPO> categoryList = assayHospDictService.selectAllCategoryByClass(condition);
+        List<AssayHospDictPO> itemList = assayHospDictService.selectAllItemByClass(condition);
         itemList.addAll(0, categoryList);
 
         Map<String, Object> map = new HashMap<String, Object>();
@@ -100,7 +99,6 @@ public class AssayRemindDictController {
         assayClassService.deleteAllByAssayClass(vo.getAssayClass());
         // 添加数据
         assayClassService.savePatientAssayClass(vo.getDetailList());
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
 
@@ -117,7 +115,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 查询patient_assay_month_r_scope表的所有数据
      */
     @RequestMapping("selectAllMonth")
@@ -128,7 +126,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 保存patient_assay_month_r_scope
      */
     @RequestMapping("saveAssayMonth")
@@ -144,20 +142,6 @@ public class AssayRemindDictController {
     }
 
     /**
-     * 修改化验开始时间结束时间
-     */
-    /*
-    @RequestMapping("updateStartTimeAndEndTime")
-    @ResponseBody
-    public void updateStartTimeAndEndTime(String startDay, String endDay) {
-    try {
-    	patientAssayMonthRScopeService.updateStartTimeAndEndTime(startDay, endDay);
-    } catch (ParseException e) {
-    	e.printStackTrace();
-    }
-    }*/
-
-    /**
      * 查询化验项及选中的分组项
      */
     @RequestMapping("selectAllItemByGroupDetail")
@@ -166,7 +150,7 @@ public class AssayRemindDictController {
         AssayGroupConfDetail agcd = new AssayGroupConfDetail();
         agcd.setFkAssayGroupConfId(id);
         // 查询全部
-        List<DictHospitalLabPO> allDictHospitalLabPOList = dictHospitalLabService.selectAllItemByGroupDetail(agcd);
+        List<AssayHospDictPO> allDictHospitalLabPOList = assayHospDictService.selectAllItemByGroupDetail(agcd);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("itemList", allDictHospitalLabPOList);
         if (id != null) {
@@ -176,7 +160,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 查询所有同类分组
      */
     @RequestMapping("selectAssayGroupConfAll")
@@ -189,21 +173,6 @@ public class AssayRemindDictController {
     }
 
     /**
-     * 查询所有的父节点
-     */
-    @RequestMapping("selectAssayGroupConfDetail")
-    public Map<String, Object> selectAllDictHospitalLab() {
-        // 查询父节点
-        List<DictHospitalLabPO> dictHospitalLabPOList = dictHospitalLabService.selectGroupName();
-        // 查询全部
-        List<DictHospitalLabPO> allDictHospitalLabPOList = dictHospitalLabService.selectAll();
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("dictHospitalLabPOList", dictHospitalLabPOList);
-        map.put("allDictHospitalLabPOList", allDictHospitalLabPOList);
-        return map;
-    }
-
-    /*
      * 查询同类分组
      */
     @RequestMapping("selectAssayGroupConfById")
@@ -215,7 +184,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 删除同类分组
      */
     @RequestMapping("deleteAssayGroupConf")
@@ -237,7 +206,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 保存同类分组
      */
     @RequestMapping("saveAssayGroupConf")
@@ -276,7 +245,7 @@ public class AssayRemindDictController {
         return map;
     }
 
-    /*
+    /**
      * 保存同类分组
      */
     @RequestMapping("selectAllByAssayClass")
@@ -305,4 +274,27 @@ public class AssayRemindDictController {
         }).start();
     }
 
+    /**
+     * 获取同类分组对应的itemCodes
+     * 
+     * @Title: getGroupConfDetailItemCodes
+     * @param fkAssayGroupConfId
+     * @return
+     *
+     */
+    @RequestMapping("getGroupConfDetailItemCodes")
+    @ResponseBody
+    public HttpResult getGroupConfDetailItemCodes(Long fkAssayGroupConfId) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        List<AssayGroupConfDetail> details = assayGroupService.selectDetail(fkAssayGroupConfId);
+        StringBuffer itemCode = new StringBuffer();
+        if (CollectionUtils.isNotEmpty(details)) {
+            details.forEach(detail -> {
+                itemCode.append(detail.getItemCode()).append(",");
+            });
+            itemCode.deleteCharAt(itemCode.length() - 1);
+        }
+        result.setRs(itemCode.toString());
+        return result;
+    }
 }

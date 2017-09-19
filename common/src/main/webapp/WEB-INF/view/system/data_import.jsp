@@ -124,7 +124,7 @@
 			</div>
 		</div>
 	</div>
-	<script src="${ctx }/framework/jquery/1.11.3/jquery.form.js"></script>
+	<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.form.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$(".tabbar").click(function() {

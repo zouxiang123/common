@@ -17,6 +17,8 @@ public class ApiCommQueryDto {
 
     private Integer tenantId; // 租户ID
 
+    private String subType;// 子操作类别
+
     public String getParmType() {
         return parmType;
     }
@@ -49,9 +51,18 @@ public class ApiCommQueryDto {
         this.tenantId = tenantId;
     }
 
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
+    }
+
     @Override
     public String toString() {
-        return "ApiCommQueryDto [parmType=" + parmType + ", dateStr=" + dateStr + ", fkPatientId=" + fkPatientId + ", tenantId=" + tenantId + "]";
+        return "ApiCommQueryDto [parmType=" + parmType + ", dateStr=" + dateStr + ", fkPatientId=" + fkPatientId + ", tenantId=" + tenantId
+                        + ", subType=" + subType + "]";
     }
 
 }

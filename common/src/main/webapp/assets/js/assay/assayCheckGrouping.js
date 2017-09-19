@@ -56,7 +56,7 @@ function addEvents() {
 function getAssayitem() {
     var groupId = convertEmpty($("#assayCategoryRadio input[type='radio']:checked").val());
     $.ajax({
-        url : ctx + "/system/dictionary/getAssayList.shtml",
+        url : ctx + "/assay/hospDict/getAssayList.shtml",
         type : "post",
         data : "groupId=" + encodeURI(groupId),
         dataType : "json",
@@ -83,22 +83,25 @@ function getAssayitem() {
  * 根据检查项和检查类别判断是否是常规项
  */
 function isTop() {
-    var groupId = $("#assayCategoryRadio input[type='radio']:checked").val();
     var itemCode = $("#assayItemRadio input[type='radio']:checked").val();
     $.ajax({
-        url : ctx + "/system/dictionary/selectTop.shtml",
+        url : ctx + "/assay/hospDict/getByItemCode.shtml",
         type : "post",
         dataType : "json",
         data : {
-            "groupId" : groupId,
             "itemCode" : itemCode
         },
         loading : true,
         success : function(data) {
-            if (data.status == 1) {
-                $(":radio[name='dictHospitalLabPO.isTop'][value='" + 1 + "']").prop("checked", "checked");
-            } else {
-                $(":radio[name='dictHospitalLabPO.isTop'][value='" + 0 + "']").prop("checked", "checked");
+            if (data.status == "1") {
+                var record = data.rs;
+                if (!isEmpty(record.isTop)) {
+                    if (record.isTop) {
+                        $(":radio[name='assayHospDict.isTop'][value='" + 1 + "']").prop("checked", true);
+                    } else {
+                        $(":radio[name='assayHospDict.isTop'][value='" + 0 + "']").prop("checked", true);
+                    }
+                }
             }
         }
     })
@@ -106,7 +109,7 @@ function isTop() {
 /** 获取化验单类别数据 */
 function getAssayCategory() {
     $.ajax({
-        url : ctx + "/system/dictionary/getAssayCategoryList.shtml",
+        url : ctx + "/assay/hospDict/getAssayCategoryList.shtml",
         type : "post",
         dataType : "json",
         loading : true,
@@ -178,7 +181,7 @@ function getGroupingRuleData(dom, value) {
     $("#addRule").val("");
     if (value == null || value == "") {
         $.ajax({
-            url : ctx + "/assay/groupRule/selectAllAssayGroupRule.shtml",
+            url : ctx + "/assay/patientAssayGroupRule/selectAllAssayGroupRule.shtml",
             data : {
                 "itemsCode" : $(dom).val()
             },
@@ -192,7 +195,7 @@ function getGroupingRuleData(dom, value) {
         });
     } else {
         $.ajax({
-            url : ctx + "/assay/groupRule/selectAllAssayGroupRule.shtml",
+            url : ctx + "/assay/patientAssayGroupRule/selectAllAssayGroupRule.shtml",
             data : {
                 "itemsCode" : value
             },
@@ -210,31 +213,34 @@ function getGroupingRuleData(dom, value) {
 // 查询达标范围
 function getReachRangeData(dom) {
     $.ajax({
-        url : ctx + "/dictHospitalLab/selectAllByItemCode.shtml",
+        url : ctx + "/assay/hospDict/getByItemCode.shtml",
         type : 'POST',
         data : {
             "itemCode" : $(dom).val()
         },
         dataType : 'json',
         success : function(data) {
-            // 是否空值
-            if (data[0].personalMinValue == null || data[0].personalMinValue == "") {
-                data[0].personalMinValue = "";
+            if (data.status == "1") {
+                var record = data.rs;
+                // 是否空值
+                if (record.personalMinValue == null || record.personalMinValue == "") {
+                    record.personalMinValue = "";
+                }
+                if (record.personalMaxValue == null || record.personalMaxValue == "") {
+                    record.personalMaxValue = "";
+                }
+                // 是否置顶 $("#isTopNo").attr("checked", "true");
+                if (record.isTop) {
+                    $("#isTopFalse").removeAttr("checked");
+                    $("#isTopTrue").prop("checked", "true");
+                } else {
+                    $("#isTopTrue").removeAttr("checked");
+                    $("#isTopFalse").prop("checked", "true");
+                }
+                $("[name='assayHospDict.personalMinValue']").val(record.personalMinValue);
+                $("[name='assayHospDict.personalMaxValue']").val(record.personalMaxValue);
+                $("#dictHospitalLabId").val(record.id);
             }
-            if (data[0].personalMaxValue == null || data[0].personalMaxValue == "") {
-                data[0].personalMaxValue = "";
-            }
-            // 是否置顶 $("#isTopNo").attr("checked", "true");
-            if (data[0].isTop == true) {
-                $("#isTopFalse").removeAttr("checked");
-                $("#isTopTrue").prop("checked", "true");
-            } else if (data[0].isTop == false) {
-                $("#isTopTrue").removeAttr("checked");
-                $("#isTopFalse").prop("checked", "true");
-            }
-            $("[name='dictHospitalLabPO.personalMinValue']").val(data[0].personalMinValue);
-            $("[name='dictHospitalLabPO.personalMaxValue']").val(data[0].personalMaxValue);
-            $("#dictHospitalLabId").val(data[0].id);
 
         }
     });
@@ -242,8 +248,8 @@ function getReachRangeData(dom) {
 
 // 添加化验分组规则到后台再排序出来(没有添加到数据库中)
 function saveGroupRuleValue() {
-    var maxValue = $("[name='dictHospitalLabPO.personalMaxValue']").val();
-    var minValue = $("[name='dictHospitalLabPO.personalMinValue']").val();
+    var maxValue = $("[name='assayHospDict.personalMaxValue']").val();
+    var minValue = $("[name='assayHospDict.personalMinValue']").val();
     if ($("#addRule").val() == "") {
         showAlert("不能输入空值");
         return;
@@ -274,7 +280,7 @@ function saveGroupRuleValue() {
 
     // 将数据传进去再排序出来
     $.ajax({
-        url : ctx + "/assay/groupRule/sortAssayGroupRule.shtml",
+        url : ctx + "/assay/patientAssayGroupRule/sortAssayGroupRule.shtml",
         data : patientAssayGroupRuleList,
         type : 'POST',
         async : false,// 即必须执行完这个方法后才能往下执行
@@ -342,8 +348,8 @@ function judgeExistByAddGroupRule(dom) {
 // 保存检查项规则
 function saveCheckRuleData() {
 
-    var maxValue = $("[name='dictHospitalLabPO.personalMaxValue']").val();
-    var minValue = $("[name='dictHospitalLabPO.personalMinValue']").val();
+    var maxValue = $("[name='assayHospDict.personalMaxValue']").val();
+    var minValue = $("[name='assayHospDict.personalMinValue']").val();
     var reg = /^\d+(\.{1}\d+)?$/;
     // 范围内两个Input都有值
     if (maxValue != "" || minValue != "") {
@@ -385,18 +391,14 @@ function saveCheckRuleData() {
         var getItemCode = $("[name='hideItemCode']").val();// 项编码
         patientCheckRule += "&itemCode=" + encodeURIComponent(getItemCode);
         $.ajax({
-            url : ctx + "/assay/groupRule/savePatientAssayGroupRule.shtml",
+            url : ctx + "/assay/patientAssayGroupRule/savePatientAssayGroupRule.shtml",
             data : patientCheckRule,
             type : 'POST',
             dataType : 'json',
+            loading : true,
             success : function(data) {
                 if (data.status == 1) {
                     showTips("保存成功");
-                    /*
-                     * $("#patientCheckGroupForm
-                     * input.error").removeClass("error");
-                     * $("#patientCheckGroupForm [data-error]").text("");
-                     */
                     $("div[data-error]").text("");
                     $("#addRule").val("");
                 } else {
@@ -405,7 +407,6 @@ function saveCheckRuleData() {
 
             }
         });
-        $("#addDialog").modal('hide');
     }
 }
 

@@ -23,8 +23,8 @@ import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.LoginUser;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.ContextAuthUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -52,7 +52,7 @@ public class LoginController {
      */
     @RequestMapping("login")
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
-                    Boolean isloginSubmit) throws Exception {
+                    Boolean isloginSubmit, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("login");
         if ("true".equals(HttpServletUtil.getCookieValueByName("savePwd")) && StringUtils.isEmpty(account) && StringUtils.isEmpty(password)) {
             account = HttpServletUtil.getCookieValueByName("account");
@@ -68,7 +68,7 @@ public class LoginController {
             return model;
         }
         LOGGER.info("login message :account={},password={},tenantId={},redirectUrl={}", account, password, tenantId, redirectUrl);
-        Map<String, Object> map = loginSubmit(account, password, tenantId);
+        Map<String, Object> map = loginSubmit(account, password, tenantId, sysOwner);
         if (CommonConstants.SUCCESS.equals(map.get("status"))) {
             LOGGER.info("account={} login success,normal submit", account);
             HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, map.get(CommonConstants.COOKIE_TOKEN).toString(), -1);
@@ -92,7 +92,7 @@ public class LoginController {
      * @param account
      * @param password
      * @param tenantId
-     * @return
+     * @param sysOwner
      * @throws Exception
      * 
      */
@@ -100,12 +100,12 @@ public class LoginController {
     @ResponseBody
     public Map<String, Object> loginSubmit(@RequestParam(value = "account", required = false) String account,
                     @RequestParam(value = "password", required = false) String password,
-                    @RequestParam(value = "tenantId", required = false) Integer tenantId) throws Exception {
+                    @RequestParam(value = "tenantId", required = false) Integer tenantId, String sysOwner) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password)) {
             /** 验证是否输入正确 */
-            SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId, null);
+            SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId, sysOwner);
             if (sysUser != null) {
                 String token = UUID.randomUUID().toString();
                 HttpServletUtil.getRequest().setAttribute(CommonConstants.COOKIE_TOKEN, token);

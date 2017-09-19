@@ -54,7 +54,7 @@ var pagination = {
             setTotalPage : function(totalPage) {
                 this.totalPage = totalPage;
                 var loadMoreId = this.loadMoreId;
-                if (this.pageNo == totalPage || totalPage == 0) {
+                if (this.pageNo == totalPage || totalPage === 0) {
                     this.stop = true;
                     if (!isEmpty(loadMoreId)) {
                         $("#" + loadMoreId).html("已全部加载");

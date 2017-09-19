@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AssayReportFilterRuleMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AssayReportFilterRule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="rule_code" jdbcType="VARCHAR" property="ruleCode" />
+    <result column="rule_name" jdbcType="VARCHAR" property="ruleName" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="min_value" jdbcType="VARCHAR" property="minValue" />
+    <result column="max_value" jdbcType="VARCHAR" property="maxValue" />
+    <result column="function_name" jdbcType="VARCHAR" property="functionName" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, rule_code, rule_name, is_enable, min_value, max_value, function_name, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from assay_report_filter_rule
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from assay_report_filter_rule
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AssayReportFilterRule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into assay_report_filter_rule (id, rule_code, rule_name, 
+      is_enable, min_value, max_value, 
+      function_name, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{ruleCode,jdbcType=VARCHAR}, #{ruleName,jdbcType=VARCHAR}, 
+      #{isEnable,jdbcType=BIT}, #{minValue,jdbcType=VARCHAR}, #{maxValue,jdbcType=VARCHAR}, 
+      #{functionName,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayReportFilterRule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into assay_report_filter_rule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="ruleCode != null">
+        rule_code,
+      </if>
+      <if test="ruleName != null">
+        rule_name,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="minValue != null">
+        min_value,
+      </if>
+      <if test="maxValue != null">
+        max_value,
+      </if>
+      <if test="functionName != null">
+        function_name,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="ruleCode != null">
+        #{ruleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleName != null">
+        #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="minValue != null">
+        #{minValue,jdbcType=VARCHAR},
+      </if>
+      <if test="maxValue != null">
+        #{maxValue,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AssayReportFilterRule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update assay_report_filter_rule
+    <set>
+      <if test="ruleCode != null">
+        rule_code = #{ruleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ruleName != null">
+        rule_name = #{ruleName,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="minValue != null">
+        min_value = #{minValue,jdbcType=VARCHAR},
+      </if>
+      <if test="maxValue != null">
+        max_value = #{maxValue,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        function_name = #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AssayReportFilterRule">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update assay_report_filter_rule
+    set rule_code = #{ruleCode,jdbcType=VARCHAR},
+      rule_name = #{ruleName,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=BIT},
+      min_value = #{minValue,jdbcType=VARCHAR},
+      max_value = #{maxValue,jdbcType=VARCHAR},
+      function_name = #{functionName,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 自定义 -->
+  
+  <select id="selectAll" parameterType="com.xtt.common.dao.model.AssayReportFilterRule" resultMap="BaseResultMap">
+  	select * from assay_report_filter_rule
+  	where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+  </select>
+</mapper>

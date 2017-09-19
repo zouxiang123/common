@@ -86,4 +86,25 @@ public class PatientAssayClassServiceImpl implements IPatientAssayClassService {
     public List<PatientAssayClassPO> selectByMonth(Integer month) {
         return patientAssayClassMapper.selectByMonth(month, UserUtil.getTenantId());
     }
+
+    @Override
+    public List<PatientAssayClass> listByTenantIdForAssayNews(Integer tenantId) {
+        return patientAssayClassMapper.listByTenantIdForAssayNews(tenantId);
+    }
+
+    @Override
+    public void deleteByFkAssayGroupConfId(Long id) {
+        patientAssayClassMapper.deleteByFkAssayGroupConfId(id);
+    }
+
+    @Override
+    public PatientAssayClass getByFkAssayGroupConfId(Long id) {
+        return patientAssayClassMapper.getByFkAssayGroupConfId(id);
+    }
+
+    @Override
+    public void updateById(PatientAssayClass record) {
+        patientAssayClassMapper.updateByPrimaryKey(record);
+
+    }
 }

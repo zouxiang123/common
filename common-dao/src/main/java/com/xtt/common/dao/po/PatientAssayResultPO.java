@@ -8,8 +8,20 @@
  */
 package com.xtt.common.dao.po;
 
+import java.util.List;
+
 import com.xtt.common.dao.model.PatientAssayResult;
 
 public class PatientAssayResultPO extends PatientAssayResult {
+    private List<Long> patientIds;// 患者id集合
+
+    // getter and setter
+    public List<Long> getPatientIds() {
+        return patientIds;
+    }
+
+    public void setPatientIds(List<Long> patientIds) {
+        this.patientIds = patientIds;
+    }
 
 }

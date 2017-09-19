@@ -1,6 +1,6 @@
 /**   
  * @Title: DataUtil.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月17日 上午10:30:55 
@@ -156,6 +156,75 @@ public class DataUtil {
             }
         }
 
+    }
+
+    /**
+     * 设置设置model系统字段值（createTime,createUserId,updateTime,updateUserId)，不论是否已经存在
+     * 
+     * @Title: setSystemFieldValue
+     * @param model
+     * 
+     */
+    public static void setAllSystemFieldValue(Object model) {
+        setAllSystemFieldValue(model, UserUtil.getLoginUserId());
+    }
+
+    /**
+     * 设置设置model系统字段值（createTime,createUserId,updateTime,updateUserId)，不论是否已经存在
+     * 
+     * @Title: setAllSystemFieldValue
+     * @param model
+     * @param userId
+     *
+     */
+    public static void setAllSystemFieldValue(Object model, Long userId) {
+        Class<? extends Object> clazz = model.getClass();
+        setAllSystemFieldValue(model, clazz, userId, 1);
+    }
+
+    private static void setAllSystemFieldValue(Object model, Class<? extends Object> clazz, Long userId, int times) {
+        if (times > 4)// max try 4 times
+            return;
+        Date date = new Date();
+        try {
+            clazz.getDeclaredMethod("setUpdateTime", Date.class).invoke(model, date);
+            clazz.getDeclaredMethod("setUpdateUserId", Long.class).invoke(model, userId);
+            clazz.getDeclaredMethod("setCreateTime", Date.class).invoke(model, date);
+            clazz.getDeclaredMethod("setCreateUserId", Long.class).invoke(model, userId);
+        } catch (Exception e) {
+            if ((clazz = clazz.getSuperclass()) != null) {
+                setAllSystemFieldValue(model, clazz, userId, ++times);
+            } else {
+                LOGGER.info("当前类和父类中不存在：", e);
+            }
+        }
+    }
+
+    /**
+     * 设置更新的系统字段(setUpdateTime ,setUpdateUserId)
+     * 
+     * @Title: setUpdateSystemFieldValue
+     * @param model
+     *
+     */
+    public static void setUpdateSystemFieldValue(Object model) {
+        Class<? extends Object> clazz = model.getClass();
+        setUpdateSystemFieldValue(model, clazz, UserUtil.getLoginUserId(), new Date(), 1);
+    }
+
+    private static void setUpdateSystemFieldValue(Object model, Class<? extends Object> clazz, final Long userId, final Date date, int times) {
+        if (times > 4)// max try 4 times
+            return;
+        try {
+            clazz.getDeclaredMethod("setUpdateTime", Date.class).invoke(model, date);
+            clazz.getDeclaredMethod("setUpdateUserId", Long.class).invoke(model, userId);
+        } catch (Exception e) {
+            if ((clazz = clazz.getSuperclass()) != null) {
+                setUpdateSystemFieldValue(model, clazz, userId, date, ++times);
+            } else {
+                LOGGER.info("当前类和父类中不存在：", e);
+            }
+        }
     }
 
     /**

@@ -331,7 +331,7 @@
   <!-- 自定义 -->
   <resultMap type="com.xtt.common.dao.po.PatientAssayDictionaryPO" id="POResultMap" extends="BaseResultMap"></resultMap>
   
-  <select id="selectByFuzzyCondition" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" resultMap="ResultMapWithBLOBs">
+  <select id="selectByFuzzyCondition" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" resultMap="POResultMap">
       select pad.*
       from patient_assay_dictionary pad
       <where>
@@ -352,9 +352,8 @@
 	      </if>
       </where>
   </select>
-  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" resultMap="ResultMapWithBLOBs">
-      select pad.*,
-      from patient_assay_dictionary pad
+  <select id="selectByCondition" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" resultMap="POResultMap">
+      select pad.* from patient_assay_dictionary pad
       <where>
           <if test="groupId != null" >
 	        pad.group_id = #{group_id}

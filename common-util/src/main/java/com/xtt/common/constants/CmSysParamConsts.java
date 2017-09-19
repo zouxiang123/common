@@ -12,4 +12,9 @@ public class CmSysParamConsts {
     public static final String TEST_ITEM_SWITCH = "CM_test_item_switch";
     public static final String TEST_ITEM_SWITCH_COPY = "COPY";
     public static final String TEST_ITEM_SWITCH_SIMPLE = "SIMPLE";
+
+    /**
+     * 化验时间（1：采集时间，2：报告时间，3：都显示）
+     */
+    public static final String PATIENT_ASSAY_LOAD_CONDITION_TIME_SWITCH = "lab_time_flag";
 }

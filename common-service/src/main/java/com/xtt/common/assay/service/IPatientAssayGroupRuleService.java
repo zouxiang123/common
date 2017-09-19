@@ -3,14 +3,20 @@ package com.xtt.common.assay.service;
 import java.util.List;
 
 import com.xtt.common.dao.model.PatientAssayGroupRule;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 
 public interface IPatientAssayGroupRuleService {
-
     /**
-     * 添加化验检查分组的值
+     * 保存化验分组规则
+     * 
+     * @Title: saveGroupRule
+     * @param ruleList
+     * @param itemCode
+     * @param assayHospDict
+     *
      */
-    void savePatientAssayGroupRule(List<PatientAssayGroupRulePO> ruleList, String getItemCodeValue, Integer tenantId, Long userId);
+    void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, AssayHospDictPO assayHospDict);
 
     /**
      * 批量新增

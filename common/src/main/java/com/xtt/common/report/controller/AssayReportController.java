@@ -29,21 +29,22 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Lists;
-import com.xtt.common.assay.service.IDictHospitalLabService;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayConfService;
 import com.xtt.common.assay.service.IPatientAssayGroupRuleService;
+import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IReportPatientAssayRecordService;
 import com.xtt.common.assay.util.AssayGroupRuleUtil;
 import com.xtt.common.constants.AssayConsts;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.DictHospitalLab;
-import com.xtt.common.dao.po.DictHospitalLabPO;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayConfPO;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
@@ -59,13 +60,15 @@ import com.xtt.platform.util.time.DateFormatUtil;
 @RequestMapping("/report/assay/")
 public class AssayReportController {
     @Autowired
-    private IDictHospitalLabService dictHospitalLabService;
+    private IAssayHospDictService assayHospDictService;
     @Autowired
     private IPatientAssayGroupRuleService patientAssayGroupRuleService;
     @Autowired
     private IReportPatientAssayRecordService reportPatientAssayRecordService;
     @Autowired
     private IPatientAssayConfService patientAssayConfService;
+    @Autowired
+    private IPatientAssayRecordBusiService patientAssayRecordBusiService;
 
     /**
      * 跳转至化验报表也页面
@@ -92,7 +95,7 @@ public class AssayReportController {
     @RequestMapping("selectYearDatas")
     @ResponseBody
     public Map<String, Object> selectYearDatas(ReportPatientAssayRecordPO reportPatientAssayRecord) {
-        DictHospitalLabPO assayDic = dictHospitalLabService.getByItemCode(reportPatientAssayRecord.getItemCode());
+        AssayHospDictPO assayDic = assayHospDictService.getByItemCode(reportPatientAssayRecord.getItemCode());
 
         reportPatientAssayRecord.setFkTenantId(UserUtil.getTenantId());
         List<ReportPatientAssayRecordPO> recordList = reportPatientAssayRecordService.selectByDateType(reportPatientAssayRecord);
@@ -109,7 +112,7 @@ public class AssayReportController {
      * 
      */
     private Map<String, Object> getYearDatas(List<ReportPatientAssayRecordPO> recordList, ReportPatientAssayRecordPO reportPatientAssayRecord,
-                    DictHospitalLabPO assayDic) {
+                    AssayHospDictPO assayDic) {
         Map<String, Object> map = new HashMap<String, Object>();
 
         String[] dateShows = new String[recordList.size()];// 日期显示
@@ -212,17 +215,17 @@ public class AssayReportController {
     private String getDateShow(String dateValue, String dateType) {
         String[] array = dateValue.split("-");
         String dateShow = "";
-        if (DictHospitalLabPO.DATE_TYPE_MONTH.equals(dateType)) {
+        if (AssayConsts.REPORT_DATE_TYPE_MONTH.equals(dateType)) {
             dateShow = array[1] + "月";
         }
-        if (DictHospitalLabPO.DATE_TYPE_SEASON.equals(dateType)) {
+        if (AssayConsts.REPORT_DATE_TYPE_SEASON.equals(dateType)) {
             dateShow = array[1] + "季度";
         }
         return dateShow;
     }
 
     private Map<String, Object> getMonthSeasonDatas(List<ReportPatientAssayRecordPO> recordList, ReportPatientAssayRecordPO reportPatientAssayRecord,
-                    DictHospitalLabPO assayDic) {
+                    AssayHospDictPO assayDic) {
 
         int allOkCount = 0;
         int allNoOkCount = 0;
@@ -337,7 +340,7 @@ public class AssayReportController {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        DictHospitalLabPO assayDic = dictHospitalLabService.getByItemCode(assayRecord.getItemCode());
+        AssayHospDictPO assayDic = assayHospDictService.getByItemCode(assayRecord.getItemCode());
         assayRecord.setFkTenantId(UserUtil.getTenantId());
         List<ReportPatientAssayRecordPO> recordList = reportPatientAssayRecordService.selectDetailByDateType(assayRecord);
 
@@ -376,15 +379,12 @@ public class AssayReportController {
      */
     @RequestMapping("subInterface/insertAutoHistory")
     @ResponseBody
-    public Map<String, Object> insertAutoHistory(Integer tenantId, Collection<String> itemCodes) {
+    public Map<String, Object> insertAutoHistory(Integer tenantId, @RequestParam(required = false) Collection<String> itemCodes) {
         UserUtil.setThreadTenant(tenantId);
         Map<String, Object> map = new HashMap<String, Object>();
-
-        DictHospitalLab dictHospitalLab = new DictHospitalLab();
-        dictHospitalLab.setFkTenantId(tenantId);
-        List<String> assayMonthList = dictHospitalLabService.selectAllAssayMonth(dictHospitalLab);// 获取所有的化验月份
+        List<String> assayMonthList = patientAssayRecordBusiService.listAllAssayMonthByTenantId(tenantId);// 获取所有的化验月份
         for (String assayMonth : assayMonthList) {
-            insertMonthData(assayMonth, UserUtil.getTenantId(), itemCodes);
+            insertMonthData(assayMonth, tenantId, itemCodes);
         }
 
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
@@ -424,7 +424,7 @@ public class AssayReportController {
     public Map<String, Object> refreshMonthReport(Integer tenantId, String dateStr) {
         UserUtil.setThreadTenant(tenantId);
         Map<String, Object> map = new HashMap<String, Object>();
-        String monthStr = patientAssayConfService.selectMonthAndYearByDate(DateFormatUtil.convertStrToDate(dateStr), tenantId);
+        String monthStr = patientAssayConfService.selectMonthAndYearByDate(DateFormatUtil.convertStrToDate(dateStr), tenantId, null);
         Calendar cal = Calendar.getInstance();
         if (StringUtils.isNotBlank(monthStr)) {
             Date date = DateFormatUtil.convertStrToDate(monthStr, DateFormatUtil.FORMAT_YYYY_MM);
@@ -441,18 +441,18 @@ public class AssayReportController {
          * 3.1存在修改指定患者化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】<br>
          * 3.2不存在新增 患者 和 化验项数据 【判断 report_patient_assay_record ,数据来源 patient_assay_record ,修改表数据 report_patient_assay_record】
          */
-        if (StringUtils.isNotBlank(testItemSwitch) && testItemSwitch.toUpperCase().equals(CmSysParamConsts.TEST_ITEM_SWITCH_COPY)) {
+        if (CmSysParamConsts.TEST_ITEM_SWITCH_COPY.equalsIgnoreCase(testItemSwitch)) {
             reportPatientAssayRecordService.insertAutoCopyPreMonthDataByTenantId(monthStr, tenantId, null);
             reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, tenantId, null);
         } else {
             // 原始设计方案
             // 当月化验数据插入
             ReportPatientAssayRecordPO condition = new ReportPatientAssayRecordPO();
-            condition.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
+            condition.setDateType(AssayConsts.REPORT_DATE_TYPE_MONTH);
             condition.setAssayMonth(monthStr);
             condition.setFkTenantId(tenantId);
             reportPatientAssayRecordService.deleteByCondition(condition);
-            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr, tenantId, null);
+            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(AssayConsts.REPORT_DATE_TYPE_MONTH, monthStr, tenantId, null);
             // 删除临时数据
             deleteTempData(batchNo);
         }
@@ -471,12 +471,12 @@ public class AssayReportController {
      *            指定项目
      *
      */
-    private void insertMonthData(String monthStr, Integer tenantId, Collection<String> itemCodes) {
+    public void insertMonthData(String monthStr, Integer tenantId, Collection<String> itemCodes) {
         String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);// 化验统计的方式
         /** 删除当月的所有记录 */
         ReportPatientAssayRecordPO condition = new ReportPatientAssayRecordPO();
         condition.setFkTenantId(tenantId);
-        condition.setDateType(DictHospitalLabPO.DATE_TYPE_MONTH);
+        condition.setDateType(AssayConsts.REPORT_DATE_TYPE_MONTH);
         condition.setAssayMonth(monthStr);
         condition.setItemCodes(itemCodes);
         reportPatientAssayRecordService.deleteByCondition(condition);
@@ -504,14 +504,15 @@ public class AssayReportController {
                 reportPatientAssayRecordService.insertAutoCopyByTenantId(dateStr, monthStr, tenantId, itemCodes);
             }
         } else {
-            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(DictHospitalLabPO.DATE_TYPE_MONTH, monthStr, tenantId, itemCodes);
+            String batchNo = reportPatientAssayRecordService.insertAutoByTenantId(AssayConsts.REPORT_DATE_TYPE_MONTH, monthStr, tenantId, itemCodes);
             // 删除临时数据
             deleteTempData(batchNo);
         }
     }
 
     /**
-     * 下载化验报表
+     * 
+     * /** 下载化验报表
      * 
      * @Title: downloadYear
      * @param request
@@ -523,7 +524,7 @@ public class AssayReportController {
     @RequestMapping("downloadYear")
     public void downloadYear(HttpServletRequest request, HttpServletResponse response, ReportPatientAssayRecordPO assayRecord) throws Exception {
 
-        DictHospitalLabPO assayDic = dictHospitalLabService.getByItemCode(assayRecord.getItemCode());
+        AssayHospDictPO assayDic = assayHospDictService.getByItemCode(assayRecord.getItemCode());
 
         assayRecord.setFkTenantId(UserUtil.getTenantId());
         List<ReportPatientAssayRecordPO> recordList = reportPatientAssayRecordService.selectByDateType(assayRecord);
@@ -660,7 +661,7 @@ public class AssayReportController {
             sheetEntitys[2] = sheetEntity;
         }
 
-        DictHospitalLabPO assayDic = dictHospitalLabService.getByItemCode(assayRecord.getItemCode());
+        AssayHospDictPO assayDic = assayHospDictService.getByItemCode(assayRecord.getItemCode());
         String fileItem = assayDic.getItemName();
         ReportExcelTemplate template = new ReportExcelTemplate(sheetEntitys);
         String dateType = assayRecord.getDateType();

@@ -89,21 +89,23 @@ public class PatientAssayConfServiceImpl implements IPatientAssayConfService {
 
     @Override
     public PatientAssayConfPO selectDateScopeByDate(Date date, Integer tenantId) {
-        String mongthAndYear = selectMonthAndYearByDate(date, tenantId);
+        String mongthAndYear = selectMonthAndYearByDate(date, tenantId, null);
         return selectDateScopeByMonth(mongthAndYear, tenantId);
     }
 
     @Override
-    public String selectMonthAndYearByDate(Date date, Integer tenantId) {
-        PatientAssayConf patientAssayConf = patientAssayConfMapper.selectByTenantId(tenantId);
-        if (patientAssayConf == null) {
+    public String selectMonthAndYearByDate(Date date, Integer tenantId, PatientAssayConf conf) {
+        if (conf == null) {
+            conf = patientAssayConfMapper.selectByTenantId(tenantId);
+        }
+        if (conf == null) {
             return null;
         }
 
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int selectDate = cal.get(Calendar.DAY_OF_MONTH);// 选择的日期
-        int endDate = Integer.parseInt(patientAssayConf.getEndDate());// 化验报表截止日
+        int endDate = Integer.parseInt(conf.getEndDate());// 化验报表截止日
 
         // 如果当前日期大于化验报表截止日期，则当前日期属于下个月的统计
         int month = CalendarUtil.getMonth(cal);

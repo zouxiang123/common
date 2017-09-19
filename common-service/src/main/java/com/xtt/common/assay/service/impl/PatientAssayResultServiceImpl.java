@@ -1,6 +1,6 @@
 /**   
  * @Title: PatientAssayResultServiceImpl.java 
- * @Package com.xtt.txgl.patient.service.impl
+ * @Package com.xtt.common.patient.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年4月25日 下午3:54:55 
@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,9 @@ public class PatientAssayResultServiceImpl implements IPatientAssayResultService
     private PatientAssayResultMapper patientAssayResultMapper;
 
     @Override
-    public List<PatientAssayResultPO> getAllAssayResult() {
-        PatientAssayResultPO record = new PatientAssayResultPO();
-        record.setFkTenantId(UserUtil.getTenantId());
-        record.setIsEnable(true);
-        return patientAssayResultMapper.selectByCondition(record);
+    public List<PatientAssayResultPO> selectByCondition(PatientAssayResultPO query) {
+        List<PatientAssayResultPO> list = patientAssayResultMapper.selectByCondition(query);
+        return list != null ? list : new ArrayList<PatientAssayResultPO>();
     }
 
     @Override
@@ -47,11 +46,12 @@ public class PatientAssayResultServiceImpl implements IPatientAssayResultService
 
     @Override
     public void saveAssayResult(PatientAssayResultPO record) {
+        // 记录患者id用于传染病标志变更
         if (record.getId() != null) {
-            PatientAssayResult pre = patientAssayResultMapper.selectByPrimaryKey(record.getId());
-            pre.setIsEnable(false);
-            DataUtil.setSystemFieldValue(pre);
-            patientAssayResultMapper.updateByPrimaryKey(pre);
+            PatientAssayResult old = patientAssayResultMapper.selectByPrimaryKey(record.getId());
+            old.setIsEnable(false);
+            DataUtil.setSystemFieldValue(old);
+            patientAssayResultMapper.updateByPrimaryKey(old);
         }
         record.setId(null);
         record.setFkTenantId(UserUtil.getTenantId());
@@ -59,7 +59,5 @@ public class PatientAssayResultServiceImpl implements IPatientAssayResultService
         record.setIsEnable(Boolean.TRUE);
         DataUtil.setSystemFieldValue(record);
         patientAssayResultMapper.insertSelective(record);
-
     }
-
 }
