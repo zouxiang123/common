@@ -120,4 +120,9 @@ public class CmDictConsts {
     public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
     /** 分组规则 */
     public static final String GROUP_RULE = "group_rule";
+
+    /**
+     * 患者-费用类型
+     */
+    public static final String PATIENT_CHARGE_TYPE = "patient_charge_type";
 }

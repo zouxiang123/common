@@ -17,6 +17,7 @@
     <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
     <result column="profession" jdbcType="VARCHAR" property="profession" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
     <result column="province" jdbcType="INTEGER" property="province" />
     <result column="county" jdbcType="INTEGER" property="county" />
@@ -56,11 +57,11 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, account, name, initial, password, id_number, sex, birthday, image_path, work_unit, 
-    profession, mobile, emergency_mobile, province, county, address, dry_weight, balance, 
-    del_flag, charge_type, medicare_card, medicare_card_type, admission_number, spell_initials, 
-    outpatient_number, id_type, emergency_contacts, emergency_mobile2, emergency_mobile3, 
-    offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, barcode_path, 
-    height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
+    profession, mobile, email, emergency_mobile, province, county, address, dry_weight, 
+    balance, del_flag, charge_type, medicare_card, medicare_card_type, admission_number, 
+    spell_initials, outpatient_number, id_type, emergency_contacts, emergency_mobile2, 
+    emergency_mobile3, offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, 
+    barcode_path, height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
     update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -87,34 +88,34 @@
       initial, password, id_number, 
       sex, birthday, image_path, 
       work_unit, profession, mobile, 
-      emergency_mobile, province, county, 
-      address, dry_weight, balance, 
-      del_flag, charge_type, medicare_card, 
-      medicare_card_type, admission_number, spell_initials, 
-      outpatient_number, id_type, emergency_contacts, 
-      emergency_mobile2, emergency_mobile3, offset, 
-      is_temp, dialysis_times, patient_type, 
-      blood_abo, blood_rh, barcode_path, 
-      height, weight, serial_num, 
-      fk_tenant_id, sys_owner, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      email, emergency_mobile, province, 
+      county, address, dry_weight, 
+      balance, del_flag, charge_type, 
+      medicare_card, medicare_card_type, admission_number, 
+      spell_initials, outpatient_number, id_type, 
+      emergency_contacts, emergency_mobile2, emergency_mobile3, 
+      offset, is_temp, dialysis_times, 
+      patient_type, blood_abo, blood_rh, 
+      barcode_path, height, weight, 
+      serial_num, fk_tenant_id, sys_owner, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
       #{workUnit,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{emergencyMobile,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{dryWeight,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}, 
-      #{delFlag,jdbcType=BIT}, #{chargeType,jdbcType=VARCHAR}, #{medicareCard,jdbcType=VARCHAR}, 
-      #{medicareCardType,jdbcType=VARCHAR}, #{admissionNumber,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, 
-      #{outpatientNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
-      #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, #{offset,jdbcType=DECIMAL}, 
-      #{isTemp,jdbcType=BIT}, #{dialysisTimes,jdbcType=INTEGER}, #{patientType,jdbcType=VARCHAR}, 
-      #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, 
-      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{serialNum,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{email,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
+      #{county,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{dryWeight,jdbcType=DECIMAL}, 
+      #{balance,jdbcType=DECIMAL}, #{delFlag,jdbcType=BIT}, #{chargeType,jdbcType=VARCHAR}, 
+      #{medicareCard,jdbcType=VARCHAR}, #{medicareCardType,jdbcType=VARCHAR}, #{admissionNumber,jdbcType=VARCHAR}, 
+      #{spellInitials,jdbcType=VARCHAR}, #{outpatientNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, 
+      #{emergencyContacts,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, 
+      #{offset,jdbcType=DECIMAL}, #{isTemp,jdbcType=BIT}, #{dialysisTimes,jdbcType=INTEGER}, 
+      #{patientType,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, 
+      #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{serialNum,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -157,6 +158,9 @@
       </if>
       <if test="mobile != null">
         mobile,
+      </if>
+      <if test="email != null">
+        email,
       </if>
       <if test="emergencyMobile != null">
         emergency_mobile,
@@ -294,6 +298,9 @@
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
       </if>
       <if test="emergencyMobile != null">
         #{emergencyMobile,jdbcType=VARCHAR},
@@ -435,6 +442,9 @@
       <if test="mobile != null">
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
       <if test="emergencyMobile != null">
         emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
       </if>
@@ -553,6 +563,7 @@
       work_unit = #{workUnit,jdbcType=VARCHAR},
       profession = #{profession,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
       emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
       province = #{province,jdbcType=INTEGER},
       county = #{county,jdbcType=INTEGER},
@@ -775,4 +786,34 @@
 		SET p.patient_type = (CASE WHEN pv.pt_type = '1' THEN '1' WHEN pv.pt_type = '2' THEN (CASE WHEN pv.out_time IS NULL THEN '2' ELSE NULL END) ELSE NULL END)
 		WHERE p.fk_tenant_id = #{tenantId}
 	</update>
+	<!-- 患者名单下载 -->
+	<select id="listForDownloadList" resultMap="ExtendResultMap">
+		SELECT *
+		FROM patient
+		WHERE fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+		<if test="initial != null and initial != ''">
+			and initial = #{initial}
+		</if>
+		<if test="name != null and name != ''">
+			and name like concat('%', #{name} ,'%')
+		</if>
+		<if test="delFlag != null">
+			and del_flag = #{delFlag}
+		</if>
+        <if test="isTemp != null">
+            and is_temp = #{isTemp}
+        </if>
+		<if test="orderBy != null and orderBy == 0">
+			order by id asc
+		</if>
+		<if test="orderBy != null and orderBy == 1">
+			order by cast(serial_num as signed integer) asc
+		</if>
+	</select>
+
+    <!-- 通过手机号查询患者信息 -->
+	<select id="listByMobile" resultMap="ExtendResultMap">
+		select * from patient where mobile = #{mobile} 
+		<if test="neId != null"> AND id != #{neId}</if>
+	</select>
 </mapper>

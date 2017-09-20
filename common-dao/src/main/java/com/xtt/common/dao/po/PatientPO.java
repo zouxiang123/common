@@ -11,6 +11,8 @@ import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
 public class PatientPO extends Patient {
+    /** 患者身份类型，1代表身份证 */
+    public static String ID_TYPE = "1";
     /** 显示 */
     private String birthdayShow;// 出生日期显示用
     private String provinceName;
@@ -24,6 +26,8 @@ public class PatientPO extends Patient {
 
     private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
 
+    private Integer orderBy;// 患者排序方式
+
     /**
      * 所属多个系统，以,分割
      */
@@ -32,6 +36,10 @@ public class PatientPO extends Patient {
      * 所属多个租户，以,分割
      */
     private String multiTenantId;
+
+    private String cardNo;// his患者序号
+
+    private String cardType;// 患者序号显示类别
 
     public List<PatientCardPO> getPatientCardList() {
         return patientCardList;
@@ -159,6 +167,30 @@ public class PatientPO extends Patient {
 
     public void setMultiTenantId(String multiTenantId) {
         this.multiTenantId = multiTenantId;
+    }
+
+    public Integer getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(Integer orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getCardNo() {
+        return cardNo;
+    }
+
+    public void setCardNo(String cardNo) {
+        this.cardNo = cardNo;
+    }
+
+    public String getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
 }

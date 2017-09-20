@@ -17,4 +17,29 @@ public class CmSysParamConsts {
      * 化验时间（1：采集时间，2：报告时间，3：都显示）
      */
     public static final String PATIENT_ASSAY_LOAD_CONDITION_TIME_SWITCH = "lab_time_flag";
+
+    /** 是否显示患者序列号 */
+    public static final String showPatientSerialNum = "showPatientSerialNum";
+    /** 患者报表显示患者序列号 */
+    public static final String showPatientSerial = "1";
+    /** 患者报表显示患者Id */
+    public static final String showPatientId = "0";
+    /** 是否显示HisId */
+    public static final String SHOW_HID_Id = "showHisId";
+    /** 患者报表显示患者HisId */
+    public static final String showPatientHisId = "1";
+    /** 患者卡号类型 HisType */
+    public static final String showPatientCradType = "03";
+    /** 是否调用第三方平台的接口，获取患者类型的开关（1=开启，0=未开启） */
+    public static final String IS_OPEN_PT_TYPE = "isOpenPtType";
+    public static final String IS_OPEN_PT_TYPE_OPEN = "1";
+    public static final String IS_OPEN_PT_TYPE_CLOSE = "0";
+    /** 患者序号前缀 */
+    public static final String PATIENT_SERIALNUM_PREFIX = "patientSerialNumPrefix";
+    /** 患者透析转归后序号是否复用 0：否 1：是 */
+    public static final String PATIENT_OUTCOME_SERIALNUM_MULTIPLEXING = "patientOutComeSerialNumMultiplexing";
+    /**
+     * 新增患者的时候，服务接口是否开启
+     */
+    public static final String PATIENT_INTERFACE = "patient_interface";
 }

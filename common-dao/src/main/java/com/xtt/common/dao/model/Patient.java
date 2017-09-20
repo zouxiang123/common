@@ -79,6 +79,12 @@ public class Patient {
     private String mobile;
 
     /**
+     * 邮箱
+     * patient.email
+     */
+    private String email;
+
+    /**
      * 紧急联系方式
      * patient.emergency_mobile
      */
@@ -439,6 +445,20 @@ public class Patient {
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

@@ -72,12 +72,6 @@ public class SysObj {
     private String sysOwner;
 
     /**
-     * 租户id
-     * sys_obj.fk_tenant_id
-     */
-    private Integer fkTenantId;
-
-    /**
      * 创建时间
      * sys_obj.create_time
      */
@@ -251,20 +245,6 @@ public class SysObj {
      */
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
-    }
-
-    /**
-     * 租户id
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     * 租户id
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
     }
 
     /**

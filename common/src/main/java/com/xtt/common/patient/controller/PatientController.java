@@ -9,12 +9,19 @@
 package com.xtt.common.patient.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,23 +32,31 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
+import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.model.PatientCard;
 import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.dao.po.PatientSerialNumberPO;
 import com.xtt.common.dao.po.QueryPO;
+import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.patient.service.IPatientCardService;
+import com.xtt.common.patient.service.IPatientSerialNumberService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
+import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Controller
 @RequestMapping("/patient/")
 public class PatientController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientController.class);
     @Autowired
     private IPatientService patientService;
     @Autowired
@@ -50,6 +65,8 @@ public class PatientController {
     private ICommonService commonService;
     @Autowired
     ISysDbSourceService sysDbSourceService;
+    @Autowired
+    private IPatientSerialNumberService patientSerialNumberService;
 
     /**
      * 患者基本信息编辑
@@ -64,33 +81,64 @@ public class PatientController {
     public ModelAndView editPatient(Long patientId, String sys) throws Exception {
         ModelAndView model = new ModelAndView("patient/edit_patient");
         PatientPO patient = patientService.selectById(patientId);
-        model.addObject("patientId", patientId);
-        {
+        if (patientId != null) {
+            // 2代表修改
+            model.addObject("addOrEdit", "2");
             // 根据id获取该患者的相关卡号
-            List<PatientCardPO> cardList = new ArrayList<PatientCardPO>();
-            if (patient != null) {
-                cardList = patientCardService.selectByPatientId(patient.getId());
-            }
-            model.addObject("patientCardList", cardList);// 卡号信息
+            List<PatientCardPO> cardList = patientCardService.listByPatientId(patientId);
+            model.addObject("ptCardList", cardList);// 卡号信息
+        } else {
+            // 1代表新增
+            model.addObject("addOrEdit", "1");
         }
         model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
                         DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
-
+        // 添加省市区的数据，如果是新增患者，默认取第一个省
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
-        List<County> countyList = null;
-        if (patient == null) {
-            countyList = commonService.getCountyList(provinceList.get(0).getId());
-        } else {
-            countyList = commonService.getCountyList(patient.getProvince());
-        }
+        Integer provinceId = patient == null ? provinceList.get(0).getId() : patient.getProvince();
+        List<County> countyList = commonService.getCountyList(provinceId);
         model.addObject("countyList", countyList);
+
+        // 如果配置显示患者编号则将编号查询出来
+        String serialNumPrefix = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_SERIALNUM_PREFIX);
+        serialNumPrefix = "0".equals(serialNumPrefix) ? "" : serialNumPrefix;
+        model.addObject("serialNumPrefix", serialNumPrefix);
+
+        SysParamDto sysParam = SysParamUtil.getByName(UserUtil.getTenantId(), CmSysParamConsts.showPatientSerialNum);
+        if (Objects.equals(sysParam.getParamValue(), CmSysParamConsts.showPatientSerial)) {
+            PatientSerialNumberPO patientSerialNumberPO = new PatientSerialNumberPO();
+            patientSerialNumberPO.setIsUse(false);// 将未使用的编号查询出来
+            patientSerialNumberPO.setFkTenantId(UserUtil.getTenantId());
+            List<PatientSerialNumberPO> psnList = patientSerialNumberService.selectByCondition(patientSerialNumberPO);
+            // 如果编号全部用完了，则新增患者编号
+            if (psnList == null || psnList.size() == 0) {
+                patientSerialNumberService.insert();
+            }
+            psnList = patientSerialNumberService.selectByCondition(patientSerialNumberPO);
+            for (PatientSerialNumberPO psn : psnList) {
+                psn.setSerialNum(serialNumPrefix + psn.getSerialNum());
+            }
+            model.addObject("psnList", psnList);
+            String patientOutComeSerialNumMultiplex = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_OUTCOME_SERIALNUM_MULTIPLEXING);
+            if (StringUtil.isNotBlank(patientOutComeSerialNumMultiplex) && patientOutComeSerialNumMultiplex.equals("1")) {
+                model.addObject("isSerialNumMultiplex", true);
+            } else {
+                model.addObject("isSerialNumMultiplex", false);
+                model.addObject("newestSerialNum", psnList.get(0).getSerialNum());
+            }
+        }
+        model.addObject("sysParam", sysParam);
+        // 读取是否开启接口服务的配置
+        model.addObject("paramVal", SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE));
+        // 费用类型
+        model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
+        model.addObject("patientId", patientId);
         if (patient == null) {
             patient = new PatientPO();
             patient.setSysOwner(sys);
         }
         model.addObject("patient", patient);
-
         return model;
     }
 
@@ -117,7 +165,7 @@ public class PatientController {
         PatientPO patient = patientService.selectById(patientId);
         retMap.put("patientId", patientId);
         retMap.put("patient", patient);
-        retMap.put("patientCardList", patientCardService.selectByPatientId(patientId));
+        retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
         retMap.put(CmDictConsts.MEDICARE_CARD_TYPE,
                         DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
@@ -182,19 +230,42 @@ public class PatientController {
      * @return
      * @throws Exception
      */
-    @RequestMapping("wsQueryPatientInfo")
+    @RequestMapping("getWsPatientInfo")
     @ResponseBody
-    public HashMap<String, Object> wsQueryPatientInfo(String cardNo) throws Exception {
+    public HashMap<String, Object> getWsPatientInfo(String cardNo, String cardType) throws Exception {
         HashMap<String, Object> map = new HashMap<String, Object>();
         QueryPO query = new QueryPO();
         query.setCardNo(cardNo);
-        PatientPO patient = sysDbSourceService.patientDB(query);
-        if (patient != null) {
-            patient.setIdType("1");
+        // 将门诊号，住院号颠倒。
+        if (cardType.equals(CommonConstants.PATIENT_MEDICARE_CARD_TYPE_HOSPITAL)) {
+            query.setCardType(CommonConstants.PATIENT_HOSPITALIZATION);// 2代表住院号
+        } else if (cardType.equals(CommonConstants.PATIENT_MEDICARE_CARD_TYPE_OUTPATIENT)) {
+            query.setCardType(CommonConstants.PATIENT_OUTPATIENT);// 1代表门诊
         }
-        map.put("patient", patient);
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-        return map;
+        query.setCardType(cardType);
+        // 先判断有没有配置开启新增患者的接口
+        String paramValue = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE);
+        // 1代表开关开启了。
+        if (StringUtil.isNoneBlank(paramValue)) {
+
+            PatientPO patient = sysDbSourceService.patientDB(query);
+            if (patient != null) {
+                // 默认拉取的是身份证
+                patient.setIdType(PatientPO.ID_TYPE);
+            }
+            // 添加省市区的数据，如果是新增患者，默认取第一个省
+            List<Province> provinceList = commonService.getProvinceList();
+            Integer provinceId = patient == null ? provinceList.get(0).getId() : patient.getProvince();
+            List<County> countyList = commonService.getCountyList(provinceId);
+            map.put("patient", patient);
+            map.put("provinceList", provinceList);
+            map.put("countyList", countyList);
+            map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+            return map;
+        } else {
+            map.put("wsdlStatus", CommonConstants.WARNING);
+            return map;
+        }
     }
 
     /**
@@ -208,24 +279,89 @@ public class PatientController {
     @RequestMapping("savePatient")
     @ResponseBody
     public HashMap<String, Object> savePatient(PatientPO patient) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        patient.setIdNumber(StringUtil.stripToNull(patient.getIdNumber()));
+        // 判断证件号是否已存在
+        if (StringUtil.isNotBlank(patient.getIdNumber())) {
+            Patient query = new Patient();
+            query.setFkTenantId(UserUtil.getTenantId());
+            query.setIdNumber(patient.getIdNumber());
+            PatientPO p = patientService.selectPatientByIdNumber(query);
+            if (p != null && (patient.getId() == null || !Objects.equals(p.getId(), patient.getId()))) {
+                if (patient.getId() == null && p.getDelFlag() != null && p.getDelFlag()) {// 新增患者,且证件号码对应的患者已转归
+                    map.put(CommonConstants.ERROR_MESSAGE, String.format("证件号码“%s”对应的患者“%s”已转归，不能新增", patient.getIdNumber(), p.getName()));
+                    /* map.put("delFlag", p.getDelFlag());
+                    map.put("patientId", p.getId());*/
+                } else {
+                    map.put(CommonConstants.ERROR_MESSAGE, "证件号码已存在");
+                }
+                map.put(CommonConstants.STATUS, CommonConstants.REPETITION);
+                return map;
+            }
+        }
         if (StringUtil.isNotBlank(patient.getTempImagePath())) {
             patient.setImagePath(patient.getTempImagePath());
         }
-        patientService.savePatient(patient, false);
-        commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()));
 
-        // 批量保存病患卡号信息
-        List<PatientCardPO> patientCardList = patient.getPatientCardList();
-        List<PatientCardPO> newPatientCardList = new ArrayList<PatientCardPO>();
-        for (PatientCardPO patientCardPO : patientCardList) {
-            patientCardPO.setFkPtId(patient.getId());
-            newPatientCardList.add(patientCardPO);
+        // 判断手机号是否存在
+        if (StringUtil.isNotBlank(patient.getMobile())) {
+            List<PatientPO> patients = patientService.listByMobile(patient.getMobile(), patient.getId());
+            if (CollectionUtils.isNotEmpty(patients)) {
+                map.put(CommonConstants.STATUS, CommonConstants.REPETITION);
+                map.put(CommonConstants.ERROR_MESSAGE, String.format("和患者“%s”的联系方式重复", patients.get(0).getName()));
+                return map;
+
+            }
         }
-        patientCardService.savePatientCard(newPatientCardList);
-
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("fkPatientId", patient.getId());
-        map.put("status", CommonConstants.SUCCESS);
+        /*
+         *  process patient card data
+         *  remove id is empty cardNo data
+         *  check duplicates cardNo
+        */
+        List<PatientCardPO> patientCardList = patient.getPatientCardList();
+        if (CollectionUtils.isNotEmpty(patientCardList)) {
+            Iterator<PatientCardPO> it = patientCardList.iterator();
+            PatientCardPO pc;
+            Set<String> tempCards = new HashSet<>(patientCardList.size());
+            while (it.hasNext()) {
+                pc = it.next();
+                if (StringUtil.isNotBlank(pc.getCardNo())) {
+                    if (!pc.getDelFlag()) {
+                        String checkCard = pc.getCardNo() + "_" + pc.getCardType();
+                        if (!tempCards.contains(checkCard)) {
+                            List<PatientCard> listByCardNoType = patientCardService.listByCardNoTypeTenant(pc.getCardNo(), pc.getCardType(),
+                                            UserUtil.getTenantId(), patient.getId());
+                            if (CollectionUtils.isNotEmpty(listByCardNoType)) {
+                                map.put(CommonConstants.STATUS, CommonConstants.WARNING);
+                                return map;
+                            }
+                            tempCards.add(checkCard);
+                        } else {
+                            map.put(CommonConstants.STATUS, CommonConstants.WARNING);
+                            return map;
+                        }
+                    }
+                } else if (pc.getId() == null) {
+                    it.remove();
+                }
+            }
+        }
+        try {
+            patientService.savePatient(patient, false, patient.getPatientCardList());
+            commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2,
+                            String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()));
+            map.put("fkPatientId", patient.getId());
+            map.put("status", CommonConstants.SUCCESS);
+        } catch (Exception e) {
+            if (e instanceof DuplicateKeyException) {
+                LOGGER.warn("failed to save patient, duplicate key excepton:", e);
+                map.put(CommonConstants.ERROR_MESSAGE, "证件号码已存在");
+                map.put(CommonConstants.STATUS, CommonConstants.REPETITION);
+                return map;
+            } else {
+                throw e;
+            }
+        }
         return map;
     }
 }

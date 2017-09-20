@@ -65,6 +65,11 @@ public class PatientDto {
     private String mobile;
 
     /**
+     * 邮箱 patient.email
+     */
+    private String email;
+
+    /**
      * 紧急联系方式 patient.emergency_mobile
      */
     private String emergencyMobile;
@@ -100,29 +105,9 @@ public class PatientDto {
     private Boolean delFlag;
 
     /**
-     * 租户ID patient.fk_tenant_id
+     * 费用类型 1：医保 2：自费 3：军人 patient.charge_type
      */
-    private Integer fkTenantId;
-
-    /**
-     * 创建时间 patient.create_time
-     */
-    private Date createTime;
-
-    /**
-     * 创建人 patient.create_user_id
-     */
-    private Long createUserId;
-
-    /**
-     * 更新时间 patient.update_time
-     */
-    private Date updateTime;
-
-    /**
-     * 更新人 patient.update_user_id
-     */
-    private Long updateUserId;
+    private String chargeType;
 
     /**
      * 医保卡号 patient.medicare_card
@@ -213,10 +198,41 @@ public class PatientDto {
      * 体重（kg） patient.weight
      */
     private BigDecimal weight;
+
     /**
      * 患者序列号 patient.serial_num
      */
     private String serialNum;
+
+    /**
+     * 租户ID patient.fk_tenant_id
+     */
+    private Integer fkTenantId;
+
+    /**
+     * 所属系统（HD：血透 PD：腹透） patient.sys_owner
+     */
+    private String sysOwner;
+
+    /**
+     * 创建时间 patient.create_time
+     */
+    private Date createTime;
+
+    /**
+     * 创建人 patient.create_user_id
+     */
+    private Long createUserId;
+
+    /**
+     * 更新时间 patient.update_time
+     */
+    private Date updateTime;
+
+    /**
+     * 更新人 patient.update_user_id
+     */
+    private Long updateUserId;
 
     private String birthdayShow;// 出生日期显示用
     private String createDateShow; // 创建日期
@@ -227,10 +243,6 @@ public class PatientDto {
     private String dryWeightShow;
     private String mobileShow;
     private String medicareCardTypeShow;
-    /**
-     * 当前所属系统（HD：血透 PD：腹透）
-     */
-    private String sysOwner;
     /**
      * 所属多个系统，以,分割
      */
@@ -932,6 +944,34 @@ public class PatientDto {
 
     public void setMultiTenantId(String multiTenantId) {
         this.multiTenantId = multiTenantId;
+    }
+
+    /**
+     * 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * 费用类型 1：医保 2：自费 3：军人
+     */
+    public String getChargeType() {
+        return chargeType;
+    }
+
+    /**
+     * 费用类型 1：医保 2：自费 3：军人
+     */
+    public void setChargeType(String chargeType) {
+        this.chargeType = chargeType;
     }
 
 }

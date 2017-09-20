@@ -39,6 +39,10 @@ public class QueryPO {
     private String year;
 
     private Integer month;
+    // where =====================================================================
+    private String isTemp; // 患者类型：长期、临时
+    // 所属系统
+    private String sysOwner;
 
     public String getYear() {
         return year;
@@ -238,6 +242,22 @@ public class QueryPO {
 
     public void setDownType(String downType) {
         this.downType = downType;
+    }
+
+    public String getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(String isTemp) {
+        this.isTemp = isTemp;
+    }
+
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 
 }

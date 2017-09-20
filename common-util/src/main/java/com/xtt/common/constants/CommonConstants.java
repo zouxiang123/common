@@ -28,6 +28,8 @@ public class CommonConstants {
     public static final String FAILURE = "0";// 失败
     public static final String SUCCESS = "1";// 成功
     public static final String WARNING = "2";// 警告
+    public static final String INVALIDATE_TOKEN = "3";// 无效的token
+    public static final String REPETITION = "4";// 重复
 
     public static final String SYS_LOG_TYPE_1 = "1";// 流程操作
     public static final String SYS_LOG_TYPE_2 = "2";// 登入、登出、个人资料修改
@@ -46,6 +48,7 @@ public class CommonConstants {
     public static final String IMAGE_FILE_PATH_DIALYSIS_MACHINE = "dialysis_machine";
 
     public static final String STATUS = "status";
+    public static final String ERROR_MESSAGE = "errmsg";// 血透错误提示信息
     public static final String COOKIE_TOKEN = "cookie_token";
 
     public static final String API_STATUS = "status";
@@ -105,4 +108,31 @@ public class CommonConstants {
     public static final String NEPHROSIS_TYPE_SERIOUS_CRF = "2";
     /** 肾病类型：急性肾功能衰竭 */
     public static final String NEPHROSIS_TYPE_ARF = "3";
+
+    /*-------------- common kafka topic list start -------------- */
+    public static final String TOPIC_SYS_LOG = "sysLog";
+    /*-------------- common kafka topic list end -------------- */
+    /*-------------- common patient kpi type start -------------- */
+    /** 患者关键指标--干体重 */
+    public static final String PATIENT_KPI_TYPE_DRY_WEIGHT = "dryWeight";
+    /*-------------- common patient kpi type end -------------- */
+    /*-------------- common patient medicare card type start -------------- */
+    /** 患者卡号--住院号 */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_HOSPITAL = "01";
+    /** 患者卡号--门诊号 */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_OUTPATIENT = "02";
+    /** 患者卡号--HISId */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_HISID = "03";
+    /** 患者卡号--城镇居民医保卡 */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_TOWNER_MEDICARE_CARD = "04";
+    /** 患者卡号--城镇职工医保卡 */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_URBAN_WORKERS_MEDICARE_CARD = "05";
+    /** 患者卡号--农村医保卡 */
+    public static final String PATIENT_MEDICARE_CARD_TYPE_COUNTRY_MEDICARE_CARD = "06";
+    /*-------------- common patient medicare card type end -------------- */
+    /** 门诊 */
+    public static final String PATIENT_OUTPATIENT = "1";
+    /** 住院 */
+    public static final String PATIENT_HOSPITALIZATION = "2";
+
 }

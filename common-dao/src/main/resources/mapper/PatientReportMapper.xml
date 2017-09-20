@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientReportMapper">
+	<!-- 年龄段统计 -->
+	<select id="listAgeRange" resultType="java.util.LinkedHashMap">
+		SELECT
+		count(*) value,
+		CASE ${whenAgeRange} END name
+		FROM (
+		SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
+		FROM patient p
+		WHERE p.fk_tenant_id = #{tenantId} and p.del_flag = 0
+		<if test="isTemp !=null">
+			AND p.is_temp = #{isTemp}
+		</if>
+		) t
+		GROUP BY name
+	</select>
+	<!-- 平均年龄 -->
+	<select id="listAvgAge" resultType="java.util.LinkedHashMap">
+		select
+		ROUND(AVG(
+		DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d'))
+		)) AS avgAge
+		FROM patient p
+		WHERE p.fk_tenant_id = #{tenantId}
+		and p.del_flag = 0
+		<if test="isTemp !=null">
+			AND p.is_temp = #{isTemp}
+		</if>
+	</select>
+
+	<!-- 性别统计 -->
+	<select id="listSex" resultType="java.util.LinkedHashMap">
+		select count(*) value, case sex when 'M' then '男' when 'F' then '女' else '' end name
+		from (
+			select p.sex from
+			patient p
+			WHERE p.fk_tenant_id = #{tenantId}
+			and p.del_flag = 0
+			<if test="isTemp !=null">
+				AND p.is_temp = #{isTemp}
+			</if>
+		) t
+		group by name
+	</select>
+	
+	 <!-- 医保信息统计 -->
+	<select id="listMedical" resultType="java.util.LinkedHashMap">
+		SELECT `name` patientName, charge_type chargeType, serial_num serialNum
+		FROM patient 
+		WHERE fk_tenant_id = #{tenantId} and del_flag = 0
+		<if test="patientName != null and patientName != ''">
+			and `name` like concat('%',#{patientName},'%')
+		</if>
+		<if test="isMedical != null and isMedical != ''">
+			and charge_type IN (#{isMedical})
+		</if>
+		<if test="isTemp !=null">
+			AND is_temp = #{isTemp}
+		</if>
+		order by serial_num
+	</select>
+</mapper>

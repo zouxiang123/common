@@ -144,7 +144,7 @@ public class PatientDiagnosisController {
         if (patientId != null) {
             patient = patientService.selectById(patientId);
             // 已经添加的患者卡片数据
-            model.addObject("patientCardList", patientCardService.selectByPatientId(patientId));
+            model.addObject("patientCardList", patientCardService.listByPatientId(patientId));
         }
         model.addObject("patientId", patientId);
         model.addObject("patientDiagnosis", pd == null ? new PatientDiagnosis() : pd);
@@ -259,7 +259,7 @@ public class PatientDiagnosisController {
             patientCardPO.setFkPtId(patient.getId());
             newPatientCardList.add(patientCardPO);
         }
-        patientCardService.savePatientCard(newPatientCardList);
+        patientCardService.saveBatch(newPatientCardList);
 
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("fkPatientDiagnosisId", fkPatientDiagnosisId);
@@ -644,12 +644,11 @@ public class PatientDiagnosisController {
     private void initCrf(Map<String, Object> map, CrfPO crf) {
         map.put(CmDictConsts.CLINICAL_PGN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_PGN, crf == null ? null : crf.getPgn()));
         map.put(CmDictConsts.CLINICAL_SGN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_SGN, crf == null ? null : crf.getSgn()));
-        map.put(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY,
-                        crf == null ? null : crf.getHereditaryNephropathy()));
+        map.put(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY,
+                        DictUtil.listByPItemCode(CmDictConsts.CLINICAL_HEREDITARY_NEPHROPATHY, crf == null ? null : crf.getHereditaryNephropathy()));
         map.put(CmDictConsts.CLINICAL_TIN, DictUtil.listByPItemCode(CmDictConsts.CLINICAL_TIN, crf == null ? null : crf.getTin()));
         map.put(CmDictConsts.UN_AND_STONE, DictUtil.listByPItemCode(CmDictConsts.UN_AND_STONE, crf == null ? null : crf.getUnAndStone()));
-        map.put(CmDictConsts.RENAL_RESECTION,
-                        DictUtil.listByPItemCode(CmDictConsts.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
+        map.put(CmDictConsts.RENAL_RESECTION, DictUtil.listByPItemCode(CmDictConsts.RENAL_RESECTION, crf == null ? null : crf.getRenalResection()));
         map.put("urologicNeoplasms", DictUtil.listByPItemCode(CmDictConsts.HAVE_OR_NOT, crf == null ? null : crf.getUrologicNeoplasms()));
         map.put("crfUnknownReason", DictUtil.listByPItemCode(CmDictConsts.IS_OR_NOT, crf == null ? null : crf.getUnknownReason()));
     }
@@ -670,8 +669,8 @@ public class PatientDiagnosisController {
     private void initPathologicDiagnosisResult(Map<String, Object> map, PathologicDiagnosisResultPO pd) {
         map.put(CmDictConsts.PATHOLOGY_PGN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_PGN, pd == null ? null : pd.getPgn()));
         map.put(CmDictConsts.PATHOLOGY_SGN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_SGN, pd == null ? null : pd.getSgn()));
-        map.put(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY,
-                        pd == null ? null : pd.getHereditaryNephropathy()));
+        map.put(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY,
+                        DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_HEREDITARY_NEPHROPATHY, pd == null ? null : pd.getHereditaryNephropathy()));
         map.put(CmDictConsts.PATHOLOGY_TIN, DictUtil.listByPItemCode(CmDictConsts.PATHOLOGY_TIN, pd == null ? null : pd.getTin()));
     }
 

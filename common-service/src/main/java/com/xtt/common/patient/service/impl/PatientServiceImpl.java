@@ -23,24 +23,33 @@ import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.constants.IDownConst;
 import com.xtt.common.dao.mapper.PatientDiagnosisMapper;
 import com.xtt.common.dao.mapper.PatientHistoryMapper;
 import com.xtt.common.dao.mapper.PatientMapper;
+import com.xtt.common.dao.mapper.PatientSerialNumberMapper;
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientHistory;
 import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientAssayResultPO;
+import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.dao.po.PatientSerialNumberPO;
 import com.xtt.common.dto.PatientDto;
+import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.thirddata.IPatientThirdSerice;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.QRCode.QRCodeUtil;
 import com.xtt.platform.util.PinyinUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 /**
  * @ClassName: PatientServiceImpl
@@ -65,6 +74,12 @@ public class PatientServiceImpl implements IPatientService {
     private IPatientOwnerService patientOwnerService;
     @Autowired
     private IFamilyInitialService familyInitialService;
+    @Autowired
+    private IPatientThirdSerice patientThirdSerice;
+    @Autowired
+    private IPatientCardService patientCardService;
+    @Autowired
+    private PatientSerialNumberMapper patientSerialNumberMapper;
 
     /**
      * 更新缓存数据
@@ -152,6 +167,60 @@ public class PatientServiceImpl implements IPatientService {
         }
         // update cache
         updateCache(patient.getId());
+    }
+
+    @Override
+    public void savePatient(Patient patient, boolean isImport, List<PatientCardPO> cards) {
+
+        // 修改 患者序列号表
+        updatePatientSerialNum(patient);
+        savePatient(patient, isImport);
+        // save patient card data
+        if (CollectionUtils.isNotEmpty(cards)) {
+            cards.forEach(pc -> {
+                pc.setFkPtId(patient.getId());
+            });
+            patientCardService.saveBatch(cards);
+        }
+
+        // 下载该患者的所有的第三方数据
+        patientThirdSerice.callInterfacePro(patient.getId(), IDownConst.DOWN_TYPE_PT_ALL_INFO, patient.getSysOwner());
+    }
+
+    private void updatePatientSerialNum(Patient patient) {
+        // 表示患者没有用序列号
+        if (patient.getSerialNum() == null || patient.getSerialNum() == "0") {
+            return;
+        }
+        PatientSerialNumberPO patientSerialNumberPO = new PatientSerialNumberPO();
+        patientSerialNumberPO.setFkTenantId(UserUtil.getTenantId());
+        // 如果配置显示患者编号则将编号查询出来
+        String serialNumPrefix = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_SERIALNUM_PREFIX);
+        serialNumPrefix = serialNumPrefix.equals("0") ? "" : serialNumPrefix;
+        // 去除前缀
+        patientSerialNumberPO.setSerialNum(patient.getSerialNum().replace(serialNumPrefix, ""));
+        List<PatientSerialNumberPO> oldPatientSerialNumberList = patientSerialNumberMapper.selectByCondition(patientSerialNumberPO);
+        // 获取当前租户指定序号的序号列表，如果存在则更新否则添加
+        if (oldPatientSerialNumberList != null && oldPatientSerialNumberList.size() > 0) {
+            if (patient.getId() != null) {
+                // 将患者原来的序列号 在序列号表改为可用状态
+                Patient p = patientMapper.selectByPrimaryKey(patient.getId());
+                if (StringUtils.isNotBlank(p.getSerialNum())) {
+                    patientSerialNumberPO.setIsUse(false);
+                    patientSerialNumberPO.setSerialNum(p.getSerialNum().replace(serialNumPrefix, ""));
+                    patientSerialNumberMapper.updateBySerialNum(patientSerialNumberPO);
+                }
+            }
+            // 将患者现在的序列号 在序列号表里面改为不可用状态
+            patientSerialNumberPO.setIsUse(true);
+            patientSerialNumberPO.setSerialNum(patient.getSerialNum().replace(serialNumPrefix, ""));
+            patientSerialNumberMapper.updateBySerialNum(patientSerialNumberPO);
+        } else {
+            DataUtil.setSystemFieldValue(patientSerialNumberPO);
+            patientSerialNumberPO.setIsUse(true);
+            patientSerialNumberMapper.insert(patientSerialNumberPO);
+        }
+
     }
 
     /**
@@ -297,5 +366,20 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public void updatePatientType(Integer tenantId) {
         patientMapper.updatePatientType(tenantId);
+    }
+
+    @Override
+    public List<PatientPO> listForDownloadList(String orderBy, Boolean isTemp) {
+        PatientPO p = new PatientPO();
+        p.setDelFlag(false);
+        p.setFkTenantId(UserUtil.getTenantId());
+        p.setOrderBy(StringUtil.isBlank(orderBy) ? null : Integer.valueOf(orderBy));
+        p.setIsTemp(isTemp);
+        return patientMapper.listForDownloadList(p);
+    }
+
+    @Override
+    public List<PatientPO> listByMobile(String mobile, Long neId) {
+        return patientMapper.listByMobile(mobile, neId);
     }
 }
