@@ -247,12 +247,12 @@ function getAssayRecordListHtml(items) {
             assayRecordHtml += '</td>';
             assayRecordHtml += '<td style="width: 20%">' + convertEmpty(item.reference) + '</td>';
             assayRecordHtml += '<td style="width: 10%">' + convertEmpty(item.sampleClass) + '</td>';
-            assayRecordHtml += '<td style="width: 10%">' + (item.diaAbFlag == '2' ? '是' : '否')
-            if (!delFlag) {
-                +'<span class="float-right default-active-color" style="cursor: pointer" onclick=\'showAssayRecordDiaAbFlag("' + item.diaAbFlag
-                                + '","' + item.reqId + '","' + item.inspectionId + '")\'>编辑</span>'
+            assayRecordHtml += '<td style="width: 10%">' + (item.diaAbFlag == '2' ? '是' : '否');
+            if (delFlag == "true") {
+                assayRecordHtml += '<span class="float-right default-active-color" style="cursor: pointer" onclick=\'showAssayRecordDiaAbFlag("'
+                                + item.diaAbFlag + '","' + item.reqId + '","' + item.inspectionId + '")\'>编辑</span>';
             }
-            +'</td></tr>';
+            assayRecordHtml += '</td></tr>';
         }
 
     }

@@ -155,8 +155,9 @@ public abstract class AssayHandFactory {
                 patientAssayRecordBusi.setUpdateTime(nowDate);
                 patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
                 patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setAssayMonth(patientAssayRecord.getAssayMonth());
                 patientAssayRecordBusi.setAssayDate(patientAssayRecord.getSampleTime());// 检查日期默认取样品时间
+                patientAssayRecordBusi
+                                .setAssayMonth(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate(), DateFormatUtil.FORMAT_YYYY_MM));
                 patientAssayRecordBusi.setResultActual(matcherToNum(patientAssayRecordBusi.getResult()));
                 patientAssayRecordBusi.setId(id++);
                 patientAssayRecordBusi.setDiaAbFlag(
