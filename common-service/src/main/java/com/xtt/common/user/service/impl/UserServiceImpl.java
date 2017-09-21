@@ -143,7 +143,9 @@ public class UserServiceImpl implements IUserService {
             if (user.getFkTenantId() == null) {
                 user.setFkTenantId(UserUtil.getTenantId());
             }
-            user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));// 设置默认密码
+            /*            user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));// 设置默认密码
+            */
+            user.setPassword(MD5Util.md5(UserUtil.getTenantId().toString()));// 设置默认密码
             if (!groupFlag) {
                 // 设置关联的租户为当前租户
                 if (StringUtil.isBlank(user.getMultiTenant())) {
@@ -426,7 +428,7 @@ public class UserServiceImpl implements IUserService {
     public void resetUserPassword(Long id) {
         SysUserPO user = new SysUserPO();
         user.setId(id);
-        user.setPassword(CommonConstants.DEFAULT_PASSWORD);
+        user.setPassword(UserUtil.getTenantId().toString());
         updatePassword(user);
     }
 
