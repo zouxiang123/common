@@ -58,6 +58,13 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IFamilyInitialService familyInitialService;
 
+    /**
+     * 统计人员信息
+     */
+    public List<SysUserPO> countAllUser(Integer tenantId) {
+        return sysUserMapper.countAllUser(tenantId);
+    }
+
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
         String[] arr = { CommonConstants.ROLE_DOCTOR };
