@@ -40,13 +40,13 @@
 	            <span>时间：</span>
 	            <c:if test="${labTimeFlag eq '1' or labTimeFlag eq '3'}">
 		            <label class="u-radio">
-		                <input type="radio" name="timeType" id="sampleTime" checked="checked" value="sampleTime">
+		                <input type="radio" name="dateType" id="sampleTime" checked="checked" value="sampleTime">
 		                                采集时间
 		            </label>
 	            </c:if>
 	            <c:if test="${labTimeFlag eq  '2' or labTimeFlag eq '3'}">
 		            <label class="u-radio">
-		                <input type="radio" name="timeType" id="reportTime" checked="checked" value="reportTime">
+		                <input type="radio" name="dateType" id="reportTime" checked="checked" value="reportTime">
 	               		报告时间
 		            </label>
 	            </c:if>

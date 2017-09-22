@@ -918,7 +918,7 @@ function searchDialogHidden() {
 }
 
 function searchSubmit() {
-    var timeType = $('input:radio[name="timeType"]:checked').val();
+    var timeType = $('input:radio[name="dateType"]:checked').val();
     if (isEmpty(timeType)) {
         showWarn("请选择时间类型");
         return false;
