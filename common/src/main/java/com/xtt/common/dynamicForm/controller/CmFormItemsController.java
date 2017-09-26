@@ -29,7 +29,6 @@ import com.xtt.common.dynamicForm.vo.CmFormItemsVO;
 import com.xtt.common.form.service.ICmFormItemsSerivce;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DynamicFormUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -109,7 +108,7 @@ public class CmFormItemsController {
     @ResponseBody
     public Map<String, Object> refresh(String sysOwner) {
         Map<String, Object> map = new HashMap<String, Object>();
-        sysOwner = StringUtil.isBlank(sysOwner) ? HttpServletUtil.getSysName() : sysOwner;
+        sysOwner = StringUtil.isBlank(sysOwner) ? UserUtil.getSysOwner() : sysOwner;
         commonCacheService.cacheDynamicFormNode(UserUtil.getTenantId(), sysOwner);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;

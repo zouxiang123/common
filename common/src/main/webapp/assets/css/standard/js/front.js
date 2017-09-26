@@ -114,7 +114,8 @@ function transverseTable(name,num){
      sum += parseInt($(td).eq(i).css("max-width"));
     }
   }else{
-    sum = chid * parseInt($(td).eq(i).css("max-width"));
+      //超过30个则按第一个td宽度的倍数来计算
+      sum = chid * parseInt($(td).eq(0).css("max-width"));
   }
   $(name).css({"width": sum + (chid * 2) + "px"});
 
@@ -126,19 +127,18 @@ function transverseTable(name,num){
 
 }
 //transverseTableHead 是按照表头来计算表格宽度
-function transverseTableHead(name,num){
-    var td = $(name).children(".u-table-fixed-head,.u-table").find("tr").eq(0).children("th");
+function transverseTable(name,num){
+    var td = $(name).children(".u-table-fixed-body,.u-table").find("tr").eq(0).children("td");
     var chid = $(td).length;
     var sum = 0;
-    if(chid < 30){
+    if(chid < 40){
         for(var i=0;i<chid;i++){
             sum += parseInt($(td).eq(i).css("max-width"));
         }
     }else{
-        sum = chid * parseInt($(td).eq(i).css("max-width"));
+        sum = chid * parseInt($(td).eq(0).css("max-width"));
     }
     $(name).css({"width": sum + (chid * 2) + "px"});
-
     if($(name).width() > ($(window).width() - num ) ){
         $(name).siblings(".column-left").addClass("active");
     }else{
@@ -926,3 +926,15 @@ var mobileDouble = function(ev,MDouble) {
     })
 
 }
+
+function dynamicMenu() {
+  var spans = $(".u-head-text").find("span");
+  var w = 100 / spans.length;
+  $(spans).css('width', w + '%');
+  for(var i=0;i<spans.length;i++){
+    if(!$(spans[i]).children("i").length){
+       $(spans[i]).css('padding-right','6px');
+    }
+  }
+}
+dynamicMenu()

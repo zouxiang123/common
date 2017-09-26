@@ -5,10 +5,10 @@
 <title>用户管理</title>
 <%@ include file="../common/head.jsp"%>
 </head>
-<body onresize="bodyResize();">
+<body onresize="bodyResize();" class="bg-white">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-12 col-md-12 main bg-white" style="padding: 0px;">
+			<div class="col-sm-12 col-md-12 main" style="padding: 0px;">
 				<div class="table-responsive bg-white">
 					<table class="table">
 						<thead>

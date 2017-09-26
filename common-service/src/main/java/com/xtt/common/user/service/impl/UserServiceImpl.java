@@ -32,6 +32,7 @@ import com.xtt.common.dao.mapper.SysUserMapper;
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.dto.LoginUser;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
@@ -266,5 +267,16 @@ public class UserServiceImpl implements IUserService {
         SysUserDto cacheUser = new SysUserDto();
         BeanUtils.copyProperties(sysUserPO, cacheUser);
         UserCache.refresh(cacheUser);
+    }
+
+    @Override
+    public void saveSkin(String skin) {
+        SysUserPO user = sysUserMapper.selectPOById(UserUtil.getLoginUserId());
+        user.setSkin(skin);
+        updateByPrimaryKeySelective(user);
+        // refresh redis cache
+        LoginUser loginUser = UserUtil.getLoginUser();
+        loginUser.setSkin(skin);
+        UserUtil.setLoginUser(loginUser);
     }
 }

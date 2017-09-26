@@ -87,20 +87,29 @@ public class CommonConstants {
     public static final String OPERATION_SELECT = "select";
 
     /** 项目名称 */
-    public static final String SYS_NAME = "sysName";
+    public static final String SYS_OWNER = "sysOwner";
+    /** 公用系统 */
     public static final String SYS_CM = "CM";
+    /** 腹透系统 */
     public static final String SYS_PD = "PD";
+    /** 血透系统 */
     public static final String SYS_HD = "HD";
+    /** 通路手术系统 */
+    public static final String SYS_POPS = "POPS";
     /** 请求的基础路径 */
-    public static final String BASE_URL = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties")).getProperty("base.url");
+    private static String BASE_URL_SOURCE = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties")).getProperty("base.url");
+    public static final String BASE_URL = BASE_URL_SOURCE.concat(BASE_URL_SOURCE.endsWith("/") ? "" : "/");
     /** 公用服务地址 */
-    public static final String COMMON_SERVER_ADDR = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "common/";
+    public static final String COMMON_SERVER_ADDR = BASE_URL.concat("common/");
     /** 随访服务地址 */
     public static final String FU_URL_KEY = "fu_addr";
-    public static final String FU_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "fu/";
+    public static final String FU_URL = BASE_URL.concat("fu/");
     /** 腹透服务地址 */
     public static final String PD_URL_KEY = "pd_addr";
-    public static final String PD_URL = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "pd/";
+    public static final String PD_URL = BASE_URL.concat("pd/");
+    /** 通路手术系统地址 */
+    public static final String POPS_URL_KEY = "pops_addr";
+    public static final String POPS_URL = BASE_URL.concat("pops/");
     // -----------------------------肾病类型--------------------------------------------
     /** 肾病类型：慢性肾功能衰竭 */
     public static final String NEPHROSIS_TYPE_CRF = "1";

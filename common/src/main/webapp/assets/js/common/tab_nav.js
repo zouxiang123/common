@@ -52,7 +52,7 @@ var tab_nav = {
             removeCall : null
         };
         $.extend(p, param);
-        if ($("#tabsDiv [data-target='" + p.id + "']").length > 0) {// 已经存在，不添加新窗口
+        if ($("#tabsDiv [data-target='" + p.id + "']").length > 0) { // 已经存在，不添加新窗口
             $("#tabsDiv [data-target='" + p.id + "']").click();
             return false;
         }
@@ -65,12 +65,16 @@ var tab_nav = {
             return false;
         }
         var tabHtml = "";
-        if (isEmpty(this.style)) {// 使用默认样式
-            tabHtml = '<span class="u-tab hand" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
-                            + '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
-        } else if (this.style == "btn-grey") {// 灰色按钮
-            tabHtml = '<span class="u-btn-close-1" data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '">' + p.name
-                            + '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
+        var dataStr = 'data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '"';
+        if (isEmpty(this.style)) { // 使用默认样式
+            tabHtml = '<span class="u-tab hand" ' + dataStr + '>' + p.name
+                + '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
+        } else if (this.style == "btn-grey") { // 灰色按钮
+            tabHtml = '<span class="u-btn-close-1" ' + dataStr + '>' + p.name
+                + '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
+        } else if (this.style == "standard") {
+            tabHtml = '<span ' + dataStr + '><a href="javascript:void(0);">' + p.name
+                + '</a><i class="icon-close" onclick="tab_nav.closeTab(event,this);"></i></span>';
         }
         $("#tabsDiv").append(tabHtml);
         // 设置添加tab的来源id为当前激活的tabid
@@ -99,7 +103,7 @@ var tab_nav = {
             el = $("#tabsDiv [data-url].active");
         }
         el = $(el);
-        if (el.data("fixed") == "1") {// 如果当前tab是固定tab,不能移除
+        if (el.data("fixed") == "1") { // 如果当前tab是固定tab,不能移除
             return false;
         }
         var formId = el.data("fromId");

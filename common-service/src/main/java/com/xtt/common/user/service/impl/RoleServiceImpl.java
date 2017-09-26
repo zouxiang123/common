@@ -26,7 +26,6 @@ import com.xtt.common.dao.model.SysRole2obj;
 import com.xtt.common.dao.model.SysUser2role;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -142,7 +141,7 @@ public class RoleServiceImpl implements IRoleService {
         obj.setType("api");
         DataUtil.setSystemFieldValue(obj);
         obj.setId(null);
-        obj.setSysOwner(HttpServletUtil.getSysName());
+        obj.setSysOwner(UserUtil.getSysOwner());
         sysObjMapper.insertSelective(obj);
         return CommonConstants.SUCCESS;
     }

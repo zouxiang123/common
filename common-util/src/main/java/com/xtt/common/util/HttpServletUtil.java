@@ -204,15 +204,15 @@ public class HttpServletUtil {
      * @return
      *
      */
-    public static String getSysName() {
+    public static String getSysOwner() {
         String sysName = null;
         WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();
         ServletContext servletContext = webApplicationContext.getServletContext();
-        sysName = (String) servletContext.getAttribute(CommonConstants.SYS_NAME);
+        sysName = (String) servletContext.getAttribute(CommonConstants.SYS_OWNER);
         if (StringUtil.isBlank(sysName)) {// 如果从上下文中获取不到项目名称，则从请求中获取
             HttpServletRequest request = getRequest();
             if (request != null) {
-                sysName = getCookieValueByName(CommonConstants.SYS_NAME);
+                sysName = getCookieValueByName(CommonConstants.SYS_OWNER);
             }
         }
         return sysName;

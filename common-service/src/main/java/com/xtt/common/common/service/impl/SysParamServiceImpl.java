@@ -21,7 +21,6 @@ import com.xtt.common.dao.mapper.SysParamMapper;
 import com.xtt.common.dao.model.SysParam;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.util.DataUtil;
-import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -32,17 +31,17 @@ public class SysParamServiceImpl implements ISysParamService {
 
     @Override
     public SysParam getByName(String name) {
-        return sysParamMapper.selectByName(name, UserUtil.getTenantId(), HttpServletUtil.getSysName());
+        return sysParamMapper.selectByName(name, UserUtil.getTenantId(), UserUtil.getSysOwner());
     }
 
     @Override
     public SysParam getByName(String name, Integer tenantId) {
-        return sysParamMapper.selectByName(name, tenantId, HttpServletUtil.getSysName());
+        return sysParamMapper.selectByName(name, tenantId, UserUtil.getSysOwner());
     }
 
     @Override
     public List<SysParamPO> getByTenantId(Integer tenantId) {
-        return sysParamMapper.selectByTenantId(tenantId, HttpServletUtil.getSysName());
+        return sysParamMapper.selectByTenantId(tenantId, UserUtil.getSysOwner());
     }
 
     @Override

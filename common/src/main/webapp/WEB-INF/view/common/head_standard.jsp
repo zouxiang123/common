@@ -63,6 +63,7 @@
 
 <script type="text/javascript">
     var ctx = "${ctx}";
+    var cm_server_addr = "${COMMON_SERVER_ADDR}";
     var loginUserId = "${login_user.id}";
     $(function() {
         $("#topSearchName").bind("keydown", function(e) {

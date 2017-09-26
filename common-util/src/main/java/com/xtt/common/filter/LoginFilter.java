@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -105,7 +106,8 @@ public class LoginFilter implements Filter {
                     url = url.concat("/").concat(homePath).concat(".shtml");
                 }
                 url = URLEncoder.encode(url, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url)
+                                .concat("&" + CommonConstants.SYS_OWNER + "=" + HttpServletUtil.getSysOwner()));
                 return;
             }
         }
@@ -131,7 +133,8 @@ public class LoginFilter implements Filter {
                     }
                 }
                 url = URLEncoder.encode(url + paramStr, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "login.shtml?redirectUrl=" + url);
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat("login.shtml?redirectUrl=").concat(url)
+                                .concat("&" + CommonConstants.SYS_OWNER + "=" + HttpServletUtil.getSysOwner()));
             } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
@@ -179,11 +182,11 @@ public class LoginFilter implements Filter {
         if (authMap == null || authMap.get(CommonConstants.LOGIN_USER) == null) {
             return false;
         }
-        // 检查登陆用户是否等登陆当前系统
         LoginUser user = (LoginUser) authMap.get(CommonConstants.LOGIN_USER);
-        String sysName = HttpServletUtil.getSysName();
-        if (sysName != null && user.getSysOwner().indexOf(sysName) == -1) {
-            return false;
+        String sysName = HttpServletUtil.getSysOwner();
+        // 判断是否是登录本系统
+        if (sysName != null) {
+            return Objects.equals(sysName, user.getSysOwner());
         }
         return true;
     }

@@ -59,7 +59,7 @@ tbody tr.active td {
 				<div class="fill-parent rel bg-white border-bottom-line" style="height: 48px;">
 					<div class="tab-index" style="width: auto;" id="dictionaryTopTab">
 						<span class="tab-index-item active" data-type="dictionary">字典表</span> 
-						<span class="tab-index-item-center" data-type="assay">化验单</span>
+						<!-- <span class="tab-index-item-center" data-type="assay">化验单</span> -->
 					</div>
 					<div class="tab-action" onclick="refreshMemory();" style="margin: 20px 34px;">
 						<div class="dividing-line"></div>

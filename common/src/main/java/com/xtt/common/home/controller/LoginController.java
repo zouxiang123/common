@@ -54,6 +54,7 @@ public class LoginController {
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
                     Boolean isloginSubmit, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("login");
+        model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         if ("true".equals(HttpServletUtil.getCookieValueByName("savePwd")) && StringUtils.isEmpty(account) && StringUtils.isEmpty(password)) {
             account = HttpServletUtil.getCookieValueByName("account");
             password = HttpServletUtil.getCookieValueByName("password");
@@ -117,7 +118,7 @@ public class LoginController {
                 loginUser.setImagePath(sysUser.getImagePath());
                 loginUser.setRoleId(sysUser.getRoleId());
                 loginUser.setPosition(sysUser.getPosition());
-                loginUser.setSysOwner(sysUser.getSysOwner());
+                loginUser.setSysOwner(sysOwner);
                 UserUtil.setLoginUser(token, loginUser);
                 UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
                 UserUtil.setPermission(sysUser.getRoleId());// 设置有权限的菜单列表
@@ -158,7 +159,7 @@ public class LoginController {
      * 登出
      */
     @RequestMapping("logout")
-    public ModelAndView logout(String redirectUrl) {
+    public ModelAndView logout(String redirectUrl, String sysOwner) {
         if (UserUtil.getLoginUser() != null) {// 用户没有登录时，logout不用插入日志
             commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功");
         }
@@ -175,6 +176,7 @@ public class LoginController {
             model.addObject("tenantId", tenantId);
         }
         model.addObject("redirectUrl", redirectUrl);
+        model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         return model;
     }
 

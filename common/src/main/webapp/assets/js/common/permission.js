@@ -1,7 +1,7 @@
 // when login success， set permission data to local storage
 if (getCookie("cacheFlag") == "0") {
     $.ajax({
-        url : ctx + "/system/getUserPermissionData.shtml",
+        url : cm_server_addr + "/system/getUserPermissionData.shtml",
         type : "post",
         dataType : "json",
         async : false,
@@ -270,7 +270,7 @@ function openUrl(id, name, url, callBack) {
 /**
  * 返回病程记录页面
  */
-function closeFullDialog(){
+function closeFullDialog() {
     removeUrlStackLast();
     $("#topNav").removeClass("hide");
     $("#fullDialog").toggle();

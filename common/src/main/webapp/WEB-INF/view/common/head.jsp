@@ -64,24 +64,7 @@
 
 <script type="text/javascript">
 	var ctx = "${ctx}";
-	if(getCookie("cacheFlag")=="0"){
-		$.ajax({
-			  url: "${COMMON_SERVER_ADDR}/system/getUserPermissionData.shtml",
-			  type: "post",
-			  dataType: "json",
-			  async:false,
-			  success:function(data){
-				 if(data.status==1){
-					 var storage = window.localStorage;
-					 storage.setItem("user_non_permission_list", convertEmpty(data.user_non_permission));
-					 storage.setItem("user_permission_list",convertEmpty(data.user_permission));
-					 setCookie("cacheFlag","1");
-				 }else{
-					 alert("用户登录信息失效，或登录信息不存在");
-				 }
-			  }
-			});
-	}
+    var cm_server_addr = "${COMMON_SERVER_ADDR}";
 	 if (typeof(loadingShow) == "undefined"){
 	  	var loading_start_time = new Date().getTime();
 		$(window).load(function(){
@@ -96,6 +79,7 @@
 	  	});
 	 }
 </script>
+<script src="${COMMON_SERVER_ADDR}/assets/js/common/permission.js?version=${version}"></script>
 <script src="${COMMON_SERVER_ADDR}/assets/js/common/common.js?version=${version}"></script>
 <script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate.js"></script>
 <script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate-message-cn.js"></script>

@@ -1,44 +1,9 @@
 $(function() {
     var topLevels = [];
     topLevels.push("home");
-    topLevels.push("userCenter");
-    topLevels.push("patient/center/toCenter");
-    // topLevels.push("qc");
-    topLevels.push("virtual/dialysisCenter");
-    topLevels.push("workstation/doctorWorkStation");
-    // topLevels.push("workstation/myWorkStation");
+    topLevels.push("index");
     // 同级页面url列表
-    var siblingUrls = [
-            {
-                urls : [ "patient/findPatient", "patient/patientInfo", "patient/diagnosisInfo", "patient/pathwayInfo", "complication/list",
-                        "patient/dialysisRecord", "assay/patientAssayRecord/record", "patient/patientWardRound", "dialysisCampaign/toStop",
-                        "medicalOrders/manage", "patient/outcomeRecord", "patient/jci", "sickbedRecord/viewLatestBedRecord", "assay/patientAssayRecord/record",
-                        "stageSummary/stageList", "patient/patientDetail" ],// 患者urls
-                isCurrent : false
-            },
-            /*{
-            	urls : [ "report/complication/view", "report/supplies/view", "report/drug/view", "report/dialysisModel", "report/searchQCList",
-            			"report/assay/view", "report/patient/view", "report/yearEvaluation/view", "report/pathway/view", "report/outcome/view",
-            			"report/disease/view" ],// 统计菜单
-            	isCurrent : false
-            },*/
-            {
-                urls : [ "drug/basic", "drug/stock/check", "drug/stock/manage", "drug/stock/search", "supplies/basic", "supplies/manage",
-                        "supplies/check", "supplies/search", "materialEstimate/view" ],// 库存管理
-                isCurrent : false
-            }, {
-                urls : [ "system/secretary/all", "system/secretary/helpPage" ],// 小秘书
-                isCurrent : false
-            }, {
-                urls : [ "cost/tolistDialysisBudget", "cost/toListTransaction", "cost/toListTransactionRecord" ],// 费用管理
-                isCurrent : false
-            }, {
-                urls : [ "virtual/waitingRoom/waitingRoom", "sickbed/manage", "process/directorCheck" ],// 今日就诊
-                isCurrent : false
-            }, {
-                urls : [ "sickbedRecord/template/viewWeek", "sickbedRecord/viewWeek" ],// 排床管理
-                isCurrent : false
-            } ];
+    var siblingUrls = [];
     var nowUrl = window.location.href;
     var realUrl = getRelativeUrl(nowUrl);
 
@@ -112,41 +77,16 @@ $(function() {
 
         }
         if (!siblingsExist) {
-            urlStack.push({// 插入一条最新的
-                name : urlName,
-                url : nowUrl
-            });
-        }
-    }
-    storage.setItem("urlStack", JSON.stringify(urlStack));
-    // 设置导航栏
-    /*var breadcrumbMenu = {};
-    for (var i = 0; i < urlStack.length; i++) {
-    	if (urlStack.length - 1 == i) {
-    		breadcrumbMenu[urlStack[i].name] = null;
-    	} else {
-    		breadcrumbMenu[urlStack[i].name] = urlStack[i].url;
-    	}
-    }
-    setBreadcrumb(breadcrumbMenu);*/
-});
-
-/** 根据url获取对应的名称 */
-function getUrlNameFormPermission(url) {
-    var user_permission_list = getPermissionList("user_permission_list");
-    for (var i = 0; i < user_permission_list.length; i++) {
-        var tempUrl = user_permission_list[i].url;
-        if (!isEmpty(tempUrl)) {
-            tempUrl = tempUrl.split(",");
-            for (var t = 0; t < tempUrl.length; t++) {
-                if (url == tempUrl[t]) {
-                    return user_permission_list[i].name;
-                }
+            if (nowUrl.indexOf("noStack") == -1) {
+                urlStack.push({// 插入一条最新的
+                    name : urlName,
+                    url : nowUrl
+                });
             }
         }
     }
-    return "";
-}
+    storage.setItem("urlStack", JSON.stringify(urlStack));
+});
 
 /** 返回调用方法 */
 function goBack() {
@@ -160,13 +100,20 @@ function goBack() {
 function getGoBackUrl() {
     var storage = window.sessionStorage;
     var urlStack = eval('(' + storage.getItem('urlStack') + ')');
+    // 如果前进的大于3,直接返回首页
+    if (urlStack.length > 3) {
+        return urlStack[0].url;
+    }
     var index = 0;
     for (var i = urlStack.length - 1; i >= 0; i--) {
         if (!isEmpty(urlStack[i].url)) {
             index++;
         }
         if (index == 2)// 返回倒数第二个带url的
+        {
             return urlStack[i].url;
+        }
+
     }
     return "";
 }
@@ -178,6 +125,9 @@ function getGoBackUrl() {
  * @param url
  */
 function pushToUrlStack(name, url) {
+    if (url.indexOf("noStack") >= 0) {
+        return;
+    }
     var storage = window.sessionStorage;
     var urlStack = storage.getItem('urlStack');
     urlStack = eval('(' + urlStack + ')');
@@ -195,6 +145,9 @@ function pushToUrlStack(name, url) {
  * @param url
  */
 function replaceUrlStackLast(name, url) {
+    if (url.indexOf("noStack") >= 0) {
+        return;
+    }
     var storage = window.sessionStorage;
     var urlStack = storage.getItem('urlStack');
     urlStack = eval('(' + urlStack + ')');

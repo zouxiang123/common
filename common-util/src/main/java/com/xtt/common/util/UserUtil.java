@@ -242,4 +242,16 @@ public class UserUtil {
     public static void setThreadLoginUser(LoginUser user) {
         UserUtilContext.setThreadLoginUser(user);
     }
+
+    /**
+     * 用户登录的系统
+     * 
+     * @Title: getSysOwner
+     * @return
+     *
+     */
+    public static String getSysOwner() {
+        LoginUser user = getLoginUser();
+        return user.getSysOwner();
+    }
 }

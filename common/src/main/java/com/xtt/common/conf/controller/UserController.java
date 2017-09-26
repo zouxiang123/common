@@ -24,8 +24,8 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.ContextAuthUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -79,6 +79,7 @@ public class UserController {
     @ResponseBody
     public List<SysUserPO> selectUserWithFilter(SysUserPO user) {
         user.setFkTenantId(UserUtil.getTenantId());
+        user.setSysOwner(UserUtil.getSysOwner());
         return userService.selectUserWithFilter(user);
     }
 
@@ -224,6 +225,15 @@ public class UserController {
         }
         map.put(CommonConstants.USER_NON_PERMISSION, authMap.get(CommonConstants.USER_NON_PERMISSION));
         map.put(CommonConstants.USER_PERMISSION, authMap.get(CommonConstants.USER_PERMISSION));
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
+    }
+
+    @RequestMapping("saveSkin")
+    @ResponseBody
+    public Map<String, Object> saveSkin(String skin) throws Exception {
+        Map<String, Object> map = new HashMap<String, Object>();
+        userService.saveSkin(skin);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
