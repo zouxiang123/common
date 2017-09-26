@@ -21,8 +21,8 @@ public class PatientOutcomePO extends PatientOutcome {
     private String createUserName;
     private String[] excludeTypes;
 
-    private Date startDate;
-    private Date endDate;
+    private Date startTime;
+    private Date endTime;
     private String multiTenant;// 多个租户id
     private String patientOutcomeType; // 转归类型"转归","转出","临时"
     private String deleteSickbedRecord; // 是否删除排床
@@ -83,20 +83,20 @@ public class PatientOutcomePO extends PatientOutcome {
         this.patientName = patientName;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getCreateUserName() {

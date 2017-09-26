@@ -294,9 +294,58 @@
                 <if test="multiTenant != null">
                     AND po1.fk_tenant_id in (${multiTenant })
                 </if>
-            GROUP BY po1.fk_patient_id
-        ) t ON t.fk_patient_id = po.fk_patient_id AND po.record_date = t.time
+                <if test="startTime != null">
+                   AND po1.record_date &gt;= #{startTime}
+                </if>
+                <if test="endTime != null">
+                   AND po1.record_date &lt;= #{endTime}
+                </if>
+            GROUP BY po1.fk_tenant_id,po1.fk_patient_id
+        ) t ON t.fk_patient_id = po.fk_patient_id AND po.record_date = t.time AND t.fk_tenant_id = po.fk_tenant_id
         WHERE po.fk_tenant_id in (${multiTenant }) AND po.sys_owner = #{sysOwner}
         ORDER BY po.fk_patient_id
     </select>
+    <select id="selectCountByPatientId" resultType="int">
+        SELECT count('1') from patient_outcome 
+        <where>
+            <if test="fkPatientId != null">
+                fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="startTime != null">
+                and record_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and record_date &lt;= #{endTime}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="excludeTypes !=null">
+                and type not in 
+                <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    
+	<select id="selectPatientByMonth" resultType="long">
+        SELECT distinct fk_patient_id 
+        from patient_outcome 
+        <where>
+            <if test="startTime != null">
+                and record_date &gt;= #{startTime}
+            </if>
+            <if test="endTime != null">
+                and record_date &lt;= #{endTime}
+            </if>
+            <if test="excludeTypes !=null">
+                and type not in 
+                <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+       </where> 
+        
+        </select>
 </mapper>

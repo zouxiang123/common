@@ -2,15 +2,21 @@ package com.xtt.common.assay.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.assay.service.IAssayGroupService;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayGroupRuleService;
 import com.xtt.common.dao.mapper.PatientAssayGroupRuleMapper;
 import com.xtt.common.dao.model.PatientAssayGroupRule;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
@@ -20,13 +26,57 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
 
     @Autowired
     private PatientAssayGroupRuleMapper patientAssayGroupRuleMapper;
+    @Autowired
+    private IAssayGroupService assayGroupService;
+    @Autowired
+    private IAssayHospDictService assayHospDictService;
 
     /**
      * 添加化验检查分组
      */
     @Override
-    public void savePatientAssayGroupRule(List<PatientAssayGroupRulePO> ruleList, String getItemCodeValue, Integer tenantid, Long userid) {
+    public void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, AssayHospDictPO assayHospDict) {
+        // 租户ID
+        Integer tenantId = UserUtil.getTenantId();
+        // 用户ID
+        Long userId = UserUtil.getLoginUserId();
+        Set<String> itemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        if (CollectionUtils.isEmpty(itemCodes)) {
+            itemCodes = new HashSet<>(1);
+            itemCodes.add(itemCode);
+        }
+        // 同步分组规则到同类组中的其它itemCode
+        for (String code : itemCodes) {
+            // 删除patientAssayGroupRule的itemCode 的值
+            deleteByItemCode(code);
+            // 添加patientAssayGroupRule
+            insertGroupRule(ruleList, code, tenantId, userId);
+            AssayHospDictPO dict = assayHospDictService.getByItemCode(code);
+            if (dict != null) {
+                AssayHospDictPO dictRecord = assayHospDict;// 当前更新的项目
+                Long dictId = dictRecord.getId();
+                if (Objects.equals(dict.getId(), dictId)) {// 更新本条记录，设置其是否置顶，是否置顶标识不同步
+                    dict.setIsTop(dictRecord.getIsTop());
+                }
+                dict.setPersonalMaxValue(dictRecord.getPersonalMaxValue());
+                dict.setPersonalMinValue(dictRecord.getPersonalMinValue());
+                // 修改DictHospitalLab表
+                assayHospDictService.updateSomeValue(dict);
+            }
+        }
+    }
 
+    /**
+     * 插入分组规则
+     * 
+     * @Title: insertGroupRule
+     * @param ruleList
+     * @param itemCode
+     * @param tenantid
+     * @param userid
+     *
+     */
+    private void insertGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, Integer tenantid, Long userid) {
         for (int i = 1; i < ruleList.size(); i++) {
             if (ruleList.get(i).getMinValue() == null) {
                 continue;
@@ -36,7 +86,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             DataUtil.setSystemFieldValue(po);
             po.setId(null);
             po.setFkTenantId(tenantid);
-            po.setItemCode(getItemCodeValue);
+            po.setItemCode(itemCode);
             po.setMaxValue(0.f);
             po.setOperatorId((long) 1);
             po.setRule(1);
@@ -44,7 +94,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
         }
 
         // 获得最小值，设置最大值
-        List<PatientAssayGroupRulePO> PatientAssayGroupRulePOList = this.selectByItemCode(getItemCodeValue);
+        List<PatientAssayGroupRulePO> PatientAssayGroupRulePOList = this.selectByItemCode(itemCode);
 
         // 循环得到最小值集合
         List<Float> getMinValueList = new ArrayList<Float>();
@@ -108,7 +158,7 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public List<PatientAssayGroupRulePO> selectAllAssayGroupRule(String itemsCode) {
-        List<PatientAssayGroupRulePO> tempList = selectByItemCode(itemsCode);
+        List<PatientAssayGroupRulePO> tempList = patientAssayGroupRuleMapper.selectByItemCode(itemsCode, UserUtil.getTenantId());
         String createTime = null;
         String updateTime = null;
         try {
@@ -125,39 +175,6 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             e.printStackTrace();
         }
         return tempList;
-    }
-
-    /**
-     * 修改化验分组规则
-     */
-    @Override
-    public void updateAssayGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode) {
-        if (CollectionUtils.isNotEmpty(ruleList)) {
-            ruleList.forEach(rule -> {
-                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(rule);
-            });
-        }
-        // 获得最小值，设置最大值
-        List<PatientAssayGroupRulePO> PatientAssayGroupRulePOList = this.selectByItemCode(itemCode);
-
-        // 循环得到最小值集合
-        List<Float> getMinValueList = new ArrayList<Float>();
-        for (int i = 0; i < PatientAssayGroupRulePOList.size(); i++) {
-            getMinValueList.add(PatientAssayGroupRulePOList.get(i).getMinValue());
-        }
-
-        for (int i = 0; i < PatientAssayGroupRulePOList.size(); i++) {
-            // 最后 一条数据的最大值就是本身
-            if (i == PatientAssayGroupRulePOList.size() - 1) {
-                PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
-            } else {
-                // 设置每条数据的最大值
-                PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
-            }
-        }
-
     }
 
     /**
@@ -198,6 +215,9 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      */
     @Override
     public List<PatientAssayGroupRulePO> selectByCondition(PatientAssayGroupRule record) {
+        if (record.getFkTenantId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
         List<PatientAssayGroupRulePO> list = patientAssayGroupRuleMapper.selectByCondition(record);
         if (list == null) {
             list = new ArrayList<PatientAssayGroupRulePO>();

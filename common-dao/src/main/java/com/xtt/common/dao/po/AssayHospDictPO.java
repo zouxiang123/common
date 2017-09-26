@@ -1,9 +1,9 @@
 /**   
- * @Title: DictHospitalLabPO.java 
- * @Package com.lt.dao.po
+ * @Title: AssayHospDictPO.java 
+ * @Package com.xtt.hd.dao.po
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年4月20日 下午7:35:04 
+ * @author: Administrator   
+ * @date: 2017年8月22日 上午8:47:48 
  *
  */
 package com.xtt.common.dao.po;
@@ -11,14 +11,9 @@ package com.xtt.common.dao.po;
 import java.util.Collection;
 import java.util.Date;
 
-import com.xtt.common.dao.model.DictHospitalLab;
+import com.xtt.common.dao.model.AssayHospDict;
 
-public class DictHospitalLabPO extends DictHospitalLab {
-    public static final String DATE_TYPE_MONTH = "m";
-    public static final String DATE_TYPE_SEASON = "s";
-
-    public static final Integer VALUE_TYPE_NUMBER = 1;
-
+public class AssayHospDictPO extends AssayHospDict {
     private Collection<String> dictCodes;
 
     private String fkItemName;
@@ -31,6 +26,42 @@ public class DictHospitalLabPO extends DictHospitalLab {
     private String resultTips;// 化验结果
     private String patientAssayId;// 患者化验记录单
     private Long fkPatientId;// 患者id
+    private String groupId; // 组id
+    private String groupName; // 组名称
+    private String reqId; // 申请单号
+    private String oldItemCode; // 历史itemcode
+
+    public String getOldItemCode() {
+        return oldItemCode;
+    }
+
+    public void setOldItemCode(String oldItemCode) {
+        this.oldItemCode = oldItemCode;
+    }
+
+    public String getReqId() {
+        return reqId;
+    }
+
+    public void setReqId(String reqId) {
+        this.reqId = reqId;
+    }
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
 
     public String getFkItemName() {
         return fkItemName;

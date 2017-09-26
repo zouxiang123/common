@@ -71,6 +71,11 @@ public interface PatientAssayGroupRuleMapper {
     int saveByBatch(PatientAssayGroupRule[] patientAssayGroupRule);
 
     /**
+     * 通过查询某个对象来修改
+     */
+    void updateBySelective(PatientAssayGroupRulePO patientAssayGroupRulePO);
+
+    /**
      * 通过ID来查询对象
      * 
      * @param id

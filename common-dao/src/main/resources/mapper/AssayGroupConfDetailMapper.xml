@@ -166,4 +166,9 @@
 		where
 			fk_assay_group_conf_id = #{fkAssayGroupConfId}
 	</delete>
+    <!-- 根据itemCode查询数据 -->
+    <select id="getByItemCode" resultMap="BaseResultMap">
+        select * from assay_group_conf_detail
+        where item_code = #{itemCode} AND fk_tenant_id = #{fkTenantId}
+    </select>
 </mapper>

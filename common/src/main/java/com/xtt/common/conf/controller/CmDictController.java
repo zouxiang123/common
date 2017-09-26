@@ -20,15 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.assay.service.IDictHospitalLabService;
+import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayDictionaryService;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDict;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.CmDictPO;
-import com.xtt.common.dao.po.DictHospitalLabPO;
 import com.xtt.common.dao.po.PatientAssayDictionaryPO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
@@ -39,7 +40,7 @@ public class CmDictController {
     @Autowired
     private ICmDictService cmDictService;
     @Autowired
-    private IDictHospitalLabService dictHospitalLabService;
+    private IAssayHospDictService assayHospDictService;
     @Autowired
     private IPatientAssayDictionaryService patientAssayDictionaryService;
     @Autowired
@@ -72,10 +73,10 @@ public class CmDictController {
      */
     @RequestMapping("getAssayList")
     @ResponseBody
-    public Map<String, Object> getAssayList(DictHospitalLabPO record) {
+    public Map<String, Object> getAssayList(AssayHospDictPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        record.setValueType(DictHospitalLabPO.VALUE_TYPE_NUMBER);
-        List<DictHospitalLabPO> list = dictHospitalLabService.getByCondition(record);
+        record.setValueType(AssayConsts.VALUE_TYPE_NUMBER);
+        List<AssayHospDictPO> list = assayHospDictService.getByCondition(record);
         map.put("status", CommonConstants.SUCCESS);
         map.put("items", list);
         return map;
@@ -88,10 +89,10 @@ public class CmDictController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("status", CommonConstants.SUCCESS);
 
-        DictHospitalLabPO condition = new DictHospitalLabPO();
+        AssayHospDictPO condition = new AssayHospDictPO();
         condition.setFkTenantId(UserUtil.getTenantId());
-        condition.setValueType(DictHospitalLabPO.VALUE_TYPE_NUMBER);
-        map.put("items", dictHospitalLabService.getAllCategory(condition));
+        condition.setValueType(AssayConsts.VALUE_TYPE_NUMBER);
+        map.put("items", assayHospDictService.getAllCategory(condition));
         return map;
     }
 
@@ -105,7 +106,7 @@ public class CmDictController {
     @ResponseBody
     public Map<String, Object> deleteAssayMapping(Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
-        dictHospitalLabService.deleteAssayMapping(id);
+        assayHospDictService.deleteAssayMapping(id);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -118,9 +119,9 @@ public class CmDictController {
      */
     @RequestMapping("updateDict")
     @ResponseBody
-    public Map<String, Object> updateDict(DictHospitalLabPO record) {
+    public Map<String, Object> updateDict(AssayHospDictPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(CommonConstants.STATUS, dictHospitalLabService.updateDictById(record));
+        map.put(CommonConstants.STATUS, assayHospDictService.updateDictById(record));
         return map;
     }
 

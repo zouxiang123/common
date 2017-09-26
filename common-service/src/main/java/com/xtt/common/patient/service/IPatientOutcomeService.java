@@ -9,6 +9,7 @@
 package com.xtt.common.patient.service;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.xtt.common.dao.po.PatientOutcomePO;
@@ -59,6 +60,27 @@ public interface IPatientOutcomeService {
      * @return
      *
      */
-    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner);
+    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner, Date startTime, Date endTime);
+
+    /**
+     * 根据患者id查询转归次数
+     * 
+     * @Title: selectCountByPatientId
+     * @param outcomeRecord
+     * @return
+     *
+     */
+    Integer selectCountByPatientId(PatientOutcomePO outcomeRecord);
+
+    /**
+     * 查询一段时间内的转归用户
+     * 
+     * @Title: selectPatientByMonth
+     * @param startDate
+     * @param endDate
+     * @return
+     *
+     */
+    List<Long> selectPatientByMonth(Date startTime, Date endTime, List<String> excludeTypes);
 
 }

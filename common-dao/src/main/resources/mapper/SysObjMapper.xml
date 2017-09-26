@@ -25,14 +25,14 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, key, name, description, css_name, version, type, url, code, p_code, sys_owner, 
+    id, key, name, description, css_name, version, type, url, code, p_code, sys_owner,
     create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    select 
+    select
     <include refid="Base_Column_List" />
     from sys_obj
     where id = #{id,jdbcType=BIGINT}
@@ -48,16 +48,16 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into sys_obj (id, key, name, 
-      description, css_name, version, 
-      type, url, code, p_code, 
-      sys_owner, create_time, create_user_id, 
-      update_time, update_user_id)
-    values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{cssName,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{pCode,jdbcType=VARCHAR}, 
-      #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+    insert into sys_obj (id, key, name,
+    description, css_name, version,
+    type, url, code, p_code,
+    sys_owner, create_time, create_user_id,
+    update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+    #{description,jdbcType=VARCHAR}, #{cssName,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR},
+    #{type,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{pCode,jdbcType=VARCHAR},
+    #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT},
+    #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysObj">
     <!--
@@ -216,19 +216,19 @@
     -->
     update sys_obj
     set key = #{key,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      css_name = #{cssName,jdbcType=VARCHAR},
-      version = #{version,jdbcType=VARCHAR},
-      type = #{type,jdbcType=VARCHAR},
-      url = #{url,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
-      p_code = #{pCode,jdbcType=VARCHAR},
-      sys_owner = #{sysOwner,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    name = #{name,jdbcType=VARCHAR},
+    description = #{description,jdbcType=VARCHAR},
+    css_name = #{cssName,jdbcType=VARCHAR},
+    version = #{version,jdbcType=VARCHAR},
+    type = #{type,jdbcType=VARCHAR},
+    url = #{url,jdbcType=VARCHAR},
+    code = #{code,jdbcType=VARCHAR},
+    p_code = #{pCode,jdbcType=VARCHAR},
+    sys_owner = #{sysOwner,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    create_user_id = #{createUserId,jdbcType=BIGINT},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   

@@ -9,6 +9,7 @@
 package com.xtt.common.patient.service.impl;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,19 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     }
 
     @Override
-    public List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner) {
-        return patientOutcomeMapper.listLatest(patientIds, month, multiTenant, sysOwner);
+    public List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner, Date startTime,
+                    Date endTime) {
+        return patientOutcomeMapper.listLatest(patientIds, month, multiTenant, sysOwner, startTime, endTime);
+    }
+
+    @Override
+    public Integer selectCountByPatientId(PatientOutcomePO outcomeRecord) {
+        outcomeRecord.setFkTenantId(UserUtil.getTenantId());
+        return patientOutcomeMapper.selectCountByPatientId(outcomeRecord);
+    }
+
+    @Override
+    public List<Long> selectPatientByMonth(Date startTime, Date endTime, List<String> excludeTypes) {
+        return patientOutcomeMapper.selectPatientByMonth(startTime, endTime, excludeTypes);
     }
 }

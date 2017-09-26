@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayReportCommonMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayReportCommon">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayReportCommon">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_report_common (id, fk_patient_id, assay_month, 
+      item_code, result, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{assayMonth,jdbcType=VARCHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayReportCommon">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_report_common
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="assayMonth != null">
+        assay_month,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="assayMonth != null">
+        #{assayMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+ <!-- user define -->
+    <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayReportCommonPO">
+    </resultMap>
+    
+  <insert id="insertList">
+        insert into patient_assay_report_common (id, fk_patient_id, assay_month, 
+      item_code, result, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+      <foreach collection="list" item="item" index="index" separator="union all" >
+        select 
+            #{item.id,jdbcType=BIGINT}, 
+            #{item.fkPatientId,jdbcType=BIGINT}, 
+            #{item.assayMonth,jdbcType=VARCHAR}, 
+            #{item.itemCode,jdbcType=VARCHAR}, 
+            #{item.result,jdbcType=VARCHAR}, 
+            #{item.fkTenantId,jdbcType=INTEGER}, 
+            #{item.createTime,jdbcType=TIMESTAMP}, 
+            #{item.createUserId,jdbcType=BIGINT}, 
+            #{item.updateTime,jdbcType=TIMESTAMP}, 
+            #{item.updateUserId,jdbcType=BIGINT}
+        from dual
+      </foreach>
+  </insert>
+  <!-- 根据日期查询 -->
+  <select id="selectByAssayDate" resultMap="POResultMap">
+    SELECT p.name, p.id fk_patient_id
+        , padc.item_code, padc.result 
+    FROM patient_assay_report_common padc
+    JOIN patient p ON p.id = padc.fk_patient_id AND p.fk_tenant_id = padc.fk_tenant_id
+    <if test="patientLabelIds != null and patientLabelIds.length>0">
+       JOIN patient_label_ref plr ON plr.fk_patient_id = p.id 
+          AND plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+       INNER JOIN patient_label pl ON pl.id = plr.fk_label_id AND (CASE WHEN pl.is_defualt = 1 THEN plr.fk_user_id=#{userId} ELSE 1=1 END)
+    </if> 
+    <where>
+        <if test="assayMonth != null">
+           padc.assay_month = #{assayMonth}
+        </if>
+        <if test="fkTenantId != null">
+           AND padc.fk_tenant_id = #{fkTenantId}
+        </if>
+        <if test="isTemp != null">
+           AND p.is_temp = #{isTemp}
+        </if>
+    </where>
+    ORDER BY p.initial ASC, p.id
+  </select>
+  <!-- 根据自定义条件查询数据 -->
+    <delete id="deleteByCondition" parameterType="com.xtt.common.dao.po.PatientAssayReportCommonPO">
+        delete from patient_assay_report_common
+        where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+        <if test="itemCodes !=null and itemCodes.size()>0">
+            and item_code in
+            <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+        </if>
+        <if test="assayMonth != null">
+            AND assay_month = #{assayMonth}
+        </if>
+        <if test="itemCode != null">
+            AND item_code = #{itemCode}
+        </if>
+    </delete>
+</mapper>
