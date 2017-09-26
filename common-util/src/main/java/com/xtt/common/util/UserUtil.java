@@ -1,6 +1,6 @@
 /**   
  * @Title: UserUtil.java 用户工具类，方便在系统各个地方调用
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月16日 上午10:30:37 
@@ -8,10 +8,13 @@
  */
 package com.xtt.common.util;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dto.LoginUser;
+import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.permission.UserUtilContext;
 
 public class UserUtil {
@@ -142,6 +145,21 @@ public class UserUtil {
     }
 
     /**
+     * 获取当前登录者的角色是否为[其他或者工程师]
+     * 
+     * @Title: isEngineer
+     * @return
+     * 
+     */
+    public static Boolean isEngineer() {
+        String roleType = getLoginUser().getRoleType();
+        if (roleType.equals(CommonConstants.ROLE_ENGINEER)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 获取租户id
      * 
      * @Title: getTenantId
@@ -183,6 +201,17 @@ public class UserUtil {
     }
 
     /**
+     * 获取有权限的菜单数据
+     * 
+     * @Title: getPermissionList
+     * @return
+     *
+     */
+    public static List<SysObjDto> getPermissionList() {
+        return UserUtilContext.getPermissionList();
+    }
+
+    /**
      * 获取没有权限的菜单数据
      * 
      * @return
@@ -191,7 +220,7 @@ public class UserUtil {
      * @return
      * 
      */
-    public static String getNonPermissionList() {
+    public static List<SysObjDto> getNonPermissionList() {
         return UserUtilContext.getNonPermissionList();
     }
 
@@ -236,7 +265,21 @@ public class UserUtil {
     }
 
     public static void setThreadTenant(Integer id) {
-        UserUtilContext.setThreadTenant(id);
+        UserUtilContext.setThreadTenant(id, null);
+    }
+
+    /**
+     * 设置线程局部变量
+     * 
+     * @Title: setThreadTenant
+     * @param id
+     *            租户id
+     * @param sysOwner
+     *            所属系统
+     *
+     */
+    public static void setThreadTenant(Integer id, String sysOwner) {
+        UserUtilContext.setThreadTenant(id, sysOwner);
     }
 
     public static void setThreadLoginUser(LoginUser user) {

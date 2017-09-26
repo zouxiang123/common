@@ -45,8 +45,9 @@ public class HomeController {
      * 
      */
     @RequestMapping("feedback")
-    public ModelAndView feedback() throws Exception {
+    public ModelAndView feedback(String sys) throws Exception {
         ModelAndView model = new ModelAndView("home/feedback");
+        model.addObject(CommonConstants.SYS_OWNER, sys);
         return model;
     }
 

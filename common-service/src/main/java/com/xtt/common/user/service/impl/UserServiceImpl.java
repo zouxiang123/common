@@ -1,6 +1,6 @@
 /**   
  * @Title: UserServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月10日 下午12:34:06 
@@ -9,7 +9,10 @@
 package com.xtt.common.user.service.impl;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,9 +40,12 @@ import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.ImageTailorUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
+
+import sun.misc.BASE64Decoder;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -65,6 +71,20 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner) {
+        String[] arr = { CommonConstants.ROLE_NURSE, CommonConstants.ROLE_DOCTOR };
+        return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+    }
+
+    @Override
+    public List<SysUserPO> listByRoleTypes(Integer tenantId, String[] arr, String sysOwner) {
+        if (arr != null && arr.length > 0) {
+            return sysUserMapper.selectByParentRoleIds(tenantId, arr, sysOwner);
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public SysUserPO selectById(Long userId) {
         return selectById(userId, true);
     }
@@ -74,7 +94,8 @@ public class UserServiceImpl implements IUserService {
      * 
      * @Title: selectById
      * @param id
-     * @param fromCache是否从缓存获取
+     * @param fromCache
+     *            是否从缓存获取
      * @return
      *
      */
@@ -107,6 +128,9 @@ public class UserServiceImpl implements IUserService {
                 user.setPassword(MD5Util.md5(user.getPassword()));
             updateByPrimaryKeySelective(user);// 更新用户数据
         } else {
+            if (user.getSkin() == null) {
+                user.setSkin(CommonConstants.USER_SKIN_DEFAULT);
+            }
             DataUtil.setSystemFieldValue(user);
             user.setDelFlag(false);
             user.setFkTenantId(UserUtil.getTenantId());
@@ -114,11 +138,12 @@ public class UserServiceImpl implements IUserService {
             sysUserMapper.insert(user);
             associationRole(user.getRoleId(), user.getId());// 创建关联数据
             // 新增用户创建默认头像
+            Long timeStamp = System.currentTimeMillis();
             String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
                             + "/" + user.getId() + ".png";
             String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
             BusinessCommonUtil.combineImage(name, newFilename);
-            user.setImagePath(newFilename);
+            user.setImagePath(newFilename + "?t=" + timeStamp);
             updateByPrimaryKeySelective(user);
         }
         return CommonConstants.SUCCESS;
@@ -168,8 +193,9 @@ public class UserServiceImpl implements IUserService {
         } catch (Exception e) {
             LOGGER.info("save original drawing failed,error ms is", e);
         }
+        Long timeStamp = System.currentTimeMillis();
         BusinessCommonUtil.compressPic(path, fileName);// 压缩图片
-        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName);
+        user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName + "?t=" + timeStamp);
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
         return fileName;
@@ -177,7 +203,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner) {
-        return sysUserMapper.selectAllUserByTenantId(tenantId, sysOwner);
+        return listByTenantId(tenantId, sysOwner, false);
     }
 
     @Override
@@ -215,14 +241,14 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updateUser(SysUserPO user) {
+    public int updateUser(SysUserPO user) {
         if (StringUtils.isNotBlank(user.getName()))
             user.setInitial(PinyinHelper.getShortPinyin(user.getName()).substring(0, 1).toUpperCase());
         if (StringUtils.isNotBlank(user.getPassword()))
             user.setPassword(MD5Util.md5(user.getPassword()));
         user.setUpdateTime(new Date());
         user.setUpdateUserId(user.getId());
-        updateByPrimaryKeySelective(user);
+        return updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -253,20 +279,21 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void updatePassword(SysUserPO user) {
+    public int updatePassword(SysUserPO user) {
         user.setPassword(MD5Util.md5(user.getPassword()));
         user.setUpdateTime(new Date());
         user.setUpdateUserId(UserUtil.getLoginUserId());
-        updateByPrimaryKeySelective(user);
+        return updateByPrimaryKeySelective(user);
     }
 
-    private void updateByPrimaryKeySelective(SysUser user) {
-        sysUserMapper.updateByPrimaryKeySelective(user);
+    private int updateByPrimaryKeySelective(SysUser user) {
+        int count = sysUserMapper.updateByPrimaryKeySelective(user);
         // refresh cache
         SysUserPO sysUserPO = selectById(user.getId(), false);
         SysUserDto cacheUser = new SysUserDto();
         BeanUtils.copyProperties(sysUserPO, cacheUser);
         UserCache.refresh(cacheUser);
+        return count;
     }
 
     @Override
@@ -278,5 +305,77 @@ public class UserServiceImpl implements IUserService {
         LoginUser loginUser = UserUtil.getLoginUser();
         loginUser.setSkin(skin);
         UserUtil.setLoginUser(loginUser);
+    }
+
+    @Override
+    public String uploadAutograph(MultipartFile image, int x, int y, int width, int height) throws IllegalStateException, IOException {
+        String path = BusinessCommonUtil.getFilePath(CommonConstants.IMAGE_FILE_PATH);
+        String imgName = image.getOriginalFilename();
+        SysUser user = selectById(UserUtil.getLoginUserId(), true);
+        String imgPath = CommonConstants.USER_IMAGE_FILE_PATH + "/" + CommonConstants.USER_AUTOGRAPH_FILE_PATH + "/";
+        String fileName = String.valueOf(user.getId()) + imgName.substring(imgName.lastIndexOf("."), imgName.length());
+        String originalImgPath = imgPath + "original/";
+        try {// save original drawing
+            File originalFile = new File(path + originalImgPath + fileName);
+            if (!originalFile.exists()) {
+                originalFile.mkdirs();
+            } else {
+                originalFile.delete();
+            }
+            image.transferTo(originalFile);
+        } catch (Exception e) {
+            LOGGER.info("save original drawing failed,error ms is", e);
+        }
+        String outputDir = path + originalImgPath;
+        // 根据处理后的图片进行裁剪
+        String destImgDir = path + imgPath;
+        boolean isOk = new ImageTailorUtil().cutImage(outputDir + fileName, destImgDir, fileName, x, y, width, height);
+        if (isOk) {
+            user.setAutographPath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + imgPath + fileName);
+            user.setUpdateTime(new Date());
+            updateByPrimaryKeySelective(user);
+            return user.getAutographPath();
+        }
+        return "";
+    }
+
+    /**
+     * 对字节数组字符串进行Base64解码并生成图片
+     * 
+     * @param imgStr
+     * @param imgFilePath
+     * @return
+     */
+    private boolean GenerateImage(String imgStr, String imgFilePath) {
+        if (imgStr == null) // 图像数据为空
+            return false;
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            // Base64解码
+            byte[] bytes = decoder.decodeBuffer(imgStr);
+            for (int i = 0; i < bytes.length; ++i) {
+                if (bytes[i] < 0) {// 调整异常数据
+                    bytes[i] += 256;
+                }
+            }
+            // 生成jpeg图片
+            OutputStream out = new FileOutputStream(imgFilePath);
+            out.write(bytes);
+            out.flush();
+            out.close();
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
+    public List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag) {
+        return sysUserMapper.listByTenantId(tenantId, sysOwner, delFlag);
+    }
+
+    @Override
+    public SysUser getRoundUser(Integer constantType) {
+        return sysUserMapper.getRoundUser(constantType);
     }
 }

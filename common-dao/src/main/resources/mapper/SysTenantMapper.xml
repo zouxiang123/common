@@ -10,18 +10,20 @@
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="start_date" jdbcType="DATE" property="startDate" />
     <result column="end_date" jdbcType="DATE" property="endDate" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+    <result column="group_flag" jdbcType="BIT" property="groupFlag" />
+    <result column="license" jdbcType="VARCHAR" property="license" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
-    <result column="is_default" jdbcType="BIT" property="isDefault" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, name, is_enable, start_date, end_date, create_time, create_user_id, update_time, 
-    update_user_id, is_default
+    id, name, is_enable, start_date, end_date, is_default, group_flag, license, create_time, 
+    create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--
@@ -44,13 +46,15 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into sys_tenant (id, name, is_enable, 
-      start_date, end_date, create_time, 
-      create_user_id, update_time, update_user_id, 
-      is_default)
+      start_date, end_date, is_default, 
+      group_flag, license, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
-      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{isDefault,jdbcType=BIT})
+      #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{isDefault,jdbcType=BIT}, 
+      #{groupFlag,jdbcType=BIT}, #{license,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysTenant">
     <!--
@@ -73,6 +77,15 @@
       <if test="endDate != null">
         end_date,
       </if>
+      <if test="isDefault != null">
+        is_default,
+      </if>
+      <if test="groupFlag != null">
+        group_flag,
+      </if>
+      <if test="license != null">
+        license,
+      </if>
       <if test="createTime != null">
         create_time,
       </if>
@@ -84,9 +97,6 @@
       </if>
       <if test="updateUserId != null">
         update_user_id,
-      </if>
-      <if test="isDefault != null">
-        is_default,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -105,6 +115,15 @@
       <if test="endDate != null">
         #{endDate,jdbcType=DATE},
       </if>
+      <if test="isDefault != null">
+        #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="groupFlag != null">
+        #{groupFlag,jdbcType=BIT},
+      </if>
+      <if test="license != null">
+        #{license,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -116,9 +135,6 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="isDefault != null">
-        #{isDefault,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -140,6 +156,15 @@
       <if test="endDate != null">
         end_date = #{endDate,jdbcType=DATE},
       </if>
+      <if test="isDefault != null">
+        is_default = #{isDefault,jdbcType=BIT},
+      </if>
+      <if test="groupFlag != null">
+        group_flag = #{groupFlag,jdbcType=BIT},
+      </if>
+      <if test="license != null">
+        license = #{license,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -151,9 +176,6 @@
       </if>
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="isDefault != null">
-        is_default = #{isDefault,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -167,11 +189,13 @@
       is_enable = #{isEnable,jdbcType=BIT},
       start_date = #{startDate,jdbcType=DATE},
       end_date = #{endDate,jdbcType=DATE},
+      is_default = #{isDefault,jdbcType=BIT},
+      group_flag = #{groupFlag,jdbcType=BIT},
+      license = #{license,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
-      is_default = #{isDefault,jdbcType=BIT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <!-- 添加医院 -->

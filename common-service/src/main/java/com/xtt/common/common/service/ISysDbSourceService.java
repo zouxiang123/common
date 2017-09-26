@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.xtt.common.dao.model.PatientOrders;
 import com.xtt.common.dao.model.SysDbSource;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientPO;
-import com.xtt.common.dao.po.QueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 
 /**
@@ -42,10 +42,12 @@ public interface ISysDbSourceService {
      * 
      * @Title: sendOrdersStatus
      * @param list
+     * @param sysOwner
+     *            所属系统
      * @return
      * 
      */
-    String sendOrdersStatus(List<PatientOrders> list);
+    String sendOrdersStatus(List<PatientOrders> list, String sysOwner);
 
     /**
      * 同步费用医嘱
@@ -56,7 +58,7 @@ public interface ISysDbSourceService {
      * @return
      * 
      */
-    String sendQueryOrderInfo(QueryPO query);
+    String sendQueryOrderInfo(CmQueryPO query);
 
     /**
      * 根据选择条件下载指定的数据
@@ -66,7 +68,7 @@ public interface ISysDbSourceService {
      * @return
      * 
      */
-    public String downDB(QueryPO query);
+    public String downDB(CmQueryPO query);
 
     /**
      * 根据条件获取病患基本资料
@@ -76,6 +78,6 @@ public interface ISysDbSourceService {
      * @return
      * 
      */
-    public PatientPO patientDB(QueryPO query) throws Exception;
+    public PatientPO patientDB(CmQueryPO query) throws Exception;
 
 }

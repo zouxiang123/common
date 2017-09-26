@@ -1,6 +1,6 @@
 /**   
  * @Title: Snippet.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月19日 上午8:46:37 
@@ -17,7 +17,7 @@ public class ContextAuthUtil {
     private static ContextAuthFactory factory = new ContextAuthCache();
 
     public static void putAuth(String key, Object value) {
-        Map<String, Object> auth = factory.getAuth();
+        Map<String, Object> auth = factory.getAuth(null);
         auth.put(key, value);
         refreshAuth(auth);
     }
@@ -39,7 +39,7 @@ public class ContextAuthUtil {
     }
 
     public static Map<String, Object> getAuth() {
-        return factory.getAuth();
+        return factory.getAuth(null);
     }
 
     public static void setAccount2Token(String account, String token) {
@@ -52,6 +52,10 @@ public class ContextAuthUtil {
 
     public static void refreshAuth(Map<String, Object> auth) {
         factory.addAuth(null, auth);
+    }
+
+    public static Map<String, Object> getAuth(String token) {
+        return factory.getAuth(token);
     }
 
 }

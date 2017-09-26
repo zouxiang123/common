@@ -1,6 +1,6 @@
 /**   
  * @Title: ISysTemplateService.java 
- * @Package com.xtt.txgl.system.service
+ * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年4月7日 上午10:46:00 
@@ -35,11 +35,12 @@ public interface ISysTemplateService {
     /**
      * 查询模板类型
      * 
+     * 
      * @Title: selectTemplateType
      * @return
      * 
      */
-    List<SysTemplate> selectTemplateType(String sysOwner);
+    List<SysTemplate> selectTemplateType(String sysOwner, String templateName);
 
     /**
      * 根据类型查询模板
@@ -62,4 +63,22 @@ public interface ISysTemplateService {
      * 
      */
     int deleteTemplate(SysTemplate record);
+
+    /**
+     * 根据id更新模板默认值
+     * 
+     * @param record
+     * @return
+     */
+    int updateTemplateStatus(SysTemplate record);
+
+    /**
+     * 根据模板名称，类型查询是否重复
+     * 
+     * @Title: cheackTemplate
+     * @param record
+     * @return
+     *
+     */
+    Integer cheackTemplate(SysTemplatePO record);
 }

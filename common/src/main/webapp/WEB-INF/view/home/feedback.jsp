@@ -24,6 +24,7 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-12 bg-grey main-wrap margin-top-20" id="mainContent">
 				<form id="frm" action="${ctx }/saveFeedback.shtml" method="post">
+                    <input type="hidden" name="sysOwner" value="${sysOwner }"/>
 					<div class="main-layout">
 						<div class="tab-header">
 							<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">联系方式</span>

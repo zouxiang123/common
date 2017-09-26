@@ -140,7 +140,7 @@
                                                         <span class="personal-title" style="min-width:60px"></span>
                                                         <select class="personal-input2" id="patientCardList[${ st.index + 1}].cardType" name="patientCardList[${ st.index + 1}].cardType" data-cardType>
                                                             <c:forEach var="obj" items="${medicare_card_type}" varStatus="status">
-                                                                <option value="${obj.value }" <c:if test="${obj.value== ptCard.cardType }">selected="selected"</c:if> >${obj.name}</option>
+                                                                <option value="${obj.value }" <c:if test="${obj.value == ptCard.cardType }">selected="selected"</c:if> >${obj.name}</option>
                                                             </c:forEach>
                                                         </select> 
                                                         <input type="hidden" value="${ptCard.delFlag}" name="patientCardList[${ st.index + 1}].delFlag" data-delFlag/>
@@ -442,7 +442,6 @@
     addOrEdit = '${addOrEdit}';
     $(function() {
         $("#birthdayShow_div_id").hide();//隐藏div  
-        
         $("#patientForm_birthday").daterangepicker({
             "singleDatePicker": true,
             "showDropdowns": true,

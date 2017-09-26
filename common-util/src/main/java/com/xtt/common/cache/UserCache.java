@@ -1,6 +1,6 @@
 /**   
  * @Title: BusinessCache.java 
- * @Package com.xtt.txgl.common.cache
+ * @Package com.xtt.common.common.cache
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年8月17日 上午9:50:42 
@@ -23,7 +23,7 @@ import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 public class UserCache {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PatientCache.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCache.class);
 
     public static String getKey(Integer tenantId, Long id) {
         return tenantId + "sysUser" + (id == null ? "*" : id);
@@ -52,6 +52,15 @@ public class UserCache {
         }
     }
 
+    public static String getNameById(Long id) {
+        SysUserDto obj = getById(id);
+        if (obj == null) {
+            return "";
+        } else {
+            return obj.getName();
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public static Map<Long, SysUserDto> getById(Collection<Long> ids) {
         long start = System.currentTimeMillis();
@@ -71,7 +80,9 @@ public class UserCache {
                 map.put(obj.getId(), obj);
             }
             result.clear();
-            LOGGER.info("get {} count sysUser data from redis cost {} ms", ids.size(), (System.currentTimeMillis() - start));
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("get {} count sysUser data from redis cost {} ms", ids.size(), (System.currentTimeMillis() - start));
+            }
             return map;
         } catch (Exception e) {
             LOGGER.warn("get dialysis machine data from redis", e);

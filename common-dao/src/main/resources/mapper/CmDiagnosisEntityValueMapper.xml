@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.CmDiagnosisEntityValueMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="fk_entity_id" jdbcType="CHAR" property="fkEntityId" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+    <result column="fk_tenant_id" jdbcType="BIGINT" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <resultMap id="ValueResultMap" type="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+    <id column="v_id" property="id"/>  
+    <result column="v_fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="v_fk_entity_id" jdbcType="CHAR" property="fkEntityId" />
+    <result column="v_item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="v_item_value" jdbcType="VARCHAR" property="itemValue" />
+    <result column="v_fk_tenant_id" jdbcType="BIGINT" property="fkTenantId" />
+    <result column="v_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="v_create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="v_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="v_update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    
+    <association property="entity" javaType="com.xtt.common.dao.po.CmDiagnosisEntityPO">
+      <id column="e_id" property="id"/>  
+      <result column="e_fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+      <result column="e_item_code" jdbcType="VARCHAR" property="itemCode" />
+      <result column="e_fk_tenant_id" jdbcType="BIGINT" property="fkTenantId" />
+      <result column="e_create_time" jdbcType="TIMESTAMP" property="createTime" />
+      <result column="e_create_user_id" jdbcType="BIGINT" property="createUserId" />
+      <result column="e_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+      <result column="e_update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    </association>  
+  </resultMap>  
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, fk_entity_id, item_code, item_value, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from cm_diagnosis_entity_value
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_diagnosis_entity_value
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_entity_value (id, fk_patient_id, fk_entity_id, 
+      item_code, item_value, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id, content)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{fkEntityId,jdbcType=CHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_entity_value
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="fkEntityId != null">
+        fk_entity_id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemValue != null">
+        item_value,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="fkEntityId != null">
+        #{fkEntityId,jdbcType=CHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_entity_value
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="fkEntityId != null">
+        fk_entity_id = #{fkEntityId,jdbcType=CHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        item_value = #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_entity_value
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      fk_entity_id = #{fkEntityId,jdbcType=CHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_value = #{itemValue,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmDiagnosisEntityValue">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_entity_value
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      fk_entity_id = #{fkEntityId,jdbcType=CHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_value = #{itemValue,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectEntityFetchValue" parameterType="java.lang.Long" resultMap="ValueResultMap" >  
+      select 
+      <!-- entity columns -->
+      e.id as e_id,
+  	  e.fk_patient_id as e_fk_patient_id, 
+  	  e.item_code as e_item_code, 
+      e.fk_tenant_id as e_fk_tenant_id, 
+      e.create_time as e_create_time, 
+      e.create_user_id as e_create_user_id, 
+      e.update_time as e_update_time, 
+      e.update_user_id as e_update_user_id,
+      <!-- value columns -->
+      v.id as v_id,
+  	  v.fk_patient_id as v_fk_patient_id, 
+  	  v.fk_entity_id as v_fk_entity_id, 
+  	  v.item_code as v_item_code, 
+  	  v.item_value as v_item_value, 
+      v.fk_tenant_id as v_fk_tenant_id, 
+      v.create_time as v_create_time, 
+      v.create_user_id as v_create_user_id, 
+      v.update_time as v_update_time, 
+      v.update_user_id as v_update_user_id
+      from cm_diagnosis_entity e,cm_diagnosis_entity_value v where v.fk_entity_id=e.id and v.id=#{valueId}  
+  </select>
+  <insert id="insertValueBatch" useGeneratedKeys="true" parameterType="java.util.List">  
+    insert into cm_diagnosis_entity_value (id, fk_patient_id, fk_entity_id, 
+      item_code, item_value, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id, content)
+    values   
+    <foreach collection="list" item="item" index="index" separator="," >  
+      (#{item.id,jdbcType=BIGINT}, #{item.fkPatientId,jdbcType=BIGINT}, #{item.fkEntityId,jdbcType=CHAR}, 
+      #{item.itemCode,jdbcType=VARCHAR}, #{item.itemValue,jdbcType=VARCHAR}, #{item.fkTenantId,jdbcType=BIGINT}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+      #{item.updateUserId,jdbcType=BIGINT}, #{item.content,jdbcType=LONGVARCHAR}) 
+    </foreach>  
+  </insert> 
+  <delete id="deleteByEntity" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_diagnosis_entity_value
+    where fk_entity_id = #{entityId,jdbcType=BIGINT}
+  </delete> 
+</mapper>

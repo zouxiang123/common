@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayDataMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayData">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="fk_assay_record_id" jdbcType="VARCHAR" property="fkAssayRecordId" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="assay_val" jdbcType="VARCHAR" property="assayVal" />
+    <result column="assay_val_num" jdbcType="DOUBLE" property="assayValNum" />
+    <result column="assay_val_type" jdbcType="INTEGER" property="assayValType" />
+    <result column="assay_case" jdbcType="VARCHAR" property="assayCase" />
+    <result column="assay_time" jdbcType="TIMESTAMP" property="assayTime" />
+    <result column="assay_time_day" jdbcType="INTEGER" property="assayTimeDay" />
+    <result column="assay_time_month" jdbcType="INTEGER" property="assayTimeMonth" />
+    <result column="assay_time_year" jdbcType="INTEGER" property="assayTimeYear" />
+    <result column="assay_option" jdbcType="INTEGER" property="assayOption" />
+    <result column="send_doctor" jdbcType="VARCHAR" property="sendDoctor" />
+    <result column="check_person" jdbcType="VARCHAR" property="checkPerson" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, fk_assay_record_id, item_code, item_name, group_id, group_name, 
+    assay_val, assay_val_num, assay_val_type, assay_case, assay_time, assay_time_day, 
+    assay_time_month, assay_time_year, assay_option, send_doctor, check_person, fk_tenant_id, 
+    create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_assay_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_assay_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayData">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_data (id, fk_patient_id, fk_assay_record_id, 
+      item_code, item_name, group_id, 
+      group_name, assay_val, assay_val_num, 
+      assay_val_type, assay_case, assay_time, 
+      assay_time_day, assay_time_month, assay_time_year, 
+      assay_option, send_doctor, check_person, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{fkAssayRecordId,jdbcType=VARCHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, 
+      #{groupName,jdbcType=VARCHAR}, #{assayVal,jdbcType=VARCHAR}, #{assayValNum,jdbcType=DOUBLE}, 
+      #{assayValType,jdbcType=INTEGER}, #{assayCase,jdbcType=VARCHAR}, #{assayTime,jdbcType=TIMESTAMP}, 
+      #{assayTimeDay,jdbcType=INTEGER}, #{assayTimeMonth,jdbcType=INTEGER}, #{assayTimeYear,jdbcType=INTEGER}, 
+      #{assayOption,jdbcType=INTEGER}, #{sendDoctor,jdbcType=VARCHAR}, #{checkPerson,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayData">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="fkAssayRecordId != null">
+        fk_assay_record_id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="assayVal != null">
+        assay_val,
+      </if>
+      <if test="assayValNum != null">
+        assay_val_num,
+      </if>
+      <if test="assayValType != null">
+        assay_val_type,
+      </if>
+      <if test="assayCase != null">
+        assay_case,
+      </if>
+      <if test="assayTime != null">
+        assay_time,
+      </if>
+      <if test="assayTimeDay != null">
+        assay_time_day,
+      </if>
+      <if test="assayTimeMonth != null">
+        assay_time_month,
+      </if>
+      <if test="assayTimeYear != null">
+        assay_time_year,
+      </if>
+      <if test="assayOption != null">
+        assay_option,
+      </if>
+      <if test="sendDoctor != null">
+        send_doctor,
+      </if>
+      <if test="checkPerson != null">
+        check_person,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="fkAssayRecordId != null">
+        #{fkAssayRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="assayVal != null">
+        #{assayVal,jdbcType=VARCHAR},
+      </if>
+      <if test="assayValNum != null">
+        #{assayValNum,jdbcType=DOUBLE},
+      </if>
+      <if test="assayValType != null">
+        #{assayValType,jdbcType=INTEGER},
+      </if>
+      <if test="assayCase != null">
+        #{assayCase,jdbcType=VARCHAR},
+      </if>
+      <if test="assayTime != null">
+        #{assayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assayTimeDay != null">
+        #{assayTimeDay,jdbcType=INTEGER},
+      </if>
+      <if test="assayTimeMonth != null">
+        #{assayTimeMonth,jdbcType=INTEGER},
+      </if>
+      <if test="assayTimeYear != null">
+        #{assayTimeYear,jdbcType=INTEGER},
+      </if>
+      <if test="assayOption != null">
+        #{assayOption,jdbcType=INTEGER},
+      </if>
+      <if test="sendDoctor != null">
+        #{sendDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPerson != null">
+        #{checkPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientAssayData">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_assay_data
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="fkAssayRecordId != null">
+        fk_assay_record_id = #{fkAssayRecordId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="assayVal != null">
+        assay_val = #{assayVal,jdbcType=VARCHAR},
+      </if>
+      <if test="assayValNum != null">
+        assay_val_num = #{assayValNum,jdbcType=DOUBLE},
+      </if>
+      <if test="assayValType != null">
+        assay_val_type = #{assayValType,jdbcType=INTEGER},
+      </if>
+      <if test="assayCase != null">
+        assay_case = #{assayCase,jdbcType=VARCHAR},
+      </if>
+      <if test="assayTime != null">
+        assay_time = #{assayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assayTimeDay != null">
+        assay_time_day = #{assayTimeDay,jdbcType=INTEGER},
+      </if>
+      <if test="assayTimeMonth != null">
+        assay_time_month = #{assayTimeMonth,jdbcType=INTEGER},
+      </if>
+      <if test="assayTimeYear != null">
+        assay_time_year = #{assayTimeYear,jdbcType=INTEGER},
+      </if>
+      <if test="assayOption != null">
+        assay_option = #{assayOption,jdbcType=INTEGER},
+      </if>
+      <if test="sendDoctor != null">
+        send_doctor = #{sendDoctor,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPerson != null">
+        check_person = #{checkPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientAssayData">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_assay_data
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      fk_assay_record_id = #{fkAssayRecordId,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      assay_val = #{assayVal,jdbcType=VARCHAR},
+      assay_val_num = #{assayValNum,jdbcType=DOUBLE},
+      assay_val_type = #{assayValType,jdbcType=INTEGER},
+      assay_case = #{assayCase,jdbcType=VARCHAR},
+      assay_time = #{assayTime,jdbcType=TIMESTAMP},
+      assay_time_day = #{assayTimeDay,jdbcType=INTEGER},
+      assay_time_month = #{assayTimeMonth,jdbcType=INTEGER},
+      assay_time_year = #{assayTimeYear,jdbcType=INTEGER},
+      assay_option = #{assayOption,jdbcType=INTEGER},
+      send_doctor = #{sendDoctor,jdbcType=VARCHAR},
+      check_person = #{checkPerson,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <resultMap id="PatientAssayRecordResultMap" type="com.xtt.common.dao.model.PatientAssayRecord">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="his_pt_Id" jdbcType="VARCHAR" property="hisPtId" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="result_actual" jdbcType="DOUBLE" property="resultActual" />
+    <result column="value_unit" jdbcType="VARCHAR" property="valueUnit" />
+    <result column="result_tips" jdbcType="VARCHAR" property="resultTips" />
+    <result column="value_min" jdbcType="DECIMAL" property="valueMin" />
+    <result column="value_max" jdbcType="DECIMAL" property="valueMax" />
+    <result column="reference" jdbcType="VARCHAR" property="reference" />
+    <result column="report_time" jdbcType="TIMESTAMP" property="reportTime" />
+    <result column="req_id" jdbcType="VARCHAR" property="reqId" />
+    <result column="req_time" jdbcType="TIMESTAMP" property="reqTime" />
+    <result column="req_dept" jdbcType="VARCHAR" property="reqDept" />
+    <result column="sample_class" jdbcType="VARCHAR" property="sampleClass" />
+    <result column="sample_time" jdbcType="TIMESTAMP" property="sampleTime" />
+    <result column="send_doctor" jdbcType="VARCHAR" property="sendDoctor" />
+    <result column="check_time" jdbcType="TIMESTAMP" property="checkTime" />
+    <result column="check_person" jdbcType="VARCHAR" property="checkPerson" />
+    <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
+    <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
+    <result column="assay_date" jdbcType="VARCHAR" property="assayDate" />
+    <result column="sample_code" jdbcType="VARCHAR" property="sampleCode" />
+    <result column="test_method" jdbcType="VARCHAR" property="testMethod" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+  <select id="findByPatientAssayRecord" resultMap="PatientAssayRecordResultMap" parameterType="com.xtt.common.dao.po.PatientAssayDataPO">
+  	SELECT
+		DISTINCT
+		a.item_code,
+		a.group_id,
+		a.group_name,
+		a.item_name,
+		a.id,
+		a.fk_patient_id,
+		a.sample_time,
+		a.assay_month,
+		a.result,
+		a.result_actual,
+		a.result_tips,
+		a.send_doctor,
+		a.check_person,
+		a.fk_tenant_id
+	FROM
+		patient_assay_record a
+	WHERE
+		1=1
+		<if test="endTime != null and endTime != ''">
+			and date(sample_time) BETWEEN #{startTime} and #{endTime}
+		</if>
+		<if test="endTime == null or endTime == ''">
+			and date(sample_time) =#{startTime}
+		</if>
+  </select>
+  <select id="selectByPatientAssayRecordMinDate" resultType="string">
+  	select min(date(sample_time)) from patient_assay_record
+  </select>
+  
+  <select id="selectByPatientAssayDataCount" resultType="int">
+  	select count(id) from patient_assay_data
+  	where  1=1
+  	<if test="checkDate != null and checkDate != ''">
+  		and date(assay_time) = #{checkDate}
+  	</if>
+  </select>
+  
+  <select id="selectByDictHospitalLab" resultType="com.xtt.common.dao.model.AssayHospDict">
+  	select item_code as itemCode,value_type as valueType from assay_hosp_dict
+  </select>
+</mapper>

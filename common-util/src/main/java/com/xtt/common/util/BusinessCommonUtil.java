@@ -1,6 +1,6 @@
 /**   
  * @Title: CommonUtil.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月10日 上午10:26:15 
@@ -99,6 +99,16 @@ public class BusinessCommonUtil {
     public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName) {
         CompressPicUtil mypic = new CompressPicUtil();
         mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, 144, 144, true);
+    }
+
+    public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName, int width, int height) {
+        CompressPicUtil mypic = new CompressPicUtil();
+        mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, width, height, true);
+    }
+
+    public static void compressPic(String inputDir, String outputDir, String inputFileName, String outputFileName, int width, int height, boolean gp) {
+        CompressPicUtil mypic = new CompressPicUtil();
+        mypic.compressPic(inputDir, outputDir, inputFileName, outputFileName, width, height, gp);
     }
 
     /**

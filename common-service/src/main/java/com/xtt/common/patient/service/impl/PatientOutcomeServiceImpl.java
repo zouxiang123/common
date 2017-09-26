@@ -1,6 +1,6 @@
 /**   
  * @Title: OutcomeServiceImpl.java 
- * @Package com.xtt.txgl.patient.service.impl
+ * @Package com.xtt.common.patient.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月29日 上午10:43:55 
@@ -15,7 +15,6 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.PatientOutcomeMapper;
@@ -25,8 +24,8 @@ import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
-import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DataUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 
 @Service
@@ -101,7 +100,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             Map<String, String> typesMap = DictUtil.getMapByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE);
             for (PatientOutcomePO po : list) {
                 po.setTypeShow(typesMap.get(po.getType()));
-                po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
+                // po.setPatientName(PatientCache.getById(po.getFkPatientId()).getName());
                 po.setCreateUserName(UserCache.getById(po.getCreateUserId()).getName());
             }
         }

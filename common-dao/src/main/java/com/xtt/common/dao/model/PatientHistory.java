@@ -79,6 +79,12 @@ public class PatientHistory {
     private String mobile;
 
     /**
+     * 邮箱
+     * patient_history.email
+     */
+    private String email;
+
+    /**
      * 紧急联系方式
      * patient_history.emergency_mobile
      */
@@ -439,6 +445,20 @@ public class PatientHistory {
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * 邮箱
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * 邮箱
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**

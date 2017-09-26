@@ -1,6 +1,6 @@
 /**   
  * @Title: SysParamService.java 
- * @Package com.xtt.txgl.common.service
+ * @Package com.xtt.common.common.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年11月3日 下午3:19:29 
@@ -26,6 +26,16 @@ public interface ISysParamService {
     SysParam getByName(String name);
 
     /**
+     * 根据ID查询参数
+     * 
+     * @Title: getByName
+     * @param name
+     * @return
+     * 
+     */
+    SysParam getByID(Long id);
+
+    /**
      * 根据参数名称和租户编号查询参数
      * 
      * @Title: getByName
@@ -41,10 +51,11 @@ public interface ISysParamService {
      * 
      * @Title: getByTenantId
      * @param tenantId
+     * @param sysOwner
      * @return
      *
      */
-    List<SysParamPO> getByTenantId(Integer tenantId);
+    List<SysParamPO> getByTenantId(Integer tenantId, String sysOwner);
 
     /**
      * 保存系统参数配置

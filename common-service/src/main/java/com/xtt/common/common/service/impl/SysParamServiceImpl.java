@@ -1,6 +1,6 @@
 /**   
  * @Title: SysParamServiceImpl.java 
- * @Package com.xtt.txgl.common.service.impl
+ * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年11月3日 下午3:19:56 
@@ -40,8 +40,8 @@ public class SysParamServiceImpl implements ISysParamService {
     }
 
     @Override
-    public List<SysParamPO> getByTenantId(Integer tenantId) {
-        return sysParamMapper.selectByTenantId(tenantId, UserUtil.getSysOwner());
+    public List<SysParamPO> getByTenantId(Integer tenantId, String sysOwner) {
+        return sysParamMapper.selectByTenantId(tenantId, sysOwner);
     }
 
     @Override
@@ -65,5 +65,10 @@ public class SysParamServiceImpl implements ISysParamService {
     public List<SysParamPO> selectByCondition(SysParamPO record) {
         record.setFkTenantId(UserUtil.getTenantId());
         return sysParamMapper.selectByCondition(record);
+    }
+
+    @Override
+    public SysParam getByID(Long id) {
+        return sysParamMapper.selectByPrimaryKey(id);
     }
 }

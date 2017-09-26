@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.constants.CmSysParamConsts;
-import com.xtt.common.dao.po.QueryPO;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.thirddata.IPatientThirdSerice;
 import com.xtt.common.util.SysParamUtil;
 
@@ -33,7 +33,7 @@ public class PatientThirdSericeImpl implements IPatientThirdSerice {
         if (null == patientId || !CmSysParamConsts.IS_OPEN_PT_TYPE_OPEN.equals(isOpen)) {
             return;
         }
-        QueryPO query = new QueryPO();
+        CmQueryPO query = new CmQueryPO();
         query.setFkPatientId(patientId);
         query.setDownType(downType);
         query.setSysOwner(sysOwner);

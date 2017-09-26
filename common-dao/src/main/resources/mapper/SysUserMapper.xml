@@ -11,6 +11,7 @@
     <result column="initial" jdbcType="VARCHAR" property="initial" />
     <result column="password" jdbcType="VARCHAR" property="password" />
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="autograph_path" jdbcType="VARCHAR" property="autographPath" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="position" jdbcType="VARCHAR" property="position" />
@@ -30,9 +31,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, account, name, initial, password, image_path, sex, birthday, position, mobile, 
-    sub_phone, skin, del_flag, fk_tenant_id, create_time, create_user_id, update_time, 
-    update_user_id, subscribe, sys_owner
+    id, account, name, initial, password, image_path, autograph_path, sex, birthday, 
+    position, mobile, sub_phone, skin, del_flag, fk_tenant_id, create_time, create_user_id, 
+    update_time, update_user_id, subscribe, sys_owner
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -56,18 +57,20 @@
     -->
     insert into sys_user (id, account, name, 
       initial, password, image_path, 
-      sex, birthday, position, 
-      mobile, sub_phone, skin, 
-      del_flag, fk_tenant_id, create_time, 
-      create_user_id, update_time, update_user_id, 
-      subscribe, sys_owner)
+      autograph_path, sex, birthday, 
+      position, mobile, sub_phone, 
+      skin, del_flag, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id, subscribe, sys_owner
+      )
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{position,jdbcType=VARCHAR}, 
-      #{mobile,jdbcType=VARCHAR}, #{subPhone,jdbcType=VARCHAR}, #{skin,jdbcType=VARCHAR}, 
-      #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{subscribe,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR})
+      #{autographPath,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{position,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{subPhone,jdbcType=VARCHAR}, 
+      #{skin,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{subscribe,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysUser">
     <!--
@@ -92,6 +95,9 @@
       </if>
       <if test="imagePath != null">
         image_path,
+      </if>
+      <if test="autographPath != null">
+        autograph_path,
       </if>
       <if test="sex != null">
         sex,
@@ -154,6 +160,9 @@
       </if>
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="autographPath != null">
+        #{autographPath,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         #{sex,jdbcType=VARCHAR},
@@ -220,6 +229,9 @@
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="autographPath != null">
+        autograph_path = #{autographPath,jdbcType=VARCHAR},
+      </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
       </if>
@@ -275,6 +287,7 @@
       initial = #{initial,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},
+      autograph_path = #{autographPath,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       position = #{position,jdbcType=VARCHAR},
@@ -298,47 +311,6 @@
 	  <result column="roleName" jdbcType="VARCHAR" property="roleName" />
 	  <result column="last_step" jdbcType="INTEGER" property="lastStep" />
 	</resultMap>
-	<select id="searchPersonByName" resultMap="ExtendResultMap">
-		SELECT
-			p.id, p.name, '患者' roleName,ifnull(dc.last_step,pd.last_step) last_step, p.image_path
-		FROM
-			patient p
-			left join dialysis_campaign dc on p.id=dc.fk_patient_id and dc.end_flag != 1 and p.fk_tenant_id=dc.fk_tenant_id
-			left join patient_diagnosis pd on p.id=pd.fk_patient_id and pd.is_draft = 1 and p.fk_tenant_id=pd.fk_tenant_id
-		where p.fk_tenant_id=#{tenantId}
-	      <if test="name != null">
-	      	and p.name like CONCAT('%', #{name}, '%')
-	      </if>
-	      <if test="sysOwner != null and sysOwner != ''">
-	    	AND find_in_set(#{sysOwner},p.sys_owner)
-	      </if> 
-		union all
-		SELECT
-			u.id, u.name, '医生' roleName,null, u.image_path
-		FROM
-			sys_user u inner join sys_user2role ur on u.id=ur.fk_user_id
-			inner join sys_role r on ur.fk_role_id=r.id and r.parent_id=2
-		where u.fk_tenant_id=#{tenantId} AND u.del_flag=0
-	      <if test="name != null">
-	      	and u.name like CONCAT('%', #{name}, '%')
-	      </if>
-	      <if test="sysOwner != null and sysOwner != ''">
-	    	AND find_in_set(#{sysOwner},u.sys_owner)
-	      </if> 
-		union all
-		SELECT
-			u.id, u.name, '护士' roleName,null, u.image_path
-		FROM
-			sys_user u inner join sys_user2role ur on u.id=ur.fk_user_id
-			inner join sys_role r on ur.fk_role_id=r.id and r.parent_id=3
-		where u.fk_tenant_id=#{tenantId} AND u.del_flag=0
-	      <if test="name != null">
-	      	and u.name like CONCAT('%', #{name}, '%')
-	      </if>
-		  <if test="sysOwner != null and sysOwner != ''">
-	    	AND find_in_set(#{sysOwner},u.sys_owner)
-	      </if> 
-	</select>
 
 	<select id="selectByParentRoleIds" resultMap="ExtendResultMap">
 		SELECT u.*,sr.parent_id as parentRoleId FROM sys_user u
@@ -363,22 +335,25 @@
 	    	,GROUP_CONCAT(sr.fk_role_id) AS roleId,GROUP_CONCAT(r.parent_id) AS parentRoleId
 		FROM
 			sys_user u
-		JOIN sys_user2role sr ON sr.fk_user_id = u.id
-		JOIN sys_role r ON sr.fk_role_id = r.id
+		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		LEFT JOIN sys_role r ON sr.fk_role_id = r.id
 		WHERE
 			u.id = #{id,jdbcType=BIGINT}
+        GROUP BY u.id
 	</select>
-	
-	<select id="selectAllUserByTenantId" resultMap="ExtendResultMap">
+	<!-- 根据租户id，所属系统，是否删除查询数据 -->
+	<select id="listByTenantId" resultMap="ExtendResultMap">
 		SELECT
 			u.*
 			,GROUP_CONCAT(r.`name`) as roleName,group_concat(r.id) as roleId,group_concat(r.parent_id) as parentRoleId
 		FROM
 			sys_user u
-		JOIN sys_user2role sr ON sr.fk_user_id = u.id
-		JOIN sys_role r ON sr.fk_role_id = r.id
+		LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		LEFT JOIN sys_role r ON sr.fk_role_id = r.id
 		where u.fk_tenant_id=#{tenantId,jdbcType=INTEGER}
-		AND u.del_flag=0
+        <if test="delFlag != null">
+		  AND u.del_flag=#{delFlag}
+        </if>
 		<if test="sysOwner != null and sysOwner != ''">
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
@@ -386,15 +361,15 @@
 		ORDER BY u.id ASC
 	</select>
 	
-	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap">
+	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap"> 
 		SELECT
-			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,GROUP_CONCAT(r.`name`) as roleName
+			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag
 		FROM
 			sys_user u
-		JOIN sys_user2role sr ON sr.fk_user_id = u.id
-		JOIN sys_role r ON sr.fk_role_id = r.id
-		where u.fk_tenant_id=#{fkTenantId,jdbcType=INTEGER} AND u.del_flag=0
-		<if test="account != null and account != ''">
+		 JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		 JOIN sys_role r ON sr.fk_role_id = r.id
+		where u.fk_tenant_id=#{fkTenantId,jdbcType=INTEGER}  
+		<if test="account != null and account != ''"> 
 			and u.account like CONCAT("%",#{account,jdbcType=VARCHAR},"%")
 		</if>
 		<if test="name != null and name != ''">
@@ -406,8 +381,8 @@
 		<if test="sysOwner != null and sysOwner != ''">
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
-		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone
-		ORDER BY u.id ASC
+		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,u.del_flag
+		ORDER BY u.del_flag,u.id ASC
 	</select>
 	
 	<select id="selectUserByAccount" resultMap="BaseResultMap">
@@ -448,4 +423,11 @@
 	<update id="updatePassword">
 		update sys_user set password = #{password} where id= #{id}
 	</update>
+	
+	<!-- 获取随机护士 -->
+	<select id="getRoundUser" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		SELECT u.* FROM sys_user u
+		JOIN sys_user2role sr ON sr.fk_user_id = u.id
+		JOIN sys_role r ON sr.fk_role_id = r.id where r.constant_type=#{constantType} ORDER BY RAND() LIMIT 1;
+	</select>
 </mapper>

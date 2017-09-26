@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +25,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
-import com.xtt.common.cache.PatientCache;
+import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
@@ -34,6 +35,7 @@ import com.xtt.common.common.service.ISysParamService;
 import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.conf.service.ICmFormulaConfService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.FamilyInitial;
 import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
@@ -41,19 +43,16 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
-import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
-import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
@@ -63,6 +62,7 @@ import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.lang.StringUtil;
+import com.xtt.platform.util.secret.AESUtil;
 
 @Service
 public class CommonCacheServiceImpl implements ICommonCacheService {
@@ -74,8 +74,6 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private ICmDictService cmDictService;
     @Autowired
     private IRoleService roleService;
-    @Autowired
-    private IPatientService patientService;
     @Autowired
     private ICmFormNodesService cmFormNodesService;
     @Autowired
@@ -108,7 +106,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheSysParam(Integer tenantId) {
         RedisCacheUtil.deletePattern(SysParamUtil.getKey(tenantId, null));
-        List<SysParamPO> list = sysParamService.getByTenantId(tenantId);
+        List<SysParamPO> list = sysParamService.getByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<SysParamDto> params = new ArrayList<>(list.size());
             SysParamDto param;
@@ -166,8 +164,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     @Override
     public void cachePatient(Integer tenantId) {
-        RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-        List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
+        /*  RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
+        List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
@@ -179,7 +177,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cacheObjs.add(toObj);
             }
             PatientCache.cacheAll(cacheObjs);
-        }
+        }*/
     }
 
     @Override
@@ -238,10 +236,15 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheUser(Integer tenantId) {
         RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
-        List<SysUserPO> list = userService.selectByTenantId(tenantId, null);
+        List<SysUserPO> list = userService.listByTenantId(tenantId, null, null);
         if (CollectionUtils.isNotEmpty(list)) {
             SysUserDto cacheUser;
-            List<SysUserDto> cacheList = new ArrayList<>(list.size());
+            List<SysUserDto> cacheList = new ArrayList<>(list.size() + 1);
+            // 添加系统用户缓存
+            SysUserDto sysUser = new SysUserDto();
+            sysUser.setId(CommonConstants.SYSTEM_USER_ID);
+            sysUser.setName(CommonConstants.SYSTEM_USER_NAME);
+            cacheList.add(sysUser);
             for (SysUserPO user : list) {
                 cacheUser = new SysUserDto();
                 BeanUtils.copyProperties(user, cacheUser);
@@ -255,6 +258,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     public void cacheAll() {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
+        cacheAuthority();
         List<SysTenant> tenantList = sysTenantService.selectAll();
         // Cache family initial
         cacheFamilyInitial();
@@ -311,5 +315,27 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             map.put(FamilyInitialCache.getKey(record.getName()), toObj);
         }
         FamilyInitialCache.init(map);
+    }
+
+    @Override
+    public void cacheAuthority(String content) {
+        Map<String, String> map = new HashMap<String, String>();
+        if (StringUtils.isNotEmpty(content)) {
+            String key = AESUtil.decrypt(content);
+            String[] lics = key.split(";");
+            for (String kv : lics) {
+                map.put(kv.split("=")[0], kv.split("=")[1]);
+            }
+        }
+        TenantAuthorityCache.cacheALL(map);
+    }
+
+    @Override
+    public void cacheAuthority() {
+        List<SysTenant> tenantList = sysTenantService.selectAll();
+        for (SysTenant st : tenantList) {
+            String content = st.getLicense();
+            cacheAuthority(content);
+        }
     }
 }

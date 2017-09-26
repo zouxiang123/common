@@ -1,6 +1,6 @@
 /**   
  * @Title: HttpServletUtil.java 封装获取HttpServlet相关的方法，如获取request、session等
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月16日 上午9:43:49 

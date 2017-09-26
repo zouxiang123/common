@@ -298,7 +298,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             switch (assayFilterRule.getCategory()) {
             case AssayConsts.LAB_AFTER_BEFORE_ZERO:
                 assayHandFactory = new AssayHandZero();
-                break;
             case AssayConsts.LAB_AFTER_BEFORE_ONE:
                 assayHandFactory = new AssayHandOne();
                 break;

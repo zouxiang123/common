@@ -1,6 +1,6 @@
 /**   
  * @Title: Constants.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: Tik   
  * @date: 2015年9月15日 下午3:14:57 
@@ -22,6 +22,7 @@ public class CommonConstants {
 
     /** 系统用户ID（JOB、硬件接口、API接口用） */
     public static final Long SYSTEM_USER_ID = 1L;
+    public static final String SYSTEM_USER_NAME = "系统用户";
 
     public static final String DEFAULT_PASSWORD = MD5Util.md5("123456");// 默认密码
 
@@ -46,6 +47,7 @@ public class CommonConstants {
     public static final String EXCEL_TEMPLATE_FILE_PATH = "excel_template";
     public static final String COMPLICATION = "complication";
     public static final String IMAGE_FILE_PATH_DIALYSIS_MACHINE = "dialysis_machine";
+    public static final String USER_AUTOGRAPH_FILE_PATH = "autograph"; // 用户签名
 
     public static final String STATUS = "status";
     public static final String ERROR_MESSAGE = "errmsg";// 血透错误提示信息
@@ -65,8 +67,8 @@ public class CommonConstants {
     public static final String ROLE_ADMIN = "1";
     public static final String ROLE_DOCTOR = "2";
     public static final String ROLE_NURSE = "3";
-    public static final String ROLE_OTHER = "4";
-    /** 管理员 */
+    public static final String ROLE_ENGINEER = "4";
+    public static final String ROLE_OTHER = "10";
     public static final int ROLE_CONSTANT_ADMIN = 11;
     /** 主任 */
     public static final int ROLE_CONSTANT_DOCTOR_DIRECTOR = 21;
@@ -117,6 +119,10 @@ public class CommonConstants {
     public static final String NEPHROSIS_TYPE_SERIOUS_CRF = "2";
     /** 肾病类型：急性肾功能衰竭 */
     public static final String NEPHROSIS_TYPE_ARF = "3";
+    /** 门诊 */
+    public static final String PATIENT_OUTPATIENT = "1";
+    /** 住院 */
+    public static final String PATIENT_HOSPITALIZATION = "2";
 
     /*-------------- common kafka topic list start -------------- */
     public static final String TOPIC_SYS_LOG = "sysLog";
@@ -139,9 +145,13 @@ public class CommonConstants {
     /** 患者卡号--农村医保卡 */
     public static final String PATIENT_MEDICARE_CARD_TYPE_COUNTRY_MEDICARE_CARD = "06";
     /*-------------- common patient medicare card type end -------------- */
-    /** 门诊 */
-    public static final String PATIENT_OUTPATIENT = "1";
-    /** 住院 */
-    public static final String PATIENT_HOSPITALIZATION = "2";
 
+    /** dialysis machine number */
+    public static final String BED_NUM = "bed_num";
+    /** dialysis machine online_num */
+    public static final String ONLINE_NUM = "online_num";
+    /**
+     * 用户默认皮肤
+     */
+    public static final String USER_SKIN_DEFAULT = "black";
 }

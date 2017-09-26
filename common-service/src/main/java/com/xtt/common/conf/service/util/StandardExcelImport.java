@@ -1,6 +1,6 @@
 /**   
  * @Title: StandardExcelImport.java 
- * @Package com.xtt.txgl.excel.util
+ * @Package com.xtt.common.excel.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月17日 下午1:12:38 
@@ -17,11 +17,13 @@ import javax.xml.datatype.DatatypeConfigurationException;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.util.excel.BadInputException;
+import com.xtt.common.util.excel.ExcelTools;
 
 public class StandardExcelImport {
-    private HashMap<Integer, Patient> patients;
+    private HashMap<Integer, PatientPO> patients;
     private HashMap<Integer, SysUserPO> doctors;
     private HashMap<Integer, SysUserPO> nurses;
     private HashMap<Integer, String> errorPatientMap;
@@ -31,7 +33,7 @@ public class StandardExcelImport {
 
     public StandardExcelImport(File f) throws FileNotFoundException, IOException {
         workbook = ExcelTools.openExcelFile(f);
-        patients = new HashMap<Integer, Patient>();
+        patients = new HashMap<Integer, PatientPO>();
         doctors = new HashMap<Integer, SysUserPO>();
         nurses = new HashMap<Integer, SysUserPO>();
         errorPatientMap = new HashMap<Integer, String>();
@@ -43,7 +45,7 @@ public class StandardExcelImport {
         StandardExcelTemplate pExcel = new StandardExcelTemplate(workbook, StandardSheetType.patient);
         StandardExcelTemplate dExcel = new StandardExcelTemplate(workbook, StandardSheetType.doctor);
         StandardExcelTemplate nExcel = new StandardExcelTemplate(workbook, StandardSheetType.nurse);
-        Patient patient;
+        PatientPO patient;
         SysUserPO user;
         for (int i = 1; i <= pExcel.getLastRowNum(); i++) {
             try {
@@ -80,11 +82,11 @@ public class StandardExcelImport {
         }
     }
 
-    public HashMap<Integer, Patient> getPatients() {
+    public HashMap<Integer, PatientPO> getPatients() {
         return patients;
     }
 
-    public void setPatients(HashMap<Integer, Patient> patients) {
+    public void setPatients(HashMap<Integer, PatientPO> patients) {
         this.patients = patients;
     }
 

@@ -42,4 +42,11 @@ public class CmSysParamConsts {
      * 新增患者的时候，服务接口是否开启
      */
     public static final String PATIENT_INTERFACE = "patient_interface";
+
+    /** 开:是 */
+    public static final String SHOW_ON = "1";
+    /** 关:否 */
+    public static final String SHOW_OFF = "0";
+    /** 打印服务地址 */
+    public static final String PRINT_SERVER_ADDR = "print_server_addr";
 }

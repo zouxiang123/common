@@ -12,86 +12,72 @@ public class SysObj {
     private Long id;
 
     /**
-     * 对象key
-     * sys_obj.key
+     * 对象key sys_obj.key
      */
     private String key;
 
     /**
-     * 对象名称
-     * sys_obj.name
+     * 对象名称 sys_obj.name
      */
     private String name;
 
     /**
-     * 对象描述
-     * sys_obj.description
+     * 对象描述 sys_obj.description
      */
     private String description;
 
     /**
-     * 对应的CSS样式
-     * sys_obj.css_name
+     * 对应的CSS样式 sys_obj.css_name
      */
     private String cssName;
 
     /**
-     * 对应的版本号
-     * sys_obj.version
+     * 对应的版本号 sys_obj.version
      */
     private String version;
 
     /**
-     * 对象类型(1:菜单 2:按钮)
-     * sys_obj.type
+     * 对象类型(1:菜单 2:按钮) sys_obj.type
      */
     private String type;
 
     /**
-     * 请求地址
-     * sys_obj.url
+     * 请求地址 sys_obj.url
      */
     private String url;
 
     /**
-     * 对象code
-     * sys_obj.code
+     * 对象code sys_obj.code
      */
     private String code;
 
     /**
-     * 父对象ID
-     * sys_obj.p_code
+     * 父对象ID sys_obj.p_code
      */
     private String pCode;
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
-     * sys_obj.sys_owner
+     * 所属系统（HD：血透 PD：腹透） sys_obj.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 创建时间
-     * sys_obj.create_time
+     * 创建时间 sys_obj.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_obj.create_user_id
+     * 创建人 sys_obj.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_obj.update_time
+     * 更新时间 sys_obj.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_obj.update_user_id
+     * 更新人 sys_obj.update_user_id
      */
     private Long updateUserId;
 
@@ -234,14 +220,14 @@ public class SysObj {
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public String getSysOwner() {
         return sysOwner;
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统","分割
+     * 所属系统（HD：血透 PD：腹透）
      */
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;

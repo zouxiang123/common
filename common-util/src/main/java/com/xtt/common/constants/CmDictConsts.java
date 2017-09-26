@@ -114,10 +114,6 @@ public class CmDictConsts {
     public static final String DOWN_DB_WS_URL_PT = "01";
 
     public static final String DOWN_DB_WS_URL_ORDER = "02";
-    /**
-     * 患者转归类型
-     */
-    public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
     /** 分组规则 */
     public static final String GROUP_RULE = "group_rule";
 
@@ -125,4 +121,60 @@ public class CmDictConsts {
      * 患者-费用类型
      */
     public static final String PATIENT_CHARGE_TYPE = "patient_charge_type";
+
+    // =========================================================================
+
+    public static final String DOWN_DB_WS_URL_LIS = "03";
+    /**
+     * 跳转到新增数据源页面
+     */
+    public static final String ADD_SYS_DB_SOURCE = "04";
+    // =========================================================================
+
+    /** 检验类型 */
+    public static final String ASSAY_TYPE = "assay_type";
+    /**
+     * 患者转归类型
+     */
+    public static final String PATIENT_OUTCOME_TYPE = "patient_outcome_type";
+
+    /*-------- unit start --------*/
+    /**
+     * 单位--压力
+     */
+    public static final String CM_UNIT_PRESSURE = "CM_unit_pressure";
+    /**
+     * 单位--压力(kpa)
+     */
+    public static final String CM_UNIT_PRESSURE_KPA = "kpa";
+    /**
+     * 单位--压力(mmHg)
+     */
+    public static final String CM_UNIT_PRESSURE_MMHG = "mmHg";
+    /**
+     * 单位--温度
+     */
+    public static final String CM_UNIT_TEMPERATURE = "CM_unit_temperature";
+    /**
+     * 单位--频次
+     */
+    public static final String CM_UNIT_FREQUENCY = "CM_unit_frequency";
+    /**
+     * 单位--流量
+     */
+    public static final String CM_UNIT_FLOW = "CM_unit_flow";
+    /**
+     * 单位--容量
+     */
+    public static final String CM_UNIT_CAPACITY = "CM_unit_capacity";
+    /**
+     * 单位--电导率
+     */
+    public static final String CM_UNIT_CONDUCTIVITY = "CM_unit_conductivity";
+    /*-------- unit end --------*/
+
+    /**
+     * 工程师：维修商家
+     */
+    public static final String ENG_MAINTAIN_MERCHANT = "eng_maintain_merchant";
 }

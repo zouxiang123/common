@@ -1,6 +1,6 @@
 /**   
  * @Title: RoleVO.java 
- * @Package com.xtt.txgl.system.vo
+ * @Package com.xtt.common.system.vo
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月24日 上午11:33:09 

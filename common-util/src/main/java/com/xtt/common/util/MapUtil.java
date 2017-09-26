@@ -1,6 +1,6 @@
 /**   
  * @Title: MapUtil.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年5月17日 下午4:34:45 

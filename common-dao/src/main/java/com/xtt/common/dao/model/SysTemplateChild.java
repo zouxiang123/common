@@ -30,17 +30,6 @@ public class SysTemplateChild {
     private String content;
 
     /**
-     * 所属系统（HD：血透 PD：腹透）
-     * sys_template_child.sys_owner
-     */
-    private String sysOwner;
-
-    /**
-     * sys_template_child.fk_tenant_id
-     */
-    private Integer fkTenantId;
-
-    /**
      * 创建时间
      * sys_template_child.create_time
      */
@@ -63,6 +52,17 @@ public class SysTemplateChild {
      * sys_template_child.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * sys_template_child.fk_tenant_id
+     */
+    private Integer fkTenantId;
+
+    /**
+     * 所属系统
+     * sys_template_child.sys_owner
+     */
+    private String sysOwner;
 
     /**
      */
@@ -119,32 +119,6 @@ public class SysTemplateChild {
     }
 
     /**
-     * 所属系统（HD：血透 PD：腹透）
-     */
-    public String getSysOwner() {
-        return sysOwner;
-    }
-
-    /**
-     * 所属系统（HD：血透 PD：腹透）
-     */
-    public void setSysOwner(String sysOwner) {
-        this.sysOwner = sysOwner;
-    }
-
-    /**
-     */
-    public Integer getFkTenantId() {
-        return fkTenantId;
-    }
-
-    /**
-     */
-    public void setFkTenantId(Integer fkTenantId) {
-        this.fkTenantId = fkTenantId;
-    }
-
-    /**
      * 创建时间
      */
     public Date getCreateTime() {
@@ -198,5 +172,31 @@ public class SysTemplateChild {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     */
+    public Integer getFkTenantId() {
+        return fkTenantId;
+    }
+
+    /**
+     */
+    public void setFkTenantId(Integer fkTenantId) {
+        this.fkTenantId = fkTenantId;
+    }
+
+    /**
+     * 所属系统
+     */
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    /**
+     * 所属系统
+     */
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 }

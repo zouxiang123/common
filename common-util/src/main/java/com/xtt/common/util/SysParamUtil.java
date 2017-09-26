@@ -1,6 +1,6 @@
 /**   
  * @Title: SysParamUtil.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年11月18日 上午9:59:51 

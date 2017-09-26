@@ -1,6 +1,6 @@
 /**   
  * @Title: ContextLoaderListener.java 
- * @Package com.xtt.txgl.common.listener
+ * @Package com.xtt.common.common.listener
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年6月7日 上午11:38:21 

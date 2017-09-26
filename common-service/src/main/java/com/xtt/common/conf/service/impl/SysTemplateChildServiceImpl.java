@@ -1,6 +1,6 @@
 /**   
  * @Title: SysTemplateChildServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年5月31日 上午11:31:18 

@@ -216,5 +216,4 @@
   <select id="selectAssayClassByMonth" resultMap="ResultMapPO">
   SELECT assay_class FROM patient_assay_month_r_scope where month_value = #{monthValue} and fk_tenant_id = #{tenantId}
   </select>
-  
 </mapper>

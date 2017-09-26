@@ -55,7 +55,7 @@ public class CmDictDiagnosis {
     private Boolean isLeaf;
 
     /**
-     * 树状层级
+     * 节点所属层级
      * cm_dict_diagnosis.item_level
      */
     private Integer itemLevel;
@@ -77,6 +77,12 @@ public class CmDictDiagnosis {
      * cm_dict_diagnosis.is_enable
      */
     private Boolean isEnable;
+
+    /**
+     * 租户id
+     * cm_dict_diagnosis.fk_tenant_id
+     */
+    private Integer fkTenantId;
 
     /**
      * 创建时间
@@ -215,14 +221,14 @@ public class CmDictDiagnosis {
     }
 
     /**
-     * 树状层级
+     * 节点所属层级
      */
     public Integer getItemLevel() {
         return itemLevel;
     }
 
     /**
-     * 树状层级
+     * 节点所属层级
      */
     public void setItemLevel(Integer itemLevel) {
         this.itemLevel = itemLevel;
@@ -268,6 +274,20 @@ public class CmDictDiagnosis {
      */
     public void setIsEnable(Boolean isEnable) {
         this.isEnable = isEnable;
+    }
+
+    /**
+     * 租户id
+     */
+    public Integer getFkTenantId() {
+        return fkTenantId;
+    }
+
+    /**
+     * 租户id
+     */
+    public void setFkTenantId(Integer fkTenantId) {
+        this.fkTenantId = fkTenantId;
     }
 
     /**

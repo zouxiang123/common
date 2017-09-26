@@ -32,7 +32,7 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    select 
+    select
     <include refid="Base_Column_List" />
     from sys_obj
     where id = #{id,jdbcType=BIGINT}

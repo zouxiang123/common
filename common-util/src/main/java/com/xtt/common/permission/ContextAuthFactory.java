@@ -8,7 +8,7 @@ public interface ContextAuthFactory {
 
     public void delAuth(String key);
 
-    public Map<String, Object> getAuth();
+    public Map<String, Object> getAuth(String token);
 
     public void setAccount2Token(String account, String token);
 

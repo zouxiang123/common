@@ -10,36 +10,55 @@ import com.xtt.common.dao.po.SysTemplatePO;
 
 @Repository
 public interface SysTemplateMapper {
-	int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
-	int insert(SysTemplate record);
+    int insert(SysTemplate record);
 
-	int insertSelective(SysTemplate record);
+    int insertSelective(SysTemplate record);
 
-	SysTemplate selectByPrimaryKey(Long id);
+    SysTemplate selectByPrimaryKey(Long id);
 
-	int updateByPrimaryKeySelective(SysTemplate record);
+    int updateByPrimaryKeySelective(SysTemplate record);
 
-	int updateByPrimaryKey(SysTemplate record);
+    int updateByPrimaryKey(SysTemplate record);
 
-	/*use define*/
-	/**
-	 * 根据类型查询模板
-	 * 
-	 * @Title: selectByType
-	 * @param type
-	 * @param fkTenantId
-	 * @return
-	 * 
-	 */
-	List<SysTemplatePO> selectByType(@Param("type") String type, @Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
+    /*use define*/
+    /**
+     * 根据类型查询模板
+     * 
+     * @Title: selectByType
+     * @param type
+     * @param fkTenantId
+     * @return
+     * 
+     */
+    List<SysTemplatePO> selectByType(@Param("type") String type, @Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
 
-	/**
-	 * 查询模板类型
-	 * 
-	 * @Title: selectTemplateType
-	 * @return
-	 * 
-	 */
-	List<SysTemplate> selectTemplateType(@Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
+    /**
+     * 查询模板类型
+     * 
+     * @Title: selectTemplateType
+     * @return
+     * 
+     */
+    List<SysTemplate> selectTemplateType(@Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner,
+                    @Param("templateName") String templateName);
+
+    /**
+     * 根据类型查询is_default 为1的数据
+     * 
+     * @param record
+     * @return
+     */
+    SysTemplate getTemplate(SysTemplate record);
+
+    /**
+     * 根据类型模板名称查询
+     * 
+     * @Title: cheackTemplate
+     * @param record
+     * @return
+     *
+     */
+    Integer cheackTemplate(SysTemplatePO record);
 }

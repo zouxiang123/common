@@ -1,6 +1,6 @@
 /**   
  * @Title: UserUtilFactory.java 
- * @Package com.xtt.txgl.common.util
+ * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年9月16日 上午9:19:14 

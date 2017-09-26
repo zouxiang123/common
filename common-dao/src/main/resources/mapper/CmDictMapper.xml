@@ -250,7 +250,12 @@
          AND (d.sys_owner = #{sysOwner} OR d.sys_owner = 'CM' )
       </if>
      </where>
-     ORDER BY d.p_item_code,d.order_by
+    <if test="isOrderBy != null and isOrderBy">
+      order by d.p_item_code,d.order_by
+    </if>
+    <if test="isOrder != null and isOrder">
+      order by d.order_by
+    </if>
   </select>
   
   <select id="selectDictCategory" parameterType="com.xtt.common.dao.model.CmDict" resultMap="POResultMap">

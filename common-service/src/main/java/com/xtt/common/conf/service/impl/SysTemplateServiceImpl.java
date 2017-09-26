@@ -1,6 +1,6 @@
 /**   
  * @Title: SysTemplateServiceImpl.java 
- * @Package com.xtt.txgl.system.service.impl
+ * @Package com.xtt.common.system.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年4月7日 上午11:55:24 
@@ -9,6 +9,7 @@
 package com.xtt.common.conf.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.xtt.common.conf.service.ISysTemplateChildService;
 import com.xtt.common.conf.service.ISysTemplateService;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.SysTemplateChildMapper;
 import com.xtt.common.dao.mapper.SysTemplateMapper;
 import com.xtt.common.dao.model.SysTemplate;
@@ -70,8 +72,8 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
     }
 
     @Override
-    public List<SysTemplate> selectTemplateType(String sysOwner) {
-        return sysTemplateMapper.selectTemplateType(UserUtil.getTenantId(), sysOwner);
+    public List<SysTemplate> selectTemplateType(String sysOwner, String templateName) {
+        return sysTemplateMapper.selectTemplateType(UserUtil.getTenantId(), sysOwner, templateName);
     }
 
     @Override
@@ -81,6 +83,7 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
         record.setFkTenantId(UserUtil.getTenantId());
         if (record.getId() == null) {
             record.setCount(0);
+            record.setIsDefault(false);
             sysTemplateMapper.insert(record);
         } else {
             record.setCreateTime(null);
@@ -112,6 +115,38 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
         record.setCreateUserId(null);
         record.setDelFlag(true);
         return sysTemplateMapper.updateByPrimaryKeySelective(record);
+    }
+
+    /**
+     * 根据id更新模板默认值（is_default 0为默认 1 已默认）
+     */
+    @Override
+    public int updateTemplateStatus(SysTemplate record) {
+        // 获取模板id
+        Long id = record.getId();
+        // 为对象赋值
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setIsDefault(true);
+        record.setUpdateTime(new Date());
+        record.setUpdateUserId(UserUtil.getLoginUserId());
+        // 根据模板类型，租户id，isDefault = 1 查询模板数据
+        SysTemplate plate = sysTemplateMapper.getTemplate(record);
+        // 如果模板数据为空，则根据id更新该条数据默认值为1
+        if (plate == null) {
+            return sysTemplateMapper.updateByPrimaryKeySelective(record);
+        }
+        // 如果存在默认的模板，取消其默认
+        plate.setIsDefault(false);
+        sysTemplateMapper.updateByPrimaryKeySelective(plate);
+        // 2.重新赋值，并返回
+        return sysTemplateMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public Integer cheackTemplate(SysTemplatePO record) {
+        record.setFkTenantId(UserUtil.getTenantId());
+        record.setSysOwner(CommonConstants.SYS_HD);
+        return sysTemplateMapper.cheackTemplate(record);
     }
 
 }

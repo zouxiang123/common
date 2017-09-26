@@ -1,6 +1,6 @@
 /**   
  * @Title: SYSParamController.java 
- * @Package com.xtt.txgl.system.controller
+ * @Package com.xtt.common.system.controller
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月29日 下午2:03:44 

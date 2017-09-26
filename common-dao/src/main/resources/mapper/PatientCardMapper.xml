@@ -294,5 +294,4 @@
             and fk_pt_id != #{nePatientId}
         </if>
     </select>
-  
 </mapper>

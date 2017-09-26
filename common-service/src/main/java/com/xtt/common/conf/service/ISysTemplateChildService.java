@@ -1,6 +1,6 @@
 /**   
  * @Title: ISysTemplateChildService.java 
- * @Package com.xtt.txgl.system.service
+ * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2016年5月31日 上午11:31:02 

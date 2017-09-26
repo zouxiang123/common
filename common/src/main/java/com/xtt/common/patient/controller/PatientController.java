@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.common.service.ICommonService;
 import com.xtt.common.common.service.ISysDbSourceService;
+import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
@@ -38,10 +39,10 @@ import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.model.PatientCard;
 import com.xtt.common.dao.model.Province;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.PatientSerialNumberPO;
-import com.xtt.common.dao.po.QueryPO;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientSerialNumberService;
@@ -67,6 +68,8 @@ public class PatientController {
     ISysDbSourceService sysDbSourceService;
     @Autowired
     private IPatientSerialNumberService patientSerialNumberService;
+    @Autowired
+    private ISysLogService sysLogService;
 
     /**
      * 患者基本信息编辑
@@ -234,7 +237,7 @@ public class PatientController {
     @ResponseBody
     public HashMap<String, Object> getWsPatientInfo(String cardNo, String cardType) throws Exception {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        QueryPO query = new QueryPO();
+        CmQueryPO query = new CmQueryPO();
         query.setCardNo(cardNo);
         // 将门诊号，住院号颠倒。
         if (cardType.equals(CommonConstants.PATIENT_MEDICARE_CARD_TYPE_HOSPITAL)) {
@@ -247,7 +250,6 @@ public class PatientController {
         String paramValue = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE);
         // 1代表开关开启了。
         if (StringUtil.isNoneBlank(paramValue)) {
-
             PatientPO patient = sysDbSourceService.patientDB(query);
             if (patient != null) {
                 // 默认拉取的是身份证
@@ -348,8 +350,8 @@ public class PatientController {
         }
         try {
             patientService.savePatient(patient, false, patient.getPatientCardList());
-            commonService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2,
-                            String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()));
+            sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2,
+                            String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()), UserUtil.getSysOwner());
             map.put("fkPatientId", patient.getId());
             map.put("status", CommonConstants.SUCCESS);
         } catch (Exception e) {

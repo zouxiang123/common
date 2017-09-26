@@ -21,7 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.SysDbSource;
-import com.xtt.common.dao.po.QueryPO;
+import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.platform.util.Constants;
 import com.xtt.platform.util.lang.StringUtil;
@@ -84,7 +84,7 @@ public class SysDbSourceController {
      */
     @RequestMapping("downDB")
     @ResponseBody
-    public Map<String, Object> downDB(QueryPO query) {
+    public Map<String, Object> downDB(CmQueryPO query) {
         Map<String, Object> map = new HashMap<String, Object>();
         // 如果日期为空，默认同步7天的数据
         String startDate = query.getStartDate();

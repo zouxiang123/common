@@ -1,6 +1,6 @@
 /**   
  * @Title: ExcelImportServiceImpl.java 
- * @Package com.xtt.txgl.excel.service.impl
+ * @Package com.xtt.common.excel.service.impl
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年12月17日 下午12:54:43 
@@ -19,15 +19,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xtt.common.conf.service.IExcelImportService;
-import com.xtt.common.conf.service.util.BadInputException;
 import com.xtt.common.conf.service.util.StandardExcelImport;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
+import com.xtt.common.util.excel.BadInputException;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
@@ -52,7 +52,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             excel.transferTo(temp);
             sei = new StandardExcelImport(temp);
             sei.parse();
-            HashMap<Integer, Patient> patients = sei.getPatients();
+            HashMap<Integer, PatientPO> patients = sei.getPatients();
             HashMap<Integer, SysUserPO> doctors = sei.getDoctors();
             HashMap<Integer, SysUserPO> nurses = sei.getNurses();
             HashMap<Integer, String> errorPatientMap = sei.getErrorPatientMap();
@@ -65,7 +65,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             int doctorErrorCount = sei.getErrorDoctorMap().size();
             int nurseErrorCount = sei.getErrorNurseMap().size();
             if (patients != null && patients.size() > 0) {
-                for (Entry<Integer, Patient> p : patients.entrySet()) {
+                for (Entry<Integer, PatientPO> p : patients.entrySet()) {
                     if (StringUtils.isEmpty(p.getValue().getIdNumber()) || p.getValue().getBirthday() == null) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "身份证号或生日必填一项");

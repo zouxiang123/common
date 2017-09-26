@@ -30,7 +30,7 @@ public class SysTemplateController {
     @RequestMapping("view")
     public ModelAndView definition(String sys) {
         ModelAndView model = new ModelAndView("system/template_maintain");
-        List<SysTemplate> list = sysTemplateService.selectTemplateType(sys);
+        List<SysTemplate> list = sysTemplateService.selectTemplateType(sys, null);
         model.addObject("list", list);
         model.addObject("sysOwner", sys);
         return model;

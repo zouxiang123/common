@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xtt.common.common.service.ICommonService;
+import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.SysLogPO;
 import com.xtt.common.util.UserUtil;
@@ -19,7 +19,7 @@ import com.xtt.common.util.UserUtil;
 public class LogController {
 
     @Autowired
-    private ICommonService commonService;
+    private ISysLogService sysLogService;
 
     @RequestMapping("logList")
     public String searchLog(ModelAndView model, String sys) {
@@ -45,7 +45,7 @@ public class LogController {
         entity.setIspaging(true);
         entity.setFkTenantId(UserUtil.getTenantId());
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("entity", commonService.selectSysLog(entity));
+        map.put("entity", sysLogService.selectSysLog(entity));
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }

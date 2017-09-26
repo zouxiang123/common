@@ -9,25 +9,25 @@ import com.xtt.common.dao.po.CmDictDiagnosisPO;
 
 @Repository
 public interface CmDictDiagnosisMapper {
-	int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
-	int insert(CmDictDiagnosis record);
+    int insert(CmDictDiagnosis record);
 
-	int insertSelective(CmDictDiagnosis record);
+    int insertSelective(CmDictDiagnosis record);
 
-	CmDictDiagnosis selectByPrimaryKey(Long id);
+    CmDictDiagnosis selectByPrimaryKey(Long id);
 
-	int updateByPrimaryKeySelective(CmDictDiagnosis record);
+    int updateByPrimaryKeySelective(CmDictDiagnosis record);
 
-	int updateByPrimaryKey(CmDictDiagnosis record);
+    int updateByPrimaryKey(CmDictDiagnosis record);
 
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record);
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record);
 }

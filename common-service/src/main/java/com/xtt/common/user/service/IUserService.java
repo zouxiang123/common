@@ -1,6 +1,6 @@
 /**   
  * @Title: IUserService.java 
- * @Package com.xtt.txgl.system.service
+ * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月10日 下午12:33:15 
@@ -41,6 +41,27 @@ public interface IUserService {
     List<SysUserPO> getNurses(Integer tenantId, String sysOwner);
 
     /**
+     * 根据租户id获取所有的医生和护士对象
+     * 
+     * @param tenantId
+     * 
+     * @Title: getNurse
+     * @return
+     * 
+     */
+    List<SysUserPO> getNurseAndDoctor(Integer tenantId, String sysOwner);
+
+    /**
+     * 根据租户id获取arr对应的role type角色对应的用户对象
+     * 
+     * @param tenantId
+     * @param arr
+     * @param sysOwner
+     * @return
+     */
+    List<SysUserPO> listByRoleTypes(Integer tenantId, String[] arr, String sysOwner);
+
+    /**
      * 通过用户Id获取用户
      * 
      * @Title: getUserById
@@ -79,6 +100,18 @@ public interface IUserService {
      * 
      */
     List<SysUserPO> selectByTenantId(Integer tenantId, String sysOwner);
+
+    /**
+     * 根据租户id、所属系统，是否删除标记查询数据
+     * 
+     * @Title: listByTenantId
+     * @param tenantId
+     * @param sysOwner
+     * @param delFlag
+     * @return
+     *
+     */
+    List<SysUserPO> listByTenantId(Integer tenantId, String sysOwner, Boolean delFlag);
 
     /**
      * 通过id删除对象
@@ -148,7 +181,7 @@ public interface IUserService {
      * @param user
      * 
      */
-    void updateUser(SysUserPO user);
+    int updateUser(SysUserPO user);
 
     /**
      * 重置用户密码
@@ -186,7 +219,27 @@ public interface IUserService {
      * @param user
      * 
      */
-    void updatePassword(SysUserPO user);
+    int updatePassword(SysUserPO user);
+
+    /**
+     * 上传签名并裁剪保存
+     * 
+     * @param imgFile
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
+    String uploadAutograph(MultipartFile imgFile, int x, int y, int width, int height) throws IllegalStateException, IOException;
+
+    /**
+     * 获取随机护士
+     * 
+     * @param constantType
+     * @return
+     */
+    SysUser getRoundUser(Integer constantType);
 
     /**
      * 保存皮肤

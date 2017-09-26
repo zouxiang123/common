@@ -1,6 +1,6 @@
 /**   
  * @Title: IRoleService.java 
- * @Package com.xtt.txgl.system.service
+ * @Package com.xtt.common.system.service
  * Copyright: Copyright (c) 2015
  * @author: bruce   
  * @date: 2015年10月23日 下午2:16:04 

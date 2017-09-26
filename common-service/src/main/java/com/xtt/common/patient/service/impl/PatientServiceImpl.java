@@ -26,7 +26,6 @@ import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.constants.IDownConst;
-import com.xtt.common.dao.mapper.PatientDiagnosisMapper;
 import com.xtt.common.dao.mapper.PatientHistoryMapper;
 import com.xtt.common.dao.mapper.PatientMapper;
 import com.xtt.common.dao.mapper.PatientSerialNumberMapper;
@@ -64,8 +63,6 @@ public class PatientServiceImpl implements IPatientService {
     private PatientMapper patientMapper;
     @Autowired
     private PatientHistoryMapper patientHistoryMapper;
-    @Autowired
-    PatientDiagnosisMapper patientDiagnosisMapper;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
     @Autowired

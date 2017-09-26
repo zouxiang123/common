@@ -1,4 +1,4 @@
-﻿package com.xtt.common.util.QRCode;
+package com.xtt.common.util.QRCode;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics;

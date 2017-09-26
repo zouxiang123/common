@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.CmDiagnosisHistAllergyMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="input_date" jdbcType="DATE" property="inputDate" />
+    <result column="allergens" jdbcType="VARCHAR" property="allergens" />
+    <result column="other_allergens" jdbcType="VARCHAR" property="otherAllergens" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="fk_tenant_id" jdbcType="BIGINT" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, input_date, allergens, other_allergens, name, fk_tenant_id, create_time, create_user_id,
+    update_time, update_user_id
+  </sql>
+  <sql id="Blob_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="POResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select
+    cdha.*,
+    (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
+    from cm_diagnosis_hist_allergy cdha, sys_user su, sys_user usu
+    where su.id = cdha.create_user_id and usu.id = cdha.update_user_id
+    and cdha.id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from cm_diagnosis_hist_allergy
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_hist_allergy (id, fk_patient_id, input_date, 
+      allergens, other_allergens, name, fk_tenant_id,
+      create_time, create_user_id, update_time, 
+      update_user_id, remark)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{inputDate,jdbcType=DATE}, 
+      #{allergens,jdbcType=VARCHAR}, #{otherAllergens,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=BIGINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{remark,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into cm_diagnosis_hist_allergy
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="inputDate != null">
+        input_date,
+      </if>
+      <if test="allergens != null">
+        allergens,
+      </if>
+      <if test="otherAllergens != null">
+        other_allergens,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="inputDate != null">
+        #{inputDate,jdbcType=DATE},
+      </if>
+      <if test="allergens != null">
+        #{allergens,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAllergens != null">
+        #{otherAllergens,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_hist_allergy
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="inputDate != null">
+        input_date = #{inputDate,jdbcType=DATE},
+      </if>
+      <if test="allergens != null">
+        allergens = #{allergens,jdbcType=VARCHAR},
+      </if>
+      <if test="otherAllergens != null">
+        other_allergens = #{otherAllergens,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_hist_allergy
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      input_date = #{inputDate,jdbcType=DATE},
+      allergens = #{allergens,jdbcType=VARCHAR},
+      other_allergens = #{otherAllergens,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      remark = #{remark,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmDiagnosisHistAllergy">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update cm_diagnosis_hist_allergy
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      input_date = #{inputDate,jdbcType=DATE},
+      allergens = #{allergens,jdbcType=VARCHAR},
+      other_allergens = #{otherAllergens,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- 自定义 -->
+  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistAllergyPO" />
+  
+  <select id="selectByPatient" parameterType="java.lang.Long" resultMap="POResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    cdha.*,
+    (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
+    from cm_diagnosis_hist_allergy cdha, sys_user su, sys_user usu
+    where su.id = cdha.create_user_id and usu.id = cdha.update_user_id
+    and cdha.fk_patient_id = #{patientId,jdbcType=BIGINT} order by cdha.id desc
+  </select>
+</mapper>
