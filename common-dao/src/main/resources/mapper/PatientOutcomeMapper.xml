@@ -282,7 +282,7 @@
     <select id="listLatest" resultMap="POResultMap">
         SELECT po.* FROM patient_outcome po
         JOIN (
-            SELECT po1.fk_patient_id, MAX(po1.record_date) AS time
+            SELECT po1.fk_patient_id, MAX(po1.record_date) AS time, po1.fk_tenant_id
             FROM patient_outcome po1
             WHERE po1.sys_owner = #{sysOwner}
                 <if test="patientIds != null and patientIds.size()&gt;0">
@@ -347,5 +347,5 @@
             </if>
        </where> 
         
-        </select>
+	</select>
 </mapper>
