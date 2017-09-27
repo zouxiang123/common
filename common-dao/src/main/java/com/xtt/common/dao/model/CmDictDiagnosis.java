@@ -7,104 +7,87 @@ import java.util.Date;
  */
 public class CmDictDiagnosis {
     /**
-     * 物理主键
-     * cm_dict_diagnosis.id
+     * 物理主键 cm_dict_diagnosis.id
      */
     private Long id;
 
     /**
-     * 父类型
-     * cm_dict_diagnosis.p_item_code
+     * 父类型 cm_dict_diagnosis.p_item_code
      */
     private String pItemCode;
 
     /**
-     * 类型。如性别(sex)、状态(status)
-     * cm_dict_diagnosis.item_code
+     * 类型。如性别(sex)、状态(status) cm_dict_diagnosis.item_code
      */
     private String itemCode;
 
     /**
-     * 页面显示名称
-     * cm_dict_diagnosis.item_name
+     * 页面显示名称 cm_dict_diagnosis.item_name
      */
     private String itemName;
 
     /**
-     * 组件类型(checkbox、input、textarea等)
-     * cm_dict_diagnosis.item_type
+     * 组件类型(checkbox、input、textarea等) cm_dict_diagnosis.item_type
      */
     private String itemType;
 
     /**
-     * 单位
-     * cm_dict_diagnosis.unit
+     * 单位 cm_dict_diagnosis.unit
      */
     private String unit;
 
     /**
-     * 数据类型
-     * cm_dict_diagnosis.data_type
+     * 数据类型 cm_dict_diagnosis.data_type
      */
     private String dataType;
 
     /**
-     * 是否叶子节点
-     * cm_dict_diagnosis.is_leaf
+     * 是否叶子节点 cm_dict_diagnosis.is_leaf
      */
     private Boolean isLeaf;
 
     /**
-     * 节点所属层级
-     * cm_dict_diagnosis.item_level
+     * 节点所属层级 cm_dict_diagnosis.item_level
      */
     private Integer itemLevel;
 
     /**
-     * 排序
-     * cm_dict_diagnosis.order_by
+     * 排序 cm_dict_diagnosis.order_by
      */
     private Integer orderBy;
 
     /**
-     * 是否固定项
-     * cm_dict_diagnosis.is_fixed
+     * 是否固定项 cm_dict_diagnosis.is_fixed
      */
     private Boolean isFixed;
 
     /**
-     * 是否可用
-     * cm_dict_diagnosis.is_enable
+     * 是否可用 cm_dict_diagnosis.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 租户id
-     * cm_dict_diagnosis.fk_tenant_id
+     * 租户id cm_dict_diagnosis.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_dict_diagnosis.create_time
+     * 创建时间 cm_dict_diagnosis.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * cm_dict_diagnosis.create_user_id
+     * 创建人 cm_dict_diagnosis.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间
-     * cm_dict_diagnosis.update_time
+     * 修改时间 cm_dict_diagnosis.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人
-     * cm_dict_diagnosis.update_user_id
+     * 修改人 cm_dict_diagnosis.update_user_id
      */
     private Long updateUserId;
 

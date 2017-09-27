@@ -7,56 +7,47 @@ import java.util.Date;
  */
 public class CmDiagnosisHistTumour {
     /**
-     * 主键Id
-     * cm_diagnosis_hist_tumour.id
+     * 主键Id cm_diagnosis_hist_tumour.id
      */
     private Long id;
 
     /**
-     * 患者Id
-     * cm_diagnosis_hist_tumour.fk_patient_id
+     * 患者Id cm_diagnosis_hist_tumour.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 诊断日期
-     * cm_diagnosis_hist_tumour.record_date
+     * 诊断日期 cm_diagnosis_hist_tumour.record_date
      */
     private Date recordDate;
 
     /**
-     * 肿瘤类型，文本输入框
-     * cm_diagnosis_hist_tumour.record_type
+     * 肿瘤类型，文本输入框 cm_diagnosis_hist_tumour.record_type
      */
     private String recordType;
 
     /**
-     * 租户Id
-     * cm_diagnosis_hist_tumour.fk_tenant_id
+     * 租户Id cm_diagnosis_hist_tumour.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_diagnosis_hist_tumour.create_time
+     * 创建时间 cm_diagnosis_hist_tumour.create_time
      */
     private Date createTime;
 
     /**
-     * 创建者Id
-     * cm_diagnosis_hist_tumour.create_user_id
+     * 创建者Id cm_diagnosis_hist_tumour.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_diagnosis_hist_tumour.update_time
+     * 更新时间 cm_diagnosis_hist_tumour.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新者Id
-     * cm_diagnosis_hist_tumour.update_user_id
+     * 更新者Id cm_diagnosis_hist_tumour.update_user_id
      */
     private Long updateUserId;
 

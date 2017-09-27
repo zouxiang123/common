@@ -17,8 +17,7 @@ public class AssayGroupConfDetail {
     private Long fkAssayGroupConfId;
 
     /**
-     * 项目编号
-     * assay_group_conf_detail.item_code
+     * 项目编号 assay_group_conf_detail.item_code
      */
     private String itemCode;
 

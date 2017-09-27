@@ -151,12 +151,12 @@ public class ImageTailorUtil {
         String inputDir = "C:\\xtt\\10101\\images\\user\\autograph\\original\\";
         String outputDir = "C:\\xtt\\10101\\images\\user\\autograph\\";
         String inputFileName = "101010000000024.jpg";
-        //String outputFileName = "temp_picture.jpg";
+        // String outputFileName = "temp_picture.jpg";
         String destFileName = "101010000000024.jpg";
         // 根据尺寸放大或缩小原图
-        //int sWidth = 1102;
-        //int sHeight = 620;
-        //BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, sWidth, sHeight, false);
+        // int sWidth = 1102;
+        // int sHeight = 620;
+        // BusinessCommonUtil.compressPic(inputDir, outputDir, inputFileName, outputFileName, sWidth, sHeight, false);
         // 根据处理后的图片进行裁剪
         new ImageTailorUtil().cutImage(inputDir + inputFileName, outputDir, destFileName, 234, 490, 394, 222);
     }

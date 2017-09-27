@@ -7,74 +7,62 @@ import java.util.Date;
  */
 public class CmDiagnosisHistAllergy {
     /**
-     * 主键Id
-     * cm_diagnosis_hist_allergy.id
+     * 主键Id cm_diagnosis_hist_allergy.id
      */
     private Long id;
 
     /**
-     * 患者Id
-     * cm_diagnosis_hist_allergy.fk_patient_id
+     * 患者Id cm_diagnosis_hist_allergy.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 录入时间
-     * cm_diagnosis_hist_allergy.input_date
+     * 录入时间 cm_diagnosis_hist_allergy.input_date
      */
     private Date inputDate;
 
     /**
-     * 过敏源，对应字典item_code值
-     * cm_diagnosis_hist_allergy.allergens
+     * 过敏源，对应字典item_code值 cm_diagnosis_hist_allergy.allergens
      */
     private String allergens;
 
     /**
-     * 其他过敏源
-     * cm_diagnosis_hist_allergy.other_allergens
+     * 其他过敏源 cm_diagnosis_hist_allergy.other_allergens
      */
     private String otherAllergens;
 
     /**
-     * 名称
-     * cm_diagnosis_hist_allergy.name
+     * 名称 cm_diagnosis_hist_allergy.name
      */
     private String name;
 
     /**
-     * 租户Id
-     * cm_diagnosis_hist_allergy.fk_tenant_id
+     * 租户Id cm_diagnosis_hist_allergy.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_diagnosis_hist_allergy.create_time
+     * 创建时间 cm_diagnosis_hist_allergy.create_time
      */
     private Date createTime;
 
     /**
-     * 创建者Id
-     * cm_diagnosis_hist_allergy.create_user_id
+     * 创建者Id cm_diagnosis_hist_allergy.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_diagnosis_hist_allergy.update_time
+     * 更新时间 cm_diagnosis_hist_allergy.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新者Id
-     * cm_diagnosis_hist_allergy.update_user_id
+     * 更新者Id cm_diagnosis_hist_allergy.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 备注
-     * cm_diagnosis_hist_allergy.remark
+     * 备注 cm_diagnosis_hist_allergy.remark
      */
     private String remark;
 

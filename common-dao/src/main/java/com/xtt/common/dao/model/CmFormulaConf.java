@@ -7,86 +7,72 @@ import java.util.Date;
  */
 public class CmFormulaConf {
     /**
-     * 物理主键
-     * cm_formula_conf.id
+     * 物理主键 cm_formula_conf.id
      */
     private Long id;
 
     /**
-     * 公式类别
-     * cm_formula_conf.category
+     * 公式类别 cm_formula_conf.category
      */
     private String category;
 
     /**
-     * 公式类别名称
-     * cm_formula_conf.category_name
+     * 公式类别名称 cm_formula_conf.category_name
      */
     private String categoryName;
 
     /**
-     * 公式编号
-     * cm_formula_conf.item_code
+     * 公式编号 cm_formula_conf.item_code
      */
     private String itemCode;
 
     /**
-     * 公式名称
-     * cm_formula_conf.item_name
+     * 公式名称 cm_formula_conf.item_name
      */
     private String itemName;
 
     /**
-     * 公式描述
-     * cm_formula_conf.item_desc
+     * 公式描述 cm_formula_conf.item_desc
      */
     private String itemDesc;
 
     /**
-     * 是否选中
-     * cm_formula_conf.is_checked
+     * 是否选中 cm_formula_conf.is_checked
      */
     private Boolean isChecked;
 
     /**
-     * 是否可用
-     * cm_formula_conf.is_enable
+     * 是否可用 cm_formula_conf.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 所属系统
-     * cm_formula_conf.sys_owner
+     * 所属系统 cm_formula_conf.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 租户id
-     * cm_formula_conf.fk_tenant_id
+     * 租户id cm_formula_conf.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_formula_conf.create_time
+     * 创建时间 cm_formula_conf.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * cm_formula_conf.create_user_id
+     * 创建人 cm_formula_conf.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间
-     * cm_formula_conf.update_time
+     * 修改时间 cm_formula_conf.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人
-     * cm_formula_conf.update_user_id
+     * 修改人 cm_formula_conf.update_user_id
      */
     private Long updateUserId;
 

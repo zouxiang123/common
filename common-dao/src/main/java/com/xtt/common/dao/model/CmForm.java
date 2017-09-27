@@ -7,8 +7,7 @@ import java.util.Date;
  */
 public class CmForm {
     /**
-     * 物理主键
-     * cm_form.id
+     * 物理主键 cm_form.id
      */
     private Long id;
 
@@ -18,62 +17,52 @@ public class CmForm {
     private String formName;
 
     /**
-     * 模块下的子类别
-     * cm_form.category
+     * 模块下的子类别 cm_form.category
      */
     private String category;
 
     /**
-     * 所属系统
-     * cm_form.sys_owner
+     * 所属系统 cm_form.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 是否是最新的
-     * cm_form.is_new
+     * 是否是最新的 cm_form.is_new
      */
     private Boolean isNew;
 
     /**
-     * 版本号
-     * cm_form.version
+     * 版本号 cm_form.version
      */
     private Integer version;
 
     /**
-     * 是否有效标识
-     * cm_form.is_enable
+     * 是否有效标识 cm_form.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 租户id
-     * cm_form.fk_tenant_id
+     * 租户id cm_form.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_form.create_time
+     * 创建时间 cm_form.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * cm_form.create_user_id
+     * 创建人 cm_form.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_form.update_time
+     * 更新时间 cm_form.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * cm_form.update_user_id
+     * 更新人 cm_form.update_user_id
      */
     private Long updateUserId;
 

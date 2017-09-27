@@ -12,62 +12,52 @@ public class PatientCard {
     private Long id;
 
     /**
-     * 血透病患ID
-     * patient_card.fk_pt_id
+     * 血透病患ID patient_card.fk_pt_id
      */
     private Long fkPtId;
 
     /**
-     * 卡号类型
-     * patient_card.card_type
+     * 卡号类型 patient_card.card_type
      */
     private String cardType;
 
     /**
-     * 卡号
-     * patient_card.card_no
+     * 卡号 patient_card.card_no
      */
     private String cardNo;
 
     /**
-     * 删除标记
-     * patient_card.del_flag
+     * 删除标记 patient_card.del_flag
      */
     private Boolean delFlag;
 
     /**
-     * 本次新旧标示（1=新的 0=旧的）
-     * patient_card.new_flag
+     * 本次新旧标示（1=新的 0=旧的） patient_card.new_flag
      */
     private Boolean newFlag;
 
     /**
-     * 租户ID
-     * patient_card.fk_tenant_id
+     * 租户ID patient_card.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_card.create_time
+     * 创建时间 patient_card.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_card.create_user_id
+     * 创建人 patient_card.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_card.update_time
+     * 更新时间 patient_card.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_card.update_user_id
+     * 更新人 patient_card.update_user_id
      */
     private Long updateUserId;
 
