@@ -12,50 +12,42 @@ public class AssayHospDictGroup {
     private Long id;
 
     /**
-     * 组ID
-     * assay_hosp_dict_group.group_id
+     * 组ID assay_hosp_dict_group.group_id
      */
     private String groupId;
 
     /**
-     * 组名称
-     * assay_hosp_dict_group.group_name
+     * 组名称 assay_hosp_dict_group.group_name
      */
     private String groupName;
 
     /**
-     * 是否自动生成标识
-     * assay_hosp_dict_group.is_auto
+     * 是否自动生成标识 assay_hosp_dict_group.is_auto
      */
     private Boolean isAuto;
 
     /**
-     * 租户ID
-     * assay_hosp_dict_group.fk_tenant_id
+     * 租户ID assay_hosp_dict_group.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * assay_hosp_dict_group.create_time
+     * 创建时间 assay_hosp_dict_group.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人ID
-     * assay_hosp_dict_group.create_user_id
+     * 创建人ID assay_hosp_dict_group.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * assay_hosp_dict_group.update_time
+     * 更新时间 assay_hosp_dict_group.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人id
-     * assay_hosp_dict_group.update_user_id
+     * 更新人id assay_hosp_dict_group.update_user_id
      */
     private Long updateUserId;
 

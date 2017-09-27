@@ -12,68 +12,57 @@ public class AssayReportFilterRule {
     private Long id;
 
     /**
-     * 规则编号
-     * assay_report_filter_rule.rule_code
+     * 规则编号 assay_report_filter_rule.rule_code
      */
     private String ruleCode;
 
     /**
-     * 规则名称
-     * assay_report_filter_rule.rule_name
+     * 规则名称 assay_report_filter_rule.rule_name
      */
     private String ruleName;
 
     /**
-     * 是否生效
-     * assay_report_filter_rule.is_enable
+     * 是否生效 assay_report_filter_rule.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 最小值
-     * assay_report_filter_rule.min_value
+     * 最小值 assay_report_filter_rule.min_value
      */
     private String minValue;
 
     /**
-     * 最大值
-     * assay_report_filter_rule.max_value
+     * 最大值 assay_report_filter_rule.max_value
      */
     private String maxValue;
 
     /**
-     * 函数名称
-     * assay_report_filter_rule.function_name
+     * 函数名称 assay_report_filter_rule.function_name
      */
     private String functionName;
 
     /**
-     * 租户id
-     * assay_report_filter_rule.fk_tenant_id
+     * 租户id assay_report_filter_rule.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * assay_report_filter_rule.create_time
+     * 创建时间 assay_report_filter_rule.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * assay_report_filter_rule.create_user_id
+     * 创建人 assay_report_filter_rule.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间
-     * assay_report_filter_rule.update_time
+     * 修改时间 assay_report_filter_rule.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人
-     * assay_report_filter_rule.update_user_id
+     * 修改人 assay_report_filter_rule.update_user_id
      */
     private Long updateUserId;
 

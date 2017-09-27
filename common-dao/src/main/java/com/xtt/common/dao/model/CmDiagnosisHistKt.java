@@ -7,74 +7,62 @@ import java.util.Date;
  */
 public class CmDiagnosisHistKt {
     /**
-     * 主键Id
-     * cm_diagnosis_hist_kt.id
+     * 主键Id cm_diagnosis_hist_kt.id
      */
     private Long id;
 
     /**
-     * 患者Id
-     * cm_diagnosis_hist_kt.fk_patient_id
+     * 患者Id cm_diagnosis_hist_kt.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 开始时间
-     * cm_diagnosis_hist_kt.start_date
+     * 开始时间 cm_diagnosis_hist_kt.start_date
      */
     private Date startDate;
 
     /**
-     * 结束时间
-     * cm_diagnosis_hist_kt.end_date
+     * 结束时间 cm_diagnosis_hist_kt.end_date
      */
     private Date endDate;
 
     /**
-     * 结束原因，对应字典表item_code值
-     * cm_diagnosis_hist_kt.end_reason
+     * 结束原因，对应字典表item_code值 cm_diagnosis_hist_kt.end_reason
      */
     private String endReason;
 
     /**
-     * 其他结束原因
-     * cm_diagnosis_hist_kt.other_end_reason
+     * 其他结束原因 cm_diagnosis_hist_kt.other_end_reason
      */
     private String otherEndReason;
 
     /**
-     * 租户Id
-     * cm_diagnosis_hist_kt.fk_tenant_id
+     * 租户Id cm_diagnosis_hist_kt.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_diagnosis_hist_kt.create_time
+     * 创建时间 cm_diagnosis_hist_kt.create_time
      */
     private Date createTime;
 
     /**
-     * 创建者Id
-     * cm_diagnosis_hist_kt.create_user_id
+     * 创建者Id cm_diagnosis_hist_kt.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_diagnosis_hist_kt.update_time
+     * 更新时间 cm_diagnosis_hist_kt.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新者Id
-     * cm_diagnosis_hist_kt.update_user_id
+     * 更新者Id cm_diagnosis_hist_kt.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 备注
-     * cm_diagnosis_hist_kt.remark
+     * 备注 cm_diagnosis_hist_kt.remark
      */
     private String remark;
 

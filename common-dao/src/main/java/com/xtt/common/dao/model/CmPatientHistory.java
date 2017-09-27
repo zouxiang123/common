@@ -13,98 +13,82 @@ public class CmPatientHistory {
     private Long id;
 
     /**
-     * 帐号
-     * patient_history.account
+     * 帐号 patient_history.account
      */
     private String account;
 
     /**
-     * 姓名
-     * patient_history.name
+     * 姓名 patient_history.name
      */
     private String name;
 
     /**
-     * 姓名首字母
-     * patient_history.initial
+     * 姓名首字母 patient_history.initial
      */
     private String initial;
 
     /**
-     * 密码
-     * patient_history.password
+     * 密码 patient_history.password
      */
     private String password;
 
     /**
-     * 身份证号
-     * patient_history.id_number
+     * 身份证号 patient_history.id_number
      */
     private String idNumber;
 
     /**
-     * 性别
-     * patient_history.sex
+     * 性别 patient_history.sex
      */
     private String sex;
 
     /**
-     * 出生日期
-     * patient_history.birthday
+     * 出生日期 patient_history.birthday
      */
     private Date birthday;
 
     /**
-     * 用户头像
-     * patient_history.image_path
+     * 用户头像 patient_history.image_path
      */
     private String imagePath;
 
     /**
-     * 工作单位
-     * patient_history.work_unit
+     * 工作单位 patient_history.work_unit
      */
     private String workUnit;
 
     /**
-     * 职业
-     * patient_history.profession
+     * 职业 patient_history.profession
      */
     private String profession;
 
     /**
-     * 手机号
-     * patient_history.mobile
+     * 手机号 patient_history.mobile
      */
     private String mobile;
 
     /**
-     * 紧急联系方式
-     * patient_history.emergency_mobile
+     * 紧急联系方式 patient_history.emergency_mobile
      */
     private String emergencyMobile;
 
     /**
-     * 省、市
-     * patient_history.province
+     * 省、市 patient_history.province
      */
     private Integer province;
 
     /**
-     * 县、区
-     * patient_history.county
+     * 县、区 patient_history.county
      */
     private Integer county;
 
     /**
-     * 家庭地址
-     * patient_history.address
+     * 家庭地址 patient_history.address
      */
     private String address;
 
     /**
-     * 患者干体重
-     * patient_history.dry_weight
+     * 患者干体重 patient_history.dry_weight
      */
     private BigDecimal dryWeight;
 
@@ -114,164 +98,137 @@ public class CmPatientHistory {
     private BigDecimal balance;
 
     /**
-     * 删除标记
-     * patient_history.del_flag
+     * 删除标记 patient_history.del_flag
      */
     private Boolean delFlag;
 
     /**
-     * 费用类型 1：医保  2：自费 3：军人
-     * patient_history.charge_type
+     * 费用类型 1：医保 2：自费 3：军人 patient_history.charge_type
      */
     private String chargeType;
 
     /**
-     * 医保卡号
-     * patient_history.medicare_card
+     * 医保卡号 patient_history.medicare_card
      */
     private String medicareCard;
 
     /**
-     * 医保卡类别
-     * patient_history.medicare_card_type
+     * 医保卡类别 patient_history.medicare_card_type
      */
     private String medicareCardType;
 
     /**
-     * 住院号
-     * patient_history.admission_number
+     * 住院号 patient_history.admission_number
      */
     private String admissionNumber;
 
     /**
-     * 姓名全拼首字母
-     * patient_history.spell_initials
+     * 姓名全拼首字母 patient_history.spell_initials
      */
     private String spellInitials;
 
     /**
-     * 门诊号
-     * patient_history.outpatient_number
+     * 门诊号 patient_history.outpatient_number
      */
     private String outpatientNumber;
 
     /**
-     * 证件类型 1：身份证 2：护照
-     * patient_history.id_type
+     * 证件类型 1：身份证 2：护照 patient_history.id_type
      */
     private String idType;
 
     /**
-     * 紧急联系人
-     * patient_history.emergency_contacts
+     * 紧急联系人 patient_history.emergency_contacts
      */
     private String emergencyContacts;
 
     /**
-     * 紧急联系方式2
-     * patient_history.emergency_mobile2
+     * 紧急联系方式2 patient_history.emergency_mobile2
      */
     private String emergencyMobile2;
 
     /**
-     * 紧急联系方式3
-     * patient_history.emergency_mobile3
+     * 紧急联系方式3 patient_history.emergency_mobile3
      */
     private String emergencyMobile3;
 
     /**
-     * 体重偏移量
-     * patient_history.offset
+     * 体重偏移量 patient_history.offset
      */
     private BigDecimal offset;
 
     /**
-     * 是否临时患者
-     * patient_history.is_temp
+     * 是否临时患者 patient_history.is_temp
      */
     private Boolean isTemp;
 
     /**
-     * 透析次数
-     * patient_history.dialysis_times
+     * 透析次数 patient_history.dialysis_times
      */
     private Integer dialysisTimes;
 
     /**
-     * 患者类型 1：门诊  2：住院
-     * patient_history.patient_type
+     * 患者类型 1：门诊 2：住院 patient_history.patient_type
      */
     private String patientType;
 
     /**
-     * ABO血型
-     * patient_history.blood_abo
+     * ABO血型 patient_history.blood_abo
      */
     private String bloodAbo;
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
-     * patient_history.blood_rh
+     * RH(D)血型 1=阳性 0= 阴性 patient_history.blood_rh
      */
     private String bloodRh;
 
     /**
-     *  二维码路径
-     * patient_history.barcode_path
+     * 二维码路径 patient_history.barcode_path
      */
     private String barcodePath;
 
     /**
-     * 身高（cm）
-     * patient_history.height
+     * 身高（cm） patient_history.height
      */
     private BigDecimal height;
 
     /**
-     * 体重（kg）
-     * patient_history.weight
+     * 体重（kg） patient_history.weight
      */
     private BigDecimal weight;
 
     /**
-     * 患者序列号
-     * patient_history.serial_num
+     * 患者序列号 patient_history.serial_num
      */
     private String serialNum;
 
     /**
-     * 租户ID
-     * patient_history.fk_tenant_id
+     * 租户ID patient_history.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 所属系统（HD：血透 PD：腹透）多系统,分割
-     * patient_history.sys_owner
+     * 所属系统（HD：血透 PD：腹透）多系统,分割 patient_history.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 创建时间
-     * patient_history.create_time
+     * 创建时间 patient_history.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_history.create_user_id
+     * 创建人 patient_history.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_history.update_time
+     * 更新时间 patient_history.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_history.update_user_id
+     * 更新人 patient_history.update_user_id
      */
     private Long updateUserId;
 
@@ -538,14 +495,14 @@ public class CmPatientHistory {
     }
 
     /**
-     * 费用类型 1：医保  2：自费 3：军人
+     * 费用类型 1：医保 2：自费 3：军人
      */
     public String getChargeType() {
         return chargeType;
     }
 
     /**
-     * 费用类型 1：医保  2：自费 3：军人
+     * 费用类型 1：医保 2：自费 3：军人
      */
     public void setChargeType(String chargeType) {
         this.chargeType = chargeType;
@@ -720,14 +677,14 @@ public class CmPatientHistory {
     }
 
     /**
-     * 患者类型 1：门诊  2：住院
+     * 患者类型 1：门诊 2：住院
      */
     public String getPatientType() {
         return patientType;
     }
 
     /**
-     * 患者类型 1：门诊  2：住院
+     * 患者类型 1：门诊 2：住院
      */
     public void setPatientType(String patientType) {
         this.patientType = patientType;
@@ -748,28 +705,28 @@ public class CmPatientHistory {
     }
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
+     * RH(D)血型 1=阳性 0= 阴性
      */
     public String getBloodRh() {
         return bloodRh;
     }
 
     /**
-     * RH(D)血型 1=阳性  0= 阴性
+     * RH(D)血型 1=阳性 0= 阴性
      */
     public void setBloodRh(String bloodRh) {
         this.bloodRh = bloodRh;
     }
 
     /**
-     *  二维码路径
+     * 二维码路径
      */
     public String getBarcodePath() {
         return barcodePath;
     }
 
     /**
-     *  二维码路径
+     * 二维码路径
      */
     public void setBarcodePath(String barcodePath) {
         this.barcodePath = barcodePath;

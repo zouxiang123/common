@@ -12,32 +12,27 @@ public class SysGroup {
     private Integer id;
 
     /**
-     * 集团名称
-     * sys_group.group_name
+     * 集团名称 sys_group.group_name
      */
     private String groupName;
 
     /**
-     * 创建时间
-     * sys_group.create_time
+     * 创建时间 sys_group.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_group.create_user_id
+     * 创建人 sys_group.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_group.update_time
+     * 更新时间 sys_group.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_group.update_user_id
+     * 更新人 sys_group.update_user_id
      */
     private Long updateUserId;
 

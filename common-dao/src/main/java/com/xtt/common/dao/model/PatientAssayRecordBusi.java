@@ -7,153 +7,129 @@ import com.xtt.platform.framework.core.model.MyBatisSuperModel;
 /**
  * patient_assay_record_busi
  */
-public class PatientAssayRecordBusi extends MyBatisSuperModel{
+public class PatientAssayRecordBusi extends MyBatisSuperModel {
     /**
      * patient_assay_record_busi.id
      */
     private Long id;
 
     /**
-     * 患者id
-     * patient_assay_record_busi.fk_patient_id
+     * 患者id patient_assay_record_busi.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 组ID
-     * patient_assay_record_busi.group_id
+     * 组ID patient_assay_record_busi.group_id
      */
     private String groupId;
 
     /**
-     * 组名称
-     * patient_assay_record_busi.group_name
+     * 组名称 patient_assay_record_busi.group_name
      */
     private String groupName;
 
     /**
-     * 项目编码
-     * patient_assay_record_busi.item_code
+     * 项目编码 patient_assay_record_busi.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称
-     * patient_assay_record_busi.item_name
+     * 项目名称 patient_assay_record_busi.item_name
      */
     private String itemName;
 
     /**
-     * 化验结果的值
-     * patient_assay_record_busi.result
+     * 化验结果的值 patient_assay_record_busi.result
      */
     private String result;
 
     /**
-     * 真实结果的值
-     * patient_assay_record_busi.result_actual
+     * 真实结果的值 patient_assay_record_busi.result_actual
      */
     private Double resultActual;
 
     /**
-     * 单位
-     * patient_assay_record_busi.value_unit
+     * 单位 patient_assay_record_busi.value_unit
      */
     private String valueUnit;
 
     /**
-     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
-     * patient_assay_record_busi.result_tips
+     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低) patient_assay_record_busi.result_tips
      */
     private String resultTips;
 
     /**
-     * 参考值
-     * patient_assay_record_busi.reference
+     * 参考值 patient_assay_record_busi.reference
      */
     private String reference;
 
     /**
-     * 申请单ID
-     * patient_assay_record_busi.req_id
+     * 申请单ID patient_assay_record_busi.req_id
      */
     private String reqId;
 
     /**
-     * 样本
-     * patient_assay_record_busi.sample_class
+     * 样本 patient_assay_record_busi.sample_class
      */
     private String sampleClass;
 
     /**
-     * 取样时间
-     * patient_assay_record_busi.sample_time
+     * 取样时间 patient_assay_record_busi.sample_time
      */
     private Date sampleTime;
 
     /**
-     * 报告时间
-     * patient_assay_record_busi.report_time
+     * 报告时间 patient_assay_record_busi.report_time
      */
     private Date reportTime;
 
     /**
-     * 检查项目唯一ID
-     * patient_assay_record_busi.inspection_id
+     * 检查项目唯一ID patient_assay_record_busi.inspection_id
      */
     private String inspectionId;
 
     /**
-     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后
-     * patient_assay_record_busi.dia_ab_flag
+     * 透析前后标示（0=非透析前后） 1=透析前 2=透析后 patient_assay_record_busi.dia_ab_flag
      */
     private String diaAbFlag;
 
     /**
-     * 化验月份
-     * patient_assay_record_busi.assay_month
+     * 化验月份 patient_assay_record_busi.assay_month
      */
     private String assayMonth;
 
     /**
-     * 化验日期
-     * patient_assay_record_busi.assay_date
+     * 化验日期 patient_assay_record_busi.assay_date
      */
     private Date assayDate;
 
     /**
-     * 是否是院外化验项: 0否  1是
-     * patient_assay_record_busi.flage
+     * 是否是院外化验项: 0否 1是 patient_assay_record_busi.flage
      */
     private Boolean flage;
 
     /**
-     * 租户ID
-     * patient_assay_record_busi.fk_tenant_id
+     * 租户ID patient_assay_record_busi.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_assay_record_busi.create_time
+     * 创建时间 patient_assay_record_busi.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_assay_record_busi.create_user_id
+     * 创建人 patient_assay_record_busi.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_assay_record_busi.update_time
+     * 更新时间 patient_assay_record_busi.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_assay_record_busi.update_user_id
+     * 更新人 patient_assay_record_busi.update_user_id
      */
     private Long updateUserId;
 
@@ -422,14 +398,14 @@ public class PatientAssayRecordBusi extends MyBatisSuperModel{
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否是院外化验项: 0否 1是
      */
     public Boolean getFlage() {
         return flage;
     }
 
     /**
-     * 是否是院外化验项: 0否  1是
+     * 是否是院外化验项: 0否 1是
      */
     public void setFlage(Boolean flage) {
         this.flage = flage;

@@ -7,7 +7,7 @@ import com.xtt.common.dao.model.CmPatientHistory;
 @Repository
 public interface CmPatientHistoryMapper {
 
-	int insert(CmPatientHistory record);
+    int insert(CmPatientHistory record);
 
-	int insertSelective(CmPatientHistory record);
+    int insertSelective(CmPatientHistory record);
 }

@@ -8,26 +8,22 @@ import java.util.Date;
  */
 public class CmFormBaseItems {
     /**
-     * 物理主键
-     * cm_form_base_items.id
+     * 物理主键 cm_form_base_items.id
      */
     private Long id;
 
     /**
-     * 父编号
-     * cm_form_base_items.p_item_code
+     * 父编号 cm_form_base_items.p_item_code
      */
     private String pItemCode;
 
     /**
-     * 编号
-     * cm_form_base_items.item_code
+     * 编号 cm_form_base_items.item_code
      */
     private String itemCode;
 
     /**
-     * 名称
-     * cm_form_base_items.item_name
+     * 名称 cm_form_base_items.item_name
      */
     private String itemName;
 
@@ -37,116 +33,97 @@ public class CmFormBaseItems {
     private String itemDesc;
 
     /**
-     * 组件类型(checkbox、input、textarea)等等
-     * cm_form_base_items.item_type
+     * 组件类型(checkbox、input、textarea)等等 cm_form_base_items.item_type
      */
     private String itemType;
 
     /**
-     * 单位
-     * cm_form_base_items.unit
+     * 单位 cm_form_base_items.unit
      */
     private String unit;
 
     /**
-     * 是否需要打分
-     * cm_form_base_items.need_score
+     * 是否需要打分 cm_form_base_items.need_score
      */
     private Boolean needScore;
 
     /**
-     * 分值
-     * cm_form_base_items.score
+     * 分值 cm_form_base_items.score
      */
     private BigDecimal score;
 
     /**
-     * 最小值
-     * cm_form_base_items.min_value
+     * 最小值 cm_form_base_items.min_value
      */
     private BigDecimal minValue;
 
     /**
-     * 最大值
-     * cm_form_base_items.max_value
+     * 最大值 cm_form_base_items.max_value
      */
     private BigDecimal maxValue;
 
     /**
-     * 是否为叶子节点
-     * cm_form_base_items.is_leaf
+     * 是否为叶子节点 cm_form_base_items.is_leaf
      */
     private Boolean isLeaf;
 
     /**
-     * 是否固定项
-     * cm_form_base_items.is_fixed
+     * 是否固定项 cm_form_base_items.is_fixed
      */
     private Boolean isFixed;
 
     /**
-     * 关联的编号
-     * cm_form_base_items.fk_code
+     * 关联的编号 cm_form_base_items.fk_code
      */
     private String fkCode;
 
     /**
-     * 组标签
-     * cm_form_base_items.group_tag
+     * 组标签 cm_form_base_items.group_tag
      */
     private String groupTag;
 
     /**
-     * 数据类型
-     * cm_form_base_items.data_type
+     * 数据类型 cm_form_base_items.data_type
      */
     private String dataType;
 
     /**
-     * 所属系统
-     * cm_form_base_items.sys_owner
+     * 所属系统 cm_form_base_items.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 是否有效
-     * cm_form_base_items.is_enable
+     * 是否有效 cm_form_base_items.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 子节点是否是value节点
-     * cm_form_base_items.child_value_node
+     * 子节点是否是value节点 cm_form_base_items.child_value_node
      */
     private Boolean childValueNode;
 
     /**
-     * 租户id
-     * cm_form_base_items.fk_tenant_id
+     * 租户id cm_form_base_items.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_form_base_items.create_time
+     * 创建时间 cm_form_base_items.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * cm_form_base_items.create_user_id
+     * 创建人 cm_form_base_items.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_form_base_items.update_time
+     * 更新时间 cm_form_base_items.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * cm_form_base_items.update_user_id
+     * 更新人 cm_form_base_items.update_user_id
      */
     private Long updateUserId;
 

@@ -5,26 +5,22 @@ package com.xtt.common.dao.model;
  */
 public class PatientAssayInspectioidBack {
     /**
-     * 检查项目唯一ID
-     * patient_assay_inspectioid_back.inspection_id
+     * 检查项目唯一ID patient_assay_inspectioid_back.inspection_id
      */
     private String inspectionId;
 
     /**
-     * 患者id
-     * patient_assay_inspectioid_back.fk_patient_id
+     * 患者id patient_assay_inspectioid_back.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 透前透后唯一标识
-     * patient_assay_inspectioid_back.dia_ab_flag
+     * 透前透后唯一标识 patient_assay_inspectioid_back.dia_ab_flag
      */
     private String diaAbFlag;
 
     /**
-     * 租户id
-     * patient_assay_inspectioid_back.fk_tenant_id
+     * 租户id patient_assay_inspectioid_back.fk_tenant_id
      */
     private Integer fkTenantId;
 

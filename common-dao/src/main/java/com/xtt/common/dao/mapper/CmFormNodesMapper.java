@@ -16,14 +16,14 @@ import com.xtt.common.dto.FormNodesDto;
 
 @Repository
 public interface CmFormNodesMapper {
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	public List<FormNodesDto> selectByCondition(FormNodesDto record);
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    public List<FormNodesDto> selectByCondition(FormNodesDto record);
 
 }
