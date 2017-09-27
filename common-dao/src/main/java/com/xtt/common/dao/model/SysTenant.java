@@ -12,22 +12,26 @@ public class SysTenant {
     private Integer id;
 
     /**
-     * 透析中心名称 sys_tenant.name
+     * 透析中心名称
+     * sys_tenant.name
      */
     private String name;
 
     /**
-     * 是否可用 sys_tenant.is_enable
+     * 是否可用
+     * sys_tenant.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 有效开始日期 sys_tenant.start_date
+     * 有效开始日期
+     * sys_tenant.start_date
      */
     private Date startDate;
 
     /**
-     * 有效终止日期 sys_tenant.end_date
+     * 有效终止日期
+     * sys_tenant.end_date
      */
     private Date endDate;
 
@@ -37,9 +41,34 @@ public class SysTenant {
     private Boolean isDefault;
 
     /**
-     * 集团虚拟租户标识（1：集团虚拟租户，0：普通租户） sys_tenant.group_flag
+     * 集团虚拟租户标识（1：集团虚拟租户，0：普通租户）
+     * sys_tenant.group_flag
      */
     private Boolean groupFlag;
+
+    /**
+     * 创建时间
+     * sys_tenant.create_time
+     */
+    private Date createTime;
+
+    /**
+     * 创建人
+     * sys_tenant.create_user_id
+     */
+    private Long createUserId;
+
+    /**
+     * 更新时间
+     * sys_tenant.update_time
+     */
+    private Date updateTime;
+
+    /**
+     * 更新人
+     * sys_tenant.update_user_id
+     */
+    private Long updateUserId;
 
     /**
      * sys_tenant.license
@@ -47,24 +76,10 @@ public class SysTenant {
     private String license;
 
     /**
-     * 创建时间 sys_tenant.create_time
+     * 版本
+     * sys_tenant.version
      */
-    private Date createTime;
-
-    /**
-     * 创建人 sys_tenant.create_user_id
-     */
-    private Long createUserId;
-
-    /**
-     * 更新时间 sys_tenant.update_time
-     */
-    private Date updateTime;
-
-    /**
-     * 更新人 sys_tenant.update_user_id
-     */
-    private Long updateUserId;
+    private String version;
 
     /**
      */
@@ -161,18 +176,6 @@ public class SysTenant {
     }
 
     /**
-     */
-    public String getLicense() {
-        return license;
-    }
-
-    /**
-     */
-    public void setLicense(String license) {
-        this.license = license;
-    }
-
-    /**
      * 创建时间
      */
     public Date getCreateTime() {
@@ -226,5 +229,31 @@ public class SysTenant {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     */
+    public String getLicense() {
+        return license;
+    }
+
+    /**
+     */
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    /**
+     * 版本
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * 版本
+     */
+    public void setVersion(String version) {
+        this.version = version;
     }
 }
