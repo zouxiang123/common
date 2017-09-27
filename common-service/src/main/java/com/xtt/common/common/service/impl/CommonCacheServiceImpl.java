@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
+import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
@@ -43,16 +44,19 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
+import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
@@ -86,6 +90,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private ICmFormulaConfService cmFormulaConfService;
     @Autowired
     private IFamilyInitialService familyInitialService;
+    @Autowired
+    private IPatientService patientService;
 
     @Override
     public void cacheDict(Integer tenantId) {
@@ -164,8 +170,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     @Override
     public void cachePatient(Integer tenantId) {
-        /*  RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-        List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
+        RedisCacheUtil.deletePattern(PatientCache.getKey(null));
+        List<PatientPO> list = patientService.getPatientByTenantId(tenantId, null);
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
@@ -177,7 +183,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cacheObjs.add(toObj);
             }
             PatientCache.cacheAll(cacheObjs);
-        }*/
+        }
     }
 
     @Override
