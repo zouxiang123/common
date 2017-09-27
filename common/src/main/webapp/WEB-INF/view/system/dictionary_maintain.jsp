@@ -51,10 +51,10 @@ tbody tr.active td {
 }
 </style>
 </head>
-<body>
+<body class="bg-white" style="padding: 0px;">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-sm-12 col-md-12 main bg-white" style="padding: 0px;">
+			<div class="col-sm-12 col-md-12 main" style="padding: 0px;">
 				<div class="fill-parent rel bg-white border-bottom-line" style="height: 48px;">
 					<div class="tab-index" style="width: auto;" id="dictionaryTopTab">
 						<span class="tab-index-item active" data-type="dictionary">字典表</span> 
@@ -66,7 +66,7 @@ tbody tr.active td {
 					</div>
 				</div>
 				<!-- 字典表 -->
-				<div id="dictionary" style="display: none;">
+				<div id="dictionary">
 					<!-- 新建数据 dialog -->
 					<div class="modal" id="dictionaryAddDialog" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 						<div class="modal-dialog">
@@ -121,10 +121,10 @@ tbody tr.active td {
 							</div>
 						</div>
 						<div class="tab-body">
-							<div class="col-sm-3 col-md-2 bg-white" style="padding-right: 1px" id="dictionaryCategoryList">
+							<div class="col-sm-3 col-md-2 bg-white" style="padding-right: 1px;" id="dictionaryCategoryList">
 								<div style="text-align: left; font-size: 14px;" id="dictionaryCategorySearchCount"></div>
-								<img src="${COMMON_SERVER_ADDR}/assets/img/search-icon.png" class="pad-search-icon" style="position: absolute; top: 37px; left: 36px;"> <input
-									class="nav-search-input fill-parent" style="width: 88%;" type="search" placeholder="搜 索" id="dictionaryCategorySearch">
+								<img src="${COMMON_SERVER_ADDR}/assets/img/search-icon.png" class="pad-search-icon" style="position: absolute; top: 37px; left: 20px;"> 
+                                <input class="nav-search-input fill-parent" style="width: 88%;" type="search" placeholder="搜 索" id="dictionaryCategorySearch">
 								<div class="fill-parent" id="dictionaryCategorySearchContent" style="height: 397px; overflow-y: auto; overflow-x: hidden;"></div>
 							</div>
 							<div class="col-sm-9 col-md-10" style="height: 397px; overflow: auto; padding-right: 0px; padding-left: 10px;" id="dictionaryList">

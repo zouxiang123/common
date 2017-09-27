@@ -1722,3 +1722,19 @@ button:active,
 button:hover{
 	opacity: 0.6;
 }
+.u-it-ipad {
+    width: 100%;
+    height: 45px;
+    text-align: center;
+    border-bottom: 1px solid #d9e0e6;
+    font-size: 17px;
+    position: relative;
+}
+.u-it-ipad>div>span:first-child {
+    display: inline-block;
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    border-right: 1px solid #d9e0e6;
+    margin-top: 10px;
+}

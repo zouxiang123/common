@@ -10,11 +10,15 @@ package com.xtt.common.diagnosis.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,15 +51,19 @@ import com.xtt.common.diagnosis.service.ICmDiagnosisHistService;
 import com.xtt.common.diagnosis.service.ICmDiagnosisHistSurgeryService;
 import com.xtt.common.diagnosis.service.ICmDiagnosisHistTumourService;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
+import com.xtt.common.dto.DiagnosisApiDto;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 
 @Controller
 @RequestMapping("/patient/diagnosis/")
 public class PatientDiagnosisController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PatientDiagnosisController.class);
+
     @Autowired
     private IPatientService patientService;
     @Autowired
@@ -789,6 +797,24 @@ public class PatientDiagnosisController {
         PatientDto patient = PatientCache.getById(patientId);
         sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_3,
                         String.format("对患者（编号：%s 姓名：%s）%s进行了%s动作", patient.getId(), patient.getName(), typeDesc, actionName), UserUtil.getSysOwner());
+    }
+
+    /**
+     * 获取患者最新一次的诊断字符串
+     * 
+     * @Title: getLatestStrByPatientIds
+     * @param param
+     * @return
+     *
+     */
+    @RequestMapping("getLatestStrByPatientIds")
+    @ResponseBody
+    public HttpResult getLatestStrByPatientIds(@RequestBody DiagnosisApiDto param) {
+        LOGGER.info("getLatestStrByPatientIds , request param is :" + param.toString());
+        HttpResult result = HttpResult.getSuccessInstance();
+        Map<Long, Map<String, String>> map = cmDiagnosisHistEntityService.getLatestStrByPatientIds(param);
+        result.setRs(map);
+        return result;
     }
 
 }
