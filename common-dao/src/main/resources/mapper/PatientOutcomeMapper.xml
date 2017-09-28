@@ -250,11 +250,11 @@
       <if test="recordDate != null">
         AND po.record_date = #{recordDate,jdbcType=DATE}
       </if>
-      <if test="startDate != null">
-        AND po.record_date &gt;= #{startDate,jdbcType=DATE}
+      <if test="startTime != null">
+        AND po.record_date &gt;= #{startTime,jdbcType=DATE}
       </if>
-      <if test="endDate != null">
-        AND po.record_date &lt;= #{endDate,jdbcType=DATE}
+      <if test="endTime != null">
+        AND po.record_date &lt;= #{endTime,jdbcType=DATE}
       </if>
       <if test="reason != null">
         AND po.reason = #{reason}
