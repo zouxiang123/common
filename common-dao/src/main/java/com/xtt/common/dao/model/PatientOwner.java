@@ -25,6 +25,12 @@ public class PatientOwner {
     private String sysOwner;
 
     /**
+     * 是否临时患者
+     * patient_owner.is_temp
+     */
+    private Boolean isTemp;
+
+    /**
      * 租户id
      * patient_owner.fk_tenant_id
      */
@@ -100,6 +106,20 @@ public class PatientOwner {
      */
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    /**
+     * 是否临时患者
+     */
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
     }
 
     /**

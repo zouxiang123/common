@@ -8,6 +8,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="is_temp" jdbcType="BIT" property="isTemp" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -19,7 +20,7 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_patient_id, sys_owner, fk_tenant_id, is_enable, create_time, create_user_id, 
+    id, fk_patient_id, sys_owner, is_temp, fk_tenant_id, is_enable, create_time, create_user_id, 
     update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -43,13 +44,13 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into patient_owner (id, fk_patient_id, sys_owner, 
-      fk_tenant_id, is_enable, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      is_temp, fk_tenant_id, is_enable, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{sysOwner,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{isTemp,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOwner">
     <!--
@@ -65,6 +66,9 @@
       </if>
       <if test="sysOwner != null">
         sys_owner,
+      </if>
+      <if test="isTemp != null">
+        is_temp,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -94,6 +98,9 @@
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="isTemp != null">
+        #{isTemp,jdbcType=BIT},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -127,6 +134,9 @@
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
+      <if test="isTemp != null">
+        is_temp = #{isTemp,jdbcType=BIT},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -155,6 +165,7 @@
     update patient_owner
     set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      is_temp = #{isTemp,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       is_enable = #{isEnable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -165,7 +176,7 @@
   </update>
   
   <!-- use define -->
-  <update id="updateDisableByPatientId" >
+  <update id="updateDisableByPatientId">
   	update patient_owner set is_enable = 0 where fk_patient_id = #{fkPatientId} 
     <if test="fkTenantId != null">
         and fk_tenant_id = #{fkTenantId}
@@ -180,6 +191,9 @@
       </if>
       <if test="sysOwner != null">
         and po.sys_owner = #{sysOwner}
+      </if>
+      <if test="isTemp != null">
+        and po.is_temp = #{isTemp}
       </if>
       <if test="fkTenantId != null">
         and po.fk_tenant_id = #{fkTenantId}

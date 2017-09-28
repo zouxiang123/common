@@ -47,6 +47,7 @@ public interface IPatientService {
      * 
      * @Title: savePatient
      * @param patient
+     * @param isTemp
      * @param isImport
      *            是否是导入患者
      * 
