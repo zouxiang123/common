@@ -13,56 +13,47 @@ public class AssayHospDict {
     private Long id;
 
     /**
-     * 项目编码
-     * assay_hosp_dict.item_code
+     * 项目编码 assay_hosp_dict.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称
-     * assay_hosp_dict.item_name
+     * 项目名称 assay_hosp_dict.item_name
      */
     private String itemName;
 
     /**
-     * 最小值
-     * assay_hosp_dict.min_value
+     * 最小值 assay_hosp_dict.min_value
      */
     private BigDecimal minValue;
 
     /**
-     * 最大值
-     * assay_hosp_dict.max_value
+     * 最大值 assay_hosp_dict.max_value
      */
     private BigDecimal maxValue;
 
     /**
-     * 单位
-     * assay_hosp_dict.unit
+     * 单位 assay_hosp_dict.unit
      */
     private String unit;
 
     /**
-     * 参照
-     * assay_hosp_dict.reference
+     * 参照 assay_hosp_dict.reference
      */
     private String reference;
 
     /**
-     * 排序
-     * assay_hosp_dict.order_by
+     * 排序 assay_hosp_dict.order_by
      */
     private Integer orderBy;
 
     /**
-     * 患者化验单字典表外键
-     * assay_hosp_dict.fk_dict_code
+     * 患者化验单字典表外键 assay_hosp_dict.fk_dict_code
      */
     private String fkDictCode;
 
     /**
-     * 1、数值，2、文本
-     * assay_hosp_dict.value_type
+     * 1、数值，2、文本 assay_hosp_dict.value_type
      */
     private Integer valueType;
 
@@ -87,44 +78,37 @@ public class AssayHospDict {
     private BigDecimal personalMaxValue;
 
     /**
-     * 是否自动生成标识(0:否;1:是)
-     * assay_hosp_dict.is_auto
+     * 是否自动生成标识(0:否;1:是) assay_hosp_dict.is_auto
      */
     private Boolean isAuto;
 
     /**
-     * 租户id
-     * assay_hosp_dict.fk_tenant_id
+     * 租户id assay_hosp_dict.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * assay_hosp_dict.create_time
+     * 创建时间 assay_hosp_dict.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * assay_hosp_dict.create_user_id
+     * 创建人 assay_hosp_dict.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间
-     * assay_hosp_dict.update_time
+     * 修改时间 assay_hosp_dict.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人
-     * assay_hosp_dict.update_user_id
+     * 修改人 assay_hosp_dict.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 测试方法
-     * assay_hosp_dict.method
+     * 测试方法 assay_hosp_dict.method
      */
     private String method;
 

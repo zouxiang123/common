@@ -7,62 +7,52 @@ import java.util.Date;
  */
 public class PatientOwner {
     /**
-     * 物理主键
-     * patient_owner.id
+     * 物理主键 patient_owner.id
      */
     private Long id;
 
     /**
-     * 患者id
-     * patient_owner.fk_patient_id
+     * 患者id patient_owner.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 所属系统
-     * patient_owner.sys_owner
+     * 所属系统 patient_owner.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 是否临时患者
-     * patient_owner.is_temp
+     * 是否临时患者 patient_owner.is_temp
      */
     private Boolean isTemp;
 
     /**
-     * 租户id
-     * patient_owner.fk_tenant_id
+     * 租户id patient_owner.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 是否可用
-     * patient_owner.is_enable
+     * 是否可用 patient_owner.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 创建时间
-     * patient_owner.create_time
+     * 创建时间 patient_owner.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_owner.create_user_id
+     * 创建人 patient_owner.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_owner.update_time
+     * 更新时间 patient_owner.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_owner.update_user_id
+     * 更新人 patient_owner.update_user_id
      */
     private Long updateUserId;
 

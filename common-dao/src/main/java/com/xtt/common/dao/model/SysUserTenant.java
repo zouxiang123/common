@@ -12,68 +12,57 @@ public class SysUserTenant {
     private Long id;
 
     /**
-     * 用户id
-     * sys_user_tenant.fk_user_id
+     * 用户id sys_user_tenant.fk_user_id
      */
     private Long fkUserId;
 
     /**
-     * 租户id
-     * sys_user_tenant.fk_tenant_id
+     * 租户id sys_user_tenant.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 角色类别（医生，护士，管理员等）
-     * sys_user_tenant.role_type
+     * <<<<<<< HEAD 角色类别（医生，护士，管理员等） sys_user_tenant.role_type
      */
     private String roleType;
 
     /**
-     * 职位
-     * sys_user_tenant.position
+     * 职位 sys_user_tenant.position
      */
     private String position;
 
     /**
-     * 座机号
-     * sys_user_tenant.telephone
+     * 座机号 sys_user_tenant.telephone
      */
     private String telephone;
 
     /**
-     * 皮肤
-     * sys_user_tenant.skin
+     * 皮肤 sys_user_tenant.skin
      */
     private String skin;
 
     /**
-     * 所属系统
-     * sys_user_tenant.sys_owner
+     * 所属系统（多个以“,”分隔） sys_user_tenant.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 创建时间
-     * sys_user_tenant.create_time
+     * 创建时间 sys_user_tenant.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_user_tenant.create_user_id
+     * 创建人 sys_user_tenant.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_user_tenant.update_time
+     * 更新时间 sys_user_tenant.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_user_tenant.update_user_id
+     * 更新人 sys_user_tenant.update_user_id
      */
     private Long updateUserId;
 

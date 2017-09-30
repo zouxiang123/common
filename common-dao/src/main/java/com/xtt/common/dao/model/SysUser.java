@@ -12,98 +12,82 @@ public class SysUser {
     private Long id;
 
     /**
-     * 帐号
-     * sys_user.account
+     * 帐号 sys_user.account
      */
     private String account;
 
     /**
-     * 姓名
-     * sys_user.name
+     * 姓名 sys_user.name
      */
     private String name;
 
     /**
-     * 姓名首字母
-     * sys_user.initial
+     * 姓名首字母 sys_user.initial
      */
     private String initial;
 
     /**
-     * 密码
-     * sys_user.password
+     * 密码 sys_user.password
      */
     private String password;
 
     /**
-     * image_path
-     * sys_user.image_path
+     * image_path sys_user.image_path
      */
     private String imagePath;
 
     /**
-     * autograph_path
-     * sys_user.autograph_path
+     * autograph_path sys_user.autograph_path
      */
     private String autographPath;
 
     /**
-     * 性别
-     * sys_user.sex
+     * 性别 sys_user.sex
      */
     private String sex;
 
     /**
-     * 出生日期
-     * sys_user.birthday
+     * 出生日期 sys_user.birthday
      */
     private Date birthday;
 
     /**
-     * 手机号
-     * sys_user.mobile
+     * 手机号 sys_user.mobile
      */
     private String mobile;
 
     /**
-     * 删除标记
-     * sys_user.del_flag
+     * 删除标记 sys_user.del_flag
      */
     private Boolean delFlag;
 
     /**
-     * 用户类型（管理员、超级管理员、普通用户）等
-     * sys_user.user_type
+     * 用户类型（管理员、超级管理员、普通用户）等 sys_user.user_type
      */
     private String userType;
 
     /**
-     * 租户ID
-     * sys_user.fk_tenant_id
+     * 租户ID sys_user.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * sys_user.create_time
+     * 创建时间 sys_user.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_user.create_user_id
+     * 创建人 sys_user.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_user.update_time
+     * 更新时间 sys_user.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_user.update_user_id
+     * 更新人 sys_user.update_user_id
      */
     private Long updateUserId;
 

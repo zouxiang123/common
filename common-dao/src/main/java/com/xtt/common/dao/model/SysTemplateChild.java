@@ -12,44 +12,37 @@ public class SysTemplateChild {
     private Long id;
 
     /**
-     * 模板表id
-     * sys_template_child.fk_sys_template_id
+     * 模板表id sys_template_child.fk_sys_template_id
      */
     private Long fkSysTemplateId;
 
     /**
-     * 类别
-     * sys_template_child.item_type
+     * 类别 sys_template_child.item_type
      */
     private String itemType;
 
     /**
-     * 内容
-     * sys_template_child.content
+     * 内容 sys_template_child.content
      */
     private String content;
 
     /**
-     * 创建时间
-     * sys_template_child.create_time
+     * 创建时间 sys_template_child.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_template_child.create_user_id
+     * 创建人 sys_template_child.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_template_child.update_time
+     * 更新时间 sys_template_child.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_template_child.update_user_id
+     * 更新人 sys_template_child.update_user_id
      */
     private Long updateUserId;
 
@@ -59,8 +52,7 @@ public class SysTemplateChild {
     private Integer fkTenantId;
 
     /**
-     * 所属系统
-     * sys_template_child.sys_owner
+     * 所属系统 sys_template_child.sys_owner
      */
     private String sysOwner;
 

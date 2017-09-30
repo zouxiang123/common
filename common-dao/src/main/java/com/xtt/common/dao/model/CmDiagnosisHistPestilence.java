@@ -7,86 +7,72 @@ import java.util.Date;
  */
 public class CmDiagnosisHistPestilence {
     /**
-     * 主键Id
-     * cm_diagnosis_hist_pestilence.id
+     * 主键Id cm_diagnosis_hist_pestilence.id
      */
     private Long id;
 
     /**
-     * 患者Id
-     * cm_diagnosis_hist_pestilence.fk_patient_id
+     * 患者Id cm_diagnosis_hist_pestilence.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 诊断日期
-     * cm_diagnosis_hist_pestilence.diagnostic_date
+     * 诊断日期 cm_diagnosis_hist_pestilence.diagnostic_date
      */
     private Date diagnosticDate;
 
     /**
-     * 诊断名称集合，以“，”号隔开；对应字典item_code值
-     * cm_diagnosis_hist_pestilence.diagnostic_name
+     * 诊断名称集合，以“，”号隔开；对应字典item_code值 cm_diagnosis_hist_pestilence.diagnostic_name
      */
     private String diagnosticName;
 
     /**
-     * 其他诊断名称
-     * cm_diagnosis_hist_pestilence.other_diagnostic_name
+     * 其他诊断名称 cm_diagnosis_hist_pestilence.other_diagnostic_name
      */
     private String otherDiagnosticName;
 
     /**
-     * 活动状态，对应字典item_code值
-     * cm_diagnosis_hist_pestilence.activity_state
+     * 活动状态，对应字典item_code值 cm_diagnosis_hist_pestilence.activity_state
      */
     private String activityState;
 
     /**
-     * 治疗情况，对应字典item_code值
-     * cm_diagnosis_hist_pestilence.treatment
+     * 治疗情况，对应字典item_code值 cm_diagnosis_hist_pestilence.treatment
      */
     private String treatment;
 
     /**
-     * 其他治疗情况
-     * cm_diagnosis_hist_pestilence.other_treatment
+     * 其他治疗情况 cm_diagnosis_hist_pestilence.other_treatment
      */
     private String otherTreatment;
 
     /**
-     * 租户Id
-     * cm_diagnosis_hist_pestilence.fk_tenant_id
+     * 租户Id cm_diagnosis_hist_pestilence.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_diagnosis_hist_pestilence.create_time
+     * 创建时间 cm_diagnosis_hist_pestilence.create_time
      */
     private Date createTime;
 
     /**
-     * 创建者Id
-     * cm_diagnosis_hist_pestilence.create_user_id
+     * 创建者Id cm_diagnosis_hist_pestilence.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_diagnosis_hist_pestilence.update_time
+     * 更新时间 cm_diagnosis_hist_pestilence.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新者Id
-     * cm_diagnosis_hist_pestilence.update_user_id
+     * 更新者Id cm_diagnosis_hist_pestilence.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 备注
-     * cm_diagnosis_hist_pestilence.remark
+     * 备注 cm_diagnosis_hist_pestilence.remark
      */
     private String remark;
 
