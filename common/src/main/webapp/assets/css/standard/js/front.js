@@ -938,3 +938,17 @@ function dynamicMenu() {
   }
 }
 dynamicMenu()
+
+function textareaAdaption() {
+    let dome = $(".u-textarea-adaption");
+    for(let i = 0;i<dome.length;i++){
+        if($(dome[0]).children().length == 1){
+            $(dome).append('<pre></pre>');
+        }
+    }
+    $('.u-textarea-adaption>textarea').bind('keyup',function () {
+        $(this).scrollTop(0);
+        $(this).siblings("pre").html($(this).val());
+    });
+}
+textareaAdaption();

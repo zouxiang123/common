@@ -12,7 +12,7 @@ var tab_nav = {
         $("#basicIframeDiv iframe").height($(window).height() - ($("#tabsBodyDiv").offset().top + 10));
     },
     addEvents : function() {
-        $("#tabsDiv").on("click", "[data-url]", function() {
+        $("#tabsDiv").on("click", "[data-url]", function(event) {
             var bodyId = $(this).data("target");
             $(this).addClass("active").siblings().removeClass("active");
             if ($("#" + bodyId).length > 0) {
@@ -31,6 +31,7 @@ var tab_nav = {
             $("#" + bodyId).siblings().addClass("hide");
             // trigger define event
             $("#tabsDiv").trigger("tab_nav.click", [ $(this) ]);
+            stopEventBubble(event);
         });
         $(window).on("resize", function() {
             var height = $(window).height() - ($("#tabsBodyDiv").offset().top + 10);
@@ -68,13 +69,13 @@ var tab_nav = {
         var dataStr = 'data-url="' + p.url + '" data-refresh="' + p.refresh + '" data-target="' + p.id + '"';
         if (isEmpty(this.style)) { // 使用默认样式
             tabHtml = '<span class="u-tab hand" ' + dataStr + '>' + p.name
-                + '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
+                            + '<span class="u-tab-delete" onclick = "tab_nav.closeTab(event,this);"></span></span>';
         } else if (this.style == "btn-grey") { // 灰色按钮
             tabHtml = '<span class="u-btn-close-1" ' + dataStr + '>' + p.name
-                + '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
+                            + '<span class="u-tab-delete mt-2" onclick = "tab_nav.closeTab(event,this);"></span></button>';
         } else if (this.style == "standard") {
             tabHtml = '<span ' + dataStr + '><a href="javascript:void(0);">' + p.name
-                + '</a><i class="icon-close" onclick="tab_nav.closeTab(event,this);"></i></span>';
+                            + '</a><i class="icon-close" onclick="tab_nav.closeTab(event,this);"></i></span>';
         }
         $("#tabsDiv").append(tabHtml);
         // 设置添加tab的来源id为当前激活的tabid

@@ -462,7 +462,9 @@ function getAssayitem() {
                             .ajax({
                                 url : ctx + "/assay/hospDict/getAssayList.shtml",
                                 type : "post",
-                                data : "groupId=" + groupId,
+                                data : {
+                                    groupId : groupId
+                                },
                                 dataType : "json",
                                 loading : true,
                                 success : function(data) {

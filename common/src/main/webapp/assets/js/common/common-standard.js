@@ -156,7 +156,8 @@ function showAlert(message, callback) {
     system_dialog.show({
         level : "info",
         content : message,
-        confirmCall : callback
+        confirmCall : callback,
+        needCancelBtn : false
     });
 }
 
@@ -371,5 +372,7 @@ function roundMachineValue(json) {
 
 /** 提示信息 */
 function showTips(msg, delay) {
+    msg = isEmpty(msg) ? "保存成功" : msg;
+    delay = isEmpty(delay) ? 2000 : delay;
     funNotice(msg, "text", delay);
 }

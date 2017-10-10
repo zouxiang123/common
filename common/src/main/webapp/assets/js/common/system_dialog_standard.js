@@ -15,7 +15,10 @@ var system_dialog = {
         content : "",
         level : "info",// 事件级别（info,warn,error）
         cancelCall : null,
-        confirmCall : null
+        confirmCall : null,
+        needCancelBtn : true,
+        cancelText : "取消",
+        confirmText : "确定"
     },
     /**
      * 事件初始化
@@ -29,12 +32,12 @@ var system_dialog = {
      */
     createDialog : function() {
         var html = '';
-        html += '<div class="u-mask" id="systemDialog" data-hide="#systemDialog">';
+        html += '<div class="u-mask" id="systemDialog" style="z-index: 99999;">';
         html += '<div class="u-dialog" min>';
         html += '<div class="u-dialog-header">';
         html += '<div></div>';
         html += '<div systemdialog-title>提示</div>';
-        html += '<div><i class="icon-close" data-hide="#systemDialog"></i></div>';
+        html += '<div></div>';
         html += '</div>';
         html += '<div class="u-dialog-content" systemdialog-content>';
         html += '</div>';
@@ -54,6 +57,7 @@ var system_dialog = {
          * 确定取消事件
          */
         $("#systemDialog").on("click", "[systemdialog-btn]", function() {
+            $("#systemDialog").hide();
             var type = $(this).attr("systemdialog-btn");
             if (type == "cancel") {
                 if (!isEmpty(system_dialog.cancelCall)) {
@@ -64,8 +68,7 @@ var system_dialog = {
                     system_dialog.confirmCall();
                 }
             }
-            $("#systemDialog").hide();
-        })
+        });
     },
     /**
      * 显示系统dialog
@@ -74,8 +77,12 @@ var system_dialog = {
      */
     show : function(param) {
         var dialogEl = $("#systemDialog");
-        dialogEl.find("[systemdialog-btn='cancel']").show();
+        var cancelBtn = dialogEl.find("[systemdialog-btn='cancel']");
+        var confirmBtn = dialogEl.find("[systemdialog-btn='confirm']");
+        cancelBtn.show();
         var params = $.extend({}, this.initParam, param);
+        cancelBtn.text(params.cancelText);
+        confirmBtn.text(params.confirmText);
         switch (params.level) {
         case "info":
             if (isEmpty(param.title)) {
@@ -100,12 +107,12 @@ var system_dialog = {
         this.cancelCall = params.cancelCall;
         this.confirmCall = params.confirmCall;
         // 不存在回调时，只显示确定按钮
-        if (isEmpty(params.cancelCall) && isEmpty(params.confirmCall)) {
-            dialogEl.find("[systemdialog-btn='cancel']").hide();
+        if (!params.needCancelBtn || (isEmpty(params.cancelCall) && isEmpty(params.confirmCall))) {
+            cancelBtn.hide();
         }
         popDialog(dialogEl);
     }
-}
+};
 /**
  * 初始化系统dialog
  */

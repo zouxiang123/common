@@ -494,6 +494,26 @@ textarea{
     padding: 5px 8px;
     resize: none;
     width:auto;
+    line-height: 1.6 !important;
+}
+.u-textarea-adaption{
+    position:relative;
+}
+.u-textarea-adaption>textarea{
+    position:absolute;
+    top:0;
+    left:0;
+    height:100%;
+    width: 100%;
+    overflow: hidden;
+}
+.u-textarea-adaption>pre{
+    display:block;
+    visibility:hidden;
+    min-height: 36px;
+    padding: 5px 8px;
+    line-height: 1.6;
+    min-height: 36px;
 }
 input[type=text][max]{
     height: 46px;
@@ -615,9 +635,6 @@ textarea[disabled]:active{
 .u-textarea-content h4{
     font-size: 20px !important;
 }
-
-
-
 
 /*提示文本框*/
 .u-select-input{
@@ -1304,7 +1321,6 @@ select[disabled]{
     font-size: 14px;
     word-wrap: break-word;
     word-break:break-all;
-    white-space:pre-wrap;
     line-height: 1.5;
     padding-top:5px;
     padding-bottom: 5px;
@@ -1376,6 +1392,7 @@ select[disabled]{
   position: relative;
   overflow-x: hidden;
 }
+/*
 .u-table-fixed>
 .u-table-fixed-body::-webkit-scrollbar,
 .u-table-fixed>
@@ -1392,10 +1409,13 @@ select[disabled]{
    height: 0px;
    background:none;
 }
+*/
+
 .u-table-fixed>
 .u-table-fixed-body>table>tbody>tr:first-child{
   border-top: none;
 }
+
 .u-table-fixed>
 .u-table-fixed-body>table,
 .u-table-fixed>
@@ -2264,7 +2284,7 @@ table>thead>tr>th.xtt-40{
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding:16px;
+  padding:12px;
   /*padding-bottom: 50px;*/
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -3120,14 +3140,14 @@ table>thead>tr>th.xtt-40{
 }
 .u-list-text
 .left{
-  width: 90px;
+  width: 100px;
   min-height: 40px;
   float: left;
   text-align: right;
 }
 .u-list-text
 .right{
-  width: calc(100% - 90px);
+  width: calc(100% - 100px);
   min-height: 40px;
   float: left;
   padding-left: 6px;
@@ -3180,7 +3200,7 @@ table>thead>tr>th.xtt-40{
  .center>div:first-child,
  .u-list-text-three
  .right>div:first-child {
-    width: 90px;
+    width: 100px;
     float: left;
     height: 100%;
     text-align: right;
@@ -3195,7 +3215,7 @@ table>thead>tr>th.xtt-40{
 .center>div:last-child,
 .u-list-text-three
 .right>div:last-child {
-    width: calc(100% - 90px );
+    width: calc(100% - 100px );
     float: left;
     height: 100%;
     padding-left: 6px;
@@ -4373,3 +4393,4 @@ table>thead>tr>th.xtt-40{
 .layui-laypage a:hover{
    color: #31AAFF;
 }
+
