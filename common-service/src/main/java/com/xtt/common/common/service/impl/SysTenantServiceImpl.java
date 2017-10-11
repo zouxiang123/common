@@ -133,16 +133,15 @@ public class SysTenantServiceImpl implements ISysTenantService {
         Map<String, Object> map = new HashMap<>();
         String[] tableNames = { "complication_dictionary", "cm_dict", "dict_grade", "dict_perform_freq", "drug", "eng_machine_display_field",
                 "eng_maintain_merchant", "eng_water_inspection_config", "estimates_conf", "medical_order_conf", "medical_order_dict",
-                "patient_assay_conf", "patient_assay_filter_rule", "patient_label", "patient_serial_number", "propaganda_dictionary",
-                "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift", "stage_assessment_config",
-                "supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child", "year_evaluation_conf",
-                "sickbed_record_set_caption" };
+                "patient_assay_conf", "assay_filter_rule", "assay_report_filter_rule", "patient_label", "patient_serial_number",
+                "propaganda_dictionary", "secretary_business", "secretary_business_rule", "secretary_config", "shift_borad_conf", "sickbed_shift",
+                "stage_assessment_config", "supplies", "sys_param", "sys_process_setting", "sys_role", "sys_template", "sys_template_child",
+                "year_evaluation_conf", "sickbed_record_set_caption" };
         PrimaryKeyUtil.getPrimaryKey("SysUser", sysTenant.getId());
         PrimaryKeyUtil.getPrimaryKey("SysUserTenant", sysTenant.getId());
         String tableSchema = dbUrl.substring(dbUrl.lastIndexOf("/") + 1, dbUrl.lastIndexOf("?"));
         for (int i = 0; i < tableNames.length; i++) {
             List<String> tablePropertyNameList = sysTenantMapper.listTablePropertyName(tableSchema, tableNames[i]);
-
             String tablePropertys = newTablePropertys(tablePropertyNameList.toString().substring(1, tablePropertyNameList.toString().length() - 1));
             String newtablePropertys = getNewtablePropertys(tablePropertyNameList, sysTenant, tableNames[i]);
             sysTenantMapper.saveSysBasiCsGroup(tableNames[i], tablePropertys, newtablePropertys, sysTenant);
@@ -372,9 +371,7 @@ public class SysTenantServiceImpl implements ISysTenantService {
             } else {
                 str.append("`" + property.trim() + "`").append(", ");
             }
-
         }
-
         return str.toString().substring(0, str.length() - 2);
     }
 
