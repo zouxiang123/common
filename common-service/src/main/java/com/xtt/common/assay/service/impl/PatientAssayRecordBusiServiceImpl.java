@@ -401,13 +401,11 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             if (CollectionUtils.isNotEmpty(updateList)) {
                 updateList.forEach(parb -> {
                     if (!existsInspectionIds.contains(parb.getInspectionId())) {
-                        if (patientAssayInspectioidBackService.countByInspectionId(parb.getInspectionId(), parb.getFkTenantId()) == 0) {
-                            PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
-                                            parb.getDiaAbFlag(), parb.getFkTenantId());
-                            if (inspectioidBack != null) {
-                                inspectionIdBackList.add(inspectioidBack);
-                                existsInspectionIds.add(parb.getInspectionId());
-                            }
+                        PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
+                                        parb.getDiaAbFlag(), parb.getFkTenantId());
+                        if (inspectioidBack != null) {
+                            inspectionIdBackList.add(inspectioidBack);
+                            existsInspectionIds.add(parb.getInspectionId());
                         }
                     }
                 });
@@ -433,6 +431,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
         if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
+            if (patientAssayInspectioidBackService.countByInspectionId(inspectionId, tenantId) > 0) {
+                return null;
+            }
             PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
             record.setInspectionId(inspectionId);
             record.setFkPatientId(patientId);
