@@ -16,6 +16,7 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
     private String recordDateShow;
     private String createTimeShow;
     private String createUserName;
+    private String updateUserName;
     private String multiTenant;
     private String hospitalName; // 就诊医院
     private String groupTenant; // 租户所属集团下全部的租户
@@ -26,6 +27,14 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
 
     public void setGroupTenant(String groupTenant) {
         this.groupTenant = groupTenant;
+    }
+
+    public String getUpdateUserName() {
+        return updateUserName;
+    }
+
+    public void setUpdateUserName(String updateUserName) {
+        this.updateUserName = updateUserName;
     }
 
     public String getHospitalName() {
