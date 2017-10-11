@@ -85,7 +85,7 @@ public class PatientServiceImpl implements IPatientService {
     }
 
     @Override
-    public void savePatient(Patient patient, boolean isImport) {
+    public void savePatient(PatientPO patient, boolean isImport) {
         DataUtil.setSystemFieldValue(patient);
         patient.setName(StringUtil.stripToNull(patient.getName()));
         Long timeStamp = System.currentTimeMillis();// 时间戳
@@ -111,6 +111,7 @@ public class PatientServiceImpl implements IPatientService {
             owner.setFkPatientId(patient.getId());
             owner.setSysOwner(UserUtil.getSysOwner());
             owner.setFkTenantId(UserUtil.getTenantId());
+            owner.setIsTemp(patient.getIsTemp());
             owner.setIsEnable(true);
             DataUtil.setAllSystemFieldValue(owner);
             patientOwnerService.insert(owner);

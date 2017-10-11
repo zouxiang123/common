@@ -72,6 +72,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         PatientOwner owner = new PatientOwner();
         owner.setFkPatientId(record.getFkPatientId());
         owner.setSysOwner(UserUtil.getSysOwner());
+        owner.setIsTemp(record.getIsTemp());
         // 如果是转到其它系统
         Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
         owner.setIsEnable(!sysOwners.containsKey(record.getType()));
