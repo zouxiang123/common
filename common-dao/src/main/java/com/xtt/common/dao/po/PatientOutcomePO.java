@@ -20,7 +20,7 @@ public class PatientOutcomePO extends PatientOutcome {
     private String patientName;
     private String createUserName;
     private String[] excludeTypes;
-
+    private Boolean isTemp;
     private Date startTime;
     private Date endTime;
     private String multiTenant;// 多个租户id
@@ -129,6 +129,14 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setTypes(String[] types) {
         this.types = types;
+    }
+
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
     }
 
 }

@@ -18,7 +18,10 @@ public class PatientPO extends Patient {
     private Integer fkTenantId;// 租户id
     private Boolean isEnable;// 是否已转归，使用此字段时查询需有租户id和所属系统
     private String sysOwner;// 所属系统
-
+    /**
+     * 是否临时患者
+     */
+    private Boolean isTemp;
     private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
     private Boolean hasSpellInitials;// 是否存在全称拼写
     /**
@@ -169,4 +172,13 @@ public class PatientPO extends Patient {
     public void setHasSpellInitials(Boolean hasSpellInitials) {
         this.hasSpellInitials = hasSpellInitials;
     }
+
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
+    }
+
 }

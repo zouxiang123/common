@@ -52,7 +52,7 @@ public interface IPatientService {
      *            是否是导入患者
      * 
      */
-    public void savePatient(Patient patient, boolean isImport);
+    public void savePatient(PatientPO patient, boolean isImport);
 
     /**
      * 更新患者
