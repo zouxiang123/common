@@ -61,6 +61,7 @@ public class UserServiceImpl implements IUserService {
     /**
      * 统计人员信息
      */
+    @Override
     public List<SysUserPO> countAllUser(Integer tenantId) {
         return sysUserMapper.countAllUser(tenantId);
     }
