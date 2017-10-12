@@ -128,9 +128,9 @@ public abstract class AssayHandFactory {
         // 转换过日期数据
         Set<String> dateSet = new TreeSet<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
-            // 检查项目唯一ID为空，或者itemCode为空，或者组id为空的数据不处理
+            // 检查项目唯一ID为空，或者itemCode为空，或者组id为空的数据不处理,样品时间为空的数据不处理
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId()) || StringUtil.isBlank(patientAssayRecord.getItemCode())
-                            || StringUtil.isBlank(patientAssayRecord.getGroupId())) {
+                            || StringUtil.isBlank(patientAssayRecord.getGroupId()) || patientAssayRecord.getSampleTime() == null) {
                 continue;
             }
             int countByInspectionId = patientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId(),
