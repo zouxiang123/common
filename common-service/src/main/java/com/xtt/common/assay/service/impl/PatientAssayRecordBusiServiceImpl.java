@@ -236,6 +236,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                 continue;
             }
             String result = assayHospDictPO.getResult();
+            Integer valueType = assayHospDictPO.getValueType();
             assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
             AssayHospDictPO dictHospitalLab = assayHospDictService.getByGroupIdAndItemCode(assayHospDictPO);
             PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
@@ -246,7 +247,20 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
             patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
-            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+            if (valueType == 1) {
+                patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+
+                if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                }
+                if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                }
+                if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
+                                && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                }
+            }
             patientAssayRecordBusi.setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit()));
             patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
@@ -254,16 +268,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setFlage(true);
             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.BEFORE_HD);
 
-            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
-            }
-            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
-            }
-            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
-                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
-            }
             patientAssayRecordBusi.setSampleTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setReportTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
