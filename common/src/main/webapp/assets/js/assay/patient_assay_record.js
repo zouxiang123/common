@@ -79,7 +79,8 @@ function addEvents() {
 
     // 默认加载当天前的30天内
     var date = new Date();
-    date.setDate(date.getDate() - 30);
+    date.setFullYear(date.getFullYear() - 1);
+    date.setDate(date.getDate() + 1);
     $("#searchForm #startDate").val(new Date(date).pattern("yyyy-MM-dd"));
 
 }
@@ -462,7 +463,9 @@ function getAssayitem() {
                             .ajax({
                                 url : ctx + "/assay/hospDict/getAssayList.shtml",
                                 type : "post",
-                                data : "groupId=" + groupId,
+                                data : {
+                                    groupId : groupId
+                                },
                                 dataType : "json",
                                 loading : true,
                                 success : function(data) {
@@ -793,18 +796,8 @@ function addValidate() {
 };
 
 /*****************************************************************************************************************************************************
- * 日期添加天数
- */
-function addDate(date, days) {
-    var d = new Date(date);
-    d.setDate(d.getDate() + days);
-    var m = d.getMonth() + 1;
-    var day = d.getDate();
-    return d.getFullYear() + '-' + (m > 9 ? m : '0' + m) + '-' + (day > 9 ? day : '0' + day);
-}
-
-/**
- * 选中化验项，历史数据
+ * 
+ * /** 选中化验项，历史数据
  * 
  * @param itemCode
  *            化验项
@@ -818,15 +811,14 @@ function addDate(date, days) {
  */
 function selectItemcodeHistoryDate(itemCode, name, unit, timeType) {
     var section = $("#searchAssayHistory input[type='radio']:checked").val();
-    var clientDate = new Date();
-    var clientDateTime = clientDate.getTime();
-    endDate = addDate(clientDateTime, 0);
+    var startDate = moment();
+    var endDate = moment();
     if ("w" == section) {// 周
-        startDate = addDate(clientDateTime, -7);
+        startDate = moment().subtract(7, 'days');
     } else if ("m" == section) {// 月
-        startDate = addDate(clientDateTime, -30);
+        startDate = moment().subtract(1, 'month').add(1, 'days');
     } else if ("y" == section) {// 年
-        startDate = addDate(clientDateTime, -365);
+        startDate = moment().subtract(1, 'year').add(1, 'days');
     }
     var startPicker = $("#searchAssayHistory").find("[name='startDate']").data("daterangepicker");
     var endPicker = $("#searchAssayHistory").find("[name='endDate']").data("daterangepicker");

@@ -228,12 +228,21 @@
     from cm_diagnosis_entity e,cm_diagnosis_entity_value v
     ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
     where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
-    and v.fk_entity_id=e.id and e.fk_patient_id=#{fkPatientId}
+    and v.fk_entity_id=e.id 
+    <if test="fkPatientId != null">
+        AND e.fk_patient_id=#{fkPatientId}
+    </if>
+    <if test="patientIds != null and patientIds.size()>0">
+        AND e.fk_patient_id in <foreach collection="patientIds" item="item" open="(" separator="," close=")">#{item}</foreach>
+    </if>
     <if test="fkTenantId != null">
         AND e.fk_tenant_id = #{fkTenantId}
     </if>
     <if test="itemCode != null">
-      and e.item_code = #{itemCode,jdbcType=VARCHAR}
+        AND e.item_code = #{itemCode,jdbcType=VARCHAR}
+    </if>
+    <if test="itemCodes != null and itemCodes.size()>0">
+        AND e.item_code in <foreach collection="itemCodes" item="item" open="(" separator="," close=")">#{item}</foreach>
     </if>
     order by e.create_time desc
   </select>

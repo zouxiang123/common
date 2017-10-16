@@ -27,6 +27,7 @@ import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.security.MD5Util;
 
 @Controller
@@ -236,5 +237,21 @@ public class UserController {
         userService.saveSkin(skin);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 获取医生列表
+     * 
+     * @Title: getDoctors
+     * @param sysOwner
+     * @return
+     *
+     */
+    @RequestMapping("getDoctors")
+    @ResponseBody
+    public HttpResult getDoctors(String sysOwner) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        result.setRs(userService.getDoctors(UserUtil.getTenantId(), sysOwner));
+        return result;
     }
 }

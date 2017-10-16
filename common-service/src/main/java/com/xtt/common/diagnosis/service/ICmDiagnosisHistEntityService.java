@@ -9,8 +9,10 @@
 package com.xtt.common.diagnosis.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xtt.common.dao.po.CmDiagnosisEntityPO;
+import com.xtt.common.dto.DiagnosisApiDto;
 
 public interface ICmDiagnosisHistEntityService {
 
@@ -51,4 +53,14 @@ public interface ICmDiagnosisHistEntityService {
      *
      */
     String deleteById(Long id);
+
+    /**
+     * 获取患者最新一次的诊断字符串
+     * 
+     * @Title: getStrByPatientIds
+     * @param param
+     * @return {患者id：{诊断类别：对应的字符串}}
+     *
+     */
+    Map<Long, Map<String, String>> getLatestStrByPatientIds(DiagnosisApiDto param);
 }

@@ -36,7 +36,7 @@
 					<div class="tab-body">
             			<div class="col-sm-3 col-md-2 bg-white" style="padding-right:1px" id="templateTypeList">
 							<div style="text-align: left; font-size: 14px;" id="templateTypeSearchCount"></div>
-							<img src="${ctx }/assets/img/pad/search-icon.png" class="pad-search-icon" style="position: absolute; top: 17px; left: 32px;">
+							<img src="${ctx }/assets/img/pad/search-icon.png" class="pad-search-icon" style="position: absolute; top: 15px; left: 20px;">
 							<input class="nav-search-input fill-parent" style="width: 88%;" type="search" placeholder="搜 索" id="searchTemplate">
 							<div class="fill-parent" id="templateList" style="height: 397px; overflow-y: auto; overflow-x: hidden;">
 								<c:forEach items="${list }" var="item">

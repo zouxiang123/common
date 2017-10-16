@@ -237,7 +237,7 @@ $(function() {
             cardFlag = 3;// 验证通过
             $("#validCardNoDiv").hide();
         }
-    })
+    });
     // 生日选择
     if (!$("#patientForm_male").attr("checked") && !$("#patientForm_female").attr("checked")) {
         $("#patientForm_male").attr("checked", true);
@@ -528,6 +528,14 @@ function addValidate() {
             medicareCard : {
                 isNumberOrLetter : [ "医保卡号" ],
                 customMaxlength : [ 64, "医保卡号" ]
+            },
+            height : {
+                number : [ "身高" ],
+                customRange : [ 0.01, 300, "身高" ]
+            },
+            weight : {
+                number : [ "体重" ],
+                customRange : [ 1, 500, "体重" ]
             }
         },
         messages : {

@@ -57,7 +57,6 @@ public class LoginController {
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
                     Boolean isloginSubmit, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("login");
-        model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         if ("true".equals(HttpServletUtil.getCookieValueByName("savePwd")) && StringUtils.isEmpty(account) && StringUtils.isEmpty(password)) {
             account = HttpServletUtil.getCookieValueByName("account");
             password = HttpServletUtil.getCookieValueByName("password");
@@ -68,6 +67,7 @@ public class LoginController {
         }
         // 如果不是点击登录按钮,而且账号或者密码不存在，跳转到登录页面
         if (isloginSubmit == null && (StringUtils.isEmpty(account) || StringUtils.isEmpty(password))) {
+            model.addObject(CommonConstants.SYS_OWNER, sysOwner);
             model.addObject("redirectUrl", redirectUrl);
             return model;
         }
@@ -85,6 +85,7 @@ public class LoginController {
         } else {
             model.addAllObjects(map);
         }
+        model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         model.addObject("redirectUrl", redirectUrl);
         return model;
     }

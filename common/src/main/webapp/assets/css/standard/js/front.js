@@ -427,7 +427,7 @@ function Navigation(name){
     $(event.target).addClass("active");
   }
 }
-$(document).click(function(){
+$(document).click(function(event){
     var ban1 = $(event.target).parents(".u-skin-module").hasClass("u-skin-module");
     var ban2 = $(event.target).hasClass("u-skin-module");
     if(!ban1 && !ban2){
@@ -938,3 +938,136 @@ function dynamicMenu() {
   }
 }
 dynamicMenu()
+
+function textareaAdaption() {
+    let dome = $(".u-textarea-adaption");
+    for(let i = 0;i<dome.length;i++){
+        if($(dome[0]).children().length == 1){
+            $(dome).append('<pre></pre>');
+        }
+    }
+    $('.u-textarea-adaption>textarea').bind('keyup',function () {
+        $(this).scrollTop(0);
+        $(this).siblings("pre").html($(this).val());
+    });
+}
+textareaAdaption();
+
+//省略号表格
+function xttTable(obj) {
+    let str = '<div class="u-table-cell-show"><div class="cell-show-content"></div><i class="icon-error" onclick="$(this).parent().hide()"></i></div>';
+    let strl = '<div class="u-table-body-sidebar">'+
+            '<div class="u-table-body-sidebar-head">'+
+              '<table>'+
+                '<thead>'+
+                '</thead>'+
+              '</table>'+
+            '</div>'+
+            '<div class="u-table-body-sidebar-body">'+
+              '<table>'+
+                '<tbody>'+
+                '</tbody>'+
+              '</table>'+
+            '</div>'+
+        '</div>';
+    let da = obj;
+    da.width = da.width || 400;
+    da.height = da.height || 180;
+    let dome = $(da.elem);
+    let mover;
+    if(!$("body").children(".u-table-cell-show").length){$("body").append(str);}
+    let conbody = $(".u-table-body");
+    let cellshow = $(".u-table-cell-show");
+    let showAll = $(".cell-show-content");
+    showAll.css({"max-width":da.width,"max-height":da.height});
+    let cellW = function(name,arr,dome) {
+        let men;
+        let num = 0;
+        for(var i=0;i<name.length;i++){
+           let chid = $(name).eq(i).children();
+           for(var j = 0;j<chid.length;j++){
+              let chidCell = chid.eq(j).children(".u-table-cell");
+              if(chidCell.children("span").width() > arr[j]){
+                  chidCell.addClass('over');
+              }
+              chidCell.width(parseInt(arr[j] - 10))
+              if(!arr[j]){
+                  men = chidCell;
+              }
+              if(arr[j]){
+                  num += parseInt(arr[j])
+              }
+           }
+           if(men){
+              men.width((dome.width() - 10) - num - (arr.length - 1))
+              if(men.width() < men.children("span").width()){
+                men.addClass("over");
+              }
+           }
+           num = 0;
+       }
+    }
+    let tableFun = function(name){
+       let headth = $(name).children(".u-table-head").find("tr");
+       let bodytd = $(name).children(".u-table-body").find("tr");
+       let num = [];
+       for(var i=0;i<headth.children("th").length;i++){
+            num.push(headth.children("th").eq(i).attr("xtt-width"))
+       }
+       cellW(headth,num,name)
+       cellW(bodytd,num,name)
+    }
+    let sidebarFun = function() {
+         dome.append(strl)
+         let strB = "";
+         let l = da.sidebar.width || 120;
+         let keyB =  da.sidebar.key;
+         let tag = da.sidebar.label || ' ';
+         let side = dome.children('.u-table-body-sidebar');
+         let sideH = dome.find('.u-table-body-sidebar-head thead');
+         let sideB = dome.find('.u-table-body-sidebar-body tbody');
+         let strH = '<tr><th>'+ da.sidebar.title +'</th></tr>';
+         for(let i = 0;i<da.sidebar.content.length;i++){
+            strB += '<tr><th>'+ da.sidebar.content[i][keyB] + tag +'</th></tr>';
+         }
+         dome.children(".u-table-body").css("overflow",'scroll');
+         if(da.sidebar.width){
+            side.width(da.sidebar.width);
+         }
+         dome[0].style.paddingLeft = l + "px";
+         sideH.html(strH);
+         sideB.html(strB);
+    }
+    if(da.elem.match(/^#/)){
+      if(da.Tbody){
+           dome[0].children[1].style.maxHeight = da.Tbody + "px";
+      }
+      if(da.sidebar){
+         sidebarFun();
+      }
+      tableFun(dome);
+    }else{
+      for(var i=0;i<dome.length;i++){
+        if(da.Tbody){
+           dome[i].children[1].style.maxHeight = da.Tbody + "px";
+          }
+            tableFun(dome.eq(i))
+      }
+    }
+    $(".over").bind("click",function(e){
+        let conbodyH = $(this).parents('.u-table-body');
+        let thisp = $(this).position();
+        mover = $(this).offset();
+        showAll.html($(this).html())
+        if((thisp.top - conbodyH.scrollTop()) + cellshow.outerHeight() > conbodyH.height()){
+            cellshow.css({"left":mover.left-6,"top":mover.top - (cellshow.outerHeight() - 38) - 10,"display":"block"})
+        }else{
+            cellshow.css({"left":mover.left-6,"top":mover.top - 13,"display":"block"})
+        }
+    })
+    conbody.bind('scroll',function(){
+        cellshow.hide();
+        $(this).prev().scrollLeft($(this).scrollLeft()) 
+        $(this).next().children(".u-table-body-sidebar-body").scrollTop($(this).scrollTop()) 
+    })
+}
