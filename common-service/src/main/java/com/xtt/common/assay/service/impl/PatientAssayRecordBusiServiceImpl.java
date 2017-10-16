@@ -197,14 +197,16 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setId(dictHospitalLab.getId());
             patientAssayRecordBusi.setReqId(dictHospitalLab.getReqId());
             result = dictHospitalLab.getResult();
-            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(result)) {
+            dictHospitalLab.setFkTenantId(UserUtil.getTenantId());
+            AssayHospDictPO dictHospitalLabOld = assayHospDictService.getByGroupIdAndItemCode(dictHospitalLab);
+            if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
                 patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
             }
-            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(result)) {
+            if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
                 patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
             }
-            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(result)
-                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(result)) {
+            if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
+                            && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
                 patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
             }
             patientAssayRecordBusi.setResult(result);
