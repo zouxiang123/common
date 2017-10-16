@@ -56,6 +56,21 @@
 														test="${ patient.sex=='F'}">女</c:if></td>
 												<td width="300"></td>
 											</tr>
+                                            <tr>
+                                                <td width="360"></td>
+                                                <td width="150" class="personal-key">身高：</td>
+                                                <td width="18"></td>
+                                                <td width="200" class="personal-value">
+                                                    <c:if test="${!empty patient.heightShow }">${patient.heightShow } cm</c:if>
+                                                </td>
+                                                <td></td>
+                                                <td width="150" class="personal-key">体&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重：</td>
+                                                <td width="18"></td>
+                                                <td width="200" class="personal-value">
+                                                    <c:if test="${!empty patient.weightShow }">${patient.weightShow } kg</c:if>
+                                                </td>
+                                                <td width="300"></td>
+                                            </tr>
 											<tr>
 												<td width="360"></td>
 												<td width="150" class="personal-key">证件类型：</td>

@@ -226,6 +226,22 @@
                                 </tr>
                                 <tr>
                                     <td width="300"></td>
+                                    <td width="150" class="personal-title">&nbsp;&nbsp;身&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高(cm)：</td>
+                                    <td width="10"></td>
+                                    <td width="200" class="personal-value">
+                                        <input type="text" class="personal-input" name="height" value="${patient.heightShow }" placeholder="请输入患者身高" maxlength="6"/></td>
+                                    <td width="300"></td>
+                                </tr>
+                                <tr>
+                                    <td width="300"></td>
+                                    <td width="150" class="personal-title">&nbsp;&nbsp;体&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;重(kg)：</td>
+                                    <td width="10"></td>
+                                    <td width="200" class="personal-value">
+                                        <input type="text" class="personal-input" name="weight" value="${patient.weightShow }" placeholder="请输入患者体重" maxlength="6"/></td>
+                                    <td width="300"></td>
+                                </tr>
+                                <tr>
+                                    <td width="300"></td>
                                     <td width="150" class="personal-title">&nbsp;&nbsp;费用类型：</td>
                                     <td width="10"></td>
                                     <td width="200" class="personal-value">

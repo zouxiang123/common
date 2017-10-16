@@ -2,10 +2,13 @@ package com.xtt.common.assay.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -257,6 +260,36 @@ public class PatientAssayRecordController {
         patientAssayRecordBusiService.updateHandDiaAbFlag(assayRecord);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 获取患者dictCodes对应的最新的一条记录
+     * 
+     * @Title: getValueByDictCodes
+     * @param codes
+     * @param patientId
+     * @return
+     *
+     */
+    @RequestMapping("getValueByDictCodes")
+    @ResponseBody
+    public HttpResult getValueByDictCodes(String[] codes, Long patientId) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        if (codes == null || patientId == null) {
+            result = HttpResult.getWarningInstance();
+            result.setErrmsg("患者id和查询项目不能为空");
+            return result;
+        }
+        List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiService.listLatestOneByFkDictCodes(patientId, Arrays.asList(codes),
+                        UserUtil.getTenantId(), new Date(), null);
+        Map<String, String> rs = new HashMap<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.forEach(record -> {
+                rs.put(record.getFkDictCode(), record.getResult());
+            });
+        }
+        result.setRs(rs);
+        return result;
     }
 
 }

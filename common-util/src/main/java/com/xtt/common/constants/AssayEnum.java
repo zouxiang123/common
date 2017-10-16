@@ -20,7 +20,7 @@ public enum AssayEnum {
     HBA1C("糖化血红蛋白", "HBA1C"), CPS("C肽", "CPS"), INS("胰岛素", "INS"), CRP("C反应蛋白", "CRP"), HSCRP("超敏C-反应蛋白", "HSCRP"), WBC("白细胞",
                     "WBC"), NEUT_NO("中性粒细胞数", "NEUT_NO"),
     // -----
-    NEUT_PCT("中性粒细胞百分比", "NEUT_PCT"), EO_NO("嗜酸细胞数", "EO_NO"), EO_PCT("嗜酸细胞%", "EO_PCT"), FBG("空腹血糖", "FBG"), CO2("透前CO2", "CO2"),
+    NEUT_PCT("中性粒细胞百分比", "NEUT_PCT"), EO_NO("嗜酸细胞数", "EO_NO"), EO_PCT("嗜酸细胞%", "EO_PCT"), FBG("空腹血糖", "FBG"), CO2("透前CO2", "CO2"), PLT("血小板", "PLT"),
     // 传染病指标
     HBEAG("乙肝E抗原", "HBEAG"), HBSAG("乙肝表面抗原", "HBSAG"), HCV("丙肝抗体", "HCV"), HIV("HIV抗体", "HIV"),
     /*------------ PD ----------------*/

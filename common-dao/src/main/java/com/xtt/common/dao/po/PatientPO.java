@@ -40,6 +40,8 @@ public class PatientPO extends Patient {
     private String cardNo;// his患者序号
 
     private String cardType;// 患者序号显示类别
+    private String heightShow;
+    private String weightShow;
 
     public List<PatientCardPO> getPatientCardList() {
         return patientCardList;
@@ -191,6 +193,16 @@ public class PatientPO extends Patient {
 
     public void setCardType(String cardType) {
         this.cardType = cardType;
+    }
+
+    public String getHeightShow() {
+        heightShow = NumberFormatUtil.formatNumber(super.getHeight(), false);
+        return heightShow;
+    }
+
+    public String getWeightShow() {
+        weightShow = NumberFormatUtil.formatNumber(super.getWeight(), false);
+        return weightShow;
     }
 
 }
