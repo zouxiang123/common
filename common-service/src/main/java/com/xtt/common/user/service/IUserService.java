@@ -259,4 +259,14 @@ public interface IUserService {
      */
     SysUser getRoundUser(Integer constantType);
 
+    /**
+     * 根据角色查询医生护士
+     * 
+     * @Title: listUserByParentId
+     * @param constantType
+     * @return
+     *
+     */
+    List<SysUser> listUserByParentId(Integer constantType);
+
 }
