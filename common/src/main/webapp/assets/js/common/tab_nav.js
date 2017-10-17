@@ -7,6 +7,9 @@ var tab_nav = {
         tab_nav.setHeight();
         tab_nav.addEvents();
         $("#tabsDiv [data-url]:first").trigger("click");
+        if (this.style == "standard") {
+            dynamicMenu();
+        }
     },
     setHeight : function() {
         $("#basicIframeDiv iframe").height($(window).height() - ($("#tabsBodyDiv").offset().top + 10));
@@ -87,6 +90,9 @@ var tab_nav = {
         // trigger define add event
         $("#tabsDiv").trigger("tab_nav.add", [ el ]);
         el.trigger("click");
+        if (this.style == "standard") {
+            dynamicMenu();
+        }
     },
     addIframe : function(id, url) {
         var body = $("#basicIframeDiv").clone(true);
@@ -124,6 +130,9 @@ var tab_nav = {
             if (iframeWindow.existsFunction(callFun)) {
                 iframeWindow.eval(callFun + "()");
             }
+        }
+        if (this.style == "standard") {
+            dynamicMenu();
         }
     }
 };

@@ -408,36 +408,40 @@ button.icon-btn-bottom:before {
     text-overflow: ellipsis;
     width: 85px;
 }
+
 .rowBed-content >
 .u-table-column >
 .u-table-fixed.column-right >
 .u-table-fixed-body >
-.u-table > tbody > tr > td > p{
+.u-table > tbody > tr > td > p {
     width: 100%;
 }
+
 .rowBed-content >
 .u-table-column >
 .u-table-fixed.column-right >
 .u-table-fixed-body >
-.u-table > tbody > tr > td > p>span{
+.u-table > tbody > tr > td > p > span {
     display: inline-block;
     height: 20px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 .rowBed-content >
 .u-table-column >
 .u-table-fixed.column-right >
 .u-table-fixed-body >
-.u-table > tbody > tr > td > p>span:first-child{
+.u-table > tbody > tr > td > p > span:first-child {
     width: 50%;
 }
+
 .rowBed-content >
 .u-table-column >
 .u-table-fixed.column-right >
 .u-table-fixed-body >
-.u-table > tbody > tr > td > p>span:last-child{
+.u-table > tbody > tr > td > p > span:last-child {
     width: 50%;
 }
 
@@ -1563,6 +1567,7 @@ label > input {
 .head-bar > div {
     height: 38px;
     line-height: 38px;
+    padding-right: 10px;
 }
 
 .cost-management >
@@ -1606,6 +1611,7 @@ label > input {
 .card >
 .content > div > span:last-child {
     text-align: right;
+    padding-right: 10px;
 }
 
 .cost-management >
@@ -2813,25 +2819,30 @@ label > input {
     font-size: 24px;
     flex: 1;
     white-space: nowrap;
-    padding-left: 20px;
+    padding-left: 10px;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-head >
-.screen-table-line > span:nth-child(1){
+.screen-table-line > span:nth-child(1) {
     flex: 2;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-head >
-.screen-table-line > span:nth-child(2){
+.screen-table-line > span:nth-child(2) {
     flex: 2;
+    padding-left: 18px;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(3){
-    flex: 3; 
+    padding-left: 18px;
+    flex: 3;
 }
 
 .screen-bed >
@@ -2896,33 +2907,36 @@ label > input {
 .screen-table-list >
 .screen-table-line > span {
     color: #ffffff;
-    font-size: 28px;
+    font-size: 30px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding-left: 15px;
+    padding-left: 10px;
 
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
-.screen-table-line > span:nth-child(1){
+.screen-table-line > span:nth-child(1) {
     flex: 2;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
-.screen-table-line > span:nth-child(2){
+.screen-table-line > span:nth-child(2) {
     flex: 2;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
-.screen-table-line > span:nth-child(3){
-    flex: 3; 
+.screen-table-line > span:nth-child(3) {
+    flex: 3;
 }
 
 .screen-footer {
@@ -2948,7 +2962,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span {
-    font-size: 34px;
+    font-size: 36px;
 }
 
 .screen-bed.layout14 >
@@ -4001,7 +4015,8 @@ label > input {
     overflow: auto;
     border: 1px solid #D9E0E6;
 }
-.service-interrupt{
+
+.service-interrupt {
     position: fixed;
     left: 0px;
     top: 0px;
@@ -4011,15 +4026,24 @@ label > input {
     align-items: center;
     justify-content: center;
 }
-.service-interrupt>
-.content{
+
+.service-interrupt >
+.content {
     text-align: center;
     line-height: 4;
     padding-bottom: 200px;
 }
-.service-interrupt>
-.content>i{
+
+.service-interrupt >
+.content > i {
     font-size: 100px;
+}
+.u-table-box>
+.u-table-body
+.u-table-cell>input{
+    border: none;
+    padding: 0px;
+    width: 100%;
 }
 
 .xtt {
@@ -4375,7 +4399,10 @@ label > input {
     padding: 0px 0px 0px 12px;
     float: left;
     cursor: pointer;
-    width: 126px;
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .static-head-er1 > ul > li:hover, .static-head-er1 > ul > li:hover * {
@@ -4815,7 +4842,7 @@ span.error, p.error {
     text-align: left;
 }
 
-.text-left-imp{
+.text-left-imp {
     text-align: left !important;
 }
 
@@ -5327,6 +5354,10 @@ table > thead > tr > th.xtt-42 {
     width: 92px;
 }
 
+.w-90-imp {
+    width: 90px !important;
+}
+
 .u-myicon-input {
     position: relative;
     display: inline-block;
@@ -5440,7 +5471,7 @@ input.error, label.error {
     padding-bottom: 70px;
 }
 
-.mr-70{
+.mr-70 {
     margin-right: 70px;
 }
 
@@ -5453,35 +5484,104 @@ input.error, label.error {
     margin-bottom: 10px;
 }
 
-.textCenter{
+.textCenter {
     text-align: center;
 }
 
-.mb-70{
+.mb-70 {
     margin-bottom: 70px
 }
 
-.ml-100{
+.ml-100 {
     margin-left: 100px;
 }
 
-.bg-halfgray{
-    background:rgba(217,224,230,0.5);
+.bg-halfgray {
+    background: rgba(217, 224, 230, 0.5);
 }
 
-.fc-48{
+.fc-48 {
     color: #484848;
 }
 
-.pl-48{
+.pl-48 {
     padding-left: 48px;
 }
 
-.u-display-none{
+.u-display-none {
     display: none;
 }
 
-.border-gray .u-xt-12 .u-xt-3:hover .icon-statistics{
+.border-gray .u-xt-12 .u-xt-3:hover .icon-statistics {
     display: inline-block;
 }
 
+/*.u-clear-scroll::-webkit-scrollbar,
+.u-clear-scroll::-webkit-scrollbar-thumb,
+.u-clear-scroll::-webkit-scrollbar-track {
+    width: 0px;
+    height: 0px;
+    background: rgba(78, 78, 78, .1);
+}*/
+
+.huayan-displayCard {
+    width: 260px;
+    height: auto;
+    float: left;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+}
+
+.huayan-displayCard .card {
+    width: 240px;
+    box-sizing: border-box;
+    border: 1px solid #d9e0e6;
+    margin-bottom: 10px;
+}
+
+.huayan-displayCard .card.active {
+    border-color: #31AAFF;
+}
+
+.carditem {
+    width: 100%;
+    line-height: 36px
+}
+
+.huayan-righttable {
+    width: calc(100% - 270px);
+    float: left;
+    height: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.width-60pre {
+    width: 60%;
+}
+
+.width-40pre {
+    width: 40%;
+}
+
+.u-table-fixed-body .u-table tr:hover td .icon-statistics {
+    display: inline-block;
+}
+
+.pl-72 {
+    padding-left: 72px;
+}
+
+.mr-74{
+    margin-right: 74px;
+}
+
+.mt-3{
+    margin-top: 3px;
+}
+
+.plr-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}

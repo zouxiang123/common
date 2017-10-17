@@ -28,7 +28,12 @@ input::-webkit-input-placeholder {
                 <img src="${COMMON_SERVER_ADDR}/assets/img/ui/87DEF51B-18CF-49F0-BD09-001CC6FFFD27@1x.png" alt="">
             </div>
             <div class="pull-left text-center m-l-15 m-t-5">
-                <p class="fc-white fs-24 ">学透通®腹透智能系统</p>
+                <p class="fc-white fs-24 ">
+                    <c:choose>
+                        <c:when test="${sysOwner eq 'PD' }">学透通®腹透智能系统</c:when>
+                        <c:when test="${sysOwner eq 'POPS' }">通路手术智能系统</c:when>
+                    </c:choose>
+                </p>
                 <p class="fc-white">www.xuetoutong.com</p>
             </div>
         </div>
@@ -42,7 +47,12 @@ input::-webkit-input-placeholder {
                 <div class="f-w-300 p-20">
                     <img class="f-w-100" src="${ctx }/images/logo.png">
                 </div>
-                <div class="text-center fs-20 m-t-5 f-w-300">学透通®腹透智能系统</div>
+                <div class="text-center fs-20 m-t-5 f-w-300">
+                    <c:choose>
+                        <c:when test="${sysOwner eq 'PD' }">学透通®腹透智能系统</c:when>
+                        <c:when test="${sysOwner eq 'POPS' }">通路手术智能系统</c:when>
+                    </c:choose>
+                </div>
                 <form role="form-signin" action="${ctx }/login.shtml" onsubmit="return validate();" method="post" id="loginForm">
                     <input type="hidden" name="isloginSubmit" value="true" /> <input type="hidden" name="redirectUrl" value="${redirectUrl }" /> <input
                         type="hidden" name="sysOwner" value="${sysOwner }" /> <input type="hidden" id="tenantId" name="tenantId" value="${tenantId }" />
