@@ -128,11 +128,19 @@ public abstract class AssayHandFactory {
         // 转换过日期数据
         Set<String> dateSet = new TreeSet<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
-            // 检查项目唯一ID、itemCode、组id、化验结果、样品时间、报告时间等任意一项数据为空则不处理
+            // 检查项目唯一ID、itemCode、组id、化验结果等任意一项数据为空则不处理
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId()) || StringUtil.isBlank(patientAssayRecord.getItemCode())
-                            || StringUtil.isBlank(patientAssayRecord.getGroupId()) || StringUtil.isBlank(patientAssayRecord.getResult())
-                            || patientAssayRecord.getSampleTime() == null || patientAssayRecord.getReportTime() == null) {
+                            || StringUtil.isBlank(patientAssayRecord.getGroupId()) || StringUtil.isBlank(patientAssayRecord.getResult())) {
                 continue;
+            }
+            if (patientAssayRecord.getSampleTime() == null && patientAssayRecord.getReportTime() == null) {// 如果样品时间不存在且报告时间不存在，不处理
+                continue;
+            }
+            if (patientAssayRecord.getSampleTime() == null) {// 如果样品时间为空，设置样品时间的值为报告时间的
+                patientAssayRecord.setSampleTime(patientAssayRecord.getReportTime());
+            }
+            if (patientAssayRecord.getReportTime() == null) {// 如果报告时间为空，设置报告时间的值为样品时间的
+                patientAssayRecord.setReportTime(patientAssayRecord.getSampleTime());
             }
             int countByInspectionId = patientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId(),
                             patientAssayRecord.getFkTenantId());
