@@ -473,4 +473,10 @@
     and u.fk_tenant_id = #{tenantId}   
     group by r.id order by r.parent_id;
     </select>
+     <!-- 根据角色获取医生护士 -->
+    <select id="listUserByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT u.`autograph_path`,u.`name` FROM sys_user u
+        JOIN sys_user2role sr ON sr.fk_user_id = u.id
+        JOIN sys_role r ON sr.fk_role_id = r.id where del_flag = 0 and r.parent_id=#{parentId}
+    </select>
 </mapper>

@@ -388,4 +388,9 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.getRoundUser(constantType);
     }
 
+    @Override
+    public List<SysUser> listUserByParentId(Integer constantType) {
+        return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
+    }
+
 }

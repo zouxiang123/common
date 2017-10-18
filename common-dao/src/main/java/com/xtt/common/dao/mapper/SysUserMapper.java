@@ -162,4 +162,15 @@ public interface SysUserMapper {
      */
     List<SysUserPO> countAllUser(@Param("tenantId") Integer tenantId);
 
+    /**
+     * 根据角色获取医生护士
+     * 
+     * @Title: listRoundUser
+     * @param constantType
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<SysUser> listUserByParentId(@Param("parentId") Integer parentId, @Param("fkTenantId") Integer fkTenantId);
+
 }
