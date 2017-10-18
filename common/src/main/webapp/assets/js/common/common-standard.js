@@ -376,3 +376,18 @@ function showTips(msg, delay) {
     delay = isEmpty(delay) ? 2000 : delay;
     funNotice(msg, "text", delay);
 }
+/** 获取包含error的组件 */
+function getValidateErrorDisplayEl(obj, index) {
+    if (isEmpty(obj) || obj.length == 0) {
+        return obj;
+    }
+    index = isEmpty(index) ? 0 : (++index);
+    if (index == 20) {
+        return obj;
+    }
+    if (obj.find("[data-error]").length > 0) {
+        return obj;
+    } else {
+        return getValidateErrorDisplayEl(obj.parent(), index);
+    }
+}

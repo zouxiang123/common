@@ -134,7 +134,6 @@
 											<td width="10"></td>
 											<td width="150" class="personal-value">
 												<select name="sysOwner" class="selectpicker" value="${user.sysOwner}" >
-													<option value="">--</option>
 													<c:forEach var="item" items="${sys_owner }">
 														<option value="${item.itemCode }">${item.itemName }</option>
 													</c:forEach>
@@ -464,6 +463,9 @@
 					},
 					subPhone : {
 						customMaxlength : [ 64, "其他联系方式" ]
+					},
+					sysOwner : {
+					    required : ['所属系统']
 					}
 				},
 				messages : {

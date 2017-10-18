@@ -2796,8 +2796,8 @@ label > input {
 .screen-content >
 .screen-table-head >
 .screen-table-line {
-    padding-left: 15px;
-    padding-right: 30px;
+    padding-left: 26px;
+    padding-right: 10px;
     flex: 1;
     display: flex;
     align-items: center;
@@ -2816,31 +2816,32 @@ label > input {
 .screen-table-head >
 .screen-table-line > span {
     color: rgba(255, 255, 255, .4);
-    font-size: 24px;
-    flex: 1;
+    font-size: 32px;
     white-space: nowrap;
     padding-left: 10px;
+    display: flex;
 }
 
 .screen-bed >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(1) {
-    flex: 2;
+    width: 105px;
+    padding-left: 0px;
 }
 
 .screen-bed >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(2) {
-    flex: 2;
-    padding-left: 18px;
+    width: 126px;
+    padding-left: 15px;
 }
 
 .screen-bed >
 .screen-content >
 .screen-table-head >
-.screen-table-line > span:nth-child(3){
+.screen-table-line > span:nth-child(3) {
     padding-left: 18px;
     flex: 3;
 }
@@ -2868,8 +2869,8 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 26px;
+    padding-right: 10px;
     flex: 1;
     display: flex;
     border-left: 1px solid rgba(255, 255, 255, .3);
@@ -2907,12 +2908,11 @@ label > input {
 .screen-table-list >
 .screen-table-line > span {
     color: #ffffff;
-    font-size: 30px;
+    font-size: 38px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    padding-left: 10px;
-
+    padding-left: 15px;
 }
 
 .screen-bed >
@@ -2920,7 +2920,8 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(1) {
-    flex: 2;
+    width: 108px;
+    padding-left: 0px;
 }
 
 .screen-bed >
@@ -2928,7 +2929,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(2) {
-    flex: 2;
+    width: 130px;
 }
 
 .screen-bed >
@@ -2962,7 +2963,37 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span {
-    font-size: 36px;
+    font-size: 46px;
+}
+
+.screen-bed.layout32 >
+.screen-content >
+.screen-table-head >
+.screen-table-line > span:nth-child(1) {
+    width: 140px;
+}
+
+.screen-bed.layout32 >
+.screen-content >
+.screen-table-head >
+.screen-table-line > span:nth-child(2) {
+    width: 150px;
+}
+
+.screen-bed.layout32 >
+.screen-content >
+.screen-table-content >
+.screen-table-list >
+.screen-table-line > span:nth-child(1) {
+    width: 140px;
+}
+
+.screen-bed.layout32 >
+.screen-content >
+.screen-table-content >
+.screen-table-list >
+.screen-table-line > span:nth-child(2) {
+    width: 160px;
 }
 
 .screen-bed.layout14 >
@@ -3002,21 +3033,32 @@ label > input {
 .screen-content >
 .screen-table-head >
 .screen-table-line > span {
-    font-size: 30px;
+    font-size: 34px;
+}
+
+.screen-bed.layout14 >
+.screen-content >
+.screen-table-head >
+.screen-table-line > span:nth-child(1) {
+    width: 212px;
 }
 
 .screen-bed.layout14 >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(2) {
-    padding-left: 30px;
+    padding-left: 80px;
+    flex: 3;
+    width: auto;
 }
 
 .screen-bed.layout14 >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(3) {
-    padding-left: 30px;
+    padding-left: 60px;
+    flex: 3;
+    width: auto;
 }
 
 .screen-bed.layout14 >
@@ -3036,7 +3078,15 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span {
-    font-size: 44px;
+    font-size: 48px;
+}
+
+.screen-bed.layout14 >
+.screen-content >
+.screen-table-content >
+.screen-table-list >
+.screen-table-line > span:nth-child(1) {
+    width: 212px;
 }
 
 .screen-bed.layout14 >
@@ -3044,7 +3094,9 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(2) {
-    padding-left: 30px;
+    padding-left: 80px;
+    flex: 3;
+    width: auto;
 }
 
 .screen-bed.layout14 >
@@ -3052,7 +3104,8 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(3) {
-    padding-left: 30px;
+    flex: 3;
+    padding-left: 50px;
 }
 
 .screen-bed.layout14 >
@@ -4038,9 +4091,10 @@ label > input {
 .content > i {
     font-size: 100px;
 }
-.u-table-box>
+
+.u-table-box >
 .u-table-body
-.u-table-cell>input{
+.u-table-cell > input {
     border: none;
     padding: 0px;
     width: 100%;
@@ -5416,7 +5470,7 @@ table > thead > tr > th.xtt-42 {
     margin-right: 20px;
 }
 
-input.error, label.error {
+input.error, label.error,select.error, input:focus.error, input:hover.error, label:hover.error, select:focus.error, select:hover.error {
     border: 1px solid red;
     border-radius: 3px;
 }
@@ -5573,15 +5627,60 @@ input.error, label.error {
     padding-left: 72px;
 }
 
-.mr-74{
+.mr-74 {
     margin-right: 74px;
 }
 
-.mt-3{
+.mt-3 {
     margin-top: 3px;
 }
 
 .plr-0 {
     padding-left: 0px !important;
     padding-right: 0px !important;
+}
+
+.h-26 {
+    height: 30px;
+    line-height: 30px;
+}
+
+.box-shadow-d9 {
+    box-shadow: 0 0 5px #d9e0e6;
+}
+
+.print-layout {
+    width: 1000px;
+    height: auto;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 30px;
+    padding-bottom: 50px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.bc-f2 {
+    background-color: #f2f2f2 !important;
+}
+
+.fs-10 {
+    font-size: 10px;
+}
+
+.fs-20-imp {
+    font-size: 20px !important;
+}
+
+.width-140 {
+    width: 140px !important;
+}
+
+.height-per-100 {
+    height: 100%;
+}
+
+.height-40-imp {
+    min-height: 40px !important;
+    line-height: 40px !important;
 }
