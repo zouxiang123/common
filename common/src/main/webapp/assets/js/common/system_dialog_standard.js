@@ -18,7 +18,9 @@ var system_dialog = {
         confirmCall : null,
         needCancelBtn : true,
         cancelText : "取消",
-        confirmText : "确定"
+        confirmText : "确定",
+        cancelCss : "",
+        confirmCss : "u-btn-blue"
     },
     /**
      * 事件初始化
@@ -81,8 +83,10 @@ var system_dialog = {
         var confirmBtn = dialogEl.find("[systemdialog-btn='confirm']");
         cancelBtn.show();
         var params = $.extend({}, this.initParam, param);
-        cancelBtn.text(params.cancelText);
-        confirmBtn.text(params.confirmText);
+        cancelBtn.html(params.cancelText);
+        cancelBtn.removeClass().addClass(params.cancelCss);
+        confirmBtn.html(params.confirmText);
+        confirmBtn.removeClass().addClass(params.confirmCss);
         switch (params.level) {
         case "info":
             if (isEmpty(param.title)) {
@@ -102,8 +106,8 @@ var system_dialog = {
         default:
             break;
         }
-        dialogEl.find("[systemdialog-title]").text(params.title);
-        dialogEl.find("[systemdialog-content]").text(params.content);
+        dialogEl.find("[systemdialog-title]").html(params.title);
+        dialogEl.find("[systemdialog-content]").html(params.content);
         this.cancelCall = params.cancelCall;
         this.confirmCall = params.confirmCall;
         // 不存在回调时，只显示确定按钮
