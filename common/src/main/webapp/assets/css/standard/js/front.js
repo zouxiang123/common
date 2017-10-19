@@ -1,46 +1,46 @@
 $(document).ready(function(){
    $("body").on("click",function(e){
      if($(e.target).attr("data-Allselect")){
-       allSelectd.allCheckbox($(e.target));  // 全选函数调用（全选框）
+       allSelectd.allCheckbox($(e.target));  //全选函数调用（全选框）
      }if($(e.target).attr("data-Allselect-child")){
-       allSelectd.allCheild($(e.target));  // 全选函数调用（被全选框）
+       allSelectd.allCheild($(e.target));  //全选函数调用（被全选框）
      }
      if(hisDialog){
        $(hisDialog).hide();
      }
   });
-  // dialog弹出对话框事件
+  //dialog弹出对话框事件
   $("body").on("click","[data-popup]",function(e){
      var myData = $(this).attr("data-popup");
      popDialog(myData);
   });
-  // 显示
+  //显示
   $("body").on("click","[data-show]",function(e){
      var myshow = $(this).attr("data-show");
      xtShow(myshow);
   });
-  // 隐藏
+  //隐藏
   $("body").on("click","[data-hide]",function(e){
      var myhide = $(e.target).attr("data-hide");
      hiddenMe(myhide);
   });
-   // 滑动显示
+   //滑动显示
   $("body").on("click","[data-slideShow]",function(e){
      var myshow = $(this).attr("data-slideShow");
      slideShow(myshow);
   });
-  // 滑动隐藏
+  //滑动隐藏
   $("body").on("click","[data-slideHide]",function(e){
      var myhide = $(e.target).attr("data-slideHide");
      slidehidden(myhide);
   });
-  // 删除
+  //删除
   $("body").on("click","[data-close]",function(e){
      var myClose = $(e.target).attr("data-close");
      closeMe(myClose);
   });
 
-  // 输入框事件
+  //输入框事件
   var inputHistory;
   var historyIput;
    $("input[vanish],textarea[vanish]").click(function(e){
@@ -58,7 +58,7 @@ $(document).ready(function(){
       }
    });
 
-  // table表格全选
+  //table表格全选
   function AllSelectd(){
     this.allCheckbox = function(ev){
       var myChild = $(ev.attr("data-Allselect")).find("input[data-Allselect-child]");
@@ -85,7 +85,7 @@ $(document).ready(function(){
   }
   var allSelectd = new AllSelectd();
 
-  // 表格绑定事件
+  //表格绑定事件
   var hasNub;
    $(".u-table-column>.u-table-fixed>.u-table-fixed-body").scroll(function(){
      var nub = $(this).scrollTop();
@@ -103,8 +103,8 @@ $(document).ready(function(){
 
 });
 
-// 纵横表格
-// transverseTable（name）id：是.u-table-fixed-body或.u-table上一级的id, 是按照表身宽度来计算表格宽度
+//纵横表格
+//transverseTable（name）id：是.u-table-fixed-body或.u-table上一级的id, 是按照表身宽度来计算表格宽度
 function transverseTable(name,num){
   var td = $(name).children(".u-table-fixed-body,.u-table").find("tr").eq(0).children("td");
   var chid = $(td).length;
@@ -114,7 +114,7 @@ function transverseTable(name,num){
      sum += parseInt($(td).eq(i).css("max-width"));
     }
   }else{
-      // 超过30个则按第一个td宽度的倍数来计算
+      //超过30个则按第一个td宽度的倍数来计算
       sum = chid * parseInt($(td).eq(0).css("max-width"));
   }
   $(name).css({"width": sum + (chid * 2) + "px"});
@@ -126,7 +126,7 @@ function transverseTable(name,num){
   }
 
 }
-// transverseTableHead 是按照表头来计算表格宽度
+//transverseTableHead 是按照表头来计算表格宽度
 function transverseTable(name,num){
     var td = $(name).children(".u-table-fixed-body,.u-table").find("tr").eq(0).children("td");
     var chid = $(td).length;
@@ -148,8 +148,8 @@ function transverseTable(name,num){
 }
 
 
-// 页面加载事件
-// pageLoad（bol）,bol：是传入的false(隐藏),true（显示），
+//页面加载事件
+//pageLoad（bol）,bol：是传入的false(隐藏),true（显示），
 function pageLoad(bol){
     var strLoad = '<div class="u-pageLoad">'+
                       '<div>'+
@@ -168,8 +168,8 @@ function pageLoad(bol){
 }
 
 
-// 页面自适应固定高度事件
-// pageLoad（id,nub）,id：是需要高度的元素，nub是需要减去的高度和目标元素的id
+//页面自适应固定高度事件
+//pageLoad（id,nub）,id：是需要高度的元素，nub是需要减去的高度和目标元素的id
 function adaptive(name,nub){
   if(isNaN(nub)){
     $(name).height($(window).height()-$(nub).height());
@@ -178,8 +178,8 @@ function adaptive(name,nub){
   }
 } 
 
-// 页面自适应最大高度事件
-// MaxAdaptive（id,nub）,id：是需要高度的元素，nub是需要减去的高度和目标元素的id
+//页面自适应最大高度事件
+//MaxAdaptive（id,nub）,id：是需要高度的元素，nub是需要减去的高度和目标元素的id
 function MaxAdaptive(name,nub){
   if(isNaN(nub)){
     $(name).css({"max-height":$(window).height()-$(nub).height()});
@@ -189,12 +189,12 @@ function MaxAdaptive(name,nub){
 }
 
 
-// 以父元素进行定位
-// dynamicDialog（ancestor,theName,ev,con）
-// ancestor属性是当前父元素，可以是id,class,标签，自定义属性。
-// theName属性是当前被控制的元素，可以是id,class,标签，自定义属性。
-// ev是当天点击的位置属性
-// con是否判断上，下，左，右，自适应内容。
+//以父元素进行定位
+//dynamicDialog（ancestor,theName,ev,con）
+//ancestor属性是当前父元素，可以是id,class,标签，自定义属性。
+//theName属性是当前被控制的元素，可以是id,class,标签，自定义属性。
+//ev是当天点击的位置属性
+//con是否判断上，下，左，右，自适应内容。
 var hisDialog;
 function dynamicDialog(ancestor,theName,ev,con){
    if(hisDialog){
@@ -218,7 +218,7 @@ function dynamicDialog(ancestor,theName,ev,con){
   hisDialog = theName;
 }
 
-// dialog弹出事件popDialog(name)弹出框
+//dialog弹出事件popDialog(name)弹出框
 function popDialog(name,call){
     clearTimeout(myPopup);
     var chid = $(name).children("div");
@@ -243,10 +243,10 @@ function popDialog(name,call){
     }
 }
 
-// 通知提示框
-// text提示文字
-// state提示状态
-// ms显示的时间
+//通知提示框
+//text提示文字
+//state提示状态
+//ms显示的时间
 var setTime;
 function funNotice (text,state,ms){
    var str = '<div class="u-notice" id="warningId">'+text+'</div>';
@@ -304,27 +304,27 @@ function othHide(){
 }
 
 
-// 进入全屏
+//进入全屏
 function fullScreen(){
     var docElm = document.documentElement;
-    // W3C
+    //W3C   
     if (docElm.requestFullscreen) {
         docElm.requestFullscreen();
     }
-    // FireFox
+    //FireFox   
     else if (docElm.mozRequestFullScreen) {
         docElm.mozRequestFullScreen();
     }
-    // Chrome等
+    //Chrome等   
     else if (docElm.webkitRequestFullScreen) {
         docElm.webkitRequestFullScreen();
     }
-    // IE11
+    //IE11   
     else if (elem.msRequestFullscreen) {
         elem.msRequestFullscreen();
     }
 }
-// 退出全屏
+//退出全屏
 function outFullScreen() {
     if (document.exitFullscreen) {
         document.exitFullscreen();
@@ -356,7 +356,7 @@ function spanCol(){
 }
 spanCol();
 
-// 手风琴
+//手风琴
 var histo;
 function Accordion(ev){
     var ban = false;
@@ -372,7 +372,7 @@ function Accordion(ev){
     histo = chld;
 }
 
-// 侧导航栏nav(未确定)
+//侧导航栏nav(未确定)
 function setUpSkin() {
     event.stopPropagation();
     var skin = $(".u-side-nav").attr("data-skin");
@@ -499,7 +499,7 @@ jQuery.fn.fastLiveFilter = function(list, options) {
   return this; // maintain jQuery chainability
 }
 
-// input文本输入框
+//input文本输入框
 jQuery.fn.inputSelect = function(data, eachCall,clickCall) {
     var name = this;
     var str = "<ul>";
@@ -562,7 +562,7 @@ function threeTerminal() {
         return "PC";
     }
 }
-// 移动端适配
+//移动端适配
 function resize_view(pw) {
     var phoneWidth = parseInt(window.screen.width);
     var phoneScale = phoneWidth / pw;
@@ -585,7 +585,7 @@ function resize_view(pw) {
     }
 }
 
-// H5视屏
+//H5视屏
 function Video(evn){
   var video = $(name).children("video");
   var name = "'" + evn + "'";
@@ -626,7 +626,7 @@ function Video(evn){
   });
 }
 
-// 毫秒转换为时间格式
+//毫秒转换为时间格式
 function videoTime(num){
     var s = Math.round(num);
     var ss;
@@ -653,9 +653,9 @@ function videoTime(num){
    
 }
 
-// 暂停与开始
+//暂停与开始
 function toggleControls(name,e){
-  window.event? window.event.cancelBubble = true : e.stopPropagation();  // js组织冒泡
+  window.event? window.event.cancelBubble = true : e.stopPropagation();  //js组织冒泡
   var video = $(name).children("video");
   if(video[0].paused){
      video[0].play();
@@ -672,7 +672,7 @@ function toggleControls(name,e){
   return false;
 }
 
-// 播放进度条位置
+//播放进度条位置
 function VideoProgressBar(name){
    var video = $(name).children("video");
    var maxduration  = video[0].duration;
@@ -695,9 +695,9 @@ function clickMe(name){
   }
   
 }
- // 点击进度条
+ //点击进度条
 function clickProgressBar (name,e){
-    window.event? window.event.cancelBubble = true : e.stopPropagation();  // js组织冒泡
+    window.event? window.event.cancelBubble = true : e.stopPropagation();  //js组织冒泡
     var video = $(name).children("video");
     var maxduration  = video[0].duration;
     var eWidth = event.pageX - $(name).offset().left;
@@ -715,18 +715,18 @@ function allScreen(name){
     outFullScreen();
   }
 }
-// 按下进度条
+//按下进度条
 function progressbarPress(name,e){
-  window.event? window.event.cancelBubble = true : e.stopPropagation();  // js组织冒泡
+  window.event? window.event.cancelBubble = true : e.stopPropagation();  //js组织冒泡
     $(event.target).attr('data-press',true);
 }
-// 判断此时进度条是否按下
+//判断此时进度条是否按下
 function progressbarMove(name){
   if($(name).find(".u-video-point").attr('data-press') == "true"){
      clickProgressBar(name);
   }
 }
-// 按下音频进度条
+//按下音频进度条
 function voiceMove(name){
   if($(name).find(".u-voice-point").attr('data-press') == "true"){
      clickMe(name);
@@ -737,7 +737,7 @@ function toggleStop(myId){
   toggleControls(id)
 }
 
-// 移动端滑动事件
+//移动端滑动事件
 var slider = function(ev,conSlider) {
     console.log(ev)
     var param = {
@@ -771,7 +771,7 @@ var slider = function(ev,conSlider) {
     
 }
 
-// 图片浏览参数
+//图片浏览参数
 function pictureBrowse(){
     var allImg = $("img[browse]");
     var imgMe = {
@@ -821,7 +821,7 @@ function pictureBrowse(){
     }
     
 }
-// 图片浏览事件
+//图片浏览事件
 var imgBrowse = function(da,index){
     da.index = index;
     var str = '<div class="u-pictureshade" id="pictureShade">'+
@@ -914,7 +914,7 @@ var imgBrowse = function(da,index){
     });
 }
 
-// 判断移动端双击事件
+//判断移动端双击事件
 var mobileDouble = function(ev,MDouble) {
     var clickMobile = {
       timeA : "",
@@ -962,7 +962,7 @@ function textareaAdaption() {
 }
 textareaAdaption();
 
-// 省略号表格
+//省略号表格
 function xttTable(obj) {
     let str = '<div class="u-table-cell-show"><div class="cell-show-content"></div><i class="icon-error" onclick="$(this).parent().hide()"></i></div>';
     let strl = '<div class="u-table-body-sidebar">'+
@@ -1081,7 +1081,7 @@ function xttTable(obj) {
     })
 }
 
-// 搜索下拉框
+//搜索下拉框
 (function($){
 
   $.expr[":"].searchableSelectContains = $.expr.createPseudo(function(arg) {
@@ -1115,15 +1115,15 @@ function xttTable(obj) {
 
     this.input.on('keydown', function(event){
       event.stopPropagation();
-      if(event.which === 13){         // enter
+      if(event.which === 13){         //enter
         event.preventDefault();
         _this.selectCurrentHoverItem();
         _this.hide();
-      } else if (event.which == 27) { // ese
+      } else if (event.which == 27) { //ese
         _this.hide();
-      } else if (event.which == 40) { // down
+      } else if (event.which == 40) { //down
         _this.hoverNextItem();
-      } else if (event.which == 38) { // up
+      } else if (event.which == 38) { //up
         _this.hoverPreviousItem();
       }
     }).on('keyup', function(event){
@@ -1315,7 +1315,7 @@ function xttTable(obj) {
 
 })(jQuery);
 
-// 多选下拉框
+//多选下拉框
 function multiSelect(call) {
     var elem = $(".u-multi-select");
     var Select = $(".u-select-value");

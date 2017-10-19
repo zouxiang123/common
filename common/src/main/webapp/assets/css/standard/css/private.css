@@ -52,7 +52,6 @@
     color: #ffffff;
     border-color: #31AAFF;
 }
-
 .tab-head-text > span.active, .tab-head-text > span:hover {
     color: #31AAFF;
 }
@@ -2750,8 +2749,9 @@ label > input {
 .screen-bed >
 .screen-header >
 .left > img {
-    height: 64px;
-    margin-left: 30px;
+    height: 80px;
+    margin-left: 10px;
+    overflow: hidden;
 }
 
 .screen-bed >
@@ -4124,6 +4124,37 @@ label > input {
     border: none;
     padding: 0px;
     width: 100%;
+}
+/*select2下拉插件*/
+.select2-dropdown{
+    border: 1px solid #D9E0E6 !important;
+}
+.select2-container--default 
+.select2-selection--single{
+   border: 1px solid #D9E0E6 !important;
+   border-radius: 3px !important;
+}
+.select2-container 
+.select2-selection--single{
+   height: 34px !important;
+}
+.select2-container--default 
+.select2-selection--single 
+.select2-selection__rendered{
+   line-height: 34px !important;
+   content: #484848 !important;
+}
+.select2-container--default 
+.select2-selection--single 
+.select2-selection__arrow{
+   height: 34px !important;
+}
+.select2-container--default 
+.select2-search--dropdown 
+.select2-search__field{
+    border: 1px solid #D9E0E6 !important;
+    height: 34px !important;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.0) !important;
 }
 
 .xtt {

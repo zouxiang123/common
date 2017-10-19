@@ -34,7 +34,21 @@ function addCommonEvents() {
             }
         }
     };
-
+    // 如果引用了select2，拓展其搜索功能
+    if (!isEmptyObject($.fn.select2)) {
+        var s2DefaultMatcher = $.fn.select2.defaults.defaults.matcher;
+        $.fn.select2.defaults.set("matcher", function(params, data) {
+            var result = s2DefaultMatcher(params, data);
+            if (result != null) {
+                return result;
+            }
+            var origin = $(data.element).data("search") + "";// match search
+            if (!isEmpty(origin) && origin.toUpperCase().indexOf(params.term.toUpperCase()) > -1) {
+                return data;
+            }
+            return null;
+        });
+    }
 }
 /** textarea 添加自动伸缩 */
 function addTextareaAutoHeightEvent(element) {
