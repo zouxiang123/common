@@ -308,6 +308,7 @@
         <result column="card_type" jdbcType="VARCHAR" property="cardType" />
         <result column="card_no" jdbcType="VARCHAR" property="cardNo" />
         <result column="start_date" jdbcType="VARCHAR" property="startDate" />
+        <result column="end_date" jdbcType="VARCHAR" property="endDate" />
         <result column="del_flag" jdbcType="BIT" property="delFlag" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -317,11 +318,11 @@
       
       <!-- 1.获取下载卡号数据的入参数据 -->
     <select id="getIfQueryParmToCard" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
-        select CONCAT('patient_card_',(@i:=@i+1))as id,(@j:=@j+1) as id_no,'patient_card'as down_type,p.id as fk_patient_id,
+         select CONCAT('patient_card_',(@i:=@i+1))as id,(@j:=@j+1) as id_no,'patient_card'as down_type,p.id as fk_patient_id,
             p.name as patient_name,'sfz'as card_type,p.id_number as card_no,
-            '1975-01-01' as start_date,NOW() as create_time,hdpt.fk_tenant_id 
+            '1975-01-01' as start_date,DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,NOW() as create_time,hdpt.fk_tenant_id 
             from patient p left join hd_patient_extend hdpt on p.id = hdpt.id,(select @i:=0) b ,(select @j:=0) c 
-            where  hdpt.fk_tenant_id = #{fkTenantId}
+            where hdpt.del_flag = 0 and  hdpt.fk_tenant_id = #{fkTenantId} 
             <if test="fkPatientId != null">
                 and p.id = #{fkPatientId}
             </if>
@@ -329,15 +330,19 @@
       
      <!-- 2.1获取每个患者最新(入院时间)的数据集 (HISID)-->
     <select id="getIfQueryParmToVisitCardNo" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
-        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit'as down_type,p.id as fk_patient_id,p.name as patient_name,
-                pc.card_type,pc.card_no,
-                IFNULL(pv.start_date,'1975-01-01') as start_date,e.del_flag,NOW() as create_time,e.fk_tenant_id from patient_card pc 
-                left join (select id ,start_date from (select fk_patient_id as id, DATE_FORMAT(MAX(in_time),'%Y-%m-%d') as start_date 
-                from patient_visit group by fk_patient_id)  tt) pv on pc.fk_pt_id = pv.id 
-                left join patient p on p.id = pc.fk_pt_id
+        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit'as down_type,p.id as fk_patient_id,
+                                p.name as patient_name,
+                                pc.card_type,
+                                pc.card_no,
+                IFNULL(pv.start_date,'1975-01-01') as start_date,DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,
+                                e.del_flag,NOW() as create_time,e.fk_tenant_id from patient_card pc 
+                left join (select id ,his_pt_id,start_date from (
+                           select fk_patient_id as id, his_pt_id,DATE_FORMAT(MAX(in_time),'%Y-%m-%d') as start_date from patient_visit group by fk_patient_id,his_pt_id)  tt) pv 
+                                on pc.card_no = pv.his_pt_id
+                left join patient p on p.id = pc.fk_pt_id 
                 left join hd_patient_extend e on p.id = e.id,
-                (select @i:=0) b,(select @j:=0) c 
-                where !ISNULL(p.id) and !ISNULL(pc.card_no) and e.fk_tenant_id =  #{fkTenantId} 
+                (select @i:=0) b  ,(select @j:=0) c 
+                where e.del_flag = 0 and !ISNULL(p.id) and !ISNULL(pc.card_no) and e.fk_tenant_id =  #{fkTenantId} 
             <if test="fkPatientId != null">
                 and p.id = #{fkPatientId}
             </if>
@@ -345,13 +350,14 @@
     
      <!-- 2.2获取每个患者最新(入院时间)的数据集(身份证号) -->
     <select id="getIfQueryParmToVisitIdNo" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
-        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit'as down_type,p.id as fk_patient_id,p.name as patient_name,pc.card_type,p.id_number as card_no,
-                IFNULL(pv.start_date,'1975-01-01') as start_date,e.del_flag,NOW() as create_time,e.fk_tenant_id from patient_card pc 
-                left join (select id ,start_date from (select fk_patient_id as id, DATE_FORMAT(MAX(in_time),'%Y-%m-%d') as start_date from patient_visit group by fk_patient_id)  tt) pv on pc.fk_pt_id = pv.id 
-                left join patient p on p.id = pc.fk_pt_id 
+        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit'as down_type,p.id as fk_patient_id,p.name as patient_name,'4' as card_type,p.id_number as card_no,
+                IFNULL(pv.start_date,'1975-01-01') as start_date,DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,e.del_flag,NOW() as create_time,e.fk_tenant_id from patient p
+                left join (select id ,start_date from 
+                          (select fk_patient_id as id, DATE_FORMAT(MAX(in_time),'%Y-%m-%d') as start_date from patient_visit group by fk_patient_id)  tt) pv 
+                on p.id = pv.id 
                 left join hd_patient_extend e on p.id = e.id,
                 (select @i:=0) b  ,(select @j:=0) c 
-                where !ISNULL(p.id) and !ISNULL(pc.card_no) and e.fk_tenant_id =  #{fkTenantId} 
+                where e.del_flag = 0 and !ISNULL(p.id) and !ISNULL(p.id_number) and e.fk_tenant_id =  #{fkTenantId} 
             <if test="fkPatientId != null">
                 and p.id = #{fkPatientId}
             </if>
@@ -361,12 +367,75 @@
     <select id="getIfQueryParmToLis" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
         select CONCAT('patient_assay_record_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_assay_record'as down_type,p.id as fk_patient_id,
             p.name as patient_name,pc.card_type,pc.card_no,
-            IFNULL(pv.start_date,'1975-01-01') as start_date,NOW() as create_time,pc.fk_tenant_id from patient_card pc 
-            left join (select id ,start_date from (select fk_patient_id as id, DATE_FORMAT(MAX(report_time),'%Y-%m-%d') as start_date 
-            from patient_assay_record group by fk_patient_id)tt) pv on pc.fk_pt_id = pv.id 
+            IFNULL(pv.start_date,'1975-01-01') as start_date,
+                        DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,
+                        NOW() as create_time,pc.fk_tenant_id 
+                        from patient_card pc 
+            left join (select id ,his_pt_id,start_date from 
+                      (select fk_patient_id as id,his_pt_id, DATE_FORMAT(MAX(report_time),'%Y-%m-%d') as start_date 
+            from patient_assay_record group by fk_patient_id,his_pt_id)tt) pv on pc.card_no = pv.his_pt_id
             left join patient p on p.id = pc.fk_pt_id
             left join hd_patient_extend hdpt on hdpt.id = p.id ,(select @i:=0) b,(select @j:=0) c 
-            where !ISNULL(p.id) and hdpt.del_flag=0 and hdpt.fk_tenant_id = #{fkTenantId} 
+            where hdpt.del_flag = 0 and !ISNULL(p.id) and hdpt.fk_tenant_id = #{fkTenantId} 
+            <if test="fkPatientId != null">
+                and p.id = #{fkPatientId}
+            </if>
+    </select>
+    
+    <!-- 4.获取下载医嘱数据的入参数据 -->
+    <select id="getIfQueryParmToPacs" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
+        select CONCAT('patient_pacs_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_pacs'as down_type,p.id as fk_patient_id,
+            p.name as patient_name,pc.card_type,pc.card_no,
+            IFNULL(pv.start_date,'1975-01-01') as start_date,
+                        DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,
+                        NOW() as create_time,pc.fk_tenant_id 
+                        from patient_card pc 
+            left join (select id ,his_pt_id,start_date from 
+                      (select fk_patient_id as id,his_pt_id, DATE_FORMAT(MAX(report_date),'%Y-%m-%d') as start_date 
+            from patient_pacs group by fk_patient_id,his_pt_id)tt) pv on pc.card_no = pv.his_pt_id
+            left join patient p on p.id = pc.fk_pt_id
+            left join hd_patient_extend hdpt on hdpt.id = p.id ,(select @i:=0) b,(select @j:=0) c 
+            where hdpt.del_flag = 0 and !ISNULL(p.id) and hdpt.del_flag=0  and hdpt.fk_tenant_id = #{fkTenantId} 
+            <if test="fkPatientId != null">
+                and p.id = #{fkPatientId}
+            </if>
+    </select>
+    
+    <!-- 5.获取下载医嘱数据的入参数据 -->
+    <select id="getIfQueryParmToOrder" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
+        select CONCAT('patient_orders_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 
+                        'patient_orders' as down_type,
+                        p.id as fk_patient_id,
+            p.name as patient_name,pc.card_type,pc.card_no,
+            IFNULL(pv.start_date,'1975-01-01') as start_date,
+                        DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,
+                        NOW() as create_time,
+                        pc.fk_tenant_id from patient_card pc 
+            left join (select id ,pt_id,start_date from 
+                      (select fk_patient_id as id,pt_id, DATE_FORMAT(MAX(enter_time),'%Y-%m-%d') as start_date from patient_orders group by fk_patient_id,pt_id)tt) pv 
+                       on pc.card_no = pv.pt_id 
+            left join patient p on p.id = pc.fk_pt_id
+            left join hd_patient_extend hdpt on hdpt.id = p.id ,(select @i:=0) b,(select @j:=0) c 
+            where hdpt.del_flag = 0 and !ISNULL(p.id) and hdpt.del_flag=0  and hdpt.fk_tenant_id = #{fkTenantId} 
+            <if test="fkPatientId != null">
+                and p.id = #{fkPatientId}
+            </if>
+    </select>
+    
+    <!-- 6.获取下载手术数据的入参数据 -->
+    <select id="getIfQueryParmToOperation" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
+            select CONCAT('patient_operation_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_operation'as down_type,p.id as fk_patient_id,
+            p.name as patient_name,pc.card_type,pc.card_no,
+            IFNULL(pv.start_date,'1975-01-01') as start_date,
+                        DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,
+                        NOW() as create_time,pc.fk_tenant_id 
+                        from patient_card pc 
+            left join (select id ,his_pt_id,start_date from 
+                      (select fk_patient_id as id,his_pt_id, DATE_FORMAT(MAX(opt_date),'%Y-%m-%d') as start_date 
+            from patient_operation group by fk_patient_id,his_pt_id)tt) pv on pc.card_no = pv.his_pt_id
+            left join patient p on p.id = pc.fk_pt_id
+            left join hd_patient_extend hdpt on hdpt.id = p.id ,(select @i:=0) b,(select @j:=0) c 
+            where hdpt.del_flag = 0 and !ISNULL(p.id) and hdpt.del_flag=0  and hdpt.fk_tenant_id = #{fkTenantId} 
             <if test="fkPatientId != null">
                 and p.id = #{fkPatientId}
             </if>
