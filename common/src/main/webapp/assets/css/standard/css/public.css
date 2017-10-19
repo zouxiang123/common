@@ -113,6 +113,9 @@ img[browse]{
 }
 
 
+.icon-followup:before {
+  content: "\e875";
+}
 .icon-401:before {
   content: "\e874";
   color: #d9e0e6;
@@ -272,12 +275,6 @@ img[browse]{
 }
 .icon-round:before {
   content: "\e823";
-}
-.icon-3:before {
-  content: "\e822";
-}
-.icon-单选复选:before {
-  content: "\e821";
 }
 .icon-accomplish:before {
   content: "\e820";
@@ -444,6 +441,11 @@ img[browse]{
   top: 3px;
   margin-right: 8px;
 }
+.u-checkbox[max]>span,
+.u-radio[max]>span{
+  height: 18px;
+  width: 18px;
+}
 .u-checkbox>span.icon-checkbox:before,
 .u-radio>span.icon-radio:before{
   position: absolute;
@@ -459,6 +461,10 @@ img[browse]{
   transition-property:transform;
   -webkit-transition-duration: 0.15s;
   transition-duration: 0.15s;
+}
+.u-checkbox[max]>span.icon-checkbox:before{
+    top: 2px;
+    left: 1px;
 }
 .u-checkbox>input[type=checkbox]:checked+span{
   background: #31aaff;
@@ -483,6 +489,10 @@ img[browse]{
     left: 3px;
     top: 3px;
     z-index: 99;
+}
+.u-radio[max]>span.icon-radio:before{
+   width: 10px;
+   height: 10px;
 }
 .u-radio>input[type=radio]:checked+span{
     border-color: #31AAFF;
@@ -937,8 +947,8 @@ button[circle]{
     text-align: center;
 }
 button[max]{
-    min-height: 48px;
-    line-height: 48px;
+    min-height: 40px;
+    line-height: 40px;
     padding: 0px 30px;
     font-size: 18px;
 }
@@ -1303,6 +1313,139 @@ select[disabled]{
     background: rgba(217,224,230,0.5);
 }
 
+/*搜索下拉框*/
+.u-select-search {
+  display: inline-block;
+  width: 210px;
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #555;
+  vertical-align: middle;
+  position: relative;
+  outline: none;
+}
+.u-select-search-hide {
+  display: none;
+}
+.u-select-search>
+.u-select-value{
+  padding: 0px 6px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #D9E0E6;
+  border-radius:3px;
+  height: 34px;
+  line-height: 34px;
+  width: 100%;
+  padding-right: 26px;
+  overflow: hidden;
+  box-sizing: border-box;
+  -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+  cursor: pointer;
+  position: relative;
+}
+.u-select-search>
+.u-select-value:after{
+    content: "\e815";
+    position: absolute;
+    right: 8px;
+    top: 0px;
+    z-index: 99;
+    font-size: 12px;
+    color: rgba(72,72,72,0.5);
+}
+
+.u-select-search>
+.u-select-content {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #D9E0E6;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-top: none;
+  top: 30px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  padding-top: 10px;
+}
+.u-select-search>
+.u-select-content>
+.u-select-content-value{
+   margin-left: 6px;
+   width: 196px;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul{
+  margin-top: 6px;
+  position: relative;
+  max-height: 180px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.u-scroll::-webkit-scrollbar{ /*滚动条整体部分*/
+    background: rgba(217,224,230,0.5);
+    width: 10px;
+}
+.u-scroll::-webkit-scrollbar-thumb{  /*滚动条里面的小方块*/
+    background: rgba(72,72,72,0.2);
+    border-radius: 6px;
+}
+.u-scroll::-webkit-scrollbar-button{   /*滚动条的轨道的两端按钮*/
+    height: 0px;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul.has-privious {
+  padding-top: 16px;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul.has-next {
+  padding-bottom: 16px;
+}
+
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul>
+.u-select-search-items {
+  width: 100%;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul>
+.u-select-search-items::-webkit-scrollbar {
+  display: none;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul
+.u-select-search-item {
+  padding: 0px 6px;
+  cursor: pointer;
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  box-sizing: border-box;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul
+.u-select-search-item.hover {
+  background: rgba(217,224,230,0.5)
+}
+.u-select-search>
+.u-select-content>
+.u-select-searser-ul
+.u-select-search-item.selected {
+  background: #31AAFF;
+  color: white;
+}
 
 /*选择器*/
 .u-ipt-select>button[disabled]{
@@ -1460,9 +1603,7 @@ select[disabled]{
 }
 .u-table>tbody>tr>td{
     height: 40px;
-    padding-left: 10px;
-    padding-right: 8px;
-    min-width: 30px;
+    padding: 0px 8px;
     font-weight: 400;
     font-size: 14px;
     word-wrap: break-word;
@@ -1856,7 +1997,7 @@ table>thead>tr>th.xtt-40{
     background:rgba(217,224,230,0.5) !important;
 }
 
-/*表格重写一部分*/
+/*省略文字提示表格*/
 .u-table-box{
     position: relative;
     border: 1px solid #D9E0E6;
@@ -1969,9 +2110,10 @@ table>thead>tr>th.xtt-40{
    top: 0px;
    font-size: 20px;
    color: #484848;
-   margin-top: -10px;
-   margin-right: -10px;
+   margin-top: -5px;
+   margin-right: -5px;
    cursor: pointer;
+   z-index: 999;
 }
 .u-table-box>
 .u-table-body-sidebar{
@@ -2035,6 +2177,31 @@ table>thead>tr>th.xtt-40{
     float: right;
 }
 
+/*自动换行表格*/
+.u-table-adapt{
+    width: 100%;
+    border: 1px solid #D9E0E6;
+}
+.u-table-adapt>
+.u-table-adapt-body{
+    width: 100%;
+}
+.u-table-adapt>
+.u-table-adapt-body>table{
+    width: 100%;
+    margin-bottom: -1px;
+}
+.u-table-adapt>
+.u-table-adapt-body>table>tbody>tr{
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #D9E0E6;
+}
+.u-table-adapt>
+.u-table-adapt-body>table>tbody>tr>td{
+    border-right: 1px solid #D9E0E6;
+    padding: 0px 5px;
+}
 /*上传*/
 .u-file{
   display: inline-block;

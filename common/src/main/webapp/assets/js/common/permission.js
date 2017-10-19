@@ -69,7 +69,7 @@ $(function() {
             $(this).removeClass("hide");
             $(this).show();
         } else {
-            $(this).addClass("hide");
+            $(this).remove();
         }
     });
 });
