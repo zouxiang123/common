@@ -76,6 +76,8 @@ public class IfQueryParmPO {
      */
     private String startDate;
 
+    private String endDate;
+
     /**
      * 删除标记 if_query_parm.del_flag
      */
@@ -204,6 +206,14 @@ public class IfQueryParmPO {
      */
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     /**
