@@ -76,6 +76,8 @@ public class IfQueryParmPO {
      */
     private String startDate;
 
+    private String endDate;
+
     /**
      * 删除标记 if_query_parm.del_flag
      */
@@ -261,4 +263,13 @@ public class IfQueryParmPO {
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
     }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
 }
