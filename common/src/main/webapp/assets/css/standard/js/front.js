@@ -987,7 +987,7 @@ function xttTable(obj) {
            let chid = $(name).eq(i).children();
            for(var j = 0;j<chid.length;j++){
               let chidCell = chid.eq(j).children(".u-table-cell");
-              if(chidCell.children("span").width() > arr[j]){
+              if(chidCell.children("span").width() + 10 > arr[j]){
                   chidCell.addClass('over');
               }
               chidCell.width(parseInt(arr[j] - 10))
@@ -1000,7 +1000,7 @@ function xttTable(obj) {
            }
            if(men){
               men.width((dome.width() - 10) - num - (arr.length - 1))
-              if(men.width() < men.children("span").width()){
+              if(men.width() < men.children("span").width() + 10){
                 men.addClass("over");
               }
            }

@@ -10,6 +10,8 @@ package com.xtt.common.util;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,15 +22,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.client.CookieStore;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.platform.util.http.HttpClientUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 public class HttpServletUtil {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpServletUtil.class);
 
     private HttpServletUtil() {
 
@@ -145,7 +152,7 @@ public class HttpServletUtil {
         }
         Map<String, Cookie> cookieMap = ReadCookieMap(request);
         if (cookieMap.containsKey(name)) {
-            Cookie cookie = (Cookie) cookieMap.get(name);
+            Cookie cookie = cookieMap.get(name);
             return cookie.getValue();
         } else {
             return null;
@@ -168,7 +175,7 @@ public class HttpServletUtil {
         }
         Map<String, Cookie> cookieMap = ReadCookieMap(request);
         if (cookieMap.containsKey(name)) {
-            Cookie cookie = (Cookie) cookieMap.get(name);
+            Cookie cookie = cookieMap.get(name);
             return cookie;
         } else {
             return null;
@@ -285,5 +292,25 @@ public class HttpServletUtil {
             charEncoding = "UTF-8";
         }
         return new String(buffer, charEncoding);
+    }
+
+    /**
+     * 创建http请求token
+     * 
+     * @Title: getHttpClientCookieStore
+     * @param url
+     * @return
+     *
+     */
+    public static CookieStore getHttpClientCookieStore(String url) {
+        // 创建http请求token
+        CookieStore cookie = null;
+        try {
+            cookie = HttpClientUtil.createCookieStore(CommonConstants.COOKIE_TOKEN,
+                            HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN), new URL(url).getHost(), "/");
+        } catch (MalformedURLException e) {
+            LOGGER.warn("create cookie store failed", e);
+        }
+        return cookie;
     }
 }
