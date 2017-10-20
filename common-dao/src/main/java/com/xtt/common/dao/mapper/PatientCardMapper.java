@@ -94,7 +94,7 @@ public interface PatientCardMapper {
     // ===============================================================================================================================
     /**
      * @Title: getIfQueryParmToCard
-     * @Description:获取卡号的入参数据
+     * @Description:1.获取卡号的入参数据（入参身份证号）
      * @param ifQueryParmPO
      * @return List<IfQueryParmPO>
      */
@@ -102,7 +102,7 @@ public interface PatientCardMapper {
 
     /**
      * @Title: getIfQueryParmToVisitCardNo
-     * @Description:获取住院门诊入参数据（hisID）
+     * @Description:2.1获取住院门诊入参数据（hisID）
      * @param ifQueryParmPO
      * @return List<IfQueryParmPO>
      */
@@ -110,7 +110,7 @@ public interface PatientCardMapper {
 
     /**
      * @Title: getIfQueryParmToVisitIdNo
-     * @Description:获取住院门诊入参数据（身份证号）
+     * @Description:2.2获取住院门诊入参数据（身份证号）
      * @param ifQueryParmPO
      * @return List<IfQueryParmPO>
      */
@@ -118,9 +118,34 @@ public interface PatientCardMapper {
 
     /**
      * @Title: getIfQueryParmToLis
-     * @Description:获取检验入参数据
+     * @Description:3获取检验入参数据
      * @param ifQueryParmPO
      * @return List<IfQueryParmPO>
      */
     List<IfQueryParmPO> getIfQueryParmToLis(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:4获取影像入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToPacs(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:5获取医嘱入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToOrder(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:6获取手术入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToOperation(IfQueryParmPO ifQueryParmPO);
+
 }
