@@ -100,4 +100,12 @@ public interface IPatientCardService {
      * @return
      */
     String getCardNo(PatientCardPO record);
+
+    /**
+     * 根据卡号和卡号类型查询患者信息
+     * 
+     * @param record
+     * @return
+     */
+    List<PatientCardPO> listPatientCardByRecord(PatientCardPO record);
 }
