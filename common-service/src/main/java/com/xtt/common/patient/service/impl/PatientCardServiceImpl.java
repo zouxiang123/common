@@ -151,4 +151,9 @@ public class PatientCardServiceImpl implements IPatientCardService {
         }
         return list.get(0).getCardNo();
     }
+
+    @Override
+    public List<PatientCardPO> listPatientCardByRecord(PatientCardPO record) {
+        return patientCardMapper.selectByCondition(record);
+    }
 }
