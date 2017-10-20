@@ -271,4 +271,5 @@ public class IfQueryParmPO {
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
     }
+
 }

@@ -318,7 +318,7 @@
       
       <!-- 1.获取下载卡号数据的入参数据 -->
     <select id="getIfQueryParmToCard" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
-         select CONCAT('patient_card_',(@i:=@i+1))as id,(@j:=@j+1) as id_no,'patient_card'as down_type,p.id as fk_patient_id,
+         select CONCAT('patient_card_',(@i:=@i+1))as id,(@j:=@j+1) as id_no,'patient_card' as down_type,p.id as fk_patient_id,
             p.name as patient_name,'sfz'as card_type,p.id_number as card_no,
             '1975-01-01' as start_date,DATE_FORMAT(NOW(),'%Y-%m-%d') as end_date,NOW() as create_time,hdpt.fk_tenant_id 
             from patient p left join hd_patient_extend hdpt on p.id = hdpt.id,(select @i:=0) b ,(select @j:=0) c 
@@ -330,7 +330,7 @@
       
      <!-- 2.1获取每个患者最新(入院时间)的数据集 (HISID)-->
     <select id="getIfQueryParmToVisitCardNo" parameterType="com.xtt.common.dao.po.IfQueryParmPO" resultMap="IfQueryParmBaseResultMap">
-        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit'as down_type,p.id as fk_patient_id,
+        select CONCAT('patient_visit_',(@i:=@i+1))as id,(@j:=@j+1) as id_no, 'patient_visit' as down_type,p.id as fk_patient_id,
                                 p.name as patient_name,
                                 pc.card_type,
                                 pc.card_no,
