@@ -5,14 +5,12 @@ package com.xtt.common.dao.model;
  */
 public class SysGroupTenant {
     /**
-     * 集团id
-     * sys_group_tenant.fk_group_id
+     * 集团id sys_group_tenant.fk_group_id
      */
     private Integer fkGroupId;
 
     /**
-     * 租户id
-     * sys_group_tenant.fk_tenant_id
+     * 租户id sys_group_tenant.fk_tenant_id
      */
     private Integer fkTenantId;
 

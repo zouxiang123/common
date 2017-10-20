@@ -20,6 +20,8 @@ public class SysUserPO extends SysUser {
     @SuppressWarnings("unused")
     private String mobileShow;
 
+    private Integer value;// 统计值
+
     public String getRoleName() {
         return roleName;
     }
@@ -94,6 +96,14 @@ public class SysUserPO extends SysUser {
 
     public void setMobileShow(String mobileShow) {
         this.mobileShow = mobileShow;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
 }

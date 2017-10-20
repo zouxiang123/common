@@ -12,56 +12,47 @@ public class PatientAssayReportCommon {
     private Long id;
 
     /**
-     * 患者id
-     * patient_assay_back_common.fk_patient_id
+     * 患者id patient_assay_back_common.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 化验月份
-     * patient_assay_back_common.assay_month
+     * 化验月份 patient_assay_back_common.assay_month
      */
     private String assayMonth;
 
     /**
-     * 项目编码
-     * patient_assay_back_common.item_code
+     * 项目编码 patient_assay_back_common.item_code
      */
     private String itemCode;
 
     /**
-     * 化验结果的值
-     * patient_assay_back_common.result
+     * 化验结果的值 patient_assay_back_common.result
      */
     private String result;
 
     /**
-     * 租户ID
-     * patient_assay_back_common.fk_tenant_id
+     * 租户ID patient_assay_back_common.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_assay_back_common.create_time
+     * 创建时间 patient_assay_back_common.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_assay_back_common.create_user_id
+     * 创建人 patient_assay_back_common.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_assay_back_common.update_time
+     * 更新时间 patient_assay_back_common.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_assay_back_common.update_user_id
+     * 更新人 patient_assay_back_common.update_user_id
      */
     private Long updateUserId;
 

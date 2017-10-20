@@ -7,68 +7,57 @@ import java.util.Date;
  */
 public class PatientKpiHist {
     /**
-     * 系统ID
-     * patient_kpi_hist.id
+     * 系统ID patient_kpi_hist.id
      */
     private Long id;
 
     /**
-     * 患者id
-     * patient_kpi_hist.fk_patient_id
+     * 患者id patient_kpi_hist.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 记录时间
-     * patient_kpi_hist.record_date
+     * 记录时间 patient_kpi_hist.record_date
      */
     private Date recordDate;
 
     /**
-     * 类别
-     * patient_kpi_hist.category
+     * 类别 patient_kpi_hist.category
      */
     private String category;
 
     /**
-     * 内容
-     * patient_kpi_hist.content
+     * 内容 patient_kpi_hist.content
      */
     private String content;
 
     /**
-     * 所属系统
-     * patient_kpi_hist.sys_owner
+     * 所属系统 patient_kpi_hist.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 租户ID
-     * patient_kpi_hist.fk_tenant_id
+     * 租户ID patient_kpi_hist.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_kpi_hist.create_time
+     * 创建时间 patient_kpi_hist.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_kpi_hist.create_user_id
+     * 创建人 patient_kpi_hist.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_kpi_hist.update_time
+     * 更新时间 patient_kpi_hist.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_kpi_hist.update_user_id
+     * 更新人 patient_kpi_hist.update_user_id
      */
     private Long updateUserId;
 

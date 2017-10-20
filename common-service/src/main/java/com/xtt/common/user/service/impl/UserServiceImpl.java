@@ -58,6 +58,14 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IFamilyInitialService familyInitialService;
 
+    /**
+     * 统计人员信息
+     */
+    @Override
+    public List<SysUserPO> countAllUser(Integer tenantId) {
+        return sysUserMapper.countAllUser(tenantId);
+    }
+
     @Override
     public List<SysUserPO> getDoctors(Integer tenantId, String sysOwner) {
         String[] arr = { CommonConstants.ROLE_DOCTOR };
@@ -377,5 +385,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public SysUser getRoundUser(Integer constantType) {
         return sysUserMapper.getRoundUser(constantType);
+    }
+
+    @Override
+    public List<SysUser> listUserByParentId(Integer constantType) {
+        return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
     }
 }

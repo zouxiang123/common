@@ -12,98 +12,82 @@ public class PatientAssayResult {
     private Long id;
 
     /**
-     * 患者id
-     * patient_assay_result.fk_patient_id
+     * 患者id patient_assay_result.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 甲肝
-     * patient_assay_result.hav
+     * 甲肝 patient_assay_result.hav
      */
     private Boolean hav;
 
     /**
-     * 已肝
-     * patient_assay_result.hbv
+     * 已肝 patient_assay_result.hbv
      */
     private Boolean hbv;
 
     /**
-     * 丙肝
-     * patient_assay_result.hcv
+     * 丙肝 patient_assay_result.hcv
      */
     private Boolean hcv;
 
     /**
-     * 戌肝
-     * patient_assay_result.hev
+     * 戌肝 patient_assay_result.hev
      */
     private Boolean hev;
 
     /**
-     * 艾滋病
-     * patient_assay_result.hiv
+     * 艾滋病 patient_assay_result.hiv
      */
     private Boolean hiv;
 
     /**
-     * 梅毒
-     * patient_assay_result.hsv
+     * 梅毒 patient_assay_result.hsv
      */
     private Boolean hsv;
 
     /**
-     * 操作人
-     * patient_assay_result.operator_id
+     * 操作人 patient_assay_result.operator_id
      */
     private Long operatorId;
 
     /**
-     * 是否可用
-     * patient_assay_result.is_enable
+     * 是否可用 patient_assay_result.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 租户id
-     * patient_assay_result.fk_tenant_id
+     * 租户id patient_assay_result.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_assay_result.create_time
+     * 创建时间 patient_assay_result.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_assay_result.create_user_id
+     * 创建人 patient_assay_result.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间
-     * patient_assay_result.update_time
+     * 修改时间 patient_assay_result.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人
-     * patient_assay_result.update_user_id
+     * 修改人 patient_assay_result.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 正常的
-     * patient_assay_result.normal
+     * 正常的 patient_assay_result.normal
      */
     private Boolean normal;
 
     /**
-     * 尚未做检查
-     * patient_assay_result.unknown
+     * 尚未做检查 patient_assay_result.unknown
      */
     private Boolean unknown;
 

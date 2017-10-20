@@ -225,6 +225,8 @@ public interface IPatientAssayRecordBusiService {
      * @param patientId
      * @param isDelete
      * @param fktenantId
+     * 
+     * @return 所有查询到数据的化验日期
      *
      */
     Set<String> selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId, boolean isDelete,

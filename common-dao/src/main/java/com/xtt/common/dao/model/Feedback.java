@@ -13,56 +13,47 @@ public class Feedback {
     private Long id;
 
     /**
-     * 联系方式
-     * feedback.tel
+     * 联系方式 feedback.tel
      */
     private String tel;
 
     /**
-     * 反馈内容
-     * feedback.content
+     * 反馈内容 feedback.content
      */
     private String content;
 
     /**
-     * 用户访问设备信息
-     * feedback.user_agent
+     * 用户访问设备信息 feedback.user_agent
      */
     private String userAgent;
 
     /**
-     * IP地址
-     * feedback.ip
+     * IP地址 feedback.ip
      */
     private String ip;
 
     /**
-     * 经度
-     * feedback.longitude
+     * 经度 feedback.longitude
      */
     private BigDecimal longitude;
 
     /**
-     * 纬度
-     * feedback.latitude
+     * 纬度 feedback.latitude
      */
     private BigDecimal latitude;
 
     /**
-     * 租户
-     * feedback.fk_tenant_id
+     * 租户 feedback.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建人
-     * feedback.create_user_id
+     * 创建人 feedback.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 创建时间
-     * feedback.create_time
+     * 创建时间 feedback.create_time
      */
     private Date createTime;
 

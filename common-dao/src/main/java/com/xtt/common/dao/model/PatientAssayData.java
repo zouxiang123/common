@@ -7,7 +7,7 @@ import com.xtt.platform.framework.core.model.MyBatisSuperModel;
 /**
  * patient_assay_data
  */
-public class PatientAssayData extends MyBatisSuperModel{
+public class PatientAssayData extends MyBatisSuperModel {
     /**
      * patient_assay_data.id
      */

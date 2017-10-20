@@ -12,8 +12,7 @@ public class AssayGroupConf {
     private Long id;
 
     /**
-     * 分组名称
-     * assay_group_conf.name
+     * 分组名称 assay_group_conf.name
      */
     private String name;
 

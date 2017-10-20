@@ -7,68 +7,57 @@ import java.util.Date;
  */
 public class PatientOutcome {
     /**
-     * 物理主键
-     * patient_outcome.id
+     * 物理主键 patient_outcome.id
      */
     private Long id;
 
     /**
-     * 患者id
-     * patient_outcome.fk_patient_id
+     * 患者id patient_outcome.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 转归类型
-     * patient_outcome.type
+     * 转归类型 patient_outcome.type
      */
     private String type;
 
     /**
-     * 转归日期
-     * patient_outcome.record_date
+     * 转归日期 patient_outcome.record_date
      */
     private Date recordDate;
 
     /**
-     * 转归原因
-     * patient_outcome.reason
+     * 转归原因 patient_outcome.reason
      */
     private String reason;
 
     /**
-     * 所属系统
-     * patient_outcome.sys_owner
+     * 所属系统 patient_outcome.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 租户id
-     * patient_outcome.fk_tenant_id
+     * 租户id patient_outcome.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * patient_outcome.create_time
+     * 创建时间 patient_outcome.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * patient_outcome.create_user_id
+     * 创建人 patient_outcome.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * patient_outcome.update_time
+     * 更新时间 patient_outcome.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * patient_outcome.update_user_id
+     * 更新人 patient_outcome.update_user_id
      */
     private Long updateUserId;
 

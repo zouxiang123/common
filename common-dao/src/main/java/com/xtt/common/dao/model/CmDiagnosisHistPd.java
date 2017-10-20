@@ -7,86 +7,72 @@ import java.util.Date;
  */
 public class CmDiagnosisHistPd {
     /**
-     * 主键Id
-     * cm_diagnosis_hist_pd.id
+     * 主键Id cm_diagnosis_hist_pd.id
      */
     private Long id;
 
     /**
-     * 患者Id
-     * cm_diagnosis_hist_pd.fk_patient_id
+     * 患者Id cm_diagnosis_hist_pd.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 开始时间
-     * cm_diagnosis_hist_pd.start_date
+     * 开始时间 cm_diagnosis_hist_pd.start_date
      */
     private Date startDate;
 
     /**
-     * 开始原因，对应字典表item_code值
-     * cm_diagnosis_hist_pd.start_reason
+     * 开始原因，对应字典表item_code值 cm_diagnosis_hist_pd.start_reason
      */
     private String startReason;
 
     /**
-     * 其他开始原因
-     * cm_diagnosis_hist_pd.other_start_reason
+     * 其他开始原因 cm_diagnosis_hist_pd.other_start_reason
      */
     private String otherStartReason;
 
     /**
-     * 结束时间
-     * cm_diagnosis_hist_pd.end_date
+     * 结束时间 cm_diagnosis_hist_pd.end_date
      */
     private Date endDate;
 
     /**
-     * 结束原因，对应字典表item_code值
-     * cm_diagnosis_hist_pd.end_reason
+     * 结束原因，对应字典表item_code值 cm_diagnosis_hist_pd.end_reason
      */
     private String endReason;
 
     /**
-     * 其他结束原因
-     * cm_diagnosis_hist_pd.other_end_reson
+     * 其他结束原因 cm_diagnosis_hist_pd.other_end_reson
      */
     private String otherEndReason;
 
     /**
-     * 租户Id
-     * cm_diagnosis_hist_pd.fk_tenant_id
+     * 租户Id cm_diagnosis_hist_pd.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间
-     * cm_diagnosis_hist_pd.create_time
+     * 创建时间 cm_diagnosis_hist_pd.create_time
      */
     private Date createTime;
 
     /**
-     * 创建者Id
-     * cm_diagnosis_hist_pd.create_user_id
+     * 创建者Id cm_diagnosis_hist_pd.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * cm_diagnosis_hist_pd.update_time
+     * 更新时间 cm_diagnosis_hist_pd.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新者Id
-     * cm_diagnosis_hist_pd.update_user_id
+     * 更新者Id cm_diagnosis_hist_pd.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 备注
-     * cm_diagnosis_hist_pd.remark
+     * 备注 cm_diagnosis_hist_pd.remark
      */
     private String remark;
 

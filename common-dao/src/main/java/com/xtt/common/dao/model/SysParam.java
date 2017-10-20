@@ -12,68 +12,57 @@ public class SysParam {
     private Long id;
 
     /**
-     * 参数名称
-     * sys_param.param_name
+     * 参数名称 sys_param.param_name
      */
     private String paramName;
 
     /**
-     * 参数描述
-     * sys_param.param_desc
+     * 参数描述 sys_param.param_desc
      */
     private String paramDesc;
 
     /**
-     * 参数值
-     * sys_param.param_value
+     * 参数值 sys_param.param_value
      */
     private String paramValue;
 
     /**
-     * 字典表中的类型
-     * sys_param.dic_type
+     * 字典表中的类型 sys_param.dic_type
      */
     private String dicType;
 
     /**
-     * 参数单位的值，和字典表相对应
-     * sys_param.param_unit
+     * 参数单位的值，和字典表相对应 sys_param.param_unit
      */
     private String paramUnit;
 
     /**
-     * 租户ID
-     * sys_param.fk_tenant_id
+     * 租户ID sys_param.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 所属系统
-     * sys_param.sys_owner
+     * 所属系统 sys_param.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 创建时间
-     * sys_param.create_time
+     * 创建时间 sys_param.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人
-     * sys_param.create_user_id
+     * 创建人 sys_param.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间
-     * sys_param.update_time
+     * 更新时间 sys_param.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人
-     * sys_param.update_user_id
+     * 更新人 sys_param.update_user_id
      */
     private Long updateUserId;
 

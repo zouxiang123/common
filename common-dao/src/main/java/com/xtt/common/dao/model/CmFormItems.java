@@ -5,98 +5,82 @@ package com.xtt.common.dao.model;
  */
 public class CmFormItems {
     /**
-     * 物理主键
-     * cm_form_items.id
+     * 物理主键 cm_form_items.id
      */
     private Long id;
 
     /**
-     * 表单主表id
-     * cm_form_items.fk_form_id
+     * 表单主表id cm_form_items.fk_form_id
      */
     private Long fkFormId;
 
     /**
-     * 名称
-     * cm_form_items.item_name
+     * 名称 cm_form_items.item_name
      */
     private String itemName;
 
     /**
-     * 父编号
-     * cm_form_items.p_item_code
+     * 父编号 cm_form_items.p_item_code
      */
     private String pItemCode;
 
     /**
-     * 编号
-     * cm_form_items.item_code
+     * 编号 cm_form_items.item_code
      */
     private String itemCode;
 
     /**
-     * 排序
-     * cm_form_items.order_by
+     * 排序 cm_form_items.order_by
      */
     private Integer orderBy;
 
     /**
-     * 所属系统
-     * cm_form_items.sys_owner
+     * 所属系统 cm_form_items.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 节点路径，以,分隔
-     * cm_form_items.item_path
+     * 节点路径，以,分隔 cm_form_items.item_path
      */
     private String itemPath;
 
     /**
-     * 节点层级
-     * cm_form_items.item_level
+     * 节点层级 cm_form_items.item_level
      */
     private Integer itemLevel;
 
     /**
-     * 是否为叶子节点
-     * cm_form_items.is_leaf
+     * 是否为叶子节点 cm_form_items.is_leaf
      */
     private Boolean isLeaf;
 
     /**
-     * 是否有效
-     * cm_form_items.is_enable
+     * 是否有效 cm_form_items.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 显示样式
-     * cm_form_items.display_style
+     * 显示样式 cm_form_items.display_style
      */
     private String displayStyle;
 
     /**
-     * 显示宽度(px or %）
-     * cm_form_items.display_width
+     * 显示宽度(px or %） cm_form_items.display_width
      */
     private String displayWidth;
 
     /**
-     * 显示的列数（1~12）
-     * cm_form_items.display_col
+     * 显示的列数（1~12） cm_form_items.display_col
      */
     private Integer displayCol;
 
     /**
-     * 组件类型(checkbox、input、textarea)等等
-     * cm_form_items.item_type
+     * 组件类型(checkbox、input、textarea)等等 cm_form_items.item_type
      */
     private String itemType;
 
     /**
-     * 租户id
-     * cm_form_items.fk_tenant_id
+     * 租户id cm_form_items.fk_tenant_id
      */
     private Integer fkTenantId;
 

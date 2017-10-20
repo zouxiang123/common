@@ -10,44 +10,37 @@ public class PatientAssayTempRecord {
     private Long id;
 
     /**
-     * 患者id
-     * patient_assay_temp_record.fk_patient_id
+     * 患者id patient_assay_temp_record.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 项目编码
-     * patient_assay_temp_record.item_code
+     * 项目编码 patient_assay_temp_record.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称
-     * patient_assay_temp_record.item_name
+     * 项目名称 patient_assay_temp_record.item_name
      */
     private String itemName;
 
     /**
-     * 化验结果的值
-     * patient_assay_temp_record.result
+     * 化验结果的值 patient_assay_temp_record.result
      */
     private String result;
 
     /**
-     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
-     * patient_assay_temp_record.result_tips
+     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低) patient_assay_temp_record.result_tips
      */
     private String resultTips;
 
     /**
-     * 租户ID
-     * patient_assay_temp_record.fk_tenant_id
+     * 租户ID patient_assay_temp_record.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 化验日期
-     * patient_assay_temp_record.assay_date
+     * 化验日期 patient_assay_temp_record.assay_date
      */
     private String assayDate;
 
@@ -62,8 +55,7 @@ public class PatientAssayTempRecord {
     private String testMethod;
 
     /**
-     * 批次号
-     * patient_assay_temp_record.batch_no
+     * 批次号 patient_assay_temp_record.batch_no
      */
     private String batchNo;
 

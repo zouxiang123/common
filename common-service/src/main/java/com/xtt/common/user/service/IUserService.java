@@ -19,6 +19,16 @@ import com.xtt.common.dao.po.SysUserPO;
 
 public interface IUserService {
     /**
+     * 统计所有人员信息
+     * 
+     * @Title: countAllUser
+     * @param tenantId
+     * @return
+     *
+     */
+    List<SysUserPO> countAllUser(Integer tenantId);
+
+    /**
      * 根据租户id获取所有的医生对象
      * 
      * @param tenantId
@@ -248,4 +258,14 @@ public interface IUserService {
      * @return
      */
     void saveSkin(String skin);
+
+    /**
+     * 根据角色查询医生护士
+     * 
+     * @Title: listUserByParentId
+     * @param constantType
+     * @return
+     *
+     */
+    List<SysUser> listUserByParentId(Integer constantType);
 }

@@ -41,14 +41,12 @@ public class PatientAssayClass {
     private String groupName;
 
     /**
-     * 同类分组编号
-     * patient_assay_class.fk_assay_group_conf_id
+     * 同类分组编号 patient_assay_class.fk_assay_group_conf_id
      */
     private Long fkAssayGroupConfId;
 
     /**
-     * 同类分组名称
-     * patient_assay_class.fk_assay_group_conf_name
+     * 同类分组名称 patient_assay_class.fk_assay_group_conf_name
      */
     private String fkAssayGroupConfName;
 
@@ -237,12 +235,12 @@ public class PatientAssayClass {
         this.updateUserId = updateUserId;
     }
 
-	public Integer getAssayDay() {
-		return assayDay;
-	}
+    public Integer getAssayDay() {
+        return assayDay;
+    }
 
-	public void setAssayDay(Integer assayDay) {
-		this.assayDay = assayDay;
-	}
-    
+    public void setAssayDay(Integer assayDay) {
+        this.assayDay = assayDay;
+    }
+
 }

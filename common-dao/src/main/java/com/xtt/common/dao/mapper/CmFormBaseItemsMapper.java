@@ -9,26 +9,26 @@ import com.xtt.common.dao.po.CmFormBaseItemsPO;
 
 @Repository
 public interface CmFormBaseItemsMapper {
-	int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Long id);
 
-	int insert(CmFormBaseItems record);
+    int insert(CmFormBaseItems record);
 
-	int insertSelective(CmFormBaseItems record);
+    int insertSelective(CmFormBaseItems record);
 
-	CmFormBaseItems selectByPrimaryKey(Long id);
+    CmFormBaseItems selectByPrimaryKey(Long id);
 
-	int updateByPrimaryKeySelective(CmFormBaseItems record);
+    int updateByPrimaryKeySelective(CmFormBaseItems record);
 
-	int updateByPrimaryKey(CmFormBaseItems record);
+    int updateByPrimaryKey(CmFormBaseItems record);
 
-	/*自定义*/
-	/**
-	 * 根据条件查询数据
-	 * 
-	 * @Title: selectByCondition
-	 * @param record
-	 * @return
-	 *
-	 */
-	List<CmFormBaseItemsPO> selectByCondition(CmFormBaseItems record);
+    /*自定义*/
+    /**
+     * 根据条件查询数据
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<CmFormBaseItemsPO> selectByCondition(CmFormBaseItems record);
 }
