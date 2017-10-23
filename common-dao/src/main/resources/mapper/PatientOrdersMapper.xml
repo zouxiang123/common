@@ -884,20 +884,9 @@
 
     <!--获取患者对应的项目名称  -->
     <select id="listPatientOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
-      SELECT
-      od.id,
-      od.item_code,
-      od.item_name,
-      od.order_class,
-      po.order_num,
-      po.price
-      FROM
-      patient_orders po
-      INNER JOIN dict_orders_item doi ON po.item_code = doi.item_code
-      INNER JOIN medical_order_dict od ON od.fk_dict_orders_item_id = doi.id
-      WHERE
-      po.charges_code = #{chargesCode}
-      AND po.fk_patient_id = #{fkPatientId}
-      AND po.fk_tenant_id = #{fkTenantId}
+      SELECT *  FROM  patient_orders   WHERE charges_code = #{chargesCode}
+      AND fk_patient_id = #{fkPatientId}
+      AND fk_tenant_id = #{fkTenantId}
+
     </select>
 </mapper>
