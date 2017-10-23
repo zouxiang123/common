@@ -82,27 +82,26 @@ public class PatientController {
      */
     @RequestMapping("editPatient")
     public ModelAndView editPatient(Long patientId, String sys) throws Exception {
-        ModelAndView model = new ModelAndView("patient/edit_patient");
-        PatientPO patient = patientService.selectById(patientId);
+        ModelAndView model = new ModelAndView("patient/patient_edit");
+        PatientPO patient = null;
         if (patientId != null) {
-            // 2代表修改
-            model.addObject("addOrEdit", "2");
+            patient = patientService.selectById(patientId);
             // 根据id获取该患者的相关卡号
             List<PatientCardPO> cardList = patientCardService.listByPatientId(patientId);
             model.addObject("ptCardList", cardList);// 卡号信息
-        } else {
-            // 1代表新增
-            model.addObject("addOrEdit", "1");
         }
-        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
-                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
         // 添加省市区的数据，如果是新增患者，默认取第一个省
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
-        Integer provinceId = patient == null ? provinceList.get(0).getId() : patient.getProvince();
-        List<County> countyList = commonService.getCountyList(provinceId);
+        if (patient == null) {
+            patient = new PatientPO();
+            patient.setSysOwner(sys);
+            patient.setProvince(provinceList.get(0).getId());
+        }
+        List<County> countyList = commonService.getCountyList(patient.getProvince());
         model.addObject("countyList", countyList);
 
+        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE, DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE));
         // 如果配置显示患者编号则将编号查询出来
         String serialNumPrefix = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_SERIALNUM_PREFIX);
         serialNumPrefix = "0".equals(serialNumPrefix) ? "" : serialNumPrefix;
@@ -115,7 +114,7 @@ public class PatientController {
             patientSerialNumberPO.setFkTenantId(UserUtil.getTenantId());
             List<PatientSerialNumberPO> psnList = patientSerialNumberService.selectByCondition(patientSerialNumberPO);
             // 如果编号全部用完了，则新增患者编号
-            if (psnList == null || psnList.size() == 0) {
+            if (CollectionUtils.isEmpty(psnList)) {
                 patientSerialNumberService.insert();
             }
             psnList = patientSerialNumberService.selectByCondition(patientSerialNumberPO);
@@ -133,14 +132,10 @@ public class PatientController {
         }
         model.addObject("sysParam", sysParam);
         // 读取是否开启接口服务的配置
-        model.addObject("paramVal", SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE));
+        model.addObject("interfaceOpenCardText", SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE));
         // 费用类型
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
         model.addObject("patientId", patientId);
-        if (patient == null) {
-            patient = new PatientPO();
-            patient.setSysOwner(sys);
-        }
         model.addObject("patient", patient);
         return model;
     }

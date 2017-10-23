@@ -23,22 +23,22 @@
 <meta content="telephone=no,email=no" name="format-detection" />
 <meta name="viewport" content="width=1280, user-scalable=no, target-densitydpi=device-dpi">
 
-<link rel="bookmark" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
-<link rel="icon" href="${COMMON_SERVER_ADDR}/assets/img/logo_ico.png">
+<link rel="bookmark" href="${COMMON_SERVER_ADDR}assets/img/logo_ico.png">
+<link rel="icon" href="${COMMON_SERVER_ADDR}assets/img/logo_ico.png">
 
 <!-- Custom styles -->
-<%-- <link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/framework/layui/css/layui.css"> --%>
-<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/assets/css/standard/css/public.css?version=${version}">
-<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}/assets/css/standard/css/private.css?version=${version}">
+<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}framework/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}assets/css/standard/css/public.css?version=${version}">
+<link rel="stylesheet" type="text/css" href="${COMMON_SERVER_ADDR}assets/css/standard/css/private.css?version=${version}">
 <!-- framework JavaScript -->
-<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.min.js"></script>
-<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.json.min.js"></script>
-<script src="${COMMON_SERVER_ADDR}/framework/jquery/1.11.3/jquery.validate.min.js"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/ie10-viewport-bug-workaround.js"></script>
+<script src="${COMMON_SERVER_ADDR}framework/jquery/1.11.3/jquery.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}framework/jquery/1.11.3/jquery.json.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}framework/jquery/1.11.3/jquery.validate.min.js"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/ie10-viewport-bug-workaround.js"></script>
 <!-- Custom JavaScript -->
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-util.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/common-util.js?version=${version}"></script>
 <!--[if lte IE 9 ]>
-	<script src="${COMMON_SERVER_ADDR}/framework/json2/json2.min.js"></script>
+	<script src="${COMMON_SERVER_ADDR}framework/json2/json2.min.js"></script>
 <![endif]-->
 <!-- loading div -->
 <div class="u-pageLoad" id="loading_center" style="display: none;">
@@ -103,10 +103,11 @@
     });
     var isPC = true;
 </script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/permission.js?version=${version}"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-standard.js?version=${version}"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate.js"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/common-validate-message-cn.js"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/go-back.js?version=${version}"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/css/standard/js/front.js"></script>
-<script src="${COMMON_SERVER_ADDR}/assets/js/common/system_dialog_standard.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}framework/layui/layui.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/permission.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/common-standard.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/common-validate.js"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/common-validate-message-cn.js"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/go-back.js?version=${version}"></script>
+<script src="${COMMON_SERVER_ADDR}assets/css/standard/js/front.js"></script>
+<script src="${COMMON_SERVER_ADDR}assets/js/common/system_dialog_standard.js?version=${version}"></script>

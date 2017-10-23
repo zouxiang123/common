@@ -52,6 +52,7 @@
     color: #ffffff;
     border-color: #31AAFF;
 }
+
 .tab-head-text > span.active, .tab-head-text > span:hover {
     color: #31AAFF;
 }
@@ -2846,19 +2847,21 @@ label > input {
     flex: 3;
 }
 
-.screen-bed.progress>
+.screen-bed.progress >
 .screen-content >
 .screen-table-content {
-    height: 94.3%;
+    height: 94.5%;
 }
+
 .screen-bed >
 .screen-content >
-.screen-table-content{
-    height: 92.6%;
+.screen-table-content {
+    height: 92.7%;
     width: 100%;
     display: flex;
     flex-direction: column;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-content >
@@ -2881,19 +2884,21 @@ label > input {
     white-space: nowrap;
     overflow: hidden;
 }
-.screen-bed.progress>
+
+.screen-bed.progress >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
-.screen-table-line{
-   padding-left: 20px;
+.screen-table-line {
+    padding-left: 20px;
 }
+
 .screen-bed >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special {
-    background: rgba(255, 255, 255, .05);
+    background: rgba(255, 255, 255, .1);
 }
 
 .screen-bed >
@@ -2901,7 +2906,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special > span {
-    color: #d40c4f;
+    color: #EF1E1F;
 }
 
 .screen-bed >
@@ -3087,6 +3092,14 @@ label > input {
 .screen-content >
 .screen-table-content >
 .screen-table-list >
+.screen-table-line {
+    padding-right: 30px;
+}
+
+.screen-bed.layout14 >
+.screen-content >
+.screen-table-content >
+.screen-table-list >
 .screen-table-line > span {
     font-size: 48px;
 }
@@ -3155,7 +3168,7 @@ label > input {
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(1) {
-    flex: 1.9;
+    width: 233px;
 }
 
 .screen-bed.progress >
@@ -3165,40 +3178,44 @@ label > input {
     flex: 2;
     padding-left: 0px;
 }
+
 .screen-bed.progress.layout14 >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span {
     font-size: 28px;
 }
+
 .screen-bed.progress.layout14 >
 .screen-content >
 .screen-table-head >
-.screen-table-line > span:nth-child(3){
-   flex: 1.5;
-   padding-left: 0px;
+.screen-table-line > span:nth-child(3) {
+    flex: 1;
+    padding-left: 30px;
 }
 
 .screen-bed.progress.layout14 >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(2) {
-    padding-left: 15px;
+    padding-left: 62px;
     flex: 1.8;
 }
+
 .screen-bed.progress.layout14 >
 .screen-content >
 .screen-table-head >
-.screen-table-line > span:nth-child(1){
-   flex: 2;
-   padding-left: 0px;
+.screen-table-line > span:nth-child(1) {
+    width: 275px;
+    padding-left: 0px;
 }
 
 .screen-bed.progress >
 .screen-content >
 .screen-table-head >
 .screen-table-line > span:nth-child(3) {
-    flex: 1.4;
+    flex: 1.7;
+    padding-left: 15px;
 }
 
 .screen-bed.progress >
@@ -3214,15 +3231,23 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special {
-    background: rgba(207, 77, 124, .4);
+    background: rgba(239, 54, 54, .3);
 }
+
+/*.screen-bed.progress >
+.screen-content >
+.screen-table-content >
+.screen-table-list >
+.screen-table-line.special span{
+    color: #ffffff;
+}*/
 
 .screen-bed.progress >
 .screen-content >
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(1) {
-    flex: 2.1;
+    width: 220px;
 }
 
 .screen-bed.progress >
@@ -3230,7 +3255,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line > span:nth-child(2) {
-    flex: 2.4;
+    flex: 2;
 }
 
 .screen-bed.progress >
@@ -3273,7 +3298,7 @@ label > input {
 .screen-table-line
 .time-remaining > div > span {
     font-size: 24px;
-    width: 50%;
+    width: 35%;
     display: inline-block;
     color: rgba(255, 255, 255, .5);
 }
@@ -3288,6 +3313,7 @@ label > input {
     text-align: right;
     font-size: 38px;
     font-weight: bold;
+    width: 65%;
 }
 
 .screen-bed.progress >
@@ -3330,6 +3356,7 @@ label > input {
 .screen-table-list >
 .screen-table-line > span:nth-child(1) {
     font-size: 42px;
+    width: 275px;
 }
 
 .screen-bed.progress.layout14 >
@@ -3338,7 +3365,7 @@ label > input {
 .screen-table-list >
 .screen-table-line > span:nth-child(2) {
     flex: 2;
-    padding-left: 26px;
+    padding-left: 50px;
 }
 
 .screen-bed.progress.layout14 >
@@ -3347,7 +3374,8 @@ label > input {
 .screen-table-list >
 .screen-table-line > span:nth-child(3) {
     font-size: 42px;
-    padding-left: 20px;
+    padding-left: 50px;
+    flex: 1;
 }
 
 .screen-bed.progress.layout14 >
@@ -3493,7 +3521,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special {
-    background: rgba(255, 255, 255, .05);
+    background: rgba(255, 255, 255, .15);
 }
 
 .screen-bed.backimage >
@@ -3501,7 +3529,7 @@ label > input {
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special > span {
-    color: #e82969;
+    color: #FF1F41;
 }
 
 .screen-bed-set {
@@ -4125,36 +4153,42 @@ label > input {
     padding: 0px;
     width: 100%;
 }
+
 /*select2下拉插件*/
-.select2-dropdown{
+.select2-dropdown {
     border: 1px solid #D9E0E6 !important;
 }
-.select2-container--default 
-.select2-selection--single{
-   border: 1px solid #D9E0E6 !important;
-   border-radius: 3px !important;
+
+.select2-container--default
+.select2-selection--single {
+    border: 1px solid #D9E0E6 !important;
+    border-radius: 3px !important;
 }
-.select2-container 
-.select2-selection--single{
-   height: 34px !important;
+
+.select2-container
+.select2-selection--single {
+    height: 34px !important;
 }
-.select2-container--default 
-.select2-selection--single 
-.select2-selection__rendered{
-   line-height: 34px !important;
-   content: #484848 !important;
+
+.select2-container--default
+.select2-selection--single
+.select2-selection__rendered {
+    line-height: 34px !important;
+    content: #484848 !important;
 }
-.select2-container--default 
-.select2-selection--single 
-.select2-selection__arrow{
-   height: 34px !important;
+
+.select2-container--default
+.select2-selection--single
+.select2-selection__arrow {
+    height: 34px !important;
 }
-.select2-container--default 
-.select2-search--dropdown 
-.select2-search__field{
+
+.select2-container--default
+.select2-search--dropdown
+.select2-search__field {
     border: 1px solid #D9E0E6 !important;
     height: 34px !important;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,.0) !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, .0) !important;
 }
 
 .xtt {
@@ -4510,7 +4544,7 @@ label > input {
     padding: 0px 0px 0px 12px;
     float: left;
     cursor: pointer;
-    width: 100px;
+    width: 99px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -4970,6 +5004,10 @@ span.error, p.error {
     margin-right: 50px;
 }
 
+.ml-56{
+    margin-left: 56px;
+}
+
 .w-100 {
     width: 100%;
 }
@@ -5261,7 +5299,7 @@ td:last-child button.u-btn-blue.text-ellipsis {
 .u-prompt-box > ul > li {
     height: 36px;
     line-height: 36px;
-    padding-left: 20px;
+    padding-left: 16px;
     padding-right: 10px;
 }
 
@@ -5309,6 +5347,7 @@ td:last-child button.u-btn-blue.text-ellipsis {
 tr td:last-child button.text-ellipsis {
     width: 82px;
     text-align: left;
+    height: 20px;
 }
 
 .icon-round-add {
@@ -5527,7 +5566,7 @@ table > thead > tr > th.xtt-42 {
     margin-right: 20px;
 }
 
-input.error, label.error,select.error, input:focus.error, input:hover.error, label:hover.error, select:focus.error, select:hover.error {
+input.error, label.error, select.error, input:focus.error, input:hover.error, label:hover.error, select:focus.error, select:hover.error {
     border: 1px solid red;
     border-radius: 3px;
 }
@@ -5742,6 +5781,40 @@ input.error, label.error,select.error, input:focus.error, input:hover.error, lab
     line-height: 40px !important;
 }
 
-.u-table-more .u-checkbox>span{
+.u-table-more .u-checkbox > span {
     margin-right: 0px;
+}
+
+.active > .titlebottom-line {
+    border-bottom: 3px solid #31aaff;
+    width: 20px;
+    margin-top: 11px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: -1px;
+}
+
+.u-display-inlineBlock.active.hand {
+    color: #31AAFF;
+}
+
+.width-calc-60 {
+    width: calc(100% - 60px);
+}
+
+.m-3 {
+    margin: 3px;
+}
+
+.ml-auto {
+    margin-left: auto;
+}
+
+.mr-auto {
+    margin-right: auto;
+}
+
+.width-130{
+    width: 130px;
+    min-width: 130px;
 }

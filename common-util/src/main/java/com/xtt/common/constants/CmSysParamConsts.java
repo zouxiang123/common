@@ -39,7 +39,7 @@ public class CmSysParamConsts {
     /** 患者透析转归后序号是否复用 0：否 1：是 */
     public static final String PATIENT_OUTCOME_SERIALNUM_MULTIPLEXING = "patientOutComeSerialNumMultiplexing";
     /**
-     * 新增患者的时候，服务接口是否开启
+     * 接口服务开启的卡号类型(输入汉字)
      */
     public static final String PATIENT_INTERFACE = "patient_interface";
 
