@@ -14,8 +14,9 @@ import com.xtt.common.constants.IDownConst;
 import com.xtt.common.dao.mapper.SysDbSourceMapper;
 import com.xtt.common.dao.model.PatientOrders;
 import com.xtt.common.dao.model.SysDbSource;
-import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.dao.po.ApiRetInfoPO;
 import com.xtt.common.dao.po.CmQueryPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysDbSourcePO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
@@ -133,7 +134,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
     public String sendQueryOrderInfo(CmQueryPO query) {
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo Begin===>", query.getSysOwner());
         Map<String, String> qmap = new HashMap<String, String>();
-        String retMsg = "";
+        String status = "";
         try {
             // 卡号，住院号，门诊号，血透号
             Long fkPatientId = query.getFkPatientId();
@@ -158,7 +159,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
             // 访问的目标地址
             String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_ALL);
             HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
-            retMsg = httpClientResultUtil.getContext();
+            String retMsg = httpClientResultUtil.getContext();
 
             sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo retMsg:" + retMsg, query.getSysOwner());
         } catch (Exception e) {
@@ -166,7 +167,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
                             query.getSysOwner());
         }
         sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo End===>", query.getSysOwner());
-        return retMsg;
+        return status;
     }
 
     /**
@@ -187,42 +188,53 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         String startDate = db.getStartDate();
         String endDate = db.getEndDate();
 
-        // 卡号，住院号，门诊号，血透号
-        qmap.put("cardNo", cardNo);
-        // 1=病患 2=检验 3=影像 4=医嘱 ，必须
-        qmap.put("downType", downType);
-        // 租户（判断调用哪家医院的服务，必须）
-        Long fkPatientId = db.getFkPatientId();
+        String status = "";
+        try {
+            // 卡号，住院号，门诊号，血透号
+            qmap.put("cardNo", cardNo);
+            // 1=病患 2=检验 3=影像 4=医嘱 ，必须
+            qmap.put("downType", downType);
+            // 租户（判断调用哪家医院的服务，必须）
+            Long fkPatientId = db.getFkPatientId();
 
-        // 租户ID
-        Integer fkTenantId = UserUtil.getTenantId();
-        if (fkTenantId != null) {
-            String fkTenantIdStr = String.valueOf(fkTenantId);
-            qmap.put("fkTenantId", fkTenantIdStr);
+            // 租户ID
+            Integer fkTenantId = UserUtil.getTenantId();
+            if (fkTenantId != null) {
+                String fkTenantIdStr = String.valueOf(fkTenantId);
+                qmap.put("fkTenantId", fkTenantIdStr);
+            }
+
+            // 血透病患ID
+            if (fkPatientId != null) {
+                String fkPatientIdStr = String.valueOf(fkPatientId);
+                qmap.put("fkPatientId", fkPatientIdStr);
+            }
+
+            // 开始时间
+            qmap.put("startDate", startDate);
+            // 结束时间
+            qmap.put("endDate", endDate);
+
+            String reqMsg = "fkPatientId:" + cardNo + ", downType:" + downType + ", startDate:" + startDate + ", endDate:" + endDate;
+            sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, db.getSysOwner());
+
+            // 访问的目标地址
+            String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_ALL);
+            HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
+            String retMsg = httpClientResultUtil.getContext();
+
+            // 解码返回的信息
+            if (StringUtil.isNotEmpty(retMsg)) {
+                ApiRetInfoPO pkh = JsonUtil.AllJsonUtil().fromJson(retMsg, ApiRetInfoPO.class);
+                // 1=成功 0=失败
+                status = pkh.getStatus();
+            }
+            sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB End===>" + retMsg, db.getSysOwner());
+        } catch (Exception e) {
+            sysLogService.insertSysLog(IDownConst.SEND_ORDER_STATUS, "SysDbSourceServiceImpl sendQueryOrderInfo Exception Msg:" + e.getMessage(),
+                            db.getSysOwner());
         }
-
-        // 血透病患ID
-        if (fkPatientId != null) {
-            String fkPatientIdStr = String.valueOf(fkPatientId);
-            qmap.put("fkPatientId", fkPatientIdStr);
-        }
-
-        // 开始时间
-        qmap.put("startDate", startDate);
-        // 结束时间
-        qmap.put("endDate", endDate);
-
-        String reqMsg = "cardNo:" + cardNo + ", downType:" + downType + ", startDate:" + startDate + ", endDate:" + endDate;
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, db.getSysOwner());
-
-        // 访问的目标地址
-        String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_ALL);
-        HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
-        String json = httpClientResultUtil.getContext();
-
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB retMsg:" + json, db.getSysOwner());
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB End===>", db.getSysOwner());
-        return json;
+        return status;
     }
 
     /* 
