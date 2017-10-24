@@ -23,6 +23,7 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Integer okCount;// 达标数量
     private Integer noOkCount;// 不达标数量
     private Integer excessOkCount;// 超标数量
+    private Integer withoutCount;// 未化验数量
     private Double okRates;// 达标率
     private Double allSum;// 求和
     private Double avg;// 平均值
@@ -46,6 +47,11 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Long patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
     private Collection<String> itemCodes;// 多个itemCode编号
+
+    private String startDate;// 开始日期
+    private String endDate;// 结束日期
+    /** 结果值类型（查询用）：newest:最新、max:最大、min:最小、avg:平均 */
+    private String resultType;
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -264,5 +270,37 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     public void setItemCodes(Collection<String> itemCodes) {
         this.itemCodes = itemCodes;
     }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getResultType() {
+        return resultType;
+    }
+
+    public void setResultType(String resultType) {
+        this.resultType = resultType;
+    }
+
+	public Integer getWithoutCount() {
+		return withoutCount;
+	}
+
+	public void setWithoutCount(Integer withoutCount) {
+		this.withoutCount = withoutCount;
+	}
 
 }

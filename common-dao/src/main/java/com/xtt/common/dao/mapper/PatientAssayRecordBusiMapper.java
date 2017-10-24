@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
+import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
 
 @Repository
 public interface PatientAssayRecordBusiMapper {
@@ -242,4 +243,15 @@ public interface PatientAssayRecordBusiMapper {
     Map<String, Object> getByBeforeCount(@Param("beforeCount") Integer beforeCount, @Param("startCreateDate") Date startCreateDate,
                     @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
                     @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
+
+    /**
+     * 根据日期查询阶段统计
+     * 
+     * @Title: listByStage
+     * @param record
+     * @return
+     * 
+     */
+    List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record);
+
 }

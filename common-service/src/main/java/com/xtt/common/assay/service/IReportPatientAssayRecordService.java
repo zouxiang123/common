@@ -110,4 +110,15 @@ public interface IReportPatientAssayRecordService {
      *
      */
     void deleteTempByBatchNo(String batchNo);
+
+    /**
+     * 根据日期分组查询阶段统计
+     * 
+     * @Title: listByStage
+     * @param record
+     * @return
+     * 
+     */
+    List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record);
+
 }
