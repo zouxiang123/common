@@ -27,6 +27,7 @@ import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IReportPatientAssayRecordService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.AssayReportFilterRuleMapper;
+import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.mapper.PatientAssayTempRecordMapper;
 import com.xtt.common.dao.mapper.ReportPatientAssayRecordMapper;
 import com.xtt.common.dao.model.AssayGroupConfDetail;
@@ -52,6 +53,8 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
     private AssayReportFilterRuleMapper assayReportFilterRuleMapper;
     @Autowired
     private ReportPatientAssayRecordMapper reportPatientAssayRecordMapper;
+    @Autowired
+    private PatientAssayRecordBusiMapper patientAssayRecordBusiMapper;
     @Autowired
     private IPatientAssayConfService patientAssayConfService;
     @Autowired
@@ -287,5 +290,21 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
             return String.valueOf(conf.getFkAssayGroupConfId());
         }
         return itemCode;
+    }
+
+    @Override
+    public List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record) {
+        // 避免影响原始对象，copy原始查询条件
+        ReportPatientAssayRecordPO query = new ReportPatientAssayRecordPO();
+        BeanUtil.copyProperties(record, query);
+        Long userId = UserUtil.getLoginUserId();
+        query.setFkUserId(userId);
+        // 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id
+        query.setItemCode(handItemCode(record.getItemCode(), UserUtil.getTenantId()));
+        List<ReportPatientAssayRecordPO> list = patientAssayRecordBusiMapper.listByStage(query);
+        if (list == null) {
+            list = new ArrayList<ReportPatientAssayRecordPO>();
+        }
+        return init(list);
     }
 }
