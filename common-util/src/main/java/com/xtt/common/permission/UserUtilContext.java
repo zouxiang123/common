@@ -151,6 +151,7 @@ public class UserUtilContext {
         user.setId(CommonConstants.SYSTEM_USER_ID);
         user.setSysOwner(sysOwner);
         user.setTenantId(tenantId);
+        user.setGroupTenant(tenantId.toString());
         threadLocalLoginUser.set(user);
     }
 
