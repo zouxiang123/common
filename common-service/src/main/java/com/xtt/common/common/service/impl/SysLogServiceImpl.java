@@ -25,6 +25,7 @@ import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.io.JsonUtil;
 import com.xtt.platform.util.kafka.KafkaExceptionCallback;
 import com.xtt.platform.util.kafka.KafkaProducerUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class SysLogServiceImpl implements ISysLogService {
@@ -62,6 +63,10 @@ public class SysLogServiceImpl implements ISysLogService {
         sysLog.setFkTenantId(UserUtil.getTenantId());
         sysLog.setSysOwner(sysOwner);
         DataUtil.setSystemFieldValue(sysLog);
+        if (StringUtil.isEmpty(sysOwner)) {
+            sysLog.setSysOwner(CommonConstants.SYS_HD);
+        }
+
         if (async) {
             KafkaProducerUtil.send(CommonConstants.TOPIC_SYS_LOG, JsonUtil.AllJsonUtil().toJson(sysLog), new KafkaExceptionCallback() {
                 @Override
