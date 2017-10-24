@@ -421,6 +421,7 @@
         ,parb.fk_tenant_id
         ,parb.create_user_id
         ,parb.inspection_id
+        ,parb.flage
         ,ahd.value_type
         ,ahd.min_value
         ,ahd.max_value
@@ -581,7 +582,7 @@
            
         </where>
         GROUP BY parb.req_id
-        ORDER BY parb.assay_date desc
+        ORDER BY parb.assay_date desc,parb.id desc
     </select>
     <!-- 根据item_code 查询对应的化验项数据 -->
     <select id="listReportData" resultType="map">

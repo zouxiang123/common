@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,9 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayResultService;
-import com.xtt.common.assay.vo.DictHospitalLabVO;
 import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.patient.service.IPatientService;
@@ -116,7 +117,7 @@ public class PatientAssayRecordController {
      */
     @RequestMapping("getAssayRecord")
     @ResponseBody
-    public Map<String, Object> getAssayRecord(PatientAssayRecordBusiPO record, Boolean needCategory) {
+    public Map<String, Object> getAssayRecord(PatientAssayRecordBusiPO record) {
         long start = System.currentTimeMillis();
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("records", patientAssayRecordBusiService.listByCondition(record));
@@ -167,9 +168,9 @@ public class PatientAssayRecordController {
      */
     @RequestMapping("insertPatientAssay")
     @ResponseBody
-    public Map<String, Object> insertPatientAssay(DictHospitalLabVO dHL) {
+    public Map<String, Object> insertPatientAssay(@RequestBody List<AssayHospDictPO> list) {
         Map<String, Object> map = new HashMap<String, Object>();
-        patientAssayRecordBusiService.insertPatientAssay(dHL.getdHL());
+        patientAssayRecordBusiService.insertPatientAssay(list);
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }
@@ -213,9 +214,9 @@ public class PatientAssayRecordController {
      */
     @RequestMapping("updatePatientAssay")
     @ResponseBody
-    public Map<String, Object> updatePatientAssay(DictHospitalLabVO dHL) {
+    public Map<String, Object> updatePatientAssay(@RequestBody List<AssayHospDictPO> list) {
         Map<String, Object> map = new HashMap<String, Object>();
-        patientAssayRecordBusiService.updatePatientAssay(dHL.getdHL());
+        patientAssayRecordBusiService.updatePatientAssay(list);
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }

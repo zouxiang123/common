@@ -2,7 +2,7 @@ var patient_edit = {
     interfaceOpenCardText : null,
     idAdd : false,
     card_index : 0,
-    cardFlag : 1,
+    cardFlag : 3,// 默认是校验通过
     idNumberReg : /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X|x)$/,
     /**
      * 初始化患者编辑
@@ -12,19 +12,11 @@ var patient_edit = {
     init : function(interfaceOpenCardText) {
         this.interfaceOpenCardText = interfaceOpenCardText;
         this.idAdd == isEmpty($("#patientForm_id").val());
-        // 如果开启了接口服务，就要一开始显示卡号未验证,反之就不验证
-        // 获取当前选中的值，如果包含在配置中，就要验证
-        var cardTypeText = $("#cardTypeId").find("option:selected").text();
-        if (!isEmpty(interfaceOpenCardText) && interfaceOpenCardText.indexOf(cardTypeText) == -1) {
-            this.cardFlag = 3;// 直接通过
-            $("#validCardNoDiv").addClass("hide");
-        } else {// 开启了接口服务，又分为新增，与修改，新增要显示未验证，而修改不需要
-            this.cardFlag = 1;// 未验证
-            $("#validCardNoDiv").removeClass("hide");
-        }
         this.card_index = $("#patientCardListDiv").find("[data-cardrecord]").length;
         // 注册事件
         this.addEvents();
+        // 校验卡号
+        this.validCard();
         // 触发默认的患者卡号类型切换事件，修复如果卡号类别默认为ID的情况没有显示radio的问题
         $("#patientCardDefaultTr").find("[data-cardType]").trigger("change");
         // 头像上传
@@ -57,7 +49,6 @@ var patient_edit = {
                 trEl.addClass("hide");
                 trEl.find("input[data-delFlag]").val(1);
             }
-            patient_edit.cardFlag = 3;// 验证通过；
         });
         // 是否为最新项的点击事件
         $("#patientCardListDiv").on("click", "input[data-newFlag]", function() {
@@ -110,32 +101,22 @@ var patient_edit = {
             var tr = $("#patientCardDefaultDiv").clone();
             // jquey clone lost select val，set it
             tr.find("[data-cardType]").val(cardType);
-            // 新增的时候显示没有验证的卡号标志
-            var inOpenText = patient_edit.interfaceOpenCardText;
-            if (!isEmpty(inOpenText)) {
-                var cardTypeText = $("#cardTypeId").find("option:selected").text();
-                // 首先要判断卡号类型是不是属于要验证的范围,比如后端admin登录之后，在系统参数表中，有没有配置门诊号，住院号之类的要验证
-                if (!isEmpty(inOpenText) && inOpenText.indexOf(cardTypeText) != -1) {
-                    // 在点击加号之前要先判断是否拉取一下接口，拉取过了并且验证通过了，才可以继续新增，否则不允许新增
-                    if (patient_edit.cardFlag != 3 && !isEmpty(tr.find("input[data-cardNo]").val().trim())) {
-                        showWarn("请先验证卡号");
-                        return false;
-                    }
-                }
-                patient_edit.cardFlag = 1;// 未验证
-                $("#validCardNoDiv").removeClass("hide").html("<font style='color:#F8C730;'>卡号未验证</font>");
-            } else {
-                $("#validCardNoDiv").addClass("hide");
-                patient_edit.cardFlag = 3;// 直接通过
-            }
-            if (isEmpty(tr.find("input[data-cardNo]").val().trim())) {
+            var cardNo = tr.find("input[data-cardNo]").val().trim();
+            if (isEmpty(cardNo)) {
                 showWarn("请填写卡号");
+                return false;
+            }
+            // 新增时，校验卡号
+            patient_edit.validCard();
+            if (patient_edit.cardFlag != 3) {
+                showWarn("请先校验卡号");
                 return false;
             }
             tr.find("[data-clonereplace]").each(function() {
                 var name = $(this).attr("name").replace("[0]", "[" + patient_edit.card_index + "]");
                 $(this).attr("name", name);
             });
+            tr.find("[data-cardType]").removeAttr("id");
             // 删除查询和新增按钮
             tr.find("[data-query],[data-add]").remove();
             tr.find("[data-remove]").removeClass("hide");
@@ -150,15 +131,14 @@ var patient_edit = {
             // 判断是否已经验证
             $("#checkedStatus").val(1);
             var trEl = $(this).parents("[data-cardrecord]");
-            var cardTypeValue = trEl.find("[data-cardType]").val();
-            // $("#ddlregtype").find("option:selected").text();
-            // 获取选中的下拉框的文本
-            var cardTypeText = trEl.find("select[data-cardType]").find("option:selected").text();
             var cardNo = trEl.find("input[data-cardNo]").val();
             if (isEmpty(cardNo)) {
                 showError("“卡号”不能为空");
                 return false;
             }
+            var cardTypeValue = trEl.find("[data-cardType]").val();
+            // 获取选中的下拉框的文本
+            var cardTypeText = trEl.find("select[data-cardType]").find("option:selected").text();
             var name = $("#patientForm_name").val();
             $.ajax({
                 url : ctx + "/patient/getWsPatientInfo.shtml",
@@ -170,50 +150,37 @@ var patient_edit = {
                 dataType : "json",
                 success : function(data) {// ajax返回的数据
                     if (data.wsdlStatus == 2) {
-                        $("#validCardNoDiv").html("");
-                        patient_edit.cardFlag = 3;// 接口不通的时候，去掉了验证，可以直接手动录入
+                        patient_edit.setCardFlag(3);// 接口不通的时候，去掉了验证，可以直接手动录入
                         return true;
                     } else {
-                        if (data) {
-                            var pt = data.patient;
-                            var province = data.provinceList;
-                            var county = data.countyList;
-                            if (pt != null) {
-                                if (isEmpty(pt.name)) {
-                                    // 验证通不通过的标志
-                                    $("#validCardNoDiv").html("<font style='color:#F7587A;'>" + cardTypeText + cardNo + "不存在</font>");
-                                    patient_edit.cardFlag = 2;// 2代表卡号不存在
-                                    return false;
-                                }
-                                if (!isEmpty(pt.cardType)) {
-                                    // 跟页面上的cardType进行判断，如果不一致，就要改变，一致的话就不动
-                                    if (pt.cardType != cardTypeValue) {
-                                        // 在设置为选中状态
-                                        $("#cardTypeId option[value=" + pt.cardType + "]").prop("selected", true);
-                                    }
-                                }
-                                // 判断文本框中输入的名字，是否跟后端返回的名字一致，一致的话就直接覆盖，不一致的话就要提示
-                                if (!isEmpty(name)) {
-                                    if (name != pt.name) {
-                                        patient_edit.showCueDialog(name, pt.name, cardTypeText, cardNo);
-                                        // 对比不一致的字段
-                                        patient_edit.replacePatient(pt, province, county);
-                                    } else {
-                                        // 对比不一致的字段
-                                        patient_edit.replacePatient(pt, province, county, 'edit');
-                                    }
-                                } else {
-                                    patient_edit.cardFlag = 3;// 验证通过
-                                    // 向页面填充数据
-                                    mappingFormData(pt, "patientForm", [ "id" ]);
-                                    // 当没有输入姓名的时候，直接验证通过
-                                    $("#validCardNoDiv").html("<font style='color:#41C95B'>验证通过</font>");
-                                }
-                            } else {
-                                patient_edit.cardFlag = 2;// 卡号不存在
-                                $("#validCardNoDiv").html("<font style='color:#F7587A;'>" + cardTypeText + cardNo + "不存在</font>");
-                                return false;
+                        var pt = data.patient;
+                        var province = data.provinceList;
+                        var county = data.countyList;
+                        if (isEmptyObject(pt) || isEmpty(pt.name)) {
+                            patient_edit.setCardFlag(2, cardTypeText + cardNo + "不存在");// 卡号不存在
+                            return false;
+                        }
+                        if (!isEmpty(pt.cardType)) {
+                            // 跟页面上的cardType进行判断，如果不一致，就要改变，一致的话就不动
+                            if (pt.cardType != cardTypeValue) {
+                                // 在设置为选中状态
+                                $("#cardTypeId").val(pt.cardType);
                             }
+                        }
+                        // 判断文本框中输入的名字，是否跟后端返回的名字一致，一致的话就直接覆盖，不一致的话就要提示
+                        if (!isEmpty(name)) {
+                            if (name != pt.name) {
+                                patient_edit.showCueDialog(name, pt.name, cardTypeText, cardNo);
+                                // 对比不一致的字段
+                                patient_edit.replacePatient(pt, province, county);
+                            } else {
+                                // 对比不一致的字段
+                                patient_edit.replacePatient(pt, province, county, 'edit');
+                            }
+                        } else {
+                            patient_edit.setCardFlag(3, "验证通过");// 验证通过
+                            // 向页面填充数据
+                            mappingFormData(pt, "patientForm", [ "id" ]);
                         }
                         return false;
                     }
@@ -222,24 +189,8 @@ var patient_edit = {
         });
 
         // 卡号类型变换绑定事件
-        $("#cardTypeId").on("change", function() {
-            // 首先要判断卡号类型是不是属于要验证的范围,比如后端admin登录之后，在系统参数表中，有没有配置门诊号，住院号之类的要验证
-            var cardTypeText = $("#cardTypeId").find("option:selected").text();
-            if (!isEmpty(patient_edit.interfaceOpenCardText) && patient_edit.interfaceOpenCardText.indexOf(cardTypeText) != -1) {
-                var cardNo = $("#patientCardDefaultDiv").find("input[name='patientCardList[0].cardNo']").val();
-                $("#validCardNoDiv").removeClass("hide");
-                // 如果卡号没有输入就不需要验证
-                if (isEmpty(cardNo)) {
-                    $("#validCardNoDiv").html("<font style='color:#F8C730;'>卡号未验证</font>");
-                } else {
-                    patient_edit.cardFlag = 1;// 输入卡号的时候，就开始显示未验证
-                    $("#validCardNoDiv").show();
-                    $("#validCardNoDiv").html("<font style='color:#F7587A;'>卡号必须验证</font>");
-                }
-            } else {
-                patient_edit.cardFlag = 3;// 验证通过
-                $("#validCardNoDiv").addClass("hide");
-            }
+        $("#cardTypeId,#patientCardDefaultDiv [data-cardNo]").on("change", function() {
+            patient_edit.validCard();
         });
 
         // 省县级联绑定事件
@@ -395,10 +346,8 @@ var patient_edit = {
                 return false;
             }
         }
-        // 獲取卡号
-        var cardNo = $("#cardTypeId").val();
         // 卡号验证没有通过的话，就要提示
-        if ((this.cardFlag == 1 || this.cardFlag == 2) && !isEmpty(cardNo)) {
+        if (this.cardFlag != 3 && !isEmpty($("#cardTypeId").val())) {
             // 跳转到页面上的卡号位置
             $('body').animate({
                 scrollTop : $('#cardTypeId').offset().top - $('#validCardNoDiv').height() - 48
@@ -464,18 +413,59 @@ var patient_edit = {
      * 关闭提示框，并且显示未验证
      */
     hideDialog : function() {
-        this.cardFlag = 1;// 未验证
         $("#dialog").modal("hide");
-        $("#validCardNoDiv").html("<font style='color:#F8C730;'>卡号未验证</font>");
+        this.setCardFlag(1, "卡号未验证");
     },
     /**
      * 关闭提示框，并且显示验证已通过
      */
     closeDialog : function() {
-        this.cardFlag = 3;// 验证通过
-        $("#validCardNoDiv").html("<font style='color:#41C95B'>验证通过</font>");
+        this.setCardFlag(3, "验证通过");
         $("#replacePatientId").modal("hide");
         $("#dialog").modal("hide");
+    },
+    /**
+     * 校验卡号，根据后台配置判断卡号是否需要校验
+     */
+    validCard : function() {
+        var cardNo = $("#patientCardDefaultDiv").find("[data-cardNo]").val();
+        if (isEmpty(cardNo)) {// 卡号为空时，不做校验
+            this.setCardFlag(3);
+            return;
+        }
+        var cardTypeText = $("#cardTypeId").find("option:selected").text();
+        var confText = this.interfaceOpenCardText;// 配置的需要校验的卡号类别名称
+        if (isEmpty(confText) || confText.indexOf(cardTypeText) == -1) {
+            this.setCardFlag(3);// 当前卡号类别不需要校验；
+        } else {// 开启了接口服务，又分为新增，与修改，新增要显示未验证，而修改不需要
+            this.setCardFlag(1, "卡号未验证");
+        }
+    },
+    /**
+     * 设置卡号验证标识
+     * 
+     * @param flag
+     *            1:卡号未验证状态;2:卡号不存在;3:验证通过
+     */
+    setCardFlag : function(flag, text) {
+        this.cardFlag = flag;
+        var color = "";// 未验证
+        switch (flag) {
+        case 1:// 卡号未验证状态
+            color = "#F8C730";
+            break;
+        case 2:// 卡号不存在
+            color = "#F7587A";
+            break;
+        case 3:// 验证通过
+            color: "#41C95B";
+            break;
+        }
+        if (isEmpty(text)) {
+            $("#validCardNoDiv").empty();
+        } else {
+            $("#validCardNoDiv").html("<font style='color:" + color + "'>" + text + "</font>");
+        }
     },
     /**
      * 添加校验

@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +61,7 @@ import com.xtt.platform.util.time.DateFormatUtil;
 @Controller
 @RequestMapping("/report/assay/")
 public class AssayReportController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssayReportController.class);
     @Autowired
     private IAssayHospDictService assayHospDictService;
     @Autowired
@@ -422,9 +425,12 @@ public class AssayReportController {
     @RequestMapping("subInterface/refreshMonthReport")
     @ResponseBody
     public Map<String, Object> refreshMonthReport(Integer tenantId, String dateStr) {
+        long start = System.currentTimeMillis();
+        LOGGER.info("get request to hand dateStr={},tenantId={} assay report data", dateStr, tenantId);
         UserUtil.setThreadTenant(tenantId);
         Map<String, Object> map = new HashMap<String, Object>();
         String monthStr = patientAssayConfService.selectMonthAndYearByDate(DateFormatUtil.convertStrToDate(dateStr), tenantId, null);
+        LOGGER.info("begin to hand month={},tenantId={} assay report data", monthStr, tenantId);
         Calendar cal = Calendar.getInstance();
         if (StringUtils.isNotBlank(monthStr)) {
             Date date = DateFormatUtil.convertStrToDate(monthStr, DateFormatUtil.FORMAT_YYYY_MM);
@@ -456,7 +462,7 @@ public class AssayReportController {
             // 删除临时数据
             deleteTempData(batchNo);
         }
-
+        LOGGER.info("end of hand month={},tenantId={} assay report data,total cost {} ms", monthStr, tenantId, (System.currentTimeMillis() - start));
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -472,6 +478,8 @@ public class AssayReportController {
      *
      */
     public void insertMonthData(String monthStr, Integer tenantId, Collection<String> itemCodes) {
+        long start = System.currentTimeMillis();
+        LOGGER.info("begin to hand month={},tenantId={} assay report data", monthStr, tenantId);
         String testItemSwitch = SysParamUtil.getValueByName(CmSysParamConsts.TEST_ITEM_SWITCH);// 化验统计的方式
         /** 删除当月的所有记录 */
         ReportPatientAssayRecordPO condition = new ReportPatientAssayRecordPO();
@@ -508,6 +516,7 @@ public class AssayReportController {
             // 删除临时数据
             deleteTempData(batchNo);
         }
+        LOGGER.info("end of hand month={},tenantId={} assay report data,total cost {} ms", monthStr, tenantId, (System.currentTimeMillis() - start));
     }
 
     /**

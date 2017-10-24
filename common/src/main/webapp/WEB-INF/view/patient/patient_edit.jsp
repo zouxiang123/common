@@ -51,7 +51,7 @@
             </div>
         </div>
         <div class="u-list-text" style="min-height: 0px;">
-            <div class="right" style="min-height: 0px;padding-left: 100px;" id="validCardNoDiv"><font style='color:#F8C730;'>卡号未验证</font></div>
+            <div class="right" style="min-height: 0px;padding-left: 100px;" id="validCardNoDiv"></div>
         </div>
         <c:forEach var="ptCard" items="${ptCardList}" varStatus="st">
              <div class="u-list-text mt-12" data-cardrecord="${ptCard.id}">

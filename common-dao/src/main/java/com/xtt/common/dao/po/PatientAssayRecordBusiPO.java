@@ -26,8 +26,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private Date endDate;
     private Integer valueType;
 
-    private String strStartDate;
-    private String strEndDate;
     private String dateType;
     private String fkDictCode;// 关联项编号
 
@@ -69,22 +67,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setDateType(String dateType) {
         this.dateType = dateType;
-    }
-
-    public String getStrStartDate() {
-        return strStartDate;
-    }
-
-    public void setStrStartDate(String strStartDate) {
-        this.strStartDate = strStartDate;
-    }
-
-    public String getStrEndDate() {
-        return strEndDate;
-    }
-
-    public void setStrEndDate(String strEndDate) {
-        this.strEndDate = strEndDate;
     }
 
     public String getStrSampleTime() {
