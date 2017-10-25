@@ -1,14 +1,14 @@
 $(document).ready(function(){
-   $("body").on("click",function(e){
-     if($(e.target).attr("data-Allselect")){
-       allSelectd.allCheckbox($(e.target));  //全选函数调用（全选框）
-     }if($(e.target).attr("data-Allselect-child")){
-       allSelectd.allCheild($(e.target));  //全选函数调用（被全选框）
-     }
-     if(hisDialog){
-       $(hisDialog).hide();
-     }
-  });
+  //  $("body").on("click",function(e){
+  //    if($(e.target).attr("data-Allselect")){
+  //      allSelectd.allCheckbox($(e.target));  //全选函数调用（全选框）
+  //    }if($(e.target).attr("data-Allselect-child")){
+  //      allSelectd.allCheild($(e.target));  //全选函数调用（被全选框）
+  //    }
+  //    if(hisDialog){
+  //      $(hisDialog).hide();
+  //    }
+  // });
   //dialog弹出对话框事件
   $("body").on("click","[data-popup]",function(e){
      var myData = $(this).attr("data-popup");
@@ -59,31 +59,31 @@ $(document).ready(function(){
    });
 
   //table表格全选
-  function AllSelectd(){
-    this.allCheckbox = function(ev){
-      var myChild = $(ev.attr("data-Allselect")).find("input[data-Allselect-child]");
-      for(var i=0;i<myChild.length;i++){
-        if($(ev).get(0).checked){
-          $(myChild).eq(i).get(0).checked = true;
-        }else{
-          $(myChild).eq(i).get(0).checked = false;
-        }
-      }
-    }
-    this.allCheild = function(ev){
-      var myAllData = $(ev.attr("data-Allselect-child")).find("input[data-Allselect]");
-      var myChild = $(ev.attr("data-Allselect-child")).find("input[data-Allselect-child]");
-      for(var i=0;i<myChild.length;i++){
-        if($(myChild).eq(i).get(0).checked == false){
-           $(myAllData).get(0).checked = false;
-           return false;
-        }else{
-          $(myAllData).get(0).checked = true;
-        }
-      }
-    }
-  }
-  var allSelectd = new AllSelectd();
+  // function AllSelectd(){
+  //   this.allCheckbox = function(ev){
+  //     var myChild = $(ev.attr("data-Allselect")).find("input[data-Allselect-child]");
+  //     for(var i=0;i<myChild.length;i++){
+  //       if($(ev).get(0).checked){
+  //         $(myChild).eq(i).get(0).checked = true;
+  //       }else{
+  //         $(myChild).eq(i).get(0).checked = false;
+  //       }
+  //     }
+  //   }
+  //   this.allCheild = function(ev){
+  //     var myAllData = $(ev.attr("data-Allselect-child")).find("input[data-Allselect]");
+  //     var myChild = $(ev.attr("data-Allselect-child")).find("input[data-Allselect-child]");
+  //     for(var i=0;i<myChild.length;i++){
+  //       if($(myChild).eq(i).get(0).checked == false){
+  //          $(myAllData).get(0).checked = false;
+  //          return false;
+  //       }else{
+  //         $(myAllData).get(0).checked = true;
+  //       }
+  //     }
+  //   }
+  // }
+  // var allSelectd = new AllSelectd();
 
   //表格绑定事件
   var hasNub;
@@ -236,11 +236,13 @@ function popDialog(name,call){
       $(chid).css({"margin-top":-t,"margin-left":-l});
     }
     var myPopup = setTimeout(function(){
-        $(chid).fadeIn(200);
+        $(chid).fadeIn(200,function(){
+          if(call){
+            call(name)
+          }
+        });
     },100);
-    if(call){
-      call(name)
-    }
+    
 }
 
 //通知提示框
@@ -436,13 +438,13 @@ function Navigation(name){
     $(event.target).addClass("active");
   }
 }
-$(document).click(function(event){
+$().click(function(event){
     var ban1 = $(event.target).parents(".u-skin-module").hasClass("u-skin-module");
     var ban2 = $(event.target).hasClass("u-skin-module");
     if(!ban1 && !ban2){
         $(".u-skin-module").slideUp();
     }
-    othHide();
+    // othHide();
 })
 
 // input搜索提示下拉框插件
@@ -1316,91 +1318,97 @@ function xttTable(obj) {
 })(jQuery);
 
 //多选下拉框
-function multiSelect(call) {
-    var elem = $(".u-multi-select");
-    var Select = $(".u-select-value");
-    var Tion = $(".u-select-option");
-    var dataGet = function(el){
-        var data = [];
-        var Mli = el.find("li");
-        for(var i = 0;i< Mli.length;i++){
-            if(Mli.eq(i).hasClass("icon-active")){
-              data.push({
-                name: Mli[i].innerHTML,
-                id: Mli[i].id,
-                value: Mli[i].value
-              })
+$.fn.selectMore = function(){
+    var li = this.children();
+    var $this = this;
+    var $init = function(){};
+    var $$;
+    var $history;
+    $init.fn = {
+        initX: function(){
+            $this.selectM = $('<div class="u-multi-select"></div>');
+            $this.selectV = $('<div class="u-select-value"></div>');
+            $this.selectO = $('<div class="u-select-option"></div>')
+            $this.selectU = $('<ul class="u-select-ul u-scroll"></ul>');
+            $this.selectI = $('<i class="icon-caret-bottom"></i>');
+            $this.after($this.selectM);
+            $this.selectM.append($this.selectV);
+            $this.selectM.append($this.selectO);
+            $this.selectO.append($this.selectU);
+            $$.optionX();
+        },
+        selectedX: function(){
+            var sub = $(this).index();
+            if($(this).hasClass("icon-active")){
+                $(this).removeClass("icon-active");
+                li.eq(sub).attr("selected",false);
+            }else{
+                $(this).addClass("icon-active");
+                li.eq(sub).attr("selected",true);
+            }
+            $$.optionX();
+        },
+        selectedC:function(){
+            if($(event.target).hasClass("icon-close")){
+                var id = $(this).attr("sid");
+                var l = $this.selectU.children();
+                for(var i = 0;i<l.length;i++){
+                    if(l[i].id == id){
+                       li.eq(l.eq(i).index()).attr("selected",false);
+                    }
+                }
+                $$.optionX();
+            }
+        },
+        optionX: function(){
+            var classX;
+            var selectL;
+            var selectC;
+            $this.selectU.html("");
+            $this.selectV.html("");
+            $this.selectV.append($this.selectI)            
+            for(var i = 0;i< li.length;i++){
+                li.eq(i).attr("selected") ? classX = "icon-active":classX = "";
+                selectL = $('<li Svalue = "'+li[i].value+'" id="'+ i +'" class="'+classX+'" >'+ li[i].innerText +'</li>')
+                selectC = $('<div class="u-value" Sid="'+ i +'"><span>'+ li[i].innerText +'</span><i class="icon-close"></i></div>')
+                $this.selectU.append(selectL)
+                if(classX){
+                  $this.selectV.append(selectC)
+                }
+                selectL[0].addEventListener('click',$$.selectedX);
+                selectC[0].addEventListener('click',$$.selectedC);
+            }
+            if(!$this.selectV.children(".u-value").length){
+              $this.selectV.append("<span>"+ $this.attr("presentation") +"</span>");
             }
         }
-      return data;
     }
-    var tionHide = function(){
-        Tion.hide();
-        Select.removeClass("active");
-    }
-    var tionShow = function(el){
-        el.siblings(".u-select-option").show();
-        el.addClass("active");
-    }
-    var addCon = function(name,evn) {
-        var html = '<div class="u-value">'+
-                        '<span>' + evn.innerHTML + '</span>'+
-                        '<i class="icon-close" varId="' + evn.id + '" ></i>'+
-                    '</div>';
-        name.append(html);
-    }
-    var removeCon = function(el,id) {
-        var name = el.parent(".u-multi-select");
-        var value = name.find(".u-value");
-        var option = name.find(".icon-active");
-        for(var i=0;i<value.length;i++){
-           var contrastId = value.eq(i).children(".icon-close");
-           if(contrastId.attr("varId") == id){
-                value.eq(i).remove();
-           }
-        }
-        for(var j=0;j<option.length;j++){
-           if(option[j].id == id){
-              option.eq(j).removeClass("icon-active");
-           }
-        }
-    }
-    Select.bind('click',function(e){
-        tionHide();
-        tionShow($(this))
-        if($(event.target).hasClass("icon-close")){
-            var id = $(event.target).eq(0).attr("varId");
-            var th = $(this).siblings(".u-select-option");
-            removeCon($(this),id);
-            if(call){
-              call(dataGet(th));
-            }
-        }
+    $$ = $init.fn;
+    $$.initX();
+    this.selectV.click(function(e){
+        $(".u-select-option").hide();
+        $this.selectO.show();
+        $history = this;
         return false;
-    })
-    Tion.bind('click',function(){
-        var tar = $(this).siblings(".u-select-value");
-        var ev = $(event.target);
-        if(!ev.hasClass("icon-active")){
-          ev.addClass("icon-active");
-          addCon(tar,ev[0]);
-        }else{
-          ev.removeClass("icon-active");
-          removeCon($(this),ev[0].id)
-        }
-        if(call){
-          call(dataGet($(this)));
-        }
+    });
+    this.selectO.click(function(e){
         return false;
-    })
-    $("body").click(function(){
-       tionHide();
-    })
-    for(var i= 0;i < Tion.length;i++){
-       var chili = Tion.eq(i).find(".icon-active");
-       var sibli = Tion.eq(i).siblings(".u-select-value");
-       for(var j = 0;j<chili.length;j++){
-           addCon(sibli,chili[j]);
-       }
-    }     
+    });
+    $(document).on('click',function(){
+        $this.selectO.hide();
+    });
+}
+//下拉框取值
+$.fn.$Value = function(){
+    var li = this.children();
+    var $value = [];
+    for(var i =0;i<li.length;i++){
+        if(li.eq(i).attr("selected")){
+           $value.push({
+              value: li.eq(i).attr("value"),
+              text:li.eq(i).text()
+           })
+        }
+    }
+    return $value;
 }

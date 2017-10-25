@@ -3226,21 +3226,18 @@ label > input {
     border-bottom: 1px solid rgba(255, 255, 255, .3)
 }
 
-.screen-bed.progress >
+.screen-bed.progress>
+.screen-content >
+.screen-table-content >
+.screen-table-list >
+.screen-table-line.special,
+.screen-bed.layout14>
 .screen-content >
 .screen-table-content >
 .screen-table-list >
 .screen-table-line.special {
     background: rgba(239, 54, 54, .3);
 }
-
-/*.screen-bed.progress >
-.screen-content >
-.screen-table-content >
-.screen-table-list >
-.screen-table-line.special span{
-    color: #ffffff;
-}*/
 
 .screen-bed.progress >
 .screen-content >
@@ -5004,7 +5001,7 @@ span.error, p.error {
     margin-right: 50px;
 }
 
-.ml-56{
+.ml-56 {
     margin-left: 56px;
 }
 
@@ -5091,6 +5088,10 @@ span.error, p.error {
 .img-size {
     width: 68px;
     height: 68px
+}
+
+.border-none-imp {
+    border: none !important;
 }
 
 .xtt
@@ -5814,7 +5815,53 @@ input.error, label.error, select.error, input:focus.error, input:hover.error, la
     margin-right: auto;
 }
 
-.width-130{
+.width-130 {
     width: 130px;
     min-width: 130px;
+}
+
+.loginContent {
+    width: 30%;
+    background: #fff;
+    opacity: 0.95;
+    position: absolute;
+    left: 35%;
+    top: 20%;
+}
+
+.footer-info {
+    position: absolute;
+    bottom: 10px;
+    color: #fff;
+    left: calc(50% - 55px);
+}
+
+.h-48 {
+    height: 48px;
+}
+
+.loginbg {
+    position: fixed;
+    width: 100%;
+    height: calc(100% - 60px)
+}
+
+.loginContent .login-container {
+    width: 49%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8%;
+    margin-bottom: 5%;
+    text-align: center;
+    height: 100%;
+}
+
+.fc-30 {
+    color: #303030;
+}
+
+.loginContent .login-container .loginButton {
+    margin-top: 5%;
+    width: 100%;
+    height: 10%;
 }
