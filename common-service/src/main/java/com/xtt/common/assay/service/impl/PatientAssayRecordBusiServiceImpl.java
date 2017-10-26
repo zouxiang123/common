@@ -197,18 +197,22 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setId(dictHospitalLab.getId());
             patientAssayRecordBusi.setReqId(dictHospitalLab.getReqId());
             result = dictHospitalLab.getResult();
-            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
-            }
-            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
-            }
-            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(result)
-                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+            dictHospitalLab.setFkTenantId(UserUtil.getTenantId());
+            AssayHospDictPO dictHospitalLabOld = assayHospDictService.getByGroupIdAndItemCode(dictHospitalLab);
+            if (dictHospitalLab.getValueType() == 1) {
+                if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                }
+                if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                }
+                if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
+                                && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
+                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                }
+                patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             }
             patientAssayRecordBusi.setResult(result);
-            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             patientAssayRecordBusi.setReportTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setSampleTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
@@ -261,13 +265,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                     patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
                 }
             }
-            patientAssayRecordBusi.setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit()));
+            patientAssayRecordBusi
+                            .setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit() == null ? "" : dictHospitalLab.getUnit()));
             patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setAssayMonth(DateUtil.format(DateFormatUtil.getStartTime(assayDateStr), DateFormatUtil.FORMAT_YYYY_MM));
             patientAssayRecordBusi.setFlage(true);
             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.BEFORE_HD);
-
             patientAssayRecordBusi.setSampleTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setReportTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
@@ -405,13 +409,11 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             if (CollectionUtils.isNotEmpty(updateList)) {
                 updateList.forEach(parb -> {
                     if (!existsInspectionIds.contains(parb.getInspectionId())) {
-                        if (patientAssayInspectioidBackService.countByInspectionId(parb.getInspectionId(), parb.getFkTenantId()) == 0) {
-                            PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
-                                            parb.getDiaAbFlag(), parb.getFkTenantId());
-                            if (inspectioidBack != null) {
-                                inspectionIdBackList.add(inspectioidBack);
-                                existsInspectionIds.add(parb.getInspectionId());
-                            }
+                        PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
+                                        parb.getDiaAbFlag(), parb.getFkTenantId());
+                        if (inspectioidBack != null) {
+                            inspectionIdBackList.add(inspectioidBack);
+                            existsInspectionIds.add(parb.getInspectionId());
                         }
                     }
                 });
@@ -437,6 +439,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId) {
         if (AssayConsts.AFTER_HD.equals(diaAbFlag)) {
+            if (patientAssayInspectioidBackService.countByInspectionId(inspectionId, tenantId) > 0) {
+                return null;
+            }
             PatientAssayInspectioidBack record = new PatientAssayInspectioidBack();
             record.setInspectionId(inspectionId);
             record.setFkPatientId(patientId);
