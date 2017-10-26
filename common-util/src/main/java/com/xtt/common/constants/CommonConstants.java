@@ -209,4 +209,8 @@ public class CommonConstants {
      * 用户默认皮肤
      */
     public static final String USER_SKIN_DEFAULT = "black";
+    /**
+     * 是否允许用户重复登录 1:允许 0:不允许
+     */
+    public static final String ALLOW_LOGIN_AGAIN = "allow_login_again";
 }

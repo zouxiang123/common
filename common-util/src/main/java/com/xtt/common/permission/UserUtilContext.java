@@ -20,6 +20,7 @@ import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.PermissionUtil;
+import com.xtt.common.util.SysParamUtil;
 
 public class UserUtilContext {
 
@@ -31,9 +32,12 @@ public class UserUtilContext {
     public static void setLoginUser(String token, LoginUser loginUser) {
         // 同一帐号后登陆踢除上次登陆状态
         String hisToken = ContextAuthUtil.getTokenByAccount(loginUser.getTenantId() + loginUser.getAccount());
-        if (hisToken != null) {
+        // 根据系统参数判断是否剔除上次登录状态
+        String isAllowLoginAgain = SysParamUtil.getValueByName(loginUser.getTenantId(), CommonConstants.ALLOW_LOGIN_AGAIN);
+        if (hisToken != null && !"1".equals(isAllowLoginAgain)) {
             ContextAuthUtil.delAuth(hisToken);
         }
+        ContextAuthUtil.setAccount2Token(loginUser.getAccount(), token);
         ContextAuthUtil.setAccount2Token(loginUser.getTenantId() + loginUser.getAccount(), token);
         HashMap<String, Object> auth = new HashMap<String, Object>();
         auth.put(CommonConstants.LOGIN_USER, loginUser);
