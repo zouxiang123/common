@@ -12,7 +12,7 @@ public class ApiUrlConsts {
     /**
      * 根据患者id获取手术记录数据接口
      */
-    public static final String POPS_OPERATION_LIST = "popsOperationRecord/listOperation.shtml";
+    public static final String POPS_OPERATION_LIST = "popsOperationRecord/listOperationForApi.shtml";
     /**
      * 获取最近一次手术记录填写日期
      */
