@@ -53,4 +53,9 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
     public List<PatientOwner> selectByCondition(PatientOwner record) {
         return patientOwnerMapper.selectByCondition(record);
     }
+
+    @Override
+    public List<PatientOwner> listTenantIdByPatientId(PatientOwner record) {
+        return patientOwnerMapper.listTenantIdByPatientId(record);
+    }
 }

@@ -35,4 +35,14 @@ public interface IPatientOwnerService {
      */
     List<PatientOwner> selectByCondition(PatientOwner record);
 
+    /**
+     * 根据患者id查询租户
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<PatientOwner> listTenantIdByPatientId(PatientOwner record);
+
 }
