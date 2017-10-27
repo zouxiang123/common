@@ -20,7 +20,7 @@ public class CacheRefreshController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("view")
-    public String view(Model model, String sys) {
+    public String view(Model model, String sysOwner) {
         return "system/cache_refresh";
     }
 

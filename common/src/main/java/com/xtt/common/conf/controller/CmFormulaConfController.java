@@ -36,9 +36,9 @@ public class CmFormulaConfController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("view")
-    public String view(Model model, String sys) {
+    public String view(Model model, String sysOwner) {
         CmFormulaConfPO record = new CmFormulaConfPO();
-        record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
+        record.setSysOwners(new String[] { sysOwner, CommonConstants.SYS_CM });
         List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
         // 转换成类别map
         Map<String, CmFormulaConfPO> items = new LinkedHashMap<String, CmFormulaConfPO>();

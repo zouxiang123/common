@@ -37,8 +37,8 @@ public class ExcelImportController {
     private IExcelImportService excelImportService;
 
     @RequestMapping("dataImport")
-    public String dataImport(Model model, String sys) {
-        model.addAttribute("sysOwner", sys);
+    public String dataImport(Model model, String sysOwner) {
+        model.addAttribute("sysOwner", sysOwner);
         return "system/data_import";
     }
 

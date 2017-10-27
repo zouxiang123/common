@@ -28,6 +28,7 @@ import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -54,6 +55,7 @@ public class LoginController {
      * 
      */
     @RequestMapping("login")
+    @SuppressWarnings("unchecked")
     public ModelAndView login(HttpServletResponse response, String account, String password, Integer tenantId, String redirectUrl,
                     Boolean isloginSubmit, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("login");
@@ -72,10 +74,10 @@ public class LoginController {
             return model;
         }
         LOGGER.info("login message :account={},password={},tenantId={},redirectUrl={}", account, password, tenantId, redirectUrl);
-        Map<String, Object> map = loginSubmit(account, password, tenantId, sysOwner);
-        if (CommonConstants.SUCCESS.equals(map.get("status"))) {
+        HttpResult loginRs = loginSubmit(account, password, tenantId, sysOwner);
+        if (HttpResult.SUCCESS.equals(loginRs.getStatus())) {
             LOGGER.info("account={} login success,normal submit", account);
-            HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, map.get(CommonConstants.COOKIE_TOKEN).toString(), -1);
+            HttpServletUtil.addCookie(response, CommonConstants.COOKIE_TOKEN, loginRs.getRs().toString(), -1);
             HttpServletUtil.addCookie(response, "cacheFlag", "0", -1);// 设置权限缓存状态为未缓存
             if (StringUtils.isNotEmpty(redirectUrl)) {
                 model.setViewName("redirect:" + redirectUrl);
@@ -83,7 +85,7 @@ public class LoginController {
             }
             model.setViewName("redirect:/index.shtml");
         } else {
-            model.addAllObjects(map);
+            model.addAllObjects((Map<String, Object>) loginRs.getRs());
         }
         model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         model.addObject("redirectUrl", redirectUrl);
@@ -103,11 +105,10 @@ public class LoginController {
      */
     @RequestMapping("loginSubmit")
     @ResponseBody
-    public Map<String, Object> loginSubmit(@RequestParam(value = "account", required = false) String account,
+    public HttpResult loginSubmit(@RequestParam(value = "account", required = false) String account,
                     @RequestParam(value = "password", required = false) String password,
                     @RequestParam(value = "tenantId", required = false) Integer tenantId, String sysOwner) throws Exception {
-
-        Map<String, Object> map = new HashMap<String, Object>();
+        HttpResult result = HttpResult.getSuccessInstance();
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password)) {
             /** 验证是否输入正确 */
             SysUserPO sysUser = userService.login(account.trim(), MD5Util.md5(password), tenantId, sysOwner);
@@ -142,21 +143,23 @@ public class LoginController {
                 }
                 // refresh redis cache
                 UserUtil.setLoginUser(loginUser);
-                // sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功");
-                map.put("status", CommonConstants.SUCCESS);
-                map.put(CommonConstants.COOKIE_TOKEN, token);
+                sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功", sysOwner);
+                result.setRs(token);
             } else {
+                Map<String, Object> map = new HashMap<String, Object>(4);
                 map.put("account", account);
                 map.put("password", password);
-                map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码错误！");
-                map.put(CommonConstants.STATUS, CommonConstants.FAILURE);
+                map.put("tenantId", tenantId);
+                map.put("sysOwner", sysOwner);
+                result.setRs(map);
+                result.setStatus(HttpResult.FAILURE);
+                result.setErrmsg("用户名或密码错误！");
             }
         } else {
-            map.put(CommonConstants.API_ERROR_MESSAGE, "用户名或密码不能为空！");
-            map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
+            result.setStatus(HttpResult.FAILURE);
+            result.setErrmsg("用户名或密码不能为空！");
         }
-
-        return map;
+        return result;
     }
 
     /**
@@ -165,7 +168,7 @@ public class LoginController {
     @RequestMapping("logout")
     public ModelAndView logout(String redirectUrl, String sysOwner) {
         if (UserUtil.getLoginUser() != null) {// 用户没有登录时，logout不用插入日志
-            sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功", CommonConstants.SYS_HD);
+            sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功", sysOwner);
         }
         ModelAndView model = new ModelAndView("login");
         // clear auth
@@ -182,6 +185,21 @@ public class LoginController {
         model.addObject("redirectUrl", redirectUrl);
         model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         return model;
+    }
+
+    /**
+     * 登出接口
+     */
+    @RequestMapping("logoutApi")
+    @ResponseBody
+    public HttpResult logoutApi(String redirectUrl, String sysOwner) {
+        HttpResult result = new HttpResult();
+        if (UserUtil.getLoginUser() != null) {// 用户没有登录时，logout不用插入日志
+            sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登出成功", sysOwner);
+        }
+        // clear auth
+        ContextAuthUtil.delAuth();
+        return result;
     }
 
     /**

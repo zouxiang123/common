@@ -28,11 +28,11 @@ public class SysTemplateController {
 
     /** 系统模板值定义页面 */
     @RequestMapping("view")
-    public ModelAndView definition(String sys) {
+    public ModelAndView definition(String sysOwner) {
         ModelAndView model = new ModelAndView("system/template_maintain");
-        List<SysTemplate> list = sysTemplateService.selectTemplateType(sys, null);
+        List<SysTemplate> list = sysTemplateService.selectTemplateType(sysOwner, null);
         model.addObject("list", list);
-        model.addObject("sysOwner", sys);
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 

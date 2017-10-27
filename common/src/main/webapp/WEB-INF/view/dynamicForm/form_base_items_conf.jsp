@@ -47,8 +47,8 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-12" style="padding:0px;">
 				<div class="simple-line bg-white border-bottom-line">
-			        <span class="tabbar active" onclick="window.location.href='${ctx }/dynamicForm/formBaseItems/view.shtml?sys=${sysOwner }'">基础数据维护</span>
-			        <span class="tabbar" onclick="window.location.href='${ctx }/dynamicForm/formItems/view.shtml?sys=${sysOwner }'">表单配置</span>
+			        <span class="tabbar active" onclick="window.location.href='${ctx }/dynamicForm/formBaseItems/view.shtml?sysOwner=${sysOwner }'">基础数据维护</span>
+			        <span class="tabbar" onclick="window.location.href='${ctx }/dynamicForm/formItems/view.shtml?sysOwner=${sysOwner }'">表单配置</span>
 			        <span style="margin-left: 20px;">所属系统：</span>
 			        <select id="sys_owner">
 			        	<c:forEach var="item" items="${sys_owner }">

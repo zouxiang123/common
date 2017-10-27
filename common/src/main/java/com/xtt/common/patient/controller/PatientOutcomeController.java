@@ -31,9 +31,9 @@ public class PatientOutcomeController {
     private IPatientOutcomeService patientOutcomeService;
 
     @RequestMapping("record")
-    public String list(Model model, Long patientId, String sys) {
+    public String list(Model model, Long patientId, String sysOwner) {
         model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
-        model.addAttribute("sysOwner", sys);
+        model.addAttribute("sysOwner", sysOwner);
         model.addAttribute("patientId", patientId);
         model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
         return "patient/patient_outcome_record";

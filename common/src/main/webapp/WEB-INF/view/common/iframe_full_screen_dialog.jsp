@@ -37,13 +37,16 @@
             if($(this).data("btn")=="cancel") {
                 if(!isEmpty(param.cancelCall)){
                     param.cancelCall(iframeWin);
+                }else{
+                    hiddenMe($("#iframeFullScreenDialog"));
                 }
             } else if ($(this).data("btn")=="save") {
                 if (!isEmpty(param.saveCall)) {
                     param.saveCall(iframeWin);
+                }else{
+                    hiddenMe($("#iframeFullScreenDialog"));
                 }
             }
-            hiddenMe($("#iframeFullScreenDialog"));
         });
         var iframeDocument = dialog.find("iframe")[0].contentDocument || dialog.find("iframe")[0].contentWindow.document;
         iframeDocument.documentElement.innerHTML = "";

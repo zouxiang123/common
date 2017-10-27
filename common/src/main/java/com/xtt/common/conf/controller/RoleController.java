@@ -31,18 +31,18 @@ public class RoleController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("searchRole")
-    public ModelAndView searchRole(@RequestParam(required = true) String sys) throws Exception {
+    public ModelAndView searchRole(@RequestParam(required = true) String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("system/role_list");
-        model.addObject("sysOwner", sys);
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 
     @RequestMapping("apiRoleList")
-    public ModelAndView apiRoleList(@RequestParam(required = true) String sys) throws Exception {
+    public ModelAndView apiRoleList(@RequestParam(required = true) String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("system/api_role_list");
         String[] types = { "api" };
-        model.addObject("sysOwner", sys);
-        model.addObject("menu_list", roleService.getAllMenuList(types, sys));
+        model.addObject("sysOwner", sysOwner);
+        model.addObject("menu_list", roleService.getAllMenuList(types, sysOwner));
         return model;
     }
 

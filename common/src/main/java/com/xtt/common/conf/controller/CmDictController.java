@@ -38,10 +38,10 @@ public class CmDictController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("maintain")
-    public ModelAndView maintain(@RequestParam(required = true) String sys) {
+    public ModelAndView maintain(@RequestParam(required = true) String sysOwner) {
         ModelAndView model = new ModelAndView("system/dictionary_maintain");
         model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.listByPItemCode(CmDictConsts.ASSAY_TEXT_TYPE));
-        model.addObject("sysOwner", sys);
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 

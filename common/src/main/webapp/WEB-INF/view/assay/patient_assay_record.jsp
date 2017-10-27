@@ -53,13 +53,13 @@
         </div>
         <!--查询设置弹框-->
     </div>
-	<div class="huayan-displayCard m-l-10" id="assaycardScroll" >
+	<div class="huayan-displayCard ml-10" id="assaycardScroll" >
 	   <div id="assaycard">
 	   </div>
 	</div>
 	<div class="huayan-righttable" style="float: right;">
 	    <div class="u-table-fixed">
-	        <div class="u-table-fixed-head u-clear-scroll">
+	        <div class="u-table-fixed-head">
 	            <table class="u-table u-table-bordered">
 	                <thead>
     	                <tr>
@@ -74,7 +74,7 @@
 	                </thead>
 	            </table>
 	        </div>
-	        <div class="u-table-fixed-body u-clear-scroll" id="huayanTable">
+	        <div class="u-table-fixed-body" id="huayanTable">
 	            <table class="u-table u-table-bordered">
 	                <tbody id="assayRecord">
 	               

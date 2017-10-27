@@ -27,6 +27,7 @@ import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.TenantAuthorityCache;
+import com.xtt.common.cache.TenantCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
@@ -55,6 +56,7 @@ import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
+import com.xtt.common.dto.TenantDto;
 import com.xtt.common.form.service.ICmFormService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
@@ -268,6 +270,8 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         List<SysTenant> tenantList = sysTenantService.selectAll();
         // Cache family initial
         cacheFamilyInitial();
+        // cache sys tenant
+        cacheTenant();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
             for (int i = 0; i < tenantList.size(); i++) {
@@ -342,6 +346,21 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         for (SysTenant st : tenantList) {
             String content = st.getLicense();
             cacheAuthority(content);
+        }
+    }
+
+    @Override
+    public void cacheTenant() {
+        RedisCacheUtil.deletePattern(TenantCache.getKey(null));
+        List<SysTenant> tenantList = sysTenantService.selectAll();
+        if (CollectionUtils.isNotEmpty(tenantList)) {
+            List<TenantDto> cacheList = new ArrayList<>(tenantList.size());
+            tenantList.forEach(source -> {
+                TenantDto target = new TenantDto();
+                BeanUtils.copyProperties(source, target);
+                cacheList.add(target);
+            });
+            TenantCache.cacheAll(cacheList);
         }
     }
 }

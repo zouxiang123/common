@@ -72,12 +72,12 @@ public class PatientReportController {
      * 
      * @Title: view
      * @param reportType
-     * @param sys
+     * @param sysOwner
      * @return
      *
      */
     @RequestMapping("view")
-    public ModelAndView view(String reportType, String sys) {
+    public ModelAndView view(String reportType, String sysOwner) {
         if (StringUtil.isBlank(reportType)) {
             reportType = "1";
         }
@@ -85,7 +85,7 @@ public class PatientReportController {
         model.addObject("reportType", reportType);
         // 费用类型
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
-        model.addObject("sysOwner", sys);
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 

@@ -39,9 +39,9 @@ public class SysParamController {
 
     /** 系统参数值定义页面 */
     @RequestMapping("view")
-    public String view(Model model, String sys) {
+    public String view(Model model, String sysOwner) {
         SysParamPO record = new SysParamPO();
-        record.setSysOwners(new String[] { sys, CommonConstants.SYS_CM });
+        record.setSysOwners(new String[] { sysOwner, CommonConstants.SYS_CM });
         record.setFkTenantId(UserUtil.getTenantId());
         List<SysParamPO> list = sysParamService.selectByCondition(record);
         model.addAttribute("paramList", initParamList(list));
@@ -55,13 +55,13 @@ public class SysParamController {
      */
     private List<SysParamPO> initParamList(List<SysParamPO> list) {
         List<SysParamPO> resultList = new ArrayList<SysParamPO>();
-        for (SysParamPO sys : list) {
-            if ("version".equals(sys.getParamName()) || "jciConform".equals(sys.getParamName()))
+        for (SysParamPO sysOwner : list) {
+            if ("version".equals(sysOwner.getParamName()) || "jciConform".equals(sysOwner.getParamName()))
                 continue;
-            if (StringUtils.isNotBlank(sys.getDicType())) {
-                sys.setDicUnitList(DictUtil.listByPItemCode(sys.getDicType(), sys.getParamUnit()));
+            if (StringUtils.isNotBlank(sysOwner.getDicType())) {
+                sysOwner.setDicUnitList(DictUtil.listByPItemCode(sysOwner.getDicType(), sysOwner.getParamUnit()));
             }
-            resultList.add(sys);
+            resultList.add(sysOwner);
         }
         return resultList;
     }

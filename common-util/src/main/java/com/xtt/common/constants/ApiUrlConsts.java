@@ -21,4 +21,13 @@ public class ApiUrlConsts {
      * 更新最近一次手术记录填写日期
      */
     public static final String POPS_UPDATE_LATEST_INPUT_DATE = "popsOperationRecord/updateLatestInputDate.shtml";
+
+    /**
+     * 登陆接口
+     */
+    public static final String CM_LOGIN = "loginSubmit.shtml";
+    /**
+     * 登陆接口
+     */
+    public static final String CM_LOGOUT = "logoutApi.shtml";
 }

@@ -86,14 +86,14 @@ function getAssayDateData(needResetPage) {
                         assayTimesRecordHtml += '</div>';
                         assayTimesRecordHtml += '<input type="hidden" value="' + item.reqId + '" id="data_reqId">';
                         if (labTimeFlag == 1 || labTimeFlag == 3) {
-                            assayTimesRecordHtml += '<div class="p-l-15 p-r-15 carditem">';
+                            assayTimesRecordHtml += '<div class="pl-14 pr-14 carditem">';
                             assayTimesRecordHtml += '<span class="m-r-10">采集时间：</span>';
                             assayTimesRecordHtml += '<span>' + item.strSampleTime + '</span>';
                             assayTimesRecordHtml += '</div>';
                         }
                         if (labTimeFlag == 2 || labTimeFlag == 3) {
-                            assayTimesRecordHtml += '<div class="p-l-15 p-r-15 carditem">';
-                            assayTimesRecordHtml += '<span class="m-r-10">报告时间：</span>';
+                            assayTimesRecordHtml += '<div class="pl-14 pr-14 carditem">';
+                            assayTimesRecordHtml += '<span class="mr-10">报告时间：</span>';
                             assayTimesRecordHtml += '<span>' + item.strReportTime + '</span>';
                             assayTimesRecordHtml += '</div>';
                         }

@@ -81,7 +81,7 @@ public class PatientController {
      * 
      */
     @RequestMapping("editPatient")
-    public ModelAndView editPatient(Long patientId, String sys) throws Exception {
+    public ModelAndView editPatient(Long patientId, String sysOwner) throws Exception {
         ModelAndView model = new ModelAndView("patient/patient_edit");
         PatientPO patient = null;
         if (patientId != null) {
@@ -95,7 +95,7 @@ public class PatientController {
         model.addObject("provinceList", provinceList);
         if (patient == null) {
             patient = new PatientPO();
-            patient.setSysOwner(sys);
+            patient.setSysOwner(sysOwner);
             patient.setProvince(provinceList.get(0).getId());
         }
         List<County> countyList = commonService.getCountyList(patient.getProvince());

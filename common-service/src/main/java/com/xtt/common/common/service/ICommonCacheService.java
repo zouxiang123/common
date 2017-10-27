@@ -88,4 +88,12 @@ public interface ICommonCacheService {
     public void cacheAuthority(String lic);
 
     public void cacheAuthority();
+
+    /**
+     * 缓存系统租户
+     * 
+     * @Title: cacheTenant
+     *
+     */
+    public void cacheTenant();
 }

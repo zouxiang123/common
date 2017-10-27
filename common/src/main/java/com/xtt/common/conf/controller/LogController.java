@@ -22,8 +22,8 @@ public class LogController {
     private ISysLogService sysLogService;
 
     @RequestMapping("logList")
-    public String searchLog(ModelAndView model, String sys) {
-        model.addObject("sysOwner", sys);
+    public String searchLog(ModelAndView model, String sysOwner) {
+        model.addObject("sysOwner", sysOwner);
         return "system/log_list";
     }
 

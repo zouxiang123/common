@@ -43,11 +43,11 @@ public class CmFormItemsController {
 
     /** 跳转到随访单配置页面 */
     @RequestMapping("view")
-    public ModelAndView view(String sys) {
+    public ModelAndView view(String sysOwner) {
         ModelAndView model = new ModelAndView("dynamicForm/form_items_conf");
-        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sys));
-        model.addObject(CmDictConsts.FORM_DISPLAY_STYLE, DictUtil.listByPItemCode(CmDictConsts.FORM_DISPLAY_STYLE, sys));
-        model.addObject("sysOwner", sys);
+        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sysOwner));
+        model.addObject(CmDictConsts.FORM_DISPLAY_STYLE, DictUtil.listByPItemCode(CmDictConsts.FORM_DISPLAY_STYLE, sysOwner));
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 

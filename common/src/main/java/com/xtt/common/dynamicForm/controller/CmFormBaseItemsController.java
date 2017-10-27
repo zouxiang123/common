@@ -34,13 +34,13 @@ public class CmFormBaseItemsController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("view")
-    public ModelAndView view(String sys) {
+    public ModelAndView view(String sysOwner) {
         ModelAndView model = new ModelAndView("/dynamicForm/form_base_items_conf");
         model.addObject(CmDictConsts.FORM_ELEMENT_TYPE, DictUtil.listByPItemCode(CmDictConsts.FORM_ELEMENT_TYPE));
         model.addObject(CmDictConsts.FORM_ITEM_DATA_TYPE, DictUtil.listByPItemCode(CmDictConsts.FORM_ITEM_DATA_TYPE));
         model.addObject(CmDictConsts.FORM_ITEM_UNIT, DictUtil.listByPItemCode(CmDictConsts.FORM_ITEM_UNIT));
-        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sys));
-        model.addObject("sysOwner", sys);
+        model.addObject(CmDictConsts.SYS_OWNER, DictUtil.listByPItemCode(CmDictConsts.SYS_OWNER, sysOwner));
+        model.addObject("sysOwner", sysOwner);
         return model;
     }
 

@@ -38,7 +38,7 @@ input::-webkit-input-placeholder {
             </div>
         </div>
         <div class="pull-right" style="line-height: 60px;">
-            <a class="fc-white u-a-none" href="${ctx }/about.shtml">关于我们</a> <a class="fc-white m-l-28 u-a-none" href="${ctx }/feedback.shtml?sys=${sysOwner }">意见反馈</a>
+            <a class="fc-white u-a-none" href="${ctx }/about.shtml">关于我们</a> <a class="fc-white m-l-28 u-a-none" href="${ctx }/feedback.shtml?sysOwner=${sysOwner }">意见反馈</a>
         </div>
     </div>
     <div class="u-bg-img">
