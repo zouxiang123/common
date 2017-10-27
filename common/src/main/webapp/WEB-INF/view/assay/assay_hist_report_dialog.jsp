@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="u-dialog-content">
-            <label class="u-checkbox  u-float-r position-relative" style="top: 30px; z-index: 10;margin-right: 90px;">
+            <label class="u-checkbox u-float-r position-relative" style="top: 30px; z-index: 10;margin-right: 90px;">
                 <input type="checkbox" id="assayHistChartShownum" checked>
                 <span class="icon-checkbox"></span>显示数据
             </label>

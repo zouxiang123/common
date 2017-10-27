@@ -158,12 +158,11 @@ var assay_hist_report = {
             },
             legend : {
                 data : legend_data,
-                top : '-2%'
+                top : '-4%'
             },
             grid : {
                 left : '10%',
                 right : '10%',
-                bottom : '0%',
                 top : '20%',
                 containLabel : true
             },

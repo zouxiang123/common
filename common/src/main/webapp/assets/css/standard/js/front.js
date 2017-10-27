@@ -1083,241 +1083,7 @@ function xttTable(obj) {
     })
 }
 
-//搜索下拉框
-(function($){
-
-  $.expr[":"].searchableSelectContains = $.expr.createPseudo(function(arg) {
-    return function( elem ) {
-      return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
-    };
-  });
-
-  $.searchableSelect = function(element, options) {
-    this.element = element;
-    this.options = options || {};
-    this.init();
-
-    var _this = this;
-    this.searchableElement.click(function(event){
-      event.stopPropagation();
-      _this.show();
-      _this.filter();
-    }).on('keydown', function(event){
-      if (event.which === 13 || event.which === 40 || event.which == 38){
-        event.preventDefault();
-        _this.show();
-      }
-    });
-
-    $(document).on('click', null, function(event){
-      if(_this.searchableElement.has($(event.target)).length === 0)
-        _this.hide();
-        _this.input.val("");
-    });
-
-    this.input.on('keydown', function(event){
-      event.stopPropagation();
-      if(event.which === 13){         //enter
-        event.preventDefault();
-        _this.selectCurrentHoverItem();
-        _this.hide();
-      } else if (event.which == 27) { //ese
-        _this.hide();
-      } else if (event.which == 40) { //down
-        _this.hoverNextItem();
-      } else if (event.which == 38) { //up
-        _this.hoverPreviousItem();
-      }
-    }).on('keyup', function(event){
-      if(event.which != 13 && event.which != 27 && event.which != 38 && event.which != 40)
-        _this.filter();
-    })
-  }
-
-  var $sS = $.searchableSelect;
-
-  $sS.fn = $sS.prototype = {
-    version: '0.0.1'
-  };
-
-  $sS.fn.extend = $sS.extend = $.extend;
-
-  $sS.fn.extend({
-    init: function(){
-      var _this = this;
-      this.element.hide();
-      this.searchableElement = $('<div tabindex="0" class="u-select-search"></div>');
-      this.holder = $('<div class="u-select-value"></div>');
-      this.dropdown = $('<div class="u-select-content u-select-search-hide"></div>');
-      this.input = $('<input type="text" class="u-select-content-value" />');
-      this.items = $('<div class="u-select-search-items"></div>');
-      this.scrollPart = $('<div class="u-select-searser-ul u-scroll"></div>');
-
-      this.dropdown.append(this.input);
-      this.dropdown.append(this.scrollPart);
-
-      this.scrollPart.append(this.items);
-
-      this.searchableElement.append(this.caret);
-      this.searchableElement.append(this.holder);
-      this.searchableElement.append(this.dropdown);
-      this.element.after(this.searchableElement);
-
-      this.buildItems();
-      this.setPriviousAndNextVisibility();
-    },
-
-    filter: function(){
-      var text = this.input.val();
-      this.items.find('.u-select-search-item').addClass('u-select-search-hide');
-      this.items.find('.u-select-search-item:searchableSelectContains('+text+')').removeClass('u-select-search-hide');
-      if(this.currentSelectedItem.hasClass('u-select-search-hide') && this.items.find('.u-select-search-item:not(.u-select-search-hide)').length > 0){
-        this.hoverFirstNotHideItem();
-      }
-
-      this.setPriviousAndNextVisibility();
-    },
-
-    hoverFirstNotHideItem: function(){
-      this.hoverItem(this.items.find('.u-select-search-item:not(.u-select-search-hide)').first());
-    },
-
-    selectCurrentHoverItem: function(){
-      if(!this.currentHoverItem.hasClass('u-select-search-hide'))
-        this.selectItem(this.currentHoverItem);
-    },
-
-    hoverPreviousItem: function(){
-      if(!this.hasCurrentHoverItem())
-        this.hoverFirstNotHideItem();
-      else{
-        var prevItem = this.currentHoverItem.prevAll('.u-select-search-item:not(.u-select-search-hide):first')
-        if(prevItem.length > 0)
-          this.hoverItem(prevItem);
-      }
-    },
-
-    hoverNextItem: function(){
-      if(!this.hasCurrentHoverItem())
-        this.hoverFirstNotHideItem();
-      else{
-        var nextItem = this.currentHoverItem.nextAll('.u-select-search-item:not(.u-select-search-hide):first')
-        if(nextItem.length > 0)
-          this.hoverItem(nextItem);
-      }
-    },
-
-    buildItems: function(){
-      var _this = this;
-      this.element.find('option').each(function(){
-        var spell =  $(this).attr('search') || "";
-        var item = $('<div class="u-select-search-item" data-value="'+$(this).attr('value')+'">'+$(this).text()+'<span style="display:none">'+ spell +'</span></div>');
-        if(this.selected){
-          _this.selectItem(item);
-          _this.hoverItem(item);
-        }
-
-        item.on('mouseenter', function(){
-          $(this).addClass('hover');
-        }).on('mouseleave', function(){
-          $(this).removeClass('hover');
-        }).click(function(event){
-          event.stopPropagation();
-          _this.selectItem($(this));
-          _this.hide();
-        });
-
-        _this.items.append(item);
-      });
-
-      this.items.on('scroll', function(){
-        _this.setPriviousAndNextVisibility();
-      })
-    },
-    show: function(){
-      this.dropdown.removeClass('u-select-search-hide');
-      this.input.focus();
-      this.status = 'show';
-      this.setPriviousAndNextVisibility();
-    },
-
-    hide: function(){
-      if(!(this.status === 'show'))
-        return;
-
-      if(this.items.find(':not(.u-select-search-hide)').length === 0)
-          this.input.val('');
-      this.dropdown.addClass('u-select-search-hide');
-      this.searchableElement.trigger('focus');
-      this.status = 'hide';
-    },
-
-    hasCurrentSelectedItem: function(){
-      return this.currentSelectedItem && this.currentSelectedItem.length > 0;
-    },
-
-    selectItem: function(item){
-      if(this.hasCurrentSelectedItem())
-        this.currentSelectedItem.removeClass('selected');
-
-      this.currentSelectedItem = item;
-      item.addClass('selected');
-
-      this.hoverItem(item);
-
-      this.holder.html(item.html());
-      var value = item.data('value');
-      this.holder.data('value', value);
-      this.element.val(value);
-
-      if(this.options.afterSelectItem){
-        this.options.afterSelectItem.apply(this);
-      }
-    },
-
-    hasCurrentHoverItem: function(){
-      return this.currentHoverItem && this.currentHoverItem.length > 0;
-    },
-
-    hoverItem: function(item){
-      if(this.hasCurrentHoverItem())
-        this.currentHoverItem.removeClass('hover');
-
-      if(item.outerHeight() + item.position().top > this.items.height())
-        this.items.scrollTop(this.items.scrollTop() + item.outerHeight() + item.position().top - this.items.height());
-      else if(item.position().top < 0)
-        this.items.scrollTop(this.items.scrollTop() + item.position().top);
-
-      this.currentHoverItem = item;
-      item.addClass('hover');
-    },
-
-    setPriviousAndNextVisibility: function(){
-      if(this.items.scrollTop() === 0){
-        this.scrollPart.removeClass('has-privious');
-      } else {
-        this.scrollPart.addClass('has-privious');
-      }
-
-      if(this.items.scrollTop() + this.items.innerHeight() >= this.items[0].scrollHeight){
-        this.scrollPart.removeClass('has-next');
-      } else {
-        this.scrollPart.addClass('has-next');
-      }
-    }
-  });
-
-  $.fn.searchableSelect = function(options){
-    this.each(function(){
-      var sS = new $sS($(this), options);
-    });
-
-    return this;
-  };
-
-})(jQuery);
-
-//多选下拉框
+// 多选下拉框
 $.fn.selectMore = function(){
     var li = this.children();
     var $this = this;
@@ -1379,7 +1145,8 @@ $.fn.selectMore = function(){
                 selectC[0].addEventListener('click',$$.selectedC);
             }
             if(!$this.selectV.children(".u-value").length){
-              $this.selectV.append("<span>"+ $this.attr("presentation") +"</span>");
+                var presentation = $this.attr("presentation") || "";
+                $this.selectV.append("<span>"+ presentation +"</span>");
             }
         }
     }
@@ -1398,6 +1165,96 @@ $.fn.selectMore = function(){
         $this.selectO.hide();
     });
 }
+
+// 下拉搜索框
+$.fn.selectSearch = function(){
+    this.hide();
+    var li = this.children();
+    var $this = this;
+    var data = [];
+    var $init = true;
+    var $$ = {
+        initX: function(){
+            $this.selectS = $('<div class="u-search-select"></div>');
+            $this.selectV = $('<div class="u-search-select-value"></div>');
+            $this.selectC = $('<div class="u-search-select-content"></div>')
+            $this.selectT = $('<div class="u-search-select-text"></div>');
+            $this.selectI = $('<div class="u-search-select-items u-scroll"></div>');
+            $this.selectP = $('<input type="text" placeholder="搜索内容">');
+            $this.after($this.selectS);
+            $this.selectS.append($this.selectV);
+            $this.selectS.append($this.selectC);
+            $this.selectC.append($this.selectT);
+            $this.selectC.append($this.selectI);
+            $this.selectT.append($this.selectP);
+            $$.optionX();
+        },
+        optionX:function(){
+            var classX;
+            $this.selectV.html("");
+            $this.selectI.html("");
+            for(var i = 0;i< li.length;i++){
+              var ed = li.eq(i).attr("selected");
+                ed ? classX = "active":classX = "";
+                $$.htmlX(li[i].innerHTML,li.eq(i).attr("search"),i,classX)
+                if(ed){
+                $this.selectV.append(li[i].innerHTML)
+              }   
+            }
+            if($this.selectV.html() == ""){
+                var presentation = $this.attr("presentation") || "";
+                $this.selectV.append("<span>"+ presentation +"</span>");
+            }
+            $init = false;
+        },
+        htmlX: function($html,$value,$i,$class){
+          
+            var selectL = $('<div class="u-search-select-list '+ $class +'" id="'+ $i +'">'+ $html +'<span>'+ $value +'</span></div>');
+            if($init){
+                data.push({
+                text:$html,
+                value:$value,
+                id: $i
+              })
+            }
+            
+            $this.selectI.append(selectL)
+            selectL[0].addEventListener('click',$$.cliclX);
+        },
+        cliclX:function(){
+          var i = this.id;
+          li.removeAttr("selected");
+          li.eq(i).attr("selected","selected");
+          $$.optionX();
+          $this.selectP.val("");
+        }
+    }
+    $$.initX();
+    $this.selectP.keyup(function(e){
+      var str;
+      $this.selectI.html("");
+      for(var item in data){
+           str = data[item].text +""+data[item].value;
+           if(str.indexOf(this.value) >= 0){
+              $$.htmlX(data[item].text,data[item].value,data[item].id)
+           }
+      }
+    })
+    $this.selectV.click(function(){
+      $(".u-search-select-content").hide();
+      $this.selectC.show();
+      $$.optionX();
+      $this.selectP.val("");
+      return false;
+    })
+    $this.selectT.click(function(){
+      return false;
+    })
+    $(document).click(function(){
+      $this.selectC.hide();
+    })
+}
+
 //下拉框取值
 $.fn.$Value = function(){
     var li = this.children();

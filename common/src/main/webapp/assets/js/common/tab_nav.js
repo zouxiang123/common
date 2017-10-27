@@ -12,7 +12,14 @@ var tab_nav = {
         }
     },
     setHeight : function() {
-        $("#basicIframeDiv iframe").height($(window).height() - ($("#tabsBodyDiv").offset().top + 10));
+        var offset = $("#tabsBodyDiv").offset();
+        $("#basicIframeDiv").find("iframe").css({
+            position : "fixed",
+            top : offset.top,
+            left : offset.left,
+            height : $(window).height() - offset.top,
+            width : $(window).width() - offset.left
+        });
     },
     addEvents : function() {
         $("#tabsDiv").on("click", "[data-url]", function(event) {

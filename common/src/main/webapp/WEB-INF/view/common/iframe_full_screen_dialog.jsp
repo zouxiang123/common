@@ -30,7 +30,6 @@
         var dialog = $("#iframeFullScreenDialog");
         dialog.find("[data-title]").text(convertEmpty(param.title));
         dialog.find("[data-title1]").text(convertEmpty(param.title1));
-        dialog.find("iframe").attr("src", convertEmpty(param.url));
         dialog.find("[data-btn]").off("click").on("click", function() {
             var iframe = dialog.find("iframe")[0];
             var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
@@ -50,7 +49,9 @@
         });
         var iframeDocument = dialog.find("iframe")[0].contentDocument || dialog.find("iframe")[0].contentWindow.document;
         iframeDocument.documentElement.innerHTML = "";
-        dialog.find("iframe").height($(window).height() - 155);
-        popDialog(dialog);
+        dialog.find("iframe").height($(window).height() - 130);
+        popDialog(dialog, function(){
+            dialog.find("iframe").attr("src", convertEmpty(param.url));
+        });
     };
 </script>

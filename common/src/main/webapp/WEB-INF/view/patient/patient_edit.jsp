@@ -124,16 +124,14 @@
     <div class="u-list-text mt-12">
         <div class="left">*性别：</div>
         <div class="right">
-            <div class="u-xt-12">
-                <label class="u-radio w-21">
-                    <input id="patientForm_male" type="radio" name="sex" value="M" <c:if test="${empty patient.sex or patient.sex eq 'M'}">checked</c:if> />
-                    <span class="icon-radio"></span>男
-                </label>
-                <label class="u-radio w-21">
-                    <input id="patientForm_female" type="radio" name="sex" value="F" <c:if test="${ patient.sex eq 'F'}">checked</c:if> />
-                    <span class="icon-radio"></span>女
-                </label>
-            </div>
+            <label class="u-radio w-21">
+                <input id="patientForm_male" type="radio" name="sex" value="M" <c:if test="${empty patient.sex or patient.sex eq 'M'}">checked</c:if> />
+                <span class="icon-radio"></span>男
+            </label>
+            <label class="u-radio w-21">
+                <input id="patientForm_female" type="radio" name="sex" value="F" <c:if test="${ patient.sex eq 'F'}">checked</c:if> />
+                <span class="icon-radio"></span>女
+            </label>
             <div data-error></div>
         </div>
     </div>
@@ -154,14 +152,12 @@
     <div class="u-list-text mt-12">
         <div class="left">费用类型：</div>
         <div class="right">
-            <div class="u-xt-12">
-                <c:forEach items="${chargeTypes }" var="chargeType">
-                    <label class="u-radio w-21">
-                        <input type="radio" name="chargeType" value="${chargeType.value }" <c:if test="${chargeType.value eq patient.chargeType}">checked</c:if>  />
-                        <span class="icon-radio"></span>${chargeType.name}
-                    </label>
-                </c:forEach>
-            </div>
+            <c:forEach items="${chargeTypes }" var="chargeType">
+                <label class="u-radio w-21">
+                    <input type="radio" name="chargeType" value="${chargeType.value }" <c:if test="${chargeType.value eq patient.chargeType}">checked</c:if>  />
+                    <span class="icon-radio"></span>${chargeType.name}
+                </label>
+            </c:forEach>
             <div data-error></div>
         </div>
     </div>
@@ -244,66 +240,60 @@
         </div>
     </div>
     <div class="u-list-text mt-12">
-        <div class="left">长期/临时患者：</div>
+        <div class="left">长期/临时：</div>
         <div class="right">
-            <div class="u-xt-12">
-                <label class="u-radio w-21">
-                    <input type="radio" name="isTemp" value="0" <c:if test="${ !patient.isTemp }">checked</c:if> />
-                    <span class="icon-radio"></span>长期
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="isTemp" value="1" <c:if test="${ patient.isTemp || empty patient.isTemp}">checked</c:if> />
-                    <span class="icon-radio"></span>临时
-                </label>
-            </div>
+            <label class="u-radio w-21">
+                <input type="radio" name="isTemp" value="0" <c:if test="${ !patient.isTemp }">checked</c:if> />
+                <span class="icon-radio"></span>长期患者
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="isTemp" value="1" <c:if test="${ patient.isTemp || empty patient.isTemp}">checked</c:if> />
+                <span class="icon-radio"></span>临时患者
+            </label>
             <div data-error></div>
         </div>
     </div>
     <div class="u-list-text mt-12">
         <div class="left">患者状态：</div>
         <div class="right">
-            <div class="u-xt-12">
-                <label class="u-radio w-21">
-                    <input type="radio" name="patientType" value="1" <c:if test="${ '1' eq patient.patientType}">checked</c:if> />
-                    <span class="icon-radio"></span>门诊
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="patientType" value="2" <c:if test="${ '2' eq patient.patientType}">checked</c:if> />
-                    <span class="icon-radio"></span>住院
-                </label>
-            </div>
+            <label class="u-radio w-21">
+                <input type="radio" name="patientType" value="1" <c:if test="${ '1' eq patient.patientType}">checked</c:if> />
+                <span class="icon-radio"></span>门诊
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="patientType" value="2" <c:if test="${ '2' eq patient.patientType}">checked</c:if> />
+                <span class="icon-radio"></span>住院
+            </label>
             <div data-error></div>
         </div>
     </div>
     <div class="u-list-text mt-12">
         <div class="left">血型：</div>
         <div class="right">
-            <div class="u-xt-12">
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodAbo" value="A" <c:if test="${ patient.bloodAbo == 'A'}">checked</c:if>/>
-                    <span class="icon-radio"></span>A
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodAbo" value="B" <c:if test="${ patient.bloodAbo== 'B'}">checked</c:if> /> 
-                    <span class="icon-radio"></span>B
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodAbo" value="AB" <c:if test="${ patient.bloodAbo== 'AB'}">checked</c:if> />
-                    <span class="icon-radio"></span>AB
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodAbo" value="O" <c:if test="${ patient.bloodAbo== 'O'}">checked</c:if> />
-                    <span class="icon-radio"></span>O
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodRh" value="1" <c:if test="${ patient.bloodRh== '1'}">checked</c:if> /> 
-                    <span class="icon-radio"></span>RH+
-                </label>
-                <label class="u-radio w-21">
-                    <input type="radio" name="bloodRh" value="0" <c:if test="${ patient.bloodRh== '0'}">checked</c:if> /> 
-                    <span class="icon-radio"></span>RH-
-                </label>
-            </div>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodAbo" value="A" <c:if test="${ patient.bloodAbo == 'A'}">checked</c:if>/>
+                <span class="icon-radio"></span>A
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodAbo" value="B" <c:if test="${ patient.bloodAbo== 'B'}">checked</c:if> /> 
+                <span class="icon-radio"></span>B
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodAbo" value="AB" <c:if test="${ patient.bloodAbo== 'AB'}">checked</c:if> />
+                <span class="icon-radio"></span>AB
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodAbo" value="O" <c:if test="${ patient.bloodAbo== 'O'}">checked</c:if> />
+                <span class="icon-radio"></span>O
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodRh" value="1" <c:if test="${ patient.bloodRh== '1'}">checked</c:if> /> 
+                <span class="icon-radio"></span>RH+
+            </label>
+            <label class="u-radio w-21">
+                <input type="radio" name="bloodRh" value="0" <c:if test="${ patient.bloodRh== '0'}">checked</c:if> /> 
+                <span class="icon-radio"></span>RH-
+            </label>
         </div>
     </div>
     <div class="u-list-text mt-12">
@@ -335,8 +325,10 @@
     </div>
 </div>
 </form>
-<div class="bt-line pt-10 modelbottom" style="z-index：99">
-    <!-- <button type="button" class="mb-10" onclick="window.location.reload(true);">取消</button> -->
+<div class="bt-line pt-10 modelbottom" style="z-index: 99;">
+    <c:if test="${!empty patient.id }">
+        <button type="button" class="mb-10" onclick="window.history.go(-1);">取消</button>
+    </c:if>
     <button type="button" class="u-btn-blue mb-10" onclick="patient_edit.save();" fill>保存</button>
 </div>
 </body>

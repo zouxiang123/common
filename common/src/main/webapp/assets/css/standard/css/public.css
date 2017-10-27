@@ -113,6 +113,9 @@ img[browse]{
 }
 
 
+.icon-newadd:before {
+  content: "\e876";
+}
 .icon-followup:before {
   content: "\e875";
 }
@@ -339,6 +342,7 @@ img[browse]{
 .icon-upload:before {
   content: "\e800";
 }
+
 
 
 .icon-load{
@@ -1216,6 +1220,7 @@ select[multiple]{
    font-size: 14px;
    color: rgba(78,78,78,.5);
    margin-left: 5px;
+   padding-top: 5px;
 }
 .u-multi-select>
 .u-select-value>
@@ -1329,6 +1334,7 @@ select[multiple]{
     border: 1px solid #D9E0E6;
     border-radius: 3px;
     position: relative;
+    color: #484848;
 }
 .u-search-select>
 .u-search-select-value{
@@ -1337,6 +1343,25 @@ select[multiple]{
     width: 100%;
     color: #484848;
     padding-left: 5px;
+    cursor: pointer;
+    position: relative;
+    padding-right: 25px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.u-search-select>
+.u-search-select-value:after{
+    content: "\e815";
+    font-size: 12px;
+    color: rgba(72,72,72,0.5);
+    position: absolute;
+    right: 7px;
+    top: 2px;
+}
+.u-search-select>
+.u-search-select-value>span{
+    color: rgba(72,72,72,0.5);
 }
 .u-search-select>
 .u-search-select-content{
@@ -1349,6 +1374,7 @@ select[multiple]{
     left: -1px;
     z-index: 99;
     background: #ffffff;
+    display: none;
 }
 .u-search-select>
 .u-search-select-content>
@@ -1382,6 +1408,12 @@ select[multiple]{
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+.u-search-select>
+.u-search-select-content>
+.u-search-select-items>
+.u-search-select-list>span{
+    display: none;
 }
 .u-search-select>
 .u-search-select-content>

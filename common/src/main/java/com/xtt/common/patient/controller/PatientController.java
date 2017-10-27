@@ -241,6 +241,7 @@ public class PatientController {
             query.setCardType(CommonConstants.PATIENT_OUTPATIENT);// 1代表门诊
         }
         query.setCardType(cardType);
+        query.setSysOwner(UserUtil.getSysOwner());
         // 先判断有没有配置开启新增患者的接口
         String paramValue = SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_INTERFACE);
         // 1代表开关开启了。

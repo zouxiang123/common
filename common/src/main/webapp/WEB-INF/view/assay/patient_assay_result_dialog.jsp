@@ -8,47 +8,43 @@
             <div class="fs-18">传染病标识</div>
             <div></div>
         </div>
-        <div class="u-dialog-content">
+        <div class="u-dialog-content text-center">
         <form onsubmit="return false;" id="assayResultForm">
             <input type="hidden" name="fkPatientId" />
             <input type="hidden" name="id" />
-            <div class="w-100 text-center">
-                <label class="u-checkbox">
-                    <input type="checkbox" name="normal" value="true" data-text="正常">
-                    <span class="icon-checkbox"></span> 正常
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox"  name="hav" value="true" data-text="甲肝">
-                    <span class="icon-checkbox"></span>甲肝
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="hbv" value="true" data-text="乙肝">
-                    <span class="icon-checkbox"></span>乙肝
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="hcv" value="true" data-text="丙肝">
-                    <span class="icon-checkbox"></span>丙肝
-                </label>
-            </div>
-            <div class="w-100 text-center" style="vertical-align: middle">
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="hev" value="true" data-text=" 戊肝">
-                    <span class="icon-checkbox"></span>戊肝
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="hiv" value="true" data-text="HIV">
-                    <span class="icon-checkbox"></span>HIV
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="hsv" value="true" data-text="梅毒">
-                    <span class="icon-checkbox"></span>梅毒
-                </label>
-                <label class="u-checkbox">
-                    <input  type="checkbox" name="unknown" value="true" data-text="未知">
-                    <span class="icon-checkbox"></span>未知
-                </label>
-            </div>
-            <div class="w-100 text-center error" id="showError"></div>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input type="checkbox" name="normal" value="true" data-text="正常">
+                <span class="icon-checkbox"></span> 正常
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox"  name="hav" value="true" data-text="甲肝">
+                <span class="icon-checkbox"></span>甲肝
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="hbv" value="true" data-text="乙肝">
+                <span class="icon-checkbox"></span>乙肝
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="hcv" value="true" data-text="丙肝">
+                <span class="icon-checkbox"></span>丙肝
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="hev" value="true" data-text=" 戊肝">
+                <span class="icon-checkbox"></span>戊肝
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="hiv" value="true" data-text="HIV">
+                <span class="icon-checkbox"></span>HIV
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="hsv" value="true" data-text="梅毒">
+                <span class="icon-checkbox"></span>梅毒
+            </label>
+            <label class="u-checkbox u-xt-3 mr-0">
+                <input  type="checkbox" name="unknown" value="true" data-text="未知">
+                <span class="icon-checkbox"></span>未知
+            </label>
+            <div class="w-100 text-center fc-red" id="showError"></div>
             </form>
         </div>
         <div class="u-dialog-footer" style="border-top: 1px solid #d9e0e6;">
