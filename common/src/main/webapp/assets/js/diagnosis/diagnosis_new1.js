@@ -10,12 +10,12 @@ $(document).ready(function() {
  */
 function addDiagnosisEvents() {
     $("body").click(function() {
-        if ($(".u-addUl").css('display') == "block") {
-            $(".u-addUl").hide();
+        if (!$("#addMedicalHistoryDialog").is(":hidden")) {
+            $("#addMedicalHistoryDialog").hide();
         }
     });
     $("#addMe").click(function(event) {
-        $(".u-addUl").toggle();
+        $("#addMedicalHistoryDialog").toggle();
         stopEventBubble(event); // 组织事件冒泡
     });
     /**
@@ -269,52 +269,47 @@ function buildDictDiagnosisView() {
         $(".add_" + permission_key).attr("data-item-code", dict.itemCode);
         // 初始化页面布局初始内容结构
         var diagnosis_content_html = '';
-        if ($(".add_" + permission_key).parent().find("ul.diagnosis-hist-action").length > 0) {
+        if ($(".add_" + permission_key).parent().find(".diagnosis-hist-action").length > 0) {
             // 新增操作的menu内容
             var add_action_html = '';
-            $.each(diagnosis_hist_actions,
-                            function(j, action) {
-                                // 先遍历获取固定的菜单项
-                                add_action_html += '<li data-item-code="' + action.itemCode + '" onclick="showDiagnosisDialog(\'\', ' + patientId
-                                                + ', \'' + action.diagnosisType + '\', \'' + action.dialogType + '\')">' + action.itemName
-                                                + '<div class="f-solid"></div></li>';
-                                // 病史页面生成动态的内容布局结构
-                                diagnosis_content_html += '<div class="m-t-12 m-l-21 p-relative data-view-' + action.itemCode + '">';
-                                diagnosis_content_html += '     <span class="u-sign-1" style="background: ' + action.background + ';">'
-                                                + action.itemName + '</span>';
-                                diagnosis_content_html += '</div>';
-                                diagnosis_content_html += '<div class="m-t-5 u-card-1 data-view-' + action.itemCode + '">';
-                                diagnosis_content_html += '    <div class="clearfix">';
-                                diagnosis_content_html += '        <div class="pull-left">暂无' + action.itemName + '数据</div>';
-                                diagnosis_content_html += '    </div>';
-                                diagnosis_content_html += '</div>';
-                            });
+            $.each(diagnosis_hist_actions, function(j, action) {
+                // 先遍历获取固定的菜单项
+                add_action_html += '<li data-item-code="' + action.itemCode + '" onclick="showDiagnosisDialog(\'\', ' + patientId + ', \''
+                                + action.diagnosisType + '\', \'' + action.dialogType + '\')">' + action.itemName + '</li>';
+                // 病史页面生成动态的内容布局结构
+                diagnosis_content_html += '<div class="line-vertical"></div>';
+                diagnosis_content_html += '<div class="border-gray ml-12 mr-12 pb-12 pl-18 pr-18 position-relative data-view-' + action.itemCode
+                                + '" style="top: 22px;">';
+                diagnosis_content_html += '<div class="dzblbutton" style="background: ' + action.background + ';">' + action.itemName + '</div>';
+                diagnosis_content_html += '  <div class="data-view-' + action.itemCode + '">';
+                diagnosis_content_html += '    <div class="pb-10"><span>暂无' + action.itemName + '数据</span></div>';
+                diagnosis_content_html += '  </div>';
+                diagnosis_content_html += '</div>';
+            });
             // 增加动态的菜单项（病史有点特殊，itemCode动态，名称固定归为其他病史）
             add_action_html += '<li data-item-code="' + dict.itemCode + '" onclick="ShowDiagnosisEntityTab(\'\', ' + patientId + ', \''
-                            + dict.itemCode + '\', \'其他病史\')">其他病史<div class="f-solid"></div></li>';
-            $(".add_" + permission_key).parent().find("ul.diagnosis-hist-action").html(add_action_html);
+                            + dict.itemCode + '\', \'其他病史\')">其他病史</li>';
+            $(".add_" + permission_key).parent().find(".diagnosis-hist-action").html(add_action_html);
             // 添加动态的诊断选项的内容布局结构
-            diagnosis_content_html += '<div class="m-t-12 m-l-21 p-relative data-view-' + dict.itemCode + '">';
-            diagnosis_content_html += '     <span class="u-sign-1" style="background: #44cfb0;">其他病史</span>';
-            diagnosis_content_html += '</div>';
-            diagnosis_content_html += '<div class="m-t-5 u-card-1 data-view-' + dict.itemCode + '">';
-            diagnosis_content_html += '    <div class="clearfix">';
-            diagnosis_content_html += '        <div class="pull-left">暂无其他病史数据</div>';
-            diagnosis_content_html += '    </div>';
+            diagnosis_content_html += '<div class="line-vertical"></div>';
+            diagnosis_content_html += '<div class="border-gray ml-12 mr-12 pb-12 pl-18 pr-18 position-relative mb-10 data-view-' + dict.itemCode
+                            + '" style="top: 22px;">';
+            diagnosis_content_html += '  <div class="dzblbutton" style="background: #44cfb0;">其他病史</div>';
+            diagnosis_content_html += '  <div class="data-view-' + dict.itemCode + '">';
+            diagnosis_content_html += '    <div class="pb-10"><span>暂无其他病史数据</span></div>';
+            diagnosis_content_html += '  </div>';
             diagnosis_content_html += '</div>';
         } else {
             // 添加其他诊断Tab按钮的新增事件绑定
-            $(".add_" + permission_key).bind("click", function() {
+            $(".add_" + permission_key).off("click").on("click", function() {
                 ShowDiagnosisEntityTab('', patientId, dict.itemCode, dict.itemName);
             });
             $(".add_" + permission_key).attr("data-item-code", dict.itemCode);
             // 添加动态的诊断选项的内容布局结构
-            diagnosis_content_html += '<div class="data-view-' + dict.itemCode + '">';
-            diagnosis_content_html += '    <div class="m-t-5 u-card-1">';
-            diagnosis_content_html += '        <div class="clearfix">';
-            diagnosis_content_html += '            <div class="pull-left">暂无' + dict.itemName + '数据</div>';
-            diagnosis_content_html += '        </div>';
-            diagnosis_content_html += '    </div>';
+            diagnosis_content_html += '<div class="line-vertical"></div>';
+            diagnosis_content_html += '<div class="border-gray ml-12 mr-12 pb-12 pl-18 pr-18 position-relative data-view-' + dict.itemCode
+                            + '" style="top: 22px;">';
+            diagnosis_content_html += '  <div class="pb-10"><span>暂无' + dict.itemName + '数据</span></div>';
             diagnosis_content_html += '</div>';
         }
         $("#list_" + permission_key).html(diagnosis_content_html);
@@ -354,53 +349,27 @@ function showDiagnosisDialog(id, patientId, diagnosisType, dialogType) {
 function buildDiagnosisHistFirstDialysisData(data) {
 
     var list = data.items.hist_first_dialysis || [];
+    var actionObj = diagnosis_hist_actions[0];
+    var diagnosis_content_html = '';
     if (list.length > 0) {
         // 首次透析数据只能有一条，隐藏 新增 首次透析 按钮
-        $(".u-addUl li").eq(0).hide();
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_first_dialysis\', \''
-                                                                + diagnosis_hist_actions[0].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[0].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_first_dialysis'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_first_dialysis\', \'' + dialogType
-                                                                + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>透析时间：' + v.firstTreatmentDateShow + '</div>';
-                                            diagnosis_content_html += '            <div>透析方式：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.firstTreatmentTypeShow + '</label></div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[0].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $(".diagnosis-hist-action li").eq(0).hide();
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span>透析时间：' + v.firstTreatmentDateShow + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>透析方式：' + v.firstTreatmentTypeShow + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[0].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[0].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[0].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * 渲染'手术史'内容
@@ -409,43 +378,27 @@ function buildDiagnosisHistFirstDialysisData(data) {
  */
 function buildDiagnosisHistSurgeryData(data) {
     var list = data.items.hist_surgery || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[1];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
         $.each(list, function(i, v) {
-            diagnosis_content_html += '    <div class="clearfix">';
-            diagnosis_content_html += '        <div class="pull-right">';
-            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                            + v.operatorName + '</span>';
-            if (!patientHasOutCome) {
-                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis(' + v.id + ', '
-                                + v.fkPatientId + ', \'hist_surgery\', \'' + diagnosis_hist_actions[1].itemCode + '\', \''
-                                + diagnosis_hist_actions[1].itemName + '\')">删除</span>';
-                var dialogType = 'diagnosis' + upperFirstLetter('hist_surgery'.split('_'));
-                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog(' + v.id + ', ' + v.fkPatientId
-                                + ', \'hist_surgery\', \'' + dialogType + '\')">编辑</span>';
-            }
-            diagnosis_content_html += '        </div>';
-            diagnosis_content_html += '        <div class="pull-left">';
-            diagnosis_content_html += '            <div>';
-            diagnosis_content_html += '                <span>手术日期：' + v.surgeryDateShow + '</span>';
-            diagnosis_content_html += '                <span class="m-l-30">名        称：' + v.surgeryName + '</span>';
-            diagnosis_content_html += '            </div>';
-            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-            diagnosis_content_html += '        </div>';
-            diagnosis_content_html += '    </div>';
-            if (list.length > 1 && i != list.length - 1) {
-                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-            }
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-70">手术日期：' + v.surgeryDateShow + '</span>';
+            diagnosis_content_html += '  <span>手术名称：' + v.surgeryName + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '  </div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
         });
         $(".data-view-" + diagnosis_hist_actions[1].itemCode + ":eq(1)").html(diagnosis_content_html);
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[1].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[1].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[1].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * // 渲染'血透史'内容
@@ -454,59 +407,28 @@ function buildDiagnosisHistSurgeryData(data) {
  */
 function buildDiagnosisHistHdData(data) {
     var list = data.items.hist_hd || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[2];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_hd\', \''
-                                                                + diagnosis_hist_actions[2].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[2].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_hd'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_hd\', \'' + dialogType + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>';
-                                            diagnosis_content_html += '                <span>开始时间：'
-                                                            + v.startDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始原因：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.startReasonShow + (v.otherStartReason ? '：' + v.otherStartReason : '')
-                                                            + '</label></span>';
-                                            diagnosis_content_html += '                <span class="m-l-30">结束时间：'
-                                                            + v.endDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束原因：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.endReasonShow + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</label></span>';
-                                            diagnosis_content_html += '            </div>';
-                                            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[2].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-14">开始时间：' + v.startDateShow + '  开始原因：' + v.startReasonShow
+                            + (v.otherStartReason ? '：' + v.otherStartReason : '') + '</span>';
+            diagnosis_content_html += '  <span>结束时间：' + v.endDateShow + '  结束原因：' + v.endReasonShow
+                            + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[2].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[2].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[2].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * 渲染'腹透史'内容
@@ -515,59 +437,29 @@ function buildDiagnosisHistHdData(data) {
  */
 function buildDiagnosisHistPdData(data) {
     var list = data.items.hist_pd || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[3];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_pd\', \''
-                                                                + diagnosis_hist_actions[3].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[3].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_pd'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_pd\', \'' + dialogType + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>';
-                                            diagnosis_content_html += '                <span>开始时间：'
-                                                            + v.startDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开始原因：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.startReasonShow + (v.otherStartReason ? '：' + v.otherStartReason : '')
-                                                            + '</label></span>';
-                                            diagnosis_content_html += '                <span class="m-l-30">结束时间：'
-                                                            + v.endDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束原因：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.endReasonShow + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</label></span>';
-                                            diagnosis_content_html += '            </div>';
-                                            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[3].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-14">开始时间：' + v.startDateShow + '  开始原因：' + v.startReasonShow
+                            + (v.otherStartReason ? '：' + v.otherStartReason : '') + '</span>';
+            diagnosis_content_html += '  <span>结束时间：' + v.endDateShow + '  结束原因：' + v.endReasonShow
+                            + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[3].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[3].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[3].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * 渲染'肾移植史'内容
@@ -576,55 +468,27 @@ function buildDiagnosisHistPdData(data) {
  */
 function buildDiagnosisHistKtData(data) {
     var list = data.items.hist_kt || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[4];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_kt\', \''
-                                                                + diagnosis_hist_actions[4].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[4].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_kt'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_kt\', \'' + dialogType + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>';
-                                            diagnosis_content_html += '                <span>开始时间：' + v.startDateShow + '</span>';
-                                            diagnosis_content_html += '                <span class="m-l-30">结束时间：'
-                                                            + v.endDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;结束原因：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.endReasonShow + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</label></span>';
-                                            diagnosis_content_html += '            </div>';
-                                            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[4].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-14">开始时间：' + v.startDateShow + '</span>';
+            diagnosis_content_html += '  <span>结束时间：' + v.endDateShow + '  结束原因：' + v.endReasonShow
+                            + (v.otherEndReason ? '：' + v.otherEndReason : '') + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[4].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[4].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[4].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * 渲染'过敏史'内容
@@ -633,56 +497,27 @@ function buildDiagnosisHistKtData(data) {
  */
 function buildDiagnosisHistAllergyData(data) {
     var list = data.items.hist_allergy || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[5];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_allergy\', \''
-                                                                + diagnosis_hist_actions[5].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[5].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_allergy'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_allergy\', \'' + dialogType
-                                                                + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>';
-                                            diagnosis_content_html += '                <span>录入日期：'
-                                                            + v.inputDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;过敏源：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.allergensShow + (v.otherAllergens ? '：' + v.otherAllergens : '') + '</label></span>';
-                                            diagnosis_content_html += '                <span class="m-l-30">名        称：' + v.name + '</span>';
-                                            diagnosis_content_html += '            </div>';
-                                            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[5].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-14">录入日期：' + v.inputDateShow + '  过敏源：' + v.allergensShow
+                            + (v.otherAllergens ? '：' + v.otherAllergens : '') + '</span>';
+            diagnosis_content_html += '  <span>名        称：' + v.name + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[5].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[5].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[5].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 /**
  * 渲染'传染病史'内容
@@ -691,68 +526,36 @@ function buildDiagnosisHistAllergyData(data) {
  */
 function buildDiagnosisHistPestilenceData(data) {
     var list = data.items.hist_pestilence || [];
+    var diagnosis_content_html = '';
+    var actionObj = diagnosis_hist_actions[6];
     if (list.length > 0) {
-        var diagnosis_content_html = '';
-        $
-                        .each(
-                                        list,
-                                        function(i, v) {
-                                            diagnosis_content_html += '    <div class="clearfix">';
-                                            diagnosis_content_html += '        <div class="pull-right">';
-                                            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.operatorName + '</span>';
-                                            if (!patientHasOutCome) {
-                                                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis('
-                                                                + v.id
-                                                                + ', '
-                                                                + v.fkPatientId
-                                                                + ', \'hist_pestilence\', \''
-                                                                + diagnosis_hist_actions[6].itemCode
-                                                                + '\', \''
-                                                                + diagnosis_hist_actions[6].itemName
-                                                                + '\')">删除</span>';
-                                                var dialogType = 'diagnosis' + upperFirstLetter('hist_pestilence'.split('_'));
-                                                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="showDiagnosisDialog('
-                                                                + v.id + ', ' + v.fkPatientId + ', \'hist_pestilence\', \'' + dialogType
-                                                                + '\')">编辑</span>';
-                                            }
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '        <div class="pull-left">';
-                                            diagnosis_content_html += '            <div>';
-                                            diagnosis_content_html += '                <span>诊断日期：' + v.diagnosticDateShow
-                                                            + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;诊断名称：';
-                                            if (v.diagnosticNameShow && v.diagnosticNameShow.split(',').length > 0) {
-                                                $
-                                                                .each(
-                                                                                v.diagnosticNameShow.split(','),
-                                                                                function(j, name) {
-                                                                                    diagnosis_content_html += '                    <label class="form-span"><input type="checkbox" class="u-checkbox-1" checked="" disabled="disabled">'
-                                                                                                    + name + '</label>';
-                                                                                });
-                                                diagnosis_content_html += (v.otherDiagnosticName ? '：' + v.otherDiagnosticName : '');
-                                            }
-                                            diagnosis_content_html += '                </span>';
-                                            diagnosis_content_html += '                <span class="m-l-30">活动状态：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.activityStateShow
-                                                            + '</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;治疗情况：<label class="form-span"><input type="radio" class="u-radio-1" checked="" disabled="disabled">'
-                                                            + v.treatmentShow + (v.otherTreatment ? '：' + v.otherTreatment : '') + '</label></span>';
-                                            diagnosis_content_html += '            </div>';
-                                            diagnosis_content_html += '            <div>备注：' + v.remark + '</div>';
-                                            diagnosis_content_html += '        </div>';
-                                            diagnosis_content_html += '    </div>';
-                                            if (list.length > 1 && i != list.length - 1) {
-                                                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-                                            }
-                                        });
-        $(".data-view-" + diagnosis_hist_actions[6].itemCode + ":eq(1)").html(diagnosis_content_html);
+        $.each(list, function(i, v) {
+            diagnosis_content_html += '<div class="pb-10 u-xt-12 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '<span class="u-xt-3">诊断日期：' + v.diagnosticDateShow + '</span>';
+            diagnosis_content_html += '<span class="u-xt-3">诊断名称：';
+            if (!isEmpty(v.diagnosticNameShow)) {
+                diagnosis_content_html += v.diagnosticNameShow.replace(/,/g, "、");
+            }
+            diagnosis_content_html += (v.otherDiagnosticName ? '：' + v.otherDiagnosticName : '');
+            diagnosis_content_html += '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            diagnosis_content_html += '<div class="pb-10 u-xt-12">';
+            diagnosis_content_html += '  <span class="u-xt-3">活动状态：' + v.activityStateShow + '</span>';
+            diagnosis_content_html += '  <span class="u-xt-3">治疗情况：' + v.treatmentShow + (v.otherTreatment ? ('：' + v.otherTreatment) : '')
+                            + '</span>';
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>备注：' + v.remark + '</span>';
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+            diagnosis_content_html += '</div>';
+        });
     } else {
-        // $(".data-view-" + diagnosis_hist_actions[6].itemCode).hide();
-        var diagnosis_content_html = '';
-        diagnosis_content_html += '    <div class="clearfix">';
-        diagnosis_content_html += '        <div class="pull-left">暂无' + diagnosis_hist_actions[6].itemName + '数据</div>';
-        diagnosis_content_html += '    </div>';
-        $(".data-view-" + diagnosis_hist_actions[6].itemCode + ":eq(1)").html(diagnosis_content_html);
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
 }
 
 /**
@@ -762,41 +565,47 @@ function buildDiagnosisHistPestilenceData(data) {
  */
 function buildDiagnosisHistTumourData(data) {
     var list = data.items.hist_tumour || [];
-    var action = diagnosis_hist_actions[7];
-    var name = action.itemName;
-    var code = action.itemCode;
-    var type = action.diagnosisType;
-    var html = '';
+    var actionObj = diagnosis_hist_actions[7];
+    var diagnosis_content_html = '';
     if (list.length > 0) {
         $.each(list, function(i, v) {
-            html += '<div class="clearfix">';
-            html += ' <div class="pull-right">';
-            html += '  <span class="m-r-5">记录：' + v.createTimeShow + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + v.createUserName + '</span>';
-            if (!patientHasOutCome) {
-                html += '  <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis(' + v.id + ', ' + v.fkPatientId + ', \'' + type
-                                + '\', \'' + code + '\', \'' + name + '\');">删除</span>';
-                html += '  <span class="u-btn-24-grey" onclick="showDiagnosisDialog(' + v.id + ', ' + v.fkPatientId + ', \'' + type + '\', \''
-                                + action.dialogType + '\')">编辑</span>';
-            }
-            html += ' </div>';
-            html += ' <div class="pull-left">';
-            html += '  <div>';
-            html += '    <span>诊断日期：' + convertEmpty(v.recordDateShow) + '</span>';
-            html += '  </div>';
-            html += '  <div>诊断类型：' + convertEmpty(v.recordType) + '</div>';
-            html += ' </div>';
-            html += '</div>';
-            if (i != list.length - 1) {
-                // 分割虚线
-                html += '<div class="f-dashed m-t-10 m-b-10"></div>';
-            }
+            diagnosis_content_html += '<div class="pb-10 ' + (i == 0 ? "" : "mt-12") + '">';
+            diagnosis_content_html += '  <span class="mr-14">录入日期：' + convertEmpty(v.recordDateShow) + '</span>';
+            diagnosis_content_html += '  <span>诊断类型：' + convertEmpty(v.recordType) + '</span>';
+            diagnosis_content_html += getDiagnosisHistBtnsHtml(v.id, v.fkPatientId, actionObj);
+            diagnosis_content_html += '</div>';
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div ' + (needLine ? "class='bb-dashed pb-12'" : "") + '>';
+            diagnosis_content_html += '  <span>&nbsp;</span>';// 占行符
+            diagnosis_content_html += '  <span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.createUserName + '</span>';
+            diagnosis_content_html += '</div>';
         });
     } else {
-        html += '<div class="clearfix">';
-        html += '  <div class="pull-left">暂无' + name + '数据</div>';
-        html += '</div>';
+        diagnosis_content_html += '<div class="pb-10"><span>暂无' + actionObj.itemName + '数据</span></div>';
     }
-    $(".data-view-" + code + ":eq(1)").html(html);
+    $(".data-view-" + actionObj.itemCode + ":eq(1)").html(diagnosis_content_html);
+}
+/**
+ * 获取病史操作按钮
+ * 
+ * @param id
+ *            数据id
+ * @param patientId
+ *            患者id
+ * @param obj
+ *            diagnosis_hist_actions中的对象
+ * 
+ */
+function getDiagnosisHistBtnsHtml(id, patientId, obj) {
+    var html = "";
+    if (!patientHasOutCome) {
+        html += '<button type="button" class="u-float-r ml-16" text onclick="showDiagnosisDialog(' + id + ', ' + patientId + ', \''
+                        + obj.diagnosisType + '\', \'' + obj.dialogType + '\')">编辑</button>';
+        html += '<button type="button" class="u-btn-red u-float-r" text onclick="removeDiagnosis(' + id + ', ' + patientId + ', \''
+                        + obj.diagnosisType + '\', \'' + obj.itemCode + '\', \'' + obj.itemName + '\')">删除</button>';
+    }
+    return html;
 }
 /**
  * 渲染'诊断选项'内容
@@ -830,29 +639,15 @@ function buildDiagnosisDiagnosisEntityData(data) {
             });
         }
     } else {
-        /*if(data.itemCode){
-            $(".data-view-" + data.itemCode).hide();
-        }else{
-            $.each(dictDiagnosisList, function(i, dict){
-                $(".data-view-" + dict.itemCode).hide();
-            });
-        }*/
         if (data.itemCode) {
             $.each(dictDiagnosisList, function(i, dict) {
                 if (dict.itemCode == data.itemCode) {
+                    var diagnosis_content_html = '';
                     if (data.itemCode == 'BS') {
-                        var diagnosis_content_html = '';
-                        diagnosis_content_html += '    <div class="clearfix">';
-                        diagnosis_content_html += '        <div class="pull-left">暂无其他病史数据</div>';
-                        diagnosis_content_html += '    </div>';
+                        diagnosis_content_html += '<div class="pb-10"><span>暂无其他病史数据</span></div>';
                         $(".data-view-" + data.itemCode + ":eq(1)").html(diagnosis_content_html);
                     } else {
-                        var diagnosis_content_html = '';
-                        diagnosis_content_html += '    <div class="m-t-5 u-card-1">';
-                        diagnosis_content_html += '        <div class="clearfix">';
-                        diagnosis_content_html += '            <div class="pull-left">暂无' + dict.itemName + '数据</div>';
-                        diagnosis_content_html += '        </div>';
-                        diagnosis_content_html += '    </div>';
+                        diagnosis_content_html += '<div class="pb-10"><span>暂无' + dict.itemName + '数据</span></div>';
                         $(".data-view-" + data.itemCode + ":eq(0)").html(diagnosis_content_html);
                     }
                 }
@@ -860,69 +655,94 @@ function buildDiagnosisDiagnosisEntityData(data) {
         }
     }
 }
-
+/**
+ * 获取其它诊断操作按钮
+ * 
+ * @param id
+ *            数据id
+ * @param patientId
+ *            患者id
+ * @param itemCode
+ * @param itemName
+ */
+function getDiagnosisEntityBtnsHtml(id, patientId, itemCode, itemName) {
+    var html = "";
+    if (!patientHasOutCome) {
+        html += '<button type="button" class="u-float-r ml-16" text onclick="ShowDiagnosisEntityTab(' + id + ', ' + patientId + ', \'' + itemCode
+                        + '\', \'' + itemName + '\')">编辑</button>';
+        html += '<button type="button" class="u-btn-red u-float-r" text onclick="removeDiagnosis(' + id + ', ' + patientId
+                        + ', \'diagnosis_entity\', \'' + itemCode + '\', \'' + itemName + '\')">删除</button>';
+    }
+    return html;
+}
 function buildDiagnosisChildrenView(dict, list) {
     if (dict.itemCode == 'BS') {
         $(".data-view-" + dict.itemCode + ":eq(1)").html('');
         $.each(list, function(i, v) {
             var diagnosis_content_html = '';
-            diagnosis_content_html += '    <div class="clearfix">';
-            diagnosis_content_html += '        <div class="pull-right">';
-            diagnosis_content_html += '            <span class="m-r-5">记录：' + v.createTimeShow + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
-                            + v.operatorName + '</span>';
-            if (!patientHasOutCome) {
-                diagnosis_content_html += '            <span class="u-btn-24-red m-r-5 fc-red" onclick="removeDiagnosis(' + v.id + ', '
-                                + v.fkPatientId + ', \'diagnosis_entity\', \'' + dict.itemCode + '\', \'' + dict.itemName + '\')">删除</span>';
-                diagnosis_content_html += '            <span class="u-btn-24-grey" onclick="ShowDiagnosisEntityTab(' + v.id + ', ' + v.fkPatientId
-                                + ', \'' + dict.itemCode + '\', \'' + dict.itemName + '\')">编辑</span>';
-            }
-            diagnosis_content_html += '        </div>';
-            diagnosis_content_html += '        <div class="pull-left">';
-            diagnosis_content_html += '            <div class="data-view-' + dict.itemCode + '-' + (i + 1) + '">';
-            diagnosis_content_html += '            </div>';
-            diagnosis_content_html += '        </div>';
-            diagnosis_content_html += '    </div>';
-            if (list.length > 1 && i != list.length - 1) {
-                diagnosis_content_html += '    <div class="f-dashed m-t-10 m-b-10"></div><!-- 分割虚线 -->';
-            }
+            // 分割虚线
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div class="pb-10 ' + (needLine ? "bb-dashed mb-12" : "") + ' data-view-' + dict.itemCode + '-' + (i + 1)
+                            + '">';
+            diagnosis_content_html += '</div>';
             $(".data-view-" + dict.itemCode + ":eq(1)").append(diagnosis_content_html);
-            // 定义子元素
-            var children_content_html = $("<ul data-item-level='root'></ul>");
-            // 生成children对应的值，多级递归
-            showChildrenContent(dict.childrens, children_content_html, v);
-            $(".data-view-" + dict.itemCode + "-" + (i + 1)).append(children_content_html);
+            if (!isEmptyObject(dict.childrens)) {
+                var children_content_html = '';
+                var addedCnt = 0;// 添加的数目
+                $.each(dict.childrens, function(index, child) {
+                    var node = $('<span><span>');
+                    showChildrenContent([ child ], node, v);
+                    if (!isEmpty(node.html())) {
+                        var nodeHtml = '<div class="pb-10" data-item-level="root">';
+                        nodeHtml += node.html();
+                        if (addedCnt == 0) {// 如果是第一行，有按钮
+                            nodeHtml += getDiagnosisEntityBtnsHtml(v.id, v.fkPatientId, dict.itemCode, dict.itemName);
+                        }
+                        nodeHtml += '</div>';
+                        children_content_html += nodeHtml;
+                        addedCnt++;
+                    }
+                });
+                $(".data-view-" + dict.itemCode + "-" + (i + 1)).append(children_content_html);
+                var create_info_html = '<span class="u-float-r opacity-5">记录：' + v.createTimeShow + '  ' + v.operatorName + '</span>';
+                if (addedCnt > 1) {// 如果添加的数目大于1，在最后一行插入记录人数据
+                    $(".data-view-" + dict.itemCode + "-" + (i + 1)).find("[data-item-level]:last").append(create_info_html);
+                } else if (addedCnt == 1) {// 如果只添加了一条，添加一条记录人行数据
+                    var nodeHtml = '<div class="pb-10" data-item-level="root">';
+                    nodeHtml += '  <span>&nbsp;</span>';// 占行符
+                    nodeHtml += create_info_html;
+                    nodeHtml += '</div>';
+                    $(".data-view-" + dict.itemCode + "-" + (i + 1)).append(nodeHtml);
+                }
+            }
         });
     } else {
         $(".data-view-" + dict.itemCode + ":eq(0)").html('');
         $.each(list, function(i, v) {
             var diagnosis_content_html = '';
-            diagnosis_content_html += '<div class="m-t-12 m-l-26 p-relative">';
-            diagnosis_content_html += '    <span class="u-bround-9 bg-grey"></span>';
-            diagnosis_content_html += '    <span class="m-l-10">' + v.createTimeShow + '</span>';
-            diagnosis_content_html += '    <span>医生：' + v.operatorName + '</span>';
+            diagnosis_content_html += '<div class="pb-12 bb-dashed mt-16">';
+            diagnosis_content_html += '  <span>' + v.createTimeShow + '</span>';
+            diagnosis_content_html += '  <span>医生：' + v.operatorName + '</span>';
+            diagnosis_content_html += getDiagnosisEntityBtnsHtml(v.id, v.fkPatientId, dict.itemCode, dict.itemName);
             diagnosis_content_html += '</div>';
-            diagnosis_content_html += '<div class="m-t-10 u-card-1">';
-            diagnosis_content_html += '    <div>';
-            if (!patientHasOutCome) {
-                diagnosis_content_html += '        <span class="u-btn-24-grey pull-right m-l-10" onclick="ShowDiagnosisEntityTab(' + v.id + ', '
-                                + v.fkPatientId + ', \'' + dict.itemCode + '\', \'' + dict.itemName + '\')">编辑</span>';
-                diagnosis_content_html += '        <span class="u-btn-24-red pull-right fc-red" onclick="removeDiagnosis(' + v.id + ', '
-                                + v.fkPatientId + ', \'diagnosis_entity\', \'' + dict.itemCode + '\', \'' + dict.itemName + '\')">删除</span>';
-            }
-            diagnosis_content_html += '    </div>';
-            diagnosis_content_html += '    <div class="data-view-' + dict.itemCode + '-' + (i + 1) + '">';
-            diagnosis_content_html += '    </div>';
-            diagnosis_content_html += '</div>';
+            var needLine = list.length > 1 && i != list.length - 1;
+            diagnosis_content_html += '<div class="' + (needLine ? "bb-dashed pb-12" : "") + ' data-view-' + dict.itemCode + '-' + (i + 1) + '">';
             $(".data-view-" + dict.itemCode + ":eq(0)").append(diagnosis_content_html);
-            // 定义子元素
-            var children_content_html = $("<ul data-item-level='root'></ul>");
-            // 生成children对应的值，多级递归
-            showChildrenContent(dict.childrens, children_content_html, v);
-            $(".data-view-" + dict.itemCode + "-" + (i + 1)).append(children_content_html);
+            if (!isEmptyObject(dict.childrens)) {
+                var children_content_html = '';
+                $.each(dict.childrens, function(index, child) {
+                    var node = $('<span><span>');
+                    showChildrenContent([ child ], node, v);
+                    if (!isEmpty(node.html())) {
+                        var nodeHtml = '<div class="mt-12" data-item-level="root">';
+                        nodeHtml += node.html();
+                        nodeHtml += '</div>';
+                        children_content_html += nodeHtml;
+                    }
+                });
+                $(".data-view-" + dict.itemCode + "-" + (i + 1)).append(children_content_html);
+            }
         });
-        if ($(".data-view-" + dict.itemCode + ":eq(0) .u-card-1").length > 1) {
-            $(".data-view-" + dict.itemCode + ":eq(0) span.u-bround-9:eq(0)").addClass("bg-blue").removeClass("bg-grey");
-        }
     }
 }
 
@@ -931,23 +751,11 @@ function buildDiagnosisChildrenView(dict, list) {
 function showChildrenContent(dict_list, parent, entity) {
     $.each(dict_list, function(i, dict) {
         // 如果有子节点，则遍历该子节点
-        if (dict.childrens && dict.childrens.length > 0) {
-            // 创建一个子节点li
-            var li = $("<li></li>");
-            // 将li的文本设置好，并马上添加一个空白的ul子节点，并且将这个li添加到父亲节点中
+        if (!isEmptyObject(dict.childrens)) {
             var itemName = dict.itemName.replace('？', '') + '：';
-            var ul = "<ul style='display: initial;' data-item-level='" + dict.itemLevel + "' data-item-code='" + dict.itemCode + "'></ul>";
-            if (dict.itemType && dict.itemType == 'radio') {
-                itemName = dict.itemName;
-                ul = "<ul data-item-level='" + dict.itemLevel + "' data-item-code='" + dict.itemCode + "'></ul>";
-            }
-            if (dict.itemCode.indexOf('CKDAKI') >= 0 && dict.itemLevel > 3) {
-                itemName = '<label class="form-span"><input type="' + dict.itemType + '" class="u-' + dict.itemType
-                                + '-1" checked="" disabled="disabled">' + dict.itemName + '</label>';
-            }
-            $(li).append(itemName).append(ul).appendTo(parent);
+            parent.append(itemName).append(childEl);
             // 将空白的ul作为下一个递归遍历的父亲节点传入
-            showChildrenContent(dict.childrens, $(li).children().eq(0), entity);
+            showChildrenContent(dict.childrens, parent, entity);
         }
         // 如果该节点没有子节点，则直接将该节点li以及文本创建好直接添加到父亲节点中
         else {
@@ -967,16 +775,13 @@ function showChildrenContent(dict_list, parent, entity) {
                     } else {
                         content = entityValue.content;
                     }
-                    if (dict.itemType == 'radio' || dict.itemType == 'checkbox') {
-                        content = '<label class="form-span"><input type="' + dict.itemType + '" class="u-' + dict.itemType
-                                        + '-1" checked="" disabled="disabled">' + content + '</label>';
-                    }
-                    $("<li style='display: initial; margin: 0 5px;'></li>").append(content).appendTo(parent);
+                    var childEl = $();
+                    parent.append("<span data-leaf>" + content + "；</span>");
                 }
             }
         }
-        if (i == dict_list.length - 1 && $(parent).find("li").length == 0) {
-            parent.parent().remove();
+        if (i == dict_list.length - 1 && parent.find("[data-leaf]").length == 0) {
+            parent.empty();
         }
     });
 }

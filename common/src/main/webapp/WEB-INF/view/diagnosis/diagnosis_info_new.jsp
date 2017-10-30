@@ -12,7 +12,7 @@
     <div class="mt-12 ml-12 diagnosis-btns"></div>
     <div class="diagnosis-content">
         <div id="medical_history" class="mt-12 position-relative diagnosis-card" >
-            <jsp:include page="diagnosis_info_medical_history.jsp" flush="true"></jsp:include>
+            <jsp:include page="diagnosis_info_medical_history2.jsp" flush="true"></jsp:include>
         </div>
         <div id="clinical_diagnosis" class="mt-12 position-relative diagnosis-card">
             <jsp:include page="diagnosis_info_clinical_diagnosis.jsp" flush="true"></jsp:include>
@@ -36,14 +36,14 @@
     <script type="text/javascript">
     var patientHasOutCome = ${patient.delFlag};
     </script>
-    <script src="${ctx }/assets/js/diagnosis/diagnosis_new.js?version=${version}"></script>
-    <jsp:include page="dialog/diagnosis_hist_first_dialysis.jsp" flush="true"></jsp:include>
+    <script src="${ctx }/assets/js/diagnosis/diagnosis_new1.js?version=${version}"></script>
+<%--     <jsp:include page="dialog/diagnosis_hist_first_dialysis.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_surgery.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_hd.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_pd.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_kt.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_allergy.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_pestilence.jsp" flush="true"></jsp:include>
-    <jsp:include page="dialog/diagnosis_hist_tumour.jsp" flush="true"></jsp:include>
+    <jsp:include page="dialog/diagnosis_hist_tumour.jsp" flush="true"></jsp:include> --%>
 </body>
 </html>
