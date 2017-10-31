@@ -259,7 +259,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
             if (dictHospitalLab.getValueType() == 1) {
                 patientAssayRecordBusi.setResultActual(Double.valueOf(result));
-
                 if (dictHospitalLab.getMinValue() != null) {
                     if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
                         patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
