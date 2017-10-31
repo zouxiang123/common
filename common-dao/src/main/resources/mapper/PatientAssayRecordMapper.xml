@@ -539,4 +539,20 @@
             AND fk_patient_id = #{fkPatientId}
         </if>
     </select>
+
+    <!-- 根据当前参数 创建日期 ，患者ID获取患者原始化验结果数据 -->
+    <select id="selectPatientAssayRecordByCreateDate" resultType="com.xtt.common.dao.model.PatientAssayRecord">
+        select
+        fk_patient_id as fkPatientId,
+        item_code as itemCode,
+        item_name as itemName,
+        result,
+        result_tips as resultTips,
+        value_unit as valueUnit
+        FROM
+        patient_assay_record
+        WHERE
+        create_time  &gt;= #{currentDate} and fk_tenant_id = #{tenantId}
+        and fk_patient_id=#{fkPatientId} and flage is null
+    </select>
 </mapper>

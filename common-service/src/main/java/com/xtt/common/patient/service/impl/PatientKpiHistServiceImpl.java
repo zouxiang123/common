@@ -84,4 +84,9 @@ public class PatientKpiHistServiceImpl implements IPatientKpiHistService {
             patientKpiHistMapper.insert(record);
         }
     }
+
+    @Override
+    public List<PatientKpiHistPO> listAnticoagulation(PatientKpiHistPO record) {
+        return patientKpiHistMapper.listAnticoagulation(record);
+    }
 }
