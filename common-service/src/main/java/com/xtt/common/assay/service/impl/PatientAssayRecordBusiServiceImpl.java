@@ -200,15 +200,21 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             dictHospitalLab.setFkTenantId(UserUtil.getTenantId());
             AssayHospDictPO dictHospitalLabOld = assayHospDictService.getByGroupIdAndItemCode(dictHospitalLab);
             if (dictHospitalLab.getValueType() == 1) {
-                if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                if (dictHospitalLabOld.getMinValue() != null) {
+                    if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                    }
                 }
-                if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                if (dictHospitalLabOld.getMaxValue() != null) {
+                    if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                    }
                 }
-                if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
-                                && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                if (dictHospitalLabOld.getMinValue() != null && dictHospitalLabOld.getMaxValue() != null) {
+                    if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
+                                    && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                    }
                 }
                 patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             }
@@ -253,16 +259,21 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
             if (valueType == 1) {
                 patientAssayRecordBusi.setResultActual(Double.valueOf(result));
-
-                if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                if (dictHospitalLab.getMinValue() != null) {
+                    if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                    }
                 }
-                if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                if (dictHospitalLab.getMaxValue() != null) {
+                    if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                    }
                 }
-                if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
-                                && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                    patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                if (dictHospitalLab.getMaxValue() != null && dictHospitalLab.getMinValue() != null) {
+                    if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
+                                    && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                    }
                 }
             }
             patientAssayRecordBusi
