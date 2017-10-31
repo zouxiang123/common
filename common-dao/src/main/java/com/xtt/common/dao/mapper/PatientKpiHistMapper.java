@@ -43,4 +43,14 @@ public interface PatientKpiHistMapper {
      *
      */
     void removeByPatientId(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
+
+    /**
+     * 根据条件查询数据，获取一个月的抗凝剂
+     * 
+     * @Title: listByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<PatientKpiHistPO> listAnticoagulation(PatientKpiHistPO record);
 }
