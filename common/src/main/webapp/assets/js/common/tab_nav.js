@@ -41,7 +41,6 @@ var tab_nav = {
             $("#" + bodyId).siblings().addClass("hide");
             // trigger define event
             $("#tabsDiv").trigger("tab_nav.click", [ $(this) ]);
-            stopEventBubble(event);
         });
         $(window).on("resize", function() {
             var height = $(window).height() - ($("#tabsBodyDiv").offset().top + 10);
