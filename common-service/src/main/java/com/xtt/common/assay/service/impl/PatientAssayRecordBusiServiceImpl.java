@@ -199,18 +199,27 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             result = dictHospitalLab.getResult();
             dictHospitalLab.setFkTenantId(UserUtil.getTenantId());
             AssayHospDictPO dictHospitalLabOld = assayHospDictService.getByGroupIdAndItemCode(dictHospitalLab);
-            if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
-            }
-            if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
-            }
-            if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
-                            && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+
+            if (dictHospitalLab.getValueType() == 1) {
+                if (dictHospitalLabOld.getMinValue() != null) {
+                    if (dictHospitalLabOld.getMinValue().doubleValue() > Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                    }
+                }
+                if (dictHospitalLabOld.getMaxValue() != null) {
+                    if (dictHospitalLabOld.getMaxValue().doubleValue() < Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                    }
+                }
+                if (dictHospitalLabOld.getMinValue() != null && dictHospitalLabOld.getMaxValue() != null) {
+                    if (dictHospitalLabOld.getMinValue().doubleValue() < Double.valueOf(result)
+                                    && dictHospitalLabOld.getMaxValue().doubleValue() > Double.valueOf(result)) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                    }
+                }
+                patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             }
             patientAssayRecordBusi.setResult(result);
-            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
             patientAssayRecordBusi.setReportTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setSampleTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
@@ -248,24 +257,32 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
             patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
-            patientAssayRecordBusi.setResultActual(Double.valueOf(result));
-            patientAssayRecordBusi.setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit()));
+            if (dictHospitalLab.getValueType() == 1) {
+                patientAssayRecordBusi.setResultActual(Double.valueOf(result));
+                if (dictHospitalLab.getMinValue() != null) {
+                    if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
+                    }
+                }
+                if (dictHospitalLab.getMaxValue() != null) {
+                    if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
+                    }
+                }
+                if (dictHospitalLab.getMaxValue() != null && dictHospitalLab.getMinValue() != null) {
+                    if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
+                                    && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
+                        patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
+                    }
+                }
+            }
+            patientAssayRecordBusi
+                            .setReference(dictHospitalLab.getReference().concat(dictHospitalLab.getUnit() == null ? "" : dictHospitalLab.getUnit()));
             patientAssayRecordBusi.setValueUnit(dictHospitalLab.getUnit());
             patientAssayRecordBusi.setAssayDate(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setAssayMonth(DateUtil.format(DateFormatUtil.getStartTime(assayDateStr), DateFormatUtil.FORMAT_YYYY_MM));
             patientAssayRecordBusi.setFlage(true);
             patientAssayRecordBusi.setDiaAbFlag(AssayConsts.BEFORE_HD);
-
-            if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_LOW);
-            }
-            if (dictHospitalLab.getMaxValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_HIGH);
-            }
-            if (dictHospitalLab.getMinValue().doubleValue() < Double.valueOf(assayHospDictPO.getResult())
-                            && dictHospitalLab.getMaxValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {
-                patientAssayRecordBusi.setResultTips(AssayConsts.TIPS_NORMAL);
-            }
             patientAssayRecordBusi.setSampleTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setReportTime(DateFormatUtil.getStartTime(assayDateStr));
             patientAssayRecordBusi.setFkTenantId(UserUtil.getTenantId());
