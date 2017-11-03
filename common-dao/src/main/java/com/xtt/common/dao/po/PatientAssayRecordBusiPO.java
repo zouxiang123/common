@@ -54,6 +54,16 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String endDateStr;
     private Date startCreateTime;
     private Date endCreateTime;
+    // 集团下所有租户id
+    private String groupTenant;
+
+    public String getGroupTenant() {
+        return groupTenant;
+    }
+
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
+    }
 
     public Integer getValueType() {
         return valueType;
