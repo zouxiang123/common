@@ -59,7 +59,6 @@ var system_dialog = {
          * 确定取消事件
          */
         $("#systemDialog").on("click", "[systemdialog-btn]", function() {
-            $("#systemDialog").hide();
             var type = $(this).attr("systemdialog-btn");
             if (type == "cancel") {
                 if (!isEmpty(system_dialog.cancelCall)) {
@@ -70,6 +69,7 @@ var system_dialog = {
                     system_dialog.confirmCall();
                 }
             }
+            $("#systemDialog").hide();
         });
     },
     /**

@@ -2,7 +2,6 @@ package com.xtt.common.assay.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xtt.common.api.AssayQueryApi;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.constants.CmSysParamConsts;
@@ -266,31 +266,59 @@ public class PatientAssayRecordController {
     /**
      * 获取患者dictCodes对应的最新的一条记录
      * 
-     * @Title: getValueByDictCodes
+     * @Title: getLatestByDictCodes
      * @param codes
      * @param patientId
+     * @param dateStr
+     *            日期字符串（yyyy-MM-dd）
      * @return
      *
      */
-    @RequestMapping("getValueByDictCodes")
+    @RequestMapping("getLatestByDictCodes")
     @ResponseBody
-    public HttpResult getValueByDictCodes(String[] codes, Long patientId) {
+    public HttpResult getLatestByDictCodes(@RequestBody AssayQueryApi query) {
         HttpResult result = HttpResult.getSuccessInstance();
-        if (codes == null || patientId == null) {
+        if (query.getDictCodes() == null || query.getPatientId() == null) {
             result = HttpResult.getWarningInstance();
             result.setErrmsg("患者id和查询项目不能为空");
             return result;
         }
-        List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiService.listLatestOneByFkDictCodes(patientId, Arrays.asList(codes),
-                        UserUtil.getTenantId(), new Date(), null);
-        Map<String, String> rs = new HashMap<>();
+        Date date = null;
+        if (StringUtil.isNotBlank(query.getDateStr())) {
+            date = DateFormatUtil.convertStrToDate(query.getDateStr());
+        } else {
+            date = new Date();
+        }
+        List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiService.listLatestOneByFkDictCodes(query.getPatientId(), query.getDictCodes(),
+                        UserUtil.getTenantId(), date, null);
+        Map<String, Object> rs = new HashMap<>();
         if (CollectionUtils.isNotEmpty(list)) {
             list.forEach(record -> {
-                rs.put(record.getFkDictCode(), record.getResult());
+                rs.put(record.getFkDictCode(), record);
             });
         }
         result.setRs(rs);
         return result;
     }
 
+    /**
+     * 获取患者距离date最近的6条数据
+     * 
+     * @Title: listLatestByDictCode
+     * @param dictCode
+     * @param patientId
+     * @param dateStr
+     * @param diaAbFlag
+     *            透前透后标识
+     * @return
+     *
+     */
+    @RequestMapping("listLatestByDictCode")
+    @ResponseBody
+    public HttpResult listLatestByDictCode(String dictCode, Long patientId, String dateStr, String diaAbFlag) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        result.setRs(patientAssayRecordBusiService.listLatestByFkDictCode(patientId, dictCode, UserUtil.getTenantId(),
+                        DateFormatUtil.convertStrToDate(dateStr), 3, StringUtil.stripToNull(diaAbFlag)));
+        return result;
+    }
 }

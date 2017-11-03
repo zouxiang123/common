@@ -22,7 +22,7 @@ var assay_hist_report = {
                 laydate.render({
                     elem : this,
                     theme : '#31AAFF',
-                    change : function(value) {
+                    done : function(value) {
                         $("#assayHistReportSearch").find(":radio").prop("checked", false);
                     }
                 });
@@ -80,7 +80,6 @@ var assay_hist_report = {
     getData : function() {
         var s = $("#assayHistReportSearch").find("[name='startDate']").val();
         var e = $("#assayHistReportSearch").find("[name='endDate']").val();
-        var patientId = $("#patientId").val();
         $.ajax({
             url : ctx + "/assay/patientAssayRecord/getAssayReport.shtml?tt=" + (new Date()).getTime(),
             type : "post",

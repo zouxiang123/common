@@ -58,33 +58,6 @@ $(document).ready(function(){
       }
    });
 
-  //table表格全选
-  // function AllSelectd(){
-  //   this.allCheckbox = function(ev){
-  //     var myChild = $(ev.attr("data-Allselect")).find("input[data-Allselect-child]");
-  //     for(var i=0;i<myChild.length;i++){
-  //       if($(ev).get(0).checked){
-  //         $(myChild).eq(i).get(0).checked = true;
-  //       }else{
-  //         $(myChild).eq(i).get(0).checked = false;
-  //       }
-  //     }
-  //   }
-  //   this.allCheild = function(ev){
-  //     var myAllData = $(ev.attr("data-Allselect-child")).find("input[data-Allselect]");
-  //     var myChild = $(ev.attr("data-Allselect-child")).find("input[data-Allselect-child]");
-  //     for(var i=0;i<myChild.length;i++){
-  //       if($(myChild).eq(i).get(0).checked == false){
-  //          $(myAllData).get(0).checked = false;
-  //          return false;
-  //       }else{
-  //         $(myAllData).get(0).checked = true;
-  //       }
-  //     }
-  //   }
-  // }
-  // var allSelectd = new AllSelectd();
-
   //表格绑定事件
   var hasNub;
    $(".u-table-column>.u-table-fixed>.u-table-fixed-body").scroll(function(){
@@ -100,6 +73,8 @@ $(document).ready(function(){
       $(this).scrollLeft();
       $(this).children(".u-table-fixed.column-left").css({"left": $(this).scrollLeft()})
    });
+   textareaAdaption();
+   dynamicMenu();
 
 });
 
@@ -948,7 +923,7 @@ function dynamicMenu() {
     }
   }
 }
-dynamicMenu()
+
 
 function textareaAdaption() {
     let dome = $(".u-textarea-adaption");
@@ -962,7 +937,6 @@ function textareaAdaption() {
         $(this).siblings("pre").html($(this).val());
     });
 }
-textareaAdaption();
 
 //省略号表格
 function xttTable(obj) {
@@ -1128,6 +1102,7 @@ $.fn.selectMore = function(){
         },
         optionX: function(){
             var classX;
+            var disable;
             var selectL;
             var selectC;
             $this.selectU.html("");
@@ -1135,7 +1110,8 @@ $.fn.selectMore = function(){
             $this.selectV.append($this.selectI)            
             for(var i = 0;i< li.length;i++){
                 li.eq(i).attr("selected") ? classX = "icon-active":classX = "";
-                selectL = $('<li Svalue = "'+li[i].value+'" id="'+ i +'" class="'+classX+'" >'+ li[i].innerText +'</li>')
+                li.eq(i).attr("disabled") ? disable = "disabled":disable = "";
+                selectL = $('<li Svalue = "'+li[i].value+'" id="'+ i +'" class="'+classX+'" '+ disable +' >'+ li[i].innerText +'</li>')
                 selectC = $('<div class="u-value" Sid="'+ i +'"><span>'+ li[i].innerText +'</span><i class="icon-close"></i></div>')
                 $this.selectU.append(selectL)
                 if(classX){
@@ -1147,6 +1123,9 @@ $.fn.selectMore = function(){
             if(!$this.selectV.children(".u-value").length){
                 var presentation = $this.attr("presentation") || "";
                 $this.selectV.append("<span>"+ presentation +"</span>");
+            }
+            if($this.attr("disabled")){
+               $this.selectM.attr("disabled","disabled");
             }
         }
     }
@@ -1204,6 +1183,9 @@ $.fn.selectSearch = function(){
             if($this.selectV.html() == ""){
                 var presentation = $this.attr("presentation") || "";
                 $this.selectV.append("<span>"+ presentation +"</span>");
+            }
+            if($this.attr("disabled")){
+               $this.selectS.attr("disabled","disabled");
             }
             $init = false;
         },

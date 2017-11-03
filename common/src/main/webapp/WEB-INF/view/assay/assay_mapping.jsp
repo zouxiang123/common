@@ -58,9 +58,9 @@ tbody tr.active td{
                         </div>
                         <div class="tab-body">
                             <div class="col-sm-6 col-md-6 p-r-0 p-l-0">
+                                <input class="nav-search-input fill-parent" style="width:88%;" type="search" placeholder="请根据名称或者编码进行搜索" id="hospAssaySerch">
                                 <div class="table-responsive bg-white" style="overflow-x: hidden; overflow-y: auto; max-height: 400px;"
                                     id="hospitalAssayTable">
-                                    <input class="nav-search-input fill-parent" style="width:88%;" type="search" placeholder="请根据名称或者编码进行搜索" id="hospAssaySerch">
                                     <table class="table">
                                         <thead>
                                             <th><span>项目代号</span></th>
@@ -75,8 +75,8 @@ tbody tr.active td{
                                 <button class="btn btn-def" style="width: 80px;" onclick="assay_mapping.mappingAssayDict();">关联</button>
                             </div>
                             <div class="col-sm-4 col-md-5 p-r-0 p-l-0">
+                                <input class="nav-search-input fill-parent" style="width:88%;" type="search" placeholder="请根据名称或者编码进行搜索" id="sysAssaySerch">
                                 <div class="table-responsive bg-white" style="overflow-x: hidden; overflow-y: auto; max-height: 400px;" id="sysAssayTable">
-                                    <input class="nav-search-input fill-parent" style="width:88%;" type="search" placeholder="请根据名称或者编码进行搜索" id="sysAssaySerch">
                                     <table class="table">
                                         <thead>
                                             <th><span>项目代号</span></th>

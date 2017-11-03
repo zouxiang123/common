@@ -17,7 +17,7 @@ var assay_record_add = {
                 theme : '#31AAFF',
                 value : new Date().pattern("yyyy-MM-dd"),
                 btns : [ "now", "confirm" ],
-                change : function(value) {
+                done : function(value) {
                     $("#assayHistReportSearch").find(":radio").prop("checked", false);
                 }
             });

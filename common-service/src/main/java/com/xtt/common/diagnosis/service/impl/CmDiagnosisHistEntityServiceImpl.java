@@ -10,7 +10,7 @@ package com.xtt.common.diagnosis.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +19,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.api.DiagnosisApi;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.mapper.CmDiagnosisEntityMapper;
 import com.xtt.common.dao.mapper.CmDiagnosisEntityValueMapper;
@@ -29,7 +30,6 @@ import com.xtt.common.dao.po.CmDictDiagnosisPO;
 import com.xtt.common.diagnosis.service.ICmDiagnosisHistEntityService;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
 import com.xtt.common.diagnosis.util.DiagnosisUtil;
-import com.xtt.common.dto.DiagnosisApiDto;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -95,7 +95,7 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
     }
 
     @Override
-    public Map<Long, Map<String, String>> getLatestStrByPatientIds(DiagnosisApiDto param) {
+    public Map<Long, Map<String, String>> getLatestStrByPatientIds(DiagnosisApi param) {
         Map<Long, Map<String, String>> map = null;
         if (CollectionUtils.isEmpty(param.getPatientIds()) || CollectionUtils.isEmpty(param.getTypes())) {
             return map;
@@ -124,11 +124,11 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
                         continue;
                     }
                     // 需要显示的字典
-                    Set<CmDictDiagnosisPO> usedDictMap = new HashSet<>();
+                    Set<CmDictDiagnosisPO> usedDictMap = new LinkedHashSet<>();
                     // 有输入内容itemCode
                     Map<String, String> hasContentValueMap = new HashMap<>(entity.getValueList().size());
                     // 顶级显示字典
-                    Set<CmDictDiagnosisPO> topSet = new HashSet<>();
+                    Set<CmDictDiagnosisPO> topSet = new LinkedHashSet<>();
                     entity.getValueList().forEach(val -> {
                         List<CmDictDiagnosisPO> treeList = DiagnosisUtil.getTreeListByLeafCode(dictMap, val.getItemCode(), entity.getItemCode());
                         if (CollectionUtils.isNotEmpty(treeList)) {
@@ -143,7 +143,7 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
                         StringBuilder sb = new StringBuilder();
                         topSet.forEach(dict -> {
                             DiagnosisUtil.initDictAsTree(usedDictMap, dict);
-                            sb.append(dict.getItemName());
+                            sb.append(StringUtil.stripToEmpty(dict.getItemName()).replaceAll("？", ""));
                             if (CollectionUtils.isNotEmpty(dict.getChildrens())) {
                                 sb.append("：");
                                 appendDiagnosis(sb, dict, hasContentValueMap);

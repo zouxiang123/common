@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.collect.Lists;
+import com.xtt.common.api.DiagnosisApi;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CmDiagnosisConstants;
@@ -51,7 +52,6 @@ import com.xtt.common.diagnosis.service.ICmDiagnosisHistService;
 import com.xtt.common.diagnosis.service.ICmDiagnosisHistSurgeryService;
 import com.xtt.common.diagnosis.service.ICmDiagnosisHistTumourService;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
-import com.xtt.common.dto.DiagnosisApiDto;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.DataUtil;
@@ -809,7 +809,7 @@ public class PatientDiagnosisController {
      */
     @RequestMapping("getLatestStrByPatientIds")
     @ResponseBody
-    public HttpResult getLatestStrByPatientIds(@RequestBody DiagnosisApiDto param) {
+    public HttpResult getLatestStrByPatientIds(@RequestBody DiagnosisApi param) {
         LOGGER.info("getLatestStrByPatientIds , request param is :" + param.toString());
         HttpResult result = HttpResult.getSuccessInstance();
         Map<Long, Map<String, String>> map = cmDiagnosisHistEntityService.getLatestStrByPatientIds(param);

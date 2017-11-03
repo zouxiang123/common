@@ -30,4 +30,14 @@ public class ApiUrlConsts {
      * 登陆接口
      */
     public static final String CM_LOGOUT = "logoutApi.shtml";
+
+    /*------------------PD--------------------------*/
+    /**
+     * 获取最近一次腹透数据填写日期
+     */
+    public static final String PD_GET_LATEST_INPUT_DATE = "pdLatestInputRecord/getDate.shtml";
+    /**
+     * 更新最近一次腹透数据填写日期
+     */
+    public static final String PD_UPDATE_LATEST_INPUT_DATE = "pdLatestInputRecord/updateDate.shtml";
 }

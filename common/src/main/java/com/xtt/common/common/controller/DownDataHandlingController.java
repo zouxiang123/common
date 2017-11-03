@@ -21,13 +21,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xtt.common.api.CommQueryApi;
 import com.xtt.common.assay.controller.PatientAssayRecordController;
 import com.xtt.common.assay.service.IPatientAssayConfService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.constants.IApiConst;
 import com.xtt.common.dao.model.PatientAssayConf;
-import com.xtt.common.dto.ApiCommQueryDto;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.report.controller.AssayReportController;
 import com.xtt.common.util.UserUtil;
@@ -64,7 +64,7 @@ public class DownDataHandlingController {
     @SuppressWarnings("unchecked")
     @RequestMapping("handling")
     @ResponseBody
-    public Map<String, String> handling(ApiCommQueryDto po) {
+    public Map<String, String> handling(CommQueryApi po) {
         String parmType = po.getParmType();
         Integer tenantId = po.getTenantId();
         LOGGER.info("get request to handling {}", po.toString());

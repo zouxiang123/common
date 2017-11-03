@@ -1,5 +1,5 @@
 
-package com.xtt.common.dto;
+package com.xtt.common.api;
 
 /**
  * @ClassName com.xtt.hd.dao.po.ApiThirdPatientAssayRecordPO.java
@@ -8,7 +8,7 @@ package com.xtt.common.dto;
  * @version V1.0
  * @date 2017年4月13日 上午11:56:40
  */
-public class ApiCommQueryDto {
+public class CommQueryApi {
     private String parmType; // 入参类型(调用指定的接口)
 
     private String dateStr;// 日期(2017-05-01)

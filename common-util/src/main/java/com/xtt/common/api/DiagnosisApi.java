@@ -6,11 +6,11 @@
  * @date: 2017年9月27日 上午10:49:15 
  *
  */
-package com.xtt.common.dto;
+package com.xtt.common.api;
 
 import java.util.Collection;
 
-public class DiagnosisApiDto {
+public class DiagnosisApi {
     private static final String REQUEST_BASE = "patient/diagnosis/";
     /**
      * 获取患者最新一次的诊断字符串地址

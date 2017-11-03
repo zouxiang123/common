@@ -10,11 +10,6 @@ $(document).ready(function() {
 });
 
 function addCommonEvents() {
-    // textarea 自动伸缩事件
-    $("textarea.textarea-auto-height").each(function() {
-        addTextareaAutoHeightEvent(this);
-    });
-
     document.onkeydown = function(e) {
         e = e || event;
         if (e.keyCode == 116) {
@@ -289,7 +284,7 @@ $.ajaxPrefilter(function(options, originalOptions, jqXHR) {
         jqXHR.abort();// 终止请求
     }
 
-    options.loading = options.loading || true;
+    options.loading = isEmpty(options.loading) ? true : options.loading;
     options.loadingMsg = options.loadingMsg || "正在加载中...";
 
     var beforeSend = options.beforeSend;

@@ -93,6 +93,7 @@ var assay_mapping = {
                 $('#hospAssaySerch').fastLiveFilter('#hospitalAssayTableBody', {
                     timeout : 300
                 });
+                $('#hospAssaySerch').change();
             }
         });
     },
@@ -120,6 +121,7 @@ var assay_mapping = {
                 $('#sysAssaySerch').fastLiveFilter('#sysAssayTableBody', {
                     timeout : 300
                 });
+                $('#sysAssaySerch').change();
             }
         });
     },
@@ -160,9 +162,9 @@ var assay_mapping = {
             success : function(data) {
                 if (data.status == 1) {
                     assay_mapping.getAssayTableBody();
-                    showAlert("解除关联成功");
+                    showTips("解除关联成功");
                 } else if (data.status == 2) {
-                    showWarn("固定项不能删除");
+                    showTips("固定项不能删除");
                 }
             }
         });
@@ -188,9 +190,9 @@ var assay_mapping = {
             success : function(data) {
                 if (data.status == 1) {
                     assay_mapping.getAssayTableBody();
-                    showAlert("关联成功");
+                    showTips("关联成功");
                 } else if (data.status == 2) {
-                    showWarn("该关联项已存在");
+                    showTips("该关联项已存在");
                 }
             }
         });

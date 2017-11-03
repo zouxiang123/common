@@ -23,8 +23,6 @@ public enum AssayEnum {
     NEUT_PCT("中性粒细胞百分比", "NEUT_PCT"), EO_NO("嗜酸细胞数", "EO_NO"), EO_PCT("嗜酸细胞%", "EO_PCT"), FBG("空腹血糖", "FBG"), CO2("透前CO2", "CO2"), PLT("血小板", "PLT"),
     // 传染病指标
     HBEAG("乙肝E抗原", "HBEAG"), HBSAG("乙肝表面抗原", "HBSAG"), HCV("丙肝抗体", "HCV"), HIV("HIV抗体", "HIV"),
-    /*------------ PD ----------------*/
-    PD_BUN("腹透尿素", "PD_BUN"), PD_CR("腹透肌酐", "PD_CR"),
     // 24小时尿液
     PD_NBUN_24H("24H尿尿素", "PD_NBUN_24H"), PD_NCR_24H("24H尿肌酐", "PD_NCR_24H"),
     // 24小时腹透液
