@@ -69,17 +69,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
-        if (record.getFkTenantId() == null) {
-            record.setFkTenantId(UserUtil.getTenantId());
-        }
+        record.setGroupTenant(UserUtil.getGroupTenant());
         return patientAssayRecordBusiMapper.listByCondition(record);
     }
 
     @Override
     public List<PatientAssayRecordBusiPO> listCategory(PatientAssayRecordBusiPO record) {
-        if (record.getFkTenantId() == null) {
-            record.setFkTenantId(UserUtil.getTenantId());
-        }
+        record.setGroupTenant(UserUtil.getGroupTenant());
         if (StringUtil.isNotBlank(record.getStrStartDate())) {
             record.setStartDate(DateFormatUtil.getStartTime(record.getStrStartDate()));
         }
