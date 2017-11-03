@@ -103,4 +103,10 @@
   <delete id="deleteByUserId">
   	delete from sys_user2role where fk_user_id = #{userId,jdbcType=BIGINT}
   </delete>
+  <!-- 根据用户id和所属系统删除关联关系 -->
+  <delete id="deleteByUserIdAndSysOwner">
+    DELETE ur FROM sys_user2role ur
+    JOIN sys_role sr ON sr.id = ur.fk_role_id
+    WHERE ur.fk_user_id = #{userId} AND sr.sys_owner = #{sysOwner}
+  </delete>
 </mapper>

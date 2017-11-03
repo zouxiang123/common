@@ -47,12 +47,12 @@ public class RoleServiceImpl implements IRoleService {
 
     @Override
     public List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types, String sysOwner) {
-        return sysObjMapper.selectMenuListByRoleId(roleId, types, null);
+        return sysObjMapper.selectMenuListByRoleId(roleId, types, sysOwner);
     }
 
     @Override
     public List<SysObj> getAllMenuList(String[] types, String sysOwner) {
-        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), types, null);
+        return sysObjMapper.selectAllMenuList(SysParamUtil.getValueByName(CmSysParamConsts.VERSION), types, sysOwner);
     }
 
     @Override

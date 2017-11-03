@@ -128,7 +128,7 @@ public class UserServiceImpl implements IUserService {
             user.setInitial(familyInitialService.getInitial(user.getName().substring(0, 1)));
         }
         if (user.getId() != null) {
-            sysUser2roleMapper.deleteByUserId(user.getId());// 删除原来旧的关联数据
+            sysUser2roleMapper.deleteByUserIdAndSysOwner(user.getId(), UserUtil.getSysOwner());// 删除原来旧的关联数据
             associationRole(user.getRoleId(), user.getId());// 重新创建关联
             user.setUpdateTime(new Date());
             user.setUpdateUserId(UserUtil.getLoginUserId());

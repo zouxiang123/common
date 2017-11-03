@@ -133,11 +133,12 @@
 											<td width="30" class="personal-title">*&nbsp;&nbsp;所属系统：</td>
 											<td width="10"></td>
 											<td width="150" class="personal-value">
-												<select name="sysOwner" class="selectpicker" value="${user.sysOwner}" >
-													<c:forEach var="item" items="${sys_owner }">
-														<option value="${item.itemCode }">${item.itemName }</option>
-													</c:forEach>
-												</select>									
+												<c:forEach var="item" items="${sys_owner }">
+                                                    <div class="item-box">
+                                                        <input id="sysOwnerCheckbox${item.itemCode}" type="checkbox" name="sysOwner" value="${item.itemCode}" <c:if test="${item.isChecked}">checked="checked"</c:if> />
+                                                        <label for="sysOwnerCheckbox${item.itemCode}" class="form-span form-item-label">${item.itemName}</label>
+                                                    </div>
+												</c:forEach>
 											</td>
 										</tr>
 									 </tbody>

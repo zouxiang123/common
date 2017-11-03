@@ -247,7 +247,7 @@
   		</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
+    	AND (so.sys_owner = #{sysOwner } or so.sys_owner = 'CM')
     </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
@@ -261,7 +261,7 @@
   		</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+        AND (sys_owner = #{sysOwner } or sys_owner = 'CM')
     </if> 
   	ORDER BY p_code,code ASC
   </select>
@@ -278,7 +278,7 @@
   		AND so.type in <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">#{item}</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
+        AND (so.sys_owner = #{sysOwner } or so.sys_owner = 'CM')
     </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
@@ -292,7 +292,7 @@
   		</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+        AND (sys_owner = #{sysOwner } or sys_owner = 'CM')
     </if> 
   </select>
   
