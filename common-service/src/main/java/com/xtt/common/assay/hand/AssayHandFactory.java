@@ -128,59 +128,62 @@ public abstract class AssayHandFactory {
         // 转换过日期数据
         Set<String> dateSet = new TreeSet<>();
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
-            // 检查项目唯一ID为空，或者itemCode为空，或者组id为空的数据不处理
+            // 检查项目唯一ID、itemCode、组id、化验结果等任意一项数据为空则不处理
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId()) || StringUtil.isBlank(patientAssayRecord.getItemCode())
-                            || StringUtil.isBlank(patientAssayRecord.getGroupId())) {
+                            || StringUtil.isBlank(patientAssayRecord.getGroupId()) || StringUtil.isBlank(patientAssayRecord.getResult())) {
                 continue;
+            }
+            if (patientAssayRecord.getSampleTime() == null && patientAssayRecord.getReportTime() == null) {// 如果样品时间不存在且报告时间不存在，不处理
+                continue;
+            }
+            if (patientAssayRecord.getSampleTime() == null) {// 如果样品时间为空，设置样品时间的值为报告时间的
+                patientAssayRecord.setSampleTime(patientAssayRecord.getReportTime());
+            }
+            if (patientAssayRecord.getReportTime() == null) {// 如果报告时间为空，设置报告时间的值为样品时间的
+                patientAssayRecord.setReportTime(patientAssayRecord.getSampleTime());
             }
             int countByInspectionId = patientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId(),
                             patientAssayRecord.getFkTenantId());
             if (countByInspectionId != 0) {
                 continue;
-            } else {
-                if (StringUtil.isBlank(patientAssayRecord.getResult())) {
-                    continue;
-                }
-                if (existsInspectionId.contains(patientAssayRecord.getInspectionId())) {// 如果插入过，无须再插入
-                    continue;
-                }
-                existsInspectionId.add(patientAssayRecord.getInspectionId());
-                String assayDictKey = patientAssayRecord.getItemCode() + "_" + patientAssayRecord.getGroupId();
-                if (!assayHospDictMap.containsKey(assayDictKey)) {
-                    assayHospDictMap.put(assayDictKey, patientAssayRecord);
-                }
-                patientAssayRecordBusi = new PatientAssayRecordBusi();
-                BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
-                // create time 取原始数据的create_time,以免后续查询获取不到数据
-                patientAssayRecordBusi.setFlage(false);
-                patientAssayRecordBusi.setUpdateTime(nowDate);
-                patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                patientAssayRecordBusi.setAssayDate(patientAssayRecord.getSampleTime());// 检查日期默认取样品时间
-                patientAssayRecordBusi
-                                .setAssayMonth(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate(), DateFormatUtil.FORMAT_YYYY_MM));
-                patientAssayRecordBusi.setResultActual(matcherToNum(patientAssayRecordBusi.getResult()));
-                patientAssayRecordBusi.setId(id++);
-                patientAssayRecordBusi.setDiaAbFlag(
-                                getDiaAbAlag(patientAssayRecord, assayFilterRule.getKeywordBefore(), assayFilterRule.getKeywordAfter()));
-                // 备份透后记录
-                PatientAssayInspectioidBack inspectioidBack = patientAssayRecordBusiService.getInspectioidBack(
-                                patientAssayRecordBusi.getInspectionId(), patientAssayRecordBusi.getFkPatientId(),
-                                patientAssayRecordBusi.getDiaAbFlag(), patientAssayRecordBusi.getFkTenantId());
-                if (inspectioidBack != null) {
-                    inspectioidBackList.add(inspectioidBack);
-                }
-                dateSet.add(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate()));
-                listPatientAssayRecordBusi.add(patientAssayRecordBusi);
-                i++;
-                if (i == 1000) {
-                    patientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
-                    listPatientAssayRecordBusi.clear();
-                    i = 1;
-                }
-                patientAssayRecordBusi = null;
-
             }
+            if (existsInspectionId.contains(patientAssayRecord.getInspectionId())) {// 如果插入过，无须再插入
+                continue;
+            }
+            existsInspectionId.add(patientAssayRecord.getInspectionId());
+            String assayDictKey = patientAssayRecord.getItemCode() + "_" + patientAssayRecord.getGroupId();
+            if (!assayHospDictMap.containsKey(assayDictKey)) {
+                assayHospDictMap.put(assayDictKey, patientAssayRecord);
+            }
+            patientAssayRecordBusi = new PatientAssayRecordBusi();
+            BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
+            // create time 取原始数据的create_time,以免后续查询获取不到数据
+            patientAssayRecordBusi.setFlage(false);
+            patientAssayRecordBusi.setUpdateTime(nowDate);
+            patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
+            patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
+            patientAssayRecordBusi.setAssayDate(patientAssayRecord.getSampleTime());// 检查日期默认取样品时间
+            patientAssayRecordBusi
+                            .setAssayMonth(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate(), DateFormatUtil.FORMAT_YYYY_MM));
+            patientAssayRecordBusi.setResultActual(matcherToNum(patientAssayRecordBusi.getResult()));
+            patientAssayRecordBusi.setId(id++);
+            patientAssayRecordBusi
+                            .setDiaAbFlag(getDiaAbAlag(patientAssayRecord, assayFilterRule.getKeywordBefore(), assayFilterRule.getKeywordAfter()));
+            // 备份透后记录
+            PatientAssayInspectioidBack inspectioidBack = patientAssayRecordBusiService.getInspectioidBack(patientAssayRecordBusi.getInspectionId(),
+                            patientAssayRecordBusi.getFkPatientId(), patientAssayRecordBusi.getDiaAbFlag(), patientAssayRecordBusi.getFkTenantId());
+            if (inspectioidBack != null) {
+                inspectioidBackList.add(inspectioidBack);
+            }
+            dateSet.add(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate()));
+            listPatientAssayRecordBusi.add(patientAssayRecordBusi);
+            i++;
+            if (i == 1000) {
+                patientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
+                listPatientAssayRecordBusi.clear();
+                i = 1;
+            }
+            patientAssayRecordBusi = null;
         }
         if (inspectioidBackList.size() > 0) {
             patientAssayInspectioidBackService.insertList(inspectioidBackList);
