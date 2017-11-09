@@ -85,6 +85,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         if (Objects.equal("out", record.getPatientOutcomeType())) {
             // 判断是否为血透或者腹透
             if ("1".equals(record.getType()) || "2".equals(record.getType())) {
+                owner.setSysOwner(record.getToSysOwner());
                 // 判断是否为其它医院
                 if (record.getToTenantId() == null) {
                     // 转其它医院将是否有效制定为false
