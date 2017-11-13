@@ -289,7 +289,7 @@
     <select id="listByCardNoTypeTenant" resultMap="BaseResultMap">
         select *
         from patient_card
-        where card_no = #{cardNo} AND card_type=#{cardType} AND fk_tenant_id=#{tenantId}
+        where card_no = #{cardNo} AND card_type=#{cardType} AND fk_tenant_id=#{tenantId} and del_flag=false
         <if test="nePatientId != null">
             and fk_pt_id != #{nePatientId}
         </if>
