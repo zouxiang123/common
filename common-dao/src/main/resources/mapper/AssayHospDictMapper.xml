@@ -574,6 +574,9 @@
             <if test="fkTenantId != null">
                 and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
             </if>
+            <if test="isAuto != null">
+                and is_auto = #{isAuto}
+            </if>
         </where>
     </select>
     <!-- 检测化验单项目是否重复： -->

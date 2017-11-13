@@ -244,7 +244,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             String result = assayHospDictPO.getResult();
             assayHospDictPO.setFkTenantId(UserUtil.getTenantId());
             AssayHospDictPO dictHospitalLab = assayHospDictService.getByGroupIdAndItemCode(assayHospDictPO);
-            Integer valueType = dictHospitalLab.getValueType();
             PatientAssayRecordBusi patientAssayRecordBusi = new PatientAssayRecordBusi();
             patientAssayRecordBusi.setFkPatientId(assayHospDictPO.getFkPatientId());
             patientAssayRecordBusi.setGroupId(dictHospitalLab.getGroupId());
@@ -253,7 +252,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusi.setItemCode(dictHospitalLab.getItemCode());
             patientAssayRecordBusi.setItemName(dictHospitalLab.getItemName());
             patientAssayRecordBusi.setResult(assayHospDictPO.getResult());
-            if (valueType == 1) {
+            if (dictHospitalLab.getValueType() == 1) {
                 patientAssayRecordBusi.setResultActual(Double.valueOf(result));
                 if (dictHospitalLab.getMinValue() != null) {
                     if (dictHospitalLab.getMinValue().doubleValue() > Double.valueOf(assayHospDictPO.getResult())) {

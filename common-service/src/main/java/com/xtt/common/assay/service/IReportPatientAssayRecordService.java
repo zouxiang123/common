@@ -47,7 +47,6 @@ public interface IReportPatientAssayRecordService {
      * 同步拷贝上个月数据到当月作为基础数据
      * 
      * @Title: insertAutoCopyPreDataByTenantId
-     * @param paramDate
      * @param monthAndYear
      * @param tenantId
      * @param itemCodes
@@ -120,5 +119,4 @@ public interface IReportPatientAssayRecordService {
      * 
      */
     List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record);
-
 }

@@ -66,7 +66,9 @@ public class TenantAuthorityCache {
      */
     public static Integer getBedNum(Integer tenantId) {
         try {
-            UserUtil.setThreadTenant(tenantId);
+            if (UserUtil.getLoginUser() == null || UserUtil.getTenantId() == null) {
+                UserUtil.setThreadTenant(tenantId);
+            }
             return Integer.parseInt(getValue(CommonConstants.BED_NUM));
         } catch (Exception e) {
             return 0;

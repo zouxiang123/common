@@ -78,4 +78,33 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
                     @Param("fkTenantId") Integer fkTenantId, @Param("fkPatientId") Long fkPatientId);
 
+
+    /**
+     * 根据患者id，报告时间查询患者化验数据
+     *
+     * @param po
+     * @return
+     */
+    List<PatientAssayRecordPO> listAssayRecordByCondition(PatientAssayRecordPO po);
+
+    /**
+     * 根据化验时间，租户id。查询对应患者id
+     *
+     * @param assayDate
+     * @param tenantId
+     * @return
+     */
+    List<Long> listPatientIds(@Param("assayDate") String assayDate, @Param("tenantId") Integer tenantId);
+
+    /**
+     * 根据当前参数 创建日期 ，患者ID获取患者原始化验结果数据
+     * @Title: selectPatientAssayRecordByCreateDate
+     * @param currentDate 创建日期
+     * @param tenantId
+     * @param patientId 患者ID
+     * @return
+     *
+     */
+    List<PatientAssayRecord> selectPatientAssayRecordByCreateDate(@Param("currentDate") Date currentDate, @Param("tenantId") String tenantId,@Param("fkPatientId")Long patientId);
+
 }

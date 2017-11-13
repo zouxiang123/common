@@ -72,4 +72,14 @@ public interface IPatientKpiHistService {
      */
     void insertBatch(List<PatientKpiHist> records);
 
+    /**
+     * 获取一个月的抗凝剂
+     * 
+     * @Title: listAnticoagulation
+     * @param record
+     * @return
+     *
+     */
+    List<PatientKpiHistPO> listAnticoagulation(PatientKpiHistPO record);
+
 }

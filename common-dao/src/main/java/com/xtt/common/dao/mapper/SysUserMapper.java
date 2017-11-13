@@ -11,6 +11,7 @@ import com.xtt.common.dao.po.SysUserPO;
 
 @Repository
 public interface SysUserMapper {
+
     int deleteByPrimaryKey(Long id);
 
     int insert(SysUser record);
@@ -105,7 +106,7 @@ public interface SysUserMapper {
     void updatePassword(@Param("id") Long id, @Param("password") String password);
 
     /**
-     * <<<<<<< HEAD 根据id查询数据
+     * 根据id查询数据
      *
      * @Title: getById
      * @param id
@@ -206,5 +207,26 @@ public interface SysUserMapper {
      * @return
      */
     SysUser getRoundUser(@Param("constantType") Integer constantType, @Param("fkTenantId") Integer fkTenantId);
+
+    /**
+     * 统计所有人员信息
+     * 
+     * @Title: countAllUser
+     * @param tenantId
+     * @return
+     *
+     */
+    List<SysUserPO> countAllUser(@Param("tenantId") Integer tenantId);
+
+    /**
+     * 根据角色获取医生护士
+     * 
+     * @Title: listRoundUser
+     * @param constantType
+     * @param fkTenantId
+     * @return
+     *
+     */
+    List<SysUser> listUserByParentId(@Param("parentId") Integer parentId, @Param("fkTenantId") Integer fkTenantId);
 
 }

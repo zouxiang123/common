@@ -31,7 +31,16 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
 
     @Override
     public List<PatientAssayRecordPO> listByCreateTime(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
-
         return patientAssayRecordMapper.listByCreateTime(startCreateTime, endCreateTime, UserUtil.getTenantId(), fkPatientId);
+    }
+
+    @Override
+    public List<PatientAssayRecordPO> listAssayRecordByCondition(PatientAssayRecordPO po) {
+        return patientAssayRecordMapper.listAssayRecordByCondition(po);
+    }
+
+    @Override
+    public List<Long> listPatientIds(String assayDate, Integer tenantId) {
+        return patientAssayRecordMapper.listPatientIds(assayDate, tenantId);
     }
 }

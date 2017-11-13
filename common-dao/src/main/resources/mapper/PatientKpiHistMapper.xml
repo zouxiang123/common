@@ -220,4 +220,13 @@
   <delete id="removeByPatientId">
     DELETE FROM patient_kpi_hist WHERE fk_patient_id = #{fkPatientId} AND fk_tenant_id = #{fkTenantId} AND sys_owner = #{sysOwner}
   </delete>
+  <!-- 获取一个月内的抗凝剂 -->
+  <select id="listAnticoagulation" parameterType="com.xtt.common.dao.po.PatientKpiHistPO" resultMap="POResultMap">
+    SELECT pk.* from patient_kpi_hist pk WHERE fk_patient_id = #{fkPatientId} AND fk_tenant_id = #{fkTenantId} 
+    and record_date BETWEEN date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(  
+   day from now())-1 day),interval 1 month) and  date_sub(date_sub(date_format(now(),'%y-%m-%d'),interval extract(  
+   day from now()) day),interval 0 month) 
+   and category ='anticoagulation'
+     order by record_date asc
+  </select>
 </mapper>

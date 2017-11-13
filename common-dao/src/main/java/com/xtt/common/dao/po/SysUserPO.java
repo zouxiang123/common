@@ -38,6 +38,8 @@ public class SysUserPO extends SysUser {
     private String multiTenant;
     private String skin;
 
+    private Integer value;// 统计值
+
     public String getRoleName() {
         return roleName;
     }
@@ -155,6 +157,14 @@ public class SysUserPO extends SysUser {
 
     public void setSkin(String skin) {
         this.skin = skin;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
 }

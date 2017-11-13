@@ -24,12 +24,29 @@ public interface IPatientAssayRecordService {
      * 根据创建时间查询出当天的数据
      * 
      * @Title: listByCreateTime
-     * @param createTime
+     * @param startCreateTime
      * @param endCreateTime
      * @param fkPatientId
      * @return
      *
      */
     List<PatientAssayRecordPO> listByCreateTime(Date startCreateTime, Date endCreateTime, Long fkPatientId);
+
+    /**
+     * 根据患者id，报告时间查询患者化验数据
+     *
+     * @param po
+     * @return
+     */
+    List<PatientAssayRecordPO> listAssayRecordByCondition(PatientAssayRecordPO po);
+
+    /**
+     * 根据化验时间，租户id。查询对应患者id
+     *
+     * @param assayDate
+     * @param tenantId
+     * @return
+     */
+    List<Long> listPatientIds(String assayDate, Integer tenantId);
 
 }
