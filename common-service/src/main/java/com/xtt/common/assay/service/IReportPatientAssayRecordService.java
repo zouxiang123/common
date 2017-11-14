@@ -10,7 +10,7 @@ package com.xtt.common.assay.service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Date;
+
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
 
@@ -109,13 +109,14 @@ public interface IReportPatientAssayRecordService {
      *
      */
     void deleteTempByBatchNo(String batchNo);
+
     /**
-     * 同步检验数据生成病程记录
-     * @Title: insertProgressNoteSetting
-     * @param currentDate 创建时间
-     * @param tenantId
-     * @param patientId
-     *
+     * 根据日期分组查询阶段统计
+     * 
+     * @Title: listByStage
+     * @param record
+     * @return
+     * 
      */
-    void insertProgressNoteSetting(Date currentDate, String tenantId, Long patientId);
+    List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record);
 }

@@ -51,7 +51,7 @@ public class CmDiagnosisHistTumourServiceImpl implements ICmDiagnosisHistTumourS
     public List<CmDiagnosisHistTumourPO> listByPatientId(Long patientId) {
         CmDiagnosisHistTumourPO record = new CmDiagnosisHistTumourPO();
         record.setFkPatientId(patientId);
-        record.setFkTenantId(UserUtil.getTenantId());
+        record.setGroupTenant(UserUtil.getGroupTenant());
         return listByCondition(record);
     }
 
@@ -99,12 +99,15 @@ public class CmDiagnosisHistTumourServiceImpl implements ICmDiagnosisHistTumourS
             Set<Long> ids = new HashSet<>(list.size());
             list.forEach(record -> {
                 ids.add(record.getCreateUserId());
+                ids.add(record.getUpdateUserId());
             });
             Map<Long, SysUserDto> userMap = UserCache.getById(ids);
             list.forEach(record -> {
                 SysUserDto user = userMap.get(record.getCreateUserId());
+                SysUserDto updateUser = userMap.get(record.getUpdateUserId());
                 if (user != null) {
                     record.setCreateUserName(user.getName());
+                    record.setUpdateUserName(updateUser.getName());
                 }
             });
         }

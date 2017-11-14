@@ -200,7 +200,6 @@ public class CmDictController {
             return map;
         }
         cmDictService.updateDictionary(record);
-        commonCacheService.cacheDict(UserUtil.getTenantId());
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }

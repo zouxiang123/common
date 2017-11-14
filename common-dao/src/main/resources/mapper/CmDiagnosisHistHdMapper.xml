@@ -255,17 +255,21 @@
   </update>
   
   <!-- 自定义 -->
-  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistHdPO" />
-  
-  <select id="selectByPatient" parameterType="java.lang.Long" resultMap="POResultMap">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    select 
-    cdhh.*,
+  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistHdPO" >
+        <result column="name" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
+  <!-- 根据患者id查询数据 -->
+  <select id="selectByPatient" resultMap="POResultMap">
+   select
+    cdhh.*,st.name,
     (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
-    from cm_diagnosis_hist_hd cdhh, sys_user su, sys_user usu
-    where su.id = cdhh.create_user_id and usu.id = cdhh.update_user_id
-    and cdhh.fk_patient_id = #{patientId,jdbcType=BIGINT} order by cdhh.id desc
+    from cm_diagnosis_hist_hd cdhh INNER JOIN sys_user su ON su.id = cdhh.create_user_id
+		INNER JOIN sys_user usu on usu.id = cdhh.update_user_id
+		INNER JOIN sys_tenant st on st.id = cdhh.fk_tenant_id
+        where cdhh.fk_patient_id = #{patientId,jdbcType=BIGINT} 
+    <if test="groupTenant != null and groupTenant !=''">
+        and cdhh.fk_tenant_id in  (${groupTenant})
+    </if>
+    order by cdhh.id desc
   </select>
 </mapper>

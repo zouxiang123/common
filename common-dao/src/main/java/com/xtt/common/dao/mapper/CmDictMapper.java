@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.CmDict;
@@ -41,4 +42,19 @@ public interface CmDictMapper {
      *
      */
     List<CmDictPO> selectDictCategory(CmDict record);
+
+    /**
+     * 根据唯一条件查询字典数据
+     * 
+     * @Title: getByUniqueCondition
+     * @param pItemCode
+     *            类别编号
+     * @param itemCode
+     *            项目编号
+     * @param fkTenantId
+     *            租户id
+     * @return
+     *
+     */
+    CmDict getByUniqueCondition(@Param("pItemCode") String pItemCode, @Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 }

@@ -11,14 +11,32 @@ public class SysUserPO extends SysUser {
 
     private String roleName;
     private String birthdayShow;
-    private Integer lastStep;
-    private String nextStepName;
     private String roleId;
     private String sexShow;
-    private String parentRoleId;
+
+    private String position;
     private String positionShow;
-    @SuppressWarnings("unused")
+    /** 座机号 */
+    private String telephone;
+
     private String mobileShow;
+    /** 查询条件，是否是集团用户 */
+    private Boolean groupFlag;
+
+    /** 集团用户名称 */
+    private String multiTenantName;
+
+    /**
+     * 角色类别
+     */
+    private String roleType;
+    /**
+     * 所属系统
+     */
+    private String sysOwner;
+    /** 用户关联的租户（多个） */
+    private String multiTenant;
+    private String skin;
 
     private Integer value;// 统计值
 
@@ -42,22 +60,6 @@ public class SysUserPO extends SysUser {
         this.birthdayShow = birthdayShow;
     }
 
-    public Integer getLastStep() {
-        return lastStep;
-    }
-
-    public void setLastStep(Integer lastStep) {
-        this.lastStep = lastStep;
-    }
-
-    public String getNextStepName() {
-        return nextStepName;
-    }
-
-    public void setNextStepName(String nextStepName) {
-        this.nextStepName = nextStepName;
-    }
-
     public String getRoleId() {
         return roleId;
     }
@@ -74,14 +76,6 @@ public class SysUserPO extends SysUser {
         this.sexShow = sexShow;
     }
 
-    public String getParentRoleId() {
-        return parentRoleId;
-    }
-
-    public void setParentRoleId(String parentRoleId) {
-        this.parentRoleId = parentRoleId;
-    }
-
     public String getPositionShow() {
         return positionShow;
     }
@@ -91,11 +85,78 @@ public class SysUserPO extends SysUser {
     }
 
     public String getMobileShow() {
-        return StringUtil.formatMobile(super.getMobile());
+        if (StringUtil.isNotBlank(super.getMobile())) {
+            mobileShow = StringUtil.formatMobile(super.getMobile());
+        }
+        return mobileShow;
     }
 
     public void setMobileShow(String mobileShow) {
         this.mobileShow = mobileShow;
+    }
+
+    public Boolean getGroupFlag() {
+        return groupFlag;
+    }
+
+    public void setGroupFlag(Boolean groupFlag) {
+        this.groupFlag = groupFlag;
+    }
+
+    public String getRoleType() {
+        return roleType;
+    }
+
+    public void setRoleType(String roleType) {
+        this.roleType = roleType;
+    }
+
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getMultiTenantName() {
+        return multiTenantName;
+    }
+
+    public void setMultiTenantName(String multiTenantName) {
+        this.multiTenantName = multiTenantName;
+    }
+
+    public String getSkin() {
+        return skin;
+    }
+
+    public void setSkin(String skin) {
+        this.skin = skin;
     }
 
     public Integer getValue() {

@@ -25,6 +25,7 @@
     <result column="e_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="e_update_user_id" jdbcType="BIGINT" property="updateUserId" />
     <result column="operator_name" jdbcType="VARCHAR" property="operatorName" />
+    <result column="name" jdbcType="VARCHAR" property="hospitalName" />
     
 	<collection property="valueList" ofType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO" column="fk_entity_id">
 	  <id column="v_id" jdbcType="BIGINT" property="id" />
@@ -47,38 +48,14 @@
     id, fk_patient_id, item_code, fk_tenant_id, create_time, create_user_id, update_time, 
     update_user_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="EntityResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    select
-    <!-- entity columns -->
-    e.id as e_id,
-    e.fk_patient_id as e_fk_patient_id,
-    e.item_code as e_item_code,
-    cdd.item_name as item_name,
-    e.fk_tenant_id as e_fk_tenant_id,
-    e.create_time as e_create_time,
-    e.create_user_id as e_create_user_id,
-    e.update_time as e_update_time,
-    e.update_user_id as e_update_user_id,
-    (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operator_name,
-    <!-- value columns -->
-    v.id as v_id,
-    v.fk_patient_id as v_fk_patient_id,
-    v.fk_entity_id as v_fk_entity_id,
-    v.item_code as v_item_code,
-    v.item_value as v_item_value,
-    v.content as v_content,
-    v.fk_tenant_id as v_fk_tenant_id,
-    v.create_time as v_create_time,
-    v.create_user_id as v_create_user_id,
-    v.update_time as v_update_time,
-    v.update_user_id as v_update_user_id
-    from cm_diagnosis_entity e,cm_diagnosis_entity_value v
-    ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
-    and v.fk_entity_id=e.id and e.id = #{id,jdbcType=BIGINT}
+    select 
+    <include refid="Base_Column_List" />
+    from cm_diagnosis_entity
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
@@ -200,7 +177,9 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="selectEntitiesByPatient" parameterType="com.xtt.common.dao.po.CmDiagnosisEntityPO" resultMap="EntityResultMap">
+  
+   <!-- user define -->
+  <select id="getById" parameterType="java.lang.Long" resultMap="EntityResultMap">
     select
     <!-- entity columns -->
     e.id as e_id,
@@ -224,17 +203,60 @@
     v.create_time as v_create_time,
     v.create_user_id as v_create_user_id,
     v.update_time as v_update_time,
-    v.update_user_id as v_update_user_id
-    from cm_diagnosis_entity e,cm_diagnosis_entity_value v
-    ,sys_user su, sys_user usu, cm_dict_diagnosis cdd
-    where su.id = e.create_user_id and usu.id = e.update_user_id and cdd.item_code = e.item_code and cdd.fk_tenant_id = e.fk_tenant_id
-    and v.fk_entity_id=e.id and e.fk_patient_id=#{fkPatientId}
-    <if test="fkTenantId != null">
-        AND e.fk_tenant_id = #{fkTenantId}
-    </if>
-    <if test="itemCode != null">
-      and e.item_code = #{itemCode,jdbcType=VARCHAR}
-    </if>
-    order by e.create_time desc
+    v.update_user_id as v_update_user_id,
+	st.name
+    
+	from cm_diagnosis_entity e
+	INNER JOIN cm_diagnosis_entity_value v on v.fk_entity_id=e.id
+	INNER JOIN sys_user su on su.id = e.create_user_id
+	INNER JOIN sys_user usu on usu.id = e.update_user_id
+	INNER JOIN cm_dict_diagnosis cdd on cdd.item_code = e.item_code
+	INNER JOIN sys_tenant st on st.id = e.fk_tenant_id
+	
+    where e.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="selectEntitiesByPatient" parameterType="com.xtt.common.dao.po.CmDiagnosisEntityPO" resultMap="EntityResultMap">
+	select
+	<!-- entity columns -->
+	e.id as e_id,
+	e.fk_patient_id as e_fk_patient_id,
+	e.item_code as e_item_code,
+	cdd.item_name as item_name,
+	e.fk_tenant_id as e_fk_tenant_id,
+	e.create_time as e_create_time,
+	e.create_user_id as e_create_user_id,
+	e.update_time as e_update_time,
+	e.update_user_id as e_update_user_id,
+	(case when usu.name is not null and usu.name != '' then usu.name else
+	su.name end) as operator_name,
+	<!-- value columns -->
+	v.id as v_id,
+	v.fk_patient_id as v_fk_patient_id,
+	v.fk_entity_id as v_fk_entity_id,
+	v.item_code as v_item_code,
+	v.item_value as v_item_value,
+	v.content as v_content,
+	v.fk_tenant_id as v_fk_tenant_id,
+	v.create_time as v_create_time,
+	v.create_user_id as v_create_user_id,
+	v.update_time as v_update_time,
+	v.update_user_id as v_update_user_id,
+	st.name
+	from cm_diagnosis_entity e
+	INNER JOIN cm_diagnosis_entity_value v on v.fk_entity_id=e.id
+	INNER JOIN sys_user su on su.id = e.create_user_id
+	INNER JOIN sys_user usu on usu.id = e.update_user_id
+	INNER JOIN cm_dict_diagnosis cdd on cdd.item_code = e.item_code
+	INNER JOIN sys_tenant st on st.id = e.fk_tenant_id
+	where e.fk_patient_id=#{fkPatientId}
+	<if test="itemCode != null">
+		and e.item_code = #{itemCode,jdbcType=VARCHAR}
+	</if>
+	<if test="groupTenant != null and groupTenant !=''">
+		and e.fk_tenant_id in (${groupTenant})
+	</if>
+	order by e.create_time desc
   </select>
 </mapper>
+

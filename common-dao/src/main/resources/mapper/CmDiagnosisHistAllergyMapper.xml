@@ -228,17 +228,20 @@
   </update>
   
   <!-- 自定义 -->
-  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistAllergyPO" />
-  
-  <select id="selectByPatient" parameterType="java.lang.Long" resultMap="POResultMap">
-    <!--
-      WARNING - @mbggenerated, do not modify!
-    -->
-    select 
-    cdha.*,
-    (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
-    from cm_diagnosis_hist_allergy cdha, sys_user su, sys_user usu
-    where su.id = cdha.create_user_id and usu.id = cdha.update_user_id
-    and cdha.fk_patient_id = #{patientId,jdbcType=BIGINT} order by cdha.id desc
+  <resultMap extends="ResultMapWithBLOBs" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistAllergyPO" >
+          <result column="hospitalName" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
+  <!-- 根据患者id查询数据 -->
+  <select id="selectByPatient" resultMap="POResultMap">
+   SELECT cdha.*,st.name hospitalName,
+			(case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
+		from cm_diagnosis_hist_allergy cdha INNER JOIN sys_user su on  su.id = cdha.create_user_id
+		INNER JOIN sys_user usu on usu.id = cdha.update_user_id
+		INNER JOIN sys_tenant st on st.id = cdha.fk_tenant_id
+    where cdha.fk_patient_id = #{patientId,jdbcType=BIGINT} 
+    <if test="groupTenant != null and groupTenant !=''">
+        and cdha.fk_tenant_id in  (${groupTenant}) 
+    </if>
+    order by cdha.id desc
   </select>
 </mapper>

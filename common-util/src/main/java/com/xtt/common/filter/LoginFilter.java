@@ -2,12 +2,11 @@ package com.xtt.common.filter;
 
 import java.io.IOException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -37,21 +36,23 @@ public class LoginFilter implements Filter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginFilter.class);
 
     /* 过滤地址 */
-    private List<String> excludePathList = Collections.synchronizedList(new ArrayList<String>());
-    private List<String> excludeFileList = Collections.synchronizedList(new ArrayList<String>());
+    /* 过滤地址 */
+    private Set<String> excludePathSet = null;
+    private Set<String> excludeFileSet = null;
     private boolean needRedirect = false;
     private String homePath = null;
 
+    @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
         String loadExcludePaths = filterConfig.getInitParameter("excludePath");
         if (StringUtils.isNotBlank(loadExcludePaths)) {
-            arrayConvertList(loadExcludePaths, excludePathList);
+            excludePathSet = arrayConvertSet(loadExcludePaths);
         }
 
         String loadexcludeFiles = filterConfig.getInitParameter("excludeFile");
         if (StringUtil.isNotBlank(loadexcludeFiles)) {
-            arrayConvertList(loadexcludeFiles, excludeFileList);
+            excludeFileSet = arrayConvertSet(loadexcludeFiles);
         }
         String needRedirectStr = filterConfig.getInitParameter("needRedirect");
         if (StringUtil.isNotBlank(needRedirectStr)) {
@@ -60,29 +61,32 @@ public class LoginFilter implements Filter {
         homePath = filterConfig.getInitParameter("homePath");
     }
 
+    @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         // 添加过滤请求
         long startTime = System.currentTimeMillis();
+        // clear local thread login user
+        UserUtil.setThreadLoginUser(null);
+        /** 校验是否特殊地址 排除[excludePath、excludeFile] */
+        if (SSOClientUtil.isVerifyRequestFile(excludeFileSet, request) || SSOClientUtil.isVerifyRequestURL(excludePathSet, request)) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String cookieValue = HttpServletUtil.getCookieValueByName(CommonConstants.COOKIE_TOKEN);
         cookieValue = StringUtil.isBlank(cookieValue) ? request.getParameter(CommonConstants.COOKIE_TOKEN) : cookieValue;
         if (StringUtil.isNotBlank(cookieValue)) {// cookie 中的token不为空时，将其放到请求中去
             req.setAttribute(CommonConstants.COOKIE_TOKEN, cookieValue);
         }
         // 移动端Token校验
-        String token = req.getParameter(CommonConstants.API_TOKEN);
         Map<String, Object> authMap = ContextAuthUtil.getAuth();
-        if (token != null && authMap == null) {
-            Map<String, Object> map = new HashMap<String, Object>();
+        if (request.getParameter(CommonConstants.API_TOKEN) != null && authMap == null) {
+            Map<String, Object> map = new HashMap<>();
             map.put(CommonConstants.API_STATUS, CommonConstants.FAILURE);
             map.put(CommonConstants.API_ERROR_MESSAGE, "invalidate token");
             response.getWriter().print(CommonUtil.object2Json(map));
-            return;
-        }
-        /** 校验是否特殊地址 排除[excludePath、excludeFile] */
-        if (SSOClientUtil.isVerifyRequestFile(excludeFileList, request) || SSOClientUtil.isVerifyRequestURL(excludePathList, request)) {
-            chain.doFilter(request, response);
             return;
         }
 
@@ -100,7 +104,8 @@ public class LoginFilter implements Filter {
                     url = url.concat("/").concat(homePath).concat(".shtml");
                 }
                 url = URLEncoder.encode(url, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url));
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat(goToUrl).concat(".shtml?redirectUrl=").concat(url)
+                                .concat("&sysOwner=").concat(HttpServletUtil.getSysName()));
                 return;
             }
         }
@@ -126,7 +131,8 @@ public class LoginFilter implements Filter {
                     }
                 }
                 url = URLEncoder.encode(url + paramStr, "UTF-8");
-                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR + "login.shtml?redirectUrl=" + url);
+                response.sendRedirect(CommonConstants.COMMON_SERVER_ADDR.concat("login.shtml?redirectUrl=" + url).concat("&sysOwner=")
+                                .concat(HttpServletUtil.getSysName()));
             } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             }
@@ -150,9 +156,14 @@ public class LoginFilter implements Filter {
 
     }
 
+    @Override
     public void destroy() {
-        excludePathList.clear();
-        excludeFileList.clear();
+        if (excludePathSet != null) {
+            excludePathSet.clear();
+        }
+        if (excludeFileSet != null) {
+            excludeFileSet.clear();
+        }
         needRedirect = false;
         homePath = null;
     }
@@ -161,23 +172,18 @@ public class LoginFilter implements Filter {
      * 数组转集合
      * 
      * @param arrays
-     * @param addlist
      */
-    private void arrayConvertList(String arrays, List<String> addlist) {
+    private Set<String> arrayConvertSet(String arrays) {
         String[] analyArrays = arrays.split(",");
+        Set<String> set = new HashSet<>(analyArrays.length);
         for (String path : analyArrays) {
-            addlist.add(path);
+            set.add(path);
         }
+        return set;
     }
 
     private boolean isLogin(HttpServletRequest request, Map<String, Object> authMap) {
         if (authMap == null || authMap.get(CommonConstants.LOGIN_USER) == null) {
-            return false;
-        }
-        // 检查登陆用户是否等登陆当前系统
-        LoginUser user = (LoginUser) authMap.get(CommonConstants.LOGIN_USER);
-        String sysName = HttpServletUtil.getSysName();
-        if (sysName != null && user.getSysOwner().indexOf(sysName) == -1) {
             return false;
         }
         return true;

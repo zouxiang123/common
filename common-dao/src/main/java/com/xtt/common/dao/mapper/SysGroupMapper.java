@@ -1,5 +1,7 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.SysGroup;
@@ -17,4 +19,14 @@ public interface SysGroupMapper {
     int updateByPrimaryKeySelective(SysGroup record);
 
     int updateByPrimaryKey(SysGroup record);
+
+    /**
+     * 查询所有的集团
+     * 
+     * @Title: getSysGroupAll
+     * @param sysGroup
+     * @return
+     *
+     */
+    List<SysGroup> listSysGroup(SysGroup sysGroup);
 }

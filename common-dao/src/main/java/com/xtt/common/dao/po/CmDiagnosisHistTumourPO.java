@@ -16,6 +16,34 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
     private String recordDateShow;
     private String createTimeShow;
     private String createUserName;
+    private String updateUserName;
+    private String multiTenant;
+    private String hospitalName; // 就诊医院
+    private String groupTenant; // 租户所属集团下全部的租户
+
+    public String getGroupTenant() {
+        return groupTenant;
+    }
+
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
+    }
+
+    public String getUpdateUserName() {
+        return updateUserName;
+    }
+
+    public void setUpdateUserName(String updateUserName) {
+        this.updateUserName = updateUserName;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
+    }
 
     public String getRecordDateShow() {
         if (super.getRecordDate() != null) {
@@ -48,6 +76,14 @@ public class CmDiagnosisHistTumourPO extends CmDiagnosisHistTumour {
 
     public void setCreateUserName(String createUserName) {
         this.createUserName = createUserName;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
     }
 
 }

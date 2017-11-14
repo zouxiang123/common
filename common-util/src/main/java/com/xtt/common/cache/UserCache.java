@@ -19,14 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xtt.common.dto.SysUserDto;
-import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 public class UserCache {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserCache.class);
 
-    public static String getKey(Integer tenantId, Long id) {
-        return tenantId + "sysUser" + (id == null ? "*" : id);
+    public static String getKey(Long id) {
+        return "sysUser" + (id == null ? "*" : String.valueOf(id));
     }
 
     public static void cacheAll(List<SysUserDto> list) {
@@ -35,7 +34,7 @@ public class UserCache {
             SysUserDto obj;
             for (int i = 0; i < list.size(); i++) {
                 obj = list.get(i);
-                map.put(getKey(obj.getFkTenantId(), obj.getId()), obj);
+                map.put(getKey(obj.getId()), obj);
             }
             RedisCacheUtil.batchSetObject(map);
         }
@@ -45,20 +44,27 @@ public class UserCache {
         if (id == null)
             return null;
         try {
-            return (SysUserDto) RedisCacheUtil.getObject(getKey(UserUtil.getTenantId(), id));
+            return (SysUserDto) RedisCacheUtil.getObject(getKey(id));
         } catch (Exception e) {
             LOGGER.warn("get user data from redis", e);
             return null;
         }
     }
 
+    /**
+     * 根据用户id获取用户名称
+     * 
+     * @Title: getNameById
+     * @param id
+     * @return if user not exists then "" else user.name
+     *
+     */
     public static String getNameById(Long id) {
-        SysUserDto obj = getById(id);
-        if (obj == null) {
-            return "";
-        } else {
-            return obj.getName();
+        SysUserDto user = getById(id);
+        if (user != null) {
+            return user.getName();
         }
+        return "";
     }
 
     @SuppressWarnings("unchecked")
@@ -67,9 +73,8 @@ public class UserCache {
         if (CollectionUtils.isEmpty(ids))
             return new HashMap<Long, SysUserDto>();
         List<String> idList = new ArrayList<String>(ids.size());
-        Integer tenantId = UserUtil.getTenantId();
         for (Long id : ids) {
-            idList.add(getKey(tenantId, id));
+            idList.add(getKey(id));
         }
         try {
             List<SysUserDto> result = (List<SysUserDto>) RedisCacheUtil.batchGetObject(idList);
@@ -100,7 +105,29 @@ public class UserCache {
     public static void refresh(SysUserDto obj) {
         if (obj.getId() == null)
             return;
-        String key = getKey(obj.getFkTenantId(), obj.getId());
+        String key = getKey(obj.getId());
         RedisCacheUtil.setObject(key, obj);
+    }
+
+    /**
+     * 根据id删除缓存数据
+     * 
+     * @Title: deleteById
+     * @param id
+     *            用户id
+     *
+     */
+    public static void deleteById(Long id) {
+        RedisCacheUtil.delete(getKey(id));
+    }
+
+    /**
+     * 清空缓存
+     * 
+     * @Title: clear
+     *
+     */
+    public static void clear() {
+        RedisCacheUtil.deletePattern(UserCache.getKey(null));
     }
 }

@@ -32,7 +32,6 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
 
     @Override
     public void updateOwner(PatientOwner record) {
-        patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId());
         PatientOwner query = new PatientOwner();
         query.setFkPatientId(record.getFkPatientId());
         query.setSysOwner(record.getSysOwner());
@@ -41,9 +40,11 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
         if (CollectionUtils.isNotEmpty(list)) {// 判断所属系统是否存在,如果存在，更新其是否有效标识
             PatientOwner owner = list.get(0);
             owner.setIsEnable(record.getIsEnable());
-            DataUtil.setSystemFieldValue(owner);
+            owner.setIsTemp(record.getIsTemp());
+            DataUtil.setUpdateSystemFieldValue(owner);
             patientOwnerMapper.updateByPrimaryKey(owner);
         } else {
+            record.setIsEnable(true);
             insert(record);
         }
     }
@@ -51,5 +52,10 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
     @Override
     public List<PatientOwner> selectByCondition(PatientOwner record) {
         return patientOwnerMapper.selectByCondition(record);
+    }
+
+    @Override
+    public List<PatientOwner> listTenantIdByPatientId(PatientOwner record) {
+        return patientOwnerMapper.listTenantIdByPatientId(record);
     }
 }

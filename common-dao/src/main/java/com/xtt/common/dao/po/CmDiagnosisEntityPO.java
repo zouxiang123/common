@@ -25,6 +25,9 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private String operatorName;
     private String itemName;
     private String createTimeShow;
+    private String multiTenant;
+    private String hospitalName; // 就诊医院
+    private String groupTenant; // 租户所属集团下全部的租户
     /**
      * Entity对应的Value集合
      */
@@ -33,13 +36,24 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private Map<String, List<CmDiagnosisEntityValuePO>> valueMap;
 
     public CmDiagnosisEntityPO() {
-        this.valueMap = MapUtils.lazyMap(new HashMap<String, List<Object>>(), new Factory() {
+        this.valueMap = MapUtils.lazyMap(new HashMap<String, List<Object>>(), (Factory) () -> LazyList
+                        .decorate(new ArrayList<CmDiagnosisEntityValuePO>(), FactoryUtils.instantiateFactory(CmDiagnosisEntityValuePO.class)));
+    }
 
-            public Object create() {
-                return LazyList.decorate(new ArrayList<CmDiagnosisEntityValuePO>(), FactoryUtils.instantiateFactory(CmDiagnosisEntityValuePO.class));
-            }
+    public String getGroupTenant() {
+        return groupTenant;
+    }
 
-        });
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
+    }
+
+    public String getHospitalName() {
+        return hospitalName;
+    }
+
+    public void setHospitalName(String hospitalName) {
+        this.hospitalName = hospitalName;
     }
 
     public String getOperatorName() {
@@ -83,4 +97,13 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     public void setValueMap(Map<String, List<CmDiagnosisEntityValuePO>> valueMap) {
         this.valueMap = valueMap;
     }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
+    }
+
 }

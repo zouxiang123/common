@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xtt.common.dao.mapper.CmPatientHistoryMapper">
-  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.CmPatientHistory">
+<mapper namespace="com.xtt.common.dao.mapper.PatientMapper">
+<resultMap id="BaseResultMap" type="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
@@ -9,43 +9,30 @@
     <result column="account" jdbcType="VARCHAR" property="account" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="initial" jdbcType="VARCHAR" property="initial" />
+    <result column="spell_initials" jdbcType="VARCHAR" property="spellInitials" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="id_type" jdbcType="VARCHAR" property="idType" />
     <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
     <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
     <result column="profession" jdbcType="VARCHAR" property="profession" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
     <result column="province" jdbcType="INTEGER" property="province" />
     <result column="county" jdbcType="INTEGER" property="county" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="dry_weight" jdbcType="DECIMAL" property="dryWeight" />
-    <result column="balance" jdbcType="DECIMAL" property="balance" />
-    <result column="del_flag" jdbcType="BIT" property="delFlag" />
-    <result column="charge_type" jdbcType="VARCHAR" property="chargeType" />
-    <result column="medicare_card" jdbcType="VARCHAR" property="medicareCard" />
-    <result column="medicare_card_type" jdbcType="VARCHAR" property="medicareCardType" />
-    <result column="admission_number" jdbcType="VARCHAR" property="admissionNumber" />
-    <result column="spell_initials" jdbcType="VARCHAR" property="spellInitials" />
-    <result column="outpatient_number" jdbcType="VARCHAR" property="outpatientNumber" />
-    <result column="id_type" jdbcType="VARCHAR" property="idType" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="emergency_contacts" jdbcType="VARCHAR" property="emergencyContacts" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="emergency_mobile" jdbcType="VARCHAR" property="emergencyMobile" />
     <result column="emergency_mobile2" jdbcType="VARCHAR" property="emergencyMobile2" />
     <result column="emergency_mobile3" jdbcType="VARCHAR" property="emergencyMobile3" />
-    <result column="offset" jdbcType="DECIMAL" property="offset" />
-    <result column="is_temp" jdbcType="BIT" property="isTemp" />
-    <result column="dialysis_times" jdbcType="INTEGER" property="dialysisTimes" />
-    <result column="patient_type" jdbcType="VARCHAR" property="patientType" />
     <result column="blood_abo" jdbcType="VARCHAR" property="bloodAbo" />
     <result column="blood_rh" jdbcType="VARCHAR" property="bloodRh" />
     <result column="barcode_path" jdbcType="VARCHAR" property="barcodePath" />
     <result column="height" jdbcType="DECIMAL" property="height" />
     <result column="weight" jdbcType="DECIMAL" property="weight" />
-    <result column="serial_num" jdbcType="VARCHAR" property="serialNum" />
-    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
-    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="dialysis_times" jdbcType="INTEGER" property="dialysisTimes" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -55,13 +42,11 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, account, name, initial, password, id_number, sex, birthday, image_path, work_unit, 
-    profession, mobile, emergency_mobile, province, county, address, dry_weight, balance, 
-    del_flag, charge_type, medicare_card, medicare_card_type, admission_number, spell_initials, 
-    outpatient_number, id_type, emergency_contacts, emergency_mobile2, emergency_mobile3, 
-    offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, barcode_path, 
-    height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
-    update_time, update_user_id
+    id, account, name, initial, spell_initials, password, id_type, id_number, sex, birthday, 
+    image_path, work_unit, profession, province, county, address, mobile, emergency_contacts, 
+    email, emergency_mobile, emergency_mobile2, emergency_mobile3, blood_abo, blood_rh, 
+    barcode_path, height, weight, dialysis_times, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -69,58 +54,48 @@
     -->
     select 
     <include refid="Base_Column_List" />
-    from patient_history
+    from patient
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    delete from patient_history
+    delete from patient
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.xtt.common.dao.model.CmPatientHistory">
+  <insert id="insert" parameterType="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_history (id, account, name, 
-      initial, password, id_number, 
-      sex, birthday, image_path, 
-      work_unit, profession, mobile, 
-      emergency_mobile, province, county, 
-      address, dry_weight, balance, 
-      del_flag, charge_type, medicare_card, 
-      medicare_card_type, admission_number, spell_initials, 
-      outpatient_number, id_type, emergency_contacts, 
-      emergency_mobile2, emergency_mobile3, offset, 
-      is_temp, dialysis_times, patient_type, 
-      blood_abo, blood_rh, barcode_path, 
-      height, weight, serial_num, 
-      fk_tenant_id, sys_owner, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+    insert into patient (id, account, name, 
+      initial, spell_initials, password, 
+      id_type, id_number, sex, 
+      birthday, image_path, work_unit, 
+      profession, province, county, 
+      address, mobile, emergency_contacts, 
+      email, emergency_mobile, emergency_mobile2, 
+      emergency_mobile3, blood_abo, blood_rh, 
+      barcode_path, height, weight, 
+      dialysis_times, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
-      #{workUnit,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{emergencyMobile,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
-      #{address,jdbcType=VARCHAR}, #{dryWeight,jdbcType=DECIMAL}, #{balance,jdbcType=DECIMAL}, 
-      #{delFlag,jdbcType=BIT}, #{chargeType,jdbcType=VARCHAR}, #{medicareCard,jdbcType=VARCHAR}, 
-      #{medicareCardType,jdbcType=VARCHAR}, #{admissionNumber,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, 
-      #{outpatientNumber,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
-      #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, #{offset,jdbcType=DECIMAL}, 
-      #{isTemp,jdbcType=BIT}, #{dialysisTimes,jdbcType=INTEGER}, #{patientType,jdbcType=VARCHAR}, 
-      #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, 
-      #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{serialNum,jdbcType=VARCHAR}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{initial,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
+      #{profession,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, 
+      #{emergencyMobile3,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, 
+      #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{dialysisTimes,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmPatientHistory">
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    insert into patient_history
+    insert into patient
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -134,8 +109,14 @@
       <if test="initial != null">
         initial,
       </if>
+      <if test="spellInitials != null">
+        spell_initials,
+      </if>
       <if test="password != null">
         password,
+      </if>
+      <if test="idType != null">
+        id_type,
       </if>
       <if test="idNumber != null">
         id_number,
@@ -155,12 +136,6 @@
       <if test="profession != null">
         profession,
       </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="emergencyMobile != null">
-        emergency_mobile,
-      </if>
       <if test="province != null">
         province,
       </if>
@@ -170,56 +145,23 @@
       <if test="address != null">
         address,
       </if>
-      <if test="dryWeight != null">
-        dry_weight,
-      </if>
-      <if test="balance != null">
-        balance,
-      </if>
-      <if test="delFlag != null">
-        del_flag,
-      </if>
-      <if test="chargeType != null">
-        charge_type,
-      </if>
-      <if test="medicareCard != null">
-        medicare_card,
-      </if>
-      <if test="medicareCardType != null">
-        medicare_card_type,
-      </if>
-      <if test="admissionNumber != null">
-        admission_number,
-      </if>
-      <if test="spellInitials != null">
-        spell_initials,
-      </if>
-      <if test="outpatientNumber != null">
-        outpatient_number,
-      </if>
-      <if test="idType != null">
-        id_type,
+      <if test="mobile != null">
+        mobile,
       </if>
       <if test="emergencyContacts != null">
         emergency_contacts,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="emergencyMobile != null">
+        emergency_mobile,
       </if>
       <if test="emergencyMobile2 != null">
         emergency_mobile2,
       </if>
       <if test="emergencyMobile3 != null">
         emergency_mobile3,
-      </if>
-      <if test="offset != null">
-        offset,
-      </if>
-      <if test="isTemp != null">
-        is_temp,
-      </if>
-      <if test="dialysisTimes != null">
-        dialysis_times,
-      </if>
-      <if test="patientType != null">
-        patient_type,
       </if>
       <if test="bloodAbo != null">
         blood_abo,
@@ -236,14 +178,8 @@
       <if test="weight != null">
         weight,
       </if>
-      <if test="serialNum != null">
-        serial_num,
-      </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id,
-      </if>
-      <if test="sysOwner != null">
-        sys_owner,
+      <if test="dialysisTimes != null">
+        dialysis_times,
       </if>
       <if test="createTime != null">
         create_time,
@@ -271,8 +207,14 @@
       <if test="initial != null">
         #{initial,jdbcType=VARCHAR},
       </if>
+      <if test="spellInitials != null">
+        #{spellInitials,jdbcType=VARCHAR},
+      </if>
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        #{idType,jdbcType=VARCHAR},
       </if>
       <if test="idNumber != null">
         #{idNumber,jdbcType=VARCHAR},
@@ -292,12 +234,6 @@
       <if test="profession != null">
         #{profession,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="emergencyMobile != null">
-        #{emergencyMobile,jdbcType=VARCHAR},
-      </if>
       <if test="province != null">
         #{province,jdbcType=INTEGER},
       </if>
@@ -307,56 +243,23 @@
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="dryWeight != null">
-        #{dryWeight,jdbcType=DECIMAL},
-      </if>
-      <if test="balance != null">
-        #{balance,jdbcType=DECIMAL},
-      </if>
-      <if test="delFlag != null">
-        #{delFlag,jdbcType=BIT},
-      </if>
-      <if test="chargeType != null">
-        #{chargeType,jdbcType=VARCHAR},
-      </if>
-      <if test="medicareCard != null">
-        #{medicareCard,jdbcType=VARCHAR},
-      </if>
-      <if test="medicareCardType != null">
-        #{medicareCardType,jdbcType=VARCHAR},
-      </if>
-      <if test="admissionNumber != null">
-        #{admissionNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="spellInitials != null">
-        #{spellInitials,jdbcType=VARCHAR},
-      </if>
-      <if test="outpatientNumber != null">
-        #{outpatientNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="idType != null">
-        #{idType,jdbcType=VARCHAR},
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="emergencyContacts != null">
         #{emergencyContacts,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile != null">
+        #{emergencyMobile,jdbcType=VARCHAR},
       </if>
       <if test="emergencyMobile2 != null">
         #{emergencyMobile2,jdbcType=VARCHAR},
       </if>
       <if test="emergencyMobile3 != null">
         #{emergencyMobile3,jdbcType=VARCHAR},
-      </if>
-      <if test="offset != null">
-        #{offset,jdbcType=DECIMAL},
-      </if>
-      <if test="isTemp != null">
-        #{isTemp,jdbcType=BIT},
-      </if>
-      <if test="dialysisTimes != null">
-        #{dialysisTimes,jdbcType=INTEGER},
-      </if>
-      <if test="patientType != null">
-        #{patientType,jdbcType=VARCHAR},
       </if>
       <if test="bloodAbo != null">
         #{bloodAbo,jdbcType=VARCHAR},
@@ -373,14 +276,8 @@
       <if test="weight != null">
         #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="serialNum != null">
-        #{serialNum,jdbcType=VARCHAR},
-      </if>
-      <if test="fkTenantId != null">
-        #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="sysOwner != null">
-        #{sysOwner,jdbcType=VARCHAR},
+      <if test="dialysisTimes != null">
+        #{dialysisTimes,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -396,11 +293,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.CmPatientHistory">
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update patient_history
+    update patient
     <set>
       <if test="account != null">
         account = #{account,jdbcType=VARCHAR},
@@ -411,8 +308,14 @@
       <if test="initial != null">
         initial = #{initial,jdbcType=VARCHAR},
       </if>
+      <if test="spellInitials != null">
+        spell_initials = #{spellInitials,jdbcType=VARCHAR},
+      </if>
       <if test="password != null">
         password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null">
+        id_type = #{idType,jdbcType=VARCHAR},
       </if>
       <if test="idNumber != null">
         id_number = #{idNumber,jdbcType=VARCHAR},
@@ -432,12 +335,6 @@
       <if test="profession != null">
         profession = #{profession,jdbcType=VARCHAR},
       </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="emergencyMobile != null">
-        emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
-      </if>
       <if test="province != null">
         province = #{province,jdbcType=INTEGER},
       </if>
@@ -447,56 +344,23 @@
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="dryWeight != null">
-        dry_weight = #{dryWeight,jdbcType=DECIMAL},
-      </if>
-      <if test="balance != null">
-        balance = #{balance,jdbcType=DECIMAL},
-      </if>
-      <if test="delFlag != null">
-        del_flag = #{delFlag,jdbcType=BIT},
-      </if>
-      <if test="chargeType != null">
-        charge_type = #{chargeType,jdbcType=VARCHAR},
-      </if>
-      <if test="medicareCard != null">
-        medicare_card = #{medicareCard,jdbcType=VARCHAR},
-      </if>
-      <if test="medicareCardType != null">
-        medicare_card_type = #{medicareCardType,jdbcType=VARCHAR},
-      </if>
-      <if test="admissionNumber != null">
-        admission_number = #{admissionNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="spellInitials != null">
-        spell_initials = #{spellInitials,jdbcType=VARCHAR},
-      </if>
-      <if test="outpatientNumber != null">
-        outpatient_number = #{outpatientNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="idType != null">
-        id_type = #{idType,jdbcType=VARCHAR},
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
       </if>
       <if test="emergencyContacts != null">
         emergency_contacts = #{emergencyContacts,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="emergencyMobile != null">
+        emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
       </if>
       <if test="emergencyMobile2 != null">
         emergency_mobile2 = #{emergencyMobile2,jdbcType=VARCHAR},
       </if>
       <if test="emergencyMobile3 != null">
         emergency_mobile3 = #{emergencyMobile3,jdbcType=VARCHAR},
-      </if>
-      <if test="offset != null">
-        offset = #{offset,jdbcType=DECIMAL},
-      </if>
-      <if test="isTemp != null">
-        is_temp = #{isTemp,jdbcType=BIT},
-      </if>
-      <if test="dialysisTimes != null">
-        dialysis_times = #{dialysisTimes,jdbcType=INTEGER},
-      </if>
-      <if test="patientType != null">
-        patient_type = #{patientType,jdbcType=VARCHAR},
       </if>
       <if test="bloodAbo != null">
         blood_abo = #{bloodAbo,jdbcType=VARCHAR},
@@ -513,14 +377,8 @@
       <if test="weight != null">
         weight = #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="serialNum != null">
-        serial_num = #{serialNum,jdbcType=VARCHAR},
-      </if>
-      <if test="fkTenantId != null">
-        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      </if>
-      <if test="sysOwner != null">
-        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      <if test="dialysisTimes != null">
+        dialysis_times = #{dialysisTimes,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -537,55 +395,194 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.CmPatientHistory">
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    update patient_history
+    update patient
     set account = #{account,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       initial = #{initial,jdbcType=VARCHAR},
+      spell_initials = #{spellInitials,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
+      id_type = #{idType,jdbcType=VARCHAR},
       id_number = #{idNumber,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
       image_path = #{imagePath,jdbcType=VARCHAR},
       work_unit = #{workUnit,jdbcType=VARCHAR},
       profession = #{profession,jdbcType=VARCHAR},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
       province = #{province,jdbcType=INTEGER},
       county = #{county,jdbcType=INTEGER},
       address = #{address,jdbcType=VARCHAR},
-      dry_weight = #{dryWeight,jdbcType=DECIMAL},
-      balance = #{balance,jdbcType=DECIMAL},
-      del_flag = #{delFlag,jdbcType=BIT},
-      charge_type = #{chargeType,jdbcType=VARCHAR},
-      medicare_card = #{medicareCard,jdbcType=VARCHAR},
-      medicare_card_type = #{medicareCardType,jdbcType=VARCHAR},
-      admission_number = #{admissionNumber,jdbcType=VARCHAR},
-      spell_initials = #{spellInitials,jdbcType=VARCHAR},
-      outpatient_number = #{outpatientNumber,jdbcType=VARCHAR},
-      id_type = #{idType,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
       emergency_contacts = #{emergencyContacts,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      emergency_mobile = #{emergencyMobile,jdbcType=VARCHAR},
       emergency_mobile2 = #{emergencyMobile2,jdbcType=VARCHAR},
       emergency_mobile3 = #{emergencyMobile3,jdbcType=VARCHAR},
-      offset = #{offset,jdbcType=DECIMAL},
-      is_temp = #{isTemp,jdbcType=BIT},
-      dialysis_times = #{dialysisTimes,jdbcType=INTEGER},
-      patient_type = #{patientType,jdbcType=VARCHAR},
       blood_abo = #{bloodAbo,jdbcType=VARCHAR},
       blood_rh = #{bloodRh,jdbcType=VARCHAR},
       barcode_path = #{barcodePath,jdbcType=VARCHAR},
       height = #{height,jdbcType=DECIMAL},
       weight = #{weight,jdbcType=DECIMAL},
-      serial_num = #{serialNum,jdbcType=VARCHAR},
-      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
-      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      dialysis_times = #{dialysisTimes,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <!-- user define -->
+  <resultMap id="POResultMap" type="com.xtt.common.dao.po.PatientPO" extends="BaseResultMap">
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="county_name" jdbcType="VARCHAR" property="countyName" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
+  </resultMap>
+  <!-- 根据自定义条件查询数据 -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientPO" resultMap="POResultMap">
+    select p.*, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+        , pv.`name` province_name
+        , county.`name` county_name
+        , po.fk_tenant_id, po.sys_owner, po.is_enable, GROUP_CONCAT(DISTINCT po.sys_owner) AS multiSysOwner, GROUP_CONCAT(DISTINCT po.fk_tenant_id) AS multiTenantId
+    FROM patient p
+    JOIN patient_owner po ON po.fk_patient_id = p.id
+    LEFT JOIN province pv on p.province = pv.id
+    LEFT JOIN county on p.county = county.id
+    <where>
+      <if test="name != null and name != ''">
+        p.name like concat('%', #{name} ,'%')
+      </if>
+      <if test="account != null">
+        AND p.account = #{account}
+      </if>
+      <if test="initial != null">
+        AND p.initial = #{initial}
+      </if>
+      <if test="idNumber != null">
+        AND p.id_number = #{idNumber}
+      </if>
+      <if test="sex != null">
+        AND p.sex = #{sex}
+      </if>
+      <if test="birthday != null">
+        AND p.birthday = #{birthday,jdbcType=DATE}
+      </if>
+      <if test="mobile != null">
+        AND p.mobile = #{mobile}
+      </if>
+      <if test="emergencyMobile != null">
+        AND p.emergency_mobile = #{emergencyMobile}
+      </if>
+      <if test="province != null">
+        AND p.province = #{province}
+      </if>
+      <if test="county != null">
+        AND p.county = #{county}
+      </if>
+      <if test="hasSpellInitials != null and hasSpellInitials">
+        AND p.spell_initials is not null
+      </if>
+      <if test="hasSpellInitials != null and !hasSpellInitials">
+        AND p.spell_initials is null
+      </if>
+      <if test="fkTenantId != null">
+        AND po.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="sysOwner != null">
+        AND po.sys_owner = #{sysOwner}
+      </if>
+      <if test="isEnable != null">
+        AND po.is_enable = #{isEnable}
+      </if>
+    </where>
+    GROUP BY p.id
+    ORDER BY p.initial,p.name
+  </select>
+  
+  <!-- 根据id查询数据，包含省市区，年龄等信息 -->
+  <select id="getById" parameterType="java.lang.Long" resultMap="POResultMap">
+    SELECT p.*, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+        ,pv.`name` province_name
+        ,county.`name` county_name
+    FROM patient p
+    LEFT JOIN province pv on p.province = pv.id
+    LEFT JOIN county on p.county = county.id
+    WHERE p.id = #{id}
+  </select>
+   <!-- 根据自定义条件统计患者人数 -->
+  <select id="countByCondition" parameterType="com.xtt.common.dao.model.Patient" resultMap="POResultMap">
+    SELECT count(p.id) FROM patient p
+    JOIN patient_owner po ON po.fk_patient_id = p.id
+    <where>
+      <if test="name != null and name != ''">
+        p.name like concat('%', #{name} ,'%')
+      </if>
+      <if test="account != null">
+        AND p.account = #{account}
+      </if>
+      <if test="initial != null">
+        AND p.initial = #{initial}
+      </if>
+      <if test="idNumber != null">
+        AND p.id_number = #{idNumber}
+      </if>
+      <if test="sex != null">
+        AND p.sex = #{sex}
+      </if>
+      <if test="birthday != null">
+        AND p.birthday = #{birthday,jdbcType=DATE}
+      </if>
+      <if test="mobile != null">
+        AND p.mobile = #{mobile}
+      </if>
+      <if test="emergencyMobile != null">
+        AND p.emergency_mobile = #{emergencyMobile}
+      </if>
+      <if test="province != null">
+        AND p.province = #{province}
+      </if>
+      <if test="county != null">
+        AND p.county = #{county}
+      </if>
+      <if test="fkTenantId != null">
+        AND po.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="sysOwner != null">
+        AND po.sys_owner = #{sysOwner}
+      </if>
+      <if test="isEnable != null">
+        AND po.is_enable = #{isEnable}
+      </if>
+    </where>
+    GROUP BY p.id
+  </select>
+  <!-- 根据患者idNumber查询数据 -->
+  <select id="listByIdNumber" resultMap="POResultMap">
+    SELECT p.* FROM patient p 
+    WHERE p.id_number = #{idNumber} 
+    <if test="nePatientId !=null">
+        AND p.id != #{nePatientId}
+    </if>
+  </select>
+  <!-- 患者的登陆 -->
+  <select id="login" resultMap="BaseResultMap">
+    SELECT p.* FROM patient p WHERE p.account=#{account} AND p.password=#{password}
+  </select>
+  
+    <!-- 通过手机号查询患者信息个数 -->
+    <select id="getCountByMobile" resultType="java.lang.Integer">
+        select count(id) from patient where mobile = #{mobile} 
+        <if test="neId != null"> AND id != #{neId}</if>
+    </select>
+
+    <!-- 通过手机号查询患者信息 -->
+    <select id="listByMobile" resultMap="POResultMap">
+        select * from patient where mobile = #{mobile}
+        <if test="neId != null"> AND id != #{neId}</if>
+    </select>
 </mapper>

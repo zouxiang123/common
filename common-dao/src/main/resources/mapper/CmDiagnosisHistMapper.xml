@@ -167,14 +167,20 @@
   </update>
   
   <!-- 自定义 -->
-  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistPO" />
-  
-  <select id="selectByPatient" parameterType="java.lang.Long" resultMap="POResultMap">
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistPO" >
+  <result column="name" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
+  <select id="selectByPatient" resultMap="POResultMap">
       SELECT 
-      cdh.*,
+      cdh.*,st.name,
       (case when usu.name is not null and usu.name != '' then usu.name else su.name end) as operatorName
-      from cm_diagnosis_hist cdh, sys_user su, sys_user usu
-      where su.id = cdh.create_user_id and usu.id = cdh.update_user_id
-      and cdh.fk_patient_id = #{patientId,jdbcType=BIGINT} order by cdh.id desc
+       from cm_diagnosis_hist cdh INNER JOIN sys_user su on su.id = cdh.create_user_id 
+			INNER JOIN sys_user usu on usu.id = cdh.update_user_id 
+			INNER JOIN sys_tenant st on st.id = cdh.fk_tenant_id
+             where  cdh.fk_patient_id = #{patientId,jdbcType=BIGINT} 
+      <if test="groupTenant != null and groupTenant !=''">
+        and cdh.fk_tenant_id in (${groupTenant}) 
+      </if>
+      order by cdh.id desc
   </select>
 </mapper>

@@ -29,10 +29,10 @@ import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.County;
 import com.xtt.common.dao.model.Province;
-import com.xtt.common.dao.po.CmPatientPO;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientCardPO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.dao.po.PatientPO;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DictUtil;
@@ -44,7 +44,7 @@ import com.xtt.platform.util.lang.StringUtil;
 @RequestMapping("/patient/")
 public class PatientController {
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private IPatientCardService patientCardService;
     @Autowired
@@ -66,7 +66,7 @@ public class PatientController {
     @RequestMapping("editPatient")
     public ModelAndView editPatient(Long patientId, String sys) throws Exception {
         ModelAndView model = new ModelAndView("patient/edit_patient");
-        CmPatientPO patient = cmPatientService.selectById(patientId);
+        PatientPO patient = patientService.getById(patientId);
         model.addObject("patientId", patientId);
         {
             // 根据id获取该患者的相关卡号
@@ -76,8 +76,7 @@ public class PatientController {
             }
             model.addObject("patientCardList", cardList);// 卡号信息
         }
-        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE,
-                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        model.addObject(CmDictConsts.MEDICARE_CARD_TYPE, DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE));
 
         List<Province> provinceList = commonService.getProvinceList();
         model.addObject("provinceList", provinceList);
@@ -89,7 +88,7 @@ public class PatientController {
         }
         model.addObject("countyList", countyList);
         if (patient == null) {
-            patient = new CmPatientPO();
+            patient = new PatientPO();
             patient.setSysOwner(sys);
         }
         model.addObject("patient", patient);
@@ -117,13 +116,12 @@ public class PatientController {
     @ResponseBody
     public Map<String, Object> findPatientApi(@RequestParam(value = "patientId", required = false) Long patientId) throws Exception {
         Map<String, Object> retMap = new HashMap<String, Object>();
-        CmPatientPO patient = cmPatientService.selectById(patientId);
+        PatientPO patient = patientService.getById(patientId);
         retMap.put("patientId", patientId);
         retMap.put("patient", patient);
         retMap.put("patientCardList", patientCardService.listByPatientId(patientId));
         // 卡号类型
-        retMap.put(CmDictConsts.MEDICARE_CARD_TYPE,
-                        DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE, patient == null ? null : patient.getMedicareCardType()));
+        retMap.put(CmDictConsts.MEDICARE_CARD_TYPE, DictUtil.listByPItemCode(CmDictConsts.MEDICARE_CARD_TYPE));
         retMap.put(CommonConstants.API_STATUS, CommonConstants.SUCCESS);
         return retMap;
     }
@@ -139,7 +137,7 @@ public class PatientController {
     @RequestMapping("checkPatientExistByIdNumber")
     @ResponseBody
     public HashMap<String, Object> checkPatientExistByIdNumber(Long id, String idNumber) {
-        boolean exist = cmPatientService.checkPatientExistByIdNumber(id, idNumber);
+        boolean exist = patientService.checkIdNumberExist(id, idNumber);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("exist", exist);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
@@ -192,7 +190,7 @@ public class PatientController {
         CmQueryPO query = new CmQueryPO();
         query.setCardNo(cardNo);
         query.setSysOwner(sysOwner);
-        CmPatientPO patient = sysDbSourceService.patientDB(query);
+        PatientPO patient = sysDbSourceService.patientDB(query);
         if (patient != null) {
             patient.setIdType("1");
         }
@@ -211,11 +209,11 @@ public class PatientController {
      */
     @RequestMapping("savePatient")
     @ResponseBody
-    public HashMap<String, Object> savePatient(CmPatientPO patient) {
+    public HashMap<String, Object> savePatient(PatientPO patient) {
         if (StringUtil.isNotBlank(patient.getTempImagePath())) {
             patient.setImagePath(patient.getTempImagePath());
         }
-        cmPatientService.savePatient(patient, false);
+        patientService.savePatient(patient, false);
         sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()),
                         CommonConstants.SYS_HD);
 

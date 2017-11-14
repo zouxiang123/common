@@ -57,7 +57,44 @@ public class DictUtil {
                 }
                 return "";
             } else {
-                return factory.getItemName(pItemCode, itemCode);
+                return factory.getItemName(pItemCode, itemCode, UserUtil.getTenantId());
+            }
+        }
+        return itemCode;
+    }
+
+    /**
+     * 根据类别编号和编号获取对应的名称<br>
+     * 如果是以“,”分割的多个code，则返回以“,”分割的多个名称
+     * 
+     * @Title: getItemName
+     * @param pItemCode
+     *            类别编号
+     * @param itemCode
+     *            类别名称
+     * @param tenantId
+     *            租户id
+     * @return
+     *
+     */
+    public static String getItemName(String pItemCode, String itemCode, Integer tenantId) {
+        if (StringUtils.isNotEmpty(itemCode)) {
+            if (itemCode.indexOf(",") != -1) {
+                String[] selectedValues = itemCode.split(",");
+                Map<String, String> map = getMapByPItemCode(pItemCode, tenantId);
+                if (map != null) {
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < selectedValues.length; i++) {
+                        sb.append(map.get(selectedValues[i]));
+                        sb.append(",");
+                    }
+                    if (sb.length() > 0) {
+                        return sb.substring(0, sb.length() - 1);
+                    }
+                }
+                return "";
+            } else {
+                return factory.getItemName(pItemCode, itemCode, tenantId);
             }
         }
         return itemCode;
@@ -114,8 +151,23 @@ public class DictUtil {
      *
      */
     public static List<DictDto> listByPItemCode(String pItemCode) {
+        return listByPItemCode(pItemCode, UserUtil.getTenantId());
+    }
 
-        return factory.listByPItemCode(pItemCode);
+    /**
+     * 根据类别获取该类别的字典数据集合
+     * 
+     * @Title: listByPItemCode
+     * @param pItemCode
+     *            类别编号
+     * @param tenantId
+     *            租户id
+     * @return
+     *
+     */
+    public static List<DictDto> listByPItemCode(String pItemCode, Integer tenantId) {
+
+        return factory.listByPItemCode(pItemCode, tenantId);
     }
 
     /**
@@ -128,7 +180,22 @@ public class DictUtil {
      *
      */
     public static Map<String, String> getMapByPItemCode(String pItemCode) {
-        List<DictDto> list = factory.listByPItemCode(pItemCode);
+        return getMapByPItemCode(pItemCode, UserUtil.getTenantId());
+    }
+
+    /**
+     * 根据类别获取该类别的itemCode和itemName组成的map
+     * 
+     * @Title: getMapByPItemCode
+     * @param pItemCode
+     *            类别
+     * @param tenantId
+     *            租户id
+     * @return Map<itemCode,itemName>,查不到指定类别的数据，返回null
+     *
+     */
+    private static Map<String, String> getMapByPItemCode(String pItemCode, Integer tenantId) {
+        List<DictDto> list = factory.listByPItemCode(pItemCode, tenantId);
         if (CollectionUtils.isNotEmpty(list)) {
             final Map<String, String> map = new LinkedHashMap<String, String>(list.size());
             list.forEach(dict -> {
@@ -136,6 +203,7 @@ public class DictUtil {
             });
             return map;
         }
+
         return null;
     }
 

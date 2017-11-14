@@ -145,7 +145,7 @@ public class HttpServletUtil {
         }
         Map<String, Cookie> cookieMap = ReadCookieMap(request);
         if (cookieMap.containsKey(name)) {
-            Cookie cookie = (Cookie) cookieMap.get(name);
+            Cookie cookie = cookieMap.get(name);
             return cookie.getValue();
         } else {
             return null;
@@ -168,7 +168,7 @@ public class HttpServletUtil {
         }
         Map<String, Cookie> cookieMap = ReadCookieMap(request);
         if (cookieMap.containsKey(name)) {
-            Cookie cookie = (Cookie) cookieMap.get(name);
+            Cookie cookie = cookieMap.get(name);
             return cookie;
         } else {
             return null;
@@ -285,5 +285,20 @@ public class HttpServletUtil {
             charEncoding = "UTF-8";
         }
         return new String(buffer, charEncoding);
+    }
+
+    /**
+     * 删除cookie
+     * 
+     * @Title: removeCookie
+     * @param response
+     * @param name
+     *
+     */
+    public static void removeCookie(HttpServletResponse response, String name) {
+        Cookie cookie = new Cookie(name, null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 }

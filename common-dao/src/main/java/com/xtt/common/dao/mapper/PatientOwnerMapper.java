@@ -2,6 +2,7 @@ package com.xtt.common.dao.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientOwner;
@@ -28,7 +29,7 @@ public interface PatientOwnerMapper {
      * @param fkPatientId
      *
      */
-    void updateDisableByPatientId(Long fkPatientId);
+    void updateDisableByPatientId(@Param("fkPatientId") Long fkPatientId, @Param("fkTenantId") Integer fkTenantId);
 
     /**
      * 根据条件查询数据
@@ -39,5 +40,15 @@ public interface PatientOwnerMapper {
      *
      */
     List<PatientOwner> selectByCondition(PatientOwner record);
+
+    /**
+     * 根据患者id查询租户
+     * 
+     * @Title: selectByCondition
+     * @param record
+     * @return
+     *
+     */
+    List<PatientOwner> listTenantIdByPatientId(PatientOwner record);
 
 }

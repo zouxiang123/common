@@ -62,11 +62,16 @@ public class BusinessCommonUtil {
      * 
      */
     public static void combineImage(String name, String newFilename) {
-        String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
-        String backgroundFile = path + "/blank_background.png";
-        String frontFile = path + "/blank_front.png";
+        String path = CommonConstants.BASE_PATH + newFilename.substring(0, newFilename.indexOf("/", 2)) + "/" + CommonConstants.IMAGE_FILE_PATH;
         newFilename = CommonConstants.BASE_PATH + "/" + newFilename;
-        File f1 = new File(backgroundFile);
+        File f1 = new File(path + "/blank_background.png");
+        File f2 = new File(path + "/blank_front.png");
+        if (!f1.exists()) {
+            f1 = new File(CommonConstants.BASE_PATH + "/blank_background.png");
+        }
+        if (!f2.exists()) {
+            f2 = new File(CommonConstants.BASE_PATH + "/blank_front.png");
+        }
         BufferedImage image;
         BufferedImage image2;
         try {
@@ -76,7 +81,6 @@ public class BusinessCommonUtil {
             g.setColor(Color.WHITE);
             int y = image.getHeight() / 2 + 30;
             g.drawString(name, -20, y);
-            File f2 = new File(frontFile);
             image2 = ImageIO.read(f2);
             g.drawImage(image2, 0, 0, null);
             File f3 = new File(newFilename);

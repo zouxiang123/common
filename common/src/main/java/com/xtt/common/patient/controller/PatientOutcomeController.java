@@ -32,10 +32,10 @@ public class PatientOutcomeController {
 
     @RequestMapping("record")
     public String list(Model model, Long patientId, String sys) {
-        model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
+        model.addAttribute("items", patientOutcomeService.listByPatientId(patientId));
         model.addAttribute("sysOwner", sys);
         model.addAttribute("patientId", patientId);
-        model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
+        model.addAttribute(CmDictConsts.OUTCOME_RECORD_TYPE, DictUtil.listByPItemCode(CmDictConsts.OUTCOME_RECORD_TYPE));
         return "patient/patient_outcome_record";
     }
 

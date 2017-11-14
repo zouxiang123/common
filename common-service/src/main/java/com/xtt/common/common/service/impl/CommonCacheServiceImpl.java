@@ -1,9 +1,9 @@
-/**   
- * @Title: CommonCacheServiceImpl.java 
+/**
+ * @Title: CommonCacheServiceImpl.java
  * @Package com.xtt.common.common.service.impl
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年11月10日 下午6:33:27 
+ * @author: bruce
+ * @date: 2016年11月10日 下午6:33:27
  *
  */
 package com.xtt.common.common.service.impl;
@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
+import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
@@ -43,17 +44,19 @@ import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
 import com.xtt.common.dto.FormNodesDto;
+import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
@@ -76,7 +79,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Autowired
     private IRoleService roleService;
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private ICmFormNodesService cmFormNodesService;
     @Autowired
@@ -93,7 +96,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Override
     public void cacheDict(Integer tenantId) {
         RedisCacheUtil.deletePattern(CmDictCache.getKey(tenantId, null));
-        List<CmDictPO> list = cmDictService.selectAll();
+        List<CmDictPO> list = cmDictService.selectAll(tenantId);
         if (CollectionUtils.isNotEmpty(list)) {
             List<DictDto> dicts = new ArrayList<>(list.size());
             DictDto cDict;
@@ -132,21 +135,21 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
         for (SysRole sysRole : list) {
             Long[] roleIds = { sysRole.getId() };
-            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, null)));
+            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types)));
         }
         PermissionCache.cacheAll(map);
     }
 
     /**
      * 将sysObj对象转成缓存的SysObjDto
-     * 
+     *
      * @Title: convertCmSysObjList
      * @param list
      * @return
      *
      */
     public static List<SysObjDto> convertSysObjList(List<SysObj> list) {
-        List<SysObjDto> tempList = new ArrayList<SysObjDto>();
+        List<SysObjDto> tempList = new ArrayList<>();
         if (list != null && !list.isEmpty()) {
             SysObjDto cmSysObj;
             for (SysObj so : list) {// 缓存有需要的数据
@@ -166,28 +169,27 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cachePatient(Integer tenantId) {
-        /*  RedisCacheUtil.deletePattern(PatientCache.getKey(tenantId, null));
-        List<CmPatientPO> list = cmPatientService.getPatientByTenantId(tenantId, null);
+    public void cachePatient() {
+        RedisCacheUtil.deletePattern(PatientCache.getKey(null));
+        List<PatientPO> list = patientService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            Map<String, String> sexMap = DictUtil.getMapByPItemCode(CmDictConsts.SEX);
-            for (CmPatientPO obj : list) {
+            for (PatientPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
-                toObj.setSexShow(sexMap.get(toObj.getSex()));
                 cacheObjs.add(toObj);
             }
             PatientCache.cacheAll(cacheObjs);
-        }*/
+        }
     }
 
     @Override
     public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
         // 删除数据
-        if (StringUtil.isBlank(sysOwner))
+        if (StringUtil.isBlank(sysOwner)) {
             RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
+        }
         RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
         // 获取所有的表单列表
         CmFormPO query = new CmFormPO();
@@ -222,7 +224,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     /**
      * 初始化动态表单数据
-     * 
+     *
      * @return
      *
      */
@@ -237,9 +239,9 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cacheUser(Integer tenantId) {
-        RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
-        List<SysUserPO> list = userService.listByTenantId(tenantId, null, null);
+    public void cacheUser() {
+        UserCache.clear();
+        List<SysUserPO> list = userService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             SysUserDto cacheUser;
             List<SysUserDto> cacheList = new ArrayList<>(list.size() + 1);
@@ -250,6 +252,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
             cacheList.add(sysUser);
             for (SysUserPO user : list) {
                 cacheUser = new SysUserDto();
+                cacheUser.setSexShow(DictUtil.getItemName(CmDictConsts.SEX, user.getSex(), user.getFkTenantId()));
                 BeanUtils.copyProperties(user, cacheUser);
                 cacheList.add(cacheUser);
             }
@@ -262,7 +265,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
         cacheAuthority();
-        List<SysTenant> tenantList = sysTenantService.selectAll();
+        List<SysTenant> tenantList = sysTenantService.listAllEnable();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
             for (int i = 0; i < tenantList.size(); i++) {
@@ -274,15 +277,15 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cacheDict(tenant.getId());
                 // third cache permission
                 cachePermission(tenant.getId());
-                // fourth cache patient
-                cachePatient(tenant.getId());
                 // cache dynamic form
                 cacheDynamicFormNode(tenant.getId(), null);
-                // cache user data
-                cacheUser(tenant.getId());
                 // cache formula data
                 cacheFormula(tenant.getId());
             }
+            // cache user data
+            cacheUser();
+            // fourth cache patient
+            cachePatient();
         }
         LOGGER.info("******************** end data cache,total cost {} ms ***********", System.currentTimeMillis() - start);
     }
@@ -333,7 +336,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
 
     @Override
     public void cacheAuthority() {
-        List<SysTenant> tenantList = sysTenantService.selectAll();
+        List<SysTenant> tenantList = sysTenantService.listAllEnable();
         for (SysTenant st : tenantList) {
             String content = st.getLicense();
             cacheAuthority(content);

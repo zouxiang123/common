@@ -235,7 +235,7 @@
   <!-- 自定义 -->
   <select id="selectMenuListByRoleId" resultMap="BaseResultMap">
   	select so.* from sys_obj so 
-  	join sys_role2obj sr ON sr.fk_obj_key = so.key <!-- AND so.fk_tenant_id = sr.fk_tenant_id -->
+  	join sys_role2obj sr ON sr.fk_obj_key = so.key
   	where sr.fk_role_id in 
   	<foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">
   		#{item}
@@ -246,39 +246,36 @@
   			#{item}
   		</foreach>
   	</if>
-  	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
-    </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
   
   <select id="selectAllMenuList" resultMap="BaseResultMap">
-  	select * from sys_obj where version = #{version,jdbcType=VARCHAR} <!-- and fk_tenant_id = #{tenantId,jdbcType=INTEGER} --> 
+  	select so.* from sys_obj so where so.version = #{version,jdbcType=VARCHAR}
   	<if test="types != null">
-  		and type in
+  		and so.type in
   		<foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
   			#{item}
   		</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
+    	AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
     </if> 
-  	ORDER BY p_code,code ASC
+  	ORDER BY so.p_code,so.code ASC
   </select>
   
   <select id="selectNotChecked" resultMap="BaseResultMap">
  	SELECT so.* FROM sys_obj so 
- 	WHERE so.version = #{version,jdbcType=VARCHAR} <!-- AND so.fk_tenant_id = #{tenantId,jdbcType=INTEGER} -->
+ 	WHERE so.version = #{version,jdbcType=VARCHAR}
  	AND NOT EXISTS (
  			SELECT 1 FROM sys_role2obj sr
 		  	WHERE sr.fk_role_id IN <foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">#{item}</foreach>
-	  		AND so.key = sr.fk_obj_key AND so.fk_tenant_id = sr.fk_tenant_id
+	  		AND so.key = sr.fk_obj_key
 	  	)
    	<if test="types != null">
   		AND so.type in <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">#{item}</foreach>
   	</if>
   	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},so.sys_owner)
+    	AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
     </if> 
   	ORDER BY so.p_code,so.code ASC
   </select>
@@ -291,9 +288,6 @@
   			#{item}
   		</foreach>
   	</if>
-  	<if test="sysOwner != null and sysOwner != ''">
-    	AND find_in_set(#{sysOwner},sys_owner)
-    </if> 
   </select>
   
   <delete id="deleteMenuByIds">

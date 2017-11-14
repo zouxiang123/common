@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.SyncGroupMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.SyncGroup">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="sg_name" jdbcType="VARCHAR" property="sgName" />
+    <result column="fk_group_id" jdbcType="INTEGER" property="fkGroupId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, sg_name, fk_group_id, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from sync_group
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from sync_group
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.SyncGroup">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sync_group (id, sg_name, fk_group_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{sgName,jdbcType=VARCHAR}, #{fkGroupId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SyncGroup">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into sync_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sgName != null">
+        sg_name,
+      </if>
+      <if test="fkGroupId != null">
+        fk_group_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sgName != null">
+        #{sgName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkGroupId != null">
+        #{fkGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.SyncGroup">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sync_group
+    <set>
+      <if test="sgName != null">
+        sg_name = #{sgName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkGroupId != null">
+        fk_group_id = #{fkGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.SyncGroup">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update sync_group
+    set sg_name = #{sgName,jdbcType=VARCHAR},
+      fk_group_id = #{fkGroupId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <!-- user define -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.SyncGroupPO">
+  </resultMap>
+  <!-- 根据集团id查询显示用同步组数据 -->
+  <select id="listByGroupIdForShow" resultMap="POResultMap">
+     SELECT sg.id,sg.sg_name
+            , t1.tenantName
+            , t2.modules
+    FROM sync_group sg
+    LEFT JOIN (
+        SELECT GROUP_CONCAT(st.`name`) tenantName,sgt.fk_sync_group_id 
+        FROM sync_group_tenant sgt JOIN sys_tenant st ON sgt.fk_tenant_id = st.id GROUP BY sgt.fk_sync_group_id 
+    ) t1 ON t1.fk_sync_group_id = sg.id
+    LEFT JOIN (SELECT GROUP_CONCAT(module) modules,fk_sync_group_id FROM sync_module GROUP BY fk_sync_group_id) t2 ON t2.fk_sync_group_id = sg.id
+    where sg.fk_group_id = #{fkGroupId}
+  </select>
+  <!-- 根据id查询数据 -->
+  <select id="getById" parameterType="java.lang.Long" resultMap="POResultMap">
+    SELECT sg.id,sg.sg_name
+           , GROUP_CONCAT(DISTINCT sgt.fk_tenant_id) tenants
+           , GROUP_CONCAT(DISTINCT sm.module) modules
+    FROM sync_group sg
+    LEFT JOIN sync_group_tenant sgt on sgt.fk_sync_group_id = sg.id
+    LEFT JOIN sync_module sm on sm.fk_sync_group_id = sg.id
+    where sg.id = #{id}
+    group by sg.id,sg.sg_name
+  </select>
+  
+  <!-- 查询可以关联的租户id -->
+  <select id="listCanAssociateTenants" resultType="map">
+    SELECT st.id,st.`name` FROM sys_tenant st
+    JOIN sys_group_tenant gt ON gt.fk_tenant_id = st.id AND gt.fk_group_id = #{groupId}
+    LEFT JOIN sync_group_tenant sgt ON sgt.fk_tenant_id = st.id
+    WHERE (sgt.fk_tenant_id is NULL 
+    <if test="syncGroupId != null">
+        OR sgt.fk_sync_group_id = #{syncGroupId }
+    </if>)
+    AND st.group_flag = false
+  </select>
+</mapper>

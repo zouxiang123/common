@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.xtt.common.conf.service.IExcelImportService;
 import com.xtt.common.conf.service.util.StandardExcelImport;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dao.model.CmPatient;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
@@ -33,7 +33,7 @@ import com.xtt.platform.util.lang.StringUtil;
 @Service
 public class ExcelImportServiceImpl implements IExcelImportService {
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private IUserService userService;
     @Autowired
@@ -52,7 +52,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             excel.transferTo(temp);
             sei = new StandardExcelImport(temp);
             sei.parse();
-            HashMap<Integer, CmPatient> patients = sei.getPatients();
+            HashMap<Integer, PatientPO> patients = sei.getPatients();
             HashMap<Integer, SysUserPO> doctors = sei.getDoctors();
             HashMap<Integer, SysUserPO> nurses = sei.getNurses();
             HashMap<Integer, String> errorPatientMap = sei.getErrorPatientMap();
@@ -65,23 +65,22 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             int doctorErrorCount = sei.getErrorDoctorMap().size();
             int nurseErrorCount = sei.getErrorNurseMap().size();
             if (patients != null && patients.size() > 0) {
-                for (Entry<Integer, CmPatient> p : patients.entrySet()) {
+                for (Entry<Integer, PatientPO> p : patients.entrySet()) {
                     if (StringUtils.isEmpty(p.getValue().getIdNumber()) || p.getValue().getBirthday() == null) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "身份证号或生日必填一项");
-                    } else if (cmPatientService.checkPatientExistByIdNumber(null, p.getValue().getIdNumber())) {
+                    } else if (patientService.checkIdNumberExist(null, p.getValue().getIdNumber())) {
                         patientErrorCount++;
                         errorPatientMap.put(p.getKey(), "患者已存在");
                     } else {
-                        p.getValue().setSysOwner(sysOwner);
-                        cmPatientService.savePatient(p.getValue(), true);
+                        patientService.savePatient(p.getValue(), true);
                         patientSuccessCount++;
                     }
                 }
             }
             if (doctors != null && doctors.size() > 0) {
                 for (Entry<Integer, SysUserPO> s : doctors.entrySet()) {
-                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner) != null) {
+                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner, false) != null) {
                         doctorErrorCount++;
                         errorDoctorMap.put(s.getKey(), "账户已存在");
                     } else {
@@ -94,7 +93,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
             }
             if (nurses != null && nurses.size() > 0) {
                 for (Entry<Integer, SysUserPO> s : nurses.entrySet()) {
-                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner) != null) {
+                    if (userService.getUserByAccount(s.getValue().getAccount(), UserUtil.getTenantId(), sysOwner, false) != null) {
                         nurseErrorCount++;
                         errorNurseMap.put(s.getKey(), "账户已存在");
                     } else {

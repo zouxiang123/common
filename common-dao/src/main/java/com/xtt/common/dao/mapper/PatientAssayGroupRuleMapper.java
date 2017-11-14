@@ -86,10 +86,14 @@ public interface PatientAssayGroupRuleMapper {
     /**
      * 通过传进来的值在数据库中是否存在
      * 
-     * @param f
+     * @Title: selectExitsByInput
+     * @param inputValue
+     * @param itemCode
+     * @param fkTenantId
      * @return
+     *
      */
-    List<PatientAssayGroupRulePO> selectExitsByInput(@Param("inputValue") Float inputValue, @Param("getItemCode") String getItemCode,
+    List<PatientAssayGroupRulePO> selectExitsByInput(@Param("inputValue") Float inputValue, @Param("itemCode") String itemCode,
                     @Param("fkTenantId") Integer fkTenantId);
 
     /**

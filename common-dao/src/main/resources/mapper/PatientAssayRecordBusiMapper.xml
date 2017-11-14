@@ -358,6 +358,8 @@
      <result column="min_value" jdbcType="DECIMAL" property="minValue" />
     <result column="max_value" jdbcType="DECIMAL" property="maxValue" /> 
   </resultMap>
+  <resultMap id="StageResultMap" extends="BaseResultMap" type="com.xtt.common.dao.po.ReportPatientAssayRecordPO"></resultMap>
+  
   <!-- 常用列，主表别名需叫parb -->
   <sql id="Common_Column_List">
     parb.fk_patient_id, parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
@@ -474,8 +476,8 @@
             <if test="flage != null">
                 AND parb.flage = #{flage,jdbcType=BIT}
             </if>
-            <if test="fkTenantId != null">
-                AND parb.fk_tenant_id = #{fkTenantId}
+            <if test="groupTenant != null and groupTenant != ''">
+                AND parb.fk_tenant_id in (${groupTenant})
             </if>
             <if test="patientIds !=null and patientIds.size()>0">
                 AND parb.fk_patient_id in
@@ -552,8 +554,8 @@
             <if test="fkPatientId != null">
                 parb.fk_patient_id = #{fkPatientId}
             </if>
-            <if test="fkTenantId != null">
-                AND parb.fk_tenant_id = #{fkTenantId}
+            <if test="groupTenant != null and groupTenant !=''">
+                AND parb.fk_tenant_id in (${groupTenant})
             </if>
             <if test="assayDate != null">
                 AND parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
@@ -920,4 +922,103 @@
         </where>
         group by parb.req_id having cnt &gt; #{beforeCount,jdbcType=INTEGER} ORDER BY parb.assay_date desc limit 1
     </select>
+    
+  <!-- 根据日期查询阶段统计 -->
+  <select id="listByStage" parameterType="com.xtt.common.dao.po.ReportPatientAssayRecordPO" resultMap="StageResultMap">
+  	SELECT 
+  		round(busi.result_actual,2) result
+  		<if test="minValue != null and maxValue == null">
+			, CASE WHEN busi.result_actual >= #{minValue} THEN 1 ELSE 0 END as result_tips
+			, CASE WHEN busi.result_actual &lt; #{minValue} THEN 1 ELSE 0 END noOkCount
+			, CASE WHEN busi.result_actual >= #{minValue} THEN 1 ELSE 0 END okCount
+			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+		</if>
+		<if test="minValue != null and maxValue != null">
+			, CASE WHEN busi.result_actual >= #{minValue} AND busi.result_actual  &lt; #{maxValue} THEN 1 ELSE 0 END as result_tips
+			, CASE WHEN busi.result_actual &lt; #{minValue} THEN 1 ELSE 0 END noOkCount
+			, CASE WHEN busi.result_actual >= #{minValue} AND busi.result_actual  &lt; #{maxValue} THEN 1 ELSE 0 END okCount
+			, CASE WHEN busi.result_actual >= #{maxValue} THEN 1 ELSE 0 END excessOkCount
+			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+		</if>
+		<if test="minValue == null and maxValue != null">
+			, CASE WHEN busi.result_actual &lt; #{maxValue} THEN 1 ELSE 0 END as result_tips
+			, CASE WHEN busi.result_actual &lt; #{maxValue} THEN 1 ELSE 0 END okCount
+			, CASE WHEN busi.result_actual >= #{maxValue} THEN 1 ELSE 0 END excessOkCount
+			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+		</if>
+		<if test="minValue == null and maxValue == null">
+			, CASE WHEN busi.result_tips = '1' THEN 1 ELSE 0 END as result_tips
+			, CASE WHEN busi.result_tips != '1' THEN 1 ELSE 0 END noOkCount
+			, CASE WHEN busi.result_tips = '1' THEN 1 ELSE 0 END okCount
+			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+		</if> 
+		, pa.`name` as patientName
+	FROM 
+		patient pa 
+		INNER JOIN patient_owner po on pa.id=po.fk_patient_id and po.sys_owner='HD' and po.is_enable = 1 AND po.fk_tenant_id = #{fkTenantId}
+		LEFT JOIN 
+			(SELECT
+	            p.fk_patient_id
+	            <if test="resultType == 'avg'">
+	                ,ROUND(avg(p.result_actual),2) result_actual
+	            </if>
+	            <if test="resultType != 'avg'">
+	                ,p.result_actual
+	            </if>
+	            , p.result_tips
+	        FROM patient_assay_record_busi p
+	        <if test="resultType == 'newest'">
+	            inner join (
+	                select fk_patient_id,max(sample_time) sample_time,item_code 
+	                from patient_assay_record_busi 
+	                where item_code=#{itemCode} 
+	                    AND sample_time &gt;= #{startDate}
+	                    AND sample_time &lt;= concat(#{endDate}, ' 23:59:59')
+	                group BY fk_patient_id
+	            ) t on p.fk_patient_id=t.fk_patient_id and p.sample_time = t.sample_time and p.item_code=t.item_code
+		        	AND p.fk_tenant_id = #{fkTenantId}
+		            AND p.result is not null
+			    group BY fk_patient_id
+	        </if>
+	        <if test="resultType == 'max'">
+	            inner join (
+	                select fk_patient_id,max(result_actual) result_actual,item_code
+	                from patient_assay_record_busi
+	                where item_code=#{itemCode}
+	                    AND assay_date &gt;= #{startDate}
+	                    AND assay_date &lt;= #{endDate}
+	                group BY fk_patient_id
+	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code=t.item_code
+		        	AND p.fk_tenant_id = #{fkTenantId}
+		            AND p.result is not null
+		            AND p.assay_date &gt;= #{startDate}
+		            AND p.assay_date &lt;= #{endDate}
+	        </if>
+	        <if test="resultType == 'min'">
+	            inner join (
+	                select fk_patient_id,min(result_actual) result_actual,item_code 
+	                from patient_assay_record_busi 
+	                where item_code=#{itemCode} 
+	                    AND assay_date &gt;= #{startDate}
+	                    AND assay_date &lt;= #{endDate}
+	                group BY fk_patient_id
+	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code=t.item_code
+		        	AND p.fk_tenant_id = #{fkTenantId}
+		            AND p.result is not null
+		            AND p.assay_date &gt;= #{startDate}
+		            AND p.assay_date &lt;= #{endDate}
+	        </if>
+			<if test="resultType == 'avg'">
+				WHERE
+					p.fk_tenant_id = #{fkTenantId}
+		            AND p.result is not null
+		            AND item_code=#{itemCode} 
+		            AND p.assay_date &gt;= #{startDate}
+		            AND p.assay_date &lt;= #{endDate}
+			    group BY fk_patient_id
+			</if>
+	    	) busi  ON pa.id = busi.fk_patient_id
+    group BY pa.id
+	order by busi.result_actual desc,pa.spell_initials
+  </select>
 </mapper>

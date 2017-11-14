@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.PatientCard;
+import com.xtt.common.dao.po.IfQueryParmPO;
 import com.xtt.common.dao.po.PatientCardPO;
 
 @Repository
@@ -87,4 +88,64 @@ public interface PatientCardMapper {
      */
     List<PatientCard> listByCardNoTypeTenant(@Param("cardNo") String cardNo, @Param("cardType") String cardType, @Param("tenantId") Integer tenantId,
                     @Param("nePatientId") Long nePatientId);
+
+    // ===============================================================================================================================
+    // 获取下载第三数据的入参数据
+    // ===============================================================================================================================
+    /**
+     * @Title: getIfQueryParmToCard
+     * @Description:1.获取卡号的入参数据（入参身份证号）
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToCard(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToVisitCardNo
+     * @Description:2.1获取住院门诊入参数据（hisID）
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToVisitCardNo(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToVisitIdNo
+     * @Description:2.2获取住院门诊入参数据（身份证号）
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToVisitIdNo(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:3获取检验入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToLis(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:4获取影像入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToPacs(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:5获取医嘱入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToOrder(IfQueryParmPO ifQueryParmPO);
+
+    /**
+     * @Title: getIfQueryParmToLis
+     * @Description:6获取手术入参数据
+     * @param ifQueryParmPO
+     * @return List<IfQueryParmPO>
+     */
+    List<IfQueryParmPO> getIfQueryParmToOperation(IfQueryParmPO ifQueryParmPO);
+
 }

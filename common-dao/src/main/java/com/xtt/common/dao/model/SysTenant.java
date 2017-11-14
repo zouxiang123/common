@@ -42,11 +42,6 @@ public class SysTenant {
     private Boolean groupFlag;
 
     /**
-     * sys_tenant.license
-     */
-    private String license;
-
-    /**
      * 创建时间 sys_tenant.create_time
      */
     private Date createTime;
@@ -65,6 +60,16 @@ public class SysTenant {
      * 更新人 sys_tenant.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * sys_tenant.license
+     */
+    private String license;
+
+    /**
+     * 版本 sys_tenant.version
+     */
+    private String version;
 
     /**
      */
@@ -161,18 +166,6 @@ public class SysTenant {
     }
 
     /**
-     */
-    public String getLicense() {
-        return license;
-    }
-
-    /**
-     */
-    public void setLicense(String license) {
-        this.license = license;
-    }
-
-    /**
      * 创建时间
      */
     public Date getCreateTime() {
@@ -226,5 +219,31 @@ public class SysTenant {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     */
+    public String getLicense() {
+        return license;
+    }
+
+    /**
+     */
+    public void setLicense(String license) {
+        this.license = license;
+    }
+
+    /**
+     * 版本
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    /**
+     * 版本
+     */
+    public void setVersion(String version) {
+        this.version = version;
     }
 }

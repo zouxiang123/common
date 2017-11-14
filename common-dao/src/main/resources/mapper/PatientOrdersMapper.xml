@@ -859,6 +859,9 @@
         <if test="fkPatientId != null and fkPatientId != ''">
 	    	and  po.fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
        </if>
+       <if test="fkTenantId != null">
+            and po.fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+      </if>
        <if test="ptType != null and ptType != ''">
             and  po.pt_type = #{ptType,jdbcType=BIGINT}
        </if>

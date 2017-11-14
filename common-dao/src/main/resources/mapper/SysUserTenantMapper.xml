@@ -8,6 +8,10 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_user_id" jdbcType="BIGINT" property="fkUserId" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="role_type" jdbcType="VARCHAR" property="roleType" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    <result column="skin" jdbcType="VARCHAR" property="skin" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
@@ -18,8 +22,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_user_id, fk_tenant_id, sys_owner, create_time, create_user_id, update_time, 
-    update_user_id
+    id, fk_user_id, fk_tenant_id, role_type, position, telephone, skin, sys_owner, create_time, 
+    create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -42,11 +46,15 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into sys_user_tenant (id, fk_user_id, fk_tenant_id, 
-      sys_owner, create_time, create_user_id, 
-      update_time, update_user_id)
+      role_type, position, telephone, 
+      skin, sys_owner, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{fkUserId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER}, 
-      #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{roleType,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{skin,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysUserTenant">
     <!--
@@ -62,6 +70,18 @@
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
+      </if>
+      <if test="roleType != null">
+        role_type,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="telephone != null">
+        telephone,
+      </if>
+      <if test="skin != null">
+        skin,
       </if>
       <if test="sysOwner != null">
         sys_owner,
@@ -88,6 +108,18 @@
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="roleType != null">
+        #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="skin != null">
+        #{skin,jdbcType=VARCHAR},
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
@@ -118,6 +150,18 @@
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
+      <if test="roleType != null">
+        role_type = #{roleType,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="telephone != null">
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="skin != null">
+        skin = #{skin,jdbcType=VARCHAR},
+      </if>
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
@@ -143,6 +187,10 @@
     update sys_user_tenant
     set fk_user_id = #{fkUserId,jdbcType=BIGINT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      role_type = #{roleType,jdbcType=VARCHAR},
+      position = #{position,jdbcType=VARCHAR},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      skin = #{skin,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -150,4 +198,30 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <!-- user define -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.model.SysUserTenant" resultMap="BaseResultMap">
+    select ut.* from sys_user_tenant ut
+    <where>
+      <if test="fkUserId != null">
+        ut.fk_user_id = #{fkUserId}
+      </if>
+      <if test="fkTenantId != null">
+        AND ut.fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="roleType != null">
+        AND ut.role_type = #{roleType}
+      </if>
+      <if test="sysOwner != null">
+        AND ut.sys_owner = #{sysOwner}
+      </if>
+    </where>
+  </select>
+  <!-- 根据用户id删除用户和租户之间的关联关系 -->
+  <delete id="deleteByUserId" parameterType="java.lang.Long">
+    delete from sys_user_tenant where fk_user_id = #{fkUserId}
+  </delete>
+  
+  <delete id="removeByIds" parameterType="java.util.Collection">
+    delete from sys_user_tenant where id in <foreach close=")" collection="collection" item="item" open="(" separator=",">#{item}</foreach>
+  </delete>
 </mapper>

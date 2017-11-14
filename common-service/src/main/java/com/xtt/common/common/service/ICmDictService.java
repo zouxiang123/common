@@ -14,17 +14,15 @@ import com.xtt.common.dao.model.CmDict;
 import com.xtt.common.dao.po.CmDictPO;
 
 public interface ICmDictService {
-
     /**
-     * 根据字典类型和字典值获取字典对象
+     * 根据租户id获取租户下所有有效的字典数据
      * 
-     * @param type
-     *            类型
-     * @param CmDictPO
-     *            字典条件
+     * @Title: selectAll
+     * @param tenantId
      * @return
+     *
      */
-    List<CmDictPO> selectAll();
+    List<CmDictPO> selectAll(Integer tenantId);
 
     /**
      * 根据自定义条件查询数据

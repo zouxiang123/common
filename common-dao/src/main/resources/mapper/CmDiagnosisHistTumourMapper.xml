@@ -164,14 +164,16 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- user define -->
-  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" />
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" >
+    <result column="name" jdbcType="VARCHAR" property="hospitalName" />
+  </resultMap>
   <!-- 根据id查询数据 -->
   <select id="getById" parameterType="java.lang.Long" resultMap="POResultMap">
     select dht.* from cm_diagnosis_hist_tumour dht where id = #{id}
   </select>
   <!-- 根据自定义条件查询数据 -->
   <select id="listByCondition" parameterType="com.xtt.common.dao.po.CmDiagnosisHistTumourPO" resultMap="POResultMap">
-    SELECT dht.* FROM cm_diagnosis_hist_tumour dht
+    SELECT dht.*,st.name FROM cm_diagnosis_hist_tumour dht LEFT JOIN sys_tenant st on st.id = dht.fk_tenant_id
     <where>
       <if test="fkPatientId != null">
         dht.fk_patient_id = #{fkPatientId}
@@ -182,9 +184,10 @@
       <if test="recordType != null">
         AND dht.record_type = #{recordType}
       </if>
-      <if test="fkTenantId != null">
-        AND dht.fk_tenant_id = #{fkTenantId}
+      <if test="groupTenant != null and groupTenant !=''">
+        AND dht.fk_tenant_id in (${groupTenant}) 
       </if>
+     
     </where>
     ORDER BY dht.id DESC;
   </select>

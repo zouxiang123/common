@@ -13,14 +13,11 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.patient.service.ICmPatientService;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpClientUtil;
 
@@ -29,11 +26,6 @@ import com.xtt.platform.util.http.HttpClientUtil;
 public class DownDataHandlingController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DownDataHandlingController.class);
-
-    @Autowired
-    private ICmPatientService cmPatientService;
-    @Autowired
-    private ICommonCacheService commonCacheService;
 
     /**
      * 数据下载完调用接口
@@ -53,8 +45,6 @@ public class DownDataHandlingController {
             try {
                 UserUtil.setThreadTenant(tenantId);
                 if ("patient".equals(type)) {
-                    cmPatientService.updatePatientType(tenantId);
-                    commonCacheService.cachePatient(tenantId);
                     // 调用随访自动处理数据
                     Map<String, String> param = new HashMap<>();
                     param.put("tenantId", tenantId + "");

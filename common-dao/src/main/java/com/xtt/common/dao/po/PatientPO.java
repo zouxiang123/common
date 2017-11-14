@@ -1,16 +1,12 @@
 package com.xtt.common.dao.po;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.xtt.common.dao.model.CmPatient;
-import com.xtt.platform.util.lang.NumberFormatUtil;
+import com.xtt.common.dao.model.Patient;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
 
-public class CmPatientPO extends CmPatient {
+public class PatientPO extends Patient {
     /** 显示 */
     private String birthdayShow;// 出生日期显示用
     private String provinceName;
@@ -18,13 +14,16 @@ public class CmPatientPO extends CmPatient {
     private Integer age;
     private String sexShow;
     private String tempImagePath;// 创建患者前先上传头像的临时文件
-    private String dryWeightShow;
-    private String medicareCardTypeShow;
     private String mobileShow;
-    private String cardType;// 卡号类型
-
+    private Integer fkTenantId;// 租户id
+    private Boolean isEnable;// 是否已转归，使用此字段时查询需有租户id和所属系统
+    private String sysOwner;// 所属系统
+    /**
+     * 是否临时患者
+     */
+    private Boolean isTemp;
     private List<PatientCardPO> patientCardList; // 病患卡号维护（住院号，门诊号，卡号，其他...）
-
+    private Boolean hasSpellInitials;// 是否存在全称拼写
     /**
      * 所属多个系统，以,分割
      */
@@ -105,29 +104,9 @@ public class CmPatientPO extends CmPatient {
         this.sexShow = sexShow;
     }
 
-    public String getDryWeightShow() {
-        if (super.getDryWeight() != null) {
-            dryWeightShow = NumberFormatUtil.formatNumber(super.getDryWeight());
-        }
-        return dryWeightShow;
-    }
-
-    public void setDryWeightShow(String dryWeightShow) {
-        if (StringUtils.isNotBlank(dryWeightShow))
-            super.setDryWeight(new BigDecimal(dryWeightShow).setScale(2, BigDecimal.ROUND_UP));
-        this.dryWeightShow = dryWeightShow;
-    }
-
-    public String getMedicareCardTypeShow() {
-        return medicareCardTypeShow;
-    }
-
-    public void setMedicareCardTypeShow(String medicareCardTypeShow) {
-        this.medicareCardTypeShow = medicareCardTypeShow;
-    }
-
     public String getMobileShow() {
-        return StringUtil.formatMobile(super.getMobile());
+        mobileShow = StringUtil.formatMobile(super.getMobile());
+        return mobileShow;
     }
 
     public void setMobileShow(String mobileShow) {
@@ -162,12 +141,44 @@ public class CmPatientPO extends CmPatient {
         this.multiTenantId = multiTenantId;
     }
 
-    public String getCardType() {
-        return cardType;
+    public Integer getFkTenantId() {
+        return fkTenantId;
     }
 
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
+    public void setFkTenantId(Integer fkTenantId) {
+        this.fkTenantId = fkTenantId;
+    }
+
+    public Boolean getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(Boolean isEnable) {
+        this.isEnable = isEnable;
+    }
+
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
+    }
+
+    public Boolean getHasSpellInitials() {
+        return hasSpellInitials;
+    }
+
+    public void setHasSpellInitials(Boolean hasSpellInitials) {
+        this.hasSpellInitials = hasSpellInitials;
+    }
+
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
     }
 
 }

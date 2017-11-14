@@ -65,10 +65,13 @@ public interface SysUser2roleMapper {
     void batchDeleteByRoleIds(Long[] roleIds);
 
     /**
+     * 根据用户id和fkTenantId删除数据
      * 
      * @Title: deleteByUserId
-     * @param userId
+     * @param fkUserId
+     * @param fkTenantId
+     * @param sysOwner
      *
      */
-    void deleteByUserId(Long userId);
+    void deleteByUserId(@Param("fkUserId") Long fkUserId, @Param("fkTenantId") Integer fkTenantId, @Param("sysOwner") String sysOwner);
 }

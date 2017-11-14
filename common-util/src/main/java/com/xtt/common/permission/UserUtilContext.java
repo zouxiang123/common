@@ -31,16 +31,18 @@ public class UserUtilContext {
 
     public static void setLoginUser(String token, LoginUser loginUser) {
         // 同一帐号后登陆踢除上次登陆状态
-        String hisToken = ContextAuthUtil.getTokenByAccount(loginUser.getAccount());
+        String hisToken = ContextAuthUtil.getTokenByAccount(loginUser.getTenantId() + loginUser.getAccount());
         // 根据系统参数判断是否剔除上次登录状态
         String isAllowLoginAgain = SysParamUtil.getValueByName(loginUser.getTenantId(), CommonConstants.ALLOW_LOGIN_AGAIN);
         if (hisToken != null && !"1".equals(isAllowLoginAgain)) {
             ContextAuthUtil.delAuth(hisToken);
         }
         ContextAuthUtil.setAccount2Token(loginUser.getAccount(), token);
+        ContextAuthUtil.setAccount2Token(loginUser.getTenantId() + loginUser.getAccount(), token);
         HashMap<String, Object> auth = new HashMap<String, Object>();
         auth.put(CommonConstants.LOGIN_USER, loginUser);
         ContextAuthUtil.addAuth(token, auth);
+        threadLocalLoginUser.set(loginUser);
     }
 
     /**
@@ -144,10 +146,16 @@ public class UserUtilContext {
         return (String) auth.get(CommonConstants.API_PERMISSION);
     }
 
-    public static void setThreadTenant(Integer id) {
+    public static void setThreadTenant(Integer tenantId, String sysOwner) {
+        if (threadLocalLoginUser.get() != null) {
+            threadLocalLoginUser.get().setTenantId(tenantId);
+            return;
+        }
         LoginUser user = new LoginUser();
         user.setId(CommonConstants.SYSTEM_USER_ID);
-        user.setTenantId(id);
+        user.setSysOwner(sysOwner);
+        user.setTenantId(tenantId);
+        user.setGroupTenant(tenantId.toString());
         threadLocalLoginUser.set(user);
     }
 

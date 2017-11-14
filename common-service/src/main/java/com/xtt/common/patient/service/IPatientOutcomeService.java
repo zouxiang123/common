@@ -8,6 +8,8 @@
  */
 package com.xtt.common.patient.service;
 
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.xtt.common.dao.po.PatientOutcomePO;
@@ -31,7 +33,7 @@ public interface IPatientOutcomeService {
      * @return
      * 
      */
-    List<PatientOutcomePO> selectAllByPatientId(Long patientId);
+    List<PatientOutcomePO> listByPatientId(Long patientId);
 
     /**
      * 根据条件查询患者转归记录
@@ -42,5 +44,43 @@ public interface IPatientOutcomeService {
      *
      */
     List<PatientOutcomePO> selectByCondition(PatientOutcomePO record);
+
+    /**
+     * 查询最新的一条转归记录
+     * 
+     * @Title: listLatest
+     * @param patientIds
+     *            患者ids
+     * @param month
+     *            月份
+     * @param multiTenant
+     *            租户id
+     * @param sysOwner
+     *            所属系统
+     * @return
+     *
+     */
+    List<PatientOutcomePO> listLatest(Collection<Long> patientIds, String month, String multiTenant, String sysOwner, Date startTime, Date endTime);
+
+    /**
+     * 根据患者id查询转归次数
+     * 
+     * @Title: selectCountByPatientId
+     * @param outcomeRecord
+     * @return
+     *
+     */
+    Integer selectCountByPatientId(PatientOutcomePO outcomeRecord);
+
+    /**
+     * 查询一段时间内的转归用户
+     * 
+     * @Title: selectPatientByMonth
+     * @param startDate
+     * @param endDate
+     * @return
+     *
+     */
+    List<Long> selectPatientByMonth(Date startTime, Date endTime, List<String> excludeTypes);
 
 }

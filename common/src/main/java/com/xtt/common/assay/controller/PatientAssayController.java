@@ -27,7 +27,7 @@ import com.xtt.common.assay.service.IPatientAssayResultService;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
-import com.xtt.common.patient.service.ICmPatientService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessReportUtil;
 import com.xtt.common.util.UserUtil;
 
@@ -39,7 +39,7 @@ public class PatientAssayController {
     @Autowired
     private IPatientAssayRecordBusiService patientAssayRecordBusiService;
     @Autowired
-    private ICmPatientService cmPatientService;
+    private IPatientService patientService;
     @Autowired
     private IPatientAssayResultService patientAssayResultService;
 
@@ -51,7 +51,7 @@ public class PatientAssayController {
         model.addObject("assayResult", patientAssayResultService.getByPatientId(patientId));
         model.addObject("patientId", patientId);
         model.addObject("tenantId", UserUtil.getTenantId());
-        model.addObject("patient", cmPatientService.selectById(patientId));
+        model.addObject("patient", patientService.getById(patientId));
         return model;
     }
 

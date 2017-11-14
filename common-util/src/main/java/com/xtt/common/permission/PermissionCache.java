@@ -1,19 +1,21 @@
-/**   
- * @Title: PermissionByMemory.java 
+/**
+ * @Title: PermissionByMemory.java
  * @Package com.xtt.common.common.util.permission
  * Copyright: Copyright (c) 2015
- * @author: bruce   
- * @date: 2016年1月13日 上午10:38:30 
+ * @author: bruce
+ * @date: 2016年1月13日 上午10:38:30
  *
  */
 package com.xtt.common.permission;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.xtt.common.dto.SysObjDto;
@@ -54,7 +56,7 @@ public class PermissionCache implements IPermissionFactory {
 
     /**
      * 通过roleId和类别获取权限数据
-     * 
+     *
      * @Title: getList
      * @param roleIds
      *            角色id
@@ -67,49 +69,35 @@ public class PermissionCache implements IPermissionFactory {
      */
     @SuppressWarnings("unchecked")
     private static List<SysObjDto> permissionList(Long[] roleIds, String[] types, boolean hasPermission) {
-        HashMap<String, SysObjDto> map = new HashMap<String, SysObjDto>();
+        HashMap<String, SysObjDto> permissionMap = new HashMap<>();
         List<SysObjDto> permissionList;
         Integer tenandId = UserUtil.getTenantId();
         for (int i = 0; i < roleIds.length; i++) {
             List<SysObjDto> list = (List<SysObjDto>) RedisCacheUtil.getObject(getKey(tenandId, roleIds[i]));
             if (CollectionUtils.isNotEmpty(list)) {
                 for (int t = 0; t < list.size(); t++) {// 使用map去除重复权限
-                    map.put(list.get(t).getKey(), list.get(t));
+                    permissionMap.put(list.get(t).getKey(), list.get(t));
                 }
                 list.clear();
             }
         }
-        if (CollectionUtils.isNotEmpty(map.values())) {
-            permissionList = new ArrayList<SysObjDto>(map.values().size());
-            permissionList.addAll(map.values());
-            permissionList.sort(new Comparator<SysObjDto>() {
-                @Override
-                public int compare(SysObjDto o1, SysObjDto o2) {
-                    return o1.getCode().compareTo(o2.getCode());
-                }
-            });
+        if (MapUtils.isNotEmpty(permissionMap)) {
+            Collection<SysObjDto> permissions = permissionMap.values();
+            permissionList = new ArrayList<>(permissions.size());
+            permissionList.addAll(permissions);
+            permissionList.sort((o1, o2) -> o1.getCode().compareTo(o2.getCode()));
         } else {
-            permissionList = new ArrayList<SysObjDto>();
+            permissionList = new ArrayList<>();
         }
         if (hasPermission) {
             return permissionList;
         }
         // get non permission list
-        List<SysObjDto> nonList = new ArrayList<SysObjDto>();
+        List<SysObjDto> nonList = new ArrayList<>();
         List<SysObjDto> allObjs = (List<SysObjDto>) RedisCacheUtil.getObject(UserUtil.getTenantId() + ALL_SYS_OBJ_KEY);
         if (CollectionUtils.isNotEmpty(allObjs)) {
             if (CollectionUtils.isNotEmpty(permissionList)) {
-                for (int i = 0; i < allObjs.size(); i++) {
-                    boolean exists = false;
-                    for (SysObjDto so : permissionList) {
-                        if (allObjs.get(i).getKey().equals(so.getKey())) {// 检查是否已存在
-                            exists = true;
-                            break;
-                        }
-                    }
-                    if (!exists)
-                        nonList.add(allObjs.get(i));
-                }
+                nonList = allObjs.stream().filter(obj -> !permissionMap.containsKey(obj.getKey())).collect(Collectors.toList());
             } else {// 当角色没有任何权限时
                 return allObjs;
             }

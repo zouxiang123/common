@@ -43,8 +43,7 @@ public class CmDiagnosisHistPdServiceImpl implements ICmDiagnosisHistPdService {
      */
     @Override
     public List<CmDiagnosisHistPdPO> selectPdsByPatient(Long patientId) {
-        // TODO Auto-generated method stub
-        return cmDiagnosisHistPdMapper.selectByPatient(patientId);
+        return cmDiagnosisHistPdMapper.selectByPatient(patientId, UserUtil.getGroupTenant());
     }
 
     /**
@@ -57,7 +56,6 @@ public class CmDiagnosisHistPdServiceImpl implements ICmDiagnosisHistPdService {
      */
     @Override
     public String saveItem(CmDiagnosisHistPdPO record) {
-        // TODO Auto-generated method stub
         if (record.getId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(record);
@@ -80,7 +78,6 @@ public class CmDiagnosisHistPdServiceImpl implements ICmDiagnosisHistPdService {
      */
     @Override
     public String deleteById(Long id) {
-        // TODO Auto-generated method stub
         CmDiagnosisHistPd item = cmDiagnosisHistPdMapper.selectByPrimaryKey(id);
         if (item != null) {
             cmDiagnosisHistPdMapper.deleteByPrimaryKey(item.getId());

@@ -1,9 +1,9 @@
-/**   
+/**
  * @Title: LoginUser.java 登录者信息
  * @Package com.xtt.common.common.util
  * Copyright: Copyright (c) 2015
- * @author: 陈光浩   
- * @date: 2015年9月16日 上午9:20:22 
+ * @author: 陈光浩
+ * @date: 2015年9月16日 上午9:20:22
  *
  */
 package com.xtt.common.dto;
@@ -21,6 +21,10 @@ public class LoginUser {
     private String roleType;
     private String positionShow;
     private String sysOwner;
+    private String userType; // 用户类别
+    private String multiTenant;// 该用户拥有权限的租户id
+    private String groupTenant;// 当前集团下租户列表,以“,”分隔
+    private String multiSysOwner;// 该用户拥有权限的系统
     private String skin;
     // APP用
     private Long patientId;
@@ -191,6 +195,38 @@ public class LoginUser {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
+    }
+
+    public String getMultiSysOwner() {
+        return multiSysOwner;
+    }
+
+    public void setMultiSysOwner(String multiSysOwner) {
+        this.multiSysOwner = multiSysOwner;
+    }
+
+    public String getGroupTenant() {
+        return groupTenant;
+    }
+
+    public void setGroupTenant(String groupTenant) {
+        this.groupTenant = groupTenant;
     }
 
 }

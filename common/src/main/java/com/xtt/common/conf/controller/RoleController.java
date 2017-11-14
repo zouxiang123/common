@@ -71,7 +71,7 @@ public class RoleController {
             if (roleId != null) {
                 role[0] = roleId;
             }
-            return roleService.getMenuListByRoleId(role, types, sysOwner);
+            return roleService.getMenuListByRoleId(role, types);
         }
     }
 
@@ -81,7 +81,7 @@ public class RoleController {
         String[] types = { "1", "2" };
         roleService.saveMenuList(roleList.getCheckedMenuIds(), roleList.getMenuRoleId(), types);
         commonCacheService.cachePermission(UserUtil.getTenantId());
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }
@@ -89,7 +89,7 @@ public class RoleController {
     @RequestMapping("saveRole")
     @ResponseBody
     public Map<String, Object> saveRole(@RequestBody RoleListVO roleList) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", roleService.saveRoleList(roleList.getDelRoleIds(), roleList.getRoles(), roleList.getSysOwner()));
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
         return map;
@@ -98,7 +98,7 @@ public class RoleController {
     @RequestMapping("delRole")
     @ResponseBody
     public Map<String, Object> delRole(@RequestParam(value = "roleId", required = true) Long roleId) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", roleService.delRoleById(roleId));
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
         return map;
@@ -107,7 +107,7 @@ public class RoleController {
     @RequestMapping("addMenu")
     @ResponseBody
     public Map<String, Object> addMenu(SysObj obj) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", roleService.addMenu(obj));
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
         return map;
@@ -116,7 +116,7 @@ public class RoleController {
     @RequestMapping("delMenu")
     @ResponseBody
     public Map<String, Object> delMenu(Long menuId) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         Long[] menuIds = { menuId };
         roleService.delMenu(menuIds);
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
@@ -130,14 +130,14 @@ public class RoleController {
         String[] types = { "api" };
         roleService.saveMenuList(roleList.getCheckedMenuIds(), roleList.getMenuRoleId(), types);
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }
 
     /**
      * 刷新menu缓存
-     * 
+     *
      * @Title: refreshMenuCache
      * @return
      *
@@ -146,7 +146,7 @@ public class RoleController {
     @ResponseBody
     public Map<String, Object> refreshMenuCache() {
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }

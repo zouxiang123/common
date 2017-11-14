@@ -19,15 +19,45 @@ public class PatientOutcomePO extends PatientOutcome {
     private String typeShow;
     private String patientName;
     private String createUserName;
+    private String[] excludeTypes;
+    private Boolean isTemp;
+    private Date startTime;
+    private Date endTime;
+    private String multiTenant;// 多个租户id
+    private String patientOutcomeType; // 转归类型"转归","转出","临时"
+    private String deleteSickbedRecord; // 是否删除排床
+    private String inType; // 转回类型
+    private String[] types; // 转归类型数组
 
-    private Date startDate;
-    private Date endDate;
+    public String getInType() {
+        return inType;
+    }
+
+    public void setInType(String inType) {
+        this.inType = inType;
+    }
+
+    public String getDeleteSickbedRecord() {
+        return deleteSickbedRecord;
+    }
+
+    public void setDeleteSickbedRecord(String deleteSickbedRecord) {
+        this.deleteSickbedRecord = deleteSickbedRecord;
+    }
 
     public String getRecordDateShow() {
         if (super.getRecordDate() != null) {
             recordDateShow = DateFormatUtil.convertDateToStr(super.getRecordDate());
         }
         return recordDateShow;
+    }
+
+    public String getPatientOutcomeType() {
+        return patientOutcomeType;
+    }
+
+    public void setPatientOutcomeType(String patientOutcomeType) {
+        this.patientOutcomeType = patientOutcomeType;
     }
 
     public void setRecordDateShow(String recordDateShow) {
@@ -53,20 +83,20 @@ public class PatientOutcomePO extends PatientOutcome {
         this.patientName = patientName;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getCreateUserName() {
@@ -75,6 +105,38 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setCreateUserName(String createUserName) {
         this.createUserName = createUserName;
+    }
+
+    public String[] getExcludeTypes() {
+        return excludeTypes;
+    }
+
+    public void setExcludeTypes(String[] excludeTypes) {
+        this.excludeTypes = excludeTypes;
+    }
+
+    public String getMultiTenant() {
+        return multiTenant;
+    }
+
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
+    }
+
+    public String[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(String[] types) {
+        this.types = types;
+    }
+
+    public Boolean getIsTemp() {
+        return isTemp;
+    }
+
+    public void setIsTemp(Boolean isTemp) {
+        this.isTemp = isTemp;
     }
 
 }

@@ -19,14 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.xtt.common.dto.PatientDto;
-import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 public class PatientCache {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientCache.class);
 
-    public static String getKey(Integer tenantId, Long id) {
-        return tenantId + "patient" + (id == null ? "*" : id);
+    public static String getKey(Long id) {
+        return "patient" + (id == null ? "*" : id);
     }
 
     public static void cacheAll(List<PatientDto> list) {
@@ -36,7 +35,7 @@ public class PatientCache {
             String key;
             for (int i = 0; i < list.size(); i++) {
                 patient = list.get(i);
-                key = getKey(patient.getFkTenantId(), list.get(i).getId());
+                key = getKey(patient.getId());
                 map.put(key, patient);
             }
             RedisCacheUtil.batchSetObject(map);
@@ -47,7 +46,7 @@ public class PatientCache {
         if (id == null)
             return null;
         try {
-            return (PatientDto) RedisCacheUtil.getObject(getKey(UserUtil.getTenantId(), id));
+            return (PatientDto) RedisCacheUtil.getObject(getKey(id));
         } catch (Exception e) {
             LOGGER.warn("get patient data from redis", e);
             return null;
@@ -60,9 +59,8 @@ public class PatientCache {
         if (CollectionUtils.isEmpty(ids))
             return new HashMap<Long, PatientDto>();
         List<String> idList = new ArrayList<String>(ids.size());
-        Integer tenantId = UserUtil.getTenantId();
         for (Long id : ids) {
-            idList.add(getKey(tenantId, id));
+            idList.add(getKey(id));
         }
         try {
             List<PatientDto> result = (List<PatientDto>) RedisCacheUtil.batchGetObject(idList);
@@ -93,8 +91,23 @@ public class PatientCache {
     public static void refresh(PatientDto patient) {
         if (patient.getId() == null)
             return;
-        String key = getKey(patient.getFkTenantId(), patient.getId());
-        // RedisCacheUtil.delete(key);
+        String key = getKey(patient.getId());
         RedisCacheUtil.setObject(key, patient);
+    }
+
+    /**
+     * 根据患者id获取患者名称
+     * 
+     * @Title: getNameById
+     * @param id
+     * @return
+     *
+     */
+    public static String getNameById(Long id) {
+        PatientDto patient = getById(id);
+        if (patient != null) {
+            return patient.getName();
+        }
+        return "";
     }
 }

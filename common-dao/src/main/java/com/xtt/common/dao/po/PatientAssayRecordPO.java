@@ -69,8 +69,7 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
 
     // 样本时间
     private String sampleTimeShow;
-    // 统计报表使用
-    private String isTemp;
+    private String multiTenant;// 多个租户id
 
     private String ptName;// 姓名
     private String ptSex; // 性别(男:M 女：F)
@@ -359,12 +358,12 @@ public class PatientAssayRecordPO extends PatientAssayRecord {
         this.sampleTimeShow = sampleTimeShow;
     }
 
-    public String getIsTemp() {
-        return isTemp;
+    public String getMultiTenant() {
+        return multiTenant;
     }
 
-    public void setIsTemp(String isTemp) {
-        this.isTemp = isTemp;
+    public void setMultiTenant(String multiTenant) {
+        this.multiTenant = multiTenant;
     }
 
 }

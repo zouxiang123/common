@@ -47,7 +47,6 @@ public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
         if (record == null) {
             record = new CmDictDiagnosisPO();
         }
-        record.setFkTenantId(UserUtil.getTenantId());
         return cmDictDiagnosisMapper.selectByCondition(record);
     }
 
@@ -64,7 +63,6 @@ public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
 
     @Override
     public String saveItem(CmDictDiagnosis record) {
-        record.setFkTenantId(UserUtil.getTenantId());
         if (record.getId() == null) {
             if (selectByItemCode(record.getItemCode()) != null) {// 检查编号是否已存在
                 return CommonConstants.WARNING;

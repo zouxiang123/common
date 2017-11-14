@@ -106,11 +106,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             // 最后 一条数据的最大值就是本身
             if (i == PatientAssayGroupRulePOList.size() - 1) {
                 PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             } else {
                 // 设置每条数据的最大值
                 PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             }
         }
     }
@@ -144,11 +144,11 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
             // 最后 一条数据的最大值就是本身
             if (i == PatientAssayGroupRulePOList.size() - 1) {
                 PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             } else {
                 // 设置每条数据的最大值
                 PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateBySelective(PatientAssayGroupRulePOList.get(i));
+                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
             }
         }
     }

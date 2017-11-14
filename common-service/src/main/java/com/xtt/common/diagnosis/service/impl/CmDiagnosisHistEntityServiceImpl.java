@@ -34,18 +34,17 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
 
     @Override
     public CmDiagnosisEntityPO selectById(Long id) {
-        return cmDiagnosisEntityMapper.selectByPrimaryKey(id);
+        return cmDiagnosisEntityMapper.getById(id);
     }
 
     @Override
     public List<CmDiagnosisEntityPO> selectEntitiesByPatient(CmDiagnosisEntityPO entity) {
-        // TODO Auto-generated method stub
+        entity.setGroupTenant(UserUtil.getGroupTenant());
         return cmDiagnosisEntityMapper.selectEntitiesByPatient(entity);
     }
 
     @Override
     public String saveItem(CmDiagnosisEntityPO record) {
-        // TODO Auto-generated method stub
         if (record.getId() == null) {
             record.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(record);
@@ -71,7 +70,6 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
 
     @Override
     public String deleteById(Long id) {
-        // TODO Auto-generated method stub
         CmDiagnosisEntity item = cmDiagnosisEntityMapper.selectByPrimaryKey(id);
         if (item != null) {
             int count = cmDiagnosisEntityMapper.deleteByPrimaryKey(item.getId());

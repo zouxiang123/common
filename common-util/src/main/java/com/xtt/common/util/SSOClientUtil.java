@@ -1,6 +1,6 @@
 package com.xtt.common.util;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -141,8 +141,8 @@ public class SSOClientUtil {
      * 
      * @return true 成功 false 失败
      */
-    public static boolean isVerifyRequestURL(List<String> excludePaths, HttpServletRequest request) {
-        if (excludePaths != null && excludePaths.size() > 0) {
+    public static boolean isVerifyRequestURL(Set<String> excludePathSet, HttpServletRequest request) {
+        if (CollectionUtils.isNotEmpty(excludePathSet)) {
             String requestURI = request.getServletPath();
             if (StringUtil.isNotBlank(requestURI)) {
                 if (StringUtil.isEmpty(requestURI) || requestURI.indexOf(".shtml") == -1) {// 地址无效时不做校验
@@ -151,7 +151,7 @@ public class SSOClientUtil {
                 requestURI = requestURI.substring(0, requestURI.indexOf(".shtml"));
                 String[] uris = requestURI.split("/");
                 for (int i = 0; i < uris.length; i++) {
-                    if (StringUtil.isNotBlank(uris[i]) && excludePaths.contains(uris[i])) {
+                    if (StringUtil.isNotBlank(uris[i]) && excludePathSet.contains(uris[i])) {
                         return true;
                     }
                 }
@@ -164,23 +164,20 @@ public class SSOClientUtil {
      * 校验文件后缀请求是否通过
      * 
      * @Title: isVerifyRequestFile
-     * @param excludeFileList
+     * @param excludeFileSet
      * @param request
      * @return true 成功 false 失败
      *
      */
-    public static boolean isVerifyRequestFile(List<String> excludeFileList, HttpServletRequest request) {
-        boolean requestVerify = false;
-        if (CollectionUtils.isNotEmpty(excludeFileList)) {
-            StringBuffer requestURI = request.getRequestURL();
-            for (String excludeFile : excludeFileList) {
-                if (requestURI.indexOf(excludeFile) >= 0) {
-                    requestVerify = true;
-                    break;
-                }
+    public static boolean isVerifyRequestFile(Set<String> excludeFileSet, HttpServletRequest request) {
+        if (CollectionUtils.isNotEmpty(excludeFileSet)) {
+            String requestURI = request.getServletPath();
+            int index = requestURI.lastIndexOf(".");
+            if (index > -1) {
+                return excludeFileSet.contains(requestURI.substring(index));
             }
         }
-        return requestVerify;
+        return false;
     }
 
     /**
