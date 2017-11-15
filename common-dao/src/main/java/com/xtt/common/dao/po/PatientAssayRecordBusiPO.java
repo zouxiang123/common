@@ -35,8 +35,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     // 报告时间字符串
     private String strReportTime;
 
-    private String reference; // 化验参考值
-
     private String[] multResultTips;
     /**
      * 默认：parb.assay_date ASC <br>
@@ -83,16 +81,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setStrReportTime(String strReportTime) {
         this.strReportTime = strReportTime;
-    }
-
-    @Override
-    public String getReference() {
-        return reference;
-    }
-
-    @Override
-    public void setReference(String reference) {
-        this.reference = reference;
     }
 
     public String getPatientName() {

@@ -87,7 +87,7 @@ function getAssayDateData(needResetPage) {
                         assayTimesRecordHtml += '<input type="hidden" value="' + item.reqId + '" id="data_reqId">';
                         if (labTimeFlag == 1 || labTimeFlag == 3) {
                             assayTimesRecordHtml += '<div class="pl-14 pr-14 carditem">';
-                            assayTimesRecordHtml += '<span class="m-r-10">采集时间：</span>';
+                            assayTimesRecordHtml += '<span class="mr-10">采集时间：</span>';
                             assayTimesRecordHtml += '<span>' + item.strSampleTime + '</span>';
                             assayTimesRecordHtml += '</div>';
                         }

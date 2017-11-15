@@ -5,7 +5,7 @@
     <div class="u-dialog">
         <div class="u-dialog-header">
             <div class="pl-12 fw-bold" data-title1></div>
-            <div class="fw-bold fs-18" data-title></div>
+            <div class="fs-18" data-title></div>
             <div class="u-float-r">
                 <i class="icon-close" data-hide="#iframeDialog"></i>
             </div>
@@ -90,7 +90,7 @@
                 dialog.find(".tab-index-item:first").click();
             });
         } else {
-            dialog.find("[data-title]").addClass("fw-bold fs-18");
+            dialog.find("[data-title]").addClass("fs-18");
             dialog.find(".u-dialog-footer").removeClass("hide");
             dialog.find("[data-title]").text(convertEmpty(param.title));
             popDialog(dialog, function() {
