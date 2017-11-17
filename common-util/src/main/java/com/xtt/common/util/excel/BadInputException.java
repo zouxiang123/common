@@ -10,7 +10,7 @@ public class BadInputException extends IllegalArgumentException {
     public static final String KEY_UNRECOGNIZED_HEADER = "列名“%s”无效";
     public static final String KEY_INVALID_SEX = "“%s”不是有效性别";
     public static final String KEY_INVALID_ID_NUMBER = "“%s”不是有效的身份证号码";
-    public static final String KEY_INVALID_BRITHDAY = "“%s”不是有效的出生日期";
+    public static final String KEY_INVALID_DATE = "“%s”不是有效的日期";
     public static final String KEY_INVALID_MOBILE = "“%s”不是有效的手机号";
     public static final String KEY_INVALID_POSITION = "“%s”不是有效的职称";
     public static final String KEY_INVALID_ROLE = "“%s”不是有效的角色名";
