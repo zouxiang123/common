@@ -172,6 +172,8 @@ public class ExcelTools {
             String[] x = StringUtils.split(d, '-');
             if (x.length == 3) {
                 d = String.format("%d-%02d-%02d", Integer.parseInt(x[0]), Integer.parseInt(x[1]), Integer.parseInt(x[2]));
+            } else {
+                throw new BadInputException(BadInputException.KEY_INVALID_DATE, d);
             }
         }
 
@@ -179,7 +181,7 @@ public class ExcelTools {
         day.setTime(FIELD_UNDEFINED, FIELD_UNDEFINED, FIELD_UNDEFINED);
         day.setTimezone(FIELD_UNDEFINED);
         if (day.getDay() == FIELD_UNDEFINED || day.getYear() == FIELD_UNDEFINED || day.getMonth() == FIELD_UNDEFINED)
-            throw new BadInputException(BadInputException.KEY_INVALID_BRITHDAY, d);
+            throw new BadInputException(BadInputException.KEY_INVALID_DATE, d);
         return day;
     }
 
