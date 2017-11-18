@@ -6,7 +6,10 @@ $(document).ready(function() {
     addCommonEvents();
     // 隐藏或显示iframe的内容
     showOrHideIframe();
-
+    // 设置头像文字长度
+    $(".u-image").each(function() {
+        $(this).text(getImageName($(this).text()));
+    });
 });
 
 function addCommonEvents() {
@@ -63,6 +66,18 @@ function addTextareaAutoHeightEvent(element) {
     $(element).unbind("blur").bind("blur", function() {
         clearInterval(this.clock);
     });
+}
+/**
+ * 根据名称，获取图片显示名称
+ * 
+ * @param name
+ */
+function getImageName(name) {
+    if (!isEmpty(name) && name.length > 2) {
+        return name.substring(name.length - 2, name.length);
+    } else {
+        return name;
+    }
 }
 
 /**

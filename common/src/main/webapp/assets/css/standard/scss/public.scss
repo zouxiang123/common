@@ -46,6 +46,19 @@ img[browse]{
   font-size: 18px;
   @include opacity(0.5);
 }
+// 错误
+.error{
+    color: $red;
+    .u-list-text{
+        color: $red;
+        .left{
+            width: 60px;
+        }
+        .right{
+            width: calc(100% - 60px);
+        }
+    }
+}
 /*ivew样式*/
 .ivu-input-icon{
   width: 16px;
@@ -79,9 +92,6 @@ img[browse]{
       @include rotate(0deg);
   } 
 }
-/*[class^="icon-"], [class*=" icon-"]{
-  font-size: 12px;
-}*/
 [class^="icon-"], [class*=" icon-"], [class^="u-"], [class*=" u-"],[class^="glyphicon-"], [class*=" glyphicon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -91,10 +101,8 @@ img[browse]{
   font-variant: normal;
   text-transform: none;
   line-height: 1;
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*font-size: 12px;*/
 }
 
 
@@ -547,6 +555,20 @@ input[disabled]:active,
 textarea[disabled]:active{
    box-shadow: none;
 }
+input[type="text"].error{
+    border-color: $red;
+}
+input[type="text"].error{
+    &:focus{
+        box-shadow: 0px 0px 2px $red;
+    }
+}
+input[type="text"].error + span{
+    display: block;
+    line-height: 20px;
+    color: $red;
+    margin-bottom: 2px;
+}
 .icon-input{
    position: relative;
    display: inline-block;
@@ -660,56 +682,6 @@ textarea[disabled]:active{
 .u-radio>input[type=radio]:checked+span{
     border-color: $blue;
 }
-/*文本编辑器*/
-.u-textarea{
-  width: 100%;
-  height: 300px;
-  border: $solid;
-}
-.u-textarea>
-.u-textarea-title{
-  height: 46px;
-  line-height: 46px;
-  width: 100%;
-  border-bottom: $solid;
-}
-.u-textarea>
-.u-textarea-title>i{
-  margin-left: 20px;
-  font-size: 18px;
-  cursor: pointer;
-}
-.u-textarea>
-.u-textarea-content{
-  width: 100%;
-  height: calc(100% - 46px);
-  outline: none;
-  font-size: 16px;
-  padding: 5px;
-  line-height: 1.5;
-  overflow-x: hidden;
-  overflow-y: auto; 
-}
-.u-textarea>
-.u-textarea-content b{
-    font-size: inherit;
-}
-.u-textarea>
-.u-textarea-content h1{
-    font-size: 40px !important;
-}
-.u-textarea>
-.u-textarea-content h2{
-    font-size: 32px !important;
-}
-.u-textarea>
-.u-textarea-content h3{
-    font-size: 24px !important;
-}
-.u-textarea>
-.u-textarea-content h4{
-    font-size: 20px !important;
-}
 
 /*提示文本框*/
 .u-select-input{
@@ -746,6 +718,9 @@ textarea[disabled]:active{
 }
 .u-select-input>ul>li:first-child{
   border-top: none;
+}
+select.error{
+    border-color: $red !important;
 }
 
 /*提示框*/
@@ -1380,8 +1355,7 @@ select[multiple]{
 .u-table>thead>tr>th{
    height: 36px;
    background: $grey_5;
-   padding-left: 10px;
-   padding-right: 8px;
+   padding: 0px 8px;
    color: $black;
    font-weight: 400;
    text-align: left;
@@ -2026,6 +2000,7 @@ table>thead>tr>th.xtt-40{
   cursor: not-allowed;
   top: 0px;
   left: 0px;
+  background: rgba(0,0,0,0.4);
 }
 .u-pageLoad>div{
   width: 200px;
@@ -3060,7 +3035,7 @@ table>thead>tr>th.xtt-40{
   background: rgba(217,224,230,0.2);
 }
 
-/*简短控件*/
+/*简单控件*/
 .u-list{
    min-height: 40px;
    line-height: 40px;
@@ -3098,11 +3073,6 @@ table>thead>tr>th.xtt-40{
 .right>p{
   line-height: 1.7;
   margin-top: 5px;
-}
-.u-list-text
-.right>p:first-child{
-  line-height: 1.7;
-  margin-top: 8px;
 }
 .u-list-text-two,
 .u-list-text-three {
@@ -3325,7 +3295,6 @@ table>thead>tr>th.xtt-40{
     height: 36px;
     line-height: 36px;
 }
-
 .u-head-text>
 .content>span:hover,
 .u-head-text>
@@ -3334,8 +3303,6 @@ table>thead>tr>th.xtt-40{
 .content>span.active a{
     color: $active;
 }
-
-
 .u-head-ipad{
   height: 50px;
   line-height: 50px;
@@ -3387,6 +3354,53 @@ table>thead>tr>th.xtt-40{
   float: left;
   text-align: right;
   padding-right: 12px;
+}
+.u-menu{
+  width: 100%; 
+  display: flex;
+  div{
+    display: flex;
+    height: 36px;
+    border-bottom: $solid;
+  }
+  div:first-child{
+    flex:1;
+    span:last-child{
+      border-right: $solid;
+    }
+    span{
+      height: 36px;
+      display: flex;
+      align-items:center;
+      padding:0px 10px;
+      border-left: $solid;
+      cursor: pointer;
+      border-top: $solid;
+      &:hover a{
+        color: $blue;
+      }
+      a{
+        display: flex;
+        align-items:center;
+        max-width: 68px;
+        height: 36px;
+        @include ellipsis;
+        margin-right: 4px;
+      }
+      i{
+         font-style:normal;
+         font-size: 18px;
+         color: $black;
+         @include select;
+         &:hover{
+            color: $red;
+         }
+      }
+    }
+    span.active a{
+      color: $blue;
+    }
+  }
 }
 .u-date{
   display: inline-block;
@@ -3472,6 +3486,41 @@ table>thead>tr>th.xtt-40{
     font-size: 16px;
     margin-top: 10px;
     top: 46%;
+}
+@font-face {
+  font-family: myfonts;
+  src: url('../font/HYQiHei-85S.otf');
+}
+.u-image{
+    display: inline-flex;
+    height: 48px;
+    width: 48px;
+    background:#8D96A6;
+    border-radius: 50%;
+    white-space:nowrap;
+    align-items: center;
+    overflow: hidden;
+    justify-content: center;
+    color: $white;
+    font-size: 26px;
+    font-family: myfonts !important;
+    font-weight: 100;
+    position: relative;
+    &.error{
+        background: $red;
+    }
+    &:before{
+        content: "";
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        border-radius: 50%;
+        box-shadow:inset 0 0 6px 0 rgba(0,0,0,0.20);
+        z-index: 99;
+        left: 0px;
+        top: 0px;
+
+    }
 }
 .u-display-inlineBlock{
   display: inline-block;

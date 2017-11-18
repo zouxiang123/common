@@ -19,12 +19,6 @@ var patient_edit = {
         this.validCard();
         // 触发默认的患者卡号类型切换事件，修复如果卡号类别默认为ID的情况没有显示radio的问题
         $("#patientCardDefaultTr").find("[data-cardType]").trigger("change");
-        // 头像上传
-        new uploadPreview({
-            UpBtn : "up_img",
-            DivShow : "imgdiv",
-            ImgShow : "imgShow"
-        });
         layui.use('laydate', function() {
             var laydate = layui.laydate;
             laydate.render({
@@ -223,11 +217,9 @@ var patient_edit = {
         $("#patientForm_birthday").on("blur", function() {
             patient_edit.changeIdNumber();
         });
-        /**
-         * 上传头像
-         */
-        $("#up_img").change(function() {
-            patient_edit.uploadImg($("#imageUploadForm"));
+        // 患者名称变更，动态设置头像名称
+        $("#patientForm_name").on("change", function() {
+            $("#patientNameDisplay").html(getImageName($(this).val()));
         });
     },
     /**
@@ -292,29 +284,6 @@ var patient_edit = {
             tmpStr = tmpStr.substring(0, 4) + "-" + tmpStr.substring(4, 6) + "-" + tmpStr.substring(6);
             birthday.val(tmpStr);
         }
-    },
-    uploadImg : function(form) {
-        if (isEmpty($("#up_img").val())) {
-            showWarn("请选择上传的文件");
-            return false;
-        }
-        var options = {
-            dataType : "json",
-            url : ctx + "/patient/savePatientImage.shtml?id=" + $("#patientForm_id").val(),
-            success : function(data) {// ajax返回的数据
-                if (data) {
-                    if (data.status == 1) {
-                        $("#tempImagePath").val(data.filepath);
-                        return false;
-                    } else if (data.status == 2) {
-                        showWarn("请选择上传的文件");
-                        return false;
-                    }
-                }
-            }
-        };
-        $(form).ajaxSubmit(options);
-        return false;
     },
     /**
      * 保存患者

@@ -8,7 +8,6 @@
  */
 package com.xtt.common.patient.service.impl;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -41,7 +40,6 @@ import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.thirddata.IPatientThirdSerice;
-import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.SysParamUtil;
@@ -129,25 +127,7 @@ public class PatientServiceImpl implements IPatientService {
             patient.setCreateUserId(null);
             patientMapper.updateByPrimaryKeySelective(patient);
         }
-        // 上传头像
-        String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT
-                        + "/" + patient.getId() + ".png";
-        // 首次创建头像
-        if (StringUtils.isBlank(patient.getImagePath()) && prePatient == null) {
-            // commonService.notifyDB();
-            String name = patient.getName().length() >= 2 ? patient.getName().substring(patient.getName().length() - 2) : patient.getName();
-            BusinessCommonUtil.combineImage(name, newFilename);
-            patient.setImagePath(newFilename);
-            patientMapper.updateByPrimaryKeySelective(patient);
-        }
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
-        // 修改头像
-        if (!newFilename.equals(patient.getImagePath())) {
-            com.xtt.platform.util.io.FileUtil.rename(new File(path + patient.getImagePath()), patient.getId() + ".png");
-            patient.setImagePath(newFilename);
-            patientMapper.updateByPrimaryKeySelective(patient);
-        }
-
         try {
             if (prePatient == null || prePatient != null && !prePatient.getIdNumber().equals(patient.getIdNumber())) {
                 // 生成二维码

@@ -9,7 +9,7 @@
 <body>
     <div class="ml-50 mt-18">
         <div>
-            <img src="${ctx}/images${patient.imagePath }?time=${currentTime}" class="newPatientimgsize mr-10"> 
+            <span class="mr-10 u-image" style="width: 60px;height: 60px;">${patient.name }</span>
             <span class="mr-34 fs-18">${patient.name }</span> 
             <button type="button" class="u-btn-blue mr-24" data-permission-key="edit_patient" onclick="window.location.href='${ctx}/patient/editPatient.shtml?patientId=${patient.id }';" text>编辑</button>
             <button type="button" class="u-btn-blue" data-popup="#barcodeDialog" text>二维码</button>

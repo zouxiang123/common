@@ -18,14 +18,8 @@
     <input type="hidden" id="patientForm_id" name="id" value="${patient.id }">
     <input type="hidden" id="sysOwner" name="sysOwner" value="${patient.sysOwner }"/>
     <input type ="hidden" id="checkedStatus" value=""/>
-    <div class="mt-16 text-center" id = "imgdiv">
-        <c:if test="${empty patient.imagePath }">
-            <img id="imgShow" class="newPatientimgsize" src="${ctx}/assets/img/default-user.png">
-        </c:if>
-        <c:if test="${!empty patient.imagePath }">
-            <img id="imgShow" class="newPatientimgsize" src="${ctx}/images${patient.imagePath }">
-        </c:if>
-        <div class="newPatienteditimg" onclick="$('#up_img').click();">编辑</div>
+    <div class="mt-16 text-center">
+        <span class="u-image" id="patientNameDisplay">${patient.name }</span>
     </div>
     <div id="patientCardListDiv">
         <div class="u-list-text mt-12" id="patientCardDefaultDiv" data-cardrecord>
@@ -333,7 +327,6 @@
 </div>
 </body>
 <script src="${ctx }/framework/jquery/1.11.3/jquery.form.js"></script>
-<script src="${ctx }/framework/uploadPreview.min.js?version=${version}"></script>
 <script src="${ctx }/assets/js/patient/patient_edit.js?version=${version}"></script>
 <script type="text/javascript">
 patient_edit.init('${interfaceOpenCardText}');
