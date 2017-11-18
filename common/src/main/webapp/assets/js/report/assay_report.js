@@ -422,14 +422,12 @@ function getReportByCondition() {
 }
 
 /** 获取化验单类别数据 */
-function getAssayCategory() {
+function getAssayCategory(callback) {
     $.ajax({
         url : ctx + "/assay/hospDict/getAssayCategoryList.shtml",
         type : "post",
         dataType : "json",
         loading : true,
-
-        async : false,
         success : function(data) {
             var htmlSelect = '';
             for (var i = 0; i < data.items.length; i++) {
@@ -437,15 +435,15 @@ function getAssayCategory() {
                 htmlSelect += '<option value="' + item.groupId + '">' + item.groupName + '</option>';
             }
             $("#groupId").html(htmlSelect);
-            if (data.status == 1) {
-                getAssayitem();
+            if (!isEmpty(callback)) {
+                callback();
             }
         }
     });
 }
 
 /** 获取table数据 */
-function getAssayitem() {
+function getAssayitem(selectCode) {
     var groupId = convertEmpty($("#groupId").val());
     $.ajax({
         url : ctx + "/assay/hospDict/getAssayList.shtml",
@@ -464,9 +462,8 @@ function getAssayitem() {
                 }
             }
             $("#itemCode").html(htmlSelect);
-            var itemCode = $(document).data("itemCode");
-            if (!isEmpty(itemCode)) {
-                $("#itemCode").val(itemCode);
+            if (!isEmpty(selectCode)) {
+                $("#itemCode").val(selectCode);
             }
             $("#itemCode").change();
         }
@@ -475,29 +472,27 @@ function getAssayitem() {
 
 /** 根据检查类别获取检查项列表 */
 function changeGroupId() {
-    $(document).data("itemCode", "");
     getAssayitem();
 }
 
 /** 获取置顶的化验项 */
-function getAssayListByTop() {
+function getAssayListByTop(callback) {
     $.ajax({
         url : ctx + "/assay/hospDict/listTop.shtml",
         type : "post",
         dataType : "json",
         loading : true,
-        async : false,
         success : function(data) {
             var html = '';
             for (var i = 0; i < data.items.length; i++) {
                 var item = data.items[i];
-                // class="text-ellipsis"
                 html += '<span style="width:150px;display:inline-block;display:-moz-inline-box;" data-itemcode="' + item.itemCode
                                 + '" data-groupid="' + item.groupId + '">' + item.itemName + '</span>';
-                // html += '<span class="mr-30" data-itemcode="' + item.itemCode + '" data-groupid="' + item.groupId + '">' + item.itemName +
-                // '</span>';
             }
             $("#assayTopDiv").html(html);
+            if (!isEmpty(callback)) {
+                callback();
+            }
         }
     });
 }
@@ -708,8 +703,25 @@ function registerRuleBtnDelEvent() {
 $(function() {
     // 首次加载页面默认显示第一条化验项数据
     $(document).data("itemCodeChangeNeedData", true);
-    getAssayListByTop();
-    getAssayCategory();
+    // 选择模板
+    $("#assayTopDiv").on("click", "span[data-itemcode]", function() {
+        $(this).addClass("active").siblings().removeClass("active");
+        var groupId = $(this).attr("data-groupid");
+        // itemcode 变更需要加载报表数据
+        $(document).data("itemCodeChangeNeedData", true);
+        $("#groupId").val(groupId);
+        getAssayitem($(this).attr("data-itemcode"));// 模拟化验类型修改
+    });
+    getAssayListByTop(function() {
+        getAssayCategory(function() {
+            // 如果存在常用项，默认选中第一个常用项
+            if ($("#assayTopDiv").find("[data-itemcode]").length > 0) {
+                $("#assayTopDiv").find("[data-itemcode]:first").click();
+            } else {// 触发groupId的change事件，拉取组下面的子项目
+                $("#groupId").change();
+            }
+        });
+    });
 
     // 返回年度统计
     $("#yearTitle").click(function() {
@@ -719,18 +731,6 @@ $(function() {
         changeTab(0, "");
     });
 
-    // 选择模板
-    $("#assayTopDiv").on("click", "span[data-itemcode]", function() {
-        $(this).addClass("active").siblings().removeClass("active");
-        var groupId = $(this).attr("data-groupid");
-        $(document).data("itemCode", $(this).attr("data-itemcode"));
-        // itemcode 变更需要加载报表数据
-        $(document).data("itemCodeChangeNeedData", true);
-        $("#groupId").val(groupId);
-        getAssayitem();// 模拟化验类型修改
-    });
-
-    $("#assayTopDiv span:first").trigger("click");// 刚进页面就默认第一个span被点击
     // 达标范围最大值失焦事件
     $("#maxValue").blur(function() {
         getReportByCondition();

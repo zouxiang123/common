@@ -1382,7 +1382,7 @@ select[multiple] {
     content: "\e815";
     display: inline-block;
     font-size: 12px;
-    color: rgba(72, 72, 72, 0.5);
+    color: #31AAFF;
     margin-left: 5px;
     -webkit-transform: scale(0.8);
     -moz-transform: scale(0.8);
@@ -4232,5 +4232,3 @@ table > thead > tr > th.xtt-40 {
 .layui-tree-skin-shihuang
 .layui-tree-spread {
   color: #31AAFF; }
-
-/*# sourceMappingURL=public.css.map */
