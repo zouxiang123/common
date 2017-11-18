@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.xtt.common.cache.PatientCache;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientOutcomePO;
@@ -35,8 +36,9 @@ public class PatientOutcomeController {
         model.addAttribute("items", patientOutcomeService.selectAllByPatientId(patientId));
         model.addAttribute("sysOwner", sysOwner);
         model.addAttribute("patientId", patientId);
+        model.addAttribute("patient", PatientCache.getById(patientId));
         model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
-        return "patient/patient_outcome_record";
+        return "patient/patient_outcome_list";
     }
 
     @RequestMapping("save")
