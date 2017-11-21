@@ -67,6 +67,12 @@ public class Patient {
     private Date birthday;
 
     /**
+     * 死亡日期
+     * patient.deathday
+     */
+    private Date deathday;
+
+    /**
      * 用户头像
      * patient.image_path
      */
@@ -169,11 +175,6 @@ public class Patient {
     private BigDecimal weight;
 
     /**
-     * patient.dialysis_times
-     */
-    private Integer dialysisTimes;
-
-    /**
      * 创建时间
      * patient.create_time
      */
@@ -196,6 +197,12 @@ public class Patient {
      * patient.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * 透析次数
+     * patient.dialysis_times
+     */
+    private Integer dialysisTimes;
 
     /**
      */
@@ -333,6 +340,20 @@ public class Patient {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    /**
+     * 死亡日期
+     */
+    public Date getDeathday() {
+        return deathday;
+    }
+
+    /**
+     * 死亡日期
+     */
+    public void setDeathday(Date deathday) {
+        this.deathday = deathday;
     }
 
     /**
@@ -574,18 +595,6 @@ public class Patient {
     }
 
     /**
-     */
-    public Integer getDialysisTimes() {
-        return dialysisTimes;
-    }
-
-    /**
-     */
-    public void setDialysisTimes(Integer dialysisTimes) {
-        this.dialysisTimes = dialysisTimes;
-    }
-
-    /**
      * 创建时间
      */
     public Date getCreateTime() {
@@ -639,5 +648,19 @@ public class Patient {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     * 透析次数
+     */
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    /**
+     * 透析次数
+     */
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
     }
 }
