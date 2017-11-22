@@ -972,11 +972,12 @@
 	            inner join (
 	                select fk_patient_id,max(sample_time) sample_time,item_code 
 	                from patient_assay_record_busi 
-	                where item_code=#{itemCode} 
+	                where item_code in (${itemCode}) 
 	                    AND sample_time &gt;= #{startDate}
 	                    AND sample_time &lt;= concat(#{endDate}, ' 23:59:59')
+	                    AND fk_tenant_id = #{fkTenantId}
 	                group BY fk_patient_id
-	            ) t on p.fk_patient_id=t.fk_patient_id and p.sample_time = t.sample_time and p.item_code=t.item_code
+	            ) t on p.fk_patient_id=t.fk_patient_id and p.sample_time = t.sample_time and p.item_code in (${itemCode})
 		        	AND p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
 			    group BY fk_patient_id
@@ -985,11 +986,12 @@
 	            inner join (
 	                select fk_patient_id,max(result_actual) result_actual,item_code
 	                from patient_assay_record_busi
-	                where item_code=#{itemCode}
+	                where item_code in (${itemCode})
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
+	                    AND fk_tenant_id = #{fkTenantId}
 	                group BY fk_patient_id
-	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code=t.item_code
+	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code in (${itemCode})
 		        	AND p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
@@ -999,11 +1001,12 @@
 	            inner join (
 	                select fk_patient_id,min(result_actual) result_actual,item_code 
 	                from patient_assay_record_busi 
-	                where item_code=#{itemCode} 
+	                where item_code in (${itemCode}) 
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
+	                    AND fk_tenant_id = #{fkTenantId}
 	                group BY fk_patient_id
-	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code=t.item_code
+	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code in (${itemCode})
 		        	AND p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
@@ -1013,7 +1016,7 @@
 				WHERE
 					p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
-		            AND item_code=#{itemCode} 
+		            AND item_code in (${itemCode}) 
 		            AND p.assay_date &gt;= #{startDate}
 		            AND p.assay_date &lt;= #{endDate}
 			    group BY fk_patient_id

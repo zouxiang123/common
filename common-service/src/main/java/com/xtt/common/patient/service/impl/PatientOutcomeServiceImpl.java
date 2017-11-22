@@ -27,9 +27,7 @@ import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.PatientOutcomeMapper;
 import com.xtt.common.dao.mapper.PatientOwnerMapper;
 import com.xtt.common.dao.model.PatientOwner;
-import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.PatientOutcomePO;
-import com.xtt.common.dao.po.SysTenantPO;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.patient.service.IPatientOutcomeService;
@@ -57,15 +55,6 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         DataUtil.setSystemFieldValue(record);
         // 非临时转移保存转归数据
         if (!Objects.equal("temporary", record.getPatientOutcomeType())) {
-            // 临时转移中本院转本院
-            if (record.getToTenantId() == null && (record.getToTenantName().length() == 0)) {
-                SysTenantPO sysTenant = new SysTenantPO();
-                sysTenant.setId(UserUtil.getTenantId());
-                // 根据租户id查询租户表获取医院名称
-                SysTenant getSysTenant = sysTenantService.listTenant(sysTenant).get(0);
-                record.setToTenantName(getSysTenant.getName());
-                record.setToTenantId(UserUtil.getTenantId());
-            }
             // 保存转归记录
             patientOutcomeMapper.insert(record);
         }
@@ -85,13 +74,16 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         if (Objects.equal("out", record.getPatientOutcomeType())) {
             // 判断是否为血透或者腹透
             if ("1".equals(record.getType()) || "2".equals(record.getType())) {
+                owner.setSysOwner(record.getToSysOwner());
                 // 判断是否为其它医院
                 if (record.getToTenantId() == null) {
-                    // 转其它医院将是否有效制定为false
+                    // 转其它医院将本院状态置成删除
                     owner.setIsEnable(false);
+                    // 转其它医院只更新本院
+                    owner.setSysOwner(UserUtil.getSysOwner());
                 } else {
                     // 不是转其它医院将数据制为删除
-                    patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId(), record.getFkTenantId()); // 将归属不状态更新为删除
+                    patientOwnerMapper.updateDisableByPatientId(record.getFkPatientId(), record.getFkTenantId()); // 将本院患者状态为删除
                 }
                 // 转死亡,失随访,肾移植,其它 设置为失效
             } else {

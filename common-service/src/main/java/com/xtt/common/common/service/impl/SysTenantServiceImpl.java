@@ -516,14 +516,16 @@ public class SysTenantServiceImpl implements ISysTenantService {
     @Override
     public void saveUser(SysTenantPO sysTenant) {
         SysUserPO user = new SysUserPO();
-        user.setAccount(sysTenant.getId() + "");
+        user.setAccount(String.valueOf(sysTenant.getId()));
         user.setGroupFlag(false);
         user.setName("管理员");
         user.setRoleId(sysTenant.getId() + "0000000001");// `
         user.setRoleType("1");
         user.setPosition("管理员");
-        user.setMultiTenant(sysTenant.getId() + "");
+        user.setMultiTenant(String.valueOf(sysTenant.getId()));
         user.setFkTenantId(sysTenant.getId());
+        // 初始化密码为租户号
+        user.setPassword(String.valueOf(sysTenant.getId()));
         userService.saveUser(user);
     }
 

@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -292,6 +293,32 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
         return itemCode;
     }
 
+    /**
+     * 处理itemCode 如果itemCode 属于同类组，则返回所属同类组下所有itemCode，否则返回当前itemCode
+     * 
+     * @Title: handleItemCode
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    private String handGroupItemCodes(String itemCode, Integer tenantId) {
+        if (StringUtil.isBlank(itemCode)) {
+            return "'" + itemCode + "'";
+        }
+        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, tenantId);
+        if (groupItemCodes != null) {
+            String itemCodes = "";
+            for (String ic : groupItemCodes) {
+                itemCodes += ",'" + ic + "'";
+            }
+            if (itemCodes.length() > 0) {
+                return itemCodes.substring(1);
+            }
+        }
+        return "'" + itemCode + "'";
+    }
+
     @Override
     public List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record) {
         // 避免影响原始对象，copy原始查询条件
@@ -300,7 +327,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
         Long userId = UserUtil.getLoginUserId();
         query.setFkUserId(userId);
         // 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id
-        query.setItemCode(handItemCode(record.getItemCode(), UserUtil.getTenantId()));
+        query.setItemCode(handGroupItemCodes(record.getItemCode(), UserUtil.getTenantId()));
         List<ReportPatientAssayRecordPO> list = patientAssayRecordBusiMapper.listByStage(query);
         if (list == null) {
             list = new ArrayList<ReportPatientAssayRecordPO>();
