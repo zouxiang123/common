@@ -159,6 +159,19 @@ public class PatientDto {
      */
     private Integer dialysisTimes;
 
+    /**
+     * 死亡时间
+     */
+    private Date deathday;
+
+    public Date getDeathday() {
+        return deathday;
+    }
+
+    public void setDeathday(Date deathday) {
+        this.deathday = deathday;
+    }
+
     public Integer getDialysisTimes() {
         return dialysisTimes;
     }
@@ -550,7 +563,11 @@ public class PatientDto {
     }
 
     public Integer getAge() {
-        age = DateUtil.getAge(birthday);
+        if (deathday == null) {
+            age = DateUtil.getAge(birthday);
+        } else {
+            age = DateUtil.getAge(birthday, deathday);
+        }
         return age;
     }
 
