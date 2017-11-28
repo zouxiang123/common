@@ -16,7 +16,7 @@
                 <i class="icon-add icon-round-add fs-12"></i>
                 <i class="icon-round fs-24 position-absolute fc-blue"></i>
             </div>
-            <span class="fw-bold newpagebutton">新增并发症</span>
+            <span class="fw-bold newpagebutton">新增转归记录</span>
         </div>
         <!-- <button type="button" class="pdsettingbutton" data-show="#searchDialog">筛选设置</button>
         <div class="u-prompt-box p-0" top-right style="right: 20px;top: 47px;display: none;" id="searchDialog">

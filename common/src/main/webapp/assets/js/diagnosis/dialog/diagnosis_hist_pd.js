@@ -1,29 +1,43 @@
 $(function() {
-    getDialogStyle({
-        id : "diagnosisHistPdDialog"
-    });// 设置增加透析dialog样式
-    addDiagnosisHistPdValidate();// 添加校验规则
     addDiagnosisHistPdEvent();
+    addDiagnosisHistPdValidate();// 添加校验规则
 });
 function addDiagnosisHistPdEvent() {
-    $("#diagnosisHistPdForm input[type='radio'], #diagnosisHistPdForm input[type='checkbox']").bind("click", function() {
+    $("#diagnosisHistPdForm").on("click", ":radio,:checkbox", function() {
         if ($(this).val() == '00') {
-            $(this).parent().parent().find("textarea").addClass('show').removeClass('hide');
+            $(this).parent().parent().find("textarea").parent().removeClass('hide');
         } else {
             $(this).parent().parent().find("textarea").val('');
-            $(this).parent().parent().find("textarea").addClass('hide').removeClass('show');
+            $(this).parent().parent().find("textarea").parent().addClass('hide');
         }
     });
-    $("#diagnosisHistPdForm input[type='radio']:checked, #diagnosisHistPdForm input[type='checkbox']:checked").each(function() {
-        if ($(this).val() == '00') {
-            $(this).parent().parent().find("textarea").addClass('show').removeClass('hide');
-        } else {
-            $(this).parent().parent().find("textarea").addClass('hide').removeClass('show');
-        }
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        var diagnosisHistPd_startDateDatePick = laydate.render({
+            elem : "#diagnosisHistPd_startDateForm",
+            theme : '#31AAFF',
+            btns : [ "clear", "now", "confirm" ],
+            done : function(value, date) {
+                diagnosisHistPd_endDateDatePick.config.min = this.dateTime;
+            }
+        });
+        var diagnosisHistPd_endDateDatePick = laydate.render({
+            elem : "#diagnosisHistPd_endDateForm",
+            theme : '#31AAFF',
+            btns : [ "clear", "now", "confirm" ],
+            done : function(value, date) {
+                diagnosisHistPd_startDateDatePick.config.max = this.dateTime;
+            }
+        });
     });
 }
 /** 显示腹透史dialog */
 function showDiagnosisHistPdDialog(id, patientId, diagnosisType) {
+    // 隐藏其它对应的textArea
+    $("#diagnosisHistPdForm").find("[data-other]").each(function() {
+        $(this).find("textarea").val("");
+        $(this).addClass("hide");
+    });
     $.ajax({
         url : ctx + "/patient/diagnosis/search.shtml",
         data : "patientId=" + patientId + "&diagnosisType=" + diagnosisType + "&id=" + id,
@@ -35,12 +49,11 @@ function showDiagnosisHistPdDialog(id, patientId, diagnosisType) {
                     $('#diagnosisHistPdForm').validate().resetForm();
                     resetFormAndClearHidden("diagnosisHistPdForm");// 表单重置
                     mappingFormData(data.item, "diagnosisHistPdForm");
-                    // 绑定事件
-                    addDiagnosisHistPdEvent();
                     $("#diagnosisHistPd_patientId").val(data.patient.id);
-
-                    setDialogTitle("diagnosisHistPdDialog", data);// 设置dialog标题。包括患者头像、名字、病区床号
-                    $("#diagnosisHistPdDialog").modal("show");
+                    $("#diagnosisHistPd_patientName").text("患者：" + data.patient.name);
+                    // 显示选中
+                    $("#diagnosisHistPdForm").find(":radio:checked,:checkbox:checked").click();
+                    popDialog("#diagnosisHistPdDialog");
                 }
             }
             return false;
@@ -50,7 +63,7 @@ function showDiagnosisHistPdDialog(id, patientId, diagnosisType) {
 }
 // 保存
 function saveDiagnosisHistPd(form) {
-    if ($(form).valid()) {
+    if ($("#diagnosisHistPdForm").valid()) {
         var options = {
             url : ctx + "/patient/diagnosis/saveHistPd.shtml",
             dataType : "json",
@@ -58,10 +71,11 @@ function saveDiagnosisHistPd(form) {
             // async : false,
             loadingMsg : "正在保存，请稍等...",
             success : function(data) {// ajax返回的数据
-                if (data) {
-                    if (data.status == 1) {
-                        $("#diagnosisHistPdDialog").modal("hide");
-                        commonDialogCallback();
+                if (data.status == 1) {
+                    hiddenMe("#diagnosisHistPdDialog");
+                    var callbackFun = $("body").data("dialogFunctionName");
+                    if (!isEmpty(callbackFun)) {
+                        eval(callbackFun + '()');
                     }
                 }
                 return false;
@@ -69,7 +83,7 @@ function saveDiagnosisHistPd(form) {
             error : function() {
             }
         };
-        $(form).ajaxSubmit(options);
+        $("#diagnosisHistPdForm").ajaxSubmit(options);
         return false;
     }
 }
@@ -91,17 +105,9 @@ function addDiagnosisHistPdValidate() {
                 required : [ "结束原因" ]
             }
         },
-        highlight : function(element, errorClass, validClass) { // element出错时触发
-            if (!$(element).hasClass(errorClass))
-                $(element).addClass(errorClass);
-        },
-        unhighlight : function(element, errorClass) { // element通过验证时触发
-            if ($(element).hasClass(errorClass))
-                $(element).removeClass(errorClass);
-        },
         errorPlacement : function(error, element) {
-            var obj = getValidateErrorObj($(element));
-            $(error["0"]).css("margin-right", "6px");
+            var obj = getValidateErrorDisplayEl($(element));
+            $(error).css("display", "block");
             obj.find("[data-error]").append(error);
         }
     });

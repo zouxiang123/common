@@ -1,67 +1,89 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-<div class="modal" id="diagnosisHistPestilenceDialog" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header dialog-header">
-                <img id="diagnosisHistPestilence_patientImage" src="${ctx }/assets/img/default-user.png" class="user-photo">
-                <span class="user-name" id="diagnosisHistPestilence_patientName" ></span>
-                <h4 class="modal-title modal-title2 ">传染病史</h4>
-                <div class="dialog-close pull-right" data-dismiss="modal"><img src="${ctx }/assets/img/dialog-new-close.png"></div>
+<div class="u-mask" id="diagnosisHistPestilenceDialog" data-hide="#diagnosisHistPestilenceDialog">
+    <div class="u-dialog">
+        <div class="u-dialog-header">
+            <div class="pl-12 fw-bold" id="diagnosisHistPestilence_patientName"></div>
+            <div class="fw-bold fs-18">传染病史</div>
+            <div></div>
+        </div>
+        <div class="u-dialog-content">
+        <form action="#" id="diagnosisHistPestilenceForm" onsubmit="return false;">
+            <input type="hidden" name="id" />
+            <input type="hidden" name="fkPatientId" id="diagnosisHistPestilence_patientId"/>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">诊断日期：</div>
+                    <div class="right">
+                        <input type="text" id="diagnosisHistPestilence_diagnosticDateForm" name="diagnosticDateForm" readonly placeholder="诊断日期" />
+                        <div data-error></div>
+                    </div>
+                </div>
             </div>
-			<!-- cache -->
-			<form action="#" id="diagnosisHistPestilenceForm" onsubmit="return saveDiagnosisHistPestilence(this);">
-				<input type="hidden" name="id" />
-				<input type="hidden" name="fkPatientId" id="diagnosisHistPestilence_patientId"/>
-				<div class="modal-body">
-	                <div class="dialog-wrap">
-	                    <div class="list-group bg-white layerNode">
-							<div class="list-group-item">
-								<span class="list-group-item-title">诊断日期：</span>
-								<input type="text" class="input-style" id="diagnosisHistPestilence_diagnosticDateForm" name="diagnosticDateForm" readonly onfocus="addDate(this)" placeholder="诊断日期" />
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">诊断名称：</span>
-								<c:forEach var="obj" items="${bs_crbzdmc}" varStatus="status">
-									<label for="diagnosisHistPestilence_diagnosticName_${status.index }" class="form-span">
-										<input type="checkbox" class="u-checkbox-1" id="diagnosisHistPestilence_diagnosticName_${status.index }" name="diagnosticName" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-								<textarea class="form-control hide" rows="1" id="diagnosisHistPestilence_otherDiagnosticName" name="otherDiagnosticName" maxlength="256"></textarea>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">活动状态：</span>
-								<c:forEach var="obj" items="${bs_crbhdzt}" varStatus="status">
-									<label for="diagnosisHistPestilence_activityState_${status.index }" class="form-span">
-										<input type="radio" class="u-radio-1" id="diagnosisHistPestilence_activityState_${status.index }" name="activityState" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">治疗情况：</span>
-								<c:forEach var="obj" items="${bs_crbzlqk}" varStatus="status">
-									<label for="diagnosisHistPestilence_treatment_${status.index }" class="form-span">
-										<input type="radio" class="u-radio-1" id="diagnosisHistPestilence_treatment_${status.index }" name="treatment" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-								<textarea class="form-control hide" rows="1" id="diagnosisHistPestilence_otherTreatment" name="otherTreatment" maxlength="256"></textarea>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>
-								<textarea class="form-control" id="diagnosisHistPestilence_remark" name="remark" maxlength="256"></textarea>
-							</div>
-							<div data-error></div>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="modal-footer dialog-footer">
-	                <div class="center">
-	                    <button type="button" class="btn btn-can dialog-button" data-dismiss="modal">取消</button>
-	                    <button type="button" class="btn btn-def dialog-button" onclick="buttonSubmit(this)">确定</button>
-	                </div>
-	            </div>
-         	</form>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">诊断名称：</div>
+                    <div class="right">
+                        <c:forEach var="obj" items="${bs_crbzdmc}" varStatus="status">
+                            <label class="u-radio mr-20">
+                                <input type="radio" name="diagnosticName" value="${obj.value}" />
+                                <span class="icon-radio"></span>${obj.name}
+                            </label>
+                        </c:forEach>
+                        <div class="u-textarea-adaption mb-6 hide" data-other>
+                            <textarea style="width: 100%;" rows="1" id="diagnosisHistPestilence_otherDiagnosticName" name="otherDiagnosticName" maxlength="256"></textarea>
+                        </div>
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">活动状态：</div>
+                    <div class="right">
+                        <c:forEach var="obj" items="${bs_crbhdzt}" varStatus="status">
+                            <label class="u-radio u-xt-4 mr-0">
+                                <input type="radio" name="activityState" value="${obj.value}" />
+                                <span class="icon-radio"></span>${obj.name}
+                            </label>
+                        </c:forEach>
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">治疗状态：</div>
+                    <div class="right">
+                       <c:forEach var="obj" items="${bs_crbzlqk}" varStatus="status">
+                            <label class="u-radio mr-20">
+                                <input type="radio" name="treatment" value="${obj.value}" />
+                                <span class="icon-radio"></span>${obj.name}
+                            </label>
+                        </c:forEach>
+                        <div class="u-textarea-adaption mb-6 hide" data-other>
+                            <textarea style="width: 100%;" rows="1" id="diagnosisHistPestilence_otherTreatment" name="otherTreatment" maxlength="256"></textarea>
+                        </div>
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                    <div class="right">
+                        <div class="u-textarea-adaption" style="min-height: 80px">
+                            <textarea id="diagnosisHistPestilence_remark" name="remark" maxlength="256"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="u-dialog-footer">
+            <button type="button" data-hide="#diagnosisHistPestilenceDialog">取消</button>
+            <button type="button" class="u-btn-blue" onclick="saveDiagnosisHistPestilence();" fill>保存</button>
         </div>
     </div>
 </div>

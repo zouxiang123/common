@@ -2,27 +2,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-
-<div class="p-relative fs-15 fc-deepgrey w-10">
-    <form action="#" id="diagnosisEntityForm" onsubmit="return saveDiagnosisEntity(this);">
-        <div id="list_diagnosis_tab">
-            <div class="clearfix f-both col-xs-12 mp-0 m-con-1 p-b-5" style="">
-                <input type="hidden" name="id" />
-                <input type="hidden" name="fkPatientId" id="diagnosisEntityForm_patientId"/>
-                <input type="hidden" name="itemCode" id="diagnosisEntityForm_itemCode"/>
-                <input type="hidden" name="itemName" id="diagnosisEntityForm_itemName"/>
-                <div class="col-xs-2 m-con-2 p-l-20 p-r-0" style="overflow:auto;" id="tab_left">
-
-                </div>
-                <div class="col-xs-10 mp-0 clearfix" id="tab_right">
-
-                </div>
-            </div>
+<div class="border-gray u-clearfix w-100">
+<form action="#" id="diagnosisEntityForm" onsubmit="return false;">
+    <input type="hidden" name="id" />
+    <input type="hidden" name="fkPatientId" id="diagnosisEntityForm_patientId"/>
+    <input type="hidden" name="itemCode" id="diagnosisEntityForm_itemCode"/>
+    <input type="hidden" name="itemName" id="diagnosisEntityForm_itemName"/>
+    <div id="list_diagnosis_tab">
+        <div class="u-xt-3 u-border-r" style="min-height: 286px;width: 20%;">
+            <ul id="diagnosis_tab_tab_left"></ul>
         </div>
-        <div class="f-both">
-            <div class="center">
-                <button id="finish" type="button" class="btn btn-def dialog-button" onclick="buttonSubmit(this);">保 存</button>
-            </div>
+        <div class="u-xt-9" style="width: 80%" id="diagnosis_tab_tab_right">
         </div>
-    </form>
+    </div>
+    <div class="bt-line pt-10 modelbottom">
+        <button id="finish" type="button" class="u-btn-blue mb-10 w-92" onclick="saveDiagnosisEntity();" fill>保存</button>
+    </div>
+</form>
 </div>

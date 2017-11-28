@@ -1,51 +1,51 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-<div class="modal" id="diagnosisHistSurgeryDialog" role="dialog" aria-hidden="true" data-backdrop="static"
-     data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header dialog-header">
-                <img id="diagnosisHistSurgery_patientImage" src="${ctx }/assets/img/default-user.png"
-                     class="user-photo">
-                <span class="user-name" id="diagnosisHistSurgery_patientName"></span>
-                <h4 class="modal-title modal-title2 ">手术史</h4>
-                <div class="dialog-close pull-right" data-dismiss="modal"><img
-                        src="${ctx }/assets/img/dialog-new-close.png"></div>
-            </div>
-            <!-- cache -->
-            <form action="#" id="diagnosisHistSurgeryForm" onsubmit="return saveDiagnosisHistSurgery(this);">
-                <input type="hidden" name="id"/>
-                <input type="hidden" name="fkPatientId" id="diagnosisHistSurgery_patientId"/>
-                <div class="modal-body">
-                    <div class="dialog-wrap">
-                        <div class="list-group bg-white layerNode">
-                            <div class="list-group-item">
-                                <span class="list-group-item-title">手术日期：</span>
-                                <input type="text" class="input-style" id="diagnosisHistSurgery_surgeryDateForm"
-                                       name="surgeryDateForm" onfocus="addDate(this)" readonly placeholder="手术日期"/>
-                            </div>
-                            <div class="list-group-item">
-                                <span class="list-group-item-title">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</span>
-                                <input type="text" class="input-style" id="diagnosisHistSurgery_surgeryName"
-                                       name="surgeryName" maxlength="30" placeholder="名称"/>
-                            </div>
-                            <div class="list-group-item">
-                                <span class="list-group-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>
-                                <textarea class="form-control" id="diagnosisHistSurgery_remark" name="remark"
-                                          maxlength="256"></textarea>
+<div class="u-mask" id="diagnosisHistSurgeryDialog" data-hide="#diagnosisHistSurgeryDialog">
+    <div class="u-dialog">
+        <div class="u-dialog-header">
+            <div class="pl-12 fw-bold" id="diagnosisHistSurgery_patientName"></div>
+            <div class="fw-bold fs-18">手术史</div>
+            <div></div>
+        </div>
+        <div class="u-dialog-content" style="min-height: 210px;">
+          <form action="#" id="diagnosisHistSurgeryForm" onsubmit="return false;">
+            <input type="hidden" name="id"/>
+            <input type="hidden" name="fkPatientId" id="diagnosisHistSurgery_patientId"/>
+                <div class="u-xt-12 pr-30">
+                    <div class="u-list-text">
+                        <div class="left">手术日期：</div>
+                        <div class="right">
+                            <input type="text" id="diagnosisHistSurgery_surgeryDateForm" name="surgeryDateForm" readonly placeholder="手术日期">
+                            <div data-error></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="u-xt-12 pr-30">
+                    <div class="u-list-text">
+                        <div class="left">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：</div>
+                        <div class="right">
+                            <input type="text" id="diagnosisHistSurgery_surgeryName" name="surgeryName" maxlength="30" placeholder="名称"/>
+                            <div data-error></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="u-xt-12 pr-30">
+                    <div class="u-list-text">
+                        <div class="left">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                        <div class="right">
+                            <div class="u-textarea-adaption mt-10" style="min-height: 80px">
+                                <textarea id="diagnosisHistSurgery_remark" name="remark" maxlength="256"></textarea>
                             </div>
                             <div data-error></div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer dialog-footer">
-                    <div class="center">
-                        <button type="button" class="btn btn-can dialog-button" data-dismiss="modal">取消</button>
-                        <button type="button" class="btn btn-def dialog-button" onclick="buttonSubmit(this)">确定</button>
-                    </div>
-                </div>
-            </form>
+          </form>
+        </div>
+        <div class="u-dialog-footer">
+            <button type="button" data-hide="#diagnosisHistSurgeryDialog">取消</button>
+            <button type="button" class="u-btn-blue" onclick="saveDiagnosisHistSurgery();" fill>保存</button>
         </div>
     </div>
 </div>

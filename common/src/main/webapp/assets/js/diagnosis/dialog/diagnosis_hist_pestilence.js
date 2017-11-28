@@ -1,47 +1,47 @@
 $(function() {
-    getDialogStyle({
-        id : "diagnosisHistPestilenceDialog"
-    });// 设置增加透析dialog样式
     addDiagnosisHistPestilenceValidate();// 添加校验规则
     addDiagnosisHistPestilenceEvent();
 });
 function addDiagnosisHistPestilenceEvent() {
-    $("#diagnosisHistPestilenceForm input[type='radio'], #diagnosisHistPestilenceForm input[type='checkbox']").bind("click", function() {
+    $("#diagnosisHistPestilenceForm").on("click", ":radio,:checkbox", function() {
         if ($(this).val() == '00') {
-            $(this).parent().parent().find("textarea").addClass('show').removeClass('hide');
+            $(this).parent().parent().find("textarea").parent().removeClass('hide');
         } else {
             $(this).parent().parent().find("textarea").val('');
-            $(this).parent().parent().find("textarea").addClass('hide').removeClass('show');
+            $(this).parent().parent().find("textarea").parent().addClass('hide');
         }
     });
-    $("#diagnosisHistPestilenceForm input[type='radio']:checked, #diagnosisHistPestilenceForm input[type='checkbox']:checked").each(function() {
-        if ($(this).val() == '00') {
-            $(this).parent().parent().find("textarea").addClass('show').removeClass('hide');
-        } else {
-            $(this).parent().parent().find("textarea").addClass('hide').removeClass('show');
-        }
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem : "#diagnosisHistPestilence_diagnosticDateForm",
+            theme : '#31AAFF',
+            btns : [ "now", "confirm" ]
+        });
     });
 }
 /** 显示传染病史dialog */
 function showDiagnosisHistPestilenceDialog(id, patientId, diagnosisType) {
+    // 隐藏其它对应的textArea
+    $("#diagnosisHistPestilenceForm").find("[data-other]").each(function() {
+        $(this).find("textarea").val("");
+        $(this).addClass("hide");
+    });
     $.ajax({
         url : ctx + "/patient/diagnosis/search.shtml",
         data : "patientId=" + patientId + "&diagnosisType=" + diagnosisType + "&id=" + id,
         type : "post",
         dataType : "json",
         success : function(data) {// ajax返回的数据
-            if (data) {
-                if (data.status == 1) {
-                    $('#diagnosisHistPestilenceForm').validate().resetForm();
-                    resetFormAndClearHidden("diagnosisHistPestilenceForm");// 表单重置
-                    mappingFormData(data.item, "diagnosisHistPestilenceForm");
-                    // 绑定事件
-                    addDiagnosisHistPestilenceEvent();
-                    $("#diagnosisHistPestilence_patientId").val(data.patient.id);
-
-                    setDialogTitle("diagnosisHistPestilenceDialog", data);// 设置dialog标题。包括患者头像、名字、病区床号
-                    $("#diagnosisHistPestilenceDialog").modal("show");
-                }
+            if (data.status == 1) {
+                $('#diagnosisHistPestilenceForm').validate().resetForm();
+                resetFormAndClearHidden("diagnosisHistPestilenceForm");// 表单重置
+                mappingFormData(data.item, "diagnosisHistPestilenceForm");
+                $("#diagnosisHistPestilence_patientId").val(data.patient.id);
+                $("#diagnosisHistPestilence_patientName").text("患者：" + data.patient.name);
+                // 显示选中
+                $("#diagnosisHistPestilenceForm").find(":radio:checked,:checkbox:checked").click();
+                popDialog("#diagnosisHistPestilenceDialog");
             }
             return false;
         }
@@ -50,7 +50,7 @@ function showDiagnosisHistPestilenceDialog(id, patientId, diagnosisType) {
 }
 // 保存
 function saveDiagnosisHistPestilence(form) {
-    if ($(form).valid()) {
+    if ($('#diagnosisHistPestilenceForm').valid()) {
         var options = {
             url : ctx + "/patient/diagnosis/saveHistPestilence.shtml",
             dataType : "json",
@@ -58,18 +58,17 @@ function saveDiagnosisHistPestilence(form) {
             // async : false,
             loadingMsg : "正在保存，请稍等...",
             success : function(data) {// ajax返回的数据
-                if (data) {
-                    if (data.status == 1) {
-                        $("#diagnosisHistPestilenceDialog").modal("hide");
-                        commonDialogCallback();
+                if (data.status == 1) {
+                    hiddenMe("#diagnosisHistPestilenceDialog");
+                    var callbackFun = $("body").data("dialogFunctionName");
+                    if (!isEmpty(callbackFun)) {
+                        eval(callbackFun + '()');
                     }
                 }
                 return false;
-            },
-            error : function() {
             }
         };
-        $(form).ajaxSubmit(options);
+        $('#diagnosisHistPestilenceForm').ajaxSubmit(options);
         return false;
     }
 }
@@ -91,17 +90,9 @@ function addDiagnosisHistPestilenceValidate() {
                 required : [ "治疗情况" ]
             }
         },
-        highlight : function(element, errorClass, validClass) { // element出错时触发
-            if (!$(element).hasClass(errorClass))
-                $(element).addClass(errorClass);
-        },
-        unhighlight : function(element, errorClass) { // element通过验证时触发
-            if ($(element).hasClass(errorClass))
-                $(element).removeClass(errorClass);
-        },
         errorPlacement : function(error, element) {
-            var obj = getValidateErrorObj($(element));
-            $(error["0"]).css("margin-right", "6px");
+            var obj = getValidateErrorDisplayEl($(element));
+            $(error).css("display", "block");
             obj.find("[data-error]").append(error);
         }
     });

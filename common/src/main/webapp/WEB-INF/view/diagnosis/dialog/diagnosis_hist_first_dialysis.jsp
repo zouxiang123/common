@@ -1,45 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-<div class="modal" id="diagnosisHistFirstDialysisDialog" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header dialog-header">
-                <img id="diagnosisHistFirstDialysis_patientImage" src="${ctx }/assets/img/default-user.png" class="user-photo">
-                <span class="user-name" id="diagnosisHistFirstDialysis_patientName" ></span>
-                <h4 class="modal-title modal-title2 ">首次透析</h4>
-                <div class="dialog-close pull-right" data-dismiss="modal"><img src="${ctx }/assets/img/dialog-new-close.png"></div>
-            </div>
-			<!-- cache -->
-			<form action="#" id="diagnosisHistFirstDialysisForm" onsubmit="return saveDiagnosisHistFirstDialysis(this);">
-				<input type="hidden" name="id" />
-				<input type="hidden" name="fkPatientId" id="diagnosisHistFirstDialysis_patientId"/>
-				<div class="modal-body">
-	                <div class="dialog-wrap">
-	                    <div class="list-group bg-white layerNode">
-	                        <div class="list-group-item">
-	                            <span class="list-group-item-title">首次透析日期：</span>
-	                            <input type="text" class="input-style" id="diagnosisHistFirstDialysis_firstTreatmentDate" name="firstTreatmentDateForm" onfocus="addDate(this)" readonly placeholder="首次透析日期" />
-	                        </div>
-	                        <div class="list-group-item">
-	                            <span class="list-group-item-title">首次透析类型：</span>
-								<c:forEach var="obj" items="${first_dialysis_method}" varStatus="status">
-									<label for="diagnosisHistFirstDialysis_firstTreatmentType_${status.index }" class="form-span">
-										<input type="radio" class="u-radio-1" id="diagnosisHistFirstDialysis_firstTreatmentType_${status.index }" name="firstTreatmentType" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-	                        </div>
-							<div data-error></div>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="modal-footer dialog-footer">
-	                <div class="center">
-	                    <button type="button" class="btn btn-can dialog-button" data-dismiss="modal">取消</button>
-	                    <button type="button" class="btn btn-def dialog-button" onclick="buttonSubmit(this)">确定</button>
-	                </div>
-	            </div>
-         	</form>
+<div class="u-mask" id="diagnosisHistFirstDialysisDialog" data-hide="#diagnosisHistFirstDialysisDialog">
+    <div class="u-dialog">
+        <div class="u-dialog-header">
+            <div class="pl-12 fw-bold" id="diagnosisHistFirstDialysis_patientName"></div>
+            <div class="fw-bold fs-18">首次透析</div>
+            <div></div>
+        </div>
+        <div class="u-dialog-content" style="min-height: 160px;">
+            <form action="#" id="diagnosisHistFirstDialysisForm" onsubmit="return false;">
+                <input type="hidden" name="id" />
+                <input type="hidden" name="fkPatientId" id="diagnosisHistFirstDialysis_patientId"/>
+                <div class="contentcenter" style="width: 80%">
+                    <div class="u-xt-12 mt-12">
+                        <div class="u-list-text">
+                            <div class="left">首次透析日期：</div>
+                            <div class="right">
+                                <input type="text" id="diagnosisHistFirstDialysis_firstTreatmentDate" name="firstTreatmentDateForm" readonly placeholder="首次透析日期" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="u-xt-12 mt-12">
+                        <div class="u-list-text">
+                            <div class="left">首次透析类型：</div>
+                            <div class="right">
+                                <c:forEach var="obj" items="${first_dialysis_method}" varStatus="status">
+                                    <label class="u-radio mr-30">
+                                        <input type="radio" name="firstTreatmentType" value="${obj.value}" />
+                                        <span class="icon-radio"></span>${obj.name}
+                                    </label>
+                                </c:forEach>
+                                <div data-error></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="u-dialog-footer">
+            <button type="button" data-hide="#diagnosisHistFirstDialysisDialog">取消</button>
+            <button type="button" class="u-btn-blue" onclick="saveDiagnosisHistFirstDialysis()" fill>保存</button>
         </div>
     </div>
 </div>

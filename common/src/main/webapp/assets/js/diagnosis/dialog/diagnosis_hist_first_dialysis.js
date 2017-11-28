@@ -1,7 +1,13 @@
 $(function() {
-    getDialogStyle({
-        id : "diagnosisHistFirstDialysisDialog"
-    });// 设置增加透析dialog样式
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem : '#diagnosisHistFirstDialysis_firstTreatmentDate', // 指定元素
+            theme : '#31AAFF',
+            max : new Date().pattern("yyyy-MM-dd"),
+            btns : [ "now", 'confirm' ]
+        });
+    });
     addDiagnosisHistFirstDialysisValidate();// 添加校验规则
 });
 
@@ -13,16 +19,13 @@ function showDiagnosisHistFirstDialysisDialog(id, patientId, diagnosisType) {
         type : "post",
         dataType : "json",
         success : function(data) {// ajax返回的数据
-            if (data) {
-                if (data.status == 1) {
-                    $('#diagnosisHistFirstDialysisForm').validate().resetForm();
-                    resetFormAndClearHidden("diagnosisHistFirstDialysisForm");// 表单重置
-                    mappingFormData(data.item, "diagnosisHistFirstDialysisForm");
-                    $("#diagnosisHistFirstDialysis_patientId").val(data.patient.id);
-
-                    setDialogTitle("diagnosisHistFirstDialysisDialog", data);// 设置dialog标题。包括患者头像、名字、病区床号
-                    $("#diagnosisHistFirstDialysisDialog").modal("show");
-                }
+            if (data.status == 1) {
+                $('#diagnosisHistFirstDialysisForm').validate().resetForm();
+                resetFormAndClearHidden("diagnosisHistFirstDialysisForm");// 表单重置
+                mappingFormData(data.item, "diagnosisHistFirstDialysisForm");
+                $("#diagnosisHistFirstDialysis_patientId").val(data.patient.id);
+                $("#diagnosisHistFirstDialysis_patientName").text("患者：" + data.patient.name);
+                popDialog("#diagnosisHistFirstDialysisDialog");
             }
             return false;
         }
@@ -30,27 +33,24 @@ function showDiagnosisHistFirstDialysisDialog(id, patientId, diagnosisType) {
     return false;
 }
 // 保存
-function saveDiagnosisHistFirstDialysis(form) {
-    if ($(form).valid()) {
+function saveDiagnosisHistFirstDialysis() {
+    if ($('#diagnosisHistFirstDialysisForm').valid()) {
         var options = {
             url : ctx + "/patient/diagnosis/saveHistFirstDialysis.shtml",
             dataType : "json",
-            loading : true,
-            // async : false,
             loadingMsg : "正在保存，请稍等...",
             success : function(data) {// ajax返回的数据
-                if (data) {
-                    if (data.status == 1) {
-                        $("#diagnosisHistFirstDialysisDialog").modal("hide");
-                        commonDialogCallback();
+                if (data.status == 1) {
+                    var callbackFun = $("body").data("dialogFunctionName");
+                    hiddenMe("#diagnosisHistFirstDialysisDialog");
+                    if (!isEmpty(callbackFun)) {
+                        eval(callbackFun + '()');
                     }
                 }
                 return false;
-            },
-            error : function() {
             }
         };
-        $(form).ajaxSubmit(options);
+        $('#diagnosisHistFirstDialysisForm').ajaxSubmit(options);
         return false;
     }
 }
@@ -66,17 +66,9 @@ function addDiagnosisHistFirstDialysisValidate() {
                 required : [ "首次透析类型" ]
             }
         },
-        highlight : function(element, errorClass, validClass) { // element出错时触发
-            if (!$(element).hasClass(errorClass))
-                $(element).addClass(errorClass);
-        },
-        unhighlight : function(element, errorClass) { // element通过验证时触发
-            if ($(element).hasClass(errorClass))
-                $(element).removeClass(errorClass);
-        },
         errorPlacement : function(error, element) {
-            var obj = getValidateErrorObj($(element));
-            $(error["0"]).css("margin-right", "6px");
+            var obj = getValidateErrorDisplayEl($(element));
+            $(error).css("display", "block");
             obj.find("[data-error]").append(error);
         }
     });

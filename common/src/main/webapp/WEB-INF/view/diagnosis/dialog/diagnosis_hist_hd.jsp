@@ -1,63 +1,84 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-<div class="modal" id="diagnosisHistHdDialog" role="dialog" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header dialog-header">
-                <img id="diagnosisHistHd_patientImage" src="${ctx }/assets/img/default-user.png" class="user-photo">
-                <span class="user-name" id="diagnosisHistHd_patientName" ></span>
-                <h4 class="modal-title modal-title2 ">血透史</h4>
-                <div class="dialog-close pull-right" data-dismiss="modal"><img src="${ctx }/assets/img/dialog-new-close.png"></div>
+<div class="u-mask" id="diagnosisHistHdDialog" data-hide="#diagnosisHistHdDialog">
+    <div class="u-dialog">
+        <div class="u-dialog-header">
+            <div class="pl-12 fw-bold" id="diagnosisHistHd_patientName"></div>
+            <div class="fw-bold fs-18">血透史</div>
+            <div></div>
+        </div>
+        <div class="u-dialog-content">
+          <form action="#" id="diagnosisHistHdForm" onsubmit="return false;">
+            <input type="hidden" name="id" />
+            <input type="hidden" name="fkPatientId" id="diagnosisHistHd_patientId"/>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">开始日期：</div>
+                    <div class="right">
+                        <input type="text" id="diagnosisHistHd_startDateForm" name="startDateForm" readonly placeholder="开始日期">
+                        <div data-error></div>
+                    </div>
+                </div>
             </div>
-			<!-- cache -->
-			<form action="#" id="diagnosisHistHdForm" onsubmit="return saveDiagnosisHistHd(this);">
-				<input type="hidden" name="id" />
-				<input type="hidden" name="fkPatientId" id="diagnosisHistHd_patientId"/>
-				<div class="modal-body">
-	                <div class="dialog-wrap">
-	                    <div class="layerNode bg-white list-group">
-							<div class="list-group-item">
-								<span class="list-group-item-title">开始日期：</span>
-								<input type="text" class="input-style" id="diagnosisHistHd_startDateForm" name="startDateForm" onfocus="addDate(this, '', 'diagnosisHistHd_endDateForm')" readonly placeholder="开始日期"/>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">开始原因：</span>
-								<c:forEach var="obj" items="${xtStartReason}" varStatus="status">
-									<label for="diagnosisHistHd_startReason_${status.index }" class="form-span">
-										<input type="radio" class="u-radio-1" id="diagnosisHistHd_startReason_${status.index }" name="startReason" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-								<textarea class="form-control hide" rows="1" id="diagnosisHistHd_otherStartReason" name="otherStartReason" maxlength="256"></textarea>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">结束日期：</span>
-								<input type="text" class="input-style" id="diagnosisHistHd_endDateForm" name="endDateForm" onfocus="addDate(this, 'diagnosisHistHd_startDateForm', '')" readonly placeholder="结束日期"/>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">结束原因：</span>
-								<c:forEach var="obj" items="${xtEndReason}" varStatus="status">
-									<label for="diagnosisHistHd_endReason_${status.index }" class="form-span">
-										<input type="radio" class="u-radio-1" id="diagnosisHistHd_endReason_${status.index }" name="endReason" value="${obj.value}" />${obj.name}
-									</label>
-								</c:forEach>
-								<textarea class="form-control hide" rows="1" id="diagnosisHistHd_otherEndReason" name="otherEndReason" maxlength="256"></textarea>
-							</div>
-							<div class="list-group-item">
-								<span class="list-group-item-title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span>
-								<textarea class="form-control" id="diagnosisHistHd_remark" name="remark" maxlength="256"></textarea>
-							</div>
-							<div data-error></div>
-	                    </div>
-	                </div>
-	            </div>
-	            <div class="modal-footer dialog-footer">
-	                <div class="center">
-	                    <button type="button" class="btn btn-can dialog-button" data-dismiss="modal">取消</button>
-	                    <button type="button" class="btn btn-def dialog-button" onclick="buttonSubmit(this)">确定</button>
-	                </div>
-	            </div>
-         	</form>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">开始原因：</div>
+                    <div class="right">
+                        <c:forEach var="obj" items="${xtStartReason}" varStatus="status">
+                            <label class="u-radio mr-20">
+                                <input type="radio" name="startReason" value="${obj.value}" />
+                                <span class="icon-radio"></span>${obj.name}
+                            </label>
+                        </c:forEach>
+                        <div class="u-textarea-adaption mb-6 hide" data-other>
+                            <textarea style="width: 100%;" rows="1" id="diagnosisHistHd_otherStartReason" name="otherStartReason" maxlength="256"></textarea>
+                        </div>
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">结束日期：</div>
+                    <div class="right">
+                        <input type="text" id="diagnosisHistHd_endDateForm" name="endDateForm" readonly placeholder="结束日期" />
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">结束原因：</div>
+                    <div class="right">
+                        <c:forEach var="obj" items="${xtEndReason}" varStatus="status">
+                            <label class="u-radio mr-20">
+                                <input type="radio" name="endReason" value="${obj.value}" />
+                                <span class="icon-radio"></span>${obj.name}
+                            </label>
+                        </c:forEach>
+                        <div class="u-textarea-adaption mb-6 hide" data-other>
+                            <textarea style="width: 100%;" rows="1" id="diagnosisHistHd_otherEndReason" name="otherEndReason" maxlength="256"></textarea>
+                        </div>
+                        <div data-error></div>
+                    </div>
+                </div>
+            </div>
+            <div class="u-xt-12 pr-30">
+                <div class="u-list-text">
+                    <div class="left">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</div>
+                    <div class="right">
+                        <div class="u-textarea-adaption" style="min-height: 80px">
+                            <textarea id="diagnosisHistHd_remark" name="remark" maxlength="256"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </form>
+        </div>
+        <div class="u-dialog-footer">
+            <button type="button" data-hide="#diagnosisHistHdDialog">取消</button>
+            <button type="button" class="u-btn-blue" onclick="saveDiagnosisHistHd();" fill>保存</button>
         </div>
     </div>
 </div>

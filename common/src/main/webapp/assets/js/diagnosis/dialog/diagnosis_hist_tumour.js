@@ -1,17 +1,12 @@
 $(function() {
-    getDialogStyle({
-        id : "diagnosisHistTumourDialog"
-    });// 设置增加透析dialog样式
     addDiagnosisHistTumourValidate();// 添加校验规则
-    // 事件初始化
-    // 初始化日历控件
-    $("#diagnosisHistTumourForm").find("input[name='recordDateShow']").daterangepicker({
-        "singleDatePicker" : true,
-        "showDropdowns" : true,
-        autoUpdateInitInput : false,
-        "locale" : {
-            format : "YYYY-MM-DD"
-        }
+    layui.use('laydate', function() {
+        var laydate = layui.laydate;
+        laydate.render({
+            elem : "#diagnosisHistTumourForm_recordDateShow",
+            theme : '#31AAFF',
+            btns : [ "now", "confirm" ]
+        });
     });
 });
 
@@ -38,10 +33,8 @@ function showDiagnosisHistTumourDialog(id, patientId, diagnosisType) {
                 resetFormAndClearHidden("diagnosisHistTumourForm");// 表单重置
                 mappingFormData(data.item, "diagnosisHistTumourForm");
                 $("#diagnosisHistTumour_patientId").val(data.patient.id);
-                $("#diagnosisHistTumour_patientImage").attr("src", ctx + "/images/" + data.patient.imagePath);
-
-                setDialogTitle("diagnosisHistTumourDialog", data);// 设置dialog标题。包括患者头像、名字、病区床号
-                $("#diagnosisHistTumourDialog").modal("show");
+                $("#diagnosisHistTumour_patientName").text("患者：" + data.patient.name);
+                popDialog("#diagnosisHistTumourDialog");
             }
             return false;
         }
@@ -55,19 +48,22 @@ function showDiagnosisHistTumourDialog(id, patientId, diagnosisType) {
  *            表单组件
  * @returns {Boolean}
  */
-function saveDiagnosisHistTumour(form) {
-    if ($(form).valid()) {
+function saveDiagnosisHistTumour() {
+    if ($('#diagnosisHistTumourForm').valid()) {
         $.ajax({
             url : ctx + "/patient/diagnosis/saveHistTumour.shtml",
-            data : $(form).serialize(),
+            data : $('#diagnosisHistTumourForm').serialize(),
             type : "post",
             dataType : "json",
             loading : true,
             loadingMsg : "正在保存，请稍等...",
             success : function(data) {// ajax返回的数据
                 if (data.status == 1) {
-                    $("#diagnosisHistTumourDialog").modal("hide");
-                    commonDialogCallback();
+                    hiddenMe("#diagnosisHistTumourDialog");
+                    var callbackFun = $("body").data("dialogFunctionName");
+                    if (!isEmpty(callbackFun)) {
+                        eval(callbackFun + '()');
+                    }
                 } else if (data.status == '2') {
                     showWarn("保存的记录已被删除，请刷新后重试");
                 }
@@ -92,17 +88,9 @@ function addDiagnosisHistTumourValidate() {
                 required : [ "肿瘤类别" ]
             }
         },
-        highlight : function(element, errorClass, validClass) { // element出错时触发
-            if (!$(element).hasClass(errorClass))
-                $(element).addClass(errorClass);
-        },
-        unhighlight : function(element, errorClass) { // element通过验证时触发
-            if ($(element).hasClass(errorClass))
-                $(element).removeClass(errorClass);
-        },
         errorPlacement : function(error, element) {
-            var obj = getValidateErrorObj($(element));
-            $(error["0"]).css("margin-right", "6px");
+            var obj = getValidateErrorDisplayEl($(element));
+            $(error).css("display", "block");
             obj.find("[data-error]").append(error);
         }
     });

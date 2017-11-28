@@ -3,18 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
 
-<div class="p-relative fs-15 fc-deepgrey w-10">
-    <div class="u-lead"></div>
-    <div class="m-l-21 p-relative">
-        <c:if test="${patient.delFlag}">
-            <img class="mt-2 add_other_diagnosis" style="display: none;">
-        </c:if>
-        <c:if test="${!patient.delFlag}">
-            <img src="${ctx}/assets/img/add2.png" width="20" height="20" class="mt-2 add_other_diagnosis">
-            <span class="m-l-5">新增</span>
-        </c:if>
+<c:if test="${!patient.delFlag}">
+<div style="height:23px;">
+    <div class="ml-20 cursor-pointer add_other_diagnosis">
+        <i class="icon-add icon-round-add fs-12"></i>
+        <i class="icon-round fs-24 position-absolute fc-blue"></i>
     </div>
-    <div id="list_other_diagnosis">
-
-    </div>
+    <span class="fw-bold position-absolute" style="top: 2px;left: 54px;">新增</span>
 </div>
+</c:if>
+<div id="list_other_diagnosis"></div>
