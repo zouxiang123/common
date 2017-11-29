@@ -99,7 +99,7 @@ public class PatientServiceImpl implements IPatientService {
             String spellInitials = PinyinUtil.getSpellInitials(patient.getName());
             patient.setInitial(familyInitialService.getInitial(patient.getName().substring(0, 1)));
 
-            if (StringUtil.isNotEmpty(spellInitials)) {
+            if (StringUtil.isNotEmpty(spellInitials) && StringUtil.isBlank(patient.getSpellInitials())) {
                 patient.setSpellInitials(spellInitials);
             }
         }
