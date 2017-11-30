@@ -36,8 +36,8 @@
     <script type="text/javascript">
     var patientHasOutCome = ${patient.delFlag};
     </script>
-    <link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/ztree/v3/css/metroStyle/metroStyle.css" type="text/css">
-    <script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/v3/js/jquery.ztree.core.min.js"></script>
+    <link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/ztree/css/metroStyle/metroStyle.css" type="text/css">
+    <script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.core.min.js"></script>
     <script src="${ctx }/assets/js/diagnosis/diagnosis_new.js?version=${version}"></script>
     <jsp:include page="dialog/diagnosis_hist_first_dialysis.jsp" flush="true"></jsp:include>
     <jsp:include page="dialog/diagnosis_hist_surgery.jsp" flush="true"></jsp:include>

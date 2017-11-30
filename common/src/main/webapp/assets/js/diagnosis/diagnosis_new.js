@@ -923,7 +923,8 @@ function buildTreeContent(itemCode, entity) {
         delete dict.name;
         delete dict.children;
         delete dict.content;
-        delete dict.checked;
+        delete dict.open;
+        delete dict.hasChecked;
     });
     var nodes = [];
     $.each(dictDiagnosisList, function(i, dict) {
@@ -947,10 +948,14 @@ function buildTreeContent(itemCode, entity) {
             }
         },
         callback : {
+            beforeClick : function(treeId, treeNode, clickFlag) {
+                if (clickFlag == 1 && treeNode.isParent) {
+                    return false;
+                }
+                return true;
+            },
             onClick : function(event, treeId, treeNode) {
-                if (isEmptyObject(treeNode.children)) {
-                    $("#diagnosis_tab_tab_left").find(".fc-blue").removeClass("fc-blue");
-                    $(event.target).addClass("fc-blue");
+                if (!treeNode.isParent) {
                     $("#diagnosis_tab_tab_right").find("[data-code]").addClass("hide");
                     $("#diagnosis_tab_tab_right").find("[data-code='" + treeNode.itemCode + "']").removeClass("hide");
                 }
@@ -958,21 +963,19 @@ function buildTreeContent(itemCode, entity) {
         }
     };
     $.fn.zTree.init($("#diagnosis_tab_tab_left"), treeSettings, nodes);
-    /*layui.use('tree', function() {
-        layui.tree({
-            elem : '#diagnosis_tab_tab_left', // 传入元素选择器
-            skin : 'shihuang',
-            nodes : nodes,
-            click : function(node) {
-                if (isEmptyObject(node.children)) {
-                    $("#diagnosis_tab_tab_left").find(".fc-blue").removeClass("fc-blue");
-                    $(event.target).addClass("fc-blue");
-                    $("#diagnosis_tab_tab_right").find("[data-code]").addClass("hide");
-                    $("#diagnosis_tab_tab_right").find("[data-code='" + node.itemCode + "']").removeClass("hide");
-                }
+    // 选中第一个选中的节点
+    var treeObj = $.fn.zTree.getZTreeObj("diagnosis_tab_tab_left");
+    var nodes = treeObj.transformToArray(treeObj.getNodes());
+    if (nodes.length > 0) {
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            if (!node.isParent && node.hasChecked) {
+                treeObj.selectNode(node);
+                $("#" + node.tId + "_a").click();
+                break;
             }
-        });
-    });*/
+        }
+    }
     return;
 }
 /**
@@ -994,6 +997,7 @@ function convertToTreeNode(item, entity, index) {
                 }
             }
             item.open = hasChecked;
+            item.hasChecked = hasChecked;
         } else {
             var hasChecked = false;// 是否有选中的项目
             if (!isEmptyObject(entity) && !isEmptyObject(entity.valueList)) {
@@ -1014,6 +1018,7 @@ function convertToTreeNode(item, entity, index) {
                 hasChecked = index == 0;
             }
             item.open = hasChecked;
+            item.hasChecked = hasChecked;
         }
     }
 }
@@ -1101,7 +1106,7 @@ function changeOptionValue(obj, itemCode, itemName, len) {
             $("#diagnosisEntityForm textarea[id='" + itemCode + "_" + len + "']").removeClass('show').addClass('hide');
         }
     } else if (itemCode.indexOf('CKDAKI') >= 0) { // CKD/AKI诊断，则执行联动处理，切换节点时取消其他节点的选中值
-        $("#list_diagnosis_tab #tab_right").find("[type='radio'][data-item-code != '" + itemCode + "']").attr("checked", false);
+        $("#diagnosis_tab_tab_right").find("[type='radio'][data-item-code != '" + itemCode + "']").prop("checked", false);
     }
 }
 // 保存

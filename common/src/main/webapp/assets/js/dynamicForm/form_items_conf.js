@@ -142,7 +142,8 @@ var form_conf_obj = {
         var settings = {
             view : {
                 selectedMulti : true,
-                dblClickExpand : true
+                dblClickExpand : true,
+                showLine : false
             },
             check : {
                 enable : false

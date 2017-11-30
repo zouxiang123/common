@@ -319,7 +319,8 @@ function loadOperateTree(itemList) {
             enable : true
         },
         view : {
-            selectedMulti : false
+            selectedMulti : false,
+            showLine : false
         },
         data : {
             key : {

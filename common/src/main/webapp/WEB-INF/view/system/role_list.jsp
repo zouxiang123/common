@@ -207,7 +207,8 @@
 		function displayMenuTree(roleId){
 			var menuTreeSettings = {
 				view : {
-					selectedMulti : false
+					selectedMulti : false,
+		            showLine : false
 				},
 				check : {
 					enable : true,
@@ -280,7 +281,8 @@
 				view : {
 					addHoverDom : addHoverDom,
 					removeHoverDom : removeHoverDom,
-					selectedMulti : false
+					selectedMulti : false,
+                    showLine : false
 				},
 				check : {
 					enable : false

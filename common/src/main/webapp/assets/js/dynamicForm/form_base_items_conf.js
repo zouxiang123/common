@@ -153,7 +153,8 @@ var form_items_conf_obj = {
                 addHoverDom : treeEvent.addHoverDom,
                 removeHoverDom : treeEvent.removeHoverDom,
                 selectedMulti : false,
-                dblClickExpand : false
+                dblClickExpand : false,
+                showLine : false
             },
             check : {
                 enable : false

@@ -57,16 +57,16 @@ website:    http://code.google.com/p/jquerytree/
 .ztree li span.button.root_close{background-position:-126px -63px}
 .ztree li span.button.roots_open{background-position: -105px 0;}
 .ztree li span.button.roots_close{background-position: -126px 0;}
-.ztree li span.button.center_open{background-position: -105px -21px;}
-.ztree li span.button.center_close{background-position: -126px -21px;}
-.ztree li span.button.bottom_open{background-position: -105px -42px;}
-.ztree li span.button.bottom_close{background-position: -126px -42px;}
+.ztree li span.button.center_open{background-position: -105px -31px;}
+.ztree li span.button.center_close{background-position: -126px -31px;}
+.ztree li span.button.bottom_open{background-position: -105px -32px;}
+.ztree li span.button.bottom_close{background-position: -126px -32px;}
 .ztree li span.button.noline_open{background-position: -105px -84px;}
 .ztree li span.button.noline_close{background-position: -126px -84px;}
 .ztree li span.button.root_docu{ background:none;}
 .ztree li span.button.roots_docu{background-position: -84px 0;}
-.ztree li span.button.center_docu{background-position: -84px -21px;}
-.ztree li span.button.bottom_docu{background-position: -84px -42px;}
+.ztree li span.button.center_docu{background-position: -84px -31px;}
+.ztree li span.button.bottom_docu{background-position: -84px -32px;}
 .ztree li span.button.noline_docu{ background:none;}
 
 .ztree li span.button.ico_open{margin-right:2px; background-position: -147px -21px; vertical-align:top; *vertical-align:middle}
@@ -92,5 +92,59 @@ span.tmpzTreeMove_arrow {width:16px; height:21px; display: inline-block; padding
     background-color:transparent; background-repeat:no-repeat; background-attachment: scroll;
     background-position:-168px -84px; background-image:url("./img/metro.png"); *background-image:url("./img/metro.gif")}
 
-ul.ztreeul.ztreeDragUL {margin:0; padding:0; position:absolute; width:auto; height:auto;overflow:hidden; background-color:#cfcfcf; border:1px #00B83F dotted; opacity:0.8; filter:alpha(opacity=80)}
+ul.ztree.zTreeDragUL {margin:0; padding:0; position:absolute; width:auto; height:auto;overflow:hidden; background-color:#cfcfcf; border:1px #00B83F dotted; opacity:0.8; filter:alpha(opacity=80)}
 .ztreeMask {z-index:10000; background-color:#cfcfcf; opacity:0.0; filter:alpha(opacity=0); position:absolute}
+
+
+.ztree li span.button.chk{
+   height: 15px;
+   width: 15px;
+   margin-top: 2px;
+}
+.ztree *{
+   font-size: 14px;
+}
+.ztree li{
+   line-height: 30px;
+}
+.ztree li a{
+  height: 30px;
+}
+.ztree li span.button.ico_open{
+  vertical-align: middle;
+}
+.ztree li span.button.ico_docu{
+  vertical-align: middle;
+}
+.ztree li span.button.ico_close{
+  vertical-align: middle;
+}
+.ztree li span.button.edit{
+  vertical-align: middle;
+}
+.ztree li span.button.remove{
+  vertical-align: middle;
+}
+.ztree li a.curSelectedNode{
+   height: 30px;
+   background: none;
+   color: #31AAFF;
+   font-weight: bold;
+}
+.ztree li a.curSelectedNode_Edit{
+   border: none;
+}
+.node_name input{
+   height: 26px !important;
+   border-color: #D9E0E6 !important;
+   padding-left: 5px !important;
+}
+.ztree li a.curSelectedNode
+.node_name{
+  margin-left: 6px;
+}
+.node_name{
+  margin-left: 6px;
+  position: relative;
+  top: 2px;
+       }
