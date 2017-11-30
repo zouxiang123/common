@@ -39,7 +39,7 @@ $(document).ready(function(){
      var myClose = $(e.target).attr("data-close");
      closeMe(myClose);
   });
-
+  
   //输入框事件
   var inputHistory;
   var historyIput;
@@ -102,7 +102,7 @@ function transverseTable(name,num){
 
 }
 //transverseTableHead 是按照表头来计算表格宽度
-function transverseTable(name,num){
+function transverseTableHead(name,num){
     var td = $(name).children(".u-table-fixed-body,.u-table").find("tr").eq(0).children("td");
     var chid = $(td).length;
     var sum = 0;
@@ -914,7 +914,7 @@ var mobileDouble = function(ev,MDouble) {
 }
 
 function dynamicMenu() {
-  var spans = $(".u-head-text").find("span");
+  var spans = $(".u-head-text>.content").children("span");
   var w = 100 / spans.length;
   $(spans).css('width', w + '%');
   for(var i=0;i<spans.length;i++){
@@ -926,8 +926,8 @@ function dynamicMenu() {
 
 
 function textareaAdaption() {
-    let dome = $(".u-textarea-adaption");
-    for(let i = 0;i<dome.length;i++){
+    var dome = $(".u-textarea-adaption");
+    for(var i = 0;i<dome.length;i++){
         if($(dome[0]).children().length == 1){
             $(dome).append('<pre></pre>');
         }
@@ -940,8 +940,8 @@ function textareaAdaption() {
 
 //省略号表格
 function xttTable(obj) {
-    let str = '<div class="u-table-cell-show"><div class="cell-show-content"></div><i class="icon-error" onclick="$(this).parent().hide()"></i></div>';
-    let strl = '<div class="u-table-body-sidebar">'+
+    var str = '<div class="u-table-cell-show"><div class="cell-show-content"></div><i class="icon-error" onclick="$(this).parent().hide()"></i></div>';
+    var strl = '<div class="u-table-body-sidebar">'+
             '<div class="u-table-body-sidebar-head">'+
               '<table>'+
                 '<thead>'+
@@ -955,23 +955,23 @@ function xttTable(obj) {
               '</table>'+
             '</div>'+
         '</div>';
-    let da = obj;
+    var da = obj;
     da.width = da.width || 400;
     da.height = da.height || 180;
-    let dome = $(da.elem);
-    let mover;
+    var dome = $(da.elem);
+    var mover;
     if(!$("body").children(".u-table-cell-show").length){$("body").append(str);}
-    let conbody = $(".u-table-body");
-    let cellshow = $(".u-table-cell-show");
-    let showAll = $(".cell-show-content");
+    var conbody = $(".u-table-body");
+    var cellshow = $(".u-table-cell-show");
+    var showAll = $(".cell-show-content");
     showAll.css({"max-width":da.width,"max-height":da.height});
-    let cellW = function(name,arr,dome) {
-        let men;
-        let num = 0;
+    var cellW = function(name,arr,dome) {
+        var men;
+        var num = 0;
         for(var i=0;i<name.length;i++){
-           let chid = $(name).eq(i).children();
+           var chid = $(name).eq(i).children();
            for(var j = 0;j<chid.length;j++){
-              let chidCell = chid.eq(j).children(".u-table-cell");
+              var chidCell = chid.eq(j).children(".u-table-cell");
               if(chidCell.children("span").width() + 10 > arr[j]){
                   chidCell.addClass('over');
               }
@@ -992,27 +992,27 @@ function xttTable(obj) {
            num = 0;
        }
     }
-    let tableFun = function(name){
-       let headth = $(name).children(".u-table-head").find("tr");
-       let bodytd = $(name).children(".u-table-body").find("tr");
-       let num = [];
+    var tableFun = function(name){
+       var headth = $(name).children(".u-table-head").find("tr");
+       var bodytd = $(name).children(".u-table-body").find("tr");
+       var num = [];
        for(var i=0;i<headth.children("th").length;i++){
             num.push(headth.children("th").eq(i).attr("xtt-width"))
        }
        cellW(headth,num,name)
        cellW(bodytd,num,name)
     }
-    let sidebarFun = function() {
+    var sidebarFun = function() {
          dome.append(strl)
-         let strB = "";
-         let l = da.sidebar.width || 120;
-         let keyB =  da.sidebar.key;
-         let tag = da.sidebar.label || ' ';
-         let side = dome.children('.u-table-body-sidebar');
-         let sideH = dome.find('.u-table-body-sidebar-head thead');
-         let sideB = dome.find('.u-table-body-sidebar-body tbody');
-         let strH = '<tr><th>'+ da.sidebar.title +'</th></tr>';
-         for(let i = 0;i<da.sidebar.content.length;i++){
+         var strB = "";
+         var l = da.sidebar.width || 120;
+         var keyB =  da.sidebar.key;
+         var tag = da.sidebar.label || ' ';
+         var side = dome.children('.u-table-body-sidebar');
+         var sideH = dome.find('.u-table-body-sidebar-head thead');
+         var sideB = dome.find('.u-table-body-sidebar-body tbody');
+         var strH = '<tr><th>'+ da.sidebar.title +'</th></tr>';
+         for(var i = 0;i<da.sidebar.content.length;i++){
             strB += '<tr><th>'+ da.sidebar.content[i][keyB] + tag +'</th></tr>';
          }
          dome.children(".u-table-body").css("overflow",'scroll');
@@ -1040,8 +1040,8 @@ function xttTable(obj) {
       }
     }
     $(".over").bind("click",function(e){
-        let conbodyH = $(this).parents('.u-table-body');
-        let thisp = $(this).position();
+        var conbodyH = $(this).parents('.u-table-body');
+        var thisp = $(this).position();
         mover = $(this).offset();
         showAll.html($(this).html())
         if((thisp.top - conbodyH.scrollTop()) + cellshow.outerHeight() > conbodyH.height()){

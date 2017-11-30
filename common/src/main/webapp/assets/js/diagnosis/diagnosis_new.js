@@ -934,7 +934,31 @@ function buildTreeContent(itemCode, entity) {
     });
     // 一次生成右边所有项目的html，根据选中的项目隐藏不需要显示的
     $("#diagnosis_tab_tab_right").html(getRightContentHtml(nodes));
-    layui.use('tree', function() {
+    var treeSettings = {
+        view : {
+            showLine : false
+        },
+        data : {
+            simpleData : {
+                enable : true,
+                idKey : "itemCode",
+                pIdKey : "pItemCode",
+                rootPId : itemCode
+            }
+        },
+        callback : {
+            onClick : function(event, treeId, treeNode) {
+                if (isEmptyObject(treeNode.children)) {
+                    $("#diagnosis_tab_tab_left").find(".fc-blue").removeClass("fc-blue");
+                    $(event.target).addClass("fc-blue");
+                    $("#diagnosis_tab_tab_right").find("[data-code]").addClass("hide");
+                    $("#diagnosis_tab_tab_right").find("[data-code='" + treeNode.itemCode + "']").removeClass("hide");
+                }
+            }
+        }
+    };
+    $.fn.zTree.init($("#diagnosis_tab_tab_left"), treeSettings, nodes);
+    /*layui.use('tree', function() {
         layui.tree({
             elem : '#diagnosis_tab_tab_left', // 传入元素选择器
             skin : 'shihuang',
@@ -948,7 +972,7 @@ function buildTreeContent(itemCode, entity) {
                 }
             }
         });
-    });
+    });*/
     return;
 }
 /**
@@ -965,11 +989,11 @@ function convertToTreeNode(item, entity, index) {
             for (var i = 0; i < item.childrens.length; i++) {
                 var child = item.childrens[i];
                 convertToTreeNode(child, entity, isEmpty(index) ? i : index);// 默认展开第一级节点数据
-                if (!hasChecked && child.spread) {
+                if (!hasChecked && child.open) {
                     hasChecked = true;
                 }
             }
-            item.spread = hasChecked;
+            item.open = hasChecked;
         } else {
             var hasChecked = false;// 是否有选中的项目
             if (!isEmptyObject(entity) && !isEmptyObject(entity.valueList)) {
@@ -989,7 +1013,7 @@ function convertToTreeNode(item, entity, index) {
                 // 默认展开第一个
                 hasChecked = index == 0;
             }
-            item.spread = hasChecked;
+            item.open = hasChecked;
         }
     }
 }

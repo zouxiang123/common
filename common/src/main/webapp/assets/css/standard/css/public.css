@@ -462,6 +462,10 @@ button[fill] {
   color: #484848;
   border-color: none; }
 
+button[disabled] {
+  opacity: .6;
+  cursor: not-allowed; }
+
 /*text文本框控件*/
 input[type=text], input[type=password], textarea {
   height: 34px;
@@ -676,6 +680,13 @@ input[type="text"].error + span {
 
 .u-radio > input[type=radio]:checked + span {
   border-color: #31AAFF; }
+
+.u-radio[disabled],
+.u-checkbox[disabled],
+.u-switch[disabled] {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none; }
 
 /*提示文本框*/
 .u-select-input {
@@ -1041,6 +1052,7 @@ button[semi] > i {
 
 .u-select > select {
   height: 34px;
+  line-height: 32px;
   width: 210px;
   border-radius: 3px;
   border: 1px solid #D9E0E6;
@@ -2261,7 +2273,8 @@ table > thead > tr > th.xtt-40 {
 
 .u-dialog > .u-dialog-header > div:last-child > i,
 .u-dialog-fullScreen > .header > div:last-child > i {
-  line-height: 46px; }
+  line-height: 46px;
+  cursor: pointer; }
 
 .u-dialog > .u-dialog-content,
 .u-dialog-fullScreen > .content {
@@ -2314,6 +2327,7 @@ table > thead > tr > th.xtt-40 {
   left: 0px;
   width: 100%;
   padding: 0px 16px;
+  text-align: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box; }
@@ -2514,7 +2528,8 @@ table > thead > tr > th.xtt-40 {
   color: rgba(255, 255, 255, 0.5);
   width: 100%;
   height: calc(100% - 77px);
-  overflow-y: auto; }
+  overflow-y: auto;
+  overflow-x: hidden; }
 
 .u-side-nav > .nav-content > li {
   min-height: 40px;
@@ -3007,7 +3022,8 @@ table > thead > tr > th.xtt-40 {
   width: 100%;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  position: relative; }
 
 .u-list-text {
   min-height: 40px;
@@ -3036,8 +3052,7 @@ table > thead > tr > th.xtt-40 {
 
 .u-list-text
 .right > p {
-  line-height: 1.7;
-  margin-top: 5px; }
+  line-height: 1.7; }
 
 .u-list-text-two,
 .u-list-text-three {
@@ -4223,7 +4238,7 @@ table > thead > tr > th.xtt-40 {
 .m-20 {
   margin: 20px; }
 
-/*layui样式*/
+/*组件库插件样式修改*/
 .layui-laypage a:hover {
   color: #31AAFF; }
 
@@ -4232,3 +4247,43 @@ table > thead > tr > th.xtt-40 {
 .layui-tree-skin-shihuang
 .layui-tree-spread {
   color: #31AAFF; }
+
+.froala-editor button.fr-bttn,
+.froala-editor button.fr-trigger {
+  min-width: 20px;
+  color: #484848 !important; }
+
+.froala-editor .fr-trigger:after {
+  border-top-color: rgba(72, 72, 72, 0.5) !important; }
+
+.froala-editor {
+  border: solid 1px #D9E0E6;
+  border-top: solid 1px #D9E0E6; }
+
+.froala-element.f-basic {
+  border: solid 1px #D9E0E6; }
+
+.froala-editor .bttn-wrapper:not(.touch) button.fr-bttn:hover,
+.froala-editor .froala-popup button.fr-bttn:hover,
+.froala-editor .bttn-wrapper:not(.touch) button.fr-trigger:hover,
+.froala-editor .froala-popup button.fr-trigger:hover {
+  background: #31AAFF !important;
+  color: #FFFFFF !important; }
+
+.froala-editor .fr-trigger.active {
+  background: #31AAFF !important;
+  color: #FFFFFF !important; }
+
+.froala-editor .fr-dropdown .fr-dropdown-menu li.active a,
+.froala-editor .fr-dropdown .fr-dropdown-menu li a:hover {
+  background: #31AAFF !important; }
+
+.froala-editor .fr-dropdown .fr-dropdown-menu {
+  border-color: #D9E0E6 !important; }
+
+.froala-editor .fr-dropdown .fr-dropdown-menu li a.format-blockquote {
+  font-style: normal !important; }
+
+.froala-editor .fr-dropdown .fr-dropdown-menu.fr-table > li > div,
+.froala-editor .fr-dropdown .fr-dropdown-menu.fr-table > li > ul {
+  border-color: #D9E0E6 !important; }

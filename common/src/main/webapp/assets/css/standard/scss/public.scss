@@ -18,14 +18,14 @@ ul li{
     list-style:none;
 }
 a{
-  color: $black;
-  text-decoration: none;
+    color: $black;
+    text-decoration: none;
 }
 span[col]{
-  display: inline-block;
+   display: inline-block;
 }
 img[browse]{
-  cursor: pointer;
+    cursor: pointer;
 }
 .u-clearfix,
 .u-clearfix:after,
@@ -472,10 +472,15 @@ button[text]{
     min-height: 1px;
 }
 button[fill]{
-   background: $grey;
-   color: $black;
-   border-color: none;
+    background: $grey;
+    color: $black;
+    border-color: none;
 }
+button[disabled]{
+    opacity: .6;
+    cursor: not-allowed;
+}
+
 /*text文本框控件*/
 input[type=text],input[type=password],textarea{
     height: 34px;
@@ -682,7 +687,13 @@ input[type="text"].error + span{
 .u-radio>input[type=radio]:checked+span{
     border-color: $blue;
 }
-
+.u-radio[disabled],
+.u-checkbox[disabled],
+.u-switch[disabled]{
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
 /*提示文本框*/
 .u-select-input{
   display: inline-block;
@@ -921,6 +932,7 @@ button[semi]{
 button[semi]>i{
   margin-right: 6px;
 }
+
 /*开关组件*/
 .u-switch>input[type=checkbox],
 .u-switch>input[type=checkbox]:checked,
@@ -1044,6 +1056,7 @@ button[semi]>i{
 .u-select>select::-ms-expand { display: none; }
 .u-select>select{
   height: 34px;
+  line-height: 32px;
   width: 210px;
   border-radius: 3px;
   border:$solid;
@@ -1371,7 +1384,7 @@ select[multiple]{
       content: "\e815";
       display: inline-block;
       font-size: 12px;
-      color: $black_5;
+      color: $blue;
       margin-left: 5px;
       @include scale(0.8);
     }
@@ -2272,6 +2285,7 @@ table>thead>tr>th.xtt-40{
 .u-dialog>.u-dialog-header>div:last-child>i,
 .u-dialog-fullScreen>.header>div:last-child>i{
    line-height: 46px;
+   cursor: pointer;
 }
 .u-dialog>.u-dialog-content,
 .u-dialog-fullScreen>.content{
@@ -2324,6 +2338,7 @@ table>thead>tr>th.xtt-40{
   left: 0px;
   width: 100%;
   padding: 0px 16px;
+  text-align: center;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -2527,6 +2542,7 @@ table>thead>tr>th.xtt-40{
     width: 100%;
     height: calc(100% - 77px);
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .u-side-nav>.nav-content>li{
     min-height: 40px;
@@ -3043,6 +3059,7 @@ table>thead>tr>th.xtt-40{
    -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
    box-sizing: border-box;
+   position: relative;
 }
 .u-list-text{
   min-height: 40px;
@@ -3072,7 +3089,6 @@ table>thead>tr>th.xtt-40{
 .u-list-text
 .right>p{
   line-height: 1.7;
-  margin-top: 5px;
 }
 .u-list-text-two,
 .u-list-text-three {
@@ -3355,6 +3371,8 @@ table>thead>tr>th.xtt-40{
   text-align: right;
   padding-right: 12px;
 }
+
+//菜单栏
 .u-menu{
   width: 100%; 
   display: flex;
@@ -4267,7 +4285,7 @@ table>thead>tr>th.xtt-40{
   margin:20px;
 }
 
-/*layui样式*/
+/*组件库插件样式修改*/
 .layui-laypage a:hover{
    color: $blue;
 }
@@ -4277,4 +4295,43 @@ table>thead>tr>th.xtt-40{
 .layui-tree-spread{
     color: $blue;
 }
-
+.froala-editor button.fr-bttn,
+.froala-editor button.fr-trigger{
+    min-width: 20px;
+    color: $black !important;
+}
+.froala-editor .fr-trigger:after{
+    border-top-color: $black_5 !important;
+}
+.froala-editor{
+    border: solid 1px $grey;
+    border-top: solid 1px $grey;
+}
+.froala-element.f-basic{
+    border: solid 1px $grey;
+}
+.froala-editor .bttn-wrapper:not(.touch) button.fr-bttn:hover,
+.froala-editor .froala-popup button.fr-bttn:hover,
+.froala-editor .bttn-wrapper:not(.touch) button.fr-trigger:hover,
+.froala-editor .froala-popup button.fr-trigger:hover{
+    background: $blue !important;
+    color: $white !important;
+}
+.froala-editor .fr-trigger.active{
+    background: $blue !important;
+    color: $white !important;
+}
+.froala-editor .fr-dropdown .fr-dropdown-menu li.active a,
+.froala-editor .fr-dropdown .fr-dropdown-menu li a:hover{
+    background: $blue !important;
+}
+.froala-editor .fr-dropdown .fr-dropdown-menu{
+    border-color: $grey !important;
+}
+.froala-editor .fr-dropdown .fr-dropdown-menu li a.format-blockquote{
+    font-style:normal !important;
+}
+.froala-editor .fr-dropdown .fr-dropdown-menu.fr-table>li>div,
+.froala-editor .fr-dropdown .fr-dropdown-menu.fr-table>li>ul{
+   border-color: $grey !important;
+}

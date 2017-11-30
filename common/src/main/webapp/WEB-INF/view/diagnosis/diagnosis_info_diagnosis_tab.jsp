@@ -10,7 +10,7 @@
     <input type="hidden" name="itemName" id="diagnosisEntityForm_itemName"/>
     <div id="list_diagnosis_tab">
         <div class="u-xt-3 u-border-r" style="min-height: 286px;width: 20%;">
-            <ul id="diagnosis_tab_tab_left"></ul>
+            <ul id="diagnosis_tab_tab_left" class="ztree"></ul>
         </div>
         <div class="u-xt-9" style="width: 80%" id="diagnosis_tab_tab_right">
         </div>

@@ -5,9 +5,9 @@
 <title>患者化验提醒配置</title>
 <%@ include file="../common/head.jsp"%>
 <link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/ztree/css/metroStyle/metroStyle.css" type="text/css">
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.core-3.5.js"></script>
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.exedit-3.5.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.excheck.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/ztree/js/jquery.ztree.exedit.js"></script>
 <script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/jquery/jquery.fastLiveFilter.js"></script>
 
 <style type="text/css">
