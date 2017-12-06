@@ -346,7 +346,11 @@ public class UserServiceImpl implements IUserService {
         user.setImagePath("/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + fileName + "?t=" + timeStamp);
         user.setUpdateTime(new Date());
         updateByPrimaryKeySelective(user);
-        return fileName;
+        // 重新更新当前用户的头像
+        LoginUser loginUser = UserUtil.getLoginUser();
+        loginUser.setImagePath(user.getImagePath());
+        UserUtil.setLoginUser(loginUser);
+        return user.getImagePath();
     }
 
     @Override

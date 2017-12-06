@@ -120,7 +120,7 @@ function uploadImg(form) {
             if (data) {
                 if (data.status == 1) {
                     $("#tempImagePath").val(data.filepath);
-                    $("#nav-patient-photo").attr("src", ctx + "/common/showImage.shtml?fileName=" + data.filepath + "&rnd=" + new Date());
+                    $("#nav-patient-photo").attr("src", ctx + "/images" + data.filepath + "?rnd=" + new Date());
                     return false;
                 } else if (data.status == 2) {
                     showWarn("请选择上传的文件");
