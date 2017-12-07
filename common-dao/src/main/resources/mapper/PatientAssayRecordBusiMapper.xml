@@ -512,6 +512,10 @@
             <if test="fkDictCodes != null and fkDictCodes.size() >0">
                 AND ahd.fk_dict_code in  <foreach collection="fkDictCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
+            <if test="ids !=null and ids.size()>0">
+                AND parb.id in
+                <foreach collection="ids" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
         </where>
        <choose>
             <when test="queryOrderBy == 1">
@@ -580,7 +584,10 @@
                     AND parb.report_time &lt;= #{endDate,jdbcType=TIMESTAMP}
                 </if>
             </if>
-           
+           <if test="ids !=null and ids.size()>0">
+                AND parb.id in
+                <foreach collection="ids" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
         </where>
         GROUP BY parb.req_id
         ORDER BY parb.assay_date desc
