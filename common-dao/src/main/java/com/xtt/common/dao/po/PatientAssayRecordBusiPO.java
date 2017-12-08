@@ -11,6 +11,7 @@ package com.xtt.common.dao.po;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.platform.util.lang.StringUtil;
@@ -56,6 +57,7 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private Date endCreateTime;
     // 集团下所有租户id
     private String groupTenant;
+    private List<String> ids;// 所有id集合
 
     public String getGroupTenant() {
         return groupTenant;
@@ -261,5 +263,13 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<String> ids) {
+        this.ids = ids;
     }
 }
