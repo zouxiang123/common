@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.common.service.ISysDbSourceService;
 import com.xtt.common.common.service.ISysLogService;
 import com.xtt.common.constants.CmDictConsts;
+import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.constants.IDownConst;
 import com.xtt.common.dao.mapper.SysDbSourceMapper;
 import com.xtt.common.dao.model.PatientOrders;
@@ -131,7 +132,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
      */
     @Override
     public String sendQueryOrderInfo(CmQueryPO query) {
-        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo Begin===>", query.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo Begin===>", CommonConstants.SYS_HD);
         Map<String, String> qmap = new HashMap<String, String>();
         String retMsg = "";
         try {
@@ -160,12 +161,13 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
             HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
             retMsg = httpClientResultUtil.getContext();
 
-            sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo retMsg:" + retMsg, query.getSysOwner());
+            sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo retMsg:" + retMsg,
+                            CommonConstants.SYS_HD);
         } catch (Exception e) {
             sysLogService.insertSysLog(IDownConst.SEND_ORDER_STATUS, "SysDbSourceServiceImpl sendQueryOrderInfo Exception Msg:" + e.getMessage(),
-                            query.getSysOwner());
+                            CommonConstants.SYS_HD);
         }
-        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo End===>", query.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_ORDER, "SysDbSourceServiceImpl sendQueryOrderInfo End===>", CommonConstants.SYS_HD);
         return retMsg;
     }
 
@@ -179,7 +181,8 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
      */
     @Override
     public String downDB(CmQueryPO db) {
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB Begin===>", db.getSysOwner());
+
+        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB Begin===>", CommonConstants.SYS_HD);
 
         Map<String, String> qmap = new HashMap<String, String>();
         String cardNo = db.getCardNo();
@@ -213,15 +216,21 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         qmap.put("endDate", endDate);
 
         String reqMsg = "cardNo:" + cardNo + ", downType:" + downType + ", startDate:" + startDate + ", endDate:" + endDate;
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, db.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB req Pram:" + reqMsg, CommonConstants.SYS_HD);
 
         // 访问的目标地址
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_ALL);
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
         String json = httpClientResultUtil.getContext();
 
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB retMsg:" + json, db.getSysOwner());
-        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB End===>", db.getSysOwner());
+        if (StringUtil.isNotEmpty(json)) {
+            sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB retMsg:" + json, CommonConstants.SYS_HD);
+        } else {
+            json = CommonConstants.FAILURE;
+            sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "接口服务未开启", CommonConstants.SYS_HD);
+        }
+
+        sysLogService.insertSysLog(IDownConst.DOWN_INPUT, "xtt SysDbSourceServiceImpl downDB End===>", CommonConstants.SYS_HD);
         return json;
     }
 
@@ -230,7 +239,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
      */
     @Override
     public CmPatientPO patientDB(CmQueryPO query) throws Exception {
-        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB Begin===>", query.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB Begin===>", CommonConstants.SYS_HD);
         // 租户ID
         Integer fkTenantId = UserUtil.getTenantId();
         String url = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_PT);
@@ -251,7 +260,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
         qmap.put("fkTenantId", String.valueOf(fkTenantId));
         HttpClientResultUtil httpClientResultUtil = HttpClientUtil.post(url, qmap);
         json = httpClientResultUtil.getContext();
-        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB json:" + json, query.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB json:" + json, CommonConstants.SYS_HD);
 
         CmPatientPO patient = JsonUtil.AllJsonUtil().fromJson(json, CmPatientPO.class);
         String msg = "输入参数：" + cardNo + ",返回病患：";
@@ -259,7 +268,7 @@ public class SysDbSourceServiceImpl implements ISysDbSourceService {
             patient.setIdType("1");
             msg += patient.getName();
         }
-        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB End===>" + msg, query.getSysOwner());
+        sysLogService.insertSysLog(IDownConst.DOWN_TYPE_PT, "xtt SysDbSourceServiceImpl patientDB End===>" + msg, CommonConstants.SYS_HD);
         return patient;
     }
 
