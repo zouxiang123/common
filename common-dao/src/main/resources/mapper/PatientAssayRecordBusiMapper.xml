@@ -933,7 +933,7 @@
   <!-- 根据日期查询阶段统计 -->
   <select id="listByStage" parameterType="com.xtt.common.dao.po.ReportPatientAssayRecordPO" resultMap="StageResultMap">
   	SELECT 
-  		round(busi.result_actual,2) result
+  		if(busi.result_actual is null,busi.result,round(busi.result_actual,2)) result
   		<if test="minValue != null and maxValue == null">
 			, CASE WHEN busi.result_actual >= #{minValue} THEN 1 ELSE 0 END as result_tips
 			, CASE WHEN busi.result_actual &lt; #{minValue} THEN 1 ELSE 0 END noOkCount
@@ -974,6 +974,7 @@
 	                ,p.result_actual
 	            </if>
 	            , p.result_tips
+                ,p.result
 	        FROM patient_assay_record_busi p
 	        <if test="resultType == 'newest'">
 	            inner join (
@@ -991,14 +992,14 @@
 	        </if>
 	        <if test="resultType == 'max'">
 	            inner join (
-	                select fk_patient_id,max(result_actual) result_actual,item_code
+	                select fk_patient_id,if(result_actual is null, max(result),max(result_actual)) result_actual,item_code
 	                from patient_assay_record_busi
 	                where item_code in (${itemCode})
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
 	                    AND fk_tenant_id = #{fkTenantId}
 	                group BY fk_patient_id
-	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code in (${itemCode})
+	             ) t on p.fk_patient_id=t.fk_patient_id and IFNULL(p.result_actual,p.result) = t.result_actual and p.item_code in (${itemCode})
 		        	AND p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
@@ -1006,14 +1007,14 @@
 	        </if>
 	        <if test="resultType == 'min'">
 	            inner join (
-	                select fk_patient_id,min(result_actual) result_actual,item_code 
+	                select fk_patient_id, if(result_actual is null, min(result),min(result_actual)) result_actual,item_code 
 	                from patient_assay_record_busi 
 	                where item_code in (${itemCode}) 
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
 	                    AND fk_tenant_id = #{fkTenantId}
 	                group BY fk_patient_id
-	             ) t on p.fk_patient_id=t.fk_patient_id and p.result_actual = t.result_actual and p.item_code in (${itemCode})
+	             ) t on p.fk_patient_id=t.fk_patient_id and IFNULL(p.result_actual,p.result) = t.result_actual and p.item_code in (${itemCode})
 		        	AND p.fk_tenant_id = #{fkTenantId}
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
