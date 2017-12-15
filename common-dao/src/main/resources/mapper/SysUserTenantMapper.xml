@@ -17,13 +17,14 @@
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="statement_skin" jdbcType="CHAR" property="statementSkin" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
     id, fk_user_id, fk_tenant_id, role_type, position, telephone, skin, sys_owner, create_time, 
-    create_user_id, update_time, update_user_id
+    create_user_id, update_time, update_user_id, statement_skin
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -48,13 +49,13 @@
     insert into sys_user_tenant (id, fk_user_id, fk_tenant_id, 
       role_type, position, telephone, 
       skin, sys_owner, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      create_user_id, update_time, update_user_id, 
+      statement_skin)
     values (#{id,jdbcType=BIGINT}, #{fkUserId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER}, 
       #{roleType,jdbcType=VARCHAR}, #{position,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
       #{skin,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{statementSkin,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysUserTenant">
     <!--
@@ -98,6 +99,9 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="statementSkin != null">
+        statement_skin,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -135,6 +139,9 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="statementSkin != null">
+        #{statementSkin,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -177,6 +184,9 @@
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
+      <if test="statementSkin != null">
+        statement_skin = #{statementSkin,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -195,7 +205,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      statement_skin = #{statementSkin,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <!-- user define -->

@@ -22,7 +22,7 @@ public class SysUserTenant {
     private Integer fkTenantId;
 
     /**
-     * <<<<<<< HEAD 角色类别（医生，护士，管理员等） sys_user_tenant.role_type
+     * 角色类别（医生，护士，管理员等） sys_user_tenant.role_type
      */
     private String roleType;
 
@@ -42,7 +42,7 @@ public class SysUserTenant {
     private String skin;
 
     /**
-     * 所属系统（多个以“,”分隔） sys_user_tenant.sys_owner
+     * 所属系统 sys_user_tenant.sys_owner
      */
     private String sysOwner;
 
@@ -65,6 +65,11 @@ public class SysUserTenant {
      * 更新人 sys_user_tenant.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * 统计报表皮肤 sys_user_tenant.statement_skin
+     */
+    private String statementSkin;
 
     /**
      */
@@ -230,5 +235,19 @@ public class SysUserTenant {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     * 统计报表皮肤
+     */
+    public String getStatementSkin() {
+        return statementSkin;
+    }
+
+    /**
+     * 统计报表皮肤
+     */
+    public void setStatementSkin(String statementSkin) {
+        this.statementSkin = statementSkin;
     }
 }

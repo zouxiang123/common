@@ -37,6 +37,8 @@ public class LoginUser {
     private String mobile;
     private Date birthday;
 
+    private String statementSkin;// 用户报表皮肤
+
     public Long getId() {
         return id;
     }
@@ -227,6 +229,14 @@ public class LoginUser {
 
     public void setGroupTenant(String groupTenant) {
         this.groupTenant = groupTenant;
+    }
+
+    public String getStatementSkin() {
+        return statementSkin;
+    }
+
+    public void setStatementSkin(String statementSkin) {
+        this.statementSkin = statementSkin;
     }
 
 }
