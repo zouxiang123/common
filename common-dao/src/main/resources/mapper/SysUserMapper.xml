@@ -368,7 +368,7 @@
 	<select id="login" resultMap="ExtendResultMap">
 		select u.*
             ,group_concat(ur.fk_role_id) as roleId
-            ,ut.role_type roleType, ut.telephone, ut.position, ut.skin
+            ,ut.role_type roleType, ut.telephone, ut.position, ut.skin ,ut.statement_skin as statementSkin
 		from sys_user u 
         inner join sys_user2role ur on u.id=ur.fk_user_id
         JOIN sys_user_tenant ut on ut.fk_user_id = u.id

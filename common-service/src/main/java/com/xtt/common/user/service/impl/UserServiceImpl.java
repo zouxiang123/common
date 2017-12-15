@@ -553,6 +553,7 @@ public class UserServiceImpl implements IUserService {
                 loginUser.setMultiTenant(sysUser.getMultiTenant());
                 loginUser.setUserType(sysUser.getUserType());
                 loginUser.setSkin(sysUser.getSkin());
+                loginUser.setStatementSkin(sysUser.getStatementSkin());
                 UserUtil.setLoginUser(token, loginUser);
                 if (!isGroupAdmin) {// 集团管理员不需要设置角色相关信息
                     UserUtil.setNonPermissionList(sysUser.getRoleId());// 设置没有权限的菜单列表
@@ -702,6 +703,25 @@ public class UserServiceImpl implements IUserService {
         // refresh redis cache
         LoginUser loginUser = UserUtil.getLoginUser();
         loginUser.setSkin(skin);
+        UserUtil.setLoginUser(loginUser);
+    }
+
+    /**
+     * 保存统计报表皮肤
+     * 
+     * @Title: saveStatementSkin
+     * @param statementSkin
+     *
+     */
+    @Override
+    public void saveStatementSkin(String statementSkin) {
+        SysUserTenant sut = sysUserTenantService.getByUserId(UserUtil.getLoginUserId());
+        sut.setStatementSkin(statementSkin);
+        DataUtil.setUpdateSystemFieldValue(sut);
+        sysUserTenantService.updateByPrimaryKeySelective(sut);
+        // 将更新后的报表皮肤保存至缓存中
+        LoginUser loginUser = UserUtil.getLoginUser();
+        loginUser.setStatementSkin(statementSkin);
         UserUtil.setLoginUser(loginUser);
     }
 

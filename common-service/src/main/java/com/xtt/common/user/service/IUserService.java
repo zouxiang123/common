@@ -366,4 +366,13 @@ public interface IUserService {
      */
     List<SysUser> listUserByParentId(Integer constantType);
 
+    /**
+     * 保存统计报表皮肤
+     * 
+     * @Title: saveStatementSkin
+     * @param statementSkin
+     *
+     */
+    void saveStatementSkin(String statementSkin);
+
 }
