@@ -108,7 +108,7 @@ public class UserUtil {
      */
     public static boolean isDoctor() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_DOCTOR)) {
+        if (CommonConstants.ROLE_DOCTOR.equals(roleType)) {
             return true;
         }
         return false;
@@ -123,7 +123,7 @@ public class UserUtil {
      */
     public static boolean isNurse() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_NURSE)) {
+        if (CommonConstants.ROLE_NURSE.equals(roleType)) {
             return true;
         }
         return false;
@@ -138,7 +138,7 @@ public class UserUtil {
      */
     public static boolean isAdmin() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_ADMIN)) {
+        if (CommonConstants.ROLE_ADMIN.equals(roleType)) {
             return true;
         }
         return false;
@@ -153,7 +153,7 @@ public class UserUtil {
      */
     public static Boolean isEngineer() {
         String roleType = getLoginUser().getRoleType();
-        if (roleType.equals(CommonConstants.ROLE_ENGINEER)) {
+        if (CommonConstants.ROLE_ENGINEER.equals(roleType)) {
             return true;
         }
         return false;
