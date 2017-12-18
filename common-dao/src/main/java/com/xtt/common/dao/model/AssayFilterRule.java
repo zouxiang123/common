@@ -7,72 +7,92 @@ import java.util.Date;
  */
 public class AssayFilterRule {
     /**
-     * 主键 assay_filter_rule.id
+     * 主键
+     * assay_filter_rule.id
      */
     private Long id;
 
     /**
-     * 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;) assay_filter_rule.category
+     * 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;)
+     * assay_filter_rule.category
      */
     private String category;
 
     /**
-     * 分组名 assay_filter_rule.group_name
+     * 分组名
+     * assay_filter_rule.group_name
      */
     private String groupName;
 
     /**
-     * 化验项 assay_filter_rule.item_code
+     * 化验项(多个化验项用","分割开来)
+     * assay_filter_rule.item_code
      */
     private String itemCode;
 
     /**
-     * 透前关键字 assay_filter_rule.keyword_before
+     * 透前关键字
+     * assay_filter_rule.keyword_before
      */
     private String keywordBefore;
 
     /**
-     * 透后关键字 assay_filter_rule.keyword_after
+     * 透后关键字
+     * assay_filter_rule.keyword_after
      */
     private String keywordAfter;
 
     /**
-     * 透前项目数量 assay_filter_rule.item_count_before
+     * 透前项目数量
+     * assay_filter_rule.item_count_before
      */
     private Integer itemCountBefore;
 
     /**
-     * 透后项目数量 assay_filter_rule.item_count_after
+     * 透后项目数量
+     * assay_filter_rule.item_count_after
      */
     private Integer itemCountAfter;
 
     /**
-     * 间隔天数 assay_filter_rule.interval_day
+     * 间隔天数
+     * assay_filter_rule.interval_day
      */
     private Integer intervalDay;
 
     /**
-     * 租户id assay_filter_rule.fk_tenant_id
+     * 租户id
+     * assay_filter_rule.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间 assay_filter_rule.create_time
+     * 化验时间取"样品时间"或"报告时间"
+     * assay_filter_rule.assay_date_type
+     */
+    private String assayDateType;
+
+    /**
+     * 创建时间
+     * assay_filter_rule.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人 assay_filter_rule.create_user_id
+     * 创建人
+     * assay_filter_rule.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间 assay_filter_rule.update_time
+     * 修改时间
+     * assay_filter_rule.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人 assay_filter_rule.update_user_id
+     * 修改人
+     * assay_filter_rule.update_user_id
      */
     private Long updateUserId;
 
@@ -119,14 +139,14 @@ public class AssayFilterRule {
     }
 
     /**
-     * 化验项
+     * 化验项(多个化验项用","分割开来)
      */
     public String getItemCode() {
         return itemCode;
     }
 
     /**
-     * 化验项
+     * 化验项(多个化验项用","分割开来)
      */
     public void setItemCode(String itemCode) {
         this.itemCode = itemCode;
@@ -214,6 +234,20 @@ public class AssayFilterRule {
      */
     public void setFkTenantId(Integer fkTenantId) {
         this.fkTenantId = fkTenantId;
+    }
+
+    /**
+     * 化验时间取"样品时间"或"报告时间"
+     */
+    public String getAssayDateType() {
+        return assayDateType;
+    }
+
+    /**
+     * 化验时间取"样品时间"或"报告时间"
+     */
+    public void setAssayDateType(String assayDateType) {
+        this.assayDateType = assayDateType;
     }
 
     /**
