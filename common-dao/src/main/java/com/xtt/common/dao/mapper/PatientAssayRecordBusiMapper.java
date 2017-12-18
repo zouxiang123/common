@@ -254,4 +254,14 @@ public interface PatientAssayRecordBusiMapper {
      */
     List<ReportPatientAssayRecordPO> listByStage(ReportPatientAssayRecordPO record);
 
+    /**
+     * 获取患者ID，化验项目，查询小于指定化验日期的最新一次活动数据
+     * 
+     * @Title: getByNewestAssayRecordBusi
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> getByNewestAssayRecordBusi(PatientAssayRecordBusi record);
+
 }

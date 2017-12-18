@@ -102,4 +102,14 @@ public interface PatientAssayClassMapper {
      */
     PatientAssayClass getByFkAssayGroupConfId(Long fkAssayGroupConfId);
 
+    /**
+     * 查询化验项提醒数量
+     * 
+     * @Title: countByCondition
+     * @param fkTenantId
+     * @return
+     *
+     */
+    int countByCondition(@Param(value = "fkTenantId") Integer fkTenantId);
+
 }
