@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.AssayFilterRuleMapper">
-<resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AssayFilterRule">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AssayFilterRule">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
@@ -15,6 +15,7 @@
     <result column="item_count_after" jdbcType="INTEGER" property="itemCountAfter" />
     <result column="interval_day" jdbcType="INTEGER" property="intervalDay" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="assay_date_type" jdbcType="VARCHAR" property="assayDateType" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -25,8 +26,8 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, category, group_name, item_code, keyword_before, keyword_after, item_count_before, 
-    item_count_after, interval_day, fk_tenant_id, create_time, create_user_id, update_time, 
-    update_user_id
+    item_count_after, interval_day, fk_tenant_id, assay_date_type, create_time, create_user_id, 
+    update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -51,13 +52,15 @@
     insert into assay_filter_rule (id, category, group_name, 
       item_code, keyword_before, keyword_after, 
       item_count_before, item_count_after, interval_day, 
-      fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
+      fk_tenant_id, assay_date_type, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{category,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
       #{itemCode,jdbcType=VARCHAR}, #{keywordBefore,jdbcType=VARCHAR}, #{keywordAfter,jdbcType=VARCHAR}, 
       #{itemCountBefore,jdbcType=INTEGER}, #{itemCountAfter,jdbcType=INTEGER}, #{intervalDay,jdbcType=INTEGER}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{fkTenantId,jdbcType=INTEGER}, #{assayDateType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayFilterRule">
     <!--
@@ -94,6 +97,9 @@
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
+      </if>
+      <if test="assayDateType != null">
+        assay_date_type,
       </if>
       <if test="createTime != null">
         create_time,
@@ -138,6 +144,9 @@
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="assayDateType != null">
+        #{assayDateType,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
@@ -186,6 +195,9 @@
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
+      <if test="assayDateType != null">
+        assay_date_type = #{assayDateType,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -215,6 +227,7 @@
       item_count_after = #{itemCountAfter,jdbcType=INTEGER},
       interval_day = #{intervalDay,jdbcType=INTEGER},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      assay_date_type = #{assayDateType,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},

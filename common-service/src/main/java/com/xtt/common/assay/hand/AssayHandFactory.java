@@ -127,6 +127,8 @@ public abstract class AssayHandFactory {
         Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
         // 数据来源表查询到的有效的数据日期
         Set<String> dateSet = new TreeSet<>();
+        // 默认为取样时间
+        boolean issampleTime = StringUtil.equals(assayFilterRule.getAssayDateType(), AssayConsts.SAMPLE_TIME);
         for (PatientAssayRecordPO patientAssayRecord : listPatientAssayRecord) {
             // 检查项目唯一ID、itemCode、组id、化验结果等任意一项数据为空则不处理
             if (StringUtil.isBlank(patientAssayRecord.getInspectionId()) || StringUtil.isBlank(patientAssayRecord.getItemCode())
@@ -142,7 +144,13 @@ public abstract class AssayHandFactory {
             if (patientAssayRecord.getReportTime() == null) {// 如果报告时间为空，设置报告时间的值为样品时间的
                 patientAssayRecord.setReportTime(patientAssayRecord.getSampleTime());
             }
-            Date assayDate = patientAssayRecord.getSampleTime();// 检查日期默认取样品时间
+            Date assayDate;
+            if (issampleTime) {
+                assayDate = patientAssayRecord.getSampleTime();// 检查日期默认取样品时间
+            } else {
+                assayDate = patientAssayRecord.getReportTime();// 检查日期为报告时间
+            }
+
             dateSet.add(DateFormatUtil.convertDateToStr(assayDate));// 添加查询到的数据日期
             int countByInspectionId = patientAssayRecordBusiService.countByInspectionId(patientAssayRecord.getInspectionId(),
                             patientAssayRecord.getFkTenantId());
@@ -165,8 +173,7 @@ public abstract class AssayHandFactory {
             patientAssayRecordBusi.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
             patientAssayRecordBusi.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
             patientAssayRecordBusi.setAssayDate(assayDate);
-            patientAssayRecordBusi
-                            .setAssayMonth(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate(), DateFormatUtil.FORMAT_YYYY_MM));
+            patientAssayRecordBusi.setAssayMonth(DateFormatUtil.convertDateToStr(assayDate, DateFormatUtil.FORMAT_YYYY_MM));
             patientAssayRecordBusi.setResultActual(matcherToNum(patientAssayRecordBusi.getResult()));
             patientAssayRecordBusi.setId(id++);
             patientAssayRecordBusi

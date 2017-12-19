@@ -165,7 +165,7 @@ public class UserUtil {
 
     /**
      * 判断当前登录用户是否是集团管理员
-     * 
+     *
      * @Title: isGroupAdmin
      * @return
      *
@@ -279,7 +279,7 @@ public class UserUtil {
 
     /**
      * 设置线程局部租户id，没有默认的所属系统,默认用户id为{@link CommonConstants.SYSTEM_USER_ID}
-     * 
+     *
      * @Title: setThreadTenant
      * @param tenantId
      *            租户id
@@ -291,7 +291,7 @@ public class UserUtil {
 
     /**
      * 设置线程局部登录用户信息
-     * 
+     *
      * @Title: setThreadLoginUser
      * @param user
      *
@@ -302,7 +302,7 @@ public class UserUtil {
 
     /**
      * 设置线程局部用户数据，默认用户id为{@link CommonConstants.SYSTEM_USER_ID}
-     * 
+     *
      * @Title: setThreadTenant
      * @param tenantId
      *            租户id
@@ -316,7 +316,7 @@ public class UserUtil {
 
     /**
      * 获取当前登录用户的所属系统
-     * 
+     *
      * @Title: getSysOwner
      * @return
      *
@@ -328,7 +328,7 @@ public class UserUtil {
 
     /**
      * 获取多个租户字符串
-     * 
+     *
      * @Title: getMultiTenant
      * @return (以,分隔的多个租户id)
      *
@@ -343,7 +343,7 @@ public class UserUtil {
 
     /**
      * 获取当前所属集团下所有租户字符串
-     * 
+     *
      * @Title: getGroupTenant
      * @return (以,分隔的多个租户id)
      *
@@ -358,7 +358,7 @@ public class UserUtil {
 
     /**
      * 获取多个租户id集合
-     * 
+     *
      * @Title: listTenantIds
      * @return
      *
@@ -378,7 +378,7 @@ public class UserUtil {
 
     /**
      * 获取多个所属系统
-     * 
+     *
      * @Title: listSysOwners
      * @return
      *

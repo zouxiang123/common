@@ -62,5 +62,13 @@ public class AssayConsts {
      * 数值类别--数值
      */
     public static final Integer VALUE_TYPE_NUMBER = 1;
+    /**
+     * 取样时间
+     */
+    public static final String SAMPLE_TIME = "sample_time";
+    /**
+     * 报告时间
+     */
+    public static final String REPORT_TIME = "report_time";
 
 }
