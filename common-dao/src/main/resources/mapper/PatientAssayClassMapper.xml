@@ -19,6 +19,11 @@
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+      
+     <result column="min_value" jdbcType="DOUBLE" property="minValue" />
+     <result column="max_value" jdbcType="DOUBLE" property="maxValue" />
+     <result column="difference_value" jdbcType="DOUBLE" property="differenceValue" />
+     <result column="percentage_value" jdbcType="DOUBLE" property="percentageValue" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -26,7 +31,7 @@
     -->
     id, assay_class, item_code, item_name, group_id, group_name, fk_assay_group_conf_id, 
     fk_assay_group_conf_name, fk_tenant_id, create_time, create_user_id, update_time, 
-    update_user_id
+    update_user_id,min_value,max_value,difference_value,percentage_value
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -52,12 +57,14 @@
       item_name, group_id, group_name, 
       fk_assay_group_conf_id, fk_assay_group_conf_name, 
       fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id,assay_day)
+      update_time, update_user_id,assay_day,min_value,max_value,difference_value,percentage_value)
     values (#{id,jdbcType=BIGINT}, #{assayClass,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
       #{fkAssayGroupConfId,jdbcType=BIGINT}, #{fkAssayGroupConfName,jdbcType=VARCHAR}, 
       #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT},#{assayDay,jdbcType=INTEGER})
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT},#{assayDay,jdbcType=INTEGER},
+      #{minValue,jdbcType=DOUBLE},#{maxValue,jdbcType=DOUBLE},#{differenceValue,jdbcType=DOUBLE},
+      #{percentageValue,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayClass">
     <!--
@@ -104,6 +111,18 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="minValue != null">
+        min_value,
+      </if>
+      <if test="maxValue != null">
+        update_user_id,
+      </if>
+      <if test="differenceValue != null">
+        difference_value,
+      </if>
+      <if test="percentageValue != null">
+        percentage_value,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -144,6 +163,18 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="minValue != null">
+       #{minValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxValue != null">
+      #{maxValue,jdbcType=DOUBLE},
+      </if>
+      <if test="differenceValue != null">
+        #{differenceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="percentageValue != null">
+        #{percentageValue,jdbcType=DOUBLE}
       </if>
     </trim>
   </insert>
@@ -188,6 +219,18 @@
       </if>
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="minValue != null">
+       min_value=#{minValue,jdbcType=DOUBLE},
+      </if>
+      <if test="maxValue != null">
+       max_value= #{maxValue,jdbcType=DOUBLE},
+      </if>
+      <if test="differenceValue != null">
+        difference_value = #{differenceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="percentageValue != null">
+        percentage_value = #{percentageValue,jdbcType=DOUBLE}
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -310,4 +353,13 @@
     <select id="getByFkAssayGroupConfId" resultMap="BaseResultMap">
         select * from patient_assay_class where fk_assay_group_conf_id = #{fkAssayGroupConfId}
     </select>
+     <!--查询化验项提醒数量 -->
+  <select id="countByCondition" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select count(id) from patient_assay_class
+    <where>
+        <if test="fkTenantId != null">
+            fk_tenant_id = #{fkTenantId}
+        </if>
+    </where>
+  </select>
 </mapper>

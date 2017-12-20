@@ -107,4 +107,16 @@ public class PatientAssayClassServiceImpl implements IPatientAssayClassService {
         patientAssayClassMapper.updateByPrimaryKey(record);
 
     }
+
+    /**
+     * 查询化验项提醒数量
+     * 
+     * @Title: countByCondition
+     * @param fkTenantId
+     * @return
+     *
+     */
+    public int countByCondition() {
+        return patientAssayClassMapper.countByCondition(UserUtil.getTenantId());
+    }
 }

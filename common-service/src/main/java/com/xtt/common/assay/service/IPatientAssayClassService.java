@@ -69,4 +69,14 @@ public interface IPatientAssayClassService {
      *
      */
     public void updateById(PatientAssayClass record);
+
+    /**
+     * 查询化验项提醒数量
+     * 
+     * @Title: countByCondition
+     * @param fkTenantId
+     * @return
+     *
+     */
+    public int countByCondition();
 }

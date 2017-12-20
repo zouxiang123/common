@@ -74,6 +74,22 @@ public class PatientAssayClass {
      * patient_assay_class.update_user_id
      */
     private Long updateUserId;
+    /**
+     * 监控：达标最小值
+     */
+    private Double minValue;
+    /**
+     * 监控：达标最大值
+     */
+    private Double maxValue;
+    /**
+     * 监控：两次相差值:本次检验值—上次检验值
+     */
+    private Double differenceValue;
+    /**
+     * 监控：两相差百分比:(本次检验值—上次检验值)/100
+     */
+    private Double percentageValue;
 
     /**
      */
@@ -241,6 +257,38 @@ public class PatientAssayClass {
 
     public void setAssayDay(Integer assayDay) {
         this.assayDay = assayDay;
+    }
+
+    public Double getMinValue() {
+        return minValue;
+    }
+
+    public void setMinValue(Double minValue) {
+        this.minValue = minValue;
+    }
+
+    public Double getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(Double maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public Double getDifferenceValue() {
+        return differenceValue;
+    }
+
+    public void setDifferenceValue(Double differenceValue) {
+        this.differenceValue = differenceValue;
+    }
+
+    public Double getPercentageValue() {
+        return percentageValue;
+    }
+
+    public void setPercentageValue(Double percentageValue) {
+        this.percentageValue = percentageValue;
     }
 
 }
