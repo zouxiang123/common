@@ -938,27 +938,27 @@
 			, CASE WHEN busi.result_actual >= #{minValue} THEN 1 ELSE 0 END as result_tips
 			, CASE WHEN busi.result_actual &lt; #{minValue} THEN 1 ELSE 0 END noOkCount
 			, CASE WHEN busi.result_actual >= #{minValue} THEN 1 ELSE 0 END okCount
-			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+			, CASE WHEN busi.result is null THEN 1 ELSE 0 END withoutCount
 		</if>
 		<if test="minValue != null and maxValue != null">
 			, CASE WHEN busi.result_actual >= #{minValue} AND busi.result_actual  &lt; #{maxValue} THEN 1 ELSE 0 END as result_tips
 			, CASE WHEN busi.result_actual &lt; #{minValue} THEN 1 ELSE 0 END noOkCount
 			, CASE WHEN busi.result_actual >= #{minValue} AND busi.result_actual  &lt; #{maxValue} THEN 1 ELSE 0 END okCount
 			, CASE WHEN busi.result_actual >= #{maxValue} THEN 1 ELSE 0 END excessOkCount
-			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+			, CASE WHEN busi.result is null THEN 1 ELSE 0 END withoutCount
 		</if>
 		<if test="minValue == null and maxValue != null">
 			, CASE WHEN busi.result_actual &lt; #{maxValue} THEN 1 ELSE 0 END as result_tips
 			, CASE WHEN busi.result_actual &lt; #{maxValue} THEN 1 ELSE 0 END okCount
 			, CASE WHEN busi.result_actual >= #{maxValue} THEN 1 ELSE 0 END excessOkCount
-			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+			, CASE WHEN busi.result is null THEN 1 ELSE 0 END withoutCount
 		</if>
 		<if test="minValue == null and maxValue == null">
 			, CASE WHEN busi.result_tips =1 THEN 1 ELSE 0 END as result_tips
 			, CASE WHEN busi.result_tips =4 THEN 1 ELSE 0 END noOkCount
 			, CASE WHEN busi.result_tips = 1 THEN 1 ELSE 0 END okCount
 			, CASE WHEN busi.result_tips = 3 THEN 1 ELSE 0 END excessOkCount
-			, CASE WHEN busi.result_actual is null THEN 1 ELSE 0 END withoutCount
+			, CASE WHEN busi.result is null THEN 1 ELSE 0 END withoutCount
 		</if> 
 		, pa.`name` as patientName
 	FROM 
