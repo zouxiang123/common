@@ -28,6 +28,7 @@ public class PatientOutcomePO extends PatientOutcome {
     private String deleteSickbedRecord; // 是否删除排床
     private String inType; // 转回类型
     private String[] types; // 转归类型数组
+    private String outComeName; // 转归类型名称
 
     public String getInType() {
         return inType;
@@ -137,6 +138,14 @@ public class PatientOutcomePO extends PatientOutcome {
 
     public void setIsTemp(Boolean isTemp) {
         this.isTemp = isTemp;
+    }
+
+    public String getOutComeName() {
+        return outComeName;
+    }
+
+    public void setOutComeName(String outComeName) {
+        this.outComeName = outComeName;
     }
 
 }

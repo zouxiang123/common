@@ -241,8 +241,11 @@
   <select id="selectByCondition" parameterType="com.xtt.common.dao.po.PatientOutcomePO" resultMap="POResultMap">
   	select po.* from patient_outcome po
   	<where>
+      <if test="id != null">
+        po.id = #{id} 
+      </if>
  	  <if test="fkPatientId != null">
-        po.fk_patient_id = #{fkPatientId}
+        AND po.fk_patient_id = #{fkPatientId}
       </if>
       <if test="type != null">
         AND po.type = #{type}

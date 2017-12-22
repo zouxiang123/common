@@ -53,10 +53,12 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         record.setSysOwner(UserUtil.getSysOwner());
         record.setFkTenantId(UserUtil.getTenantId());
         DataUtil.setSystemFieldValue(record);
-        // 非临时转移保存转归数据
-        if (!Objects.equal("temporary", record.getPatientOutcomeType())) {
+        if (record.getId() == null) {
             // 保存转归记录
             patientOutcomeMapper.insert(record);
+        } else {
+            // 更新转归记录
+            patientOutcomeMapper.updateByPrimaryKeySelective(record);
         }
         PatientOwner owner = new PatientOwner();
         owner.setFkPatientId(record.getFkPatientId());
@@ -90,10 +92,10 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
                 owner.setIsEnable(false);
             }
         }
-        // 临时转移其它医院
+        /*        // 临时转移其它医院
         if (Objects.equal("temporary", record.getPatientOutcomeType()) && null == record.getToTenantId()) {
             return;
-        }
+        }*/
         patientOwnerService.updateOwner(owner);
     }
 
