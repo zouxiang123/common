@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xtt.common.dao.mapper.PatientMapper">
-<resultMap id="BaseResultMap" type="com.xtt.common.dao.model.Patient">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.Patient">
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
@@ -15,7 +15,6 @@
     <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="deathday" jdbcType="DATE" property="deathday" />
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
     <result column="work_unit" jdbcType="VARCHAR" property="workUnit" />
     <result column="profession" jdbcType="VARCHAR" property="profession" />
@@ -44,7 +43,7 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, account, name, initial, spell_initials, password, id_type, id_number, sex, birthday, 
-    deathday, image_path, work_unit, profession, province, county, address, mobile, emergency_contacts, 
+    image_path, work_unit, profession, province, county, address, mobile, emergency_contacts, 
     email, emergency_mobile, emergency_mobile2, emergency_mobile3, blood_abo, blood_rh, 
     barcode_path, height, weight, create_time, create_user_id, update_time, update_user_id, 
     dialysis_times
@@ -72,27 +71,25 @@
     insert into patient (id, account, name, 
       initial, spell_initials, password, 
       id_type, id_number, sex, 
-      birthday, deathday, image_path, 
-      work_unit, profession, province, 
-      county, address, mobile, 
-      emergency_contacts, email, emergency_mobile, 
-      emergency_mobile2, emergency_mobile3, blood_abo, 
-      blood_rh, barcode_path, height, 
-      weight, create_time, create_user_id, 
-      update_time, update_user_id, dialysis_times
-      )
+      birthday, image_path, work_unit, 
+      profession, province, county, 
+      address, mobile, emergency_contacts, 
+      email, emergency_mobile, emergency_mobile2, 
+      emergency_mobile3, blood_abo, blood_rh, 
+      barcode_path, height, weight, 
+      create_time, create_user_id, update_time, 
+      update_user_id, dialysis_times)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{idType,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{birthday,jdbcType=DATE}, #{deathday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
-      #{workUnit,jdbcType=VARCHAR}, #{profession,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, 
-      #{county,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
-      #{emergencyContacts,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, 
-      #{emergencyMobile2,jdbcType=VARCHAR}, #{emergencyMobile3,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, 
-      #{bloodRh,jdbcType=VARCHAR}, #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, 
-      #{weight,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{dialysisTimes,jdbcType=INTEGER}
-      )
+      #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, #{workUnit,jdbcType=VARCHAR}, 
+      #{profession,jdbcType=VARCHAR}, #{province,jdbcType=INTEGER}, #{county,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{emergencyContacts,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{emergencyMobile,jdbcType=VARCHAR}, #{emergencyMobile2,jdbcType=VARCHAR}, 
+      #{emergencyMobile3,jdbcType=VARCHAR}, #{bloodAbo,jdbcType=VARCHAR}, #{bloodRh,jdbcType=VARCHAR}, 
+      #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{dialysisTimes,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -129,9 +126,6 @@
       </if>
       <if test="birthday != null">
         birthday,
-      </if>
-      <if test="deathday != null">
-        deathday,
       </if>
       <if test="imagePath != null">
         image_path,
@@ -230,9 +224,6 @@
       </if>
       <if test="birthday != null">
         #{birthday,jdbcType=DATE},
-      </if>
-      <if test="deathday != null">
-        #{deathday,jdbcType=DATE},
       </if>
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
@@ -335,9 +326,6 @@
       <if test="birthday != null">
         birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="deathday != null">
-        deathday = #{deathday,jdbcType=DATE},
-      </if>
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
       </if>
@@ -421,7 +409,6 @@
       id_number = #{idNumber,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       birthday = #{birthday,jdbcType=DATE},
-      deathday = #{deathday,jdbcType=DATE},
       image_path = #{imagePath,jdbcType=VARCHAR},
       work_unit = #{workUnit,jdbcType=VARCHAR},
       profession = #{profession,jdbcType=VARCHAR},
@@ -458,7 +445,7 @@
   </resultMap>
   <!-- 根据自定义条件查询数据 -->
   <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientPO" resultMap="POResultMap">
-    select p.*, DATE_FORMAT(IFNULL(p.deathday,NOW()), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(IFNULL(p.deathday,NOW()), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+    select p.*, DATE_FORMAT(IFNULL(hd_p.deathday,NOW()), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(IFNULL(hd_p.deathday,NOW()), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
         , pv.`name` province_name
         , county.`name` county_name
         , po.fk_tenant_id, po.sys_owner, po.is_enable, GROUP_CONCAT(DISTINCT po.sys_owner) AS multiSysOwner, GROUP_CONCAT(DISTINCT po.fk_tenant_id) AS multiTenantId
@@ -466,6 +453,7 @@
     JOIN patient_owner po ON po.fk_patient_id = p.id
     LEFT JOIN province pv on p.province = pv.id
     LEFT JOIN county on p.county = county.id
+    LEFT JOIN hd_patient_extend hd_p on hd_p.id = p.id
     <where>
       <if test="name != null and name != ''">
         p.name like concat('%', #{name} ,'%')

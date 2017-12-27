@@ -31,7 +31,7 @@ public class PatientHistory {
     private String initial;
 
     /**
-     * 姓名全称首字母（多个）
+     * 姓名全拼首字母
      * patient_history.spell_initials
      */
     private String spellInitials;
@@ -193,6 +193,12 @@ public class PatientHistory {
     private Long updateUserId;
 
     /**
+     * 透析次数
+     * patient_history.dialysis_times
+     */
+    private Integer dialysisTimes;
+
+    /**
      */
     public Long getId() {
         return id;
@@ -247,14 +253,14 @@ public class PatientHistory {
     }
 
     /**
-     * 姓名全称首字母（多个）
+     * 姓名全拼首字母
      */
     public String getSpellInitials() {
         return spellInitials;
     }
 
     /**
-     * 姓名全称首字母（多个）
+     * 姓名全拼首字母
      */
     public void setSpellInitials(String spellInitials) {
         this.spellInitials = spellInitials;
@@ -622,5 +628,19 @@ public class PatientHistory {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    /**
+     * 透析次数
+     */
+    public Integer getDialysisTimes() {
+        return dialysisTimes;
+    }
+
+    /**
+     * 透析次数
+     */
+    public void setDialysisTimes(Integer dialysisTimes) {
+        this.dialysisTimes = dialysisTimes;
     }
 }
