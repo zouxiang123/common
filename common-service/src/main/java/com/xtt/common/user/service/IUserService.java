@@ -375,4 +375,6 @@ public interface IUserService {
      */
     void saveStatementSkin(String statementSkin);
 
+    List<SysUserPO> listUserByAccount(SysUserPO user);
+
 }
