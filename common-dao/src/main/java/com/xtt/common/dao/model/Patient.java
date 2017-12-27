@@ -67,12 +67,6 @@ public class Patient {
     private Date birthday;
 
     /**
-     * 死亡日期
-     * patient.deathday
-     */
-    private Date deathday;
-
-    /**
      * 用户头像
      * patient.image_path
      */
@@ -340,20 +334,6 @@ public class Patient {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    /**
-     * 死亡日期
-     */
-    public Date getDeathday() {
-        return deathday;
-    }
-
-    /**
-     * 死亡日期
-     */
-    public void setDeathday(Date deathday) {
-        this.deathday = deathday;
     }
 
     /**

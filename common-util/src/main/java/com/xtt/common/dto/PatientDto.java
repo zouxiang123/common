@@ -3,8 +3,6 @@ package com.xtt.common.dto;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.xtt.platform.util.time.DateUtil;
-
 public class PatientDto {
     /**
      * patient.id
@@ -158,19 +156,6 @@ public class PatientDto {
      * 患者历史透析次数
      */
     private Integer dialysisTimes;
-
-    /**
-     * 死亡时间
-     */
-    private Date deathday;
-
-    public Date getDeathday() {
-        return deathday;
-    }
-
-    public void setDeathday(Date deathday) {
-        this.deathday = deathday;
-    }
 
     public Integer getDialysisTimes() {
         return dialysisTimes;
@@ -560,19 +545,6 @@ public class PatientDto {
 
     public void setCountyName(String countyName) {
         this.countyName = countyName;
-    }
-
-    public Integer getAge() {
-        if (deathday == null) {
-            age = DateUtil.getAge(birthday);
-        } else {
-            age = DateUtil.getAge(birthday, deathday);
-        }
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
     }
 
     public String getSexShow() {
