@@ -694,6 +694,10 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.listByAccount(user);
     }
 
+    public List<SysUserPO> listUserByAccount(SysUserPO user) {
+        return sysUserMapper.listUserByAccount(user);
+    }
+
     @Override
     public void saveSkin(String skin) {
         SysUserTenant sut = sysUserTenantService.getByUserId(UserUtil.getLoginUserId());

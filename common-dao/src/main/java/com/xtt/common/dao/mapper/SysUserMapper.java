@@ -200,6 +200,16 @@ public interface SysUserMapper {
     List<SysUserPO> listByAccount(SysUserPO user);
 
     /**
+     * 根据账户查询用户
+     * 
+     * @Title: selectByAccount
+     * @param account
+     * @return
+     *
+     */
+    List<SysUserPO> listUserByAccount(SysUserPO user);
+
+    /**
      * 获取随机护士
      * 
      * @param constantType
