@@ -660,6 +660,9 @@
             <if test="endDate != null">
                 and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
             </if>
+            <if test="fkTenantId != null">
+                and parb.fk_tenant_id = #{fkTenantId}
+            </if>
         </where>
         ORDER BY parb.assay_date ASC
     </select>
