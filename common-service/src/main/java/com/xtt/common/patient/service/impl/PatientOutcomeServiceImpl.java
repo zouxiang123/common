@@ -51,7 +51,9 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
     @Override
     public void save(PatientOutcomePO record) {
         record.setSysOwner(UserUtil.getSysOwner());
-        record.setFkTenantId(UserUtil.getTenantId());
+        if (record.getFkPatientId() == null) {
+            record.setFkTenantId(UserUtil.getTenantId());
+        }
         DataUtil.setSystemFieldValue(record);
         if (record.getId() == null) {
             // 保存转归记录
@@ -76,7 +78,6 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         if (Objects.equal("out", record.getPatientOutcomeType())) {
             // 判断是否为血透或者腹透
             if ("1".equals(record.getType()) || "2".equals(record.getType())) {
-                owner.setSysOwner(record.getToSysOwner());
                 // 判断是否为其它医院
                 if (record.getToTenantId() == null) {
                     // 转其它医院将本院状态置成删除
@@ -92,10 +93,9 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
                 owner.setIsEnable(false);
             }
         }
-        /*        // 临时转移其它医院
         if (Objects.equal("temporary", record.getPatientOutcomeType()) && null == record.getToTenantId()) {
             return;
-        }*/
+        }
         patientOwnerService.updateOwner(owner);
     }
 
