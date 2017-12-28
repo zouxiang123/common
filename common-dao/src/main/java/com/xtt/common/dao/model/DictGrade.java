@@ -7,62 +7,80 @@ import java.util.Date;
  */
 public class DictGrade {
     /**
-     * 物理主键 dict_grade.id
+     * 物理主键
+     * dict_grade.id
      */
     private Long id;
 
     /**
-     * 类别标号 dict_grade.type_code
+     * 类别标号
+     * dict_grade.type_code
      */
     private String typeCode;
 
     /**
-     * 类别名称 dict_grade.type_name
+     * 类别名称
+     * dict_grade.type_name
      */
     private String typeName;
 
     /**
-     * 评估项名称 dict_grade.item_name
+     * 评估项名称
+     * dict_grade.item_name
      */
     private String itemName;
 
     /**
-     * 评估项code dict_grade.item_code
+     * 评估项code
+     * dict_grade.item_code
      */
     private String itemCode;
 
     /**
-     * 分值 dict_grade.score
+     * 分值
+     * dict_grade.score
      */
     private Integer score;
 
     /**
-     * 租户id dict_grade.fk_tenant_id
+     * 排序
+     * dict_grade.order_by
+     */
+    private Integer orderBy;
+
+    /**
+     * 租户id
+     * dict_grade.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 是否有效 dict_grade.is_enable
+     * 是否有效
+     * dict_grade.is_enable
      */
     private Boolean isEnable;
 
     /**
-     * 创建时间 dict_grade.create_time
+     * 创建时间
+     * dict_grade.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人 dict_grade.create_user_id
+     * 创建人
+     * dict_grade.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间 dict_grade.update_time
+     * 修改时间
+     * dict_grade.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人 dict_grade.update_user_id
+     * 修改人
+     * dict_grade.update_user_id
      */
     private Long updateUserId;
 
@@ -148,6 +166,20 @@ public class DictGrade {
      */
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    /**
+     * 排序
+     */
+    public Integer getOrderBy() {
+        return orderBy;
+    }
+
+    /**
+     * 排序
+     */
+    public void setOrderBy(Integer orderBy) {
+        this.orderBy = orderBy;
     }
 
     /**
