@@ -182,12 +182,6 @@ public class UserServiceImpl implements IUserService {
             }
             // 建立用户和租户之间的关联
             associationTenant(user, true, groupFlag);
-            // 新增用户创建默认头像
-            Long timeStamp = System.currentTimeMillis();
-
-            String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
-            BusinessCommonUtil.combineImage(name, newFilename);
-            user.setImagePath(newFilename + "?t=" + timeStamp);
             updateByPrimaryKeySelective(user);
         }
         return CommonConstants.SUCCESS;
