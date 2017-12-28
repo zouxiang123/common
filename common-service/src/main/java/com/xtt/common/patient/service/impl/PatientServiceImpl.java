@@ -36,7 +36,6 @@ import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientOwnerService;
 import com.xtt.common.patient.service.IPatientService;
-import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
@@ -125,21 +124,14 @@ public class PatientServiceImpl implements IPatientService {
         // 上传头像
         String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.IMAGE_FILE_PATH_PATIENT
                         + "/" + patient.getId() + ".png";
-        // 首次创建头像
-        if (prePatient == null) {
-            String name = patient.getName().length() >= 2 ? patient.getName().substring(patient.getName().length() - 2) : patient.getName();
-            BusinessCommonUtil.combineImage(name, newFilename);
+        // 如果手动上传头像,则设置头像地址;
+        if (StringUtil.isNotBlank(patient.getImagePath()) && !newFilename.equals(patient.getImagePath())) {
+            com.xtt.platform.util.io.FileUtil.rename(new File(CommonConstants.BASE_PATH + patient.getImagePath()), patient.getId() + ".png");
             patient.setImagePath(newFilename + "?t=" + timeStamp);
             patientMapper.updateByPrimaryKeySelective(patient);
         }
+        // 定义二维码路径
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH;
-        // 修改头像
-        if (!newFilename.equals(patient.getImagePath())) {
-            com.xtt.platform.util.io.FileUtil.rename(new File(path + patient.getImagePath()), patient.getId() + ".png");
-            patient.setImagePath(newFilename + "?t=" + timeStamp);
-            patientMapper.updateByPrimaryKeySelective(patient);
-        }
-
         try {
             if (prePatient == null || (prePatient != null && !Objects.equals(prePatient.getIdNumber(), patient.getIdNumber()))) {
                 // 生成二维码
