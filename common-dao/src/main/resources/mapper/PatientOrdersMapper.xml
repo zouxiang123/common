@@ -882,6 +882,9 @@
        <if test="fkPatientId != null and fkPatientId != ''">
             and  fk_patient_id = #{fkPatientId,jdbcType=BIGINT}
        </if>
+       <if test="fkTenantId != null">
+            and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+       </if>
        group by item_name;
     </select>
 
