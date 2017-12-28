@@ -11,6 +11,7 @@
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
     <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
     <result column="score" jdbcType="INTEGER" property="score" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="is_enable" jdbcType="BIT" property="isEnable" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -22,8 +23,8 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, type_code, type_name, item_name, item_code, score, fk_tenant_id, is_enable, create_time, 
-    create_user_id, update_time, update_user_id
+    id, type_code, type_name, item_name, item_code, score, order_by, fk_tenant_id, is_enable, 
+    create_time, create_user_id, update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -47,14 +48,14 @@
     -->
     insert into dict_grade (id, type_code, type_name, 
       item_name, item_code, score, 
-      fk_tenant_id, is_enable, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      order_by, fk_tenant_id, is_enable, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{typeCode,jdbcType=VARCHAR}, #{typeName,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
-      #{fkTenantId,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{orderBy,jdbcType=INTEGER}, #{fkTenantId,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.DictGrade">
     <!--
@@ -79,6 +80,9 @@
       </if>
       <if test="score != null">
         score,
+      </if>
+      <if test="orderBy != null">
+        order_by,
       </if>
       <if test="fkTenantId != null">
         fk_tenant_id,
@@ -117,6 +121,9 @@
       </if>
       <if test="score != null">
         #{score,jdbcType=INTEGER},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
       </if>
       <if test="fkTenantId != null">
         #{fkTenantId,jdbcType=INTEGER},
@@ -159,6 +166,9 @@
       <if test="score != null">
         score = #{score,jdbcType=INTEGER},
       </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
       <if test="fkTenantId != null">
         fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       </if>
@@ -190,6 +200,7 @@
       item_name = #{itemName,jdbcType=VARCHAR},
       item_code = #{itemCode,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER},
+      order_by = #{orderBy,jdbcType=INTEGER},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       is_enable = #{isEnable,jdbcType=BIT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -229,7 +240,7 @@
         and dg.is_enable = #{isEnable}
       </if>
   	</where>
-    ORDER BY dg.type_code,dg.item_code
+    ORDER BY dg.type_code,dg.order_by
   </select>
   <!-- 根据租户id查询所有的类别 -->
   <select id="listCategory" resultMap="POResultMap" parameterType="java.lang.Integer">
