@@ -966,7 +966,7 @@
 		, pa.`name` as patientName
 	FROM 
 		patient pa 
-		INNER JOIN patient_owner po on pa.id=po.fk_patient_id and po.sys_owner='HD' AND po.fk_tenant_id = #{fkTenantId}
+		INNER JOIN patient_owner po on pa.id=po.fk_patient_id and po.sys_owner='HD' and po.is_enable = 1 AND po.fk_tenant_id = #{fkTenantId}
 		LEFT JOIN 
 			(SELECT
 	            p.fk_patient_id
