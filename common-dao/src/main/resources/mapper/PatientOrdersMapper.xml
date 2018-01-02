@@ -889,7 +889,7 @@
     </select>
 
     <!--获取患者对应的项目名称  -->
-    <select id="listPatientOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap">
+    <select id="listPatientOrdersPO" parameterType="com.xtt.common.dao.po.PatientOrdersPO" resultMap="POResultMap" useCache="false" flushCache="true">
       SELECT *  FROM  patient_orders   WHERE charges_code = #{chargesCode}
       AND fk_patient_id = #{fkPatientId}
       AND fk_tenant_id = #{fkTenantId}
