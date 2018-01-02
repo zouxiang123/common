@@ -238,7 +238,7 @@ public class DataUtil {
     public static String escape(String sql) {
         if (sql == null)
             return "";
-        return sql.replaceAll("\\\\", "\\\\\\\\").replaceAll("'", "\\'").replaceAll("\"", "\\\"");
+        return sql.replaceAll("\\\\", "\\\\\\\\\\\\\\\\").replaceAll("'", "\\\\\'").replaceAll("\"", "\\\\\"");
     }
 
     /**
