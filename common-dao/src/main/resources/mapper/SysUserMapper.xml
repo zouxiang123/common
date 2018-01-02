@@ -480,9 +480,22 @@
     </select>
      <!-- 根据角色获取医生护士 -->
     <select id="listUserByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT u.`autograph_path`,u.`name` FROM sys_user u
-        JOIN sys_user2role sr ON sr.fk_user_id = u.id
-        JOIN sys_role r ON sr.fk_role_id = r.id where del_flag = 0 and r.parent_id=#{parentId} and u.fk_tenant_id = #{fkTenantId}   
+        SELECT
+            u.`autograph_path`,
+            u.`name`
+        FROM
+            sys_user u
+        LEFT JOIN sys_user2role sr ON sr.fk_user_id = u.id
+        JOIN sys_user_tenant ut ON ut.fk_user_id = u.id
+        LEFT JOIN sys_role r ON sr.fk_role_id = r.id
+        AND r.sys_owner = ut.sys_owner
+        AND r.fk_tenant_id = ut.fk_tenant_id
+        WHERE
+            ut.fk_tenant_id =#{fkTenantId} 
+        AND ut.sys_owner = 'HD'
+        and r.parent_id = #{parentId}
+        GROUP BY
+            u.id
     </select>
     
     
