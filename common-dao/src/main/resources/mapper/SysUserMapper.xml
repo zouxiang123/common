@@ -476,6 +476,7 @@
     where r.parent_id is not null and r.name &lt;&gt; '管理员' 
     and u.del_flag=false
     and u.fk_tenant_id = #{tenantId}   
+    and r.fk_tenant_id = #{tenantId}   
     group by r.id order by r.parent_id;
     </select>
      <!-- 根据角色获取医生护士 -->
