@@ -682,6 +682,7 @@
         FROM patient_assay_record_busi parb
         JOIN patient p ON p.id = parb.fk_patient_id
         <where>
+             parb.item_code in ( SELECT item_code from assay_hosp_dict where is_top = 1 and fk_tenant_id = #{fkTenantId})
             <if test="fkPatientId != null">
                 and parb.fk_patient_id = #{fkPatientId}
             </if>
