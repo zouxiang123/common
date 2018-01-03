@@ -281,4 +281,21 @@
     delete from cm_diagnosis_entity_value
     where fk_entity_id = #{entityId,jdbcType=BIGINT}
   </delete> 
+  <resultMap id="BaseResultPOMap" type="com.xtt.common.dao.po.CmDiagnosisEntityValuePO"  extends="BaseResultMap">
+  </resultMap>
+  <!-- 根据批量患者id查询对应的诊断信息 -->
+  <select id="listByPatientIdsGroup" resultMap="BaseResultPOMap">
+  SELECT GROUP_CONCAT(CONCAT(e31.item_name,'：',e31.item_value)  SEPARATOR '；') diagnosisData,fk_patient_id FROM (
+        SELECT e1.fk_patient_id,GROUP_CONCAT(CONCAT(IFNULL(e1.item_value,''),IFNULL(e1.content,''))) item_value,e21.item_name 
+        FROM cm_diagnosis_entity_value e1
+        LEFT JOIN cm_dict_diagnosis e11 ON e1.item_code=e11.item_code
+        LEFT JOIN cm_dict_diagnosis e21 ON e11.p_item_code=e21.item_code
+        WHERE EXISTS (SELECT 1 FROM cm_diagnosis_entity e22 WHERE e22.id=e1.fk_entity_id)
+        AND e1.fk_patient_id in
+        <foreach close=")" collection="fkPatientIds" item="item" open="(" separator=",">
+          #{item}
+        </foreach>
+        GROUP BY e1.fk_patient_id,e21.item_code,e21.item_name) e31
+  GROUP BY e31.fk_patient_id
+  </select>
 </mapper>
