@@ -1,7 +1,9 @@
 package com.xtt.common.dao.mapper;
 
+import java.util.Collection;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.CmDiagnosisEntityValue;
@@ -42,4 +44,14 @@ public interface CmDiagnosisEntityValueMapper {
      *
      */
     int deleteByEntity(Long entityId);
+
+    /**
+     * 根据批量患者id查询对应的诊断信息
+     * 
+     * @Title: listByPatientIdsGroup
+     * @param fkPatientIds
+     * @return
+     *
+     */
+    List<CmDiagnosisEntityValuePO> listByPatientIdsGroup(@Param("fkPatientIds") Collection<Long> fkPatientIds);
 }

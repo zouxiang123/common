@@ -17,12 +17,22 @@ public class CmDiagnosisEntityValuePO extends CmDiagnosisEntityValue {
      */
     private CmDiagnosisEntityPO entity;
 
+    private String diagnosisData;// 诊断信息
+
     public CmDiagnosisEntityPO getEntity() {
         return entity;
     }
 
     public void setEntity(CmDiagnosisEntityPO entity) {
         this.entity = entity;
+    }
+
+    public String getDiagnosisData() {
+        return diagnosisData;
+    }
+
+    public void setDiagnosisData(String diagnosisData) {
+        this.diagnosisData = diagnosisData;
     }
 
 }
