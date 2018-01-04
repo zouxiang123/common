@@ -108,7 +108,7 @@ public class RoleServiceImpl implements IRoleService {
                     sysRoleMapper.insertSelective(sr);
                 } else {
                     DataUtil.setSystemFieldValue(sr);
-                    sysRoleMapper.updateByPrimaryKey(sr);
+                    sysRoleMapper.updateByPrimaryKeySelective(sr);
                 }
             }
         }
