@@ -668,4 +668,8 @@
     <select id="getById" resultMap="POResultMap">
         SELECT * FROM assay_hosp_dict WHERE id = #{id}
     </select>
+    <!-- 通过患者化验单字典表外键 查询项目编码 -->
+    <select id="listItemCodeBydictCcode" resultType="java.lang.String">
+        SELECT item_code from assay_hosp_dict where fk_dict_code = #{fkDictCode} and fk_tenant_id = #{fkTenantId}
+    </select>
 </mapper>

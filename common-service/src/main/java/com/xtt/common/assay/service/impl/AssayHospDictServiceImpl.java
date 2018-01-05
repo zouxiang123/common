@@ -230,4 +230,9 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         return assayHospDictMapper.getById(id);
     }
 
+    @Override
+    public List<String> listItemCodeBydictCcode(String dictCode) {
+        return assayHospDictMapper.listItemCodeBydictCcode(dictCode, UserUtil.getTenantId());
+    }
+
 }
