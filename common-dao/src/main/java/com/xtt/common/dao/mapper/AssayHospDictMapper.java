@@ -231,4 +231,15 @@ public interface AssayHospDictMapper {
      *
      */
     AssayHospDictPO getById(Long id);
+
+    /**
+     * 通过患者化验单字典表外键 查询项目编码
+     * 
+     * @Title: listItemCodeBydictCcode
+     * @param dictCode
+     * @param tenantId
+     * @return
+     *
+     */
+    List<String> listItemCodeBydictCcode(@Param("fkDictCode") String dictCode, @Param("fkTenantId") Integer tenantId);
 }
