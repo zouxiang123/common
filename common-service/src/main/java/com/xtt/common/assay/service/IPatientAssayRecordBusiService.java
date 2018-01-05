@@ -350,4 +350,14 @@ public interface IPatientAssayRecordBusiService {
      */
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId);
 
+    /**
+     * 根据itemcode查询时间范围内的bun
+     * 
+     * @Title: listByItmeCode
+     * @param assayRecord
+     * @return
+     *
+     */
+    public List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord);
+
 }

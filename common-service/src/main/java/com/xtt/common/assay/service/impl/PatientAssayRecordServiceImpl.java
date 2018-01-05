@@ -43,4 +43,13 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     public List<Long> listPatientIds(String assayDate, Integer tenantId) {
         return patientAssayRecordMapper.listPatientIds(assayDate, tenantId);
     }
+
+    @Override
+    public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord) {
+        if (assayRecord.getFkTenantId() == null) {
+            assayRecord.setFkTenantId(UserUtil.getTenantId());
+        }
+        return patientAssayRecordMapper.getMinSampleTimeByCreateTime(assayRecord);
+    }
+
 }

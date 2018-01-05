@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.hand.AssayHandDelete;
 import com.xtt.common.assay.hand.AssayHandFactory;
+import com.xtt.common.assay.hand.AssayHandFive;
 import com.xtt.common.assay.hand.AssayHandFour;
 import com.xtt.common.assay.hand.AssayHandOne;
 import com.xtt.common.assay.hand.AssayHandThree;
@@ -321,6 +322,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             case AssayConsts.LAB_AFTER_BEFORE_FOUR:
                 assayHandFactory = new AssayHandFour();
                 break;
+            case AssayConsts.LAB_AFTER_BEFORE_FIVE:
+                assayHandFactory = new AssayHandFive();
+                break;
             default:
                 break;
             }
@@ -479,6 +483,14 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             assayRecordList.add(assayRecord);
             updateDiaAbFlagByReqId(assayRecordList);
         }
+    }
+
+    @Override
+    public List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord) {
+        if (assayRecord.getFkTenantId() == null) {
+            assayRecord.setFkTenantId(UserUtil.getTenantId());
+        }
+        return patientAssayRecordBusiMapper.listByItmeCode(assayRecord);
     }
 
 }
