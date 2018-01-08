@@ -69,19 +69,20 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         // 如果是转到其它系统
         Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
         owner.setIsEnable(!sysOwners.containsKey(record.getType()));
+        owner.setIsEnable(false);
         // 如果转出租户不为空，则使用转出租户，如果为空，则使用当前租户
         if (Objects.equal("in", record.getPatientOutcomeType())) {
             owner.setIsEnable(true);
+            owner.setSysOwner(record.getToSysOwner());
         }
-        owner.setFkTenantId(record.getToTenantId() == null ? record.getFkTenantId() : record.getToTenantId());
+        owner.setFkTenantId(record.getFkTenantId());
         // 转归
         if (Objects.equal("out", record.getPatientOutcomeType())) {
             // 判断是否为血透或者腹透
             if ("1".equals(record.getType()) || "2".equals(record.getType())) {
+                owner.setSysOwner(record.getSysOwner());
                 // 判断是否为其它医院
                 if (record.getToTenantId() == null) {
-                    // 转其它医院将本院状态置成删除
-                    owner.setIsEnable(false);
                     // 转其它医院只更新本院
                     owner.setSysOwner(UserUtil.getSysOwner());
                 } else {
@@ -95,6 +96,10 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         }
         if (Objects.equal("temporary", record.getPatientOutcomeType()) && null == record.getToTenantId()) {
             return;
+        }
+        if (record.getFkTenantId().equals(record.getToTenantId())) {
+            owner.setSysOwner(record.getToSysOwner());
+            owner.setIsEnable(true);
         }
         patientOwnerService.updateOwner(owner);
     }

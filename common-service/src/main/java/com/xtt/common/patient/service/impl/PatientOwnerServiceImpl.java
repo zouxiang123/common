@@ -34,12 +34,12 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
     public void updateOwner(PatientOwner record) {
         PatientOwner query = new PatientOwner();
         query.setFkPatientId(record.getFkPatientId());
-        query.setSysOwner(record.getSysOwner());
         query.setFkTenantId(record.getFkTenantId());
         List<PatientOwner> list = selectByCondition(query);
         if (CollectionUtils.isNotEmpty(list)) {// 判断所属系统是否存在,如果存在，更新其是否有效标识
             PatientOwner owner = list.get(0);
             owner.setIsEnable(record.getIsEnable());
+            owner.setSysOwner(record.getSysOwner());
             owner.setIsTemp(record.getIsTemp());
             DataUtil.setUpdateSystemFieldValue(owner);
             patientOwnerMapper.updateByPrimaryKey(owner);
