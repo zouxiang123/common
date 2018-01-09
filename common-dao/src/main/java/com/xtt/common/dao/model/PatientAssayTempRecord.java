@@ -1,5 +1,7 @@
 package com.xtt.common.dao.model;
 
+import java.util.Date;
+
 /**
  * patient_assay_temp_record
  */
@@ -10,37 +12,44 @@ public class PatientAssayTempRecord {
     private Long id;
 
     /**
-     * 患者id patient_assay_temp_record.fk_patient_id
+     * 患者id
+     * patient_assay_temp_record.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 项目编码 patient_assay_temp_record.item_code
+     * 项目编码
+     * patient_assay_temp_record.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称 patient_assay_temp_record.item_name
+     * 项目名称
+     * patient_assay_temp_record.item_name
      */
     private String itemName;
 
     /**
-     * 化验结果的值 patient_assay_temp_record.result
+     * 化验结果的值
+     * patient_assay_temp_record.result
      */
     private String result;
 
     /**
-     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低) patient_assay_temp_record.result_tips
+     * 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     * patient_assay_temp_record.result_tips
      */
     private String resultTips;
 
     /**
-     * 租户ID patient_assay_temp_record.fk_tenant_id
+     * 租户ID
+     * patient_assay_temp_record.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 化验日期 patient_assay_temp_record.assay_date
+     * 化验日期
+     * patient_assay_temp_record.assay_date
      */
     private String assayDate;
 
@@ -55,9 +64,34 @@ public class PatientAssayTempRecord {
     private String testMethod;
 
     /**
-     * 批次号 patient_assay_temp_record.batch_no
+     * 批次号
+     * patient_assay_temp_record.batch_no
      */
     private String batchNo;
+
+    /**
+     * 创建时间
+     * patient_assay_temp_record.create_time
+     */
+    private Date createTime;
+
+    /**
+     * 创建人
+     * patient_assay_temp_record.create_user_id
+     */
+    private Long createUserId;
+
+    /**
+     * 更新时间
+     * patient_assay_temp_record.update_time
+     */
+    private Date updateTime;
+
+    /**
+     * 更新人
+     * patient_assay_temp_record.update_user_id
+     */
+    private Long updateUserId;
 
     /**
      */
@@ -205,5 +239,61 @@ public class PatientAssayTempRecord {
      */
     public void setBatchNo(String batchNo) {
         this.batchNo = batchNo;
+    }
+
+    /**
+     * 创建时间
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 创建时间
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * 创建人
+     */
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    /**
+     * 创建人
+     */
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    /**
+     * 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * 更新人
+     */
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    /**
+     * 更新人
+     */
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 }

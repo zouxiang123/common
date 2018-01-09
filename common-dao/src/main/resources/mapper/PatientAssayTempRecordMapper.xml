@@ -16,6 +16,10 @@
     <result column="sample_code" jdbcType="VARCHAR" property="sampleCode" />
     <result column="test_method" jdbcType="VARCHAR" property="testMethod" />
     <result column="batch_no" jdbcType="VARCHAR" property="batchNo" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
   </resultMap>
   <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayTempRecord">
     <!--
@@ -24,11 +28,15 @@
     insert into patient_assay_temp_record (id, fk_patient_id, item_code, 
       item_name, result, result_tips, 
       fk_tenant_id, assay_date, sample_code, 
-      test_method, batch_no)
+      test_method, batch_no, create_time, 
+      create_user_id, update_time, update_user_id
+      )
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, 
       #{itemName,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{resultTips,jdbcType=VARCHAR}, 
       #{fkTenantId,jdbcType=INTEGER}, #{assayDate,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR}, 
-      #{testMethod,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR})
+      #{testMethod,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayTempRecord">
     <!--
@@ -69,6 +77,18 @@
       <if test="batchNo != null">
         batch_no,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -103,6 +123,18 @@
       </if>
       <if test="batchNo != null">
         #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
       </if>
     </trim>
   </insert>
