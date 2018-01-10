@@ -69,7 +69,6 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
         // 如果是转到其它系统
         Map<String, String> sysOwners = DictUtil.getMapByPItemCode(CmDictConsts.SYS_OWNER);
         owner.setIsEnable(!sysOwners.containsKey(record.getType()));
-        owner.setIsEnable(false);
         // 如果转出租户不为空，则使用转出租户，如果为空，则使用当前租户
         if (Objects.equal("in", record.getPatientOutcomeType())) {
             owner.setIsEnable(true);
@@ -81,6 +80,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             // 判断是否为血透或者腹透
             if ("1".equals(record.getType()) || "2".equals(record.getType())) {
                 owner.setSysOwner(record.getSysOwner());
+                owner.setIsEnable(false);
                 // 判断是否为其它医院
                 if (record.getToTenantId() == null) {
                     // 转其它医院只更新本院
@@ -94,8 +94,10 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
                 owner.setIsEnable(false);
             }
         }
-        if (Objects.equal("temporary", record.getPatientOutcomeType()) && null == record.getToTenantId()) {
-            return;
+        if (Objects.equal("2", record.getType()) || Objects.equal("temporary", record.getPatientOutcomeType())) {
+            owner.setFkTenantId(record.getToTenantId());
+            owner.setSysOwner(record.getToSysOwner());
+            owner.setIsEnable(true);
         }
         if (record.getFkTenantId().equals(record.getToTenantId())) {
             owner.setSysOwner(record.getToSysOwner());
