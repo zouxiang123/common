@@ -86,13 +86,18 @@
 
     <!-- user define -->
     <insert id="insertList">
-        insert into patient_assay_inspectioid_back (inspection_id, fk_patient_id, dia_ab_flag, fk_tenant_id)
+        insert into patient_assay_inspectioid_back (inspection_id, fk_patient_id, dia_ab_flag, fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
         values 
         <foreach collection="list" item="item" separator=",">
             (#{item.inspectionId,jdbcType=VARCHAR}, 
             #{item.fkPatientId,jdbcType=BIGINT}, 
             #{item.diaAbFlag,jdbcType=CHAR}, 
-            #{item.fkTenantId,jdbcType=INTEGER})
+            #{item.fkTenantId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, 
+            #{item.createUserId,jdbcType=BIGINT}, 
+            #{item.updateTime,jdbcType=TIMESTAMP}, 
+            #{item.updateUserId,jdbcType=BIGINT})
         </foreach>
     </insert>
     <!-- 根据自定义条件查询数据 -->

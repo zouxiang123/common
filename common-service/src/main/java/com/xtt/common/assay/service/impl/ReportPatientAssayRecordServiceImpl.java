@@ -38,6 +38,7 @@ import com.xtt.common.dao.po.PatientAssayConfPO;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayTempRecordPO;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
+import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
@@ -76,6 +77,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
             tempCondition.setStartDate(conf.getStartDate());
             tempCondition.setEndDate(conf.getEndDate());
             tempCondition.setItemCodes(itemCodes);
+            DataUtil.setAllSystemFieldValue(tempCondition);
             patientAssayTempRecordMapper.insertBatchByRecord(tempCondition);
         }
 
