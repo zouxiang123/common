@@ -418,6 +418,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                         PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
                                         parb.getDiaAbFlag(), parb.getFkTenantId());
                         if (inspectioidBack != null) {
+                            DataUtil.setAllSystemFieldValue(inspectioidBack);
                             inspectionIdBackList.add(inspectioidBack);
                             existsInspectionIds.add(parb.getInspectionId());
                         }

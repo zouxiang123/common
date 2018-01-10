@@ -148,8 +148,10 @@
   <!-- 批量插入临时表 -->
   <insert id="insertBatchByRecord" parameterType="com.xtt.common.dao.model.PatientAssayTempRecord">
   	INSERT INTO patient_assay_temp_record
-  	(fk_patient_id, item_code, item_name, result, result_tips, assay_date, fk_tenant_id, batch_no)
-	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result_actual, par.result_tips, DATE_FORMAT(par.assay_date,'%Y-%m-%d'), #{fkTenantId}, #{batchNo}
+  	(fk_patient_id, item_code, item_name, result, result_tips, assay_date, fk_tenant_id, batch_no, create_time, 
+      create_user_id, update_time, update_user_id)
+	SELECT par.fk_patient_id, par.item_code, par.item_name, par.result_actual, par.result_tips, DATE_FORMAT(par.assay_date,'%Y-%m-%d'),
+     #{fkTenantId}, #{batchNo}, #{createTime}, #{createUserId}, #{updateTime}, #{updateUserId}
 	FROM patient_assay_record_busi par
 	WHERE par.fk_tenant_id = #{fkTenantId}
 	AND par.result_actual IS NOT NULL

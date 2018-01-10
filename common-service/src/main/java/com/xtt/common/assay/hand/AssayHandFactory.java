@@ -182,6 +182,7 @@ public abstract class AssayHandFactory {
             PatientAssayInspectioidBack inspectioidBack = patientAssayRecordBusiService.getInspectioidBack(patientAssayRecordBusi.getInspectionId(),
                             patientAssayRecordBusi.getFkPatientId(), patientAssayRecordBusi.getDiaAbFlag(), patientAssayRecordBusi.getFkTenantId());
             if (inspectioidBack != null) {
+                DataUtil.setAllSystemFieldValue(inspectioidBack);
                 inspectioidBackList.add(inspectioidBack);
             }
             listPatientAssayRecordBusi.add(patientAssayRecordBusi);
