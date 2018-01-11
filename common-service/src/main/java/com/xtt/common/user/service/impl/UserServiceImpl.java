@@ -572,7 +572,8 @@ public class UserServiceImpl implements IUserService {
                     // refresh redis cache
                     UserUtil.setLoginUser(loginUser);
                 }
-                sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功", sysOwner);
+                String ipAddr = HttpServletUtil.getIpAddr(HttpServletUtil.getRequest());
+                sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2, "登陆成功" + " IP:" + ipAddr, sysOwner);
                 map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
                 map.put(CommonConstants.COOKIE_TOKEN, token);
             } else {

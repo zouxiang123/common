@@ -50,7 +50,9 @@ public class SysLogServiceImpl implements ISysLogService {
     }
 
     private void insertSysLog(String type, String logInfo, String sysOwner, boolean async) {
-        logInfo = UserUtil.getLoginUser().getName() + " " + UserUtil.getLoginUser().getPositionShow() + "：" + logInfo;
+        String position = UserUtil.getLoginUser().getPositionShow();
+        position = StringUtil.isBlank(position) ? "" : position;
+        logInfo = UserUtil.getLoginUser().getName() + " " + position + "：" + logInfo;
         if (StringUtils.isNotEmpty(logInfo) && logInfo.getBytes().length > 1024) {
             logInfo = logInfo.substring(0, 512);
         }
