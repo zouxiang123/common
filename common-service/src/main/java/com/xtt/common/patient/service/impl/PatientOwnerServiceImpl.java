@@ -40,10 +40,10 @@ public class PatientOwnerServiceImpl implements IPatientOwnerService {
             PatientOwner owner = list.get(0);
             owner.setIsEnable(record.getIsEnable());
             owner.setSysOwner(record.getSysOwner());
-            owner.setIsTemp(record.getIsTemp());
             DataUtil.setUpdateSystemFieldValue(owner);
             patientOwnerMapper.updateByPrimaryKey(owner);
         } else {
+            record.setIsTemp(true);
             record.setIsEnable(true);
             insert(record);
         }

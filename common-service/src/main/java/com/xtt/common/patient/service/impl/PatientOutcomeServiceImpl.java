@@ -94,14 +94,15 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
                 owner.setIsEnable(false);
             }
         }
-        if (Objects.equal("2", record.getType()) || Objects.equal("temporary", record.getPatientOutcomeType())) {
+        if (Objects.equal("temporary", record.getPatientOutcomeType())) {
             owner.setFkTenantId(record.getToTenantId());
             owner.setSysOwner(record.getToSysOwner());
             owner.setIsEnable(true);
         }
-        if (record.getFkTenantId().equals(record.getToTenantId())) {
+        if (Objects.equal("2", record.getType()) || record.getFkTenantId().equals(record.getToTenantId())) {
+            owner.setFkTenantId(record.getToTenantId());
             owner.setSysOwner(record.getToSysOwner());
-            owner.setIsEnable(true);
+            owner.setIsEnable(false);
         }
         patientOwnerService.updateOwner(owner);
     }
