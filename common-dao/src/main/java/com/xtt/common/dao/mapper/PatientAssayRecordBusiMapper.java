@@ -264,4 +264,14 @@ public interface PatientAssayRecordBusiMapper {
      */
     List<PatientAssayRecordBusi> getByNewestAssayRecordBusi(PatientAssayRecordBusi record);
 
+    /**
+     * 根据itemcode查询时间范围内的bun
+     * 
+     * @Title: listByItmeCode
+     * @param assayRecord
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord);
+
 }

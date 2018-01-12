@@ -49,4 +49,14 @@ public interface IPatientAssayRecordService {
      */
     List<Long> listPatientIds(String assayDate, Integer tenantId);
 
+    /**
+     * 获取最小的化验时间
+     * 
+     * @Title: getMinSampleTimeByCreateTime
+     * @param assayRecord
+     * @return
+     *
+     */
+    public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
+
 }

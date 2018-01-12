@@ -1053,4 +1053,22 @@
     AND group_id= #{groupId}
     order BY assay_date DESC LIMIT 1
   </select>
+  <!-- 根据itemcode查询时间范围内的bun -->
+  <select id="listByItmeCode" resultMap="POResultMap">
+    SELECT 
+        result,req_id,result_actual
+    FROM 
+        patient_assay_record_busi 
+    WHERE 
+        fk_patient_id = #{fkPatientId} 
+        AND fk_tenant_id = #{fkTenantId}
+        AND item_code = #{itemCode}
+        <if test="startDate != null">
+            AND sample_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND sample_time &lt;= #{endDate}
+        </if>
+          ORDER BY sample_time LIMIT 2
+  </select>
 </mapper>

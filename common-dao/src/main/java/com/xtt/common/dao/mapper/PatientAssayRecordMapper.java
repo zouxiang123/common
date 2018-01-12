@@ -78,7 +78,6 @@ public interface PatientAssayRecordMapper {
     List<PatientAssayRecordPO> listByCreateTime(@Param("startCreateTime") Date startCreateTime, @Param("endCreateTime") Date endCreateTime,
                     @Param("fkTenantId") Integer fkTenantId, @Param("fkPatientId") Long fkPatientId);
 
-
     /**
      * 根据患者id，报告时间查询患者化验数据
      *
@@ -98,13 +97,26 @@ public interface PatientAssayRecordMapper {
 
     /**
      * 根据当前参数 创建日期 ，患者ID获取患者原始化验结果数据
+     * 
      * @Title: selectPatientAssayRecordByCreateDate
-     * @param currentDate 创建日期
+     * @param currentDate
+     *            创建日期
      * @param tenantId
-     * @param patientId 患者ID
+     * @param patientId
+     *            患者ID
      * @return
      *
      */
-    List<PatientAssayRecord> selectPatientAssayRecordByCreateDate(@Param("currentDate") Date currentDate, @Param("tenantId") String tenantId,@Param("fkPatientId")Long patientId);
+    List<PatientAssayRecord> selectPatientAssayRecordByCreateDate(@Param("currentDate") Date currentDate, @Param("tenantId") String tenantId,
+                    @Param("fkPatientId") Long patientId);
 
+    /**
+     * 获取最小的化验时间
+     * 
+     * @Title: getMinSampleTimeByCreateTime
+     * @param assayRecord
+     * @return
+     *
+     */
+    Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
 }

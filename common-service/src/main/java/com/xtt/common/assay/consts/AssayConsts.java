@@ -24,11 +24,12 @@ public class AssayConsts {
     /** 透后 */
     public static final String AFTER_HD = "2";
 
-    /** 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;) */
+    /** 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;) 5:抽血特殊护理 最近两次BUN */
     public static final String LAB_AFTER_BEFORE_ONE = "1";
     public static final String LAB_AFTER_BEFORE_TWO = "2";
     public static final String LAB_AFTER_BEFORE_THREE = "3";
     public static final String LAB_AFTER_BEFORE_FOUR = "4";
+    public static final String LAB_AFTER_BEFORE_FIVE = "5";
 
     /** 正常 */
     public static final String TIPS_NORMAL = "1";
