@@ -87,6 +87,7 @@
                 if (param.fullScreen){//全屏弹框时，取内容区域最大高度
                     maxHeight = parseInt(dialog.find(".u-dialog-content").css("max-height").replace("px", "")) - 18;
                 }
+                $("#iframeDialogContentDiv").height(maxHeight);
                 dialog.find(".tab-index-item:first").click();
             });
         } else {
