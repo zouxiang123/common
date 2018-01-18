@@ -1056,19 +1056,19 @@
   <!-- 根据itemcode查询时间范围内的bun -->
   <select id="listByItmeCode" resultMap="POResultMap">
     SELECT 
-        result,req_id,result_actual
+        parb.result,parb.req_id,parb.result_actual
     FROM 
-        patient_assay_record_busi 
+        patient_assay_record_busi parb JOIN assay_hosp_dict ahd on parb.item_code = ahd.item_code and parb.fk_tenant_id = ahd.fk_tenant_id
     WHERE 
-        fk_patient_id = #{fkPatientId} 
-        AND fk_tenant_id = #{fkTenantId}
-        AND item_code = #{itemCode}
+        parb.fk_patient_id = #{fkPatientId} 
+        AND parb.fk_tenant_id = #{fkTenantId}
+        AND ahd.fk_dict_code = #{fkDictCode}
         <if test="startDate != null">
-            AND sample_time &gt;= #{startDate}
+            AND parb.sample_time &gt;= #{startDate}
         </if>
         <if test="endDate != null">
-            AND sample_time &lt;= #{endDate}
+            AND parb.sample_time &lt;= #{endDate}
         </if>
-          ORDER BY sample_time LIMIT 2
+          ORDER BY parb.sample_time LIMIT 2
   </select>
 </mapper>

@@ -31,7 +31,7 @@ public class AssayHandFive extends AssayHandFactory {
             List<Date> dateList = map.get(key);
             PatientAssayRecordBusiPO patientAssayRecord = new PatientAssayRecordBusiPO();
             patientAssayRecord.setFkPatientId(key);
-            patientAssayRecord.setItemCode("BUN");
+            patientAssayRecord.setFkDictCode("BUN");
             patientAssayRecord.setStartDate(dateList.get(0));
             patientAssayRecord.setEndDate(dateList.get(1));
             List<PatientAssayRecordBusiPO> patientAssayRecordList = patientAssayRecordBusiService.listByItmeCode(patientAssayRecord);
