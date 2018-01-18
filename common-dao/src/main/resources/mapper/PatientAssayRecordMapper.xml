@@ -558,7 +558,7 @@
       <!-- 获取最小的化验日期 -->
     <select id="getMinSampleTimeByCreateTime" resultType="java.util.Date">
         SELECT MIN(sample_time) 
-        FROM patient_assay_record_busi
+        FROM patient_assay_record
         WHERE
          fk_tenant_id = #{fkTenantId}
         <if test="startDate != null">
