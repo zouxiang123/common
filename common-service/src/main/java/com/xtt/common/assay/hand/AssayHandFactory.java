@@ -243,10 +243,9 @@ public abstract class AssayHandFactory {
     public Set<String> save(Date startCreateTime, Date endCreateTime, Long fkPatientId, Map<Long, List<Date>> mapPatientId) {
         List<PatientAssayRecordPO> listAssayRecord = listPatientAssayRecordByCreateTime(startCreateTime, endCreateTime, fkPatientId);
         Set<String> dateSet = null;
-        if (CollectionUtils.isEmpty(listAssayRecord)) {
-            return dateSet;
+        if (!CollectionUtils.isEmpty(listAssayRecord)) {
+            dateSet = insertAssayRecord(listAssayRecord);
         }
-        dateSet = insertAssayRecord(listAssayRecord);
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
         return dateSet;
     }
