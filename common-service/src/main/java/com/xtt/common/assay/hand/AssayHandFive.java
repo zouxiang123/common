@@ -38,12 +38,21 @@ public class AssayHandFive extends AssayHandFactory {
             if (patientAssayRecordList != null && patientAssayRecordList.size() == 2) {
                 PatientAssayRecordBusiPO startAssayRecord = patientAssayRecordList.get(0);
                 PatientAssayRecordBusiPO endAssayRecord = patientAssayRecordList.get(1);
+                // 第一条大于第二条时候 标记第二条化验的为透后
                 if (startAssayRecord.getResultActual() > endAssayRecord.getResultActual()) {
                     endAssayRecord.setDiaAbFlag(AssayConsts.AFTER_HD);
                     endAssayRecord.setFkPatientId(key);
                     endAssayRecord.setFkTenantId(UserUtil.getTenantId());
                     DataUtil.setUpdateSystemFieldValue(endAssayRecord);
                     updateRecordList.add(endAssayRecord);
+                }
+                // 第一条小于第二条时候标记第一条化验的为透后
+                if (startAssayRecord.getResultActual() < endAssayRecord.getResultActual()) {
+                    startAssayRecord.setDiaAbFlag(AssayConsts.AFTER_HD);
+                    startAssayRecord.setFkPatientId(key);
+                    startAssayRecord.setFkTenantId(UserUtil.getTenantId());
+                    DataUtil.setUpdateSystemFieldValue(startAssayRecord);
+                    updateRecordList.add(startAssayRecord);
                 }
             }
         }
