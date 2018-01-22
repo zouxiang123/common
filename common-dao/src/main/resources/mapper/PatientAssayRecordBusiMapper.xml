@@ -552,7 +552,7 @@
     <!-- 查询所有类别 -->
     <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
         select
-            req_id,group_name,sample_time,report_time,max(fk_patient_id) fk_patient_id
+            req_id,group_name,sample_time,report_time,max(fk_patient_id) fk_patient_id,assay_date
         from patient_assay_record_busi parb
         <where>
             <if test="fkPatientId != null">
@@ -589,7 +589,7 @@
                 <foreach collection="ids" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
         </where>
-        GROUP BY parb.req_id
+        GROUP BY parb.req_id,parb.assay_date
         ORDER BY parb.assay_date desc
     </select>
     <!-- 根据item_code 查询对应的化验项数据 -->

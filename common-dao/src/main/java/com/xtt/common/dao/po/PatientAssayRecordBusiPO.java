@@ -58,6 +58,7 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     // 集团下所有租户id
     private String groupTenant;
     private List<String> ids;// 所有id集合
+    private String assayDateStr;
 
     public String getGroupTenant() {
         return groupTenant;
@@ -272,4 +273,13 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     public void setIds(List<String> ids) {
         this.ids = ids;
     }
+
+    public String getAssayDateStr() {
+        return assayDateStr;
+    }
+
+    public void setAssayDateStr(String assayDateStr) {
+        this.assayDateStr = assayDateStr;
+    }
+
 }

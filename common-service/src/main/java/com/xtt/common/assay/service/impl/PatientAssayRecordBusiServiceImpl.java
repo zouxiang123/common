@@ -87,6 +87,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         for (PatientAssayRecordBusiPO patientAssayRecordBusi : listAssayRecordBusi) {
             patientAssayRecordBusi.setStrSampleTime(DateUtil.format(patientAssayRecordBusi.getSampleTime(), "yyyy-MM-dd HH:mm"));
             patientAssayRecordBusi.setStrReportTime(DateUtil.format(patientAssayRecordBusi.getReportTime(), "yyyy-MM-dd HH:mm"));
+            patientAssayRecordBusi.setAssayDateStr(DateFormatUtil.convertDateToStr(patientAssayRecordBusi.getAssayDate()));
         }
         return listAssayRecordBusi;
     }
