@@ -71,7 +71,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
         record.setGroupTenant(UserUtil.getGroupTenant());
-        return patientAssayRecordBusiMapper.listByCondition(record);
+        List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiMapper.listByCondition(record);
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.forEach(item -> {
+                item.setAssayDateStr(DateFormatUtil.convertDateToStr(item.getAssayDate()));
+            });
+        }
+        return list;
     }
 
     @Override

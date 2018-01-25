@@ -16,6 +16,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 
 import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.constants.AssayEnum;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
 import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
@@ -31,7 +32,7 @@ public class AssayHandFive extends AssayHandFactory {
             List<Date> dateList = map.get(key);
             PatientAssayRecordBusiPO patientAssayRecord = new PatientAssayRecordBusiPO();
             patientAssayRecord.setFkPatientId(key);
-            patientAssayRecord.setFkDictCode("BUN");
+            patientAssayRecord.setFkDictCode(AssayEnum.BUN.getValue());
             patientAssayRecord.setStartDate(dateList.get(0));
             patientAssayRecord.setEndDate(dateList.get(1));
             List<PatientAssayRecordBusiPO> patientAssayRecordList = patientAssayRecordBusiService.listByItmeCode(patientAssayRecord);

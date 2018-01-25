@@ -548,6 +548,9 @@
     <if test="inspectionId != null">
         AND inspection_id = #{inspectionId,jdbcType=VARCHAR}
     </if>
+    <if test="assayDate != null">
+        AND assay_date = DATE(#{assayDate,jdbcType=DATE})
+    </if>
   </update>
     <!-- 查询所有类别 -->
     <select id="listCategory" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
