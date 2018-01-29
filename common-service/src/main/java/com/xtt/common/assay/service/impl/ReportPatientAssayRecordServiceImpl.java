@@ -229,7 +229,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                     rpar.setFkPatientId(par.getFkPatientId());
                     rpar.setCreateTime(new Date());
                     rpar.setItemName(par.getItemName());
-                    rpar.setResult(par.getResult());
+                    rpar.setResult(par.getResultActual() == null ? par.getResult() : par.getResultActual().toString());
                     rpar.setResultTips(par.getResultTips());
                     rpar.setAssaySeason(currentSeason);
                     rpar.setAssayYear(String.valueOf(year));
@@ -240,7 +240,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                 }
 
                 rpar.setItemName(par.getItemName());
-                rpar.setResult(par.getResult());
+                rpar.setResult(par.getResultActual() == null ? par.getResult() : par.getResultActual().toString());
                 rpar.setResultTips(par.getResultTips());
                 rpar.setAssaySeason(currentSeason);
                 rpar.setAssayYear(String.valueOf(year));
