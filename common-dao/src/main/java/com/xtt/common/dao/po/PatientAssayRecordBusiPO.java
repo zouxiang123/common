@@ -31,14 +31,15 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String strEndDate;
     private String dateType;
     private String fkDictCode;// 关联项编号
+    private Float scalingFactor;// 换算系数
+    private String fkDictName;// 关联名称
+    private Double scalingResult;// 换算过的结果
 
     private Collection<String> fkDictCodes;
     // 采集时间字符串
     private String strSampleTime;
     // 报告时间字符串
     private String strReportTime;
-
-    private String reference; // 化验参考值
 
     private String[] multResultTips;
     /**
@@ -114,16 +115,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setStrReportTime(String strReportTime) {
         this.strReportTime = strReportTime;
-    }
-
-    @Override
-    public String getReference() {
-        return reference;
-    }
-
-    @Override
-    public void setReference(String reference) {
-        this.reference = reference;
     }
 
     public String getPatientName() {
@@ -280,6 +271,30 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setAssayDateStr(String assayDateStr) {
         this.assayDateStr = assayDateStr;
+    }
+
+    public Float getScalingFactor() {
+        return scalingFactor;
+    }
+
+    public void setScalingFactor(Float scalingFactor) {
+        this.scalingFactor = scalingFactor;
+    }
+
+    public String getFkDictName() {
+        return fkDictName;
+    }
+
+    public void setFkDictName(String fkDictName) {
+        this.fkDictName = fkDictName;
+    }
+
+    public Double getScalingResult() {
+        return scalingResult;
+    }
+
+    public void setScalingResult(Double scalingResult) {
+        this.scalingResult = scalingResult;
     }
 
 }

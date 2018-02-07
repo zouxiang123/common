@@ -8,10 +8,8 @@
  */
 package com.xtt.common.assay.hand;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -26,28 +24,22 @@ import org.slf4j.LoggerFactory;
 
 import com.xtt.common.assay.consts.AssayConsts;
 import com.xtt.common.assay.service.IAssayFilterRuleService;
-import com.xtt.common.assay.service.IAssayHospDictGroupMappingService;
-import com.xtt.common.assay.service.IAssayHospDictGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayInspectioidBackService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.assay.service.impl.AssayFilterRuleServiceImpl;
-import com.xtt.common.assay.service.impl.AssayHospDictGroupMappingServiceImpl;
-import com.xtt.common.assay.service.impl.AssayHospDictGroupServiceImpl;
 import com.xtt.common.assay.service.impl.AssayHospDictServiceImpl;
 import com.xtt.common.assay.service.impl.PatientAssayInspectioidBackServiceImpl;
 import com.xtt.common.assay.service.impl.PatientAssayRecordBusiServiceImpl;
 import com.xtt.common.assay.service.impl.PatientAssayRecordServiceImpl;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.AssayFilterRule;
-import com.xtt.common.dao.model.AssayHospDict;
-import com.xtt.common.dao.model.AssayHospDictGroup;
-import com.xtt.common.dao.model.AssayHospDictGroupMapping;
 import com.xtt.common.dao.model.PatientAssayInspectioidBack;
 import com.xtt.common.dao.model.PatientAssayRecordBusi;
+import com.xtt.common.dao.po.AssayHospDictPO;
+import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
-import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.PrimaryKeyUtil;
@@ -65,12 +57,6 @@ public abstract class AssayHandFactory {
 
     protected IAssayHospDictService assayHospDictService = SpringUtil
                     .getBean(StringUtil.firstToLowerCase(AssayHospDictServiceImpl.class.getSimpleName()), IAssayHospDictService.class);
-
-    protected IAssayHospDictGroupService assayHospDictGroupService = SpringUtil
-                    .getBean(StringUtil.firstToLowerCase(AssayHospDictGroupServiceImpl.class.getSimpleName()), IAssayHospDictGroupService.class);
-
-    protected IAssayHospDictGroupMappingService assayHospDictGroupMappingService = SpringUtil.getBean(
-                    StringUtil.firstToLowerCase(AssayHospDictGroupMappingServiceImpl.class.getSimpleName()), IAssayHospDictGroupMappingService.class);
 
     protected IPatientAssayInspectioidBackService patientAssayInspectioidBackService = SpringUtil.getBean(
                     StringUtil.firstToLowerCase(PatientAssayInspectioidBackServiceImpl.class.getSimpleName()),
@@ -123,7 +109,6 @@ public abstract class AssayHandFactory {
         int i = 1;
         List<PatientAssayInspectioidBack> inspectioidBackList = new ArrayList<>();
         AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
-        Map<String, PatientAssayRecordPO> assayHospDictMap = new HashMap<>();
         Set<String> existsInspectionId = new HashSet<>(listPatientAssayRecord.size());
         // 数据来源表查询到的有效的数据日期
         Set<String> dateSet = new TreeSet<>();
@@ -161,10 +146,6 @@ public abstract class AssayHandFactory {
                 continue;
             }
             existsInspectionId.add(patientAssayRecord.getInspectionId());
-            String assayDictKey = patientAssayRecord.getItemCode() + "_" + patientAssayRecord.getGroupId();
-            if (!assayHospDictMap.containsKey(assayDictKey)) {
-                assayHospDictMap.put(assayDictKey, patientAssayRecord);
-            }
             patientAssayRecordBusi = new PatientAssayRecordBusi();
             BeanUtil.copyProperties(patientAssayRecord, patientAssayRecordBusi);
             // create time 取原始数据的create_time,以免后续查询获取不到数据
@@ -182,7 +163,6 @@ public abstract class AssayHandFactory {
             PatientAssayInspectioidBack inspectioidBack = patientAssayRecordBusiService.getInspectioidBack(patientAssayRecordBusi.getInspectionId(),
                             patientAssayRecordBusi.getFkPatientId(), patientAssayRecordBusi.getDiaAbFlag(), patientAssayRecordBusi.getFkTenantId());
             if (inspectioidBack != null) {
-                DataUtil.setAllSystemFieldValue(inspectioidBack);
                 inspectioidBackList.add(inspectioidBack);
             }
             listPatientAssayRecordBusi.add(patientAssayRecordBusi);
@@ -199,10 +179,6 @@ public abstract class AssayHandFactory {
         }
         if (listPatientAssayRecordBusi.size() != 0) {
             patientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
-        }
-        // 插入字典表数据
-        if (assayHospDictMap.size() > 0) {
-            insertAssayHospDict(assayHospDictMap);
         }
         listPatientAssayRecord = null;
         return dateSet;
@@ -247,7 +223,41 @@ public abstract class AssayHandFactory {
             dateSet = insertAssayRecord(listAssayRecord);
         }
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
+        // 更新透后数据的itemCode
+        handAfterItemCode(startCreateTime, endCreateTime, fkPatientId);
         return dateSet;
+    }
+
+    /**
+     * 更新透后数据的itemCode
+     * 
+     * @Title: handAfterItemCode
+     * @param startCreateTime
+     * @param endCreateTime
+     * @param fkPatientId
+     *
+     */
+    private void handAfterItemCode(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
+        PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+        query.setFkPatientId(fkPatientId);
+        query.setCreateTime(startCreateTime);
+        query.setEndCreateTime(endCreateTime);
+        query.setDiaAbFlag(AssayConsts.AFTER_HD);
+        List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiService.listByCondition(query);
+        if (CollectionUtils.isNotEmpty(list)) {
+            list.forEach(par -> {
+                par.setItemName(par.getItemName().concat(AssayConsts.AFTER_HD_SUFFIX_NAME));
+                par.setItemCode(par.getItemCode().concat(AssayConsts.AFTER_HD_SUFFIX));
+                // 更新透后标识
+                PatientAssayRecordBusiPO update = new PatientAssayRecordBusiPO();
+                update.setId(par.getId());
+                update.setItemName(par.getItemName());
+                update.setItemCode(par.getItemCode());
+                patientAssayRecordBusiService.updateByIdSelective(update);
+            });
+            // 插入透后字典数据
+            insertAssayHospDict(list, true);
+        }
     }
 
     /**
@@ -337,78 +347,31 @@ public abstract class AssayHandFactory {
     }
 
     /**
-     * 维护字典表
+     * 插入字典表数据
      * 
      * @Title: insertAssayHospDict
-     * @param assayHospDictMap
+     * @param list
+     * @param isPost
+     *            是否透后
      *
      */
-    public void insertAssayHospDict(Map<String, PatientAssayRecordPO> assayHospDictMap) {
-        // 固定输出数据
-        Date currDate = new Date();
-        Set<String> itemCodeSet = new HashSet<>(assayHospDictMap.size());
-        Set<String> groupIdSet = new HashSet<>(assayHospDictMap.size());
-        assayHospDictMap.forEach((key, par) -> {
-            String itemCode = par.getItemCode();
-            String groupId = par.getGroupId();
-            Integer tenantId = UserUtil.getTenantId();
-            if (assayHospDictService.getCountByItemCode(itemCode) == 0 && !itemCodeSet.contains(itemCode)) {
-                AssayHospDict assayHospDict = new AssayHospDict();
-                BeanUtil.copyProperties(par, assayHospDict);
-                BigDecimal valueMax = par.getValueMax();// 最大值
-                BigDecimal valueMin = par.getValueMin();// 最小值
-                if (valueMax != null) {
-                    assayHospDict.setMaxValue(valueMax);
-                    assayHospDict.setPersonalMaxValue(valueMax);
-                }
-                if (valueMin != null) {
-                    assayHospDict.setMinValue(valueMin);
-                    assayHospDict.setPersonalMinValue(valueMin);
-                }
-
-                String result = par.getResult();
-                if (StringUtil.isNumber(result)) {
-                    assayHospDict.setValueType(1);
-                    assayHospDict.setDateType("n");
-                } else {
-                    assayHospDict.setValueType(2);
-                    assayHospDict.setDateType("s");
-                }
-                assayHospDict.setIsAuto(true);
-                assayHospDict.setUnit(par.getValueUnit());
-                assayHospDict.setCreateTime(currDate);
-                assayHospDict.setUpdateTime(currDate);
-                assayHospDict.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayHospDict.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                DataUtil.setSystemFieldValue(assayHospDict);
-                assayHospDictService.insert(assayHospDict);
-                itemCodeSet.add(itemCode);
-            }
-            if (assayHospDictGroupService.getCountByGroupId(groupId) == 0 && !groupIdSet.contains(groupId)) {
-                AssayHospDictGroup assayHospDictGroup = new AssayHospDictGroup();
-                assayHospDictGroup.setGroupId(par.getGroupId());
-                assayHospDictGroup.setGroupName(par.getGroupName());
-                assayHospDictGroup.setFkTenantId(tenantId);
-                assayHospDictGroup.setIsAuto(true);
-                assayHospDictGroup.setCreateTime(currDate);
-                assayHospDictGroup.setUpdateTime(currDate);
-                assayHospDictGroup.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayHospDictGroup.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayHospDictGroupService.insert(assayHospDictGroup);
-                groupIdSet.add(groupId);
-            }
-            if (assayHospDictGroupMappingService.getCountByGroupId(groupId, itemCode) == 0) {
-                AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
-                assayHospDictGroupMapping.setFkItemCode(itemCode);
-                assayHospDictGroupMapping.setFkGroupId(groupId);
-                assayHospDictGroupMapping.setFkTenantId(tenantId);
-                assayHospDictGroupMapping.setCreateTime(currDate);
-                assayHospDictGroupMapping.setUpdateTime(currDate);
-                assayHospDictGroupMapping.setCreateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayHospDictGroupMapping.setUpdateUserId(CommonConstants.SYSTEM_USER_ID);
-                assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
-            }
+    public void insertAssayHospDict(List<PatientAssayRecordBusiPO> list, boolean isPost) {
+        List<AssayHospDictPO> dictList = new ArrayList<>(list.size());
+        list.forEach(par -> {
+            AssayHospDictPO dict = new AssayHospDictPO();
+            dict.setGroupId(par.getGroupId());
+            dict.setGroupName(par.getGroupName());
+            dict.setItemCode(par.getItemCode());
+            dict.setItemName(par.getItemName());
+            dict.setValueType(par.getValueType());
+            dict.setMinValue(par.getMinValue());
+            dict.setMaxValue(par.getMaxValue());
+            dict.setUnit(par.getValueUnit());
+            dict.setScalingFactor(par.getScalingFactor());
+            dict.setFkTenantId(par.getFkTenantId());
+            dictList.add(dict);
         });
+        assayHospDictService.insertList(dictList);
     }
 
 }

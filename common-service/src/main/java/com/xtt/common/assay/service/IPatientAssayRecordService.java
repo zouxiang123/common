@@ -59,4 +59,16 @@ public interface IPatientAssayRecordService {
      */
     public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
 
+    /**
+     * 获取字典列表
+     * 
+     * @Title: listDict
+     * @param tenantId
+     * @param startCreateTime
+     * @param endCreateTIme
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTIme);
+
 }

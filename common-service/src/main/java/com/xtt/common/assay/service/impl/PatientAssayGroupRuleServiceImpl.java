@@ -2,16 +2,14 @@ package com.xtt.common.assay.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayGroupRuleService;
 import com.xtt.common.dao.mapper.PatientAssayGroupRuleMapper;
@@ -27,30 +25,37 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
     @Autowired
     private PatientAssayGroupRuleMapper patientAssayGroupRuleMapper;
     @Autowired
-    private IAssayGroupService assayGroupService;
-    @Autowired
     private IAssayHospDictService assayHospDictService;
 
     /**
      * 添加化验检查分组
      */
     @Override
-    public void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, AssayHospDictPO assayHospDict) {
+    public void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, AssayHospDictPO assayHospDict) {
+        if (CollectionUtils.isNotEmpty(ruleList)) {// 过滤minValue 为null的值
+            ruleList = ruleList.stream().filter(rule -> rule.getMinValue() != null).collect(Collectors.toList());
+            // 排序
+            ruleList.sort((o1, o2) -> {
+                return o1.getMinValue().compareTo(o2.getMinValue());
+            });
+        }
         // 租户ID
         Integer tenantId = UserUtil.getTenantId();
         // 用户ID
         Long userId = UserUtil.getLoginUserId();
-        Set<String> itemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        List<String> itemCodes = assayHospDictService.listSimilarItemCode(assayHospDict.getItemCode(), tenantId);
         if (CollectionUtils.isEmpty(itemCodes)) {
-            itemCodes = new HashSet<>(1);
-            itemCodes.add(itemCode);
+            itemCodes = new ArrayList<>(1);
+            itemCodes.add(assayHospDict.getItemCode());
         }
         // 同步分组规则到同类组中的其它itemCode
         for (String code : itemCodes) {
             // 删除patientAssayGroupRule的itemCode 的值
             deleteByItemCode(code);
             // 添加patientAssayGroupRule
-            insertGroupRule(ruleList, code, tenantId, userId);
+            if (CollectionUtils.isNotEmpty(ruleList)) {
+                insertGroupRule(ruleList, code, tenantId, userId);
+            }
             AssayHospDictPO dict = assayHospDictService.getByItemCode(code);
             if (dict != null) {
                 AssayHospDictPO dictRecord = assayHospDict;// 当前更新的项目
@@ -77,41 +82,17 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
      *
      */
     private void insertGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, Integer tenantid, Long userid) {
-        for (int i = 1; i < ruleList.size(); i++) {
-            if (ruleList.get(i).getMinValue() == null) {
-                continue;
-            }
+        for (int i = 0; i < ruleList.size(); i++) {
             PatientAssayGroupRule po = ruleList.get(i);
-            // 封装 :创建人创建时间，更改人，更改时间
-            DataUtil.setSystemFieldValue(po);
             po.setId(null);
-            po.setFkTenantId(tenantid);
             po.setItemCode(itemCode);
-            po.setMaxValue(0.f);
-            po.setOperatorId((long) 1);
             po.setRule(1);
+            // 如果是最后一条，maxValue为本身
+            po.setMaxValue(i == ruleList.size() - 1 ? po.getMinValue() : ruleList.get(i + 1).getMinValue());
+            po.setOperatorId(userid);
+            po.setFkTenantId(tenantid);
+            DataUtil.setSystemFieldValue(po);
             patientAssayGroupRuleMapper.insertSelective(po);
-        }
-
-        // 获得最小值，设置最大值
-        List<PatientAssayGroupRulePO> PatientAssayGroupRulePOList = this.selectByItemCode(itemCode);
-
-        // 循环得到最小值集合
-        List<Float> getMinValueList = new ArrayList<Float>();
-        for (int i = 0; i < PatientAssayGroupRulePOList.size(); i++) {
-            getMinValueList.add(PatientAssayGroupRulePOList.get(i).getMinValue());
-        }
-
-        for (int i = 0; i < PatientAssayGroupRulePOList.size(); i++) {
-            // 最后 一条数据的最大值就是本身
-            if (i == PatientAssayGroupRulePOList.size() - 1) {
-                PatientAssayGroupRulePOList.get(i).setMaxValue(PatientAssayGroupRulePOList.get(i).getMinValue());
-                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
-            } else {
-                // 设置每条数据的最大值
-                PatientAssayGroupRulePOList.get(i).setMaxValue(getMinValueList.get(i + 1));
-                patientAssayGroupRuleMapper.updateByPrimaryKeySelective(PatientAssayGroupRulePOList.get(i));
-            }
         }
     }
 
@@ -231,5 +212,10 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
     @Override
     public void deleteByItemCode(String itemCode) {
         patientAssayGroupRuleMapper.deleteByItemCode(itemCode, UserUtil.getTenantId());
+    }
+
+    @Override
+    public List<PatientAssayGroupRulePO> listByItemCode(String itemCode) {
+        return patientAssayGroupRuleMapper.selectByItemCode(itemCode, UserUtil.getTenantId());
     }
 }

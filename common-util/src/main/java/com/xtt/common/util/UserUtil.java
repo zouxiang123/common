@@ -182,7 +182,11 @@ public class UserUtil {
      * 
      */
     public static Integer getTenantId() {
-        return UserUtilContext.getLoginUser().getTenantId();
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user != null) {
+            return user.getTenantId();
+        }
+        return null;
     }
 
     /**

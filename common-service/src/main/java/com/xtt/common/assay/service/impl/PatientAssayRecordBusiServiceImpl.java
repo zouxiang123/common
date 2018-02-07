@@ -34,7 +34,6 @@ import com.xtt.common.assay.hand.AssayHandOne;
 import com.xtt.common.assay.hand.AssayHandThree;
 import com.xtt.common.assay.hand.AssayHandTwo;
 import com.xtt.common.assay.service.IAssayFilterRuleService;
-import com.xtt.common.assay.service.IAssayGroupService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayInspectioidBackService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
@@ -62,15 +61,15 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private IAssayHospDictService assayHospDictService;
-    @Autowired
-    private IAssayGroupService assayGroupService;
 
     @Autowired
     private IPatientAssayInspectioidBackService patientAssayInspectioidBackService;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
-        record.setGroupTenant(UserUtil.getGroupTenant());
+        if (record.getFkTenantId() == null) {
+            record.setGroupTenant(UserUtil.getGroupTenant());
+        }
         List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiMapper.listByCondition(record);
         if (CollectionUtils.isNotEmpty(list)) {
             list.forEach(item -> {
@@ -100,7 +99,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<Map<String, Object>> listReportData(Long fkPatientId, Date startDate, Date endDate, String itemCode) {
-        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        List<String> groupItemCodes = assayHospDictService.listSimilarItemCode(itemCode, UserUtil.getTenantId());
         if (CollectionUtils.isNotEmpty(groupItemCodes)) {
             itemCode = null;
         }
@@ -140,7 +139,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Override
     public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode) {
-        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+        List<String> groupItemCodes = assayHospDictService.listSimilarItemCode(itemCode, UserUtil.getTenantId());
         if (CollectionUtils.isNotEmpty(groupItemCodes)) {
             itemCode = null;
         }
@@ -429,7 +428,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
                         PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(parb.getInspectionId(), parb.getFkPatientId(),
                                         parb.getDiaAbFlag(), parb.getFkTenantId());
                         if (inspectioidBack != null) {
-                            DataUtil.setAllSystemFieldValue(inspectioidBack);
                             inspectionIdBackList.add(inspectioidBack);
                             existsInspectionIds.add(parb.getInspectionId());
                         }
@@ -465,6 +463,7 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             record.setFkPatientId(patientId);
             record.setDiaAbFlag(diaAbFlag);
             record.setFkTenantId(tenantId);
+            DataUtil.setAllSystemFieldValue(record);
             return record;
         }
         return null;
@@ -473,22 +472,69 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public void updateHandDiaAbFlag(PatientAssayRecordBusi assayRecord) {
         assayRecord.setFkTenantId(UserUtil.getTenantId());
-        if (Objects.equals(assayRecord.getDiaAbFlag(), AssayConsts.BEFORE_HD)) {
-            this.updateDiaAbFlagByReqId(assayRecord);
-            PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
-            BeanUtil.copyProperties(assayRecord, query);
-            List<PatientAssayRecordBusiPO> updateList = this.listByCondition(query);
-            if (CollectionUtils.isNotEmpty(updateList)) {
-                for (PatientAssayRecordBusiPO assayRecordBusiPO : updateList) {
-                    patientAssayInspectioidBackService.deleteByInspectionId(assayRecordBusiPO.getInspectionId(), assayRecordBusiPO.getFkPatientId(),
-                                    assayRecordBusiPO.getFkTenantId());
+        PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
+        BeanUtil.copyProperties(assayRecord, query);
+        query.setDiaAbFlag(null);// 查询时不带透后标识
+        List<PatientAssayRecordBusiPO> updateList = this.listByCondition(query);
+        Boolean beforeHd = !Objects.equals(assayRecord.getDiaAbFlag(), AssayConsts.AFTER_HD);
+        if (CollectionUtils.isNotEmpty(updateList)) {
+            List<AssayHospDictPO> dictList = new ArrayList<>();
+            for (PatientAssayRecordBusiPO old : updateList) {// 将透后改成透前，删除自动生成的透后标识
+                if (Objects.equals(old.getDiaAbFlag(), assayRecord.getDiaAbFlag())) {// 如果当前项目的标识和需要变更的标识一致，则不做处理
+                    continue;
+                }
+                String newCode = old.getItemCode();
+                String newName = old.getItemName();
+                int codeIndex = newCode.lastIndexOf(AssayConsts.AFTER_HD_SUFFIX);
+                int nameIndex = newName.lastIndexOf(AssayConsts.AFTER_HD_SUFFIX_NAME);
+                if (beforeHd) {// 删除透后标识
+                    if (codeIndex > -1) {
+                        newCode = newCode.substring(0, codeIndex);
+                    }
+                    if (nameIndex > -1) {
+                        newName = newName.substring(0, nameIndex);
+                    }
+                } else {// 添加透后标识后缀
+                    if (codeIndex == -1) {
+                        newCode = newCode.concat(AssayConsts.AFTER_HD_SUFFIX);
+                    }
+                    if (nameIndex == -1) {
+                        newName = newName.concat(AssayConsts.AFTER_HD_SUFFIX_NAME);
+                    }
+                    // 如果是透前变成透后，添加对应的字典数据
+                    AssayHospDictPO dict = new AssayHospDictPO();
+                    dict.setGroupId(old.getGroupId());
+                    dict.setGroupName(old.getGroupName());
+                    dict.setItemCode(newCode);
+                    dict.setItemName(newName);
+                    dict.setValueType(old.getValueType());
+                    dict.setMinValue(old.getMinValue());
+                    dict.setMaxValue(old.getMaxValue());
+                    dict.setUnit(old.getValueUnit());
+                    dict.setScalingFactor(old.getScalingFactor());
+                    dict.setFkTenantId(old.getFkTenantId());
+                    dictList.add(dict);
+                }
+                PatientAssayRecordBusi updateRecord = new PatientAssayRecordBusi();
+                updateRecord.setId(old.getId());
+                updateRecord.setItemCode(newCode);
+                updateRecord.setItemName(newName);
+                updateRecord.setDiaAbFlag(assayRecord.getDiaAbFlag());
+                patientAssayRecordBusiMapper.updateByPrimaryKeySelective(updateRecord);
+                if (beforeHd) {// 如果是更新为透前，删除透后备份表数据
+                    patientAssayInspectioidBackService.deleteByInspectionId(old.getInspectionId(), old.getFkPatientId(), old.getFkTenantId());
+                } else {
+                    PatientAssayInspectioidBack inspectioidBack = getInspectioidBack(old.getInspectionId(), old.getFkPatientId(),
+                                    assayRecord.getDiaAbFlag(), old.getFkTenantId());
+                    if (inspectioidBack != null) {
+                        patientAssayInspectioidBackService.insert(inspectioidBack);
+                    }
                 }
             }
-            // 透前更新为透后
-        } else {
-            List<PatientAssayRecordBusi> assayRecordList = new ArrayList<>();
-            assayRecordList.add(assayRecord);
-            updateDiaAbFlagByReqId(assayRecordList);
+            // 如果是透前变成透后，添加对应的字典数据
+            if (dictList.size() > 0) {
+                assayHospDictService.insertList(dictList);
+            }
         }
     }
 
@@ -500,4 +546,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         return patientAssayRecordBusiMapper.listByItmeCode(assayRecord);
     }
 
+    @Override
+    public void updateByIdSelective(PatientAssayRecordBusiPO record) {
+        patientAssayRecordBusiMapper.updateByPrimaryKeySelective(record);
+    }
 }

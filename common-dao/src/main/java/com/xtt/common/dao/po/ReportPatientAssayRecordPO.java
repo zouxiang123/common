@@ -9,13 +9,13 @@
 package com.xtt.common.dao.po;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import com.xtt.common.dao.model.ReportPatientAssayRecord;
 
 public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private String sqlCondition;// 组装的sql条件
-    private String dateType;// r日期类型。月和季度
     private Double minValue;// 最小值
     private Double maxValue;// 最大值
 
@@ -43,7 +43,6 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private String okShow;// 显示达标状态
     private Integer groupIndex;// -1：全部，其余和分组规则匹配
     private String groupShow;// 分组值
-    private String batchNo;// 批次号
     private Long patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
     private Collection<String> itemCodes;// 多个itemCode编号
@@ -52,6 +51,8 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private String endDate;// 结束日期
     /** 结果值类型（查询用）：newest:最新、max:最大、min:最小、avg:平均 */
     private String resultType;
+    private Date startTime;
+    private Date endTime;
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -59,16 +60,6 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
 
     public void setSqlCondition(String sqlCondition) {
         this.sqlCondition = sqlCondition;
-    }
-
-    @Override
-    public String getDateType() {
-        return dateType;
-    }
-
-    @Override
-    public void setDateType(String dateType) {
-        this.dateType = dateType;
     }
 
     public Integer getAllCount() {
@@ -239,14 +230,6 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
         this.groupShow = groupShow;
     }
 
-    public String getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(String batchNo) {
-        this.batchNo = batchNo;
-    }
-
     public Long getPatientLabelId() {
         return patientLabelId;
     }
@@ -295,12 +278,28 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
         this.resultType = resultType;
     }
 
-	public Integer getWithoutCount() {
-		return withoutCount;
-	}
+    public Integer getWithoutCount() {
+        return withoutCount;
+    }
 
-	public void setWithoutCount(Integer withoutCount) {
-		this.withoutCount = withoutCount;
-	}
+    public void setWithoutCount(Integer withoutCount) {
+        this.withoutCount = withoutCount;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
 
 }

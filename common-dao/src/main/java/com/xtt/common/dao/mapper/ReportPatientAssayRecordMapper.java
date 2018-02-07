@@ -64,15 +64,6 @@ public interface ReportPatientAssayRecordMapper {
     void insertBatchByMonth(ReportPatientAssayRecord record);
 
     /**
-     * 批量插入季度的化验统计数据
-     * 
-     * @Title: insertBatchBySeason
-     * @param record
-     * 
-     */
-    void insertBatchBySeason(ReportPatientAssayRecord record);
-
-    /**
      * 根据日期类型分组查询化验统计
      * 
      * @Title: selectByDateType

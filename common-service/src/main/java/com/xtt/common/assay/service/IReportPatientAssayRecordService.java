@@ -26,7 +26,7 @@ public interface IReportPatientAssayRecordService {
      * @param itemCodes
      * 
      */
-    String insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId, Collection<String> itemCodes);
+    void insertAutoByTenantId(String dateType, String monthAndYear, Integer tenantId, Collection<String> itemCodes);
 
     /**
      * 根据租户ID，保存化验项统计 1、当前月不存在数据，自动复制上月数据 2、如果存在，自动获取所有最新数据覆盖
@@ -100,15 +100,6 @@ public interface IReportPatientAssayRecordService {
      * 
      */
     void deleteByCondition(ReportPatientAssayRecord record);
-
-    /**
-     * 根据批次号删除临时数据
-     * 
-     * @Title: deleteTempByBatchNo
-     * @param batchNo
-     *
-     */
-    void deleteTempByBatchNo(String batchNo);
 
     /**
      * 根据日期分组查询阶段统计

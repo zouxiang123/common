@@ -13,47 +13,68 @@ public class AssayHospDict {
     private Long id;
 
     /**
-     * 项目编码 assay_hosp_dict.item_code
+     * 项目编码
+     * assay_hosp_dict.item_code
      */
     private String itemCode;
 
     /**
-     * 项目名称 assay_hosp_dict.item_name
+     * 项目名称
+     * assay_hosp_dict.item_name
      */
     private String itemName;
 
     /**
-     * 最小值 assay_hosp_dict.min_value
+     * 最小值
+     * assay_hosp_dict.min_value
      */
     private BigDecimal minValue;
 
     /**
-     * 最大值 assay_hosp_dict.max_value
+     * 最大值
+     * assay_hosp_dict.max_value
      */
     private BigDecimal maxValue;
 
     /**
-     * 单位 assay_hosp_dict.unit
+     * 单位
+     * assay_hosp_dict.unit
      */
     private String unit;
 
     /**
-     * 参照 assay_hosp_dict.reference
+     * 参照
+     * assay_hosp_dict.reference
      */
     private String reference;
 
     /**
-     * 排序 assay_hosp_dict.order_by
+     * 排序
+     * assay_hosp_dict.order_by
      */
     private Integer orderBy;
 
     /**
-     * 患者化验单字典表外键 assay_hosp_dict.fk_dict_code
+     * 患者化验单字典表外键
+     * assay_hosp_dict.fk_dict_code
      */
     private String fkDictCode;
 
     /**
-     * 1、数值，2、文本 assay_hosp_dict.value_type
+     * 字典表对应的名称
+     * assay_hosp_dict.fk_dict_name
+     */
+    private String fkDictName;
+
+    /**
+     * 关联字典的唯一标识（fk_dict_code+_993cd993）
+     * assay_hosp_dict.fk_dict_uk
+     */
+    private String fkDictUk;
+
+    /**
+     * 1、数值，2、文本
+     * assay_hosp_dict.value_type
      */
     private Integer valueType;
 
@@ -78,37 +99,50 @@ public class AssayHospDict {
     private BigDecimal personalMaxValue;
 
     /**
-     * 是否自动生成标识(0:否;1:是) assay_hosp_dict.is_auto
+     * 换算系数
+     * assay_hosp_dict.scaling_factor
+     */
+    private Float scalingFactor;
+
+    /**
+     * 是否自动生成标识(0:否;1:是)
+     * assay_hosp_dict.is_auto
      */
     private Boolean isAuto;
 
     /**
-     * 租户id assay_hosp_dict.fk_tenant_id
+     * 租户id
+     * assay_hosp_dict.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 创建时间 assay_hosp_dict.create_time
+     * 创建时间
+     * assay_hosp_dict.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人 assay_hosp_dict.create_user_id
+     * 创建人
+     * assay_hosp_dict.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 修改时间 assay_hosp_dict.update_time
+     * 修改时间
+     * assay_hosp_dict.update_time
      */
     private Date updateTime;
 
     /**
-     * 修改人 assay_hosp_dict.update_user_id
+     * 修改人
+     * assay_hosp_dict.update_user_id
      */
     private Long updateUserId;
 
     /**
-     * 测试方法 assay_hosp_dict.method
+     * 测试方法
+     * assay_hosp_dict.method
      */
     private String method;
 
@@ -237,6 +271,34 @@ public class AssayHospDict {
     }
 
     /**
+     * 字典表对应的名称
+     */
+    public String getFkDictName() {
+        return fkDictName;
+    }
+
+    /**
+     * 字典表对应的名称
+     */
+    public void setFkDictName(String fkDictName) {
+        this.fkDictName = fkDictName;
+    }
+
+    /**
+     * 关联字典的唯一标识（fk_dict_code+_993cd993）
+     */
+    public String getFkDictUk() {
+        return fkDictUk;
+    }
+
+    /**
+     * 关联字典的唯一标识（fk_dict_code+_993cd993）
+     */
+    public void setFkDictUk(String fkDictUk) {
+        this.fkDictUk = fkDictUk;
+    }
+
+    /**
      * 1、数值，2、文本
      */
     public Integer getValueType() {
@@ -296,6 +358,20 @@ public class AssayHospDict {
      */
     public void setPersonalMaxValue(BigDecimal personalMaxValue) {
         this.personalMaxValue = personalMaxValue;
+    }
+
+    /**
+     * 换算系数
+     */
+    public Float getScalingFactor() {
+        return scalingFactor;
+    }
+
+    /**
+     * 换算系数
+     */
+    public void setScalingFactor(Float scalingFactor) {
+        this.scalingFactor = scalingFactor;
     }
 
     /**

@@ -57,4 +57,9 @@ public class PatientAssayInspectioidBackServiceImpl implements IPatientAssayInsp
         patientAssayInspectioidBackMapper.deleteByInspectionId(inspectionId, fkPatientId, fkTenantId);
 
     }
+
+    @Override
+    public void insert(PatientAssayInspectioidBack record) {
+        patientAssayInspectioidBackMapper.insert(record);
+    }
 }

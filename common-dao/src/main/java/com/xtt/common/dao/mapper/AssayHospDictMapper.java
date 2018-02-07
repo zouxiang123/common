@@ -1,12 +1,10 @@
 package com.xtt.common.dao.mapper;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.AssayHospDict;
 import com.xtt.common.dao.po.AssayHospDictPO;
 
@@ -117,36 +115,6 @@ public interface AssayHospDictMapper {
     AssayHospDictPO getByItemCode(@Param("itemCode") String itemCode, @Param("fkTenantId") Integer fkTenantId);
 
     /**
-     * 根据大中小血类查询所有化验单及选中情况
-     * 
-     * @Title: selectAllCategoryByClass
-     * @param dictHospitalLab
-     * @return
-     * 
-     */
-    public List<AssayHospDictPO> selectAllCategoryByClass(AssayHospDictPO dictHospitalLab);
-
-    /**
-     * 根据大中小血类查询所有化验项及选中情况
-     * 
-     * @Title: selectAllItemByClass
-     * @param dictHospitalLab
-     * @return
-     * 
-     */
-    public List<AssayHospDictPO> selectAllItemByClass(AssayHospDictPO dictHospitalLab);
-
-    /**
-     * 查询化验项及选中的分组项
-     * 
-     * @Title: selectAllItemByGroupDetail
-     * @param record
-     * @return
-     *
-     */
-    public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
-
-    /**
      * 获取对应化验单id
      * 
      * @param list
@@ -212,15 +180,13 @@ public interface AssayHospDictMapper {
     List<AssayHospDictPO> listBasicByCondition(AssayHospDictPO record);
 
     /**
-     * 查询置顶项for常用化验项统计
+     * 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code）
      * 
-     * @Title: listTopForCommonReport
-     * @param fkTenandId
-     * @param itemCodes
+     * @Title: listProcessedItemCodeRec
      * @return
      *
      */
-    List<AssayHospDictPO> listTopForCommonReport(@Param("fkTenantId") Integer fkTenandId, @Param("itemCodes") Collection<String> itemCodes);
+    List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
 
     /**
      * 根据id获取数据
@@ -241,5 +207,16 @@ public interface AssayHospDictMapper {
      * @return
      *
      */
-    List<String> listItemCodeBydictCcode(@Param("fkDictCode") String dictCode, @Param("fkTenantId") Integer tenantId);
+    List<String> listItemCodeByDictCcode(@Param("fkDictCode") String dictCode, @Param("fkTenantId") Integer tenantId);
+
+    /**
+     * 自动建立和fkDictCode之间的关联 <note>如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去</note>
+     * 
+     * @Title: autoMappingDict
+     * @param tenantId
+     * @param ukSuffix
+     *            唯一标识后缀
+     *
+     */
+    void autoMappingDict(@Param("fkTenantId") Integer tenantId, @Param("ukSuffix") String ukSuffix);
 }
