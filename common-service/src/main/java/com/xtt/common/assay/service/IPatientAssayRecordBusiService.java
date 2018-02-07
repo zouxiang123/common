@@ -360,4 +360,13 @@ public interface IPatientAssayRecordBusiService {
      */
     public List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord);
 
+    /**
+     * 根据id选择更新透后数据
+     * 
+     * @Title: updateByIdSelective
+     * @param record
+     *
+     */
+    void updateByIdSelective(PatientAssayRecordBusiPO record);
+
 }

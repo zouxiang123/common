@@ -52,4 +52,9 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
         return patientAssayRecordMapper.getMinSampleTimeByCreateTime(assayRecord);
     }
 
+    @Override
+    public List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTIme) {
+        return patientAssayRecordMapper.listDict(tenantId, startCreateTime, endCreateTIme);
+    }
+
 }

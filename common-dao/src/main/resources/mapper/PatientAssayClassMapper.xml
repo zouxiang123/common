@@ -256,110 +256,68 @@
   </update>
 
   <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientAssayClassPO" />
-  <!-- 查询所有 -->
-  <select id="selectAllByAssayClass" parameterType="com.xtt.common.dao.model.PatientAssayClass" resultMap="POResultMap">
-  	select *
-  	from 
-  		patient_assay_class pac
-  	where 
-  		<!-- 此处去除  大血，中血，小血 功能  -->
-  		<!-- assay_class = #{assayClass}
-  		and  -->
-  		fk_tenant_id = #{fkTenantId}
-  </select>
-  <select id="selectAllGroupName" parameterType="com.xtt.common.dao.model.PatientAssayClass" resultMap="POResultMap">
-	select group_name,item_code,group_id,item_name 
-	from patient_assay_class  
-	where 
-		assay_class = #{assayClass,jdbcType=VARCHAR} 
-  		and fk_tenant_id = #{fkTenantId}
-	group by group_name
-  </select>
-  
-  <!-- 删除表中所有的数据 -->
-  <delete id="deleteAllByAssayClass" parameterType="com.xtt.common.dao.model.PatientAssayClass">
-  	 delete from patient_assay_class 
-  	 where 
-  	 	<!-- 取消  大血  小血  中血 -->
-  	 	<!-- assay_class = #{assayClass,jdbcType=VARCHAR}
-  		and  -->
-  		fk_tenant_id = #{fkTenantId}
-  </delete>
 
-  <!-- 通过patientAssayMonthRScope的月份来查询 -->
-  <select id="selectByMonth" resultMap="POResultMap">
-  	select * 
-  	from patient_assay_class 
-  	where assay_class =
-		(select assay_class from patient_assay_month_r_scope where month_value=#{month})
-  		and fk_tenant_id = #{fkTenantId}
-  </select>
-  
-  
-  <select id="selectAllByCondiction" resultMap="POResultMap">
-  select *
-  	from 
-  		patient_assay_class 
-  		<where>
-  	<if test="assayClass != null">
-    and    assay_class = #{assayClass,jdbcType=VARCHAR}
-      </if>
-      <if test="itemCode != null">
-    and     item_code = #{itemCode,jdbcType=VARCHAR}
-      </if>
-      <if test="itemName != null">
-       and  item_name = #{itemName,jdbcType=VARCHAR}
-      </if>
-      <if test="groupId != null">
-       and  group_id = #{groupId,jdbcType=VARCHAR}
-      </if>
-      <if test="groupName != null">
-       and  group_name = #{groupName,jdbcType=VARCHAR}
-      </if>
-      <if test="fkAssayGroupConfId != null">
-       and  fk_assay_group_conf_id = #{fkAssayGroupConfId,jdbcType=BIGINT}
-      </if>
-      <if test="fkAssayGroupConfName != null">
-        and fk_assay_group_conf_name = #{fkAssayGroupConfName,jdbcType=VARCHAR}
-      </if>
-      <if test="fkTenantId != null">
-       and  fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
-      </if>
-      <if test="createTime != null">
-       and  create_time = #{createTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="createUserId != null">
-       and  create_user_id = #{createUserId,jdbcType=BIGINT}
-      </if>
-      <if test="updateTime != null">
-        and update_time = #{updateTime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="updateUserId != null">
-        and update_user_id = #{updateUserId,jdbcType=BIGINT}
-      </if>
-  		</where>
-  </select>
-  <!-- 根据租户id查询for化验项提醒 -->
-    <select id="listByTenantIdForAssayNews" resultMap="BaseResultMap">
-        select item_code as itemCode,IF(item_name&lt;&gt;'',item_name,fk_assay_group_conf_name) as itemName,assay_day as assayDay
-        ,fk_assay_group_conf_id,fk_assay_group_conf_name
-        from patient_assay_class where fk_tenant_id = #{fkTenantId}
-    </select>
-    <!-- 根据化验项同类分组id删除数据 -->
-    <delete id="deleteByFkAssayGroupConfId">
-        delete from patient_assay_class where fk_assay_group_conf_id = #{fkAssayGroupConfId}
+    <!-- 删除表中所有的数据 -->
+    <delete id="deleteByCondition" parameterType="com.xtt.common.dao.model.PatientAssayClass">
+        delete from patient_assay_class
+        where fk_tenant_id = #{fkTenantId}
     </delete>
-    <!-- 根据化验项同类分组id查询数据 -->
-    <select id="getByFkAssayGroupConfId" resultMap="BaseResultMap">
-        select * from patient_assay_class where fk_assay_group_conf_id = #{fkAssayGroupConfId}
+    <!-- 根据自定义条件查询数据 -->
+    <select id="listByCondition" resultMap="POResultMap">
+        select * from patient_assay_class
+        <where>
+            <if test="assayClass != null">
+                and assay_class = #{assayClass,jdbcType=VARCHAR}
+            </if>
+            <if test="itemCode != null">
+                and item_code = #{itemCode,jdbcType=VARCHAR}
+            </if>
+            <if test="itemName != null">
+                and item_name = #{itemName,jdbcType=VARCHAR}
+            </if>
+            <if test="groupId != null">
+                and group_id = #{groupId,jdbcType=VARCHAR}
+            </if>
+            <if test="groupName != null">
+                and group_name = #{groupName,jdbcType=VARCHAR}
+            </if>
+            <if test="fkAssayGroupConfId != null">
+                and fk_assay_group_conf_id = #{fkAssayGroupConfId,jdbcType=BIGINT}
+            </if>
+            <if test="fkAssayGroupConfName != null">
+                and fk_assay_group_conf_name = #{fkAssayGroupConfName,jdbcType=VARCHAR}
+            </if>
+            <if test="fkTenantId != null">
+                and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=BIGINT}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and update_user_id = #{updateUserId,jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
-     <!--查询化验项提醒数量 -->
-  <select id="countByCondition" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select count(id) from patient_assay_class
-    <where>
-        <if test="fkTenantId != null">
-            fk_tenant_id = #{fkTenantId}
-        </if>
-    </where>
-  </select>
+    <!-- 根据租户id查询for化验项提醒 -->
+    <select id="listByTenantIdForAssayNews" resultMap="BaseResultMap">
+        select item_code itemCode,item_name itemName,assay_day as assayDay
+        from
+        patient_assay_class
+        where fk_tenant_id = #{fkTenantId}
+    </select>
+    <!--查询化验项提醒数量 -->
+    <select id="countByCondition" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id) from patient_assay_class
+        <where>
+            <if test="fkTenantId != null">
+                fk_tenant_id = #{fkTenantId}
+            </if>
+        </where>
+    </select>
 </mapper>

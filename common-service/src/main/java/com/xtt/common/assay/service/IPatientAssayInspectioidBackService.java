@@ -48,4 +48,13 @@ public interface IPatientAssayInspectioidBackService {
      */
     void deleteByInspectionId(String inspectionId, Long fkPatientId, Integer fkTenantId);
 
+    /**
+     * 插入数据
+     * 
+     * @Title: insert
+     * @param record
+     *
+     */
+    void insert(PatientAssayInspectioidBack record);
+
 }

@@ -119,4 +119,17 @@ public interface PatientAssayRecordMapper {
      *
      */
     Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
+
+    /**
+     * 获取字典数据列表
+     * 
+     * @Title: listDict
+     * @param tenantId
+     * @param startCreateTime
+     * @param endCreateTIme
+     * @return
+     *
+     */
+    List<PatientAssayRecordPO> listDict(@Param("tenantId") Integer tenantId, @Param("startCreateTime") Date startCreateTime,
+                    @Param("endCreateTIme") Date endCreateTIme);
 }

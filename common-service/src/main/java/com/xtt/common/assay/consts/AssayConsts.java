@@ -23,6 +23,10 @@ public class AssayConsts {
     public static final String BEFORE_HD = "1";
     /** 透后 */
     public static final String AFTER_HD = "2";
+    /** 透后标识后缀 */
+    public static final String AFTER_HD_SUFFIX = "_POST";
+    /** 透后标识后缀名称 */
+    public static final String AFTER_HD_SUFFIX_NAME = "_透后";
 
     /** 分类规则(1:分组名关键字;2:样式名称关键字;3:分组名+化验项+透前透后时间;4:分组名+化验项数量+化验项数值判断+透析日时间;) 5:抽血特殊护理 最近两次BUN */
     public static final String LAB_AFTER_BEFORE_ONE = "1";
@@ -71,5 +75,7 @@ public class AssayConsts {
      * 报告时间
      */
     public static final String REPORT_TIME = "report_time";
+    /** 字典唯一后缀常量 */
+    public static final String DICT_UK_SUFFIX = "_993cd993";
 
 }

@@ -29,6 +29,6 @@ public interface IAssayFilterRuleService {
      * @param assayFilterRule
      *
      */
-    void updateByfkTenantId(AssayFilterRule assayFilterRule);
+    void updateById(AssayFilterRule assayFilterRule);
 
 }

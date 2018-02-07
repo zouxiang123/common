@@ -55,21 +55,11 @@ public interface PatientAssayDictionaryMapper {
     /**
      * 根据条件查询类别数据
      * 
-     * @Title: selectByCondition
+     * @Title: listByCondition
      * @param record
      * @return
      *
      */
-    List<PatientAssayDictionaryPO> selectByCondition(PatientAssayDictionary record);
-
-    /**
-     * 根据字典模糊查询数据
-     * 
-     * @Title: selectByCondition
-     * @param record
-     * @return
-     *
-     */
-    List<PatientAssayDictionaryPO> selectByFuzzyCondition(PatientAssayDictionary record);
+    List<PatientAssayDictionaryPO> listByCondition(PatientAssayDictionary record);
 
 }

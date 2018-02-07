@@ -106,7 +106,7 @@ public class CmDictController {
     @ResponseBody
     public Map<String, Object> deleteAssayMapping(Long id) {
         Map<String, Object> map = new HashMap<String, Object>();
-        assayHospDictService.deleteAssayMapping(id);
+        assayHospDictService.deleteMapping(id);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
@@ -121,7 +121,7 @@ public class CmDictController {
     @ResponseBody
     public Map<String, Object> updateDict(AssayHospDictPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(CommonConstants.STATUS, assayHospDictService.updateDictById(record));
+        assayHospDictService.saveMappingDictByIds(record);
         return map;
     }
 
@@ -135,7 +135,7 @@ public class CmDictController {
     @ResponseBody
     public Map<String, Object> getPatientAssayDict(PatientAssayDictionaryPO record) {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("items", patientAssayDictionaryService.getByFuzzyCondition(record));
+        map.put("items", patientAssayDictionaryService.listByCondition(record));
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }

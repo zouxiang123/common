@@ -14,11 +14,14 @@
     <result column="reference" jdbcType="VARCHAR" property="reference" />
     <result column="order_by" jdbcType="INTEGER" property="orderBy" />
     <result column="fk_dict_code" jdbcType="VARCHAR" property="fkDictCode" />
+    <result column="fk_dict_name" jdbcType="VARCHAR" property="fkDictName" />
+    <result column="fk_dict_uk" jdbcType="VARCHAR" property="fkDictUk" />
     <result column="value_type" jdbcType="INTEGER" property="valueType" />
     <result column="is_top" jdbcType="BIT" property="isTop" />
     <result column="date_type" jdbcType="VARCHAR" property="dateType" />
     <result column="personal_min_value" jdbcType="DECIMAL" property="personalMinValue" />
     <result column="personal_max_value" jdbcType="DECIMAL" property="personalMaxValue" />
+    <result column="scaling_factor" jdbcType="REAL" property="scalingFactor" />
     <result column="is_auto" jdbcType="BIT" property="isAuto" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -37,8 +40,9 @@
       WARNING - @mbggenerated, do not modify!
     -->
     id, item_code, item_name, min_value, max_value, unit, reference, order_by, fk_dict_code, 
-    value_type, is_top, date_type, personal_min_value, personal_max_value, is_auto, fk_tenant_id, 
-    create_time, create_user_id, update_time, update_user_id
+    fk_dict_name, fk_dict_uk, value_type, is_top, date_type, personal_min_value, personal_max_value, 
+    scaling_factor, is_auto, fk_tenant_id, create_time, create_user_id, update_time, 
+    update_user_id
   </sql>
   <sql id="Blob_Column_List">
     <!--
@@ -71,16 +75,18 @@
     insert into assay_hosp_dict (id, item_code, item_name, 
       min_value, max_value, unit, 
       reference, order_by, fk_dict_code, 
-      value_type, is_top, date_type, 
-      personal_min_value, personal_max_value, is_auto, 
+      fk_dict_name, fk_dict_uk, value_type, 
+      is_top, date_type, personal_min_value, 
+      personal_max_value, scaling_factor, is_auto, 
       fk_tenant_id, create_time, create_user_id, 
       update_time, update_user_id, method
       )
     values (#{id,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
       #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{unit,jdbcType=VARCHAR}, 
       #{reference,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{fkDictCode,jdbcType=VARCHAR}, 
-      #{valueType,jdbcType=INTEGER}, #{isTop,jdbcType=BIT}, #{dateType,jdbcType=VARCHAR}, 
-      #{personalMinValue,jdbcType=DECIMAL}, #{personalMaxValue,jdbcType=DECIMAL}, #{isAuto,jdbcType=BIT}, 
+      #{fkDictName,jdbcType=VARCHAR}, #{fkDictUk,jdbcType=VARCHAR}, #{valueType,jdbcType=INTEGER}, 
+      #{isTop,jdbcType=BIT}, #{dateType,jdbcType=VARCHAR}, #{personalMinValue,jdbcType=DECIMAL}, 
+      #{personalMaxValue,jdbcType=DECIMAL}, #{scalingFactor,jdbcType=REAL}, #{isAuto,jdbcType=BIT}, 
       #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR}
       )
@@ -118,6 +124,12 @@
       <if test="fkDictCode != null">
         fk_dict_code,
       </if>
+      <if test="fkDictName != null">
+        fk_dict_name,
+      </if>
+      <if test="fkDictUk != null">
+        fk_dict_uk,
+      </if>
       <if test="valueType != null">
         value_type,
       </if>
@@ -132,6 +144,9 @@
       </if>
       <if test="personalMaxValue != null">
         personal_max_value,
+      </if>
+      <if test="scalingFactor != null">
+        scaling_factor,
       </if>
       <if test="isAuto != null">
         is_auto,
@@ -183,6 +198,12 @@
       <if test="fkDictCode != null">
         #{fkDictCode,jdbcType=VARCHAR},
       </if>
+      <if test="fkDictName != null">
+        #{fkDictName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDictUk != null">
+        #{fkDictUk,jdbcType=VARCHAR},
+      </if>
       <if test="valueType != null">
         #{valueType,jdbcType=INTEGER},
       </if>
@@ -197,6 +218,9 @@
       </if>
       <if test="personalMaxValue != null">
         #{personalMaxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="scalingFactor != null">
+        #{scalingFactor,jdbcType=REAL},
       </if>
       <if test="isAuto != null">
         #{isAuto,jdbcType=BIT},
@@ -251,6 +275,12 @@
       <if test="fkDictCode != null">
         fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
       </if>
+      <if test="fkDictName != null">
+        fk_dict_name = #{fkDictName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkDictUk != null">
+        fk_dict_uk = #{fkDictUk,jdbcType=VARCHAR},
+      </if>
       <if test="valueType != null">
         value_type = #{valueType,jdbcType=INTEGER},
       </if>
@@ -265,6 +295,9 @@
       </if>
       <if test="personalMaxValue != null">
         personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      </if>
+      <if test="scalingFactor != null">
+        scaling_factor = #{scalingFactor,jdbcType=REAL},
       </if>
       <if test="isAuto != null">
         is_auto = #{isAuto,jdbcType=BIT},
@@ -303,11 +336,14 @@
       reference = #{reference,jdbcType=VARCHAR},
       order_by = #{orderBy,jdbcType=INTEGER},
       fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
+      fk_dict_name = #{fkDictName,jdbcType=VARCHAR},
+      fk_dict_uk = #{fkDictUk,jdbcType=VARCHAR},
       value_type = #{valueType,jdbcType=INTEGER},
       is_top = #{isTop,jdbcType=BIT},
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      scaling_factor = #{scalingFactor,jdbcType=REAL},
       is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -330,11 +366,14 @@
       reference = #{reference,jdbcType=VARCHAR},
       order_by = #{orderBy,jdbcType=INTEGER},
       fk_dict_code = #{fkDictCode,jdbcType=VARCHAR},
+      fk_dict_name = #{fkDictName,jdbcType=VARCHAR},
+      fk_dict_uk = #{fkDictUk,jdbcType=VARCHAR},
       value_type = #{valueType,jdbcType=INTEGER},
       is_top = #{isTop,jdbcType=BIT},
       date_type = #{dateType,jdbcType=VARCHAR},
       personal_min_value = #{personalMinValue,jdbcType=DECIMAL},
       personal_max_value = #{personalMaxValue,jdbcType=DECIMAL},
+      scaling_factor = #{scalingFactor,jdbcType=REAL},
       is_auto = #{isAuto,jdbcType=BIT},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -350,8 +389,8 @@
    </resultMap>
    
    <sql id="AHD_Column_List">
-        ahd.id, ahd.item_code, ahd.item_name, ahd.min_value, ahd.max_value, ahd.unit, ahd.reference, ahd.method, ahd.order_by, ahd.fk_dict_code, ahd.value_type, ahd.is_top, 
-        ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.is_auto, ahd.fk_tenant_id
+        ahd.id, ahd.item_code, ahd.item_name, ahd.min_value, ahd.max_value, ahd.unit, ahd.reference, ahd.method, ahd.order_by, ahd.fk_dict_code, ahd.fk_dict_name
+        , ahd.fk_dict_uk, ahd.value_type, ahd.is_top, ahd.date_type, ahd.personal_min_value, ahd.personal_max_value, ahd.is_auto, ahd.fk_tenant_id
         , ahdg.group_id, ahdg.group_name
    </sql>
    <!-- 根据ItemCode查询是否唯一 -->
@@ -376,11 +415,9 @@
    <select id="listByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
       SELECT 
         <include refid="AHD_Column_List" />
-        ,pad.item_name AS fkItemName 
       FROM assay_hosp_dict ahd 
       JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
       JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-      LEFT JOIN patient_assay_dictionary pad ON pad.item_code = ahd.item_code
      <where>
       <if test="groupId != null ">
         and ahdg.group_id = #{groupId}
@@ -467,7 +504,7 @@
   </select>
   <!-- 根据id删除关联关系 -->
   <update id="deleteAssayMapping" parameterType="java.lang.Long">
-      update assay_hosp_dict set fk_dict_code = null where id = #{id}
+      update assay_hosp_dict set fk_dict_code = null,fk_dict_name = null,fk_dict_uk = null where id = #{id}
   </update>
   
   
@@ -475,65 +512,11 @@
   <select id="getByItemCode" resultMap="POResultMap">
     select * from assay_hosp_dict where item_code = #{itemCode,jdbcType=VARCHAR} and fk_tenant_id = #{fkTenantId}
   </select>
-  
-  <!-- 根据大中小血类查询所有化验单及选中情况 -->
-  <select id="selectAllCategoryByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-    SELECT ahdg.group_id, ahdg.group_name
-        , max(IF(pac.id is null, 0, 1)) as selectFlag, 1 categoryFlag
-    FROM assay_hosp_dict_group_mapping ahdgm
-    JOIN assay_hosp_dict_group ahdg  on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-    LEFT JOIN patient_assay_class pac ON pac.item_code = ahdgm.fk_item_code and pac.fk_tenant_id = ahdgm.fk_tenant_id 
-    <if test="assayClass != null">
-        AND pac.assay_class = #{assayClass}
-    </if>
-    where ahdgm.fk_tenant_id = #{fkTenantId}
-    GROUP BY ahdg.group_id
-    ORDER BY ahdg.group_name ASC
-  </select>
-  
-  <!-- 根据大中小血类查询所有化验项及选中情况 -->
-  <select id="selectAllItemByClass" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
-    SELECT ahd.item_code, ahd.item_name
-           , ahdg.group_id, ahdg.group_name
-           , IF(pac.id is null, 0, 1) as selectFlag, 0 categoryFlag
-    FROM assay_hosp_dict ahd 
-    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-    LEFT JOIN patient_assay_class pac ON pac.item_code = ahd.item_code and pac.fk_tenant_id = ahd.fk_tenant_id 
-    <if test="assayClass != null">
-        AND pac.assay_class = #{assayClass}
-    </if>
-    WHERE ahd.fk_tenant_id = #{fkTenantId}
-    ORDER BY ahdg.group_id, ahd.item_name
-  </select>
-  
-  <!-- 查询化验项及选中的分组项 -->
-  <select id="selectAllItemByGroupDetail" parameterType="com.xtt.common.dao.model.AssayGroupConfDetail" resultMap="POResultMap">
-    SELECT ahd.item_code, ahd.item_name
-          , ahdg.group_id, ahdg.group_name
-          , IF(agcd.item_code is null, 0, 1) as selectFlag
-    FROM assay_hosp_dict ahd 
-    JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
-    JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
-    LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id 
-     <if test="fkAssayGroupConfId != null">
-            AND agcd.fk_assay_group_conf_id = #{fkAssayGroupConfId}
-     </if>
-    WHERE ahd.fk_tenant_id = #{fkTenantId}
-    AND NOT EXISTS (
-            SELECT 1 FROM assay_group_conf_detail
-            WHERE fk_tenant_id = ahd.fk_tenant_id AND item_code = ahd.item_code
-            <if test="fkAssayGroupConfId != null">
-                and fk_assay_group_conf_id != #{fkAssayGroupConfId}
-            </if>
-        )
-    GROUP BY ahd.item_code
-    ORDER BY selectFlag desc, ahdg.group_id, ahd.item_name
-  </select>
     <!-- 获取字典表对应化验单id -->
     <select id="getDictId" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultType="java.lang.Long">
         SELECT ahd.id from assay_hosp_dict ahd
-        JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+        JOIN assay_hosp_dict_group_mapping ahdgm ON ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id =
+        ahdgm.fk_tenant_id
         JOIN assay_hosp_dict_group ahdg ON ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
         <where>
             <if test="itemName != null">
@@ -617,9 +600,7 @@
     <select id="listBasicByCondition" parameterType="com.xtt.common.dao.po.AssayHospDictPO" resultMap="POResultMap">
         SELECT
             ahd.*
-            , pad.item_name AS fkItemName
         FROM assay_hosp_dict ahd
-        LEFT JOIN patient_assay_dictionary pad ON ahd.fk_dict_code = pad.item_code
         <where>
             <if test="itemCode != null and itemCode != ''">
                 ahd.item_code = #{itemCode}
@@ -649,27 +630,50 @@
         </where>
         ORDER BY ahd.item_code ASC
     </select>
-    <!-- 查询置顶项for常用化验项统计 -->
-    <select id="listTopForCommonReport" resultMap="POResultMap">
-        SELECT if(ISNULL(agc.id),ahd.item_code,agc.id) item_code,if(ISNULL(agc.`name`),ahd.item_name,agc.`name`) item_name
-        ,ahd.unit ,ahd.fk_dict_code ,ahd.fk_tenant_id ,ahd.is_top , ahd.is_auto
-        FROM assay_hosp_dict ahd
-        LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = ahd.item_code AND agcd.fk_tenant_id = ahd.fk_tenant_id
-        LEFT JOIN assay_group_conf agc ON agcd.fk_assay_group_conf_id = agc.id
-        WHERE ahd.is_top = true AND ahd.fk_tenant_id = #{fkTenantId}
-        <if test="itemCodes != null and itemCodes.size() >0">
-            and ahd.item_code in
-            <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
-        </if>
-        GROUP BY item_code
-        ORDER BY item_code
+    <!-- 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code） -->
+    <select id="listProcessedItemCodeRec" resultMap="POResultMap">
+        SELECT t.item_code,t.item_name,MAX(t.unit) unit
+            , MAX(t.group_name) groupName, MAX(t.group_id) groupId
+        FROM (
+            SELECT 
+                CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahd.item_code ELSE ahd.fk_dict_uk END item_code
+                ,CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahd.item_name ELSE ahd.fk_dict_name END item_name
+                , ahd.unit
+                , CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahdg.group_name ELSE pad.group_name END group_name
+                , CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahdg.group_id ELSE pad.group_id END group_id
+            FROM assay_hosp_dict ahd 
+            JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+            JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+            LEFT JOIN patient_assay_dictionary pad on ahd.fk_dict_code = pad.item_code
+            <where>
+                <if test="fkTenantId != null">
+                    ahd.fk_tenant_id = #{fkTenantId}
+                </if>
+                <if test="isTop != null">
+                    and ahd.is_top = #{isTop}
+                </if>
+                <if test="itemCodes != null and itemCodes.size() &gt;0">
+                    and ahd.item_code in
+                    <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+                </if>
+            </where>
+        ) t
+        GROUP BY t.item_code,t.item_name
+        ORDER BY t.item_code
     </select>
     <!-- 根据id获取数据 -->
     <select id="getById" resultMap="POResultMap">
         SELECT * FROM assay_hosp_dict WHERE id = #{id}
     </select>
     <!-- 通过患者化验单字典表外键 查询项目编码 -->
-    <select id="listItemCodeBydictCcode" resultType="java.lang.String">
+    <select id="listItemCodeByDictCcode" resultType="java.lang.String">
         SELECT item_code from assay_hosp_dict where fk_dict_code = #{fkDictCode} and fk_tenant_id = #{fkTenantId}
+    </select>
+    <!-- 如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去 -->
+    <select id="autoMappingDict">
+        UPDATE assay_hosp_dict d
+        LEFT JOIN patient_assay_dictionary ad ON (ad.item_code = d.item_code OR ad.item_name = d.item_name)
+        SET d.fk_dict_code = ad.item_code, d.fk_dict_name = ad.item_name, d.fk_dict_uk= CONCAT(ad.item_code,#{ukSuffix})
+        WHERE d.fk_dict_code is null;
     </select>
 </mapper>

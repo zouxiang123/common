@@ -29,9 +29,14 @@ public class AssayFilterRuleServiceImpl implements IAssayFilterRuleService {
     }
 
     @Override
-    public void updateByfkTenantId(AssayFilterRule assayFilterRule) {
-        DataUtil.setUpdateSystemFieldValue(assayFilterRule);
-        assayFilterRuleMapper.updateByPrimaryKeySelective(assayFilterRule);
+    public void updateById(AssayFilterRule assayFilterRule) {
+        AssayFilterRule old = assayFilterRuleMapper.selectByPrimaryKey(assayFilterRule.getId());
+        if (old != null) {
+            assayFilterRule.setCreateTime(old.getCreateTime());
+            assayFilterRule.setCreateUserId(old.getCreateUserId());
+            DataUtil.setUpdateSystemFieldValue(assayFilterRule);
+            assayFilterRuleMapper.updateByPrimaryKey(assayFilterRule);
+        }
 
     }
 

@@ -11,7 +11,6 @@ package com.xtt.common.assay.service;
 import java.util.Collection;
 import java.util.List;
 
-import com.xtt.common.dao.model.AssayGroupConfDetail;
 import com.xtt.common.dao.model.AssayHospDict;
 import com.xtt.common.dao.po.AssayHospDictPO;
 
@@ -52,7 +51,7 @@ public interface IAssayHospDictService {
      * @param record
      * @return
      */
-    int insertSelective(AssayHospDictPO record);
+    void insertManual(AssayHospDictPO record);
 
     /**
      * 根据itemCode查询医院字典表数据
@@ -100,51 +99,21 @@ public interface IAssayHospDictService {
      * @param id
      * 
      */
-    void deleteAssayMapping(Long id);
+    void deleteMapping(Long id);
 
     /**
-     * 更新数据
+     * 根据ids建立映射关系
      * 
-     * @Title: updateDict
+     * @Title: saveMappingDictByIds
      * @param record
      * 
      */
-    String updateDictById(AssayHospDictPO assayHospDict);
+    void saveMappingDictByIds(AssayHospDictPO assayHospDict);
 
     /**
      * 修改检查项规则的PersonalMinValue，isTop,PersonalMaxValue,
      */
     void updateSomeValue(AssayHospDictPO assayHospDictPO);
-
-    /**
-     * 根据大中小血类查询所有化验单及选中情况
-     * 
-     * @Title: selectAllCategoryByClass
-     * @param dictHospitalLab
-     * @return
-     * 
-     */
-    public List<AssayHospDictPO> selectAllCategoryByClass(AssayHospDictPO dictHospitalLab);
-
-    /**
-     * 根据大中小血类查询所有化验项及选中情况
-     * 
-     * @Title: selectAllItemByClass
-     * @param dictHospitalLab
-     * @return
-     * 
-     */
-    public List<AssayHospDictPO> selectAllItemByClass(AssayHospDictPO dictHospitalLab);
-
-    /**
-     * 查询化验项及选中的分组项
-     * 
-     * @Title: selectAllItemByGroupDetail
-     * @param record
-     * @return
-     *
-     */
-    public List<AssayHospDictPO> selectAllItemByGroupDetail(AssayGroupConfDetail record);
 
     /**
      * 删除手动录入的化验单
@@ -161,14 +130,6 @@ public interface IAssayHospDictService {
      * @return
      */
     Long getDictId(AssayHospDictPO list);
-
-    /**
-     * 更新化验单
-     * 
-     * @param list
-     * @return
-     */
-    int updateDictHospital(AssayHospDictPO record);
 
     /**
      * 校验化验项名称是否与his系统重复
@@ -265,4 +226,62 @@ public interface IAssayHospDictService {
      */
     List<String> listItemCodeBydictCcode(String dictCode);
 
+    /**
+     * 自动插入化验字典数据
+     * 
+     * @Title: insertAuto
+     * @param tenantId
+     * @param dateStr
+     *
+     */
+    void insertAuto(Integer tenantId, String dateStr);
+
+    /**
+     * 插入字典数据，包含分组数据和mapping数据
+     * 
+     * @Title: insertDictData
+     * @param items
+     *
+     */
+    void insertList(List<AssayHospDictPO> items);
+
+    /**
+     * 根据itemCode获取对应的dictCode
+     * 
+     * @Title: getFkDictCodeByItemCode
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    String getFkDictCodeByItemCode(String itemCode, Integer tenantId);
+
+    /**
+     * 根据itemCode和租户id获取同类itemCode(包含自己本身)
+     * 
+     * @Title: listSimilarItemCode
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    List<String> listSimilarItemCode(String itemCode, Integer tenantId);
+
+    /**
+     * 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code）
+     * 
+     * @Title: listProcessedItemCodeRec
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
+
+    /**
+     * 自动建立和fkDictCode之间的关联 <note>如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去</note>
+     * 
+     * @Title: autoMappingDict
+     * @param tenantId
+     *
+     */
+    public void autoMappingDict(Integer tenantId);
 }

@@ -427,7 +427,7 @@
         ,ahd.min_value
         ,ahd.max_value
         ,ahd.unit
-        ,ahd.fk_dict_code fkDictCode
+        , ahd.fk_dict_code fkDictCode, ahd.fk_dict_name fkDictName, ahd.scaling_factor scalingFactor, parb.result_actual*ahd.scaling_factor scalingResult
         from patient_assay_record_busi parb  
         LEFT JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id
         <where>
@@ -735,6 +735,7 @@
     <!-- 根据患者id和fkDictCodes查询离日期最近的一条数据 -->
     <select id="listLatestOneByFkDictCodes" resultMap="POResultMap">
         SELECT t2.fk_patient_id,t2.fk_tenant_id,t2.result,t2.result_actual,t2.fk_dict_code fkDictCode,t2.assay_date
+            , t2.scaling_factor scalingFactor, t2.result_actual*t2.scaling_factor scalingResult
         FROM 
         (SELECT parb.fk_patient_id,min(ABS(DATEDIFF(parb.assay_date,DATE(#{date,jdbcType=DATE})))) minDay,ahd.fk_dict_code,ahd.fk_tenant_id
         FROM patient_assay_record_busi parb
@@ -745,7 +746,7 @@
         GROUP BY parb.fk_patient_id,ahd.fk_dict_code,parb.fk_tenant_id
         ) t1,
         (SELECT parb.fk_patient_id,ABS(DATEDIFF(parb.assay_date,DATE(#{date,jdbcType=DATE}))) diffDay, parb.result,parb.result_actual,parb.assay_date
-        ,ahd.fk_dict_code,ahd.fk_tenant_id
+        , ahd.fk_dict_code, ahd.fk_tenant_id, ahd.scaling_factor
         FROM patient_assay_record_busi parb
         JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
         WHERE parb.fk_patient_id = #{fkPatientId} and parb.fk_tenant_id = #{fkTenantId}
@@ -802,7 +803,7 @@
        SELECT t.* FROM (
        <foreach collection="paramList" item="item" index="index" separator=" UNION ALL ">
             select t${index}.* FROM (SELECT <include refid="Common_Column_List" />
-            ,ahd.fk_dict_code fkDictCode
+            , ahd.fk_dict_code fkDictCode, ahd.fk_dict_name fkDictName, parb.result_actual*ahd.scaling_factor scalingResult
             FROM patient_assay_record_busi parb
             JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
@@ -830,7 +831,7 @@
         JOIN (
             SELECT max(parb.assay_date) assay_date,parb.fk_patient_id,parb.item_code,parb.fk_tenant_id 
             FROM patient_assay_record_busi parb
-            LEFT JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
+            JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id and ahd.fk_dict_code is null
             WHERE parb.item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             <if test="startDate != null">
                 AND parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
@@ -845,19 +846,18 @@
                 AND parb.fk_patient_id not in
                 <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
-                AND agcd.id IS NULL
             GROUP BY parb.fk_patient_id,item_code,parb.assay_month
         ) t
         ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=parb.item_code AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date
         UNION ALL <!-- 同类项分组的数据 -->
-        SELECT parb.fk_patient_id,parb.assay_month,agcd.fk_assay_group_conf_id item_code,parb.result,parb.fk_tenant_id
+        SELECT parb.fk_patient_id,parb.assay_month,ahd.fk_dict_uk item_code,parb.result,parb.fk_tenant_id
         FROM patient_assay_record_busi parb
-        JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
+        JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id and ahd.fk_dict_code is not null
         JOIN (
-            SELECT max(parb.assay_date) assay_date, parb.fk_patient_id, agcd.fk_assay_group_conf_id item_code, parb.fk_tenant_id 
+            SELECT max(parb.assay_date) assay_date, parb.fk_patient_id, ahd.fk_dict_uk item_code, parb.fk_tenant_id 
             FROM patient_assay_record_busi parb
-            JOIN assay_group_conf_detail agcd ON agcd.item_code = parb.item_code AND agcd.fk_tenant_id = parb.fk_tenant_id
-            WHERE agcd.fk_assay_group_conf_id in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id and ahd.fk_dict_code is not null
+            WHERE ahd.fk_dict_uk in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             <if test="startDate != null">
                 and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
             </if>
@@ -873,7 +873,7 @@
             </if>
             GROUP BY parb.fk_patient_id,item_code,parb.assay_month
         ) t
-        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=agcd.fk_assay_group_conf_id AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date        
+        ON t.fk_patient_id=parb.fk_patient_id AND t.item_code=ahd.fk_dict_uk AND t.fk_tenant_id = parb.fk_tenant_id AND t.assay_date = parb.assay_date        
     </select>
     
     <delete id="deleteByTenant">

@@ -12,11 +12,10 @@ public interface IPatientAssayGroupRuleService {
      * 
      * @Title: saveGroupRule
      * @param ruleList
-     * @param itemCode
      * @param assayHospDict
      *
      */
-    void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, String itemCode, AssayHospDictPO assayHospDict);
+    void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, AssayHospDictPO assayHospDict);
 
     /**
      * 批量新增
@@ -73,5 +72,15 @@ public interface IPatientAssayGroupRuleService {
      * @param itemCode
      */
     void deleteByItemCode(String itemCode);
+
+    /**
+     * 根据itemCode获取对应的分组规则
+     * 
+     * @Title: listByItemCode
+     * @param itemCode
+     * @return
+     *
+     */
+    List<PatientAssayGroupRulePO> listByItemCode(String itemCode);
 
 }

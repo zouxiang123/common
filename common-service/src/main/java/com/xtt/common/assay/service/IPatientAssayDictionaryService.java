@@ -14,22 +14,13 @@ import com.xtt.common.dao.po.PatientAssayDictionaryPO;
 
 public interface IPatientAssayDictionaryService {
     /**
-     * 根据条件模糊查询检查项
-     * 
-     * @Title: getByFuzzyCondition
-     * @return
-     *
-     */
-    List<PatientAssayDictionaryPO> getByFuzzyCondition(PatientAssayDictionaryPO record);
-
-    /**
      * 根据条件获取检查项
      * 
-     * @Title: getByCondition
+     * @Title: listByCondition
      * @return
      *
      */
-    List<PatientAssayDictionaryPO> getByCondition(PatientAssayDictionaryPO record);
+    List<PatientAssayDictionaryPO> listByCondition(PatientAssayDictionaryPO record);
 
     /**
      * 通过唯一编码码获取对象
