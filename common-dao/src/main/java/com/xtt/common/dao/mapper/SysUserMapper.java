@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.hd.dao.po.WorkloadAssessmentConfigPO;
 
 @Repository
 public interface SysUserMapper {
