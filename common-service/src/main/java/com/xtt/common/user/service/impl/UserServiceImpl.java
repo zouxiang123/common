@@ -736,7 +736,7 @@ public class UserServiceImpl implements IUserService {
     }
 
 	@Override
-	public SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO) {
-		return sysUserMapper.getByAccountAndRole(workloadAssessmentConfigPO);
+	public SysUserPO getByAccountAndRole(SysUser sysUser) {
+		return sysUserMapper.getByAccountAndRole(sysUser);
 	}
 }

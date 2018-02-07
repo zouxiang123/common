@@ -292,7 +292,7 @@
 		SELECT u.* FROM sys_user u WHERE u.id = #{id}
 	</select>
 	
-	<select id="getByAccountAndRole" parameterType="com.xtt.hd.dao.po.WorkloadAssessmentConfigPO" resultMap="ExtendResultMap">
+	<select id="getByAccountAndRole" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap">
 		SELECT su.*,sr.`name` FROM sys_user su LEFT join sys_user2role sur ON su.id=sur.fk_user_id
 			LEFT  join sys_role sr on sur.fk_role_id=sr.id 
 			<where>
