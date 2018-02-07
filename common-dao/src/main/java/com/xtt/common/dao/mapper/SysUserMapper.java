@@ -121,7 +121,7 @@ public interface SysUserMapper {
      * @param workloadAssessmentConfigPO
      * @return
      */
-    SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO);
+    SysUserPO getByAccountAndRole(SysUser sysUser);
     /**
      * 查询所有用户
      *

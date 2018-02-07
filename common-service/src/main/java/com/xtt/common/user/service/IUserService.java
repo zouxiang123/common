@@ -383,6 +383,6 @@ public interface IUserService {
      * @param workloadAssessmentConfigPO
      * @return
      */
-    SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO);
+     SysUserPO getByAccountAndRole(SysUser sysUser);
 
 }
