@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.hd.dao.po.WorkloadAssessmentConfigPO;
 
 @Repository
 public interface SysUserMapper {
@@ -114,7 +115,13 @@ public interface SysUserMapper {
      *
      */
     SysUserPO getById(Long id);
-
+    
+    /**
+     * 根据账号和角色查询
+     * @param workloadAssessmentConfigPO
+     * @return
+     */
+    SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO);
     /**
      * 查询所有用户
      *

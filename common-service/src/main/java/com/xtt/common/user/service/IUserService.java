@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.hd.dao.po.WorkloadAssessmentConfigPO;
 
 public interface IUserService {
     /**
@@ -376,5 +377,12 @@ public interface IUserService {
     void saveStatementSkin(String statementSkin);
 
     List<SysUserPO> listUserByAccount(SysUserPO user);
+    
+    /**
+     * 根据账号和角色查询用户
+     * @param workloadAssessmentConfigPO
+     * @return
+     */
+    SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO);
 
 }
