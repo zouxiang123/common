@@ -76,6 +76,6 @@ public class AssayConsts {
      */
     public static final String REPORT_TIME = "report_time";
     /** 字典唯一后缀常量 */
-    public static final String DICT_UK_SUFFIX = "_993cd993";
+    public static final String DICT_UK_SUFFIX = "_xttsuffix";
 
 }
