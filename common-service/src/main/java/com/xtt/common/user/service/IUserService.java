@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xtt.common.dao.model.SysUser;
 import com.xtt.common.dao.po.SysUserPO;
-import com.xtt.hd.dao.po.WorkloadAssessmentConfigPO;
 
 public interface IUserService {
     /**
