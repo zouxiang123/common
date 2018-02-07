@@ -60,6 +60,7 @@ import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.ImageTailorUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.hd.dao.po.WorkloadAssessmentConfigPO;
 import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -733,4 +734,9 @@ public class UserServiceImpl implements IUserService {
     public List<SysUser> listUserByParentId(Integer constantType) {
         return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
     }
+
+	@Override
+	public SysUserPO getByAccountAndRole(WorkloadAssessmentConfigPO workloadAssessmentConfigPO) {
+		return sysUserMapper.getByAccountAndRole(workloadAssessmentConfigPO);
+	}
 }
