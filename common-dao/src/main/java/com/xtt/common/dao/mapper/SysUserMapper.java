@@ -114,7 +114,13 @@ public interface SysUserMapper {
      *
      */
     SysUserPO getById(Long id);
-
+    
+    /**
+     * 根据账号和角色查询
+     * @param workloadAssessmentConfigPO
+     * @return
+     */
+    SysUserPO getByAccountAndRole(SysUser sysUser);
     /**
      * 查询所有用户
      *

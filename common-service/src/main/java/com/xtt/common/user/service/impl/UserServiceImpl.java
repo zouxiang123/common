@@ -733,4 +733,9 @@ public class UserServiceImpl implements IUserService {
     public List<SysUser> listUserByParentId(Integer constantType) {
         return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
     }
+
+	@Override
+	public SysUserPO getByAccountAndRole(SysUser sysUser) {
+		return sysUserMapper.getByAccountAndRole(sysUser);
+	}
 }

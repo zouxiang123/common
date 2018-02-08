@@ -376,5 +376,12 @@ public interface IUserService {
     void saveStatementSkin(String statementSkin);
 
     List<SysUserPO> listUserByAccount(SysUserPO user);
+    
+    /**
+     * 根据账号和角色查询用户
+     * @param workloadAssessmentConfigPO
+     * @return
+     */
+     SysUserPO getByAccountAndRole(SysUser sysUser);
 
 }
