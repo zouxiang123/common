@@ -157,6 +157,15 @@ public class PatientDto {
      */
     private Integer dialysisTimes;
 
+    /**
+     * 民族
+     */
+    private String nation;
+    /**
+     * 文化程度
+     */
+    private String culture;
+
     public Integer getDialysisTimes() {
         return dialysisTimes;
     }
@@ -585,6 +594,22 @@ public class PatientDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getCulture() {
+        return culture;
+    }
+
+    public void setCulture(String culture) {
+        this.culture = culture;
     }
 
 }
