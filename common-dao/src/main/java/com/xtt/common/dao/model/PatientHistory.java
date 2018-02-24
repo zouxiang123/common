@@ -169,6 +169,16 @@ public class PatientHistory {
     private BigDecimal weight;
 
     /**
+     * patient_history.nation
+     */
+    private String nation;
+
+    /**
+     * patient_history.culture
+     */
+    private String culture;
+
+    /**
      * 创建时间
      * patient_history.create_time
      */
@@ -572,6 +582,30 @@ public class PatientHistory {
      */
     public void setWeight(BigDecimal weight) {
         this.weight = weight;
+    }
+
+    /**
+     */
+    public String getNation() {
+        return nation;
+    }
+
+    /**
+     */
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    /**
+     */
+    public String getCulture() {
+        return culture;
+    }
+
+    /**
+     */
+    public void setCulture(String culture) {
+        this.culture = culture;
     }
 
     /**
