@@ -570,17 +570,18 @@
     </select>
     <!-- 获取字典数据列表 -->
     <select id="listDict" resultMap="POResultMap">
-        SELECT t.group_id,t.group_name,t.item_code,t.item_name
+        SELECT t.fk_tenant_id,t.group_id,t.group_name,t.item_code,t.item_name
         ,CASE WHEN t.value_type = 0 THEN 2 ELSE 1 END valueType
         ,t.min_value minValue,t.max_value "maxValue",t.unit,t.reference
          FROM (
-            SELECT group_id,group_name,item_code,item_name,MAX((TRIM(result) REGEXP '^[\-,\+,&gt;,&lt;]?[0-9]+(.[0-9]+)?$')) value_type,MIN(value_min) min_value,MAX(value_max) max_value,MAX(value_unit) unit,MAX(reference) reference 
+            SELECT fk_tenant_id,group_id,group_name,item_code,item_name
+                ,MAX((TRIM(result) REGEXP '^[\-,\+,&gt;,&lt;]?[0-9]+(.[0-9]+)?$')) value_type,MIN(value_min) min_value,MAX(value_max) max_value,MAX(value_unit) unit,MAX(reference) reference 
             FROM patient_assay_record 
             WHERE fk_tenant_id = #{tenantId}
-            <if test="startCreateTime !=null and endCreateTIme!=null">
+            <if test="startCreateTime !=null and endCreateTime!=null">
                 AND create_time BETWEEN #{startCreateTime} AND #{endCreateTIme}
             </if>
-            GROUP BY group_id,group_name,item_code,item_name 
+            GROUP BY fk_tenant_id,group_id,group_name,item_code,item_name 
         ) t
     </select>
 </mapper>
