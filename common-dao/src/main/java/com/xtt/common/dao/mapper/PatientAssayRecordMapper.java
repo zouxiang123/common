@@ -126,10 +126,10 @@ public interface PatientAssayRecordMapper {
      * @Title: listDict
      * @param tenantId
      * @param startCreateTime
-     * @param endCreateTIme
+     * @param endCreateTime
      * @return
      *
      */
     List<PatientAssayRecordPO> listDict(@Param("tenantId") Integer tenantId, @Param("startCreateTime") Date startCreateTime,
-                    @Param("endCreateTIme") Date endCreateTIme);
+                    @Param("endCreateTime") Date endCreateTime);
 }
