@@ -579,7 +579,7 @@
             FROM patient_assay_record 
             WHERE fk_tenant_id = #{tenantId}
             <if test="startCreateTime !=null and endCreateTime!=null">
-                AND create_time BETWEEN #{startCreateTime} AND #{endCreateTIme}
+                AND create_time BETWEEN #{startCreateTime} AND #{endCreateTime}
             </if>
             GROUP BY fk_tenant_id,group_id,group_name,item_code,item_name 
         ) t

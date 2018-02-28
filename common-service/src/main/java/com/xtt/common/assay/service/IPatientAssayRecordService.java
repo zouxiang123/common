@@ -65,10 +65,10 @@ public interface IPatientAssayRecordService {
      * @Title: listDict
      * @param tenantId
      * @param startCreateTime
-     * @param endCreateTIme
+     * @param endCreateTime
      * @return
      *
      */
-    List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTIme);
+    List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTime);
 
 }

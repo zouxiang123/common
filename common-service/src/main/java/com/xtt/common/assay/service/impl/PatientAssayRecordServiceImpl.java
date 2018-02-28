@@ -53,8 +53,8 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTIme) {
-        return patientAssayRecordMapper.listDict(tenantId, startCreateTime, endCreateTIme);
+    public List<PatientAssayRecordPO> listDict(Integer tenantId, Date startCreateTime, Date endCreateTime) {
+        return patientAssayRecordMapper.listDict(tenantId, startCreateTime, endCreateTime);
     }
 
 }
