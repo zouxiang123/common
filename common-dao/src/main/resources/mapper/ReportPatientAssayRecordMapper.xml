@@ -335,7 +335,7 @@
             <if test="itemCodes !=null and itemCodes.size()>0">
                 AND item_code in <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
-			and fk_patient_id not in(select  id from patient where del_flag = 1 and fk_tenant_id = #{tenantId})
+			and NOT EXISTS (select 1 from hd_patient_extend where del_flag = 1 and fk_tenant_id = #{tenantId} and id = fk_patient_id)
   </insert>
     
   <select id="selectByReportPatientAssay" resultMap="BaseResultMap" parameterType="com.xtt.common.dao.model.ReportPatientAssayRecord">
