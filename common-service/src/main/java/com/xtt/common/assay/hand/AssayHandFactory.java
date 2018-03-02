@@ -243,17 +243,20 @@ public abstract class AssayHandFactory {
         query.setCreateTime(startCreateTime);
         query.setEndCreateTime(endCreateTime);
         query.setDiaAbFlag(AssayConsts.AFTER_HD);
+        query.setFkTenantId(UserUtil.getTenantId());
         List<PatientAssayRecordBusiPO> list = patientAssayRecordBusiService.listByCondition(query);
         if (CollectionUtils.isNotEmpty(list)) {
             list.forEach(par -> {
-                par.setItemName(par.getItemName().concat(AssayConsts.AFTER_HD_SUFFIX_NAME));
-                par.setItemCode(par.getItemCode().concat(AssayConsts.AFTER_HD_SUFFIX));
-                // 更新透后标识
-                PatientAssayRecordBusiPO update = new PatientAssayRecordBusiPO();
-                update.setId(par.getId());
-                update.setItemName(par.getItemName());
-                update.setItemCode(par.getItemCode());
-                patientAssayRecordBusiService.updateByIdSelective(update);
+                if (!par.getItemCode().endsWith(AssayConsts.AFTER_HD_SUFFIX)) {// 如果item_code已经是处理过的，不用更新对应的itemCode和itemName
+                    par.setItemName(par.getItemName().concat(AssayConsts.AFTER_HD_SUFFIX_NAME));
+                    par.setItemCode(par.getItemCode().concat(AssayConsts.AFTER_HD_SUFFIX));
+                    // 更新透后标识
+                    PatientAssayRecordBusiPO update = new PatientAssayRecordBusiPO();
+                    update.setId(par.getId());
+                    update.setItemName(par.getItemName());
+                    update.setItemCode(par.getItemCode());
+                    patientAssayRecordBusiService.updateByIdSelective(update);
+                }
             });
             // 插入透后字典数据
             insertAssayHospDict(list, true);

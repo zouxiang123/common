@@ -32,6 +32,8 @@ public class AssayHospDictPO extends AssayHospDict {
     private String oldItemCode; // 历史itemcode
     private Collection<String> itemCodes;
     private List<Long> ids;
+    // 显示用itemCode,如果是血透唯一标识的item_code，去除其后缀
+    private String itemCodeShow;
 
     public String getOldItemCode() {
         return oldItemCode;
@@ -159,6 +161,14 @@ public class AssayHospDictPO extends AssayHospDict {
 
     public void setIds(List<Long> ids) {
         this.ids = ids;
+    }
+
+    public String getItemCodeShow() {
+        return itemCodeShow;
+    }
+
+    public void setItemCodeShow(String itemCodeShow) {
+        this.itemCodeShow = itemCodeShow;
     }
 
 }

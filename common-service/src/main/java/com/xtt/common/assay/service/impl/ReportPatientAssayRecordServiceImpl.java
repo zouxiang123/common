@@ -186,7 +186,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
             for (PatientAssayRecordBusiPO par : notSynchroResults) {
                 /*判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id*/
                 par.setItemCode(handItemCode(par.getItemCode(), tenantId));
-                
+
                 ReportPatientAssayRecord queryItem = new ReportPatientAssayRecord();
                 queryItem.setFkTenantId(tenantId);
                 queryItem.setAssayMonth(monthAndYear);
@@ -207,12 +207,13 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
                 saveItem.setAssayYear(String.valueOf(year));
                 if (isInsert) {
                     saveItem.setDateType(AssayConsts.REPORT_DATE_TYPE_MONTH);
+                    saveItem.setCreateTime(new Date());
                     reportPatientAssayRecordMapper.insertSelective(saveItem);
                     continue;
                 } else {
                     reportPatientAssayRecordMapper.updateReportPatientAssay(saveItem);
                 }
-                
+
             }
         }
 
