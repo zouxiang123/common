@@ -479,6 +479,9 @@
             <if test="groupTenant != null and groupTenant != ''">
                 AND parb.fk_tenant_id in (${groupTenant})
             </if>
+            <if test="fkTenantId != null">
+                AND parb.fk_tenant_id = ${fkTenantId}
+            </if>
             <if test="patientIds !=null and patientIds.size()>0">
                 AND parb.fk_patient_id in
                 <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
