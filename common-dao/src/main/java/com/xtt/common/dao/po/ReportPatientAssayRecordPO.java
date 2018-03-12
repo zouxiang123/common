@@ -18,7 +18,7 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private String sqlCondition;// 组装的sql条件
     private Double minValue;// 最小值
     private Double maxValue;// 最大值
-
+    private String tempMultiple; //患者状态
     private Integer allCount;// 总数量
     private Integer okCount;// 达标数量
     private Integer noOkCount;// 不达标数量
@@ -301,5 +301,13 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
+
+	public String getTempMultiple() {
+		return tempMultiple;
+	}
+
+	public void setTempMultiple(String tempMultiple) {
+		this.tempMultiple = tempMultiple;
+	}
 
 }
