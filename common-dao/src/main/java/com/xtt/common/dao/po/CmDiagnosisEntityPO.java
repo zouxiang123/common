@@ -9,6 +9,7 @@
 package com.xtt.common.dao.po;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,8 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private List<CmDiagnosisEntityValuePO> valueList;
 
     private Map<String, List<CmDiagnosisEntityValuePO>> valueMap;
+    private Collection<Long> patientIds;
+    private Collection<String> itemCodes;
 
     public CmDiagnosisEntityPO() {
         this.valueMap = MapUtils.lazyMap(new HashMap<String, List<Object>>(), (Factory) () -> LazyList
@@ -104,6 +107,22 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
 
     public void setMultiTenant(String multiTenant) {
         this.multiTenant = multiTenant;
+    }
+
+    public Collection<Long> getPatientIds() {
+        return patientIds;
+    }
+
+    public void setPatientIds(Collection<Long> patientIds) {
+        this.patientIds = patientIds;
+    }
+
+    public Collection<String> getItemCodes() {
+        return itemCodes;
+    }
+
+    public void setItemCodes(Collection<String> itemCodes) {
+        this.itemCodes = itemCodes;
     }
 
 }

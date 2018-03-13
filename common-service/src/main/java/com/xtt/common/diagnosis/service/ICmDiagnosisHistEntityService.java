@@ -8,7 +8,9 @@
  */
 package com.xtt.common.diagnosis.service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.xtt.common.dao.po.CmDiagnosisEntityPO;
 
@@ -51,4 +53,17 @@ public interface ICmDiagnosisHistEntityService {
      *
      */
     String deleteById(Long id);
+
+    /**
+     * 获取患者最新一次的诊断字符串
+     * 
+     * @Title: getLatestStrByPatientIds
+     * @param patientIds
+     * @param types
+     *            诊断类别 例如： <note>CmDiagnosisConstants.BS</note>
+     * @param tenantId
+     * @return {患者id：{诊断类别：对应的字符串}}
+     *
+     */
+    Map<Long, Map<String, String>> getLatestStrByPatientIds(Collection<Long> patientIds, Collection<String> types, Integer tenantId);
 }
