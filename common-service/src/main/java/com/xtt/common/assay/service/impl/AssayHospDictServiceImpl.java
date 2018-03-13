@@ -221,6 +221,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         AssayHospDictPO query = new AssayHospDictPO();
         query.setFkTenantId(tenantId);
         query.setItemCodes(itemCodes);
+        query.setIsTop(true);
         return listProcessedItemCodeRec(query);
     }
 
