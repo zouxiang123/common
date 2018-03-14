@@ -61,6 +61,16 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private List<String> ids;// 所有id集合
     private String assayDateStr;
 
+    private String fkDictUk;
+
+    public String getFkDictUk() {
+        return fkDictUk;
+    }
+
+    public void setFkDictUk(String fkDictUk) {
+        this.fkDictUk = fkDictUk;
+    }
+
     public String getGroupTenant() {
         return groupTenant;
     }
