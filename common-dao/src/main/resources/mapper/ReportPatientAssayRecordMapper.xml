@@ -216,19 +216,19 @@
 	        , p.fk_patient_id fkPatientId
 		FROM report_patient_assay_record p
 		INNER JOIN patient pa ON p.fk_patient_id = pa.id 
-		<if test="patientLabelId != null">
-		INNER JOIN patient_label_ref plf
-		ON pa.id = plf.fk_patient_id AND plf.del_flag = false
-		INNER JOIN patient_label pl on plf.fk_label_id = pl.id
-		</if>
+        <if test="patientLabelId != null">
+          INNER JOIN patient_label_ref plf ON pa.id = plf.fk_patient_id and plf.fk_tenant_id = p.fk_tenant_id and plf.sys_owner = pa.sys_owner
+        </if>
 		WHERE p.fk_tenant_id = #{fkTenantId}
 		AND p.result is not null
 		AND p.item_code = #{itemCode}
 		AND p.assay_year = #{assayYear,jdbcType=VARCHAR}
-		<if test="patientLabelId != null">
-		AND plf.fk_label_id=#{patientLabelId}
-		AND (CASE WHEN pl.is_defualt = 1 THEN plf.fk_user_id=#{fkUserId} ELSE 1=1 END)
-		</if>
+	   <if test="patientLabelId != null">
+         AND plf.fk_label_id=#{patientLabelId}
+       </if>
+       <if test="sysOwner != null">
+          AND pa.sys_owner = #{sysOwner}
+       </if>
 	) a
 	<!-- AND p.date_type = #{dateType} -->
 	GROUP BY
@@ -276,9 +276,7 @@
 	FROM report_patient_assay_record p
 	INNER JOIN patient pa ON pa.id = p.fk_patient_id
   	<if test="patientLabelId != null">
-	  INNER JOIN patient_label_ref plf
-	  ON pa.id = plf.fk_patient_id AND plf.del_flag = false
-	  INNER JOIN patient_label pl on plf.fk_label_id = pl.id
+	  INNER JOIN patient_label_ref plf ON pa.id = plf.fk_patient_id and plf.fk_tenant_id = p.fk_tenant_id and plf.sys_owner = pa.sys_owner
   	</if>
 	WHERE p.fk_tenant_id = #{fkTenantId} AND p.result is not null 
 	<if test="itemCode != null">
@@ -295,8 +293,10 @@
 	</if>
 	<if test="patientLabelId != null">
 	  AND plf.fk_label_id=#{patientLabelId}
-	  AND (CASE WHEN pl.is_defualt = 1 THEN plf.fk_user_id=#{fkUserId} ELSE 1=1 END)
 	</if>
+    <if test="sysOwner != null">
+      AND pa.sys_owner = #{sysOwner}
+    </if>
 	order by pa.spell_initials
   </select>
   

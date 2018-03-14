@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientLabelMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientLabel">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, name, order_by, fk_tenant_id, sys_owner, create_time, create_user_id, update_time, 
+    update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_label
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_label
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientLabel">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_label (id, name, order_by, 
+      fk_tenant_id, sys_owner, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientLabel">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_label
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientLabel">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_label
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientLabel">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_label
+    set name = #{name,jdbcType=VARCHAR},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientLabelPO" />
+  <!-- 根据租户id查询患者标签列表 -->
+  <select id="listByTenantId" resultMap="POResultMap">
+    select * from patient_label where fk_tenant_id = #{fkTenantId} and sys_owner = #{sysOwner}
+  </select>
+  <!-- 根据自定义条件查询数据 -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientLabelPO" resultMap="POResultMap">
+    select l.* ,
+           lr.fk_patient_id patientId
+    from patient_label l
+    JOIN patient_label_ref lr ON lr.fk_label_id = l.id
+    <where>
+        <if test="fkTenantId != null">
+            l.fk_tenant_id = #{fkTenantId}
+        </if>
+        <if test="sysOwner != null">
+            AND l.sys_owner = #{sysOwner}
+        </if>
+        <if test="patientIds != null and patientIds.size()&gt;0">
+            AND lr.fk_patient_id in <foreach close=")" collection="patientIds" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        <if test="fkLabelId != null">
+            AND lr.fk_label_id = #{fkLabelId}
+        </if>
+        <if test="patientId != null">
+            AND lr.fk_patient_id = #{patientId}
+        </if>
+    </where>
+    ORDER BY l.order_by,lr.order_by
+  </select>
+  <!-- 获取标签页患者列表 -->
+  <select id="listPatient" parameterType="com.xtt.common.dao.po.PatientLabelPO" resultMap="POResultMap">
+    select p.name patientName, p.image_path patientImagePath, p.spell_initials patientSpellInitials,p.id patientId
+    from patient p
+    LEFT JOIN patient_label_ref lr ON lr.fk_patient_id = p.id and lr.fk_tenant_id = p.fk_tenant_id and lr.sys_owner = p.sys_owner
+    LEFT JOIN patient_label l on lr.fk_label_id = l.id
+    <where>
+        <if test="fkTenantId != null">
+            p.fk_tenant_id = #{fkTenantId}
+        </if>
+        <if test="sysOwner != null">
+            AND p.sys_owner = #{sysOwner}
+        </if>
+        <if test="patientIds != null and patientIds.size()&gt;0">
+            AND lr.fk_patient_id in <foreach close=")" collection="patientIds" item="item" open="(" separator=",">#{item}</foreach>
+        </if>
+        <if test="fkLabelId != null">
+            AND lr.fk_label_id = #{fkLabelId}
+        </if>
+        <if test="patientSpellInitials != null and patientSpellInitials != ''">
+            AND p.spell_initials like CONCAT('%',CONCAT(#{patientSpellInitials},'%'))
+        </if>
+    </where>
+    GROUP BY p.id, p.name, p.image_path, p.spell_initials
+    ORDER BY p.spell_initials, p.id
+  </select>
+  <!-- 获取最大的order_by的值 -->
+  <select id="getMaxOrderBy" resultType="int">
+     select max(order_by) from patient_label where fk_tenant_id = #{fkTenantId} and sys_owner = #{sysOwner}
+  </select>
+  <!-- 根据自定义条件获取数量 -->
+  <select id="countByCondition" resultType="int">
+    select count(1) from patient_label
+    <where>
+      <if test="name != null">
+        name = #{name}
+      </if>
+      <if test="fkTenantId != null">
+        and fk_tenant_id = #{fkTenantId}
+      </if>
+      <if test="sysOwner != null">
+        and sys_owner = #{sysOwner}
+      </if>
+      </where>
+  </select>
+</mapper>

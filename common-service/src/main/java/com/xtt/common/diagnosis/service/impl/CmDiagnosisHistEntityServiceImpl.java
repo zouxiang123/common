@@ -8,9 +8,10 @@
  */
 package com.xtt.common.diagnosis.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +33,7 @@ import com.xtt.common.diagnosis.service.IDictDiagnosisService;
 import com.xtt.common.diagnosis.util.DiagnosisUtil;
 import com.xtt.common.util.DataUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.BeanUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
@@ -124,25 +126,41 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
                         continue;
                     }
                     // 需要显示的字典
-                    Set<CmDictDiagnosisPO> usedDictMap = new LinkedHashSet<>();
+                    List<CmDictDiagnosisPO> usedDictList = new ArrayList<>();
+                    // 去除重复数据用
+                    Set<String> existsCode = new HashSet<>();
                     // 有输入内容itemCode
                     Map<String, String> hasContentValueMap = new HashMap<>(entity.getValueList().size());
                     // 顶级显示字典
-                    Set<CmDictDiagnosisPO> topSet = new LinkedHashSet<>();
-                    entity.getValueList().forEach(val -> {
+                    List<CmDictDiagnosisPO> topList = new ArrayList<>();
+                    for (CmDiagnosisEntityValuePO val : entity.getValueList()) {
                         List<CmDictDiagnosisPO> treeList = DiagnosisUtil.getTreeListByLeafCode(dictMap, val.getItemCode(), entity.getItemCode());
                         if (CollectionUtils.isNotEmpty(treeList)) {
-                            topSet.add(treeList.get(treeList.size() - 1));
-                            usedDictMap.addAll(treeList);
+                            CmDictDiagnosisPO useItem;
+                            for (int i = 0; i < treeList.size(); i++) {
+                                CmDictDiagnosisPO dictItem = treeList.get(i);
+                                // 去除重复数据
+                                if (!existsCode.contains(dictItem.getItemCode())) {
+                                    // 避免后续循环影响原始字典数据，操作的数据使用新的对象
+                                    useItem = new CmDictDiagnosisPO();
+                                    BeanUtil.copyProperties(dictItem, useItem);
+                                    usedDictList.add(useItem);
+                                    // 添加顶级节点
+                                    if (i == treeList.size() - 1) {
+                                        topList.add(useItem);
+                                    }
+                                    existsCode.add(dictItem.getItemCode());
+                                }
+                            }
                         }
                         if (StringUtil.isNotBlank(val.getContent())) {
                             hasContentValueMap.put(val.getItemCode(), val.getContent());
                         }
-                    });
-                    if (topSet.size() > 0) {
+                    }
+                    if (topList.size() > 0) {
                         StringBuilder sb = new StringBuilder();
-                        topSet.forEach(dict -> {
-                            DiagnosisUtil.initDictAsTree(usedDictMap, dict);
+                        for (CmDictDiagnosisPO dict : topList) {
+                            DiagnosisUtil.initDictAsTree(usedDictList, dict);
                             sb.append(StringUtil.stripToEmpty(dict.getItemName()).replaceAll("？", ""));
                             if (CollectionUtils.isNotEmpty(dict.getChildrens())) {
                                 sb.append("：");
@@ -150,7 +168,7 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
                                 sb.deleteCharAt(sb.length() - 1);
                                 sb.append("；");
                             }
-                        });
+                        }
                         typesMap.put(entity.getItemCode(), sb.toString());
                     }
                 }
@@ -170,15 +188,23 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
      */
     private void appendDiagnosis(StringBuilder sb, CmDictDiagnosisPO dict, Map<String, String> contentMap) {
         if (CollectionUtils.isNotEmpty(dict.getChildrens())) {
-            dict.getChildrens().forEach(item -> {
+            int i = 0;
+            for (CmDictDiagnosisPO item : dict.getChildrens()) {
                 sb.append(item.getItemName());
-                if (contentMap.get(item.getItemCode()) != null) {
-                    sb.append(" ").append(item.getItemName()).append(",");
+                if (CollectionUtils.isNotEmpty(item.getChildrens())) {
+                    sb.append(">");
+                    appendDiagnosis(sb, item, contentMap);
                 } else {
-                    sb.append(",");
+                    if (contentMap.get(item.getItemCode()) != null) {
+                        sb.append(" ").append(contentMap.get(item.getItemCode()));
+                    }
+                    if (++i == dict.getChildrens().size()) {
+                        sb.append("；");
+                    } else {
+                        sb.append(",");
+                    }
                 }
-                appendDiagnosis(sb, item, contentMap);
-            });
+            }
         }
     }
 

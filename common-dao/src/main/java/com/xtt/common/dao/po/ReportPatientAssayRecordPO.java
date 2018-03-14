@@ -46,6 +46,7 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Long patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
     private Collection<String> itemCodes;// 多个itemCode编号
+    private String sysOwner;
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -263,6 +264,14 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
 
     public void setItemCodes(Collection<String> itemCodes) {
         this.itemCodes = itemCodes;
+    }
+
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
     }
 
 }

@@ -69,6 +69,19 @@ table>tbody tr.active {
                             </label>
                         </div>
                     </div>
+                    <div class="mb-10">
+                        <div class="tab-list-text2 line-height-35">标签管理：</div>
+                        <div class="bb-dashed pb-10 u-display-inlineBlock width-280">
+                            <label class="u-select w-100"> 
+                                <select style="width:282px" name="patientLabelId">
+                                    <option value="">全部</option>
+                                    <c:forEach var="item" items="${labels }">
+                                        <option value="${item.id }">${item.name }</option>
+                                    </c:forEach>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
                     <div>
                         <div class="tab-list-text2 line-height-35">达标范围：</div>
                         <div class="bb-dashed pb-10 u-display-inlineBlock">

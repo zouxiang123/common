@@ -50,6 +50,7 @@ import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayConfPO;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
 import com.xtt.common.dao.po.ReportPatientAssayRecordPO;
+import com.xtt.common.patient.service.IPatientLabelService;
 import com.xtt.common.util.CalendarUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.SysParamUtil;
@@ -72,6 +73,8 @@ public class AssayReportController {
     private IPatientAssayConfService patientAssayConfService;
     @Autowired
     private IPatientAssayRecordBusiService patientAssayRecordBusiService;
+    @Autowired
+    private IPatientLabelService patientLabelService;
 
     /**
      * 跳转至化验报表也页面
@@ -84,6 +87,7 @@ public class AssayReportController {
     public ModelAndView view() {
         ModelAndView model = new ModelAndView("report/assay_report");
         model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.listByPItemCode(CmDictConsts.ASSAY_TEXT_TYPE));
+        model.addObject("labels", patientLabelService.listByTenantId(UserUtil.getTenantId()));
         return model;
     }
 

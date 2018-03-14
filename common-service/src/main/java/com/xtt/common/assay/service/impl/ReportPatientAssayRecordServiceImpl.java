@@ -157,6 +157,7 @@ public class ReportPatientAssayRecordServiceImpl implements IReportPatientAssayR
         query.setFkUserId(userId);
         // 判断化验项是否存在于同类组,如果存在于同类组，则itemCode为同类组id
         query.setItemCode(handItemCode(record.getItemCode(), UserUtil.getTenantId()));
+        query.setSysOwner(UserUtil.getSysOwner());
         List<ReportPatientAssayRecordPO> list = reportPatientAssayRecordMapper.selectDetailByDateType(query);
         if (list == null) {
             list = new ArrayList<ReportPatientAssayRecordPO>();
