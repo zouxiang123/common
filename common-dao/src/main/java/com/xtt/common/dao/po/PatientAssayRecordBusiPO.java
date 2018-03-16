@@ -60,15 +60,6 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String groupTenant;
     private List<String> ids;// 所有id集合
     private String assayDateStr;
-    private String unit;// 单位
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
 
     private String fkDictUk;
 
