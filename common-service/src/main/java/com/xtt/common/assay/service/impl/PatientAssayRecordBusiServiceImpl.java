@@ -74,9 +74,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         if (CollectionUtils.isNotEmpty(list)) {
             list.forEach(item -> {
                 item.setAssayDateStr(DateFormatUtil.convertDateToStr(item.getAssayDate()));
-                if (StringUtil.isNotEmpty(item.getUnit()) && StringUtil.isNotEmpty(item.getReference())) {
-                    item.setReference(item.getReference().concat(item.getUnit()));
-                }
             });
         }
         return list;
