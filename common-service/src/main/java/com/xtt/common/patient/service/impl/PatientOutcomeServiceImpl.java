@@ -60,7 +60,7 @@ public class PatientOutcomeServiceImpl implements IPatientOutcomeService {
             patientOutcomeMapper.insert(record);
         } else {
             // 更新转归记录
-            patientOutcomeMapper.updateByPrimaryKeySelective(record);
+            patientOutcomeMapper.updateByPrimaryKey(record);
         }
         PatientOwner owner = new PatientOwner();
         owner.setFkPatientId(record.getFkPatientId());

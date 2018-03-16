@@ -8,9 +8,10 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
     <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="type_reason" jdbcType="VARCHAR" property="typeReason" />
     <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="type_reason" jdbcType="VARCHAR" property="typeReason" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="death_reason" jdbcType="VARCHAR" property="deathReason" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
     <result column="to_sys_owner" jdbcType="VARCHAR" property="toSysOwner" />
     <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
@@ -25,9 +26,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, fk_patient_id, type, type_reason, record_date, reason, sys_owner, to_sys_owner, 
-    fk_tenant_id, to_tenant_id, to_tenant_name, create_time, create_user_id, update_time, 
-    update_user_id
+    id, fk_patient_id, type, record_date, type_reason, reason, death_reason, sys_owner, 
+    to_sys_owner, fk_tenant_id, to_tenant_id, to_tenant_name, create_time, create_user_id, 
+    update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -50,17 +51,17 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into patient_outcome (id, fk_patient_id, type, 
-      type_reason, record_date, reason, 
-      sys_owner, to_sys_owner, fk_tenant_id, 
-      to_tenant_id, to_tenant_name, create_time, 
-      create_user_id, update_time, update_user_id
-      )
+      record_date, type_reason, reason, 
+      death_reason, sys_owner, to_sys_owner, 
+      fk_tenant_id, to_tenant_id, to_tenant_name, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
     values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, 
-      #{typeReason,jdbcType=VARCHAR}, #{recordDate,jdbcType=DATE}, #{reason,jdbcType=VARCHAR}, 
-      #{sysOwner,jdbcType=VARCHAR}, #{toSysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
-      #{toTenantId,jdbcType=INTEGER}, #{toTenantName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
-      )
+      #{recordDate,jdbcType=DATE}, #{typeReason,jdbcType=VARCHAR}, #{reason,jdbcType=VARCHAR}, 
+      #{deathReason,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}, #{toSysOwner,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{toTenantId,jdbcType=INTEGER}, #{toTenantName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientOutcome">
     <!--
@@ -77,14 +78,17 @@
       <if test="type != null">
         type,
       </if>
-      <if test="typeReason != null">
-        type_reason,
-      </if>
       <if test="recordDate != null">
         record_date,
       </if>
+      <if test="typeReason != null">
+        type_reason,
+      </if>
       <if test="reason != null">
         reason,
+      </if>
+      <if test="deathReason != null">
+        death_reason,
       </if>
       <if test="sysOwner != null">
         sys_owner,
@@ -124,14 +128,17 @@
       <if test="type != null">
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="typeReason != null">
-        #{typeReason,jdbcType=VARCHAR},
-      </if>
       <if test="recordDate != null">
         #{recordDate,jdbcType=DATE},
       </if>
+      <if test="typeReason != null">
+        #{typeReason,jdbcType=VARCHAR},
+      </if>
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="deathReason != null">
+        #{deathReason,jdbcType=VARCHAR},
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
@@ -174,14 +181,17 @@
       <if test="type != null">
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="typeReason != null">
-        type_reason = #{typeReason,jdbcType=VARCHAR},
-      </if>
       <if test="recordDate != null">
         record_date = #{recordDate,jdbcType=DATE},
       </if>
+      <if test="typeReason != null">
+        type_reason = #{typeReason,jdbcType=VARCHAR},
+      </if>
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
+      </if>
+      <if test="deathReason != null">
+        death_reason = #{deathReason,jdbcType=VARCHAR},
       </if>
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
@@ -220,9 +230,10 @@
     update patient_outcome
     set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
       type = #{type,jdbcType=VARCHAR},
-      type_reason = #{typeReason,jdbcType=VARCHAR},
       record_date = #{recordDate,jdbcType=DATE},
+      type_reason = #{typeReason,jdbcType=VARCHAR},
       reason = #{reason,jdbcType=VARCHAR},
+      death_reason = #{deathReason,jdbcType=VARCHAR},
       sys_owner = #{sysOwner,jdbcType=VARCHAR},
       to_sys_owner = #{toSysOwner,jdbcType=VARCHAR},
       fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
@@ -325,7 +336,7 @@
             </if>
             <if test="excludeTypes !=null">
                 and type not in 
-                <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">
+                <foreach close=")" collection="excludeTypes" item="item" open="(" separator=",">
                     #{item}
                 </foreach>
             </if>
@@ -344,7 +355,7 @@
             </if>
             <if test="excludeTypes !=null">
                 and type not in 
-                <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">
+                <foreach close=")" collection="excludeTypes" item="item" open="(" separator=",">
                     #{item}
                 </foreach>
             </if>

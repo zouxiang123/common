@@ -59,12 +59,12 @@
 						<div class="m-t-14">
 							<span class="u-span-6">类别：</span> 
 							<div>
-							  <c:forEach var="item" items="${patient_outcome_type }" varStatus="status">
-			                   	 <label class="tl" <c:if test="${status.first }">style="margin-left:8px;"</c:if> >
-			                        <input type="radio" name="type" value="${item.itemCode }" <c:if test="${item.isChecked }">checked</c:if> />
-			                        ${item.itemName }
-			                      </label>
-			                   </c:forEach>
+								<c:forEach var="item" items="${patient_outcome_type }" varStatus="status">
+			                		<label class="tl" <c:if test="${status.first }">style="margin-left:8px;"</c:if> >
+			                        	<input type="radio" name="type" value="${item.itemCode }" <c:if test="${item.isChecked }">checked</c:if> />
+			                        	${item.itemName }
+			                    	</label>
+			                	</c:forEach>
 							</div>
 						</div>
 						<div class="m-t-14" style="padding-right: 20px;">
@@ -113,6 +113,11 @@
 			recordDateEl.data("daterangepicker").endDate=moment();
 			recordDateEl.val(new Date().pattern("yyyy-MM-dd"));
 			$("#outcomeForm input[name='type']").prop("checked",false);
+			// 死亡
+			if (item.typeReason == '3') {
+                $("#deathReasonDiv").show();// 显示
+            }
+            $("#deathReasonDiv").show();// 显示
 			$("#outcomeForm [name='reason']").val("");
 			$("#outcomeDialog").modal("show");
 		},

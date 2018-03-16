@@ -86,6 +86,10 @@ public class CmDictConsts {
      * 患者转归类型
      */
     public static final String OUTCOME_RECORD_TYPE = "outcome_record_type";// 转归类型
+    /**
+     * 患者转归死亡原因分类
+     */
+    public static final String DEATH_REASON = "death_reason";
 
     /*-------- unit start --------*/
     /**

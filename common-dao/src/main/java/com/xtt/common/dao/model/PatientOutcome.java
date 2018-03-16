@@ -7,77 +7,92 @@ import java.util.Date;
  */
 public class PatientOutcome {
     /**
-     * 物理主键 patient_outcome.id
+     * patient_outcome.id
      */
     private Long id;
 
     /**
-     * 患者id patient_outcome.fk_patient_id
+     * 患者id
+     * patient_outcome.fk_patient_id
      */
     private Long fkPatientId;
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡) patient_outcome.type
+     * 类型:(1:腹透,2:移植,3:死亡)	
+     * patient_outcome.type
      */
     private String type;
 
     /**
-     * 类型原因 patient_outcome.type_reason
-     */
-    private String typeReason;
-
-    /**
-     * 转归日期 patient_outcome.record_date
+     * 转归日期
+     * patient_outcome.record_date
      */
     private Date recordDate;
 
     /**
-     * 转归原因 patient_outcome.reason
+     * 类型原因
+     * patient_outcome.type_reason
+     */
+    private String typeReason;
+
+    /**
+     * 原因
+     * patient_outcome.reason
      */
     private String reason;
 
     /**
-     * 所属系统 patient_outcome.sys_owner
+     * patient_outcome.death_reason
+     */
+    private String deathReason;
+
+    /**
+     * 所属系统
+     * patient_outcome.sys_owner
      */
     private String sysOwner;
 
     /**
-     * 转出到的系统 patient_outcome.to_sys_owner
+     * 转出到的系统
+     * patient_outcome.to_sys_owner
      */
     private String toSysOwner;
 
     /**
-     * 租户id patient_outcome.fk_tenant_id
+     * 租户id
+     * patient_outcome.fk_tenant_id
      */
     private Integer fkTenantId;
 
     /**
-     * 转出医院 patient_outcome.to_tenant_id
+     * 转出医院
+     * patient_outcome.to_tenant_id
      */
     private Integer toTenantId;
 
     /**
-     * 转出医院名称 patient_outcome.to_tenant_name
+     * 转出医院名称
+     * patient_outcome.to_tenant_name
      */
     private String toTenantName;
 
     /**
-     * 创建时间 patient_outcome.create_time
+     * patient_outcome.create_time
      */
     private Date createTime;
 
     /**
-     * 创建人 patient_outcome.create_user_id
+     * patient_outcome.create_user_id
      */
     private Long createUserId;
 
     /**
-     * 更新时间 patient_outcome.update_time
+     * patient_outcome.update_time
      */
     private Date updateTime;
 
     /**
-     * 更新人 patient_outcome.update_user_id
+     * patient_outcome.update_user_id
      */
     private Long updateUserId;
 
@@ -108,31 +123,17 @@ public class PatientOutcome {
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public String getType() {
         return type;
     }
 
     /**
-     * 类型:(1:腹透,2:移植,3:死亡)
+     * 类型:(1:腹透,2:移植,3:死亡)	
      */
     public void setType(String type) {
         this.type = type;
-    }
-
-    /**
-     * 类型原因
-     */
-    public String getTypeReason() {
-        return typeReason;
-    }
-
-    /**
-     * 类型原因
-     */
-    public void setTypeReason(String typeReason) {
-        this.typeReason = typeReason;
     }
 
     /**
@@ -150,6 +151,20 @@ public class PatientOutcome {
     }
 
     /**
+     * 类型原因
+     */
+    public String getTypeReason() {
+        return typeReason;
+    }
+
+    /**
+     * 类型原因
+     */
+    public void setTypeReason(String typeReason) {
+        this.typeReason = typeReason;
+    }
+
+    /**
      * 原因
      */
     public String getReason() {
@@ -161,6 +176,18 @@ public class PatientOutcome {
      */
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    /**
+     */
+    public String getDeathReason() {
+        return deathReason;
+    }
+
+    /**
+     */
+    public void setDeathReason(String deathReason) {
+        this.deathReason = deathReason;
     }
 
     /**
