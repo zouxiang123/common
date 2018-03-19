@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xtt.common.dao.mapper.PatientOutcomeReportMapper" >
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.po.PatientOutcomeReport">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="record_date" jdbcType="DATE" property="recordDate" />
+    <result column="reason" jdbcType="VARCHAR" property="reason" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+    <!-- 根据自定义条件查询数据 -->
+    <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientOutcomeReport" resultMap="BaseResultMap">
+        SELECT po.id, po.fk_patient_id, po.type, po.record_date, po.reason, po.sys_owner, po.fk_tenant_id
+        ,p.name as patientName ,p.serial_num as serialNum
+        FROM patient_outcome po
+        JOIN patient p ON p.id = po.fk_patient_id
+        <where>
+            <if test="fkPatientId != null">
+                po.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="type != null">
+                AND po.type = #{type}
+            </if>
+            <if test="recordDate != null">
+                AND po.record_date = #{recordDate,jdbcType=DATE}
+            </if>
+            <if test="startDate != null">
+                AND po.record_date &gt;= #{startDate,jdbcType=DATE}
+            </if>
+            <if test="endDate != null">
+                AND po.record_date &lt;= #{endDate,jdbcType=DATE}
+            </if>
+            <if test="reason != null">
+                AND po.reason = #{reason}
+            </if>
+            <if test="sysOwner != null">
+                AND po.sys_owner = #{sysOwner}
+            </if>
+            <if test="fkTenantId != null">
+                AND po.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="excludeTypes !=null">
+                AND po.type not in <foreach collection="excludeTypes" item="item" open="(" separator="," close=")">#{item}</foreach>
+            </if>
+            <if test="types !=null">
+                AND po.type in <foreach collection="types" item="item" open="(" separator="," close=")">#{item}</foreach>
+            </if>
+            <if test="isTemp !=null">
+                AND p.is_temp = #{isTemp}
+            </if>
+        </where>
+        ORDER BY p.initial,p.id,po.record_date desc
+    </select>
+    <!-- 获取报表数据 -->
+    <select id="listReportData" parameterType="map" resultType="java.util.LinkedHashMap">
+        SELECT 
+            d.item_name `name`, d.item_code value, count(DISTINCT p.id) cnt
+            ,DATE_FORMAT(r.record_date,'%Y-%m') AS time
+        FROM cm_dict d
+        LEFT JOIN patient_outcome r ON d.item_code = r.type AND r.fk_tenant_id = d.fk_tenant_id
+        JOIN patient p ON r.fk_patient_id = p.id AND p.fk_tenant_id = d.fk_tenant_id
+        WHERE r.record_date BETWEEN #{from} and #{to} and d.p_item_code=#{dictType}  AND d.is_enable = 1 AND d.fk_tenant_id = #{tenantId}
+        <if test="isTemp !=null">
+          AND p.is_temp = #{isTemp}
+        </if>
+        GROUP BY d.item_code,d.item_name,DATE_FORMAT(r.record_date,'%Y-%m')
+  </select>
+</mapper>
