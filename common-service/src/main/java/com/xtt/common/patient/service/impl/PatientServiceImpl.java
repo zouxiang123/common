@@ -310,4 +310,10 @@ public class PatientServiceImpl implements IPatientService {
         return patientMapper.listByMobile(mobile, neId);
     }
 
+    @Override
+    public List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map) {
+
+        return patientMapper.listDiagnosisPatientByCondtion(map);
+    }
+
 }

@@ -292,4 +292,18 @@
   	</where>
   	order by cdd.p_item_code,cdd.order_by
   </select>
+     <!-- 根据itemCode获取自己和父节点的信息-->
+  <select id="selectPInfo"   parameterType="java.lang.String"  resultType="com.xtt.common.dao.po.CmDictDiagnosisPO">
+    SELECT
+        c2.item_code  itemCode,
+        c2.item_name  itemName,
+        c1.item_code  pItemCode,
+        c1.item_name  pItemName
+    FROM
+        cm_dict_diagnosis c1
+    INNER JOIN cm_dict_diagnosis c2 ON c1.item_code = c2.p_item_code
+    WHERE
+        c2.item_code = #{itemCode}
+  </select>
+
 </mapper>

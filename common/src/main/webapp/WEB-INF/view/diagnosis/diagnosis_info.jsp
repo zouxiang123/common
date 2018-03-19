@@ -27,7 +27,7 @@
 				<ul class="content-editing-bar" style="list-style: none;margin-bottom: 0px;border-bottom: 1px solid #d9e0e6;">
 					<li class="content-editing-item-6 hand" data-link="medicalHistory"><span class="active" style="margin-left: 15px;">病史</span>
 						<div class="tab-line" style="right: 0px; position: absolute; float: inherit; margin-right: 0px;"></div></li>
-					<li class="content-editing-item-6 hand" data-link="clinicalDiagnosis"><span style="margin-left: 0px;">临床诊断</span>
+					<li class="content-editing-item-6 hand" data-link="clinicalDiagnosis"><span style="margin-left: 0px;">原发病诊断</span>
 						<div class="tab-line" style="right: 0px; position: absolute; float: inherit; margin-right: 0px;"></div></li>
 					<li class="content-editing-item-6 hand" data-link="pathologicDiagnosis"><span style="margin-left: 0px;">病理诊断</span>
 						<div class="tab-line" style="right: 0px; position: absolute; float: inherit; margin-right: 0px;"></div></li>

@@ -85,10 +85,10 @@ $(function() {
     }
     var barLen = $('#contentBar').children("div").length;
     var bar = [];
-    if (barLen == 8) {// 从临床诊断开始
-        bar = [ "基本信息", "询问病史", "临床诊断", "病理诊断", "CKD/AKI分期", "治疗前合并症", "其他诊断", "完成" ];
+    if (barLen == 8) {// 从原发病诊断开始
+        bar = [ "基本信息", "询问病史", "原发病诊断", "病理诊断", "CKD/AKI分期", "治疗前合并症", "其他诊断", "完成" ];
     } else {
-        bar = [ "临床诊断", "病理诊断", "CKD/AKI分期", "完成" ];
+        bar = [ "原发病诊断", "病理诊断", "CKD/AKI分期", "完成" ];
         if (step == 7) {
             step = 3;
         } else {
@@ -264,7 +264,7 @@ function checkMedicalHistory() {
 }
 
 /**
- * 临床诊断
+ * 原发病诊断
  * 
  * @param typeVal
  */

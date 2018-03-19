@@ -19,6 +19,14 @@ public class CmDiagnosisEntityValuePO extends CmDiagnosisEntityValue {
 
     private String diagnosisData;// 诊断信息
 
+    private Integer count; // 数量
+
+    private String year; // 年份
+
+    private Integer countAll;// 所有原发病的数量
+
+    private String itemName; // 原发病对应的名称
+
     public CmDiagnosisEntityPO getEntity() {
         return entity;
     }
@@ -33,6 +41,38 @@ public class CmDiagnosisEntityValuePO extends CmDiagnosisEntityValue {
 
     public void setDiagnosisData(String diagnosisData) {
         this.diagnosisData = diagnosisData;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public Integer getCountAll() {
+        return countAll;
+    }
+
+    public void setCountAll(Integer countAll) {
+        this.countAll = countAll;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
 }

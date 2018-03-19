@@ -298,4 +298,102 @@
         GROUP BY e1.fk_patient_id,e21.item_code,e21.item_name) e31
   GROUP BY e31.fk_patient_id
   </select>
+  <!-- 获取本年发病率最高的原发病的itemcode  -->
+  <select id="getItemCodeByYear"  resultType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+        SELECT
+             rs.item_code itemCode,
+             rs.item_name itemName
+        FROM
+            (
+                SELECT
+                    cdd.item_code,
+                    cdd.item_name
+                FROM
+                    cm_dict_diagnosis cdd
+                INNER JOIN (
+                    SELECT
+                        COUNT(id) cnt,
+                        item_code
+                    FROM
+                        cm_diagnosis_entity_value
+                    WHERE
+                        DATE_FORMAT(create_time, '%Y') = DATE_FORMAT(NOW(), '%Y') 
+                    GROUP BY
+                        item_code
+                ) result ON cdd.item_code = result.item_code and cdd.item_code like CONCAT('LC','%')
+                ORDER BY
+                    result.cnt DESC,
+                    cdd.item_level,
+                    cdd.order_by
+            ) rs
+        LIMIT 1
+  </select>
+  <!-- 统计指定年份的所有的原发病的数量 -->
+  <select id="countAllDiagnosis"  resultType="java.lang.Integer">   
+     SELECT COUNT(*)  FROM cm_diagnosis_entity_value WHERE DATE_FORMAT(create_time,'%Y')=#{year}  AND fk_tenant_id=#{tenantId}  
+  </select>
+  
+  <!-- 单一原发病统计  -->
+  <select id="countByCondtion" parameterType="map" resultType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+        SELECT
+            COUNT(cdev.id) count,
+            DATE_FORMAT(cdev.create_time, '%Y') year,
+            cdd.item_name itemName,
+            cdev.item_code itemCode
+        FROM
+            cm_diagnosis_entity_value cdev
+        INNER JOIN patient p ON cdev.fk_patient_id = p.id  AND cdev.fk_tenant_id = #{tenantId}
+        INNER JOIN cm_dict_diagnosis cdd ON cdev.item_code=cdd.item_code
+        LEFT JOIN hd_patient_extend hpe ON p.id = hpe.id
+        LEFT JOIN cm_diagnosis_hist cdh ON hpe.id = cdh.fk_patient_id
+        WHERE
+              cdev.item_code = #{diagonsisItemCode}
+        AND DATE_FORMAT(cdev.create_time, '%Y') &gt;= #{startDate}
+        AND DATE_FORMAT(cdev.create_time, '%Y') &lt; #{endDate}
+      <if test="sex !=null and sex!=''">
+           AND p.sex = #{sex}
+      </if>
+      <if test="isTemp !=null and isTemp!=''">
+          AND hpe.is_temp IN (#{isTemp})
+      </if>
+      <if test="minAge!=null and maxAge!=null">
+         AND timestampdiff(YEAR,IFNULL(p.birthday,NOW()), NOW()) BETWEEN #{minAge} AND #{maxAge}
+      </if>
+      <if test="minDialysisAge!=null and maxDialysisAge!=null">
+         AND timestampdiff(YEAR,IFNULL(cdh.first_treatment_date,NOW()),NOW()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
+      </if>
+        GROUP BY
+            year
+        ORDER BY year
+  </select>
+  <!-- 原发病年度统计 -->
+  <select id="countYearDiagnosisByCondition"  parameterType="map" resultType="java.util.LinkedHashMap">
+    SELECT
+        COUNT(cdev.id) count,
+        cdd.item_name,
+        cdd.item_code
+    FROM
+        cm_diagnosis_entity_value cdev
+      LEFT   JOIN cm_dict_diagnosis cdd ON cdd.item_code = cdev.item_code 
+      LEFT   JOIN patient p ON cdev.fk_patient_id = p.id  
+      LEFT   JOIN hd_patient_extend hpe ON p.id   = hpe.id  AND hpe.fk_tenant_id =  #{tenantId}
+      LEFT   JOIN cm_diagnosis_hist cdh ON cdev.fk_patient_id = cdh.fk_patient_id
+        WHERE cdev.item_code in  <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
+        AND DATE_FORMAT(cdev.create_time, '%Y')=#{year}
+        AND cdev.fk_tenant_id = #{tenantId}
+      <if test="sex !=null and sex!=''">
+           AND p.sex = #{sex}
+      </if>
+      <if test="isTemp !=null and isTemp!=''">
+          AND hpe.is_temp IN (#{isTemp})
+      </if>
+      <if test="minAge!=null and maxAge!=null">
+         AND timestampdiff(YEAR, IFNULL(p.birthday,NOW()), now()) BETWEEN #{minAge} AND #{maxAge}
+      </if>
+      <if test="minDialysisAge!=null and maxDialysisAge!=null">
+         AND timestampdiff(YEAR,IFNULL(cdh.first_treatment_date,NOW()),now()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
+      </if>
+    GROUP BY cdd.item_code
+    ORDER BY count DESC
+  </select>
 </mapper>
