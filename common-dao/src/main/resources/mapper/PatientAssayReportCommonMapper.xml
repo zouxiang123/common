@@ -129,7 +129,10 @@
         , padc.item_code, padc.result 
     FROM patient_assay_report_common padc
     JOIN patient p ON p.id = padc.fk_patient_id 
-    JOIN patient_owner po ON p.id=po.fk_patient_id AND padc.fk_tenant_id = po.fk_tenant_id
+    JOIN patient_outcome po ON p.id=po.fk_patient_id AND padc.fk_tenant_id = po.fk_tenant_id
+    <if test="assayMonth != null and assayMonth != '' ">
+          AND po.record_date &gt;= #{assayMonth}
+    </if>
     <if test="patientLabelIds != null and patientLabelIds.length>0">
        JOIN patient_label_ref plr ON plr.fk_patient_id = p.id 
           AND plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
