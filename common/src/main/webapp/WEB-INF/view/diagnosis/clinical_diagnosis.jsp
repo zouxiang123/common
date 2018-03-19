@@ -4,7 +4,7 @@
 
 <input type="hidden" id="cdrParentVersion" value="${clinicalDiagnosisResult.version}" />
 <div class="tab-body bg-white" style="margin-bottom: 5px;margin-right: 2px;">
-	<!-- 临床诊断（ 慢性肾功能衰竭，急性肾功能衰竭） -->
+	<!-- 原发病诊断（ 慢性肾功能衰竭，急性肾功能衰竭） -->
 	<div class="form-item" style="margin-left: -4px;">
 		<c:forEach var="obj" items="${nephrosis_type}">
 			<input id="clinical${obj.itemCode}" type="radio" name="type" value="${obj.itemCode}" <c:if test="${obj.isChecked}">checked="checked"</c:if> />

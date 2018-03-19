@@ -129,6 +129,7 @@ public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
                         List<CmDictDiagnosisPO> myChildrens = new ArrayList<CmDictDiagnosisPO>();
                         myChildrens.add(t);
                         tree.setChildrens(myChildrens);
+                        tree.setChildren(myChildrens);
                     } else {
                         tree.getChildrens().add(t);
                     }
@@ -136,6 +137,11 @@ public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
             }
         }
         return rootTrees;
+    }
+
+    @Override
+    public CmDictDiagnosisPO selectPInfo(String itemCode) {
+        return cmDictDiagnosisMapper.selectPInfo(itemCode);
     }
 
 }

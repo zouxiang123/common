@@ -553,7 +553,7 @@
 
 			<div class="list-item margin-bottom-20 bg-white" id="clinicalDiagnosis">
 				<div class="tab-header">
-					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">临床诊断</span>
+					<span class="tip-line" style="background: #31AAFF;"></span> <span class="tab-title">原发病诊断</span>
 					<div class="tab-action">
 						<div class="dividing-line"></div>
 						<img src="${COMMON_SERVER_ADDR}/assets/img/arrow-right.png" class="arrow-up"><span class="pull-right action-name default-color" onclick="jump('clinicalDiagnosis')">编 辑</span>

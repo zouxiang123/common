@@ -610,4 +610,44 @@
         select * from patient where mobile = #{mobile}
         <if test="neId != null"> AND id != #{neId}</if>
     </select>
+  <resultMap id="ResultMap" type="com.xtt.common.dao.po.PatientPO" extends="POResultMap">
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="registerTime" jdbcType="INTEGER" property="registerTime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+    <!-- 查询该年的原发病详情 -->
+    <select id="listDiagnosisPatientByCondtion"   parameterType="map" resultMap="ResultMap">
+        SELECT
+              p.`name`,
+              cdd.item_name,
+              cdd.item_code,
+              DATE_FORMAT(cdev.create_time, '%Y-%m-%d') registerTime,
+              cdev.content 
+        FROM
+            cm_diagnosis_entity_value cdev
+                INNER JOIN cm_dict_diagnosis cdd ON cdev.item_code=cdd.item_code
+        INNER JOIN patient p ON cdev.fk_patient_id = p.id  AND cdev.fk_tenant_id = #{tenantId}
+        LEFT JOIN hd_patient_extend hpe ON p.id = hpe.id
+        LEFT JOIN cm_diagnosis_hist cdh ON hpe.id = cdh.fk_patient_id
+        WHERE
+         DATE_FORMAT(cdev.create_time, '%Y')=#{year}
+          AND hpe.fk_tenant_id = 10101
+         <if test="diagonsisItemCode!=null and diagonsisItemCode!=''">
+          AND  cdev.item_code = #{diagonsisItemCode}
+         </if>
+         <if test="sex!=null and sex!=''">
+         AND p.sex = #{sex}
+         </if>
+         <if test="isTemp!=null and isTemp!=''">
+         AND hpe.is_temp = #{isTemp}
+         </if>
+          <if test="minAge!=null and maxAge!=null">
+        AND timestampdiff(YEAR, p.birthday, now()) BETWEEN #{minAge} AND #{maxAge}
+        </if>
+        <if test="minDialysisAge!=null and maxDialysisAge!=null">
+         AND timestampdiff(YEAR,cdh.first_treatment_date,now()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
+        </if>
+        AND cdd.item_code LIKE 'LC%'
+    </select>
 </mapper>

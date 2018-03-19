@@ -21,7 +21,7 @@
 						<div class="content-editing-item" data-link="#patientInfo">基本信息</div>
 						<div class="content-editing-item" data-link="#medicalHistory">病史询问</div>
 					</c:if>
-					<div class="content-editing-item" data-link="#clinicalDiagnosis">临床诊断</div>
+					<div class="content-editing-item" data-link="#clinicalDiagnosis">原发病诊断</div>
 					<div class="content-editing-item" data-link="#pathologicDiagnosis">病理诊断</div>
 					<div class="content-editing-item" data-link="#ckdAki">CKD/AKI</div>
 					<c:if test="${operation != 'secondAdd' }">
