@@ -8,6 +8,7 @@
  */
 package com.xtt.common.patient.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -358,5 +359,36 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public List<PatientPO> listByMobile(String mobile, Long neId) {
         return patientMapper.listByMobile(mobile, neId);
+    }
+
+    @Override
+    public List<PatientPO> listAllActiveWithAssayResult() {
+        PatientPO query = new PatientPO();
+        query.setDelFlag(false);
+        query.setFkTenantId(UserUtil.getTenantId());
+        query.setSysOwner(UserUtil.getSysOwner());
+        List<PatientPO> list = patientMapper.listAllActiveWithAssayResult(query);
+        if (CollectionUtils.isNotEmpty(list)) {
+            for (PatientPO entity : list) {
+                List<String> assaylist = new ArrayList<String>();
+                if (entity.getHbv() != null && entity.getHbv())
+                    assaylist.add("乙肝");
+                if (entity.getHcv() != null && entity.getHcv())
+                    assaylist.add("丙肝");
+                if (entity.getHiv() != null && entity.getHiv())
+                    assaylist.add("HIV");
+                if (entity.getHsv() != null && entity.getHsv())
+                    assaylist.add("梅毒");
+                if (entity.getUnknown() != null && entity.getUnknown())
+                    assaylist.add("未知");
+                entity.setAssaylist(assaylist);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<PatientPO> listByNameOrInitials(String param, Integer tenantId) {
+        return patientMapper.listByNameOrInitials(param, tenantId, UserUtil.getSysOwner());
     }
 }

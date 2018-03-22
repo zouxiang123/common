@@ -110,4 +110,26 @@ public interface PatientMapper {
      * @return
      */
     List<PatientPO> listByMobile(@Param("mobile") String mobile, @Param("neId") Long neId);
+
+    /**
+     * 获取所有的未转归患者，包含传染病结果数据
+     * 
+     * @Title: listAllActiveWithAssayResult
+     * @param query
+     * @return
+     *
+     */
+    List<PatientPO> listAllActiveWithAssayResult(PatientPO query);
+
+    /**
+     * 根据姓名或者拼音首字母查询数据
+     * 
+     * @Title: listByNameOrInitials
+     * @param param
+     * @param tenantId
+     * @param sysOwner
+     * @return
+     *
+     */
+    List<PatientPO> listByNameOrInitials(@Param("param") String param, @Param("fkTenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
 }

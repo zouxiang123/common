@@ -816,4 +816,32 @@
 		select * from patient where mobile = #{mobile} 
 		<if test="neId != null"> AND id != #{neId}</if>
 	</select>
+    <!-- 获取所有的未转归患者，包含传染病结果数据 -->
+    <select id="listAllActiveWithAssayResult" resultMap="ExtendResultMap">
+        select pa.*
+            , hav, hbv, hcv, hev, hiv, hsv, unknown
+        from patient pa
+        inner join patient_assay_result par on par.fk_patient_id = pa.id and par.fk_tenant_id = pa.fk_tenant_id and par.is_enable = 1  
+        <where>
+            <if test="fkTenantId != null">
+                and pa.fk_tenant_id=#{fkTenantId}
+            </if>
+            <if test="delFlag != null">
+                and pa.del_flag = #{delFlag}
+            </if>
+        </where>
+        order by pa.spell_initials, pa.id
+    </select>
+    <!-- 根据姓名或者拼音首字母查询数据 -->
+    <select id="listByNameOrInitials" resultMap="ExtendResultMap">
+        SELECT p.id,p.name
+        from patient p
+        where p.fk_tenant_id = #{fkTenantId} 
+        <if test="sysOwner != null and sysOwner != ''">
+            and p.sys_owner = #{sysOwner}
+        </if>
+        <if test="param != null and param !=''">
+            and (p.name like CONCAT('%',#{param},'%') or p.spell_initials LIKE CONCAT('%',#{param},'%'))
+        </if>
+    </select>
 </mapper>

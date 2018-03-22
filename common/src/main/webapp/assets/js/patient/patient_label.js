@@ -182,13 +182,8 @@ var patient_label = {
             html += '<div class="col-xt-4 p-5" label-patient="' + item.patientId + '">';
             html += '<input type="hidden" name="patientName" value="' + item.patientName + '" />';
             html += '<div class="xt-bq">';
-            if (isEmpty(item.patientImagePath)) {
-                html += '<span class="u-image float-left hand" style="width:60px; height:60px" onclick="patient_label.showPatientEmr(\''
-                                + item.patientId + '\',\'' + item.patientName + '\');">' + item.patientName + '</span>';
-            } else {
-                html += '<img class="bed-user-photo hand pull-left" src="' + ctx + '/images/' + item.patientImagePath
-                                + '" onclick="patient_label.showPatientEmr(\'' + item.patientId + '\',\'' + item.patientName + '\');">';
-            }
+            html += '<span class="u-image float-left hand" style="width:60px; height:60px" onclick="patient_label.showPatientEmr(\'' + item.patientId
+                            + '\',\'' + item.patientName + '\');">' + getImageName(item.patientName) + '</span>';
             html += '<div class="bed-user-info margin-top-18">';
             html += '  <p class="bed-user-name">' + item.patientName + '<span class="hide">' + item.patientSpellInitials + '</span></p>';
             html += '</div>';

@@ -21,10 +21,11 @@ public interface ICmDictFactory {
      *            类别编号
      * @param itemCode
      *            编号
+     * @param tenantId
      * @return
      *
      */
-    public String getItemName(String pItemCode, String itemCode);
+    public String getItemName(String pItemCode, String itemCode, Integer tenantId);
 
     /**
      * 根据类别编号获取字典集合
@@ -32,10 +33,12 @@ public interface ICmDictFactory {
      * @Title: getListByPItemCode
      * @param pItemCode
      *            类别编号
+     * @param tenantId
+     *            租户id
      * @return
      *
      */
-    public List<DictDto> listByPItemCode(String pItemCode);
+    public List<DictDto> listByPItemCode(String pItemCode, Integer tenantId);
 
     /**
      * 根据名称获取对应的值

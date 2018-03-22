@@ -42,6 +42,15 @@ public class PatientPO extends Patient {
     private String cardType;// 患者序号显示类别
     private String heightShow;
     private String weightShow;
+    private Boolean hav;// 甲肝
+    private Boolean hbv;// 已肝
+    private Boolean hcv;// 丙肝
+    private Boolean hev;// 戌肝
+    private Boolean hiv;// 艾滋病
+    private Boolean hsv;// 梅毒
+    private Boolean unknown;// 未知
+
+    private List<String> assaylist;// 化验项名字显示
 
     public List<PatientCardPO> getPatientCardList() {
         return patientCardList;
@@ -203,6 +212,74 @@ public class PatientPO extends Patient {
     public String getWeightShow() {
         weightShow = NumberFormatUtil.formatNumber(super.getWeight(), false);
         return weightShow;
+    }
+
+    public Boolean getHav() {
+        return hav;
+    }
+
+    public void setHav(Boolean hav) {
+        this.hav = hav;
+    }
+
+    public Boolean getHbv() {
+        return hbv;
+    }
+
+    public void setHbv(Boolean hbv) {
+        this.hbv = hbv;
+    }
+
+    public Boolean getHcv() {
+        return hcv;
+    }
+
+    public void setHcv(Boolean hcv) {
+        this.hcv = hcv;
+    }
+
+    public Boolean getHev() {
+        return hev;
+    }
+
+    public void setHev(Boolean hev) {
+        this.hev = hev;
+    }
+
+    public Boolean getHiv() {
+        return hiv;
+    }
+
+    public void setHiv(Boolean hiv) {
+        this.hiv = hiv;
+    }
+
+    public Boolean getHsv() {
+        return hsv;
+    }
+
+    public void setHsv(Boolean hsv) {
+        this.hsv = hsv;
+    }
+
+    public Boolean getUnknown() {
+        return unknown;
+    }
+
+    public void setUnknown(Boolean unknown) {
+        this.unknown = unknown;
+    }
+
+    public void setHeightShow(String heightShow) {
+        this.heightShow = heightShow;
+    }
+
+    public List<String> getAssaylist() {
+        return assaylist;
+    }
+
+    public void setAssaylist(List<String> assaylist) {
+        this.assaylist = assaylist;
     }
 
 }

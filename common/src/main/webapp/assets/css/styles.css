@@ -9,6 +9,9 @@ body {
     font-family: "Helvetica Neue", "Microsoft YaHei", Helvetica, Arial, "Hiragino Sans GB", "Source Han Sans CN", "Source Han Sans SC", "Lantinghei SC", "Microsoft YaHei", "PingFang SC", "Wenquanyi Micro Hei", "ST Heiti", sans-serif;
     letter-spacing: 0 !important;
 }
+@font-face {
+  font-family: myfonts;
+  src: url("./standard/font/HYQiHei-85S.otf"); }
 
 ol, ul {
     list-style: none;
@@ -13533,7 +13536,6 @@ input {
 
 .m-list {
     height: 50px;
-    line-height: 50px;
     border-bottom: 1px dotted #d9e0e6;
 }
 
@@ -14172,4 +14174,36 @@ label input[type=radio]:checked {
     overflow: hidden;
     white-space: nowrap;
 }
-
+.dialog-line{
+    width:450px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.u-image {
+  display: inline-flex;
+  height: 48px;
+  width: 48px;
+  background: #8D96A6;
+  border-radius: 50%;
+  white-space: nowrap;
+  align-items: center;
+  overflow: hidden;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 26px;
+  font-family: myfonts !important;
+  font-weight: 100;
+  position: relative; }
+  .u-image.error {
+    background: #F75B5B; }
+  .u-image:before {
+    content: "";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 50%;
+    box-shadow: inset 0 0 6px 0 rgba(0, 0, 0, 0.2);
+    z-index: 95;
+    left: 0px;
+    top: 0px; }

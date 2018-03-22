@@ -1,14 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="ctx" value="${pageContext.request.contextPath }"></c:set>
-<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/bootstrap/daterangepicker/daterangepicker.css">
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/moment/moment.min.js"></script>
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/moment/locale/zh-cn.js"></script>
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/daterangepicker/daterangepicker.js"></script>
+<link rel="stylesheet" href="${COMMON_SERVER_ADDR }/framework/bootstrap/daterangepicker/daterangepicker.css">
+<script type="text/javascript" src="${COMMON_SERVER_ADDR }/framework/moment/moment.min.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR }/framework/moment/locale/zh-cn.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR }/framework/bootstrap/daterangepicker/daterangepicker.js"></script>
 
-<link rel="stylesheet" href="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css">
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="${COMMON_SERVER_ADDR}/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<link rel="stylesheet" href="${COMMON_SERVER_ADDR }/framework/bootstrap/datetimepicker/css/bootstrap-datetimepicker.css">
+<script type="text/javascript" src="${COMMON_SERVER_ADDR }/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="${COMMON_SERVER_ADDR }/framework/bootstrap/datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<style>
+    #reportDateDiv {
+        padding-top: 8px;
+    }
+    .xtt
+    .tablesetting {
+        bottom: inherit;
+    }
+</style>
 <script type="text/javascript">
     function setReportDatePick(element, options) {
         if (isEmpty(element))
@@ -17,15 +26,15 @@
             init : function(element, opts) {
                 var html = '';
                 html += '<div id="tip">';
-                html += '<i class="icon-caret-top" style="color: #000000;top:42px"></i>';
-                html += '<div class="u-pop-up-hint" style="top: 52px;z-index: 98;">';
+                html += '<i class="icon-caret-top" style="color: #000000;top:40px"></i>';
+                html += '<div class="u-pop-up-hint" style="top: 50px;z-index: 100;right: 12px">';
                 html += '<span id="selectDateShow"></span>';
                 html += '<div class="u-float-r">';
                 html += '<i class="icon-close" style="margin-left: 34px" onclick="closetip(\'#tip\')"></i>';
                 html += '</div>';
                 html += '</div>';
                 html += '</div>';
-                html += '<div class="u-prompt-box pl-16 pr-14" top-right style="right: 12px;display: none;" id="promptDialog">';
+                html += '<div class="u-prompt-box pl-16 pr-14" top-right style="top: 50px;right: 12px;display: none;" id="promptDialog">';
                 // 单个日期
                 if (opts.dateType == 'single') {
                     html += '<div  class="bb-line pb-6 w-100">';
@@ -47,7 +56,7 @@
                          $.each(opts.selectTimes, function(i, v) {
                              html += '<label class="u-radio">';
                              html += '<input type="radio" name="che" data-value="'+v.value+'" '+(i == 0 ? 'checked' : '')+'>';
-                             html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
+                             html += '<span class="icon-radio"></span>';
                              html += v.name + '</label>';
                           });
                         html += '</div>';
@@ -55,15 +64,15 @@
                         html += '<div class="bb-line pb-10 pt-10 text-center">';
                         html += '<label class="u-radio u-float-l">';
                         html += '<input type="radio" name="che"  data-value="w">';
-                        html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
+                        html += '<span class="icon-radio"></span>';
                         html += '最近一周</label>';
                         html += '<label class="u-radio">';
                         html += '<input type="radio" name="che" data-value="m" checked>';
-                        html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
+                        html += '<span class="icon-radio"></span>';
                         html += '最近一月</label>';
                         html += '<label class="u-radio u-float-r">';
                         html += '<input type="radio" name="che" data-value="y">';
-                        html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
+                        html += '<span class="icon-radio"></span>';
                         html += '最近一年</label>';
                         html += '</div>';
                     }
@@ -80,7 +89,7 @@
               //添加年龄间隔 默认为5
                 if(opts.ageInterval){
                     html+='<div class="bb-dashed pb-10 pt-10">';
-                    html+='<span class="mr-20" style="width: 200px">年龄段间隔</span>'
+                    html+='<span class="mr-20" style="width: 200px" id="ageGap">年龄段间隔</span>'
                     html+='<input type="text" id="age_interval" placeholder="请输入年龄段间隔"  value="5">'
                     html+='</div>';
                 }
@@ -93,12 +102,12 @@
                 //添加医保类型
                 if(opts.showMedicalType){
                     html+='<div class="bb-dashed pb-6 u-float-l mt-6 mb-4 " style="max-width: 300px" id="medicalType">';
-                    html+='<label class="u-radio mr-30">';
+                    html+='<label class="u-radio mr-20">';
                     html+='<input type="radio" name="MedicalMultiple" value="" checked>';
                     html+='<span class="icon-radio"></span>全部';
                     html+='</label>';
                     $.each(opts.chargTypeValue, function (n, item) {
-                        html+='<label class="u-radio mr-30">';
+                        html+='<label class="u-radio mr-20">';
                         html+='<input type="radio" name="MedicalMultiple" value="'+item.value+'">';
                         html+='<span class="icon-radio"></span>'+item.name;
                         html+='</label>';
@@ -109,18 +118,18 @@
                 // 添加患者类型：临时和长期
                 if (opts.patientTemp) {
                     html += '<div class="bb-line pb-10 pt-10 text-center" id="patientTemp">';
-                    html += '<label class="u-radio u-float-l" >';
-                    html += '<input type="radio" name="tempMultiple" value="1" data-text="临时患者">';
-                    html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
-                    html += '临时患者</label>';
-                    html += '<label class="u-radio">';
-                    html += '<input type="radio" name="tempMultiple" value="0" data-text="长期患者">';
-                    html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
-                    html += '长期患者</label>';
-                    html += '<label class="u-radio u-float-r">';
+                    html += '<label class="u-radio u-float-l">';
                     html += '<input type="radio" name="tempMultiple"  value="" checked data-text="全部患者">';
-                    html += '<span class="icon-radio" style="margin-right: 10px;"></span>';
+                    html += '<span class="icon-radio"></span>';
                     html += '全部</label>';
+                    html += '<label class="u-radio" >';
+                    html += '<input type="radio" name="tempMultiple" value="1" data-text="临时患者">';
+                    html += '<span class="icon-radio"></span>';
+                    html += '临时患者</label>';
+                    html += '<label class="u-radio  u-float-r">';
+                    html += '<input type="radio" name="tempMultiple" value="0" data-text="长期患者">';
+                    html += '<span class="icon-radio"></span>';
+                    html += '长期患者</label>';
                     html += '</div>';
                 }
                 // 自定义form表单
@@ -137,7 +146,7 @@
                     if(opts.customSelectCheck){
                         html += '<div class="bb-line pb-6 pt-8 width-280" id="customSelect" >';
                         for ( var key in opts.customSelectItems) {
-                            html += '<label class="u-checkbox mr-14">';
+                            html += '<label class="u-checkbox mr-16">';
                             html += '<input type="checkbox" name="'+opts.customSelectName+'" value="'+key+'" data-text="'+opts.customSelectItems[key]+'"/>';
                             html += '<span class="icon-checkbox"></span>'+opts.customSelectItems[key]+'</label>';
                         }
@@ -147,14 +156,14 @@
                         html += '   </div>';
                     } else {
                         html += '<div class="bb-line pb-6 pt-8" id="customSelect" >';
+                        html += '<label class="u-radio">';
+                        html += '<input type="radio" name="'+opts.customSelectName+'" value="" checked data-text="全部'+opts.customSelectText+'"/>';
+                        html += '<span class="icon-radio"></span>全部</label>';
                         for ( var key in opts.customSelectItems) {
                             html += '<label class="u-radio" >';
                             html += '<input type="radio" name="'+opts.customSelectName+'" value="'+key+'" data-text="'+opts.customSelectItems[key]+'"/>';
                             html += '<span class="icon-radio"></span>'+opts.customSelectItems[key]+'</label>';
                         }
-                        html += '<label class="u-radio">';
-                        html += '<input type="radio" name="'+opts.customSelectName+'" value="" checked data-text="全部'+opts.customSelectText+'"/>';
-                        html += '<span class="icon-radio"></span>全部</label>';
                         html += '   </div>';
                     }
                 }
@@ -165,7 +174,7 @@
                 html += '</div>';
                 $(element).append(html);
                 $(element).find(".u-pop-up-hint").css({
-                    "z-index" : "98"
+                    "z-index" : "100"
                 });
                 $(element).find(".u-pop-up-time").css({
                     "width" : "auto",
@@ -185,9 +194,10 @@
                             todayHighlight : 1,
                             startView : 4,
                             minView : 4,
-                            bootcssVer : 3,
+                            //bootcssVer : 3,
                             forceParse : 0
                         });
+                        $(element).find("input[datetimepicker]")
                     } else if (opts.dateFormat == 'yyyy-mm') {
                         // 日历控件初始化
                         $(element).find("input[datetimepicker]").datetimepicker({
@@ -197,7 +207,7 @@
                             startView : 3,
                             minView : 3,
                             forceParse : true,
-                            bootcssVer : 3,
+                            //bootcssVer : 3,
                             language : 'zh-CN'
                         });
                     } else if (opts.dateFormat == 'YYYY-MM-DD') {

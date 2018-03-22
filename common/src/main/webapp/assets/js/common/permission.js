@@ -248,22 +248,15 @@ function toFullScreenPatientPage(patientId, patientName) {
 
 /*打开新的tab*/
 function openUrl(id, name, url, callBack) {
-    if (isPC) {
-        if (existsFunction("parent.addTab")) {
-            parent.addTab({
-                id : id,
-                name : name,
-                url : url,
-                removeCall : callBack
-            });
-        } else {
-            window.location.href = url;
-        }
-    } else { // 全屏弹窗
-        $("#topNav").addClass("hide");
-        $("#fullDialog").toggle();
-        $("#full-title").text(name);
-        $("#fullDialog").find("iframe").attr("src", url);
+    if (existsFunction("parent.addTab")) {
+        parent.addTab({
+            id : id,
+            name : name,
+            url : url,
+            removeCall : callBack
+        });
+    } else {
+        window.location.href = url;
     }
 }
 

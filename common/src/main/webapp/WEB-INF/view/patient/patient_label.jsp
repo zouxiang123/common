@@ -308,7 +308,7 @@ function initialClick(element, event) {
 function delLastInit(event) {
     event.stopPropagation();
     var searchResultInit = $("#search_result_span").text();
-    if (searchResultInit.length > 1) {
+    if (searchResultInit.length > 0) {
             $("#search_result_span").html(searchResultInit.substring(0, searchResultInit.length - 1));
         }
         patient_label.getPatient(true);

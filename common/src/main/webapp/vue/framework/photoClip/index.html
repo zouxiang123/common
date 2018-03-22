@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN" id="index">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="format-detection" content="telephone=no, email=no" />
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" type="text/css" href="../../assets/css/public.css">
+<link rel="stylesheet" type="text/css" href="../../assets/css/private.css">
+<title>图片裁剪</title>
+<style>
+
+</style>
+</head>
+<body ontouchstart="">
+	<div id="view"></div>
+<div class="u-mask" id="promptDialog" data-hide="#promptDialog">
+    <div class="u-dialog">
+      <div class="u-dialog-header">
+        <div></div>
+        <div>提示</div>
+        <div><i class="icon-close" data-hide="#promptDialog"></i></div>
+      </div>
+      <div class="u-dialog-content">
+           <div class="cover-crop">
+           		<div class="cover-crop-content" id="clipArea">
+	        		<input type="file" id="file">
+	        		上 传
+	        	</div>
+	        	<p>封面上传大小不能超过(3M)</p>
+           </div>
+      </div>
+      <div class="u-dialog-footer">
+        <button type="button" data-hide="#promptDialog">取消</button>
+        <button type="button" class="u-btn-blue" fill id="clipBtn">确定</button>
+      </div>
+    </div>
+</div>
+
+<script src="../../framework/jquery-2.1.1/jquery.js"></script>
+<script src="iscroll-zoom.js"></script>
+<script src="hammer.js"></script>
+<script src="lrz.all.bundle.js"></script>
+<script src="jquery.photoClip.js"></script>
+<script src="../../assets/js/front.js"></script>
+<script>
+popDialog("#promptDialog");
+
+clipArea.destroy();
+</script>
+
+</body>
+</html>

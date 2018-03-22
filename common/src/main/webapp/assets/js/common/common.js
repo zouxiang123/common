@@ -70,6 +70,19 @@ function buttonSubmit(btn) {
 }
 
 /**
+ * 根据名称，获取图片显示名称
+ * 
+ * @param name
+ */
+function getImageName(name) {
+    if (!isEmpty(name) && name.length > 2) {
+        return name.substring(name.length - 2, name.length);
+    } else {
+        return name;
+    }
+}
+
+/**
  * 生成导航面包屑
  */
 function setBreadcrumb(menu) {

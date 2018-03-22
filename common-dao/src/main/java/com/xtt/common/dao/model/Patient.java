@@ -3,10 +3,12 @@ package com.xtt.common.dao.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.xtt.platform.framework.core.model.MyBatisSuperModel;
+
 /**
  * patient
  */
-public class Patient {
+public class Patient extends MyBatisSuperModel {
     /**
      * patient.id
      */
@@ -68,14 +70,12 @@ public class Patient {
     private String mobile;
 
     /**
-     * 邮箱
-     * patient.email
+     * 邮箱 patient.email
      */
     private String email;
 
     /**
-     * 紧急联系方式
-     * patient.emergency_mobile
+     * 紧急联系方式 patient.emergency_mobile
      */
     private String emergencyMobile;
 

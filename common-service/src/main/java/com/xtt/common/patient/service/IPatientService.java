@@ -175,4 +175,23 @@ public interface IPatientService {
      * @return
      */
     public List<PatientPO> listByMobile(String mobile, Long neId);
+
+    /**
+     * 获取所有的未转归患者，包含传染病结果数据
+     * 
+     * @Title: listAllActiveWithAssayResult
+     * @return
+     *
+     */
+    public List<PatientPO> listAllActiveWithAssayResult();
+
+    /**
+     * 根据姓名或者拼音首字母查询数据
+     * 
+     * @Title: listByNameOrInitials
+     * @param str
+     * @return
+     *
+     */
+    public List<PatientPO> listByNameOrInitials(String param, Integer tenantId);
 }
