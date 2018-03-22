@@ -12,9 +12,15 @@ var myGroupPie;// 组装分组饼图
 function setDbBar(barData, isshow1) {
     var dbbarChart = echarts.init(document.getElementById('dbbarChart'));
     var option = {
-        /*
-         * title : { text : '达标统计' },
-         */
+        title : {
+            text : '月达标率统计',
+            padding : 20,
+            textStyle : {
+                fontSize : 16,
+                fontFamily : 'MicrosoftYaHei',
+                fontWeight : 'normal'
+            },
+        },
         tooltip : {
             trigger : 'axis'
         },
@@ -24,16 +30,31 @@ function setDbBar(barData, isshow1) {
                 saveAsImage : {
                     show : true,
                     title : "保存图表为图片"
-                }
-            }
+                },
+                restore : {
+                    show : true,
+                    title : "还原"
+                },
+                magicType : {
+                    show : true,
+                    type : [ 'line', 'bar' ],
+                    title : {
+                        line : "切换为折线图",
+                        bar : "切换为柱状图"
+                    }
+                },
+            },
+            top : '5%',
+            right : '2%'
         },
         legend : {
-            data : barData.title
+            data : barData.title,
+            top : '5%'
         },
         grid : {
-            left : '2%',
-            right : '2%',
-            bottom : '0%',
+            left : '10%',
+            right : '15%',
+            bottom : '5%',
             top : '30%',
             containLabel : true,
         },
@@ -95,9 +116,15 @@ function setDbBar(barData, isshow1) {
 function setAvgAndPop(lineData, isshow2) {
     var zwsLineChart = echarts.init(document.getElementById('zwsLineChart'));
     var option = {
-        /*
-         * title : { text : '中位数统计' },
-         */
+        title : {
+            text : '均值标准差统计',
+            padding : 20,
+            textStyle : {
+                fontSize : 16,
+                fontFamily : 'MicrosoftYaHei',
+                fontWeight : 'normal'
+            },
+        },
         tooltip : {
             trigger : 'axis'
         },
@@ -107,16 +134,31 @@ function setAvgAndPop(lineData, isshow2) {
                 saveAsImage : {
                     show : true,
                     title : "保存图表为图片"
-                }
-            }
+                },
+                restore : {
+                    show : true,
+                    title : "还原"
+                },
+                magicType : {
+                    show : true,
+                    type : [ 'line', 'bar' ],
+                    title : {
+                        line : "切换为折线图",
+                        bar : "切换为柱状图"
+                    }
+                },
+            },
+            top : '5%',
+            right : '2%'
         },
         legend : {
-            data : lineData.title
+            data : lineData.title,
+            top : '6%'
         },
         grid : {
-            left : '2%',
-            right : '2%',
-            bottom : '0%',
+            left : '10%',
+            right : '15%',
+            bottom : '5%',
             top : '30%',
             containLabel : true,
         },
@@ -177,9 +219,15 @@ function setdblPie(pieData, isshow3) {
     }
     var myChart2 = echarts.init(document.getElementById('chart2'));
     var option = {
-        /*
-         * title : { text : '达标率统计' },
-         */
+        title : {
+            text : '年累计达标率统计',
+            padding : 20,
+            textStyle : {
+                fontSize : 16,
+                fontFamily : 'MicrosoftYaHei',
+                fontWeight : 'normal'
+            },
+        },
         tooltip : {
             trigger : 'item',
             formatter : "{a} <br/>{b} : {c}例 ({d}%)"
@@ -191,7 +239,9 @@ function setdblPie(pieData, isshow3) {
                     show : true,
                     title : "保存图表为图片"
                 }
-            }
+            },
+            top : '5%',
+            right : '2%'
         },
         legend : {
             orient : 'horizontal',
@@ -243,7 +293,9 @@ function setGroupPie(pieData, isshow5) {
                     show : true,
                     title : "保存图表为图片"
                 }
-            }
+            },
+            top : '5%',
+            right : '2%'
         },
         legend : {
             orient : 'vertical',
@@ -282,9 +334,15 @@ function setMonthSeasonOkPie(pieData, isshow4) {
     }
     var groupPie = echarts.init(document.getElementById('monthSeasonOkPie'));
     var option = {
-        /*
-         * title : { text : '分组统计' },
-         */
+        title : {
+            text : '分组达标率',
+            padding : 16,
+            textStyle : {
+                fontSize : 16,
+                fontFamily : 'MicrosoftYaHei',
+                fontWeight : 'normal'
+            },
+        },
         tooltip : {
             trigger : 'item',
             formatter : "{a} <br/>{b} : {c}例({d}%)"
@@ -308,7 +366,7 @@ function setMonthSeasonOkPie(pieData, isshow4) {
         series : [ {
             name : '分组统计',
             type : 'pie',
-            radius : '55%',
+            radius : '50%',
             center : [ '40%', '50%' ],
             data : pieData.data,
             itemStyle : {
@@ -340,6 +398,7 @@ function getRuleList() {
         loading : true,
         data : $("#selectForm").serialize(),
         dataType : "json",
+        async : false,
         success : function(result) {
             var list = result.list || [];
             var html = '';
