@@ -249,13 +249,29 @@
 	INNER JOIN sys_user usu on usu.id = e.update_user_id
 	INNER JOIN cm_dict_diagnosis cdd on cdd.item_code = e.item_code
 	INNER JOIN sys_tenant st on st.id = e.fk_tenant_id
-	where e.fk_patient_id=#{fkPatientId}
-	<if test="itemCode != null">
-		and e.item_code = #{itemCode,jdbcType=VARCHAR}
-	</if>
-	<if test="groupTenant != null and groupTenant !=''">
-		and e.fk_tenant_id in (${groupTenant})
-	</if>
+	<where> 
+        <if test="fkPatientId != null" >
+            and e.fk_patient_id=#{fkPatientId}
+        </if>
+        
+        <if test="patientIds != null and patientIds.size() > 0" >
+            and e.fk_patient_id in
+            <foreach collection="patientIds" item="item" open="(" close=")" separator=",">#{item}</foreach>
+        </if>
+    	<if test="itemCode != null">
+    		and e.item_code = #{itemCode,jdbcType=VARCHAR}
+    	</if>
+        <if test="itemCodes != null  and itemCodes.size() > 0">
+            and e.item_code in
+            <foreach collection="itemCodes" item="item" open="(" close=")" separator=",">#{item}</foreach>
+        </if>
+    	<if test="groupTenant != null and groupTenant !=''">
+    		and e.fk_tenant_id in (${groupTenant})
+    	</if>
+        <if test="fkTenantId != null">
+            and e.fk_tenant_id =#{fkTenantId}
+        </if>
+    </where>
 	order by e.create_time desc
   </select>
 </mapper>

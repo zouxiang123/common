@@ -213,4 +213,9 @@ public class CommonConstants {
      * 是否允许用户重复登录 1:允许 0:不允许
      */
     public static final String ALLOW_LOGIN_AGAIN = "allow_login_again";
+
+    /**
+     * 内嵌asp界面
+     */
+    public static final String ASP_PATH = "asp.url";
 }
