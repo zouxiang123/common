@@ -86,11 +86,9 @@ public class CmDiagnosisHistEntityServiceImpl implements ICmDiagnosisHistEntityS
     public String deleteById(Long id) {
         CmDiagnosisEntity item = cmDiagnosisEntityMapper.selectByPrimaryKey(id);
         if (item != null) {
-            int count = cmDiagnosisEntityMapper.deleteByPrimaryKey(item.getId());
-            // 如果Entity删除成功，则执行删除Value集合
-            if (count > 0) {
-                cmDiagnosisEntityValueMapper.deleteByEntity(id);
-            }
+            // 删除cm_diagnosis_entity, cm_diagnosis_entity_value两张表对应的数据
+            cmDiagnosisEntityMapper.deleteByPrimaryKey(item.getId());
+            cmDiagnosisEntityValueMapper.deleteByEntity(id);
             return CommonConstants.SUCCESS;
         } else {
             return CommonConstants.FAILURE;

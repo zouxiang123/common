@@ -632,22 +632,17 @@
         LEFT JOIN cm_diagnosis_hist cdh ON hpe.id = cdh.fk_patient_id
         WHERE
          DATE_FORMAT(cdev.create_time, '%Y')=#{year}
-          AND hpe.fk_tenant_id = 10101
-         <if test="diagonsisItemCode!=null and diagonsisItemCode!=''">
-          AND  cdev.item_code = #{diagonsisItemCode}
-         </if>
+          AND hpe.fk_tenant_id = #{tenantId}
+          AND  cdev.item_code in <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
          <if test="sex!=null and sex!=''">
          AND p.sex = #{sex}
          </if>
          <if test="isTemp!=null and isTemp!=''">
          AND hpe.is_temp = #{isTemp}
          </if>
-          <if test="minAge!=null and maxAge!=null">
-        AND timestampdiff(YEAR, p.birthday, now()) BETWEEN #{minAge} AND #{maxAge}
-        </if>
-        <if test="minDialysisAge!=null and maxDialysisAge!=null">
-         AND timestampdiff(YEAR,cdh.first_treatment_date,now()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
-        </if>
+        <if test="sql!=null and sql!=''">
+           ${sql}
+      </if>
         AND cdd.item_code LIKE 'LC%'
     </select>
 </mapper>
