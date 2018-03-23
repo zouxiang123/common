@@ -354,13 +354,10 @@
            AND p.sex = #{sex}
       </if>
       <if test="isTemp !=null and isTemp!=''">
-          AND hpe.is_temp IN (#{isTemp})
+          AND hpe.is_temp =#{isTemp}
       </if>
-      <if test="minAge!=null and maxAge!=null">
-         AND timestampdiff(YEAR,IFNULL(p.birthday,NOW()), NOW()) BETWEEN #{minAge} AND #{maxAge}
-      </if>
-      <if test="minDialysisAge!=null and maxDialysisAge!=null">
-         AND timestampdiff(YEAR,IFNULL(cdh.first_treatment_date,NOW()),NOW()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
+      <if test="sql!=null and sql!=''">
+           ${sql}
       </if>
         GROUP BY
             year
@@ -382,16 +379,13 @@
         AND DATE_FORMAT(cdev.create_time, '%Y')=#{year}
         AND cdev.fk_tenant_id = #{tenantId}
       <if test="sex !=null and sex!=''">
-           AND p.sex = #{sex}
+        AND p.sex = #{sex}
       </if>
       <if test="isTemp !=null and isTemp!=''">
-          AND hpe.is_temp IN (#{isTemp})
+          AND hpe.is_temp =#{isTemp}
       </if>
-      <if test="minAge!=null and maxAge!=null">
-         AND timestampdiff(YEAR, IFNULL(p.birthday,NOW()), now()) BETWEEN #{minAge} AND #{maxAge}
-      </if>
-      <if test="minDialysisAge!=null and maxDialysisAge!=null">
-         AND timestampdiff(YEAR,IFNULL(cdh.first_treatment_date,NOW()),now()) BETWEEN #{minDialysisAge} AND #{maxDialysisAge}
+      <if test="sql!=null and sql!=''">
+           ${sql}
       </if>
     GROUP BY cdd.item_code
     ORDER BY count DESC
