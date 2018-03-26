@@ -512,6 +512,10 @@
             <if test="fkDictCode != null">
                 AND ahd.fk_dict_code = #{fkDictCode }
             </if>
+            <if test="fkDictUk != null and fkDictUk != ''">
+                AND ahd.fk_dict_uk = #{fkDictUk }
+            </if>
+            
             <if test="fkDictCodes != null and fkDictCodes.size() >0">
                 AND ahd.fk_dict_code in  <foreach collection="fkDictCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
             </if>
@@ -1052,17 +1056,16 @@
   <!-- 获取患者ID，化验项目，查询小于指定化验日期的最新一次活动数据 -->
   <select id="getByNewestAssayRecordBusi" resultMap="BaseResultMap" parameterType="com.xtt.common.dao.model.PatientAssayRecordBusi">
     SELECT
-        *
+        parb.result_actual
     FROM
-        patient_assay_record_busi 
+        patient_assay_record_busi parb LEFT JOIN assay_hosp_dict ahd on parb.item_code = ahd.item_code and parb.fk_tenant_id = ahd.fk_tenant_id
     WHERE
-       assay_date is not null
-    AND fk_tenant_id = #{fkTenantId}
-    AND fk_patient_id = #{fkPatientId}
-    AND assay_date &lt; #{assayDate}
-    AND item_code= #{itemCode}
-    AND group_id= #{groupId}
-    order BY assay_date DESC LIMIT 1
+       parb.assay_date is not null
+    AND parb.fk_tenant_id = #{fkTenantId}
+    AND parb.fk_patient_id = #{fkPatientId}
+    AND parb.assay_date &lt; #{assayDate}
+    AND ahd.fk_dict_uk= #{itemCode}
+    order BY parb.assay_date DESC LIMIT 1
   </select>
   <!-- 根据itemcode查询时间范围内的bun -->
   <select id="listByItmeCode" resultMap="POResultMap">
