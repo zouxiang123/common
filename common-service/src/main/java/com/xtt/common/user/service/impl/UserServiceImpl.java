@@ -156,7 +156,8 @@ public class UserServiceImpl implements IUserService {
             if (StringUtil.isNotBlank(user.getPassword())) {
                 user.setPassword(MD5Util.md5(user.getPassword()));
             } else {
-                user.setPassword(MD5Util.md5(CommonConstants.DEFAULT_PASSWORD));
+                // 设置默认密码为当前租户号
+                user.setPassword(MD5Util.md5(String.valueOf(user.getFkTenantId())));
             }
             if (!groupFlag) {
                 // 设置关联的租户为当前租户
@@ -734,8 +735,8 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
     }
 
-	@Override
-	public SysUserPO getByAccountAndRole(SysUser sysUser) {
-		return sysUserMapper.getByAccountAndRole(sysUser);
-	}
+    @Override
+    public SysUserPO getByAccountAndRole(SysUser sysUser) {
+        return sysUserMapper.getByAccountAndRole(sysUser);
+    }
 }
