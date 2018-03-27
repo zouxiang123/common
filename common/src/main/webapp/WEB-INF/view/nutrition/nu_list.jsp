@@ -8,20 +8,22 @@
 <title>人体测量</title>
 </head>
 <body>
+<jsp:include page="../common/head_theme.jsp" flush="true"></jsp:include>
 <div class="frame-content">
-<input id="patientId" value="${patient.id }">
-<input id="patientName" value="${patient.name }">
+<input id="patientId" type="hidden" value="${patient.id }">
+<input id="patientName" type="hidden" value="${patient.name }">
+<input id="patientSex" type="hidden" value="${patient.sex }">
     <div class="u-list mt-10">
         <div class="u-xt-6" id="nuTypeDiv">
             <button type="button" data-type="body_measure">人体测量</button>
             <button type="button" data-type="assessment">营养评估</button>
-            <button type="button" data-type="food_record">饮食记录</button>
+            <!-- <button type="button" data-type="food_record">饮食记录</button> -->
         </div>
         <div class="u-xt-6 u-text-r" id="nuQueryDiv">
-            <label class="nutrition-action hide" date-target="body_measure">
-                <button type="button" class="u-btn-blue" data-popup="#promptDialog4">新增</button>
-                <button type="button" data-show="#querySetId1" class="u-btn">查询设置</button>
-                <div class="u-prompt-box" id="querySetId1" top-right style="top: 44px;right:0px;">
+            <label class="nutrition-action hide" id="body_measure_queryDiv">
+                <button type="button" class="u-btn-blue" onclick="body_measure.edit()">新增</button>
+                <button type="button" data-show="#body_measure_queryDialog" class="u-btn">查询设置</button>
+                <div class="u-prompt-box" id="body_measure_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">
                         <div class="u-list">时间：
                             <input type="text" name="startDateStr" readonly="readonly" datepicker>
@@ -29,16 +31,16 @@
                             <input type="text" name="endDateStr" readonly="readonly" datepicker>
                         </div>
                         <div class="u-border-t u-text-r pt-8 mt-8">
-                            <button type="button" class="u-btn" data-hide="#querySetId1">取消</button>
-                            <button type="button" class="u-btn-blue" fill>查询</button>
+                            <button type="button" class="u-btn" data-hide="#body_measure_queryDialog">取消</button>
+                            <button type="button" class="u-btn-blue" data-hide="#body_measure_queryDialog" onclick="body_measure.getList();" fill>查询</button>
                         </div>
                     </div>
                 </div>
             </label>
-            <label class="nutrition-action hide" date-target="assessment">
-                <button type="button" class="u-btn-blue" data-popup="#promptDialog">新增</button>
-                <button type="button" data-show="#querySetId2" class="u-btn">查询设置</button>
-                <div class="u-prompt-box" id="querySetId2" top-right style="top: 44px;right:0px;">
+            <label class="nutrition-action hide" id="assessment_queryDiv">
+                <button type="button" class="u-btn-blue" onclick="assessment.edit()">新增</button>
+                <button type="button" data-show="#assessment_queryDialog" class="u-btn">查询设置</button>
+                <div class="u-prompt-box" id="assessment_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">
                         <div class="u-list">时间：
                             <input type="text" name="startDateStr" readonly="readonly" datepicker>
@@ -46,16 +48,16 @@
                             <input type="text" name="endDateStr" readonly="readonly" datepicker>
                         </div>
                         <div class="u-border-t u-text-r pt-8 mt-8">
-                            <button type="button" class="u-btn" data-hide="#querySetId2">取消</button>
-                            <button type="button" class="u-btn-blue" fill>查询</button>
+                            <button type="button" class="u-btn" data-hide="#assessment_queryDialog">取消</button>
+                            <button type="button" class="u-btn-blue" data-hide="#assessment_queryDialog" onclick="assessment.getList();" fill>查询</button>
                         </div>
                     </div>
                 </div>
             </label>
-            <label class="nutrition-action hide" date-target="food_record">
-                <button type="button" class="u-btn-blue" data-popup="#promptDialog2">新增</button>
-                <button type="button" data-show="#querySetId3" class="u-btn">查询设置</button>
-                <div class="u-prompt-box" id="querySetId3" top-right style="top: 44px;right:0px;">
+            <label class="nutrition-action hide" id="food_record_queryDiv">
+                <button type="button" class="u-btn-blue" onclick="food_record.edit()">新增</button>
+                <button type="button" data-show="#food_record_queryDialog" class="u-btn">查询设置</button>
+                <div class="u-prompt-box" id="food_record_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">
                         <div class="u-list">时间：
                             <input type="text" name="startDateStr" readonly="readonly" datepicker>
@@ -63,8 +65,8 @@
                             <input type="text" name="endDateStr" readonly="readonly" datepicker>
                         </div>
                         <div class="u-border-t u-text-r pt-8 mt-8">
-                            <button type="button" class="u-btn" data-hide="#querySetId3">取消</button>
-                            <button type="button" class="u-btn-blue" fill>查询</button>
+                            <button type="button" class="u-btn" data-hide="#food_record_queryDialog">取消</button>
+                            <button type="button" class="u-btn-blue" data-hide="#food_record_queryDialog" fill>查询</button>
                         </div>
                     </div>
                 </div>
@@ -86,7 +88,6 @@
                         <th class="xtt-20">三头肌皮褶厚度(mm)</th>
                         <th class="xtt-13">上臀肌围(cm)</th>
                         <th class="xtt-10">腰臀比</th>
-                        <th class="">来源</th>
                         <th class="xtt-10">操作</th>
                     </tr>
                     </thead>
@@ -100,7 +101,7 @@
         </div>
     </div>
     <div class="somatometry nutrition hide" id="assessment_div">
-        <div id="chart2" style="height: 250px"></div>
+        <div id="assessment_chart" style="height: 250px"></div>
         <table class="u-table u-table-bordered mt-20">
             <thead>
             <tr>
@@ -130,9 +131,31 @@
         </table>
     </div>
 </div>
+
+<!-- 人体测量详情-->
+<div class="u-mask" id="body_measure_hisDialog" data-hide="#body_measure_hisDialog">
+    <div class="u-dialog">
+        <div class="u-dialog-header">
+            <div></div>
+            <div class="fs-18" data-title></div>
+            <div><i class="icon-close" data-hide="#body_measure_hisDialog"></i></div>
+        </div>
+        <div class="u-dialog-content">
+            <div class="">时间：
+                <input type="text" name="startDateStr" readonly="readonly" datepicker class="width-134-imp">
+                <span class="fc-black_5"> 至 </span>
+                <input type="text" name="endDateStr" readonly="readonly" datepicker class="width-134-imp">
+            </div>
+            <div id="body_measure_hisDialogChart" style="height: 200px;width: 520px"></div>
+        </div>
+    </div>
+</div>
+
+<jsp:include page="../common/iframe_dialog.jsp" flush="true"></jsp:include>
 <script type="text/javascript" src="${ctx }/assets/js/nutrition/nu_list.js"></script>
 <script type="text/javascript">
- nu_list.init();
+$("#body_measure_bodyDiv").css("max-height", $(window).height() - $("#body_measure_bodyDiv").offset().top - 10);
+$("#assessment_chart,#food_record_chart").css("width", $(window).width());
 </script>
 </body>
 </html>

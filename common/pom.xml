@@ -17,6 +17,12 @@
         <artifactId>propaganda-backend</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </dependency>
+    <!-- nutrition -->
+    <dependency>
+        <groupId>com.xtt.nutrition</groupId>
+        <artifactId>nutrition-backend</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
 	<finalName>common</finalName>
