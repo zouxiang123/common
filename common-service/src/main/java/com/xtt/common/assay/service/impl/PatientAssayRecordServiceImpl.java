@@ -45,7 +45,7 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord) {
+    public PatientAssayRecordPO getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord) {
         if (assayRecord.getFkTenantId() == null) {
             assayRecord.setFkTenantId(UserUtil.getTenantId());
         }
