@@ -556,16 +556,16 @@
         and fk_patient_id=#{fkPatientId} and flage is null
     </select>
       <!-- 获取最小的化验日期 -->
-    <select id="getMinSampleTimeByCreateTime" resultType="java.util.Date">
-        SELECT MIN(sample_time) 
+    <select id="getMinSampleTimeByCreateTime" resultMap="POResultMap">
+        SELECT min(ifnull(sample_time,report_time)) sample_time,min(IFNULL(report_time,sample_time)) report_time
         FROM patient_assay_record
         WHERE
          fk_tenant_id = #{fkTenantId}
         <if test="startDate != null">
-            AND sample_time &gt;= #{startDate}
+            AND create_time &gt;= #{startDate}
         </if>
         <if test="endDate != null">
-            AND sample_time &lt;= #{endDate}
+            AND create_time &lt;= #{endDate}
         </if>
     </select>
     <!-- 获取字典数据列表 -->
