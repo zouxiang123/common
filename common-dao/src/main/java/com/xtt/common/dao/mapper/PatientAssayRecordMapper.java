@@ -115,10 +115,10 @@ public interface PatientAssayRecordMapper {
      * 
      * @Title: getMinSampleTimeByCreateTime
      * @param assayRecord
-     * @return
+     * @return PatientAssayRecordPO
      *
      */
-    Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
+    PatientAssayRecordPO getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
 
     /**
      * 获取字典数据列表
