@@ -349,7 +349,7 @@
         WHERE
               cdev.item_code = #{diagonsisItemCode}
         AND DATE_FORMAT(cdev.create_time, '%Y') &gt;= #{startDate}
-        AND DATE_FORMAT(cdev.create_time, '%Y') &lt; #{endDate}
+        AND DATE_FORMAT(cdev.create_time, '%Y') &lt;= #{endDate}
       <if test="sex !=null and sex!=''">
            AND p.sex = #{sex}
       </if>
