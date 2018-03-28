@@ -562,12 +562,20 @@ public class UserServiceImpl implements IUserService {
                     }
                     SysGroupTenant sgt = sysTenantService.getSysGroupTenantByFkTenantId(tenantId);
                     List<SysTenant> stList = sysTenantService.listAllNormalByGroupId(sgt.getFkGroupId(), null);
-                    if (CollectionUtils.isNotEmpty(stList)) {
-                        StringBuilder sts = new StringBuilder();
-                        stList.forEach(tenant -> {
+                    StringBuilder sts = new StringBuilder();
+                    if (sgt.getFkTenantId().equals(sgt.getFkGroupId())) {
+                        List<SysTenant> pgList = sysTenantService.listByPTenantId(sgt.getFkGroupId());
+                        pgList.forEach(tenant -> {
                             sts.append(",").append(tenant.getId());
                         });
                         loginUser.setGroupTenant(sts.toString().substring(1));
+                    } else {
+                        if (CollectionUtils.isNotEmpty(stList)) {
+                            stList.forEach(tenant -> {
+                                sts.append(",").append(tenant.getId());
+                            });
+                            loginUser.setGroupTenant(sts.toString().substring(1));
+                        }
                     }
                     // refresh redis cache
                     UserUtil.setLoginUser(loginUser);
@@ -734,8 +742,8 @@ public class UserServiceImpl implements IUserService {
         return sysUserMapper.listUserByParentId(constantType, UserUtil.getTenantId());
     }
 
-	@Override
-	public SysUserPO getByAccountAndRole(SysUser sysUser) {
-		return sysUserMapper.getByAccountAndRole(sysUser);
-	}
+    @Override
+    public SysUserPO getByAccountAndRole(SysUser sysUser) {
+        return sysUserMapper.getByAccountAndRole(sysUser);
+    }
 }
