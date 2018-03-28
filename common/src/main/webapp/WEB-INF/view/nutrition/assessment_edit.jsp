@@ -17,11 +17,12 @@
         <div class="head">评估时间</div>
         <div class="content">
             <div class="list mt-8 mb-8">
-                <div class="u-xt-6">本次时间：<input type="text" name="recordDateShow" value="${record.recordDateShow }" id="recordDateInput" readonly="readonly"/>
+                <div class="u-xt-6">记录时间：<input type="text" name="recordDateShow" value="${record.recordDateShow }" id="recordDateInput" readonly="readonly"/>
                 </div>
                 <div class="u-xt-6">下次时间：<input type="text" name="nextDateShow" value="${record.nextDateShow }" id="nextDateInput" readonly="readonly"/>
                 </div>
             </div>
+            <div data-error></div>
         </div>
     </div>
     <div class="new-assess-card">

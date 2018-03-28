@@ -18,6 +18,7 @@ var assessment_edit = {
      */
     init : function() {
         this.addEvents();
+        this.addValidate();
         var id = $("#nuAssessmentForm").find("input[name='id']").val();
         if (!isEmpty(id)) {
             $.ajax({
@@ -75,20 +76,37 @@ var assessment_edit = {
      * 保存营养评估数据
      */
     save : function(callback) {
-        $.ajax({
-            url : ctx + "/nuAssessment/save.shtml",
-            type : "post",
-            data : $("#nuAssessmentForm").serialize(),
-            dataType : "json",
-            success : function(data) {
-                if (data.status == 1) {
-                    showTips();
-                    if (!isEmpty(callback)) {
-                        callback();
+        if ($("#nuAssessmentForm").valid()) {
+            $.ajax({
+                url : ctx + "/nuAssessment/save.shtml",
+                type : "post",
+                data : $("#nuAssessmentForm").serialize(),
+                dataType : "json",
+                success : function(data) {
+                    if (data.status == 1) {
+                        showTips();
+                        if (!isEmpty(callback)) {
+                            callback();
+                        }
+                    } else {
+                        showWarn(data.errmsg);
                     }
-                } else {
-                    showWarn(data.errmsg);
                 }
+            });
+        }
+    },
+    addValidate : function() {
+        $('#nuAssessmentForm').validate({
+            // 校验字段
+            rules : {
+                recordDateShow : {
+                    required : [ "记录时间" ]
+                }
+            },
+            errorPlacement : function(error, element) {
+                var obj = getValidateErrorDisplayEl($(element));
+                $(error).css("display", "block");
+                obj.find("[data-error]").append(error);
             }
         });
     }
