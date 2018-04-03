@@ -222,7 +222,7 @@
 	e.id as e_id,
 	e.fk_patient_id as e_fk_patient_id,
 	e.item_code as e_item_code,
-	cdd.item_name as item_name,
+    cdd.item_name as item_name,
 	e.fk_tenant_id as e_fk_tenant_id,
 	e.create_time as e_create_time,
 	e.create_user_id as e_create_user_id,

@@ -285,7 +285,7 @@
   </resultMap>
   <!-- 根据批量患者id查询对应的诊断信息 -->
   <select id="listByPatientIdsGroup" resultMap="BaseResultPOMap">
-  SELECT GROUP_CONCAT(CONCAT(e31.item_name,'：',e31.item_value)  SEPARATOR '；') diagnosisData,fk_patient_id FROM (
+  SELECT GROUP_CONCAT(CONCAT(e31.item_value)  SEPARATOR '；') diagnosisData,fk_patient_id FROM (
         SELECT e1.fk_patient_id,GROUP_CONCAT(CONCAT(IFNULL(e1.item_value,''),IFNULL(e1.content,''))) item_value,e21.item_name 
         FROM cm_diagnosis_entity_value e1
         LEFT JOIN cm_dict_diagnosis e11 ON e1.item_code=e11.item_code
