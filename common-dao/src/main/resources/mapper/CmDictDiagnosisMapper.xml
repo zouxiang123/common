@@ -9,6 +9,7 @@
     <result column="p_item_code" jdbcType="VARCHAR" property="pItemCode" />
     <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
     <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_name_value" jdbcType="VARCHAR" property="itemNameValue" />
     <result column="item_type" jdbcType="VARCHAR" property="itemType" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
@@ -26,8 +27,9 @@
     <!--
       WARNING - @mbggenerated, do not modify!
     -->
-    id, p_item_code, item_code, item_name, item_type, unit, data_type, is_leaf, item_level, 
-    order_by, is_fixed, is_enable, create_time, create_user_id, update_time, update_user_id
+    id, p_item_code, item_code, item_name, item_name_value, item_type, unit, data_type, 
+    is_leaf, item_level, order_by, is_fixed, is_enable, create_time, create_user_id, 
+    update_time, update_user_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -50,17 +52,17 @@
       WARNING - @mbggenerated, do not modify!
     -->
     insert into cm_dict_diagnosis (id, p_item_code, item_code, 
-      item_name, item_type, unit, 
-      data_type, is_leaf, item_level, 
-      order_by, is_fixed, is_enable, 
-      create_time, create_user_id, update_time, 
-      update_user_id)
+      item_name, item_name_value, item_type, 
+      unit, data_type, is_leaf, 
+      item_level, order_by, is_fixed, 
+      is_enable, create_time, create_user_id, 
+      update_time, update_user_id)
     values (#{id,jdbcType=BIGINT}, #{pItemCode,jdbcType=VARCHAR}, #{itemCode,jdbcType=VARCHAR}, 
-      #{itemName,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{dataType,jdbcType=VARCHAR}, #{isLeaf,jdbcType=BIT}, #{itemLevel,jdbcType=INTEGER}, 
-      #{orderBy,jdbcType=INTEGER}, #{isFixed,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{itemName,jdbcType=VARCHAR}, #{itemNameValue,jdbcType=VARCHAR}, #{itemType,jdbcType=VARCHAR}, 
+      #{unit,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{isLeaf,jdbcType=BIT}, 
+      #{itemLevel,jdbcType=INTEGER}, #{orderBy,jdbcType=INTEGER}, #{isFixed,jdbcType=BIT}, 
+      #{isEnable,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.CmDictDiagnosis">
     <!--
@@ -79,6 +81,9 @@
       </if>
       <if test="itemName != null">
         item_name,
+      </if>
+      <if test="itemNameValue != null">
+        item_name_value,
       </if>
       <if test="itemType != null">
         item_type,
@@ -129,6 +134,9 @@
       </if>
       <if test="itemName != null">
         #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemNameValue != null">
+        #{itemNameValue,jdbcType=VARCHAR},
       </if>
       <if test="itemType != null">
         #{itemType,jdbcType=VARCHAR},
@@ -183,6 +191,9 @@
       <if test="itemName != null">
         item_name = #{itemName,jdbcType=VARCHAR},
       </if>
+      <if test="itemNameValue != null">
+        item_name_value = #{itemNameValue,jdbcType=VARCHAR},
+      </if>
       <if test="itemType != null">
         item_type = #{itemType,jdbcType=VARCHAR},
       </if>
@@ -230,6 +241,7 @@
     set p_item_code = #{pItemCode,jdbcType=VARCHAR},
       item_code = #{itemCode,jdbcType=VARCHAR},
       item_name = #{itemName,jdbcType=VARCHAR},
+      item_name_value = #{itemNameValue,jdbcType=VARCHAR},
       item_type = #{itemType,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       data_type = #{dataType,jdbcType=VARCHAR},

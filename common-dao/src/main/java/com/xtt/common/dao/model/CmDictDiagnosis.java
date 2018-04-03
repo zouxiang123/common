@@ -27,6 +27,11 @@ public class CmDictDiagnosis {
     private String itemName;
 
     /**
+     * 诊断信息 cm_dict_diagnosis.item_name_value
+     */
+    private String itemNameValue;
+
+    /**
      * 组件类型(checkbox、input、textarea等) cm_dict_diagnosis.item_type
      */
     private String itemType;
@@ -67,17 +72,7 @@ public class CmDictDiagnosis {
     private Boolean isEnable;
 
     /**
-<<<<<<< HEAD
-     * 创建时间
-     * cm_dict_diagnosis.create_time
-=======
-     * 租户id cm_dict_diagnosis.fk_tenant_id
-     */
-    private Integer fkTenantId;
-
-    /**
      * 创建时间 cm_dict_diagnosis.create_time
->>>>>>> refs/remotes/origin/1.2.13
      */
     private Date createTime;
 
@@ -150,6 +145,20 @@ public class CmDictDiagnosis {
      */
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    /**
+     * 诊断信息
+     */
+    public String getItemNameValue() {
+        return itemNameValue;
+    }
+
+    /**
+     * 诊断信息
+     */
+    public void setItemNameValue(String itemNameValue) {
+        this.itemNameValue = itemNameValue;
     }
 
     /**
