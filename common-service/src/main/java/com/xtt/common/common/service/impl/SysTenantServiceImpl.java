@@ -84,6 +84,14 @@ public class SysTenantServiceImpl implements ISysTenantService {
         return listByCondition(record);
     }
 
+    @Override
+    public List<SysTenant> listAllEnableByGroupFlag(Boolean groupFlag) {
+        SysTenant record = new SysTenant();
+        record.setIsEnable(true);
+        record.setGroupFlag(groupFlag);
+        return listByCondition(record);
+    }
+
     public List<SysTenant> listByCondition(SysTenant record) {
         return sysTenantMapper.listByCondition(record);
     }

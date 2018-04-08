@@ -41,6 +41,17 @@ public interface ISysTenantService {
     public List<SysTenant> listAllEnable();
 
     /**
+     * 查询所有有效的租户
+     *
+     * @Title: selectAll
+     * @param groupFlag
+     *            集团虚拟租户标识
+     * @return
+     *
+     */
+    public List<SysTenant> listAllEnableByGroupFlag(Boolean groupFlag);
+
+    /**
      * 根据账户名称查询
      *
      * @param account
