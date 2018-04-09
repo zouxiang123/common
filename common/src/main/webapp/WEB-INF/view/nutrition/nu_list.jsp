@@ -21,7 +21,7 @@
         </div>
         <div class="u-xt-6 u-text-r" id="nuQueryDiv">
             <label class="nutrition-action hide" id="body_measure_queryDiv">
-                <button type="button" class="u-btn-blue" onclick="body_measure.edit()">新增</button>
+                <button type="button" class="u-btn-blue" data-permission-key="CM_nu_body_measure_edit" onclick="body_measure.edit()">新增</button>
                 <button type="button" data-show="#body_measure_queryDialog" class="u-btn">查询设置</button>
                 <div class="u-prompt-box" id="body_measure_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">
@@ -38,7 +38,7 @@
                 </div>
             </label>
             <label class="nutrition-action hide" id="assessment_queryDiv">
-                <button type="button" class="u-btn-blue" onclick="assessment.edit()">新增</button>
+                <button type="button" class="u-btn-blue" data-permission-key="CM_nu_assessment_edit" onclick="assessment.edit()">新增</button>
                 <button type="button" data-show="#assessment_queryDialog" class="u-btn">查询设置</button>
                 <div class="u-prompt-box" id="assessment_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">
@@ -55,7 +55,7 @@
                 </div>
             </label>
             <label class="nutrition-action hide" id="food_record_queryDiv">
-                <button type="button" class="u-btn-blue" onclick="food_record.edit()">新增</button>
+                <button type="button" class="u-btn-blue" data-permission-key="CM_nu_food_rec_edit" onclick="food_record.edit()">新增</button>
                 <button type="button" data-show="#food_record_queryDialog" class="u-btn">查询设置</button>
                 <div class="u-prompt-box" id="food_record_queryDialog" top-right style="top: 44px;right:0px;">
                     <div class="query-set">

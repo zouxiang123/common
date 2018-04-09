@@ -155,7 +155,10 @@ var body_measure = {
                                 html += '</td>';
                                 html += '<td class="xtt-10">';
                                 html += '  <button type="button" class="u-btn-red" onclick="body_measure.del(' + item.id + ')" text>删除</button>';
-                                html += '  <button type="button" class="u-btn-blue" onclick="body_measure.edit(' + item.id + ')" text>编辑</button>';
+                                if (hasPermission("CM_nu_body_measure_edit")) {
+                                    html += '  <button type="button" class="u-btn-blue" onclick="body_measure.edit(' + item.id
+                                                    + ')" text>编辑</button>';
+                                }
                                 html += '</td>';
                                 html += '</tr>';
                             }
@@ -372,7 +375,9 @@ var assessment = {
                         html += '  <td>' + tips + '</td>';
                         html += '  <td class="xtt-10">';
                         html += '  <button type="button" class="u-btn-red" onclick="assessment.del(' + item.id + ')" text>删除</button>';
-                        html += '  <button type="button" class="u-btn-blue" onclick="assessment.edit(' + item.id + ')" text>编辑</button>';
+                        if (hasPermission("CM_nu_assessment_edit")) {
+                            html += '  <button type="button" class="u-btn-blue" onclick="assessment.edit(' + item.id + ')" text>编辑</button>';
+                        }
                         html += '  </td>';
                         html += '</tr>';
                         xData[total - i - 1] = item.recordDateShow;
@@ -529,7 +534,9 @@ var food_record = {
                         html += '  <td>' + convertEmpty(item.recomDpiShow) + '</td>';
                         html += '  <td>';
                         html += '    <button type="buton" text class="u-btn-red" onclick="food_record.del(' + item.id + ')">删除</button>';
-                        html += '    <button type="buton" text class="u-btn-blue" onclick="food_record.edit(' + item.id + ')">编辑</button>';
+                        if (hasPermission("CM_nu_food_rec_edit")) {
+                            html += '    <button type="buton" text class="u-btn-blue" onclick="food_record.edit(' + item.id + ')">编辑</button>';
+                        }
                         html += '  </td>';
                         html += '</tr>';
                     }
