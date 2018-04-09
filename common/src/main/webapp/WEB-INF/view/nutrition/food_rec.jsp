@@ -37,7 +37,7 @@
             <div class="u-list-text">
                 <div class="left"></div>
                 <div class="right">
-                    <button type="button" class="u-btn-blue custom" fill style="top: -10px;" onclick="food_rec.addRec('foodNormalDiv','normal')">新增饮食回顾</button>
+                    <button type="button" class="u-btn-blue custom" fill style="top: -2px;" onclick="food_rec.addRec('foodNormalDiv','normal')">新增饮食回顾</button>
                 </div>
             </div>
             <div class="new-diet-reviews pb-12">
