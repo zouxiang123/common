@@ -319,7 +319,7 @@
         <if test="sysOwner != null and sysOwner != ''">
             AND r.sys_owner = #{sysOwner}
         </if>
-		WHERE ut.fk_tenant_id=#{fkTenantId}
+		WHERE ut.fk_tenant_id=#{tenantId}
         <if test="delFlag != null">
           AND u.del_flag=#{delFlag}
         </if>
