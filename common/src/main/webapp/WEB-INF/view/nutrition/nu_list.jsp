@@ -17,7 +17,7 @@
         <div class="u-xt-6" id="nuTypeDiv">
             <button type="button" data-type="body_measure">人体测量</button>
             <button type="button" data-type="assessment">营养评估</button>
-            <!-- <button type="button" data-type="food_record">饮食记录</button> -->
+            <button type="button" data-type="food_record">饮食记录</button>
         </div>
         <div class="u-xt-6 u-text-r" id="nuQueryDiv">
             <label class="nutrition-action hide" id="body_measure_queryDiv">
@@ -66,7 +66,7 @@
                         </div>
                         <div class="u-border-t u-text-r pt-8 mt-8">
                             <button type="button" class="u-btn" data-hide="#food_record_queryDialog">取消</button>
-                            <button type="button" class="u-btn-blue" data-hide="#food_record_queryDialog" fill>查询</button>
+                            <button type="button" class="u-btn-blue" data-hide="#food_record_queryDialog" onclick="food_record.getList();" fill>查询</button>
                         </div>
                     </div>
                 </div>
@@ -152,7 +152,7 @@
 </div>
 
 <jsp:include page="../common/iframe_dialog.jsp" flush="true"></jsp:include>
-<script type="text/javascript" src="${ctx }/assets/js/nutrition/nu_list.js"></script>
+<script type="text/javascript" src="${ctx }/assets/js/nutrition/nu_list.js?version=${version}"></script>
 <script type="text/javascript">
 $("#body_measure_bodyDiv").css("max-height", $(window).height() - $("#body_measure_bodyDiv").offset().top - 10);
 $("#assessment_chart,#food_record_chart").css("width", $(window).width());

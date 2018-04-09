@@ -64,9 +64,6 @@ var body_measure = {
                 elem : this,
                 value : $(this).attr("name") == "startDateStr" ? startDate : endDate,
                 theme : '#31AAFF',
-                done : function() {
-                    body_measure.getList();
-                },
                 btns : [ "now", "confirm" ]
             });
         });
@@ -327,9 +324,6 @@ var assessment = {
                 elem : this,
                 value : $(this).attr("name") == "startDateStr" ? startDate : endDate,
                 theme : '#31AAFF',
-                done : function() {
-                    body_measure.getList();
-                },
                 btns : [ "now", "confirm" ]
             });
         });
@@ -485,9 +479,6 @@ var food_record = {
                 elem : this,
                 value : $(this).attr("name") == "startDateStr" ? startDate : endDate,
                 theme : '#31AAFF',
-                done : function() {
-                    body_measure.getList();
-                },
                 btns : [ "now", "confirm" ]
             });
         });
@@ -505,10 +496,11 @@ var food_record = {
         var param = {
             fkPatientId : nu_list.patientId,
             startDateStr : startDate,
-            endDateStr : endDate
+            endDateStr : endDate,
+            pid : 0
         };
         $.ajax({
-            url : ctx + "/nuAssessment/getList.shtml",
+            url : ctx + "/nuFoodRec/getList.shtml",
             data : param,
             type : "post",
             dateType : "json",
@@ -516,30 +508,30 @@ var food_record = {
                 if (result.status == "1") {
                     var items = result.rs;
                     var xData = [];
-                    var serieData = [];
+                    var serieDataDei = [];
+                    var serieDataDpi = [];
+                    var serieDataRecomDei = [];
+                    var serieDataRecomDpi = [];
                     var html = "";
                     var total = items.length;
                     for (var i = 0; i < total; i++) {
                         var item = items[i];
-                        var score = item.score;
-                        var tips = "营养正常";
-                        if (score > 7 && score < 16) {
-                            tips = "轻－中度营养不良";
-                        } else if (score >= 16) {
-                            tips = "重度营养不良";
-                        }
+                        xData[total - i - 1] = item.recordDateShow;
+                        serieDataDei[total - i - 1] = item.deiShow;
+                        serieDataDpi[total - i - 1] = item.dpiShow;
+                        serieDataRecomDei[total - i - 1] = item.recomDeiShow;
+                        serieDataRecomDpi[total - i - 1] = item.recomDpiShow;
                         html += '<tr>';
-                        html += '  <td class="xtt-12">' + item.recordDateShow + '</td>';
-                        html += '  <td class="xtt-10">' + score + '' + (score > 7 ? '<span class="icon-upward fc-red u-float-r mt-4"></span>' : '')
-                                        + '</td>';
-                        html += '  <td>' + tips + '</td>';
-                        html += '  <td class="xtt-10">';
-                        html += '  <button type="button" class="u-btn-red" onclick="assessment.del(' + item.id + ')" text>删除</button>';
-                        html += '  <button type="button" class="u-btn-blue" onclick="assessment.edit(' + item.id + ')" text>编辑</button>';
+                        html += '  <td>' + convertEmpty(item.recordDateShow) + '</td>';
+                        html += '  <td>' + convertEmpty(item.deiShow) + '</td>';
+                        html += '  <td>' + convertEmpty(item.dpiShow) + '</td>';
+                        html += '  <td>' + convertEmpty(item.recomDeiShow) + '</td>';
+                        html += '  <td>' + convertEmpty(item.recomDpiShow) + '</td>';
+                        html += '  <td>';
+                        html += '    <button type="buton" text class="u-btn-red" onclick="food_record.del(' + item.id + ')">删除</button>';
+                        html += '    <button type="buton" text class="u-btn-blue" onclick="food_record.edit(' + item.id + ')">编辑</button>';
                         html += '  </td>';
                         html += '</tr>';
-                        xData[total - i - 1] = item.recordDateShow;
-                        serieData[total - i - 1] = score;
                     }
                     $("#food_record_tbody").html(html);
                     var chart = echarts.init(document.getElementById('food_record_chart'), '1');
@@ -548,7 +540,7 @@ var food_record = {
                             trigger : 'axis'
                         },
                         legend : {
-                            data : [ 'SGA' ]
+                            data : [ '实际DEI', '实际DPI', '推荐DEI', '推荐DPI' ]
                         },
                         grid : {
                             left : '3%',
@@ -565,10 +557,25 @@ var food_record = {
                             type : 'value'
                         },
                         series : [ {
-                            name : 'SGA',
+                            name : '实际DEI',
                             type : 'line',
                             stack : '总量',
-                            data : serieData
+                            data : serieDataDei
+                        }, {
+                            name : '实际DPI',
+                            type : 'line',
+                            stack : '总量',
+                            data : serieDataDpi
+                        }, {
+                            name : '推荐DEI',
+                            type : 'line',
+                            stack : '总量',
+                            data : serieDataRecomDei
+                        }, {
+                            name : '推荐DPI',
+                            type : 'line',
+                            stack : '总量',
+                            data : serieDataRecomDpi
                         } ]
                     };
                     chart.setOption(option);
@@ -588,15 +595,15 @@ var food_record = {
             patientId : nu_list.patientId,
             id : convertEmpty(id)
         });
-        var url = ctx + "/nuAssessment/edit.shtml?" + param;
+        var url = ctx + "/nuFoodRec/edit.shtml?" + param;
         showIframeDialog({
             title1 : "患者：" + nu_list.patientName,
-            title : (isEmpty(id) ? "新增" : "编辑") + "营养评估",
+            title : (isEmpty(id) ? "新增" : "编辑") + "饮食记录",
             url : url,
             saveCall : function(iframeWin) {
-                iframeWin.assessment_edit.save(function(id) {
+                iframeWin.food_rec.save(function(id) {
                     hiddenMe($("#iframeDialog"));
-                    assessment.getList();
+                    food_record.getList();
                 });
             }
         });
@@ -609,7 +616,7 @@ var food_record = {
     del : function(id) {
         showWarn("数据删除后不能恢复，您确定要删除吗？", function() {
             $.ajax({
-                url : ctx + "/nuAssessment/delete.shtml",
+                url : ctx + "/nuFoodRec/delete.shtml",
                 data : {
                     id : id
                 },
@@ -618,7 +625,7 @@ var food_record = {
                 success : function(result) {
                     if (result.status == "1") {
                         showTips("删除成功");
-                        assessment.getList();
+                        food_record.getList();
                     } else {
                         showWarn(result.errmsg);
                     }
