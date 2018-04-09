@@ -368,7 +368,8 @@
     SELECT
         COUNT(cdev.id) count,
         cdd.item_name,
-        cdd.item_code
+        cdd.item_code,
+        cdd.item_name_value
     FROM
         cm_diagnosis_entity_value cdev
       LEFT   JOIN cm_dict_diagnosis cdd ON cdd.item_code = cdev.item_code 
