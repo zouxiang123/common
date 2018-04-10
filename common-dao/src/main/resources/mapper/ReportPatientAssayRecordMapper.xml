@@ -267,7 +267,14 @@
 	  ON pa.id = plf.fk_patient_id AND plf.del_flag = false
 	  INNER JOIN patient_label pl on plf.fk_label_id = pl.id
   	</if>
+    <if test="tempMultiple != null and tempMultiple!='' ">
+        INNER JOIN hd_patient_extend hpe ON pa.id=hpe.id 
+    </if>
 	WHERE p.fk_tenant_id = #{fkTenantId} AND p.result is not null 
+    <if test="tempMultiple!=null and tempMultiple!='' ">
+        AND hpe.fk_tenant_id= #{fkTenantId}
+        AND hpe.is_temp=#{tempMultiple}
+        </if>
 	<if test="itemCode != null">
 		AND p.item_code = #{itemCode}
 	</if>
