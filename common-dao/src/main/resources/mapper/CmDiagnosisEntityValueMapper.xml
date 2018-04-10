@@ -330,7 +330,7 @@
   </select>
   <!-- 统计指定年份的所有的原发病的数量 -->
   <select id="countAllDiagnosis"  resultType="java.lang.Integer">   
-     SELECT COUNT(*)  FROM cm_diagnosis_entity_value WHERE DATE_FORMAT(create_time,'%Y')=#{year}  AND fk_tenant_id=#{tenantId}  
+     SELECT COUNT(*)  FROM cm_diagnosis_entity_value WHERE DATE_FORMAT(create_time,'%Y')=#{year}  AND fk_tenant_id=#{tenantId}   AND item_code like CONCAT('LC','%')
   </select>
   
   <!-- 单一原发病统计  -->
