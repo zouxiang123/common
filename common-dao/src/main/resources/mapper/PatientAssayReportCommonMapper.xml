@@ -129,9 +129,10 @@
         , padc.item_code, padc.result 
     FROM patient_assay_report_common padc
     JOIN patient p ON p.id = padc.fk_patient_id 
-    JOIN patient_outcome po ON p.id=po.fk_patient_id AND padc.fk_tenant_id = po.fk_tenant_id
+    JOIN patient_owner po ON p.id=po.fk_patient_id AND padc.fk_tenant_id = po.fk_tenant_id
+    JOIN patient_outcome poc ON p.id=poc.fk_patient_id AND padc.fk_tenant_id = poc.fk_tenant_id
     <if test="assayMonth != null and assayMonth != '' ">
-          AND po.record_date &gt;= #{assayMonth}
+          AND DATE_FORMAT(poc.record_date,'%Y-%m') &gt;= #{assayMonth}
     </if>
     <if test="patientLabelIds != null and patientLabelIds.length>0">
        JOIN patient_label_ref plr ON plr.fk_patient_id = p.id 
