@@ -44,15 +44,22 @@ var food_rec = {
                                     $("#foodRecForm").find("input[name='recordDateShow']").val(item.recordDateShow);
                                     if (!isEmptyObject(item.children)) {// 渲染饮食回顾和饮食推荐数据
                                         var hasRecom = false;
+                                        var hasNormal = false;
                                         for (var i = 0; i < item.children.length; i++) {
                                             var child = item.children[i];
                                             food_rec.addRec(child.recType == "recom" ? "foodRecomDiv" : "foodNormalDiv", child.recType, child);
                                             if (!hasRecom) {
-                                                hasRecom = child.recType == "recom"
+                                                hasRecom = child.recType == "recom";
+                                            }
+                                            if (!hasNormal) {
+                                                hasNormal = child.recType == "normal";
                                             }
                                         }
                                         food_rec.addSelectPage($("#foodRecForm"));
                                         food_rec.calcComponentTotal();
+                                        if (!hasNormal) {// 如果没有回顾数据，默认显示一条
+                                            food_rec.addRec("foodNormalDiv", "normal");
+                                        }
                                         if (!hasRecom) {
                                             food_rec.addRec("foodRecomDiv", "recom");
                                         }
@@ -62,7 +69,10 @@ var food_rec = {
                                 }
                             }
                         });
-                    } else {// 默认显示饮食推荐
+                    } else {
+                        // 默认显示一条饮食回顾
+                        food_rec.addRec("foodNormalDiv", "normal");
+                        // 默认显示饮食推荐
                         food_rec.addRec("foodRecomDiv", 'recom');
                     }
                 } else {
@@ -103,7 +113,7 @@ var food_rec = {
         $("#foodRecForm").find("[datepicker]").each(function() {
             laydate.render({
                 elem : this,
-                value : new Date().pattern("yyyy-MM-dd"),
+                value : $("#currentDate").val(),
                 theme : '#31AAFF',
                 btns : [ "now", "confirm" ]
             });
@@ -132,6 +142,7 @@ var food_rec = {
         $("#" + elId).find("[datepicker]").each(function() {
             laydate.render({
                 elem : this,
+                value : $("#currentDate").val(),
                 theme : '#31AAFF',
                 btns : [ "now", "confirm" ]
             });
@@ -141,6 +152,10 @@ var food_rec = {
      * 添加详情数据
      */
     addDetail : function(el) {
+        if ($(el).find("[data-food]").length >= 3) {
+            showWarn("最多添加三种食品数据");
+            return false;
+        }
         $(el).append(this.getDetailHtml({}));
         this.addSelectPage(el);
     },
@@ -238,7 +253,8 @@ var food_rec = {
         html += '  <input type="text" class="custom" name="' + roundName + '_foodcode" data-init="' + convertEmpty(obj.foodCode)
                         + '" required data-foodcode data-msg-required="请选择食品"/>';
         html += '  <input type="text" class="custom" short name="' + roundName + '_quantity" value="'
-                        + (isEmpty(obj.quantity) ? "" : Number(obj.quantity)) + '" required data-msg-required="请填写数量" data-quantity>';
+                        + (isEmpty(obj.quantity) ? "" : Number(obj.quantity))
+                        + '" maxlength="6" required data-msg-required="请填写数量" data-rule-quantity="true" data-quantity>';
         html += '  <span class="unit">g</span>';
         html += '  <button type="button" text class="u-btn-red ml-10" onclick="food_rec.removeDetail($(this).parent())">删除</button>';
         html += '</div>';
@@ -387,6 +403,20 @@ var food_rec = {
      * 添加校验
      */
     addValidate : function() {
+        // 数量的取值范围
+        $.validator.addMethod("quantity", function(value, element) {
+            if (isEmpty(value)) {
+                return true;
+            }
+            if (isNaN(value)) {
+                return false;
+            }
+            var valueNo = Number(value);
+            if (valueNo >= 0.01 && valueNo <= 99999) {
+                return true;
+            }
+            return false;
+        }, jQuery.validator.format("数量的值无效,应位于0.01~99999之间"));
         $('#foodRecForm').validate({
             onsubmit : false,
             // 校验字段

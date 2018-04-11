@@ -46,6 +46,7 @@
             <span data-bmispan><fmt:formatNumber value="${record.bmi }" pattern='#.###' /></span>
             <span class="fc-black_5 ml-14">kg/m²</span>
             <span class="fc-red ml-20" id="bmiTipsSpan"></span>
+            <div class="w-100" data-error></div>
         </div>
     </div>
     <div class="u-list-text">
@@ -56,6 +57,7 @@
             <input type="hidden" name="bsa" value="${record.bsa }" readonly="readonly"/>
             <span data-bsaspan="bsa"><fmt:formatNumber value="${record.bsa }" pattern='#.###' /></span>
             <span class="fc-black_5 ml-14">m²</span>
+            <div class="w-100" data-error></div>
         </div>
     </div>
     <div class="u-list-text-three mt-8 u-border-t dashed pt-16">
@@ -70,7 +72,7 @@
             <div>三头肌皮褶厚度：</div>
             <div>
                 <input type="text" name="tsf" maxlength="6" value="<fmt:formatNumber value="${record.tsf }" pattern='#.###' />" data-calcmamc="mamc">
-                <span class="fc-black_5 ml-4">cm</span>
+                <span class="fc-black_5 ml-4">mm</span>
             </div>
         </div>
         <div class="right">
@@ -95,7 +97,7 @@
             <div>臀围：</div>
             <div>
                 <input type="text" name="hip" value="<fmt:formatNumber value="${record.hip }" pattern='#.###' />" maxlength="6" data-calcwhr="whr">
-                <span class="fc-black_5 ml-4">mm</span>
+                <span class="fc-black_5 ml-4">cm</span>
             </div>
         </div>
         <div class="right">
@@ -114,14 +116,14 @@
             <div>肩胛下皮褶厚度：</div>
             <div>
                 <input type="text" name="ssf" value="<fmt:formatNumber value="${record.ssf }" pattern='#.###' />" maxlength="6">
-                <span class="fc-black_5 ml-4">cm</span>
+                <span class="fc-black_5 ml-4">mm</span>
             </div>
         </div>
         <div class="center">
             <div>腹部皮褶厚度：</div>
             <div>
                 <input type="text" name="asf" value="<fmt:formatNumber value="${record.asf }" pattern='#.###' />" maxlength="6">
-                <span class="fc-black_5 ml-4">cm</span>
+                <span class="fc-black_5 ml-4">mm</span>
             </div>
         </div>
         <div class="w-100" data-error></div>

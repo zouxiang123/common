@@ -203,7 +203,7 @@ var body_measure = {
                     },
                     grid : {
                         left : '3%',
-                        right : '4%',
+                        right : '8%',
                         bottom : '10px',
                         top : '30px',
                         containLabel : true

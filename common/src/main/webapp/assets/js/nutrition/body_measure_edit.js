@@ -23,8 +23,10 @@ var body_measure_edit = {
             var form = $("#bodyMeasureForm");
             var stature = $("[name='stature']", form).val();
             var weight = $("[name='weight']", form).val();
-            if (isEmpty(stature) || isEmpty(weight) || isNaN(stature) || isNaN(weight))
+            var checkNum = body_measure_edit.checkNum;
+            if (isEmpty(stature) || isEmpty(weight) || !checkNum(stature, 0.01, 999) || !checkNum(weight, 0.01, 999)) {
                 return;
+            }
             var param = {
                 patientId : $("#patientId").val(),
                 stature : stature,
@@ -48,9 +50,11 @@ var body_measure_edit = {
             var form = $("#bodyMeasureForm");
             var tsf = $("[name='tsf']", form).val();
             var mac = $("[name='mac']", form).val();
+            var checkNum = body_measure_edit.checkNum;
             // 是皮褶部位肱二头肌时
-            if (isEmpty(tsf) || isEmpty(mac) || isNaN(tsf) || isNaN(mac))
+            if (isEmpty(tsf) || isEmpty(mac) || !checkNum(tsf, 0.01, 999) || !checkNum(mac, 0.01, 999)) {
                 return;
+            }
             var data = {
                 tsf : tsf,
                 mac : mac
@@ -62,8 +66,10 @@ var body_measure_edit = {
             var form = $("#bodyMeasureForm");
             var waist = $("[name='waist']", form).val();
             var hip = $("[name='hip']", form).val();
-            if (isEmpty(waist) || isEmpty(hip) || isNaN(waist) || isNaN(hip))
+            var checkNum = body_measure_edit.checkNum;
+            if (isEmpty(waist) || isEmpty(hip) || !checkNum(waist, 0.01, 999) || !checkNum(hip, 0.01, 999)) {
                 return;
+            }
             var data = {
                 waist : waist,
                 hip : hip
@@ -127,6 +133,26 @@ var body_measure_edit = {
             });
         }
     },
+    /**
+     * 校验数据是否有效
+     * 
+     * @param num
+     * @param min
+     * @param max
+     */
+    checkNum : function(num, min, max) {
+        var flag = true;
+        if (isNaN(num)) {
+            return false;
+        }
+        if (!isEmpty(min)) {
+            flag = Number(num) >= min;
+        }
+        if (flag && !isEmpty(max)) {
+            flag = Number(max) <= max;
+        }
+        return flag;
+    },
     addValidate : function() {
         $('#bodyMeasureForm').validate({
             // 校验字段
@@ -135,31 +161,56 @@ var body_measure_edit = {
                     required : [ "测量日期" ]
                 },
                 weight : {
-                    number : [ "体重" ]
+                    number : [ "体重" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 statureMeasureValue : {
-                    number : [ "测量结果" ]
+                    number : [ "测量结果" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 stature : {
-                    number : [ "身高" ]
+                    number : [ "身高" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 mac : {
-                    number : [ "上臀围" ]
+                    number : [ "上臀围" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 tsf : {
-                    number : [ "三头肌皮褶厚度" ]
+                    number : [ "三头肌皮褶厚度" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 waist : {
-                    number : [ "腰围" ]
+                    number : [ "腰围" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 hip : {
-                    number : [ "臀围" ]
+                    number : [ "臀围" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 ssf : {
-                    number : [ "肩胛下皮褶厚度" ]
+                    number : [ "肩胛下皮褶厚度" ],
+                    customRange : [ 0.01, 999, "体重" ]
                 },
                 asf : {
-                    number : [ "腹部皮褶厚度" ]
+                    number : [ "腹部皮褶厚度" ],
+                    customRange : [ 0.01, 999, "体重" ]
+                },
+                bmi : {
+                    number : [ "BMI" ],
+                    customRange : [ 0.01, 999, "BMI" ]
+                },
+                bsa : {
+                    number : [ "BSA" ],
+                    customRange : [ 0.01, 999, "BSA" ]
+                },
+                whr : {
+                    number : [ "腰臀比" ],
+                    customRange : [ 0.01, 99, "腰臀比" ]
+                },
+                mamc : {
+                    number : [ "上臀肌围" ],
+                    customRange : [ 0.01, 999, "上臀肌围" ]
                 }
             },
             errorPlacement : function(error, element) {
