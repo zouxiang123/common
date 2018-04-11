@@ -24,6 +24,8 @@ var body_measure_edit = {
             var stature = $("[name='stature']", form).val();
             var weight = $("[name='weight']", form).val();
             var checkNum = body_measure_edit.checkNum;
+            var calcNodes = $(this).attr("data-calcstature");
+            body_measure_edit.clearCalcData(form, calcNodes);// 清空自动计算的值
             if (isEmpty(stature) || isEmpty(weight) || !checkNum(stature, 0.01, 999) || !checkNum(weight, 0.01, 999)) {
                 return;
             }
@@ -32,7 +34,7 @@ var body_measure_edit = {
                 stature : stature,
                 weight : weight
             };
-            body_measure_edit.setCalcData(param, ctx + "/nuCalc/getStature.shtml", form, $(this).attr("data-calcstature"), function(rs) {
+            body_measure_edit.setCalcData(param, ctx + "/nuCalc/getStature.shtml", form, calcNodes, function(rs) {
                 var bmi = rs.bmi;
                 var tips = "";
                 if (bmi < 18.5) {
@@ -51,7 +53,8 @@ var body_measure_edit = {
             var tsf = $("[name='tsf']", form).val();
             var mac = $("[name='mac']", form).val();
             var checkNum = body_measure_edit.checkNum;
-            // 是皮褶部位肱二头肌时
+            var calcNodes = $(this).attr("data-calcmamc");
+            body_measure_edit.clearCalcData(form, calcNodes);// 清空自动计算的值
             if (isEmpty(tsf) || isEmpty(mac) || !checkNum(tsf, 0.01, 999) || !checkNum(mac, 0.01, 999)) {
                 return;
             }
@@ -59,7 +62,7 @@ var body_measure_edit = {
                 tsf : tsf,
                 mac : mac
             };
-            body_measure_edit.setCalcData(data, ctx + "/nuCalc/getMamc.shtml", form, $(this).attr("data-calcmamc"));
+            body_measure_edit.setCalcData(data, ctx + "/nuCalc/getMamc.shtml", form, calcNodes);
         });
         // 计算腰臀比数据
         $("#bodyMeasureForm").on("change", "[data-calcwhr]", function() {
@@ -67,6 +70,8 @@ var body_measure_edit = {
             var waist = $("[name='waist']", form).val();
             var hip = $("[name='hip']", form).val();
             var checkNum = body_measure_edit.checkNum;
+            var calcNodes = $(this).attr("data-calcwhr");
+            body_measure_edit.clearCalcData(form, calcNodes);// 清空自动计算的值
             if (isEmpty(waist) || isEmpty(hip) || !checkNum(waist, 0.01, 999) || !checkNum(hip, 0.01, 999)) {
                 return;
             }
@@ -74,7 +79,7 @@ var body_measure_edit = {
                 waist : waist,
                 hip : hip
             };
-            body_measure_edit.setCalcData(data, ctx + "/nuCalc/getWHR.shtml", form, $(this).attr("data-calcwhr"), function(rs) {
+            body_measure_edit.setCalcData(data, ctx + "/nuCalc/getWHR.shtml", form, calcNodes, function(rs) {
                 var whr = rs.whr / 100.00;
                 var isMan = $("#patientSex").val() == "M";
                 var tips = "";
@@ -107,6 +112,21 @@ var body_measure_edit = {
                 }
             }
         });
+    },
+    /**
+     * 清空自动计算的值
+     * 
+     * @param form
+     * @param calcNodesStr
+     */
+    clearCalcData : function(form, calcNodesStr) {
+        var calcNodes = calcNodesStr.split(",");
+        for (var i = 0; i < calcNodes.length; i++) {
+            var inputEl = $("[name='" + calcNodes[i] + "']", form);
+            $("#" + inputEl.attr("aria-describedby"), form).hide();
+            inputEl.val("");
+            $("[data-" + calcNodes[i] + "span]", form).text("");
+        }
     },
     /**
      * 保存数据
