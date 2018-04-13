@@ -633,7 +633,9 @@
         WHERE
          DATE_FORMAT(cdev.create_time, '%Y')=#{year}
           AND hpe.fk_tenant_id = #{tenantId}
+          <if test="diagonsisItemCodes!=null">
           AND  cdev.item_code in <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
+          </if>
          <if test="sex!=null and sex!=''">
          AND p.sex = #{sex}
          </if>

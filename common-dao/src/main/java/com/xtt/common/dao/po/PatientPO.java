@@ -35,7 +35,7 @@ public class PatientPO extends Patient {
 
     private String itemName; // 原发病item_name
     private String itemCode;// 原发病item_code
-    private String registerTime;// 该患者原发病等级时间
+    private String registerTime;// 该患者原发病登记时间
     private String content;// 备注
 
     public List<PatientCardPO> getPatientCardList() {
