@@ -27,6 +27,8 @@ public class CmDiagnosisEntityValuePO extends CmDiagnosisEntityValue {
 
     private String itemName; // 原发病对应的名称
 
+    private String itemNameValue; // 诊断名称扩展
+
     public CmDiagnosisEntityPO getEntity() {
         return entity;
     }
@@ -75,4 +77,11 @@ public class CmDiagnosisEntityValuePO extends CmDiagnosisEntityValue {
         this.itemName = itemName;
     }
 
+    public String getItemNameValue() {
+        return itemNameValue;
+    }
+
+    public void setItemNameValue(String itemNameValue) {
+        this.itemNameValue = itemNameValue;
+    }
 }
