@@ -809,13 +809,15 @@
     <select id="listLatestByFkDictCode" resultMap="POResultMap">
        SELECT t.* FROM (
        <foreach collection="paramList" item="item" index="index" separator=" UNION ALL ">
-            select t${index}.* FROM (SELECT <include refid="Common_Column_List" />
+            select t${index}.* FROM (
+            SELECT * FROM(
+            SELECT <include refid="Common_Column_List" />
             , ahd.fk_dict_code fkDictCode, ahd.fk_dict_name fkDictName, parb.result_actual*ahd.scaling_factor scalingResult
             FROM patient_assay_record_busi parb
             JOIN assay_hosp_dict ahd ON parb.item_code = ahd.item_code AND parb.fk_tenant_id = ahd.fk_tenant_id
             WHERE parb.fk_patient_id = #{item.fkPatientId} and parb.fk_tenant_id = #{item.fkTenantId} 
             <if test="item.diaAbFlag != null and item.diaAbFlag != ''"> 
-                AND parb.dia_ab_flag = #{item.diaAbFlag}
+             AND parb.dia_ab_flag = #{item.diaAbFlag}
             </if>
             AND ahd.fk_dict_code = #{item.fkDictCode}
             <if test="item.isBefore"><!-- 日期之前 -->
@@ -826,6 +828,7 @@
                 AND parb.assay_date &gt;= #{item.date}   
                 ORDER BY parb.assay_date ASC 
             </if>
+            ) rs
             LIMIT #{item.count}
             ) t${index}
        </foreach>
