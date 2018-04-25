@@ -980,7 +980,7 @@
 		, pa.`name` as patientName
 	FROM 
 		patient pa 
-		INNER JOIN patient_owner po on pa.id=po.fk_patient_id and po.sys_owner='HD' and po.is_enable = 1 AND po.fk_tenant_id = #{fkTenantId}
+		INNER JOIN patient_owner po on pa.id=po.fk_patient_id and po.sys_owner='HD' and po.is_enable = 1 AND po.fk_tenant_id in (${groupTenant})
          <if test="patientLabelIds != null and patientLabelIds.length>0">
           JOIN patient_label_ref plr ON plr.fk_patient_id = pa.id 
               AND plr.fk_label_id in <foreach collection="patientLabelIds" item="item" open="(" separator="," close=")">#{item}</foreach>
@@ -1005,10 +1005,10 @@
 	                where item_code in (${itemCode}) 
 	                    AND sample_time &gt;= #{startDate}
 	                    AND sample_time &lt;= concat(#{endDate}, ' 23:59:59')
-	                    AND fk_tenant_id = #{fkTenantId}
+	                    AND fk_tenant_id in (${groupTenant})
 	                group BY fk_patient_id
 	            ) t on p.fk_patient_id=t.fk_patient_id and p.sample_time = t.sample_time and p.item_code in (${itemCode})
-		        	AND p.fk_tenant_id = #{fkTenantId}
+		        	AND p.fk_tenant_id in (${groupTenant})
 		            AND p.result is not null
 			    group BY fk_patient_id
 	        </if>
@@ -1019,10 +1019,10 @@
 	                where item_code in (${itemCode})
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
-	                    AND fk_tenant_id = #{fkTenantId}
+	                    AND fk_tenant_id in (${groupTenant})
 	                group BY fk_patient_id
 	             ) t on p.fk_patient_id=t.fk_patient_id and IFNULL(p.result_actual,p.result) = t.result_actual and p.item_code in (${itemCode})
-		        	AND p.fk_tenant_id = #{fkTenantId}
+		        	AND p.fk_tenant_id in (${groupTenant})
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
 		            AND p.assay_date &lt;= #{endDate}
@@ -1034,17 +1034,17 @@
 	                where item_code in (${itemCode}) 
 	                    AND assay_date &gt;= #{startDate}
 	                    AND assay_date &lt;= #{endDate}
-	                    AND fk_tenant_id = #{fkTenantId}
+	                    AND fk_tenant_id in (${groupTenant})
 	                group BY fk_patient_id
 	             ) t on p.fk_patient_id=t.fk_patient_id and IFNULL(p.result_actual,p.result) = t.result_actual and p.item_code in (${itemCode})
-		        	AND p.fk_tenant_id = #{fkTenantId}
+		        	AND p.fk_tenant_id in (${groupTenant})
 		            AND p.result is not null
 		            AND p.assay_date &gt;= #{startDate}
 		            AND p.assay_date &lt;= #{endDate}
 	        </if>
 			<if test="resultType == 'avg'">
 				WHERE
-					p.fk_tenant_id = #{fkTenantId}
+					p.fk_tenant_id in (${groupTenant})
 		            AND p.result is not null
 		            AND item_code in (${itemCode}) 
 		            AND p.assay_date &gt;= #{startDate}
