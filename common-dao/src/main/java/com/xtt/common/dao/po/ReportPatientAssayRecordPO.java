@@ -54,10 +54,6 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Date startTime;
     private Date endTime;
     private Long[] patientLabelIds; // 标签编号集合
-    /**
-     * 集团下所有租户
-     */
-    private String groupTenant;
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -321,14 +317,6 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
 
     public void setPatientLabelIds(Long[] patientLabelIds) {
         this.patientLabelIds = patientLabelIds;
-    }
-
-    public String getGroupTenant() {
-        return groupTenant;
-    }
-
-    public void setGroupTenant(String groupTenant) {
-        this.groupTenant = groupTenant;
     }
 
 }
