@@ -274,4 +274,14 @@ public interface PatientAssayRecordBusiMapper {
      */
     List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord);
 
+    /**
+     * 根据表名和患者id删除数据
+     * 
+     * @Title: deleteAssayByfkPatientIdAndTableName
+     * @param fkPatientId
+     * @param tableName
+     *
+     */
+    void deleteAssayByfkPatientIdAndTableName(@Param("fkPatientId") Long fkPatientId, @Param("tableName") String tableName);
+
 }

@@ -14,15 +14,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.assay.consts.AssayConsts;
+import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IPatientAssayRecordService;
 import com.xtt.common.dao.mapper.PatientAssayRecordMapper;
+import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.po.PatientAssayRecordPO;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.lang.StringUtil;
 
 @Service
 public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService {
     @Autowired
     private PatientAssayRecordMapper patientAssayRecordMapper;
+    @Autowired
+    private IAssayFilterRuleService assayFilterRuleService;
 
     @Override
     public List<PatientAssayRecordPO> listPatientAssayRecord(PatientAssayRecordPO po) {
@@ -45,11 +51,23 @@ public class PatientAssayRecordServiceImpl implements IPatientAssayRecordService
     }
 
     @Override
-    public PatientAssayRecordPO getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord) {
+    public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord) {
         if (assayRecord.getFkTenantId() == null) {
             assayRecord.setFkTenantId(UserUtil.getTenantId());
         }
-        return patientAssayRecordMapper.getMinSampleTimeByCreateTime(assayRecord);
+        PatientAssayRecordPO assayRecordByCreateTime = patientAssayRecordMapper.getMinSampleTimeByCreateTime(assayRecord);
+        Date minSampleTime = null;
+        if (assayRecordByCreateTime != null) {
+            AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(assayRecord.getFkTenantId());
+            // 根据清洗规则化验时间取值
+            if (StringUtil.equals(assayFilterRule.getAssayDateType(), AssayConsts.SAMPLE_TIME)) {
+                minSampleTime = assayRecordByCreateTime.getSampleTime();
+            }
+            if (StringUtil.equals(assayFilterRule.getAssayDateType(), AssayConsts.REPORT_TIME)) {
+                minSampleTime = assayRecordByCreateTime.getReportTime();
+            }
+        }
+        return minSampleTime;
     }
 
     @Override

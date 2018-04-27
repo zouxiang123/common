@@ -1088,4 +1088,8 @@
         </if>
           ORDER BY parb.sample_time LIMIT 2
   </select>
+   <!-- 根据表名和患者id删除数据 -->
+  <delete id="deleteAssayByfkPatientIdAndTableName">
+    DELETE from ${tableName} where fk_patient_id = #{fkPatientId}
+  </delete>
 </mapper>

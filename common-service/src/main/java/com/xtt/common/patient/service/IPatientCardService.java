@@ -108,4 +108,14 @@ public interface IPatientCardService {
      * @return
      */
     List<PatientCardPO> listPatientCardByRecord(PatientCardPO record);
+
+    /**
+     * 根据主键id查询
+     * 
+     * @Title: selectByPrimaryKey
+     * @param id
+     * @return
+     *
+     */
+    PatientCard selectByPrimaryKey(Long id);
 }
