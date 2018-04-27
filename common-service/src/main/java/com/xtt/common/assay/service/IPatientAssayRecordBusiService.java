@@ -369,4 +369,13 @@ public interface IPatientAssayRecordBusiService {
      */
     void updateByIdSelective(PatientAssayRecordBusiPO record);
 
+    /**
+     * 根据id删除化验相关的数据
+     * 
+     * @Title: deleteAssayRecordByfkPatientId
+     * @param fkPatientId
+     *
+     */
+    void deleteAssayRecordByfkPatientId(Long fkPatientId);
+
 }

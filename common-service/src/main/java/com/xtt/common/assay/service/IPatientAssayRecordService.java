@@ -57,7 +57,7 @@ public interface IPatientAssayRecordService {
      * @return
      *
      */
-    public PatientAssayRecordPO getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
+    public Date getMinSampleTimeByCreateTime(PatientAssayRecordPO assayRecord);
 
     /**
      * 获取字典列表

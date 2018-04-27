@@ -156,4 +156,9 @@ public class PatientCardServiceImpl implements IPatientCardService {
     public List<PatientCardPO> listPatientCardByRecord(PatientCardPO record) {
         return patientCardMapper.selectByCondition(record);
     }
+
+    @Override
+    public PatientCard selectByPrimaryKey(Long id) {
+        return patientCardMapper.selectByPrimaryKey(id);
+    }
 }

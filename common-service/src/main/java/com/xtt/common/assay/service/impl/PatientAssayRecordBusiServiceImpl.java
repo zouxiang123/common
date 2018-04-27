@@ -550,4 +550,14 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     public void updateByIdSelective(PatientAssayRecordBusiPO record) {
         patientAssayRecordBusiMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public void deleteAssayRecordByfkPatientId(Long fkPatientId) {
+        String[] tableNames = { "patient_visit", "patient_assay_record", "patient_assay_record_busi", "patient_pacs", "patient_orders",
+                "patient_operation", "report_patient_assay_record", "rpt_disease", "patient_assay_report_common", "patient_assay_newest",
+                "patient_assay_inspectioid_back" };
+        for (String tableName : tableNames) {
+            patientAssayRecordBusiMapper.deleteAssayByfkPatientIdAndTableName(fkPatientId, tableName);
+        }
+    }
 }
