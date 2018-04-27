@@ -13,6 +13,34 @@ var food_rec = {
     init : function() {
         this.addEvents();
         this.addValidate();
+        // 初始化数据加载状态
+        var initDataLoadCnt = 2;
+        // 获取营养成份列表
+        $.ajax({
+            url : ctx + "/nuFood/listAllComponent.shtml",
+            type : "post",
+            dataType : "json",
+            loading : false,
+            success : function(data) {
+                if (data.status == "1") {
+                    var items = data.rs;
+                    for (var i = 0; i < items.length; i++) {
+                        var item = items[i];
+                        // 缓存所有饮食成份数据，及每种成份当前含量
+                        food_rec.componentTotal[item.itemCode] = {
+                            itemCode : item.itemCode,
+                            itemName : item.itemName,
+                            itemUnit : item.itemUnit,
+                            count : 0
+                        };
+                    }
+                    // food_rec.createComponentTotal();
+                    initDataLoadCnt--;
+                } else {
+                    showWarn(data.errmsg);
+                }
+            }
+        });
         // 获取食品数据
         $.ajax({
             url : ctx + "/nuFood/getList.shtml",
@@ -22,88 +50,79 @@ var food_rec = {
                 if (data.status == "1") {
                     for (var i = 0; i < data.rs.length; i++) {
                         var food = data.rs[i];
+                        // 缓存所有食品
                         food_rec.foods.push({
                             id : food.itemCode,
                             text : food.itemName
                         });
+                        // 缓存食品对应的组成成份
                         food_rec.foodComponent[food.itemCode] = food.components;
                     }
-                    var id = $("#foodRecForm").find("input[name='id']").val();
-                    if (!isEmpty(id)) {// 修改操作
-                        $.ajax({
-                            url : ctx + "/nuFoodRec/getById.shtml",
-                            data : {
-                                id : id
-                            },
-                            type : "post",
-                            dataType : "json",
-                            success : function(data) {
-                                if (data.status == "1") {
-                                    var item = data.rs;
-                                    $("#foodRecForm").find("input[name='fkPatientId']").val(item.fkPatientId);
-                                    $("#foodRecForm").find("input[name='recordDateShow']").val(item.recordDateShow);
-                                    if (!isEmptyObject(item.children)) {// 渲染饮食回顾和饮食推荐数据
-                                        var hasRecom = false;
-                                        var hasNormal = false;
-                                        for (var i = 0; i < item.children.length; i++) {
-                                            var child = item.children[i];
-                                            food_rec.addRec(child.recType == "recom" ? "foodRecomDiv" : "foodNormalDiv", child.recType, child);
-                                            if (!hasRecom) {
-                                                hasRecom = child.recType == "recom";
-                                            }
-                                            if (!hasNormal) {
-                                                hasNormal = child.recType == "normal";
-                                            }
-                                        }
-                                        food_rec.addSelectPage($("#foodRecForm"));
-                                        food_rec.calcComponentTotal();
-                                        if (!hasNormal) {// 如果没有回顾数据，默认显示一条
-                                            food_rec.addRec("foodNormalDiv", "normal");
-                                        }
+                    initDataLoadCnt--;
+                } else {
+                    showWarn(data.errmsg);
+                }
+            }
+        });
+        // 使用定时器判断初始化数据是否加载完毕
+        var intervalId = setInterval(function() {
+            if (initDataLoadCnt == 0) {// 所有初始化数据都加载完成了
+                var id = $("#foodRecForm").find("input[name='id']").val();
+                if (!isEmpty(id)) {// 修改操作
+                    $.ajax({
+                        url : ctx + "/nuFoodRec/getById.shtml",
+                        data : {
+                            id : id
+                        },
+                        type : "post",
+                        dataType : "json",
+                        success : function(data) {
+                            if (data.status == "1") {
+                                var item = data.rs;
+                                $("#foodRecForm").find("input[name='fkPatientId']").val(item.fkPatientId);
+                                $("#foodRecForm").find("input[name='recordDateShow']").val(item.recordDateShow);
+                                var hasRecom = false;// 是否存在饮食推荐数据
+                                var hasNormal = false;// 是否存在饮食回顾数据
+                                if (!isEmptyObject(item.children)) {// 渲染饮食回顾和饮食推荐数据
+                                    for (var i = 0; i < item.children.length; i++) {
+                                        var child = item.children[i];
+                                        food_rec.addRec(child.recType == "recom" ? "foodRecomDiv" : "foodNormalDiv", child.recType, child);
                                         if (!hasRecom) {
-                                            food_rec.addRec("foodRecomDiv", "recom");
+                                            hasRecom = child.recType == "recom";
+                                        }
+                                        if (!hasNormal) {
+                                            hasNormal = child.recType == "normal";
                                         }
                                     }
-                                } else {
-                                    showWarn(data.errmsg);
+                                    food_rec.addSelectPage($("#foodRecForm"));
                                 }
+                                if (!hasNormal) {// 如果没有回顾数据，默认显示一条
+                                    food_rec.addRec("foodNormalDiv", "normal");
+                                }
+                                if (!hasRecom) {// 如果没有添加饮食推荐数据，添加一条空的
+                                    food_rec.addRec("foodRecomDiv", "recom");
+                                }
+                            } else {
+                                showWarn(data.errmsg);
                             }
-                        });
-                    } else {
-                        // 默认显示一条饮食回顾
-                        food_rec.addRec("foodNormalDiv", "normal");
-                        // 默认显示饮食推荐
-                        food_rec.addRec("foodRecomDiv", 'recom');
-                    }
+                            // 渲染对应的组成成份数据
+                            food_rec.calcComponentTotal();
+                            // 清除定时器
+                            clearInterval(intervalId);
+                        }
+                    });
                 } else {
-                    showWarn(data.errmsg);
+                    // 默认显示一条饮食回顾
+                    food_rec.addRec("foodNormalDiv", "normal");
+                    // 默认显示饮食推荐
+                    food_rec.addRec("foodRecomDiv", 'recom');
+                    // 渲染对应的组成成份数据
+                    food_rec.calcComponentTotal();
+                    // 清除定时器
+                    clearInterval(intervalId);
                 }
             }
-        });
-        // 获取营养成份列表
-        $.ajax({
-            url : ctx + "/nuFood/getComponent.shtml",
-            type : "post",
-            dataType : "json",
-            loading : false,
-            success : function(data) {
-                if (data.status == "1") {
-                    var items = data.rs;
-                    for (var i = 0; i < items.length; i++) {
-                        var item = items[i];
-                        food_rec.componentTotal[item.itemCode] = {
-                            itemCode : item.itemCode,
-                            itemName : item.itemName,
-                            itemUnit : item.itemUnit,
-                            count : 0
-                        };
-                    }
-                    food_rec.createComponentTotal();
-                } else {
-                    showWarn(data.errmsg);
-                }
-            }
-        });
+        }, 200);
     },
     /**
      * 时间注册
@@ -286,6 +305,7 @@ var food_rec = {
                 quantity = quantity / 100;
                 for ( var key in component) {
                     total[key].count += component[key].quantity * quantity;
+                    // 保留两位小数
                     total[key].count = Number(Number(total[key].count).toFixed(2));
                 }
             }
@@ -362,14 +382,19 @@ var food_rec = {
             recEl.find("[data-food]").each(function() {
                 var foodId = $(this).data("food");
                 var component = foodComponent[foodId];
-                details.push({
+                var detail = {
                     recType : type,
                     quantity : $(this).find("[data-quantity]").val(),
                     foodCode : $(this).data("food"),
-                    diningTime : $(this).parents("[data-detail]").data("detail"),
-                    protein : convertEmpty(component[proteinKey].quantity),
-                    energy : convertEmpty(component[energyKey].quantity)
-                });
+                    diningTime : $(this).parents("[data-detail]").data("detail")
+                };
+                if (component.hasOwnProperty(proteinKey)) {// 判断是否有蛋白质
+                    detail.protein = convertEmpty(component[proteinKey].quantity);
+                }
+                if (component.hasOwnProperty(energyKey)) {// 判断是否有能量
+                    detail.energy = convertEmpty(component[energyKey].quantity);
+                }
+                details.push(detail);
             });
             rec.details = details;
             if (details.length > 0) {
