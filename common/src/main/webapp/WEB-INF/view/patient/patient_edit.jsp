@@ -75,7 +75,7 @@
 <div style="width: 650px;margin: 0 auto" class="pb-70">
     <c:if test="${sysParam.paramValue=='1'}">
        <div class="u-list-text mt-12">
-       <div class="left">*透析号：</div>
+       <div class="left">*编号：</div>
        <div class="right">
             <!-- 允许复用，则使用下拉框选择 -->
             <c:if test="${isSerialNumMultiplex}">
