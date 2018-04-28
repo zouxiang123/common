@@ -11,13 +11,13 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	 
 	 <!-- <context:property-placeholder location='classpath:/config/redis.properties'/> -->
-	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
 	    <property name="order" value="2" />  
 	    <property name="ignoreUnresolvablePlaceholders" value="true" />  
 	    <property name="location">  
 	       <value>file:${BASE_PATH}/config/redis.properties</value>  
 	    </property>  
-	</bean>  
+	</bean>   -->
 	
 	<!-- 对象池配置： -->
 	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">

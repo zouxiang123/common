@@ -11,21 +11,22 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 	<!--资源文件加载 ,采用注册模式来注册资源文件模式 -->
 	<util:properties id="baseConfig" location="classpath:config/config.properties" />
-
+    <bean class="com.xtt.platform.util.config.CusotmizedPropertyUtil">
+        <property name="order" value="1" />  
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="locations">
+            <list>
+                <value>file:${CONFIG_PATH}</value>
+            </list>
+        </property>
+    </bean>
+    
 	<bean class="com.xtt.platform.util.config.SpringUtil" />
 	<import resource="classpath*:config/datasource.xml" />
 	<import resource="classpath*:config/mybatis.xml" />
 	<import resource="classpath*:config/springRedis.xml" />
 	<import resource="classpath*:config/kafka-producer.xml" />
 
-	<!-- <bean class="com.xtt.platform.util.config.CusotmizedPropertyUtil">
-		<property name="ignoreResourceNotFound" value="true" />
-		<property name="locations">
-			<list>
-				<value>file:${BASE_PATH}/config/secretary.properties</value>
-			</list>
-		</property>
-	</bean> -->
 	<bean id="aspectBean" class="com.xtt.platform.framework.core.interceptor.MyBatisInsertInterceptor" />  
 	<aop:config>  
         <aop:aspect id="TestAspect" ref="aspectBean">  

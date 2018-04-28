@@ -21,6 +21,10 @@
 		<param-name>spring.profiles.active</param-name>
 		<param-value>production</param-value>
 	</context-param>
+    <context-param>
+        <param-name>configFileName</param-name>
+        <param-value>pd.properties</param-value>
+    </context-param>
 	<!-- context-param definition -->
 	<!-- listener definition -->
 	<listener>
