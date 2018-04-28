@@ -28,12 +28,10 @@ public class BusinessContextLoaderListener implements ServletContextListener {
         application.setInitParameter("log4jConfigLocation", "file:" + CommonConstants.BASE_PATH + "/config/log4j.properties");
         String configPath = CommonConstants.BASE_PATH.concat("/config/").concat(configFileName);
         application.setInitParameter("CONFIG_PATH", configPath);
-        System.out.println(configPath);
         // 初始化请求地址相关参数
         CommonConstants.initUrlParam(configPath);
         // 添加通用服务地址
-        application.setInitParameter("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
-        System.out.println(CommonConstants.COMMON_SERVER_ADDR);
+        application.setAttribute("COMMON_SERVER_ADDR", CommonConstants.COMMON_SERVER_ADDR);
     }
 
     @Override
