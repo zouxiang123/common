@@ -40,7 +40,7 @@ public class SystemMonitorController {
      */
     @RequestMapping("view")
     public ModelAndView view() throws Exception {
-        ModelAndView model = new ModelAndView("system/system_monitor");
+        ModelAndView model = new ModelAndView("cm/conf/system_monitor");
         return model;
     }
 
@@ -54,7 +54,7 @@ public class SystemMonitorController {
      */
     @RequestMapping("feedback")
     public ModelAndView feedback() throws Exception {
-        ModelAndView model = new ModelAndView("home/feedback");
+        ModelAndView model = new ModelAndView("cm/home/feedback");
         return model;
     }
 

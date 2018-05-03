@@ -36,8 +36,9 @@ public class CmFormulaConfController {
     private ICommonCacheService commonCacheService;
 
     @RequestMapping("view")
-    public String view(Model model, String sysOwner) {
+    public String view(Model model) {
         CmFormulaConfPO record = new CmFormulaConfPO();
+        String sysOwner = UserUtil.getSysOwner();
         record.setSysOwners(new String[] { sysOwner, CommonConstants.SYS_CM });
         List<CmFormulaConfPO> list = cmFormulaConfService.selectByCondition(record);
         // 转换成类别map
@@ -55,7 +56,7 @@ public class CmFormulaConfController {
             category.getChildren().add(formula);
         }
         model.addAttribute("items", items);
-        return "system/formula_conf";
+        return "cm/conf/formula_conf";
     }
 
     /**

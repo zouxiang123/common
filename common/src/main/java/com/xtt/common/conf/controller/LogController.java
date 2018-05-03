@@ -22,9 +22,10 @@ public class LogController {
     private ISysLogService sysLogService;
 
     @RequestMapping("logList")
-    public String searchLog(ModelAndView model, String sysOwner) {
+    public String searchLog(ModelAndView model) {
+        String sysOwner = UserUtil.getSysOwner();
         model.addObject("sysOwner", sysOwner);
-        return "system/log_list";
+        return "cm/conf/log_list";
     }
 
     /**

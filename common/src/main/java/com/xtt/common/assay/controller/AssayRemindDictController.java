@@ -58,7 +58,7 @@ public class AssayRemindDictController {
 
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView mav = new ModelAndView("assay/assay_remind_dict");
+        ModelAndView mav = new ModelAndView("cm/assay/assay_remind_dict");
         return mav;
     }
 

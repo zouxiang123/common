@@ -38,7 +38,7 @@ public class PatientOutcomeController {
         model.addAttribute("patientId", patientId);
         model.addAttribute("patient", PatientCache.getById(patientId));
         model.addAttribute(CmDictConsts.PATIENT_OUTCOME_TYPE, DictUtil.listByPItemCode(CmDictConsts.PATIENT_OUTCOME_TYPE));
-        return "patient/patient_outcome_list";
+        return "cm/patient/patient_outcome_list";
     }
 
     @RequestMapping("save")

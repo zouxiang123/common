@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -30,7 +29,6 @@ import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.TenantCache;
 import com.xtt.common.cache.UserCache;
 import com.xtt.common.common.service.ICmDictService;
-import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
 import com.xtt.common.common.service.IFamilyInitialService;
 import com.xtt.common.common.service.ISysParamService;
@@ -43,31 +41,25 @@ import com.xtt.common.dao.model.SysObj;
 import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
 import com.xtt.common.dao.po.CmDictPO;
-import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
-import com.xtt.common.dto.FormDto;
-import com.xtt.common.dto.FormNodesDto;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.dto.TenantDto;
-import com.xtt.common.form.service.ICmFormService;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.DictUtil;
-import com.xtt.common.util.DynamicFormUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.framework.core.redis.RedisCacheUtil;
-import com.xtt.platform.util.lang.StringUtil;
 import com.xtt.platform.util.secret.AESUtil;
 
 @Service
@@ -80,10 +72,6 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private ICmDictService cmDictService;
     @Autowired
     private IRoleService roleService;
-    @Autowired
-    private ICmFormNodesService cmFormNodesService;
-    @Autowired
-    private ICmFormService cmFormService;
     @Autowired
     private ISysTenantService sysTenantService;
     @Autowired
@@ -189,59 +177,6 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cacheDynamicFormNode(Integer tenantId, String sysOwner) {
-        // 删除数据
-        if (StringUtil.isBlank(sysOwner))
-            RedisCacheUtil.deletePattern(DynamicFormUtil.getKey(tenantId, null));
-        RedisCacheUtil.deletePattern(DynamicFormUtil.getCategoryFormKey(tenantId, sysOwner, null));
-        // 获取所有的表单列表
-        CmFormPO query = new CmFormPO();
-        query.setSysOwner(sysOwner);
-        List<CmFormPO> formList = cmFormService.selectByCondition(query);
-        if (CollectionUtils.isNotEmpty(formList)) {
-            HashMap<String, List<FormNodesDto>> map = new HashMap<>();
-            HashMap<String, List<FormDto>> categoryMap = new HashMap<>();
-            CmFormPO form;
-            FormDto cacheForm;
-            List<FormDto> categorys;
-            String categoryMapKey;
-            for (int c = 0; c < formList.size(); c++) {
-                form = formList.get(c);
-                map.put(DynamicFormUtil.getKey(tenantId, form.getId()), initDynamicFormNode(cmFormNodesService.selectByFormId(form.getId()),
-                                DictUtil.getMapByPItemCode(CmDictConsts.FORM_ITEM_UNIT)));
-                // cache category forms
-                categoryMapKey = DynamicFormUtil.getCategoryFormKey(tenantId, form.getSysOwner(), form.getCategory());
-                if (!categoryMap.containsKey(categoryMapKey)) {
-                    categorys = new ArrayList<>();
-                    categoryMap.put(categoryMapKey, categorys);
-                }
-                categorys = categoryMap.get(categoryMapKey);
-                cacheForm = new FormDto();
-                BeanUtils.copyProperties(form, cacheForm);
-                categorys.add(cacheForm);
-            }
-            DynamicFormUtil.cacheCategoryForm(categoryMap);
-            DynamicFormUtil.cacheAll(map);
-        }
-    }
-
-    /**
-     * 初始化动态表单数据
-     * 
-     * @return
-     *
-     */
-    private List<FormNodesDto> initDynamicFormNode(List<FormNodesDto> nodes, Map<String, String> unitMap) {
-        if (MapUtils.isEmpty(unitMap) || CollectionUtils.isEmpty(nodes)) {
-            return nodes;
-        }
-        for (FormNodesDto node : nodes) {
-            node.setUnitShow(unitMap.get(node.getUnit()));
-        }
-        return nodes;
-    }
-
-    @Override
     public void cacheUser(Integer tenantId) {
         RedisCacheUtil.deletePattern(UserCache.getKey(tenantId, null));
         List<SysUserPO> list = userService.listByTenantId(tenantId, null, null);
@@ -285,8 +220,6 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 cachePermission(tenant.getId());
                 // fourth cache patient
                 cachePatient(tenant.getId());
-                // cache dynamic form
-                cacheDynamicFormNode(tenant.getId(), null);
                 // cache user data
                 cacheUser(tenant.getId());
                 // cache formula data

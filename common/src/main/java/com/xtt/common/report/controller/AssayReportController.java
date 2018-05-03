@@ -85,7 +85,7 @@ public class AssayReportController {
      */
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView model = new ModelAndView("report/assay_report");
+        ModelAndView model = new ModelAndView("cm/report/assay_report");
         model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.listByPItemCode(CmDictConsts.ASSAY_TEXT_TYPE));
         model.addObject("labels", patientLabelService.listByTenantId(UserUtil.getTenantId()));
         return model;

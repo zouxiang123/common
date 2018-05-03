@@ -36,7 +36,7 @@ public class SysDbSourceController {
 
     @RequestMapping("dbDown")
     public ModelAndView dbDown() {
-        ModelAndView model = new ModelAndView("system/db_down");
+        ModelAndView model = new ModelAndView("cm/conf/db_down");
         return model;
     }
 
@@ -47,7 +47,7 @@ public class SysDbSourceController {
      */
     @RequestMapping("sysDbSource")
     public ModelAndView dictTreeList() {
-        ModelAndView model = new ModelAndView("system/sys_db_source");
+        ModelAndView model = new ModelAndView("cm/conf/sys_db_source");
         return model;
     }
 

@@ -52,7 +52,7 @@ public class AssayHospDictController {
      */
     @RequestMapping("manualView")
     public ModelAndView manualView() {
-        ModelAndView model = new ModelAndView("assay/patient_assay_record_maintain");
+        ModelAndView model = new ModelAndView("cm/assay/patient_assay_record_maintain");
         model.addAllObjects(listAllManualAdd());
         return model;
     }

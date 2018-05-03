@@ -98,6 +98,8 @@ public class CommonConstants {
     public static final String SYS_HD = "HD";
     /** 通路手术系统 */
     public static final String SYS_POPS = "POPS";
+    /** 慢病系统 */
+    public static final String SYS_CKD = "CKD";
     // -----------------------------肾病类型--------------------------------------------
     /** 肾病类型：慢性肾功能衰竭 */
     public static final String NEPHROSIS_TYPE_CRF = "1";

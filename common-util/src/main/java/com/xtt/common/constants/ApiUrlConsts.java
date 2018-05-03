@@ -22,15 +22,6 @@ public class ApiUrlConsts {
      */
     public static final String POPS_UPDATE_LATEST_INPUT_DATE = "popsOperationRecord/updateLatestInputDate.shtml";
 
-    /**
-     * 登陆接口
-     */
-    public static final String CM_LOGIN = "loginSubmit.shtml";
-    /**
-     * 登陆接口
-     */
-    public static final String CM_LOGOUT = "logoutApi.shtml";
-
     /*------------------PD--------------------------*/
     /**
      * 获取最近一次腹透数据填写日期

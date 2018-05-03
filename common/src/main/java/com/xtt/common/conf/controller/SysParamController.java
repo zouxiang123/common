@@ -39,13 +39,14 @@ public class SysParamController {
 
     /** 系统参数值定义页面 */
     @RequestMapping("view")
-    public String view(Model model, String sysOwner) {
+    public String view(Model model) {
+        String sysOwner = UserUtil.getSysOwner();
         SysParamPO record = new SysParamPO();
         record.setSysOwners(new String[] { sysOwner, CommonConstants.SYS_CM });
         record.setFkTenantId(UserUtil.getTenantId());
         List<SysParamPO> list = sysParamService.selectByCondition(record);
         model.addAttribute("paramList", initParamList(list));
-        return "system/param_conf";
+        return "cm/conf/param_conf";
     }
 
     /**

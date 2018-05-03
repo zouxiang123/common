@@ -31,7 +31,7 @@ public class PatientAssayGroupRuleController {
      */
     @RequestMapping("assayCheckGrouping")
     public ModelAndView assayCheckGrouping() {
-        ModelAndView model = new ModelAndView("assay/assayCheckGrouping");
+        ModelAndView model = new ModelAndView("cm/assay/assayCheckGrouping");
         return model;
     }
 

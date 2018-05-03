@@ -31,7 +31,7 @@ public class AssayFilterRuleController {
 
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView model = new ModelAndView("assay/assay_filter_rule");
+        ModelAndView model = new ModelAndView("cm/assay/assay_filter_rule");
         AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         model.addObject("assayFilterRule", assayFilterRule);
         model.addObject("status", CommonConstants.SUCCESS);

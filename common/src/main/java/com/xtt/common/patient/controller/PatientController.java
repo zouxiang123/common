@@ -82,7 +82,7 @@ public class PatientController {
      */
     @RequestMapping("editPatient")
     public ModelAndView editPatient(Long patientId, String sysOwner) throws Exception {
-        ModelAndView model = new ModelAndView("patient/patient_edit");
+        ModelAndView model = new ModelAndView("cm/patient/patient_edit");
         PatientPO patient = null;
         if (patientId != null) {
             patient = patientService.selectById(patientId);
@@ -142,7 +142,7 @@ public class PatientController {
 
     @RequestMapping("patientDetail")
     public ModelAndView patientDetail(Long patientId) throws Exception {
-        ModelAndView model = new ModelAndView("patient/patient_detail");
+        ModelAndView model = new ModelAndView("cm/patient/patient_detail");
         model.addAllObjects(findPatientApi(patientId));
         return model;
     }

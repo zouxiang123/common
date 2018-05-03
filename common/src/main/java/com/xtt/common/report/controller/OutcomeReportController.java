@@ -54,7 +54,7 @@ public class OutcomeReportController {
 
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView model = new ModelAndView("report/outcome_report");
+        ModelAndView model = new ModelAndView("cm/report/outcome_report");
         Calendar c = Calendar.getInstance();
         model.addObject("currentYear", c.get(Calendar.YEAR));
         // id号显示方式
@@ -82,7 +82,7 @@ public class OutcomeReportController {
 
     @RequestMapping("detailView")
     public ModelAndView detailView(ReportParameterPO reportParameterPO) {
-        ModelAndView model = new ModelAndView("report/outcome_detail_report");
+        ModelAndView model = new ModelAndView("cm/report/outcome_detail_report");
         model.addObject("year", reportParameterPO.getYear());
         model.addObject("month", reportParameterPO.getMonth());
         model.addObject("type", reportParameterPO.getType());

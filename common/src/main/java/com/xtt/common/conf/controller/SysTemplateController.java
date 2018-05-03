@@ -16,6 +16,7 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.SysTemplate;
 import com.xtt.common.dao.po.SysTemplateChildPO;
 import com.xtt.common.dao.po.SysTemplatePO;
+import com.xtt.common.util.UserUtil;
 
 @Controller
 @RequestMapping("/system/template/")
@@ -28,8 +29,9 @@ public class SysTemplateController {
 
     /** 系统模板值定义页面 */
     @RequestMapping("view")
-    public ModelAndView definition(String sysOwner) {
-        ModelAndView model = new ModelAndView("system/template_maintain");
+    public ModelAndView definition() {
+        String sysOwner = UserUtil.getSysOwner();
+        ModelAndView model = new ModelAndView("cm/conf/template_maintain");
         List<SysTemplate> list = sysTemplateService.selectTemplateType(sysOwner, null);
         model.addObject("list", list);
         model.addObject("sysOwner", sysOwner);
@@ -39,7 +41,8 @@ public class SysTemplateController {
     /** 系统模板值定义页面 */
     @RequestMapping("selectByType")
     @ResponseBody
-    public Map<String, Object> selectByType(String type, String sysOwner) {
+    public Map<String, Object> selectByType(String type) {
+        String sysOwner = UserUtil.getSysOwner();
         Map<String, Object> map = new HashMap<String, Object>();
         List<SysTemplatePO> list = sysTemplateService.selectByType(type, false, sysOwner);
         map.put("list", list);

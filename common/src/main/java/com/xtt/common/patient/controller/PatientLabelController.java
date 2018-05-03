@@ -43,7 +43,7 @@ public class PatientLabelController {
      */
     @RequestMapping("index")
     public ModelAndView index() {
-        ModelAndView mv = new ModelAndView("patient/patient_label");
+        ModelAndView mv = new ModelAndView("cm/patient/patient_label");
         mv.addObject(CommonConstants.SYS_OWNER, UserUtil.getSysOwner());
         mv.addObject(CommonConstants.PD_URL_KEY, CommonConstants.PD_URL);
         mv.addObject(CommonConstants.POPS_URL_KEY, CommonConstants.POPS_URL);

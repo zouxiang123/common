@@ -41,8 +41,9 @@ public class UserController {
     private IRoleService roleService;
 
     @RequestMapping("searchUser")
-    public ModelAndView searchUser(String sysOwner) {
-        ModelAndView model = new ModelAndView("system/user_list");
+    public ModelAndView searchUser() {
+        String sysOwner = UserUtil.getSysOwner();
+        ModelAndView model = new ModelAndView("cm/conf/user_list");
         model.addObject("list", userService.selectByTenantId(UserUtil.getTenantId(), null));
         model.addObject("roleList", roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner));
         model.addObject(CmDictConsts.SEX, DictUtil.listByPItemCode(CmDictConsts.SEX));
@@ -86,13 +87,13 @@ public class UserController {
 
     @RequestMapping("searchUserInfo")
     public ModelAndView searchUserInfo(HttpServletRequest request, String id) throws Exception {
-        ModelAndView model = new ModelAndView("system/user_info");
+        ModelAndView model = new ModelAndView("cm/conf/user_info");
         return model;
     }
 
     @RequestMapping("accountSetting")
     public ModelAndView accountSetting() throws Exception {
-        ModelAndView model = new ModelAndView("system/account_settings");
+        ModelAndView model = new ModelAndView("cm/conf/account_settings");
         SysUserPO user = userService.selectById(UserUtil.getLoginUserId());
         model.addObject("user", initUser(user));
         model.addObject(CmDictConsts.SEX, DictUtil.listByPItemCode(CmDictConsts.SEX, user == null ? null : user.getSex()));
@@ -183,14 +184,14 @@ public class UserController {
 
     @RequestMapping("userInfo")
     public ModelAndView accountView(Long userId) throws Exception {
-        ModelAndView model = new ModelAndView("system/user_info");
+        ModelAndView model = new ModelAndView("cm/conf/user_info");
         model.addObject("user", initUser(userService.selectById(userId)));
         return model;
     }
 
     @RequestMapping("searchLog")
     public ModelAndView searchLog() throws Exception {
-        ModelAndView model = new ModelAndView("system/log_list");
+        ModelAndView model = new ModelAndView("cm/conf/log_list");
         return model;
     }
 

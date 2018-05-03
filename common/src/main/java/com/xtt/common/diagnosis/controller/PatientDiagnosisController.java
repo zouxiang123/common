@@ -100,7 +100,7 @@ public class PatientDiagnosisController {
      */
     @RequestMapping("view")
     public ModelAndView view(Long patientId) throws Exception {
-        ModelAndView model = new ModelAndView("diagnosis/diagnosis_info");
+        ModelAndView model = new ModelAndView("cm/diagnosis/diagnosis_info");
         PatientPO patient = patientService.selectById(patientId);
         model.addObject("patient", patient);
         model.addObject("patientId", patientId);

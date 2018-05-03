@@ -47,7 +47,7 @@ public class AssayMappingController {
      */
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView model = new ModelAndView("assay/assay_mapping");
+        ModelAndView model = new ModelAndView("cm/assay/assay_mapping");
         model.addObject(CmDictConsts.ASSAY_TEXT_TYPE, DictUtil.listByPItemCode(CmDictConsts.ASSAY_TEXT_TYPE));
         return model;
     }

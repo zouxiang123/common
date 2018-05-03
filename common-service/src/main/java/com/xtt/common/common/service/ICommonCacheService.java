@@ -45,16 +45,6 @@ public interface ICommonCacheService {
     public void cachePatient(Integer tenantId);
 
     /**
-     * 缓存动态表单节点
-     * 
-     * @Title: cacheDynamicFormNode
-     * @param tenantId
-     * @param sysOwner
-     *
-     */
-    public void cacheDynamicFormNode(Integer tenantId, String sysOwner);
-
-    /**
      * 缓存用户数据
      * 
      * @Title: cacheUser

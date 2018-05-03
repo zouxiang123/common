@@ -48,7 +48,7 @@ public class PatientAssayRecordController {
 
     @RequestMapping("record")
     public ModelAndView record(@RequestParam(value = "patientId") Long patientId) {
-        ModelAndView model = new ModelAndView("assay/patient_assay_record");
+        ModelAndView model = new ModelAndView("cm/assay/patient_assay_record");
 
         // 是否显示传染病标志
         PatientAssayRecordBusiPO record = new PatientAssayRecordBusiPO();

@@ -21,7 +21,7 @@ public class CacheRefreshController {
 
     @RequestMapping("view")
     public String view(Model model, String sysOwner) {
-        return "system/cache_refresh";
+        return "cm/conf/cache_refresh";
     }
 
     @RequestMapping("sysUser")

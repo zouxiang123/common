@@ -32,7 +32,7 @@ public class HomeController {
      */
     @RequestMapping("about")
     public ModelAndView about() throws Exception {
-        ModelAndView model = new ModelAndView("home/about_us");
+        ModelAndView model = new ModelAndView("cm/home/about_us");
         return model;
     }
 
@@ -46,7 +46,7 @@ public class HomeController {
      */
     @RequestMapping("feedback")
     public ModelAndView feedback(String sysOwner) throws Exception {
-        ModelAndView model = new ModelAndView("home/feedback");
+        ModelAndView model = new ModelAndView("cm/home/feedback");
         model.addObject(CommonConstants.SYS_OWNER, sysOwner);
         return model;
     }

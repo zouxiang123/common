@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.xtt.common.conf.service.IExcelImportService;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.util.UserUtil;
 
 @Controller
 @RequestMapping("excel/")
@@ -37,9 +38,10 @@ public class ExcelImportController {
     private IExcelImportService excelImportService;
 
     @RequestMapping("dataImport")
-    public String dataImport(Model model, String sysOwner) {
+    public String dataImport(Model model) {
+        String sysOwner = UserUtil.getSysOwner();
         model.addAttribute("sysOwner", sysOwner);
-        return "system/data_import";
+        return "cm/conf/data_import";
     }
 
     @RequestMapping("upload")

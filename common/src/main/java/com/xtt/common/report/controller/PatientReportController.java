@@ -81,7 +81,7 @@ public class PatientReportController {
         if (StringUtil.isBlank(reportType)) {
             reportType = "1";
         }
-        ModelAndView model = new ModelAndView("report/patient_report");
+        ModelAndView model = new ModelAndView("cm/report/patient_report");
         model.addObject("reportType", reportType);
         // 费用类型
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));

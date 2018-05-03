@@ -30,7 +30,7 @@ public class DictDiagnosisController {
 
     @RequestMapping("view")
     public ModelAndView view() {
-        ModelAndView model = new ModelAndView("system/dict_diagnosis_items");
+        ModelAndView model = new ModelAndView("cm/conf/dict_diagnosis_items");
         return model;
     }
 
