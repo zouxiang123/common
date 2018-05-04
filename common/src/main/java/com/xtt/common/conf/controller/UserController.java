@@ -255,4 +255,39 @@ public class UserController {
         result.setRs(userService.getDoctors(UserUtil.getTenantId(), sysOwner));
         return result;
     }
+
+    /**
+     * 获取护士列表
+     * 
+     * @Title: getNurses
+     * @param sysOwner
+     * @return
+     *
+     */
+    @RequestMapping("getNurses")
+    @ResponseBody
+    public HttpResult getNurses() {
+        HttpResult result = HttpResult.getSuccessInstance();
+        result.setRs(userService.getNurses(UserUtil.getTenantId(), UserUtil.getSysOwner()));
+        return result;
+    }
+
+    /**
+     * 获取护士和医生列表
+     * 
+     * @Title: getDoctorAndNurse
+     * @param sysOwner
+     * @return
+     *
+     */
+    @RequestMapping("getDoctorAndNurse")
+    @ResponseBody
+    public HttpResult getDoctorAndNurse() {
+        HttpResult result = HttpResult.getSuccessInstance();
+        Map<String, List<SysUserPO>> rs = new HashMap<>(2);
+        rs.put("doctorList", userService.getDoctors(UserUtil.getTenantId(), UserUtil.getSysOwner()));
+        rs.put("nurseList", userService.getNurses(UserUtil.getTenantId(), UserUtil.getSysOwner()));
+        result.setRs(rs);
+        return result;
+    }
 }

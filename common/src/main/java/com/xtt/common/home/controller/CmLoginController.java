@@ -55,6 +55,7 @@ public class CmLoginController {
     public HttpResult cmLoginSubmit(@RequestParam(value = "account", required = false) String account,
                     @RequestParam(value = "password", required = false) String password,
                     @RequestParam(value = "tenantId", required = false) Integer tenantId, String sysOwner) throws Exception {
+        LOGGER.info("request to login [account:{},tenantId:{},sysOwner:{}]", account, tenantId, sysOwner);
         HttpResult result = HttpResult.getSuccessInstance();
         if (StringUtil.isNotBlank(account) && StringUtil.isNotBlank(password)) {
             /** 验证是否输入正确 */
