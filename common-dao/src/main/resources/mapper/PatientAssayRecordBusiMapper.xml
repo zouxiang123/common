@@ -477,7 +477,7 @@
                 AND parb.flage = #{flage,jdbcType=BIT}
             </if>
             <if test="groupTenant != null and groupTenant != ''">
-                AND parb.fk_tenant_id in (${groupTenant})
+                AND parb.fk_tenant_id = #{fkTenantId}
             </if>
             <if test="fkTenantId != null">
                 AND parb.fk_tenant_id = ${fkTenantId}
@@ -569,7 +569,7 @@
                 parb.fk_patient_id = #{fkPatientId}
             </if>
             <if test="groupTenant != null and groupTenant !=''">
-                AND parb.fk_tenant_id in (${groupTenant})
+                AND parb.fk_tenant_id = #{fkTenantId}
             </if>
             <if test="assayDate != null">
                 AND parb.assay_date = DATE(#{assayDate,jdbcType=DATE})

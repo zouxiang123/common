@@ -206,7 +206,7 @@
 		</if>
 		WHERE p.fk_tenant_id = #{fkTenantId}
 		<if test="tempMultiple!=null and tempMultiple!='' ">
-		AND hpe.fk_tenant_id= #{fkTenantId}
+		AND hpe.fk_tenant_id = #{fkTenantId}
         AND hpe.is_temp=#{tempMultiple}
 		</if>
 		AND p.result is not null
@@ -272,7 +272,7 @@
     </if>
 	WHERE p.fk_tenant_id = #{fkTenantId} AND p.result is not null 
     <if test="tempMultiple!=null and tempMultiple!='' ">
-        AND hpe.fk_tenant_id= #{fkTenantId}
+        AND hpe.fk_tenant_id = #{fkTenantId}
         AND hpe.is_temp=#{tempMultiple}
         </if>
 	<if test="itemCode != null">
