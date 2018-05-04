@@ -9,7 +9,6 @@
 package com.xtt.common.conf.service.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -122,23 +121,11 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
      */
     @Override
     public int updateTemplateStatus(SysTemplate record) {
-        // 获取模板id
-        Long id = record.getId();
         // 为对象赋值
         record.setFkTenantId(UserUtil.getTenantId());
         record.setIsDefault(true);
-        record.setUpdateTime(new Date());
-        record.setUpdateUserId(UserUtil.getLoginUserId());
-        // 根据模板类型，租户id，isDefault = 1 查询模板数据
-        SysTemplate plate = sysTemplateMapper.getTemplate(record);
-        // 如果模板数据为空，则根据id更新该条数据默认值为1
-        if (plate == null) {
-            return sysTemplateMapper.updateByPrimaryKeySelective(record);
-        }
-        // 如果存在默认的模板，取消其默认
-        plate.setIsDefault(false);
-        sysTemplateMapper.updateByPrimaryKeySelective(plate);
-        // 2.重新赋值，并返回
+        record.setSysOwner(UserUtil.getSysOwner());
+        sysTemplateMapper.updateAll(UserUtil.getLoginUserId(), "005", false, UserUtil.getTenantId()); // 更新所有的模板为false
         return sysTemplateMapper.updateByPrimaryKeySelective(record);
     }
 

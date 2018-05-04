@@ -45,14 +45,6 @@ public interface SysTemplateMapper {
                     @Param("templateName") String templateName);
 
     /**
-     * 根据类型查询is_default 为1的数据
-     * 
-     * @param record
-     * @return
-     */
-    SysTemplate getTemplate(SysTemplate record);
-
-    /**
      * 根据类型模板名称查询
      * 
      * @Title: cheackTemplate
@@ -61,4 +53,19 @@ public interface SysTemplateMapper {
      *
      */
     Integer cheackTemplate(SysTemplatePO record);
+
+    /**
+     * 根据类型 更新所有的模板
+     * 
+     * @Title: updateAll
+     * @param updateUserId
+     * @param type
+     * @param isDefault
+     * @param tenantId
+     * @return
+     *
+     */
+    int updateAll(@Param("updateUserId") Long updateUserId, @Param("type") String type, @Param("isDefault") Boolean isDefault,
+                    @Param("tenantId") Integer tenantId);
+
 }
