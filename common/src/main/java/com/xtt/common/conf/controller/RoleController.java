@@ -50,13 +50,14 @@ public class RoleController {
 
     @RequestMapping("roleList")
     @ResponseBody
-    public List<SysRole> RoleList(String sysOwner) {
-        return roleService.getRoleListByTenantId(UserUtil.getTenantId(), sysOwner);
+    public List<SysRole> RoleList() {
+        return roleService.getRoleListByTenantId(UserUtil.getTenantId(), UserUtil.getSysOwner());
     }
 
     @RequestMapping("menuList")
     @ResponseBody
-    public List<SysObj> menuList(Long roleId, String type, String sysOwner) {
+    public List<SysObj> menuList(Long roleId, String type) {
+        String sysOwner = UserUtil.getSysOwner();
         String[] types;
         if (StringUtils.isEmpty(type)) {
             types = new String[2];

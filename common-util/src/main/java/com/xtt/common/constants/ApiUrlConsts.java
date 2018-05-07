@@ -21,14 +21,4 @@ public class ApiUrlConsts {
      * 更新最近一次手术记录填写日期
      */
     public static final String POPS_UPDATE_LATEST_INPUT_DATE = "popsOperationRecord/updateLatestInputDate.shtml";
-
-    /*------------------PD--------------------------*/
-    /**
-     * 获取最近一次腹透数据填写日期
-     */
-    public static final String PD_GET_LATEST_INPUT_DATE = "pdLatestInputRecord/getDate.shtml";
-    /**
-     * 更新最近一次腹透数据填写日期
-     */
-    public static final String PD_UPDATE_LATEST_INPUT_DATE = "pdLatestInputRecord/updateDate.shtml";
 }
