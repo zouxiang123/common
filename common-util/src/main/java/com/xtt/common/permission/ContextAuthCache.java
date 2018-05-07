@@ -30,7 +30,11 @@ public class ContextAuthCache implements ContextAuthFactory {
         if (isCookieTokenStrategy()) {// if use cookie token strategy
             return (String) request.getAttribute(CommonConstants.COOKIE_TOKEN);
         } else {// get form api token strategy
-            return request.getParameter(CommonConstants.API_TOKEN);
+            String token = request.getHeader(CommonConstants.API_TOKEN);
+            if (token == null) {
+                token = request.getParameter(CommonConstants.API_TOKEN);
+            }
+            return token;
         }
     }
 
