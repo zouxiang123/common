@@ -125,7 +125,7 @@ public class SysTemplateServiceImpl implements ISysTemplateService {
         record.setFkTenantId(UserUtil.getTenantId());
         record.setIsDefault(true);
         record.setSysOwner(UserUtil.getSysOwner());
-        sysTemplateMapper.updateAll(UserUtil.getLoginUserId(), "005", false, UserUtil.getTenantId()); // 更新所有的模板为false
+        sysTemplateMapper.updateAll(UserUtil.getLoginUserId(), record.getType(), false, UserUtil.getTenantId()); // 更新所有的模板为false
         return sysTemplateMapper.updateByPrimaryKeySelective(record);
     }
 
