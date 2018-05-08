@@ -31,7 +31,6 @@ import com.xtt.common.dao.model.PatientAssayConf;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.report.controller.AssayReportController;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.util.http.HttpClientUtil;
 import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.time.DateFormatUtil;
 
@@ -80,7 +79,6 @@ public class DownDataHandlingController {
                 param.put("parmType", IApiConst.UPDATE_PT_TYPE);
                 param.put("dateStr", po.getDateStr());
                 param.put("fkPatientId", po.getFkPatientId() + "");
-                HttpClientUtil.post(CommonConstants.FU_URL + "/fuDownDataHandling/handling.shtml", param);
             } else if (Objects.equals(IApiConst.REPORT_LIS, parmType)) {
                 String subType = po.getSubType();
                 boolean isDelete = Objects.equals(subType, IApiConst.LIS_SUB_TYPE_RM_ONE) || Objects.equals(subType, IApiConst.LIS_SUB_TYPE_RM_ALL);
