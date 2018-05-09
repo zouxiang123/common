@@ -23,11 +23,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.po.PatientCardPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.excel.BadInputException;
 import com.xtt.common.util.excel.ExcelTools;
+import com.xtt.platform.util.lang.StringUtil;
 
 class StandardExcelTemplate {
 
@@ -48,7 +50,7 @@ class StandardExcelTemplate {
 
     private StandardColumnHeaders[] columnHeaders;
 
-    private Map<Short, Map<CellStyle, CellStyle>> cellStyles;
+    private final Map<Short, Map<CellStyle, CellStyle>> cellStyles;
 
     public StandardExcelTemplate(Workbook excel, StandardSheetType type) {
         workbook = excel;
@@ -128,23 +130,35 @@ class StandardExcelTemplate {
                             StandardColumnHeaders.patientEmergencyMobile3.getValue(), 15, false));
             p.setAddress(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientAddress)),
                             StandardColumnHeaders.patientAddress.getValue(), 64, false));
+
             p.setDryWeight(checkDecimal(ExcelTools.toBigDecimal(getCell(row, StandardColumnHeaders.patientDryWeight)),
                             StandardColumnHeaders.patientDryWeight.name(), new BigDecimal(0.01), new BigDecimal(600), false));
-            p.setAdmissionNumber(checkLength(
-                            checkIsNumberOrLetter(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientAdmissionNumber)),
-                                            StandardColumnHeaders.patientAdmissionNumber.getValue()),
-                            StandardColumnHeaders.patientAdmissionNumber.getValue(), 64, false));
-            p.setOutpatientNumber(checkLength(
-                            checkIsNumberOrLetter(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientOutpatientNumber)),
-                                            StandardColumnHeaders.patientOutpatientNumber.getValue()),
-                            StandardColumnHeaders.patientOutpatientNumber.getValue(), 64, false));
-            p.setDialysisTimes(checkInteger(
-                            checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientDialysisTimes)),
-                                            StandardColumnHeaders.patientDialysisTimes.getValue(), 4, false),
-                            StandardColumnHeaders.patientDialysisTimes.getValue(), false));
             p.setSerialNum(checkLength(ExcelTools.toString(getCell(row, StandardColumnHeaders.patientSerialNum)),
                             StandardColumnHeaders.patientSerialNum.getValue(), 10, false));
-
+            /*------------ 添加患者卡号 start------------*/
+            List<PatientCardPO> cards = new ArrayList<>(2);
+            // 住院号
+            String hospitalCard = ExcelTools.toString(getCell(row, StandardColumnHeaders.patientAdmissionNumber));
+            if (StringUtil.isNotBlank(hospitalCard)) {
+                PatientCardPO patientCard = new PatientCardPO();
+                patientCard.setCardNo(checkLength(checkIsNumberOrLetter(hospitalCard, StandardColumnHeaders.patientAdmissionNumber.getValue()),
+                                StandardColumnHeaders.patientAdmissionNumber.getValue(), 64, false));
+                patientCard.setCardType(CommonConstants.PATIENT_MEDICARE_CARD_TYPE_HOSPITAL);
+                patientCard.setDelFlag(false);
+                cards.add(patientCard);
+            }
+            // 门诊号
+            String outpatientCard = ExcelTools.toString(getCell(row, StandardColumnHeaders.patientOutpatientNumber));
+            if (StringUtil.isNotBlank(outpatientCard)) {
+                PatientCardPO patientCard = new PatientCardPO();
+                patientCard.setCardNo(checkLength(checkIsNumberOrLetter(outpatientCard, StandardColumnHeaders.patientOutpatientNumber.getValue()),
+                                StandardColumnHeaders.patientOutpatientNumber.getValue(), 64, false));
+                patientCard.setCardType(CommonConstants.PATIENT_MEDICARE_CARD_TYPE_OUTPATIENT);
+                patientCard.setDelFlag(false);
+                cards.add(patientCard);
+            }
+            p.setPatientCardList(cards);
+            /*------------ 添加患者卡号 end------------*/
             return p;
         }
         return null;
@@ -395,23 +409,6 @@ class StandardExcelTemplate {
                 throw new BadInputException(BadInputException.KEY_REQUIRED, name);
         }
         return val;
-    }
-
-    /** 检查是否是手机号码 */
-    private Integer checkInteger(String val, String name, boolean required) {
-        if (required && StringUtils.isBlank(val)) {
-            throw new BadInputException(BadInputException.KEY_REQUIRED, name);
-        }
-        if (StringUtils.isNotBlank(val)) {
-            Pattern p = Pattern.compile("^\\d+$");
-            Matcher matcher = p.matcher(val);
-            if (matcher.matches()) {
-                return Integer.valueOf(val);
-            } else {
-                throw new BadInputException(BadInputException.KEY_INVALID_INTEGER, val);
-            }
-        }
-        return 0;
     }
 
     /** 检查是否是手机号码 */

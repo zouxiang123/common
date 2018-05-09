@@ -74,7 +74,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
                         errorPatientMap.put(p.getKey(), "患者已存在");
                     } else {
                         p.getValue().setSysOwner(sysOwner);
-                        patientService.savePatient(p.getValue(), true);
+                        patientService.savePatient(p.getValue(), true, p.getValue().getPatientCardList());
                         patientSuccessCount++;
                     }
                 }
