@@ -137,6 +137,9 @@ public class PatientController {
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
         model.addObject("patientId", patientId);
         model.addObject("patient", patient);
+        // 调用第三方接口地址(获取病患基本信息)
+        String ifPath = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.URL_IF_PATIENT);
+        model.addObject(CmDictConsts.URL_IF_PATIENT, ifPath + UserUtil.getTenantId());
         return model;
     }
 

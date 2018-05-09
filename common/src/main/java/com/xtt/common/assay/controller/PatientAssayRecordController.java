@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xtt.common.api.AssayQueryApi;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
 import com.xtt.common.assay.service.IPatientAssayResultService;
+import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CmSysParamConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.AssayHospDictPO;
@@ -28,6 +29,7 @@ import com.xtt.common.dao.po.PatientAssayRecordBusiPO;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessReportUtil;
+import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpResult;
@@ -60,7 +62,9 @@ public class PatientAssayRecordController {
         // 报告日期，检查日期 开关配置
         model.addObject("labTimeFlag", SysParamUtil.getValueByName(CmSysParamConsts.PATIENT_ASSAY_LOAD_CONDITION_TIME_SWITCH));
         model.addObject("roleType", UserUtil.getRoleType());
-
+        // 调用第三方接口地址(获取病患检验信息)
+        String itemName = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.DOWN_DB_WS_URL_ALL);
+        model.addObject(CmDictConsts.URL_IF_LIS, itemName + "?fkTenantId=" + UserUtil.getTenantId());
         return model;
     }
 

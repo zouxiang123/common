@@ -71,6 +71,19 @@ public class CmDictConsts {
     public static final String PD_PRESCRIPTION_MODE = "PD_prescription_mode";
 
     /** 服务调用 */
+    /**
+     * 获取病患基本信息
+     */
+    public static final String URL_IF_PATIENT = "url_if_patient";
+    /**
+     * 获取检验信息
+     */
+    public static final String URL_IF_LIS = "url_if_lis";
+    /**
+     * 获取云端接口服务的检验数据的地址
+     */
+    public static final String YUN_URL_IF_LIS = "yun_url_if_lis";
+
     public static final String URL = "url";
 
     public static final String DOWN_DB_WS_URL_ALL = "00";
