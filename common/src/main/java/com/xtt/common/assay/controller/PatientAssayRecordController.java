@@ -238,11 +238,11 @@ public class PatientAssayRecordController {
      */
     @RequestMapping("insertAuto")
     @ResponseBody
-    public HttpResult insertAuto(String dateStr, Integer tenantId, Long patientId, Boolean isDelete) {
+    public HttpResult insertAuto(String dateStr, Integer tenantId, Long patientId, Boolean isDelete, String sysOwner) {
         if (StringUtil.isBlank(dateStr) || tenantId == null) {
             return HttpResult.getWarningInstance();
         }
-        UserUtil.setThreadTenant(tenantId);
+        UserUtil.setThreadTenant(tenantId, sysOwner);
         HttpResult result = HttpResult.getSuccessInstance();
         isDelete = isDelete == null ? false : isDelete;
         result.setRs(patientAssayRecordBusiService.selectInsertFromSource(DateFormatUtil.getStartTime(dateStr), DateFormatUtil.getEndTime(dateStr),

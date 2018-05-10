@@ -287,7 +287,6 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     @Override
     public Set<String> selectInsertFromSource(Date startCreateTime, Date endCreateTime, Map<Long, List<Date>> mapPatientId, Long patientId,
                     boolean isDelete, Integer fkTenantId) {
-        UserUtil.setThreadTenant(fkTenantId);
         AssayFilterRule assayFilterRule = assayFilterRuleService.getByTenantId(UserUtil.getTenantId());
         if (assayFilterRule == null) {
             LOGGER.error("assay_filter_rule表中category字段为空");

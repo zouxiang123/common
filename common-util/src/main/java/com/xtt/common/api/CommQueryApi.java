@@ -19,6 +19,8 @@ public class CommQueryApi {
 
     private String subType;// 子操作类别
 
+    private String sysOwner;// 所属系统
+
     public String getParmType() {
         return parmType;
     }
@@ -59,10 +61,18 @@ public class CommQueryApi {
         this.subType = subType;
     }
 
+    public String getSysOwner() {
+        return sysOwner;
+    }
+
+    public void setSysOwner(String sysOwner) {
+        this.sysOwner = sysOwner;
+    }
+
     @Override
     public String toString() {
-        return "ApiCommQueryDto [parmType=" + parmType + ", dateStr=" + dateStr + ", fkPatientId=" + fkPatientId + ", tenantId=" + tenantId
-                        + ", subType=" + subType + "]";
+        return "CommQueryApi [parmType=" + parmType + ", dateStr=" + dateStr + ", fkPatientId=" + fkPatientId + ", tenantId=" + tenantId
+                        + ", subType=" + subType + ", sysOwner=" + sysOwner + "]";
     }
 
 }

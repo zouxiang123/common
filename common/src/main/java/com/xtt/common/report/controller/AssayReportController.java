@@ -386,8 +386,8 @@ public class AssayReportController {
      */
     @RequestMapping("subInterface/insertAutoHistory")
     @ResponseBody
-    public Map<String, Object> insertAutoHistory(Integer tenantId, @RequestParam(required = false) Collection<String> itemCodes) {
-        UserUtil.setThreadTenant(tenantId);
+    public Map<String, Object> insertAutoHistory(Integer tenantId, @RequestParam(required = false) Collection<String> itemCodes, String sysOwner) {
+        UserUtil.setThreadTenant(tenantId, sysOwner);
         Map<String, Object> map = new HashMap<String, Object>();
         List<String> assayMonthList = patientAssayRecordBusiService.listAllAssayMonthByTenantId(tenantId);// 获取所有的化验月份
         for (String assayMonth : assayMonthList) {
@@ -428,10 +428,10 @@ public class AssayReportController {
      */
     @RequestMapping("subInterface/refreshMonthReport")
     @ResponseBody
-    public Map<String, Object> refreshMonthReport(Integer tenantId, String dateStr) {
+    public Map<String, Object> refreshMonthReport(Integer tenantId, String dateStr, String sysOwner) {
         long start = System.currentTimeMillis();
         LOGGER.info("get request to hand dateStr={},tenantId={} assay report data", dateStr, tenantId);
-        UserUtil.setThreadTenant(tenantId);
+        UserUtil.setThreadTenant(tenantId, sysOwner);
         Map<String, Object> map = new HashMap<String, Object>();
         String monthStr = patientAssayConfService.selectMonthAndYearByDate(DateFormatUtil.convertStrToDate(dateStr), tenantId, null);
         LOGGER.info("begin to hand month={},tenantId={} assay report data", monthStr, tenantId);

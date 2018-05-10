@@ -270,7 +270,7 @@ public class AssayRemindDictController {
         LoginUser user = UserUtil.getLoginUser();
         new Thread(() -> {
             UserUtil.setThreadLoginUser(user);
-            assayReportController.insertAutoHistory(user.getTenantId(), itemCodes);
+            assayReportController.insertAutoHistory(user.getTenantId(), itemCodes, user.getSysOwner());
         }).start();
     }
 

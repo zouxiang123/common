@@ -69,16 +69,10 @@ public class DownDataHandlingController {
         LOGGER.info("get request to handling {}", po.toString());
         Map<String, String> map = new HashMap<String, String>();
         try {
-            UserUtil.setThreadTenant(tenantId);
+            UserUtil.setThreadTenant(tenantId, po.getSysOwner());
             if (Objects.equals(IApiConst.UPDATE_PT_TYPE, parmType)) {
                 patientService.updatePatientType(tenantId);
                 commonCacheService.cachePatient(tenantId);
-                // 调用随访自动处理数据
-                Map<String, String> param = new HashMap<>();
-                param.put("tenantId", tenantId + "");
-                param.put("parmType", IApiConst.UPDATE_PT_TYPE);
-                param.put("dateStr", po.getDateStr());
-                param.put("fkPatientId", po.getFkPatientId() + "");
             } else if (Objects.equals(IApiConst.REPORT_LIS, parmType)) {
                 String subType = po.getSubType();
                 boolean isDelete = Objects.equals(subType, IApiConst.LIS_SUB_TYPE_RM_ONE) || Objects.equals(subType, IApiConst.LIS_SUB_TYPE_RM_ALL);
@@ -86,7 +80,7 @@ public class DownDataHandlingController {
                 String dateStr = po.getDateStr();
                 // 插入化验数据
                 LOGGER.info("===================== begin to hand create_time {} assay record =====================", dateStr);
-                HttpResult result = patientAssayRecordController.insertAuto(dateStr, tenantId, po.getFkPatientId(), isDelete);
+                HttpResult result = patientAssayRecordController.insertAuto(dateStr, tenantId, po.getFkPatientId(), isDelete, po.getSysOwner());
                 if (result.getRs() != null) {
                     Set<String> handDateSet = (Set<String>) result.getRs();
                     if (!isDelete) {
@@ -103,7 +97,7 @@ public class DownDataHandlingController {
                         });
                     } else {
                         LOGGER.info("===================== hand all assay report data =====================");
-                        assayReportController.insertAutoHistory(tenantId, null);
+                        assayReportController.insertAutoHistory(tenantId, null, po.getSysOwner());
                     }
                 }
                 LOGGER.info("===================== end of hand create_time {} assay record , total cost {} ms============", dateStr,
