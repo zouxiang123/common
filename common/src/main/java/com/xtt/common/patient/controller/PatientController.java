@@ -52,6 +52,7 @@ import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Controller
@@ -364,5 +365,21 @@ public class PatientController {
             }
         }
         return map;
+    }
+
+    /**
+     * 根据id获取患者数据
+     * 
+     * @Title: getById
+     * @param id
+     * @return
+     *
+     */
+    @RequestMapping("getById")
+    @ResponseBody
+    public HttpResult getById(Long id) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        result.setRs(patientService.selectById(id));
+        return result;
     }
 }
