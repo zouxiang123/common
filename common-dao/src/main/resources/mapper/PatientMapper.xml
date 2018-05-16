@@ -491,6 +491,9 @@
       <if test="idNumber != null">
         AND p.id_number = #{idNumber}
       </if>
+      <if test="id != null">
+        AND p.id = #{id}
+      </if>
       <if test="sex != null">
         AND p.sex = #{sex}
       </if>
