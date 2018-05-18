@@ -33,7 +33,7 @@ public enum AssayEnum {
     PD_DCR_0H("0H腹透液肌酐", "PD_DCR_0H"), PD_DCR_2H("2H腹透液肌酐", "PD_DCR_2H"), PD_DCR_4H("4H腹透液肌酐", "PD_DCR_4H"), PD_DGLUC_0H("0H腹透液葡萄糖",
                     "PD_DGLUC_0H"), PD_DGLUC_2H("2H腹透液葡萄糖", "PD_DGLUC_2H"), PD_DGLUC_4H("0H腹透液葡萄糖", "PD_DGLUC_4H"),
     // 血清
-    PD_CR_2H("2H血清肌酐", "PD_CR_2H"), PD_GLUC_2H("2H血清葡萄糖", "PD_GLUC_2H");
+    PD_CR_2H("2H血清肌酐", "PD_CR_2H"), PD_GLUC_2H("2H血清葡萄糖", "PD_GLUC_2H"), UA("尿酸", "UA");
 
     private String value;
     private String name;
