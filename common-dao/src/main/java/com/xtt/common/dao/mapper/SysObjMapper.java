@@ -60,7 +60,7 @@ public interface SysObjMapper {
      * @return
      *
      */
-    List<SysObj> selectMenuListByRoleId(@Param("roleIds") Long[] roleIds, @Param("types") String[] types);
+    List<SysObj> selectMenuListByRoleId(@Param("roleIds") Long[] roleIds, @Param("types") String[] types, @Param("sysOwner") String sysOwner);
 
     /**
      * 查询当前租户该版本下所有菜单

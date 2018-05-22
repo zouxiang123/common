@@ -246,7 +246,10 @@
   			#{item}
   		</foreach>
   	</if>
-  	ORDER BY so.p_code,so.code ASC
+    <if test="sysOwner != null and sysOwner != ''">
+      AND (so.sys_owner = #{sysOwner} OR so.sys_owner = 'CM')
+    </if>
+    ORDER BY so.p_code,so.code ASC
   </select>
   
   <select id="selectAllMenuList" resultMap="BaseResultMap">

@@ -33,7 +33,7 @@ public interface ICommonCacheService {
      * @param tenantId
      *
      */
-    public void cachePermission(Integer tenantId);
+    public void cachePermission(Integer tenantId, String sysOwner);
 
     /**
      * 缓存患者数据
