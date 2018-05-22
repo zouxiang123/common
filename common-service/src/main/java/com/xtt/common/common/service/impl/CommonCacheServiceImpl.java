@@ -126,16 +126,16 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cachePermission(Integer tenantId) {
+    public void cachePermission(Integer tenantId, String sysOwner) {
         Map<String, List<SysObjDto>> map = new HashMap<>();
         RedisCacheUtil.delete(tenantId + PermissionCache.ALL_SYS_OBJ_KEY);
         RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
         String[] types = { "1", "2" };
-        map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
-        List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
+        map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, sysOwner)));
+        List<SysRole> list = roleService.getRoleListByTenantId(tenantId, sysOwner);
         for (SysRole sysRole : list) {
             Long[] roleIds = { sysRole.getId() };
-            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types)));
+            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types, sysOwner)));
         }
         PermissionCache.cacheAll(map);
     }
@@ -276,7 +276,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 // second cache dict
                 cacheDict(tenant.getId());
                 // third cache permission
-                cachePermission(tenant.getId());
+                cachePermission(tenant.getId(), null);
                 // cache dynamic form
                 cacheDynamicFormNode(tenant.getId(), null);
                 // cache formula data

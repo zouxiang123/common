@@ -33,7 +33,7 @@ public interface IRoleService {
      * @return
      *
      */
-    List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types);
+    List<SysObj> getMenuListByRoleId(Long[] roleId, String[] types, String sysOwner);
 
     /**
      * 查询该版本下所有菜单

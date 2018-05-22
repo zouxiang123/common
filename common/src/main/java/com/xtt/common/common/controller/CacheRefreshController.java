@@ -64,7 +64,7 @@ public class CacheRefreshController {
     @ResponseBody
     public Map<String, Object> permission() {
         Map<String, Object> map = new HashMap<String, Object>();
-        commonCacheService.cachePermission(UserUtil.getTenantId());
+        commonCacheService.cachePermission(UserUtil.getTenantId(), null);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
