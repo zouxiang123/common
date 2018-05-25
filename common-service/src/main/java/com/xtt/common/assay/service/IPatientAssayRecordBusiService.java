@@ -369,4 +369,23 @@ public interface IPatientAssayRecordBusiService {
      */
     void updateByIdSelective(PatientAssayRecordBusiPO record);
 
+    /**
+     * 查询一个化验单有两条相同的化验项
+     * 
+     * @Title: listByTwoItemCode
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> listByTwoItemCode(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据化验单号化验项删除数据
+     * 
+     * @Title: deleteByReqIdAndItemCode
+     * @param record
+     *
+     */
+    void deleteByReqIdAndItemCode(PatientAssayRecordBusi record);
+
 }

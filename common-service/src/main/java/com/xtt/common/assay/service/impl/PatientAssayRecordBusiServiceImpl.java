@@ -550,4 +550,15 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     public void updateByIdSelective(PatientAssayRecordBusiPO record) {
         patientAssayRecordBusiMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public List<PatientAssayRecordBusi> listByTwoItemCode(PatientAssayRecordBusiPO record) {
+        return patientAssayRecordBusiMapper.listByTwoItemCode(record);
+    }
+
+    @Override
+    public void deleteByReqIdAndItemCode(PatientAssayRecordBusi record) {
+        patientAssayRecordBusiMapper.deleteByReqIdAndItemCode(record);
+
+    }
 }

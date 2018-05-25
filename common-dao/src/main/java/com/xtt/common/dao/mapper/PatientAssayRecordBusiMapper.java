@@ -274,4 +274,23 @@ public interface PatientAssayRecordBusiMapper {
      */
     List<PatientAssayRecordBusiPO> listByItmeCode(PatientAssayRecordBusiPO assayRecord);
 
+    /**
+     * 查询一个化验单有两项的数据
+     * 
+     * @Title: listByTwoItemCode
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> listByTwoItemCode(PatientAssayRecordBusiPO record);
+
+    /**
+     * 根据化验单号化验项删除数据
+     * 
+     * @Title: deleteByReqIdAndItemCode
+     * @param record
+     *
+     */
+    void deleteByReqIdAndItemCode(PatientAssayRecordBusi record);
+
 }
