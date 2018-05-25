@@ -1088,4 +1088,34 @@
         </if>
           ORDER BY parb.sample_time LIMIT 2
   </select>
+  <!-- 查询一个化验单有两项的数据 -->
+  <select id="listByTwoItemCode" resultMap="BaseResultMap">
+    SELECT  id, fk_patient_id, group_id, group_name, item_code, item_name,max(result) result,max(result_actual) result_actual, 
+    value_unit, result_tips, reference, req_id, sample_class, sample_time, report_time, 
+    inspection_id, dia_ab_flag, assay_month, assay_date, flage, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+     from patient_assay_record_busi 
+     <where>
+            <if test="fkPatientId !=null">
+                and fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="startCreateTime != null">
+                and create_time &gt;= #{startCreateTime}
+            </if>
+            <if test="endCreateTime != null">
+                and create_time &lt;= #{endCreateTime}
+            </if>
+     </where>
+        GROUP BY fk_tenant_id,req_id,fk_patient_id,assay_date,item_code having count(1) >1
+  </select>
+  <!-- 根据化验单号化验项删除数据 -->
+  <delete id="deleteByReqIdAndItemCode">
+    DELETE from patient_assay_record_busi 
+    where 
+         fk_patient_id =#{fkPatientId}
+        and assay_date = #{assayDate}
+        and item_code =#{itemCode}
+       and  req_id = #{reqId}
+       and  fk_tenant_id = #{fkTenantId}
+  </delete>
 </mapper>
