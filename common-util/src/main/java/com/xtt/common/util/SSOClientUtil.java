@@ -149,6 +149,9 @@ public class SSOClientUtil {
                     return true;
                 }
                 requestURI = requestURI.substring(0, requestURI.indexOf(".shtml"));
+                if (excludePathSet.contains(requestURI)) { // 优先匹配全路径地址的过滤
+                    return true;
+                }
                 String[] uris = requestURI.split("/");
                 for (int i = 0; i < uris.length; i++) {
                     if (StringUtil.isNotBlank(uris[i]) && excludePathSet.contains(uris[i])) {
