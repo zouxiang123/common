@@ -601,7 +601,7 @@
   
     <!-- 通过手机号查询患者信息个数 -->
     <select id="getCountByMobile" resultType="java.lang.Integer">
-        select count(id) from patient where mobile = #{mobile} 
+        select count(*) from patient where mobile = #{mobile} 
         <if test="neId != null"> AND id != #{neId}</if>
     </select>
 
