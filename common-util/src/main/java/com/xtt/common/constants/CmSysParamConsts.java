@@ -49,4 +49,8 @@ public class CmSysParamConsts {
     public static final String SHOW_OFF = "0";
     /** 打印服务地址 */
     public static final String PRINT_SERVER_ADDR = "print_server_addr";
+    /**
+     * app地址
+     */
+    public static final String HD_APP_ADDR = "hdAppAddr";
 }
