@@ -10,6 +10,7 @@ package com.xtt.common.constants;
 
 import java.util.Properties;
 
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.xtt.platform.util.config.PropertiesUtil;
 
 /**
@@ -218,4 +219,10 @@ public class CommonConstants {
      * 内嵌asp界面
      */
     public static final String ASP_PATH = "asp.url";
+
+    /**
+     * 返回json数据格式配置
+     */
+    public static SerializerFeature[] BASEJSONCONFIG = { SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty,
+            SerializerFeature.WriteNullBooleanAsFalse };
 }
