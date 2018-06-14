@@ -8,6 +8,8 @@
  */
 package com.xtt.common.constants;
 
+import java.util.Properties;
+
 import com.xtt.platform.util.config.PropertiesUtil;
 import com.xtt.platform.util.security.MD5Util;
 
@@ -158,6 +160,11 @@ public class CommonConstants {
     public static String POPS_URL = "";
 
     /**
+     * 电子病历插件url地址
+     */
+    public static String ASP_PATH = "";
+
+    /**
      * 初始化请求路径相关参数
      * 
      * @param configPath
@@ -166,11 +173,14 @@ public class CommonConstants {
      *
      */
     public static void initUrlParam(String configPath) {
-        String BASE_URL_SOURCE = PropertiesUtil.loadProperties(configPath, "UTF-8").getProperty("base.url");
+        Properties config = PropertiesUtil.loadProperties(configPath, "UTF-8");
+        String BASE_URL_SOURCE = config.getProperty("base.url");
         BASE_URL = BASE_URL_SOURCE.concat(BASE_URL_SOURCE.endsWith("/") ? "" : "/");
         COMMON_SERVER_ADDR = BASE_URL.concat("common/");
         FU_URL = BASE_URL.concat("fu/");
         PD_URL = BASE_URL.concat("pd/");
         POPS_URL = BASE_URL.concat("pops/");
+        // 电子病历插件url地址
+        ASP_PATH = config.getProperty("asp.url");
     }
 }

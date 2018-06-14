@@ -153,4 +153,12 @@ public class UserUtilContext {
         threadLocalLoginUser.set(user);
     }
 
+    public static LoginUser getLoginUserByToken(String token) {
+        Map<String, Object> auth = ContextAuthUtil.getAuth(token);
+        if (auth != null) {
+            return (LoginUser) auth.get(CommonConstants.LOGIN_USER);
+        }
+        return null;
+    }
+
 }

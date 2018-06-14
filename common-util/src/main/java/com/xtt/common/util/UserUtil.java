@@ -297,4 +297,17 @@ public class UserUtil {
         LoginUser user = getLoginUser();
         return user.getSysOwner();
     }
+
+    /**
+     * 根据token获取登录用户信息
+     * 
+     * @Title: getLoginUserByToken
+     * @param token
+     * @return
+     *
+     */
+    public static LoginUser getLoginUserByToken(String token) {
+        return UserUtilContext.getLoginUserByToken(token);
+
+    }
 }

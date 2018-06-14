@@ -23,7 +23,19 @@ public class ContextAuthUtil {
     }
 
     public static void refreshLiveTime() {
-        factory.refreshLiveTime(null, null);
+        refreshLiveTime(null, null);
+    }
+
+    /**
+     * 刷新token有效时间
+     * 
+     * @Title: refreshLiveTime
+     * @param token
+     * @param liveTime
+     *
+     */
+    public static void refreshLiveTime(String token, Long liveTime) {
+        factory.refreshLiveTime(token, liveTime);
     }
 
     public static void addAuth(String key, Map<String, Object> auth) {
