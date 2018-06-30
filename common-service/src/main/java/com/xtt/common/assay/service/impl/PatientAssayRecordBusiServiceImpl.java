@@ -37,6 +37,7 @@ import com.xtt.common.assay.service.IAssayFilterRuleService;
 import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayInspectioidBackService;
 import com.xtt.common.assay.service.IPatientAssayRecordBusiService;
+import com.xtt.common.dao.mapper.AssayHospDictMapper;
 import com.xtt.common.dao.mapper.PatientAssayRecordBusiMapper;
 import com.xtt.common.dao.model.AssayFilterRule;
 import com.xtt.common.dao.model.PatientAssayInspectioidBack;
@@ -64,6 +65,9 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
 
     @Autowired
     private IPatientAssayInspectioidBackService patientAssayInspectioidBackService;
+
+    @Autowired
+    private AssayHospDictMapper assayHospDictMapper;
 
     @Override
     public List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO record) {
@@ -138,8 +142,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode) {
-        List<String> groupItemCodes = assayHospDictService.listSimilarItemCode(itemCode, UserUtil.getTenantId());
+    public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode, String fromSource) {
+        List<String> groupItemCodes = null;
+        if ("stage_summary".equals(fromSource)) {
+            groupItemCodes = assayHospDictMapper.listItemCodeByDictCcode(itemCode, UserUtil.getTenantId());
+        } else {
+            groupItemCodes = assayHospDictService.listSimilarItemCode(itemCode, UserUtil.getTenantId());
+        }
         if (CollectionUtils.isNotEmpty(groupItemCodes)) {
             itemCode = null;
         }

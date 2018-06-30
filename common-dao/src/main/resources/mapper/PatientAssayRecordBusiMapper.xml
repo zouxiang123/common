@@ -654,7 +654,7 @@
     </select>
     <!-- 查询患者个人统计报表数据 -->
     <select id="listForPersonReport" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultType="map">
-        SELECT DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as ymd,parb.result_actual as value, DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as time FROM patient_assay_record_busi parb
+        SELECT DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as ymd,parb.result_actual as value, DATE_FORMAT(parb.assay_date,'%Y-%m-%d') as time,item_name FROM patient_assay_record_busi parb
         <where>
             parb.fk_patient_id = #{fkPatientId}
             <if test="itemCode != null">
