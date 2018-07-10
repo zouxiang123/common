@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.DialysisExceptionStopMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.DialysisExceptionStop">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_dialysis_campaign_id" jdbcType="BIGINT" property="fkDialysisCampaignId" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="dialysis_date" jdbcType="DATE" property="dialysisDate" />
+    <result column="dialysis_time" jdbcType="INTEGER" property="dialysisTime" />
+    <result column="actual_dialysis_time" jdbcType="INTEGER" property="actualDialysisTime" />
+    <result column="advance_time" jdbcType="INTEGER" property="advanceTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="stop_reason_type" jdbcType="VARCHAR" property="stopReasonType" />
+    <result column="stop_reason_desc" jdbcType="VARCHAR" property="stopReasonDesc" />
+    <result column="del_flag" jdbcType="BIT" property="delFlag" />
+    <result column="operator_id" jdbcType="BIGINT" property="operatorId" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_dialysis_campaign_id, fk_patient_id, dialysis_date, dialysis_time, actual_dialysis_time, 
+    advance_time, start_time, end_time, stop_reason_type, stop_reason_desc, del_flag, 
+    operator_id, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from dialysis_exception_stop
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from dialysis_exception_stop
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.DialysisExceptionStop">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into dialysis_exception_stop (id, fk_dialysis_campaign_id, fk_patient_id, 
+      dialysis_date, dialysis_time, actual_dialysis_time, 
+      advance_time, start_time, end_time, 
+      stop_reason_type, stop_reason_desc, del_flag, 
+      operator_id, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{fkDialysisCampaignId,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, 
+      #{dialysisDate,jdbcType=DATE}, #{dialysisTime,jdbcType=INTEGER}, #{actualDialysisTime,jdbcType=INTEGER}, 
+      #{advanceTime,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{stopReasonType,jdbcType=VARCHAR}, #{stopReasonDesc,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, 
+      #{operatorId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.DialysisExceptionStop">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into dialysis_exception_stop
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkDialysisCampaignId != null">
+        fk_dialysis_campaign_id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="dialysisDate != null">
+        dialysis_date,
+      </if>
+      <if test="dialysisTime != null">
+        dialysis_time,
+      </if>
+      <if test="actualDialysisTime != null">
+        actual_dialysis_time,
+      </if>
+      <if test="advanceTime != null">
+        advance_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="stopReasonType != null">
+        stop_reason_type,
+      </if>
+      <if test="stopReasonDesc != null">
+        stop_reason_desc,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="operatorId != null">
+        operator_id,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkDialysisCampaignId != null">
+        #{fkDialysisCampaignId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="dialysisDate != null">
+        #{dialysisDate,jdbcType=DATE},
+      </if>
+      <if test="dialysisTime != null">
+        #{dialysisTime,jdbcType=INTEGER},
+      </if>
+      <if test="actualDialysisTime != null">
+        #{actualDialysisTime,jdbcType=INTEGER},
+      </if>
+      <if test="advanceTime != null">
+        #{advanceTime,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopReasonType != null">
+        #{stopReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="stopReasonDesc != null">
+        #{stopReasonDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="operatorId != null">
+        #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.DialysisExceptionStop">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update dialysis_exception_stop
+    <set>
+      <if test="fkDialysisCampaignId != null">
+        fk_dialysis_campaign_id = #{fkDialysisCampaignId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="dialysisDate != null">
+        dialysis_date = #{dialysisDate,jdbcType=DATE},
+      </if>
+      <if test="dialysisTime != null">
+        dialysis_time = #{dialysisTime,jdbcType=INTEGER},
+      </if>
+      <if test="actualDialysisTime != null">
+        actual_dialysis_time = #{actualDialysisTime,jdbcType=INTEGER},
+      </if>
+      <if test="advanceTime != null">
+        advance_time = #{advanceTime,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="stopReasonType != null">
+        stop_reason_type = #{stopReasonType,jdbcType=VARCHAR},
+      </if>
+      <if test="stopReasonDesc != null">
+        stop_reason_desc = #{stopReasonDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=BIT},
+      </if>
+      <if test="operatorId != null">
+        operator_id = #{operatorId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.DialysisExceptionStop">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update dialysis_exception_stop
+    set fk_dialysis_campaign_id = #{fkDialysisCampaignId,jdbcType=BIGINT},
+      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      dialysis_date = #{dialysisDate,jdbcType=DATE},
+      dialysis_time = #{dialysisTime,jdbcType=INTEGER},
+      actual_dialysis_time = #{actualDialysisTime,jdbcType=INTEGER},
+      advance_time = #{advanceTime,jdbcType=INTEGER},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      stop_reason_type = #{stopReasonType,jdbcType=VARCHAR},
+      stop_reason_desc = #{stopReasonDesc,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=BIT},
+      operator_id = #{operatorId,jdbcType=BIGINT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+   <!-- 自定义 -->
+   <resultMap extends="BaseResultMap" id="poResultMap" type="com.xtt.common.dao.po.DialysisExceptionStopPo">
+        <result column="patientName" property="patientName" />
+        <result column="name" property="hospitalName" />
+   </resultMap>
+   <!-- 每月患者异常下机透析的数量统计 (不包含系统自动终止)-->
+   <select id="selectPatientStopDialysisReport" parameterType="list" resultType="java.util.HashMap">
+        <foreach collection="list" item="item" separator=" UNION ALL ">
+            SELECT #{item.model} AS model,DATE_FORMAT(#{item.startTime}, '%Y-%m') m,count(des.id) AS count
+            FROM
+            dialysis_exception_stop des
+            WHERE
+            des.fk_tenant_id = #{item.tenantId}
+            AND des.stop_reason_type IS NOT NULL
+            AND (des.create_time BETWEEN #{item.startTime} AND #{item.endTime})
+        </foreach>
+   </select>
+    <!-- 每月患者异常下机统计 -->
+    <select id="selectPatientStopDialysisDetail" parameterType="com.xtt.common.dao.model.DialysisExceptionStop" resultMap="poResultMap">
+      SELECT p.name as patientName
+        , des.start_time
+        , des.end_time
+        , des.dialysis_time
+        , des.actual_dialysis_time
+        , des.advance_time
+        , des.stop_reason_type
+        , des.stop_reason_desc
+        FROM
+        dialysis_exception_stop des
+        LEFT JOIN patient p ON des.fk_patient_id = p.id
+        WHERE
+        des.fk_tenant_id = #{fkTenantId}
+        AND des.end_time IS NOT NULL
+        AND des.stop_reason_type IS NOT NULL
+        AND (des.create_time BETWEEN #{startTime} and #{endTime})
+        order by des.end_time desc
+    </select>
+    <!-- 根据患者id查询终止透析活动数据 -->
+    <select id="listForStopByPatientId" resultMap="poResultMap">
+        SELECT
+        des.*,st.name,
+        u.`name` AS docName,u.image_path AS docImagePath,u.id AS docId
+        FROM
+        dialysis_exception_stop des 
+        LEFT JOIN sys_tenant st on des.fk_tenant_id = st.id
+        LEFT JOIN sys_user u ON u.id = des.operator_id
+        WHERE des.fk_patient_id = #{patientId}
+        <if test="groupTenant != null and groupTenant !=''">
+            AND des.fk_tenant_id in (${groupTenant})
+        </if>
+        <if test="startDate != null">
+            AND des.create_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND des.create_time &lt;= #{endDate}
+        </if>
+        ORDER BY des.fk_dialysis_campaign_id DESC
+    </select>
+</mapper>
