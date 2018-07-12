@@ -3,15 +3,16 @@
   <parent>
     <groupId>com.xtt.common</groupId>
 	<artifactId>portal</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.1.RELEASE</version>
   </parent>
   <artifactId>common-util</artifactId>
+  <version>pd_1.1.01</version>
   <dependencies>
   	<!-- platform -->
     <dependency>
         <groupId>com.xtt.platform</groupId>
         <artifactId>portal-platform</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>1.0.1.RELEASE</version>
     </dependency>
   </dependencies>
 </project>
