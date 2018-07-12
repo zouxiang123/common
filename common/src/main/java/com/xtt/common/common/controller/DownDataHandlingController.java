@@ -8,8 +8,6 @@
  */
 package com.xtt.common.common.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,7 +23,6 @@ import com.xtt.common.api.CommQueryApi;
 import com.xtt.common.assay.controller.PatientAssayRecordController;
 import com.xtt.common.assay.service.IPatientAssayConfService;
 import com.xtt.common.common.service.ICommonCacheService;
-import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.constants.IApiConst;
 import com.xtt.common.dao.model.PatientAssayConf;
 import com.xtt.common.patient.service.IPatientService;
@@ -63,11 +60,11 @@ public class DownDataHandlingController {
     @SuppressWarnings("unchecked")
     @RequestMapping("handling")
     @ResponseBody
-    public Map<String, String> handling(CommQueryApi po) {
+    public HttpResult handling(CommQueryApi po) {
         String parmType = po.getParmType();
         Integer tenantId = po.getTenantId();
         LOGGER.info("get request to handling {}", po.toString());
-        Map<String, String> map = new HashMap<String, String>();
+        HttpResult result = HttpResult.getSuccessInstance();
         try {
             UserUtil.setThreadTenant(tenantId, po.getSysOwner());
             if (Objects.equals(IApiConst.UPDATE_PT_TYPE, parmType)) {
@@ -80,7 +77,7 @@ public class DownDataHandlingController {
                 String dateStr = po.getDateStr();
                 // 插入化验数据
                 LOGGER.info("===================== begin to hand create_time {} assay record =====================", dateStr);
-                HttpResult result = patientAssayRecordController.insertAuto(dateStr, tenantId, po.getFkPatientId(), isDelete, po.getSysOwner());
+                result = patientAssayRecordController.insertAuto(dateStr, tenantId, po.getFkPatientId(), isDelete, po.getSysOwner());
                 if (result.getRs() != null) {
                     Set<String> handDateSet = (Set<String>) result.getRs();
                     if (!isDelete) {
@@ -106,7 +103,6 @@ public class DownDataHandlingController {
         } catch (Exception e) {
             LOGGER.error("handling data failed,case by：", e);
         }
-        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
-        return map;
+        return result;
     }
 }
