@@ -243,7 +243,7 @@ public abstract class AssayHandFactory {
     private void handAfterItemCode(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
         query.setFkPatientId(fkPatientId);
-        query.setCreateTime(startCreateTime);
+        query.setStartCreateTime(startCreateTime);
         query.setEndCreateTime(endCreateTime);
         query.setDiaAbFlag(AssayConsts.AFTER_HD);
         query.setFkTenantId(UserUtil.getTenantId());
@@ -386,7 +386,7 @@ public abstract class AssayHandFactory {
         record.setEndCreateTime(endCreateTime);
         record.setFkPatientId(fkPatientId);
         List<PatientAssayRecordBusi> patientAssayRecordBusiList = patientAssayRecordBusiService.listByTwoItemCode(record);
-        if (patientAssayRecordBusiList != null) {
+        if (patientAssayRecordBusiList != null && patientAssayRecordBusiList.size() != 0) {
             for (PatientAssayRecordBusi patientAssayRecordBusi : patientAssayRecordBusiList) {
                 patientAssayRecordBusiService.deleteByReqIdAndItemCode(patientAssayRecordBusi);
             }
