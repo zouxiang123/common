@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayPropConfMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayPropConf">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, item_code, item_name, group_id, group_name, fk_tenant_id, create_time, create_user_id, 
+    update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from patient_assay_prop_conf
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from patient_assay_prop_conf
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayPropConf">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_prop_conf (id, item_code, item_name, 
+      group_id, group_name, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, 
+      #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayPropConf">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into patient_assay_prop_conf
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientAssayPropConf">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_assay_prop_conf
+    <set>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientAssayPropConf">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update patient_assay_prop_conf
+    set item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <!-- 根据条件查询  -->
+  <select id="listByCond" resultMap="BaseResultMap" parameterType="com.xtt.common.dao.model.PatientAssayPropConf">
+    select 
+    <include refid="Base_Column_List" />
+    from patient_assay_prop_conf
+    <where>
+        <if test="fkTenantId!=null">
+            and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+        </if>
+    </where>
+  </select>
+  <!-- 批量保存 -->
+  <insert id="insertBatch">
+    insert into patient_assay_prop_conf (id, item_code, item_name, 
+      group_id, group_name,fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values 
+    <foreach collection="list" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=BIGINT}, #{item.itemCode,jdbcType=VARCHAR}, #{item.itemName,jdbcType=VARCHAR}, 
+      #{item.groupId,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, 
+      #{item.fkTenantId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+      #{item.createUserId,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=BIGINT}
+      )
+    </foreach>
+  </insert>
+  <!-- 根据租户号删除数据 -->
+  <delete id="deleteByTenantId" parameterType="java.lang.Integer">
+    delete from patient_assay_prop_conf
+    where fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+  </delete>
+</mapper>

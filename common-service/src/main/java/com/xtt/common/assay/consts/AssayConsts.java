@@ -77,5 +77,29 @@ public class AssayConsts {
     public static final String REPORT_TIME = "report_time";
     /** 字典唯一后缀常量 */
     public static final String DICT_UK_SUFFIX = "_xttsuffix";
+    /**
+     * 高 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String HIGH_CODE = "3";
+    /**
+     * 高 name
+     */
+    public static final String HIGH_NAME = "高";
+    /**
+     * 低 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String LOW_CODE = "4";
+    /**
+     * 低 name
+     */
+    public static final String LOW_NAME = "低";
+    /**
+     * 异常 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String UNUSUAL_CODE = "2";
+    /**
+     * 异常 name
+     */
+    public static final String UNUSUAL_NAME = "异常";
 
 }

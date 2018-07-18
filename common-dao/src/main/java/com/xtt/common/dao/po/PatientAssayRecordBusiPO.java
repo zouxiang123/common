@@ -60,6 +60,7 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String groupTenant;
     private List<String> ids;// 所有id集合
     private String assayDateStr;
+    private Boolean hasPropConfIItemCode;// 是否关联宣教智能推送配置
 
     private String fkDictUk;
 
@@ -305,6 +306,14 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setScalingResult(Double scalingResult) {
         this.scalingResult = scalingResult;
+    }
+
+    public Boolean getHasPropConfIItemCode() {
+        return hasPropConfIItemCode;
+    }
+
+    public void setHasPropConfIItemCode(Boolean hasPropConfIItemCode) {
+        this.hasPropConfIItemCode = hasPropConfIItemCode;
     }
 
 }
