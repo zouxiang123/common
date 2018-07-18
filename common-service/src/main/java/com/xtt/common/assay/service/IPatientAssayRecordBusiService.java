@@ -32,6 +32,16 @@ public interface IPatientAssayRecordBusiService {
     List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO query);
 
     /**
+     * 根据条件查询
+     * 
+     * @Title: listByCond
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query);
+
+    /**
      * 根据Inspection_Id 查询是否唯一
      * 
      * @Title: countByInspectionId

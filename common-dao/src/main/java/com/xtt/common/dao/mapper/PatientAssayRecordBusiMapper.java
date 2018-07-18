@@ -51,6 +51,16 @@ public interface PatientAssayRecordBusiMapper {
     List<PatientAssayRecordBusiPO> listByCondition(PatientAssayRecordBusiPO query);
 
     /**
+     * 根据条件查询
+     * 
+     * @Title: listByCond
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query);
+
+    /**
      * 根据reqId，patientId，SampleTime 更新投后透前逻辑
      * 
      * @Title: updateDiaAbFlagByReqId
