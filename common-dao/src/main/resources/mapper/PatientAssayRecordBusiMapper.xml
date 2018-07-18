@@ -1098,11 +1098,11 @@
     select a1.id, a1.fk_patient_id, a1.item_code, a1.item_name, a1.result, a1.result_actual, a1.result_tips,a1.assay_date
     from patient_assay_record_busi a1
     <where>
-        <if test="startDate != null">
-            AND a1.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
+        <if test="startCreateTimeStr != null and startCreateTimeStr != ''">
+            AND a1.create_time &gt;= #{startCreateTimeStr}
         </if>
-        <if test="endDate != null">
-            AND a1.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
+        <if test="endCreateTimeStr != null and endCreateTimeStr != ''">
+            AND a1.create_time &lt;= #{endCreateTimeStr}
         </if>
         <if test="fkTenantId != null">
             AND a1.fk_tenant_id = #{fkTenantId}
