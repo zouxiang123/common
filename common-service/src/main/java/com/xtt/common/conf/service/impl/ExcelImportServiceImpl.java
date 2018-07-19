@@ -10,6 +10,7 @@ package com.xtt.common.conf.service.impl;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.excel.BadInputException;
+import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
@@ -76,6 +78,12 @@ public class ExcelImportServiceImpl implements IExcelImportService {
                         p.getValue().setSysOwner(sysOwner);
                         patientService.savePatient(p.getValue(), true, p.getValue().getPatientCardList());
                         patientSuccessCount++;
+                        // 用户信息发布到推送模块进行推送
+                        Map<String, String> m = new HashMap<String, String>();
+                        m.put("patientId", String.valueOf(p.getValue().getId()));
+                        m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
+                        m.put("sysOwner", UserUtil.getSysOwner());
+                        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
                     }
                 }
             }

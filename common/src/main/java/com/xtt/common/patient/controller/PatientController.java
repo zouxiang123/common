@@ -52,6 +52,7 @@ import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -348,12 +349,19 @@ public class PatientController {
                 }
             }
         }
+
         try {
             patientService.savePatient(patient, false, patient.getPatientCardList());
             sysLogService.insertSysLog(CommonConstants.SYS_LOG_TYPE_2,
                             String.format("对患者（编号：%s 姓名：%s）基本信息进行了编辑动作", patient.getId(), patient.getName()), UserUtil.getSysOwner());
             map.put("fkPatientId", patient.getId());
             map.put("status", CommonConstants.SUCCESS);
+            // 用户信息发布到推送模块进行推送
+            Map<String, String> m = new HashMap<String, String>();
+            m.put("patientId", String.valueOf(patient.getId()));
+            m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
+            m.put("sysOwner", UserUtil.getSysOwner());
+            RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
         } catch (Exception e) {
             if (e instanceof DuplicateKeyException) {
                 LOGGER.warn("failed to save patient, duplicate key excepton:", e);
@@ -381,5 +389,25 @@ public class PatientController {
         HttpResult result = HttpResult.getSuccessInstance();
         result.setRs(patientService.selectById(id));
         return result;
+    }
+
+    /**
+     * app患者数据初始化用一次
+     * 
+     * @Title: initAppPatientList
+     * @return
+     *
+     */
+    @RequestMapping("initAppPatientList")
+    @ResponseBody
+    public String initAppPatientList() {
+        // 用户信息发布到推送模块进行推送
+        Map<String, String> m = new HashMap<String, String>();
+        m.put("patientId", CommonConstants.APP_PUSH_PATIENT_INIT);
+        m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
+        m.put("sysOwner", UserUtil.getSysOwner());
+        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
+        return CommonConstants.SUCCESS;
+
     }
 }

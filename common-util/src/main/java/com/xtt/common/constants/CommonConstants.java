@@ -165,6 +165,15 @@ public class CommonConstants {
     public static String ASP_PATH = "";
 
     /**
+     * 推送模块患者信息推送标识
+     */
+    public static String APP_PUSH_PATIENT = "app_push_patient";
+    /**
+     * 推送模块患者信息推送身份证不足6位默认为：123456
+     */
+    public static String APP_PUSH_PATIENT_PWD = "123456";
+
+    /**
      * 初始化请求路径相关参数
      * 
      * @param configPath
