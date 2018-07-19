@@ -24,6 +24,7 @@ import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
+import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 @Controller
 @RequestMapping("/patient/outcome/")
@@ -48,6 +49,12 @@ public class PatientOutcomeController {
         record.setFkTenantId(UserUtil.getTenantId());
         patientOutcomeService.save(record);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        // 用户信息发布到推送模块进行推送
+        Map<String, String> m = new HashMap<String, String>();
+        m.put("patientId", String.valueOf(record.getFkPatientId()));
+        m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
+        m.put("sysOwner", UserUtil.getSysOwner());
+        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
         return map;
     }
 }
