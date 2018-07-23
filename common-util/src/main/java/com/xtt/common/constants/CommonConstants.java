@@ -174,6 +174,11 @@ public class CommonConstants {
     public static String APP_PUSH_PATIENT_PWD = "123456";
 
     /**
+     * 初始化患者信息
+     */
+    public static String APP_PUSH_PATIENT_INIT = "1";
+
+    /**
      * 初始化请求路径相关参数
      * 
      * @param configPath
