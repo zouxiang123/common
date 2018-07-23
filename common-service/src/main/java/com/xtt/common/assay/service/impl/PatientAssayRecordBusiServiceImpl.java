@@ -560,4 +560,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
             patientAssayRecordBusiMapper.deleteAssayByfkPatientIdAndTableName(fkPatientId, tableName);
         }
     }
+
+    public List<PatientAssayRecordBusi> listByTwoItemCode(PatientAssayRecordBusiPO record) {
+        return patientAssayRecordBusiMapper.listByTwoItemCode(record);
+    }
+
+    @Override
+    public void deleteByReqIdAndItemCode(PatientAssayRecordBusi record) {
+        patientAssayRecordBusiMapper.deleteByReqIdAndItemCode(record);
+    }
 }

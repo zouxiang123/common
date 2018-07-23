@@ -181,6 +181,7 @@ public abstract class AssayHandFactory {
             patientAssayRecordBusiService.insertList(listPatientAssayRecordBusi);
         }
         listPatientAssayRecord = null;
+
         return dateSet;
     }
 
@@ -221,6 +222,8 @@ public abstract class AssayHandFactory {
         Set<String> dateSet = null;
         if (!CollectionUtils.isEmpty(listAssayRecord)) {
             dateSet = insertAssayRecord(listAssayRecord);
+            // updateByReqId
+            this.updateByReqId(startCreateTime, endCreateTime, fkPatientId);
         }
         afterHandDiaAbAlag(mapPatientId, startCreateTime, endCreateTime, fkPatientId);
         // 更新透后数据的itemCode
@@ -240,7 +243,7 @@ public abstract class AssayHandFactory {
     private void handAfterItemCode(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
         PatientAssayRecordBusiPO query = new PatientAssayRecordBusiPO();
         query.setFkPatientId(fkPatientId);
-        query.setCreateTime(startCreateTime);
+        query.setStartCreateTime(startCreateTime);
         query.setEndCreateTime(endCreateTime);
         query.setDiaAbFlag(AssayConsts.AFTER_HD);
         query.setFkTenantId(UserUtil.getTenantId());
@@ -375,6 +378,33 @@ public abstract class AssayHandFactory {
             dictList.add(dict);
         });
         assayHospDictService.insertList(dictList);
+    }
+
+    public void updateByReqId(Date startCreateTime, Date endCreateTime, Long fkPatientId) {
+        PatientAssayRecordBusiPO record = new PatientAssayRecordBusiPO();
+        record.setStartCreateTime(startCreateTime);
+        record.setEndCreateTime(endCreateTime);
+        record.setFkPatientId(fkPatientId);
+        List<PatientAssayRecordBusi> patientAssayRecordBusiList = patientAssayRecordBusiService.listByTwoItemCode(record);
+        if (patientAssayRecordBusiList != null && patientAssayRecordBusiList.size() != 0) {
+            for (PatientAssayRecordBusi patientAssayRecordBusi : patientAssayRecordBusiList) {
+                patientAssayRecordBusiService.deleteByReqIdAndItemCode(patientAssayRecordBusi);
+            }
+            if (patientAssayRecordBusiList.size() <= 500) {
+                patientAssayRecordBusiService.insertList(patientAssayRecordBusiList);
+            } else {
+                List<PatientAssayRecordBusi> insetAssayRecordList = new ArrayList<>();
+                for (int i = 0; i <= patientAssayRecordBusiList.size() / 500; i++) {
+                    for (int j = 0; j < 500; j++) {
+                        if ((i * 500 + j) < patientAssayRecordBusiList.size()) {
+                            insetAssayRecordList.add(patientAssayRecordBusiList.get(i * 500 + j));
+                        }
+                    }
+                    patientAssayRecordBusiService.insertList(insetAssayRecordList);
+                    insetAssayRecordList.clear();
+                }
+            }
+        }
     }
 
 }
