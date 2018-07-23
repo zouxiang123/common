@@ -574,4 +574,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     public List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query) {
         return patientAssayRecordBusiMapper.listByCond(query);
     }
+
+    public List<PatientAssayRecordBusi> listByTwoItemCode(PatientAssayRecordBusiPO record) {
+        return patientAssayRecordBusiMapper.listByTwoItemCode(record);
+    }
+
+    @Override
+    public void deleteByReqIdAndItemCode(PatientAssayRecordBusi record) {
+        patientAssayRecordBusiMapper.deleteByReqIdAndItemCode(record);
+    }
 }
