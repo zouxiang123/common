@@ -35,24 +35,28 @@ public class PatientCardServiceImpl implements IPatientCardService {
     public void saveBatch(List<PatientCardPO> list) {
         for (PatientCardPO record : list) {
             if (record.getId() != null) {
-                PatientCard old = patientCardMapper.selectByPrimaryKey(record.getId());
-                // if zhe cardNo is empty,use the old
-                if (StringUtil.isBlank(record.getCardNo())) {
-                    record.setCardNo(old.getCardNo());
+                if(record.getDelFlag()){//物理删除
+                    patientCardMapper.deleteByPrimaryKey(record.getId());
+                }else{
+                    PatientCard old = patientCardMapper.selectByPrimaryKey(record.getId());
+                    // if zhe cardNo is empty,use the old
+                    if (StringUtil.isBlank(record.getCardNo())) {
+                        record.setCardNo(old.getCardNo());
+                    }
+                    // if this card not select newFlag,set newFlag to false
+                    if (record.getNewFlag() == null) {
+                        record.setNewFlag(false);
+                    }
+                    // if this card is delete,set newFlag to false
+                    if (record.getDelFlag()) {
+                        record.setNewFlag(false);
+                    }
+                    record.setCreateTime(old.getCreateTime());
+                    record.setCreateUserId(old.getCreateUserId());
+                    record.setFkTenantId(old.getFkTenantId());
+                    DataUtil.setSystemFieldValue(record);
+                    patientCardMapper.updateByPrimaryKey(record);
                 }
-                // if this card not select newFlag,set newFlag to false
-                if (record.getNewFlag() == null) {
-                    record.setNewFlag(false);
-                }
-                // if this card is delete,set newFlag to false
-                if (record.getDelFlag()) {
-                    record.setNewFlag(false);
-                }
-                record.setCreateTime(old.getCreateTime());
-                record.setCreateUserId(old.getCreateUserId());
-                record.setFkTenantId(old.getFkTenantId());
-                DataUtil.setSystemFieldValue(record);
-                patientCardMapper.updateByPrimaryKey(record);
             } else {
                 // defalut newFlag is false
                 if (record.getNewFlag() == null) {
