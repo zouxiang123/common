@@ -27,9 +27,9 @@ import com.xtt.common.dao.po.SysUserPO;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
+import com.xtt.common.util.PushUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.excel.BadInputException;
-import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.lang.StringUtil;
 
 @Service
@@ -83,7 +83,7 @@ public class ExcelImportServiceImpl implements IExcelImportService {
                         m.put("patientId", String.valueOf(p.getValue().getId()));
                         m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
                         m.put("sysOwner", UserUtil.getSysOwner());
-                        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
+                        PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
                     }
                 }
             }
