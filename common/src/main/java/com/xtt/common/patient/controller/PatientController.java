@@ -50,9 +50,9 @@ import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.BusinessCommonUtil;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.FileUtil;
+import com.xtt.common.util.PushUtil;
 import com.xtt.common.util.SysParamUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -361,7 +361,7 @@ public class PatientController {
             m.put("patientId", String.valueOf(patient.getId()));
             m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
             m.put("sysOwner", UserUtil.getSysOwner());
-            RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
+            PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
         } catch (Exception e) {
             if (e instanceof DuplicateKeyException) {
                 LOGGER.warn("failed to save patient, duplicate key excepton:", e);
@@ -406,7 +406,7 @@ public class PatientController {
         m.put("patientId", CommonConstants.APP_PUSH_PATIENT_INIT);
         m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
         m.put("sysOwner", UserUtil.getSysOwner());
-        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
+        PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
         return CommonConstants.SUCCESS;
 
     }

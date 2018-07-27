@@ -23,8 +23,8 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientOutcomePO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
 import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.PushUtil;
 import com.xtt.common.util.UserUtil;
-import com.xtt.platform.framework.core.redis.RedisCacheUtil;
 
 @Controller
 @RequestMapping("/patient/outcome/")
@@ -54,7 +54,7 @@ public class PatientOutcomeController {
         m.put("patientId", String.valueOf(record.getFkPatientId()));
         m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
         m.put("sysOwner", UserUtil.getSysOwner());
-        RedisCacheUtil.publish(CommonConstants.APP_PUSH_PATIENT, m);
+        PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
         return map;
     }
 }
