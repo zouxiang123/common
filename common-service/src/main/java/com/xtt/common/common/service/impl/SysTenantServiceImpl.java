@@ -162,6 +162,10 @@ public class SysTenantServiceImpl implements ISysTenantService {
         sysTenantMapper.updateMedicalOrderDict(sysTenant);
         try {
             commonCacheService.cacheDict(sysTenant.getId());
+            // init user cache
+            commonCacheService.cacheUser();
+            // 缓存姓名对应的首字母
+            commonCacheService.cacheFamilyInitial();
             this.saveUser(sysTenant);
         } catch (Exception e) {
             PrimaryKeyUtil.removePrimaryKey("SysUser", sysTenant.getId());
