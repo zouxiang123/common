@@ -3,16 +3,16 @@
   <parent>
     <groupId>com.xtt.common</groupId>
     <artifactId>portal</artifactId>
-    <version>1.0.1.RELEASE</version>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>common-dao</artifactId>
-  <version>pd_1.1.01</version>
+  <version>0.0.1-SNAPSHOT</version>
   <dependencies>
   	<!-- common-util -->
   	<dependency>
         <groupId>com.xtt.common</groupId>
         <artifactId>common-util</artifactId>
-        <version>pd_1.1.01</version>
+        <version>0.0.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
