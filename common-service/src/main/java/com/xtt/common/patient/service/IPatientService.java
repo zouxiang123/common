@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.po.PatientCardPO;
+import com.xtt.common.dao.po.PatientCountPO;
 import com.xtt.common.dao.po.PatientPO;
 
 /**
@@ -194,4 +195,13 @@ public interface IPatientService {
      *
      */
     public List<PatientPO> listByNameOrInitials(String param, Integer tenantId);
+
+    /**
+     * 查询死亡患者
+     * 
+     * @Title: selectDeadPatients
+     * @return
+     *
+     */
+    public List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO);
 }

@@ -34,6 +34,7 @@ import com.xtt.common.dao.model.PatientHistory;
 import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dao.po.PatientCardPO;
+import com.xtt.common.dao.po.PatientCountPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.PatientSerialNumberPO;
 import com.xtt.common.dto.PatientDto;
@@ -390,5 +391,10 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public List<PatientPO> listByNameOrInitials(String param, Integer tenantId) {
         return patientMapper.listByNameOrInitials(param, tenantId, UserUtil.getSysOwner());
+    }
+
+    @Override
+    public List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO) {
+        return patientMapper.listDeadPatients(patientCountPO);
     }
 }
