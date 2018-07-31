@@ -544,6 +544,9 @@
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
+      <if test="deadDate != null">
+        dead_date = #{deadDate,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
