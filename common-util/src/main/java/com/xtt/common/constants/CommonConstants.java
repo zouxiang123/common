@@ -177,6 +177,10 @@ public class CommonConstants {
      * 初始化患者信息
      */
     public static String APP_PUSH_PATIENT_INIT = "1";
+    /**
+     * 转归类型：3死亡
+     */
+    public static String PATIENT_OUTCOME_TYPE_DEAD = "3";
 
     /**
      * 初始化请求路径相关参数

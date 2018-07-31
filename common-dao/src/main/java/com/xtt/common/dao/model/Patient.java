@@ -238,6 +238,10 @@ public class Patient extends MyBatisSuperModel {
      * 更新人 patient.update_user_id
      */
     private Long updateUserId;
+    /**
+     * 死亡日期
+     */
+    private Date deadDate;
 
     /**
      */
@@ -877,5 +881,13 @@ public class Patient extends MyBatisSuperModel {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public Date getDeadDate() {
+        return deadDate;
+    }
+
+    public void setDeadDate(Date deadDate) {
+        this.deadDate = deadDate;
     }
 }

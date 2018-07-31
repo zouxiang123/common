@@ -10,6 +10,7 @@ package com.xtt.common.patient.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +22,9 @@ import com.xtt.common.cache.PatientCache;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientOutcomePO;
+import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.patient.service.IPatientOutcomeService;
+import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.PushUtil;
 import com.xtt.common.util.UserUtil;
@@ -31,6 +34,8 @@ import com.xtt.common.util.UserUtil;
 public class PatientOutcomeController {
     @Autowired
     private IPatientOutcomeService patientOutcomeService;
+    @Autowired
+    private IPatientService patientService;
 
     @RequestMapping("record")
     public String list(Model model, Long patientId, String sysOwner) {
@@ -55,6 +60,15 @@ public class PatientOutcomeController {
         m.put("tenantId", String.valueOf(UserUtil.getTenantId()));
         m.put("sysOwner", UserUtil.getSysOwner());
         PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
+        // 转归原因：死亡，更新患者主表:死亡日期dead_date
+        if (Objects.equals(record.getType(), CommonConstants.PATIENT_OUTCOME_TYPE_DEAD)) {
+            PatientPO patientPO = patientService.selectById(record.getFkPatientId());
+            if (patientPO != null) {
+                patientPO.setDeadDate(record.getRecordDate());
+                patientService.updateByPrimaryKeySelective(patientPO);
+            }
+        }
+
         return map;
     }
 }
