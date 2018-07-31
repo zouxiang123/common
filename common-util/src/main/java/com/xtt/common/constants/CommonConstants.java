@@ -11,7 +11,6 @@ package com.xtt.common.constants;
 import java.util.Properties;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.xtt.platform.util.config.PropertiesUtil;
 
 /**
  * @ClassName: Constants
@@ -142,9 +141,12 @@ public class CommonConstants {
 
     /*--------------- 服务地址 start ---------------*/
     /** server properties file */
-    public static final Properties SERVER_PROPERTIES = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties"));
+    // public static final Properties SERVER_PROPERTIES = PropertiesUtil.loadProperties(BASE_PATH.concat("/config/server.properties"));
     /** 请求的基础路径 */
-    public static final String BASE_URL = SERVER_PROPERTIES.getProperty("base.url");
+    // public static final String BASE_URL = SERVER_PROPERTIES.getProperty("base.url");
+    public static final Properties SERVER_PROPERTIES = null;
+    /** 请求的基础路径 */
+    public static final String BASE_URL = "";
     /** 公用服务地址 */
     public static final String COMMON_SERVER_ADDR = BASE_URL + (BASE_URL.endsWith("/") ? "" : "/") + "common/";
     /** 随访服务地址 */
