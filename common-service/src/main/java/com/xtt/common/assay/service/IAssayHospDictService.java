@@ -255,4 +255,17 @@ public interface IAssayHospDictService {
      */
     AssayHospDictPO getById(Long id);
 
+    /**
+     * 通过患者化验单字典表外键 查询项目编码
+     * 
+     * @Title: listItemCodeByDictCcode
+     * @param itemCode
+     * @param tenantId
+     * @return
+     *
+     */
+    List<String> listItemCodeByDictCcode(String itemCode, Integer tenantId);
+
+    List<String> listSimilarItemCode(String itemCode, Integer tenantId);
+
 }

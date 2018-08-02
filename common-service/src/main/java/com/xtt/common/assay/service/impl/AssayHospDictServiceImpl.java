@@ -8,6 +8,7 @@
  */
 package com.xtt.common.assay.service.impl;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -228,6 +229,20 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
     @Override
     public AssayHospDictPO getById(Long id) {
         return assayHospDictMapper.getById(id);
+    }
+
+    @Override
+    public List<String> listItemCodeByDictCcode(String itemCode, Integer tenantId) {
+        return assayHospDictMapper.listItemCodeByDictCcode(itemCode, tenantId);
+    }
+
+    @Override
+    public List<String> listSimilarItemCode(String itemCode, Integer tenantId) {
+        AssayHospDictPO dict = assayHospDictMapper.getByItemCode(itemCode, tenantId);
+        if (dict == null || StringUtil.isBlank(dict.getFkDictCode())) {
+            return Arrays.asList(itemCode);
+        }
+        return assayHospDictMapper.listItemCodeByDictCcode(dict.getFkDictCode(), tenantId);
     }
 
 }

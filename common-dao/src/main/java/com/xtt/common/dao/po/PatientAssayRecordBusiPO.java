@@ -50,7 +50,15 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String endDateStr;
     private Date startCreateTime;
     private Date endCreateTime;
+    private String fkDictUk;
+    
+    public String getFkDictUk() {
+        return fkDictUk;
+    }
 
+    public void setFkDictUk(String fkDictUk) {
+        this.fkDictUk = fkDictUk;
+    }
     public Integer getValueType() {
         return valueType;
     }

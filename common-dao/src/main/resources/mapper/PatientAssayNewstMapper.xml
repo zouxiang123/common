@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.PatientAssayNewstMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.PatientAssayNewst">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="assay_val" jdbcType="VARCHAR" property="assayVal" />
+    <result column="assay_range" jdbcType="VARCHAR" property="assayRange" />
+    <result column="assay_case" jdbcType="VARCHAR" property="assayCase" />
+    <result column="assay_time" jdbcType="TIMESTAMP" property="assayTime" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.PatientAssayNewst">
+    insert into patient_assay_newest (id, fk_patient_id, item_code, 
+      item_name, assay_val, assay_range, 
+      assay_case, assay_time, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{assayVal,jdbcType=VARCHAR}, #{assayRange,jdbcType=VARCHAR}, 
+      #{assayCase,jdbcType=VARCHAR}, #{assayTime,jdbcType=TIMESTAMP}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayNewst">
+    insert into patient_assay_newest
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="assayVal != null">
+        assay_val,
+      </if>
+      <if test="assayRange != null">
+        assay_range,
+      </if>
+      <if test="assayCase != null">
+        assay_case,
+      </if>
+      <if test="assayTime != null">
+        assay_time,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="assayVal != null">
+        #{assayVal,jdbcType=VARCHAR},
+      </if>
+      <if test="assayRange != null">
+        #{assayRange,jdbcType=VARCHAR},
+      </if>
+      <if test="assayCase != null">
+        #{assayCase,jdbcType=VARCHAR},
+      </if>
+      <if test="assayTime != null">
+        #{assayTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <!-- 自定义 -->
+  <resultMap type="com.xtt.common.dao.po.PatientAssayNewstPO" id="POResultMap" extends="BaseResultMap"></resultMap>
+  <!-- 查询最新一条的化验项数据 -->
+    <select id="listLatestAssayRecord" resultMap="BaseResultMap">
+        SELECT parb.fk_patient_id,parb.item_code,parb.item_name, parb.result assay_val, parb.reference assay_range
+                , result_tips assay_case, parb.assay_date assay_time
+        FROM patient_assay_record_busi parb
+        JOIN (
+            SELECT parb.fk_patient_id,max(parb.assay_date) assay_date,parb.item_code,MAX(parb.sample_time) sample_time,parb.fk_tenant_id 
+            FROM patient_assay_record_busi parb 
+            JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id AND ahd.fk_dict_code is null
+            JOIN patient_owner po ON parb.fk_patient_id = po.fk_patient_id and po.fk_tenant_id = parb.fk_tenant_id
+            JOIN patient_assay_class pac on pac.item_code = parb.item_code and pac.fk_tenant_id = parb.fk_tenant_id
+            WHERE parb.fk_tenant_id=#{fkTenantId} and po.is_enable = 1
+            GROUP BY fk_tenant_id,fk_patient_id,item_code
+        ) max_assay ON max_assay.fk_patient_id=parb.fk_patient_id AND max_assay.assay_date=parb.assay_date 
+            AND max_assay.item_code=parb.item_code AND max_assay.fk_tenant_id=parb.fk_tenant_id AND max_assay.sample_time=parb.sample_time
+        UNION ALL 
+        <!-- 同类项分组数据，取分组的唯一标识 -->
+        SELECT t2.fk_patient_id,t2.fk_dict_uk item_code,max(t2.fk_dict_name) item_name,max(result) assay_val,max(t2.reference) assay_range,
+	       max(result_tips) assay_case,assay_date assay_time from (
+        SELECT parb.fk_patient_id, ahd.fk_dict_uk, ahd.fk_dict_name, parb.result, parb.reference, result_tips, parb.assay_date
+        FROM patient_assay_record_busi parb
+        JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id AND ahd.fk_dict_code is not null
+        JOIN (
+            SELECT parb.fk_patient_id,max(parb.assay_date) assay_date,ahd.fk_dict_uk item_code,MAX(parb.sample_time) sample_time,parb.fk_tenant_id 
+            FROM patient_assay_record_busi parb 
+            JOIN assay_hosp_dict ahd ON ahd.item_code = parb.item_code AND ahd.fk_tenant_id = parb.fk_tenant_id AND ahd.fk_dict_code is not null
+            JOIN patient_owner po ON parb.fk_patient_id = po.fk_patient_id and po.fk_tenant_id = parb.fk_tenant_id
+            JOIN patient_assay_class pac on pac.item_code = ahd.fk_dict_uk and pac.fk_tenant_id = parb.fk_tenant_id
+            WHERE parb.fk_tenant_id=#{fkTenantId} and po.is_enable = 1
+            GROUP BY fk_tenant_id,fk_patient_id,item_code
+        ) max_assay ON max_assay.fk_patient_id=parb.fk_patient_id AND max_assay.assay_date=parb.assay_date 
+            AND max_assay.item_code=ahd.fk_dict_uk AND max_assay.fk_tenant_id=parb.fk_tenant_id AND max_assay.sample_time=parb.sample_time
+        ) t2 GROUP BY t2.fk_patient_id,t2.fk_dict_uk,t2.assay_date 
+    </select>
+	  
+	  <delete id="deleteNewstAuto">
+	  	delete from patient_assay_newest where fk_tenant_id = #{fkTenantId }
+	  </delete>
+	  
+	  <select id="selectByPatientArray" resultMap="POResultMap">
+	  	SELECT
+			b.fk_patient_id,
+			b.item_code,
+			b.item_name,
+			b.assay_time,
+			b.assay_val,
+			b.assay_range,
+			b.assay_case
+		FROM
+			patient_assay_newest b
+		where 
+			b.fk_patient_id in 
+			<foreach collection="patientIdArrays" item="patient" open="(" close=")" separator=",">
+				#{patient}
+			</foreach>
+            and b.fk_tenant_id = #{fkTenantId}
+         order by b.fk_patient_id,b.item_name
+	  </select>
+	   <!-- 根据患者名称和首字母查询逾期患者 -->
+    <select id="listOverduePatients" parameterType="com.xtt.common.dao.po.PatientPO" resultType="com.xtt.common.dao.po.PatientNewstPO">
+        SELECT p.id, p.name
+        FROM patient_assay_newest pan
+        JOIN patient p on p.id = pan.fk_patient_id
+    	JOIN patient_owner po ON p.id = po.fk_patient_id and po.fk_tenant_id = pan.fk_tenant_id
+        JOIN patient_assay_class pac on pac.item_code = pan.item_code and pac.fk_tenant_id = pan.fk_tenant_id
+        WHERE (pan.assay_time is null or DATEDIFF(now(),pan.assay_time) > pac.assay_day) AND pan.fk_tenant_id = #{fkTenantId}
+        <if test="name !=null and name !=''">
+            AND p.name LIKE concat('%', #{name}, '%')
+        </if>
+        <if test="initial !=null and initial !=''">
+            AND p.spell_initials LIKE concat('%', #{initial}, '%')
+        </if>
+        GROUP BY p.id, p.name
+        ORDER BY p.name,p.id
+    </select>
+    <!-- 批量插入数据 -->
+    <insert id="insertList">
+        insert into patient_assay_newest (id, fk_patient_id, item_code,
+        item_name, assay_val, assay_range,
+        assay_case, assay_time, fk_tenant_id,
+        create_time, create_user_id, update_time,
+        update_user_id)
+        values
+        <foreach collection="records" item="item" separator=",">
+           (#{item.id,jdbcType=BIGINT}, #{item.fkPatientId,jdbcType=BIGINT}, #{item.itemCode,jdbcType=VARCHAR},
+            #{item.itemName,jdbcType=VARCHAR}, #{item.assayVal,jdbcType=VARCHAR}, #{item.assayRange,jdbcType=VARCHAR},
+            #{item.assayCase,jdbcType=VARCHAR}, #{item.assayTime,jdbcType=TIMESTAMP}, #{item.fkTenantId,jdbcType=INTEGER},
+            #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP},
+            #{item.updateUserId,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+</mapper>

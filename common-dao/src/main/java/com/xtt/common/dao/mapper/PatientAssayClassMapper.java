@@ -102,4 +102,14 @@ public interface PatientAssayClassMapper {
      */
     PatientAssayClass getByFkAssayGroupConfId(Long fkAssayGroupConfId);
 
+    /**
+     * 根据自定义条件查询数据
+     * 
+     * @Title: listByCondiction
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayClassPO> listByCondition(PatientAssayClass assayClassQuery);
+
 }
