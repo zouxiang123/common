@@ -242,4 +242,14 @@ public interface PatientAssayRecordBusiMapper {
     Map<String, Object> getByBeforeCount(@Param("beforeCount") Integer beforeCount, @Param("startCreateDate") Date startCreateDate,
                     @Param("endCreateDate") Date endCreateDate, @Param("strItemCode") String strItemCode, @Param("patientId") Long patientId,
                     @Param("fkTenantId") Integer fkTenantId, @Param("groupName") String groupName);
+
+    /**
+     * 获取患者ID，化验项目，查询小于指定化验日期的最新一次活动数据
+     * 
+     * @Title: getByNewestAssayRecordBusi
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusi> getByNewestAssayRecordBusi(PatientAssayRecordBusi busiRecord);
 }

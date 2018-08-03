@@ -1,4 +1,5 @@
 /**   
+
  * @Title: AssayConsts.java 
  * @Package com.xtt.common.constants
  * Copyright: Copyright (c) 2015
@@ -65,5 +66,26 @@ public class AssayConsts {
      * 数值类别--数值
      */
     public static final Integer VALUE_TYPE_NUMBER = 1;
+
+    /** 字典唯一后缀常量 */
+    public static final String DICT_UK_SUFFIX = "_xttsuffix";
+
+    /**
+     * 异常提醒_异常情况下为1
+     */
+    public static final Integer REPORT_EX_TRUE = 1;
+    /**
+     * 异常提醒_正常情况下为0
+     */
+    public static final Integer REPORT_EX_FALSE = 0;
+
+    /**
+     * 异常提醒_异常_检验结果
+     */
+    public static final Integer REPORT_EX_ASSAY = 2;
+
+    public static final Integer REPORT_EX_STATUS_INIT = 0;
+    public static final Integer REPORT_EX_STATUS_RUN = 1;
+    public static final Integer REPORT_EX_STATUS_INSTALL = 2;
 
 }
