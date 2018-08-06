@@ -87,5 +87,4 @@ public class AssayConsts {
     public static final Integer REPORT_EX_STATUS_INIT = 0;
     public static final Integer REPORT_EX_STATUS_RUN = 1;
     public static final Integer REPORT_EX_STATUS_INSTALL = 2;
-
 }
