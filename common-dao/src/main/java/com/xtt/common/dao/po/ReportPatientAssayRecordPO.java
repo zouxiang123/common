@@ -43,7 +43,7 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Integer groupIndex;// -1：全部，其余和分组规则匹配
     private String groupShow;// 分组值
     private String batchNo;// 批次号
-    private Long patientLabelId; // 标签编号
+    private Long[] patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
     private Collection<String> itemCodes;// 多个itemCode编号
     private String sysOwner;
@@ -242,11 +242,11 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
         this.batchNo = batchNo;
     }
 
-    public Long getPatientLabelId() {
+    public Long[] getPatientLabelId() {
         return patientLabelId;
     }
 
-    public void setPatientLabelId(Long patientLabelId) {
+    public void setPatientLabelId(Long[] patientLabelId) {
         this.patientLabelId = patientLabelId;
     }
 

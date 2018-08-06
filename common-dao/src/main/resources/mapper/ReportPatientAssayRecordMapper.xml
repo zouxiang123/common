@@ -223,8 +223,11 @@
 		AND p.result is not null
 		AND p.item_code = #{itemCode}
 		AND p.assay_year = #{assayYear,jdbcType=VARCHAR}
-	   <if test="patientLabelId != null">
-         AND plf.fk_label_id=#{patientLabelId}
+	   <if test="patientLabelId != null">         
+         AND plf.fk_label_id in 
+         <foreach collection="patientLabelId" item="item"  open="(" separator="," close=")">  
+            #{item}  
+         </foreach> 
        </if>
        <if test="sysOwner != null">
           AND pa.sys_owner = #{sysOwner}
