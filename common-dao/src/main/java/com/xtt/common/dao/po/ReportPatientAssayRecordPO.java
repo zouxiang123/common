@@ -48,6 +48,8 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Collection<String> itemCodes;// 多个itemCode编号
     private String sysOwner;
 
+    private Boolean isOutComeValue;// 转归患者值,1:未转归
+
     public String getSqlCondition() {
         return sqlCondition;
     }
@@ -272,6 +274,14 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
 
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    public Boolean getIsOutComeValue() {
+        return isOutComeValue;
+    }
+
+    public void setIsOutComeValue(Boolean isOutComeValue) {
+        this.isOutComeValue = isOutComeValue;
     }
 
 }
