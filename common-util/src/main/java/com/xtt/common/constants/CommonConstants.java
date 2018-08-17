@@ -44,6 +44,7 @@ public class CommonConstants {
     public static final String REPETITION = "4";
     /** 错误提示key */
     public static final String ERROR_MESSAGE = "errmsg";// 血透错误提示信息
+    public static final String RS = "rs";// 血透错误提示信息
     /*--------------------状态提示相关 end --------------------*/
 
     /*--------------------系统日志相关 start --------------------*/
@@ -227,4 +228,12 @@ public class CommonConstants {
      */
     public static SerializerFeature[] BASEJSONCONFIG = { SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty,
             SerializerFeature.WriteNullBooleanAsFalse };
+    /**
+     * app推送数据
+     */
+    public static final String APP_PUSH = "01";
+    /**
+     * app拉取数据
+     */
+    public static final String APP_PULL = "02";
 }
