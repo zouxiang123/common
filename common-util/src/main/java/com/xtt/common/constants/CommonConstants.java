@@ -231,9 +231,9 @@ public class CommonConstants {
     /**
      * app推送数据
      */
-    public static final String APP_PUSH = "01";
+    public static final String APP_PUSH = "02";
     /**
      * app拉取数据
      */
-    public static final String APP_PULL = "02";
+    public static final String APP_PULL = "01";
 }
