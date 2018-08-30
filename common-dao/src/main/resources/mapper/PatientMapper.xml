@@ -610,6 +610,12 @@
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
 	  <result column="age" jdbcType="INTEGER" property="age" />
 	</resultMap>
+    
+    <!-- 自定义 -->
+    <resultMap extends="BaseResultMap" id="PatientCountResultMap" type="com.xtt.common.dao.po.PatientCountPO">
+      <result column="reason" jdbcType="VARCHAR" property="reason" /> 
+      <result column="record_date" jdbcType="DATE" property="recordDate" />     
+    </resultMap>
 	
 	<select id="selectByCondition" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
 		select p.*
@@ -846,5 +852,31 @@
         <if test="param != null and param !=''">
             and (p.name like CONCAT('%',#{param},'%') or p.spell_initials LIKE CONCAT('%',#{param},'%'))
         </if>
+    </select>
+    
+    <!-- 死亡患者查询 -->
+    <select id="listDeadPatients" parameterType="com.xtt.common.dao.po.PatientCountPO" resultMap="PatientCountResultMap">       
+        SELECT
+            t.id,
+            t.`name`,
+            t.sex,
+            t.birthday,
+            po.reason,
+            po.record_date,
+            po.fk_patient_id
+        FROM
+            patient t
+        LEFT JOIN patient_outcome po ON po.fk_patient_id = t.id
+        WHERE
+            po.fk_tenant_id = #{fkTenantId}
+        <if test="sysOwner != null and sysOwner != ''">
+            and po.sys_owner = #{sysOwner}
+        </if>
+        <if test="type != null and type != ''">
+            and po.type = #{type}
+        </if>        
+        group BY t.id         
+        ORDER BY
+            t.dead_date DESC
     </select>
 </mapper>
