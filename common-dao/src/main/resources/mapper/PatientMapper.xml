@@ -51,6 +51,7 @@
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -62,7 +63,7 @@
     spell_initials, outpatient_number, id_type, emergency_contacts, emergency_mobile2, 
     emergency_mobile3, offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, 
     barcode_path, height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
-    update_time, update_user_id
+    update_time, update_user_id,file_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -99,7 +100,7 @@
       barcode_path, height, weight, 
       serial_num, fk_tenant_id, sys_owner, 
       create_time, create_user_id, update_time, 
-      update_user_id)
+      update_user_id,file_number)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
@@ -115,7 +116,7 @@
       #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
       #{serialNum,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{updateUserId,jdbcType=BIGINT},#{fileNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -261,6 +262,9 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="fileNumber != null">
+        file_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -400,6 +404,9 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fileNumber != null">
+        #{fileNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -547,6 +554,9 @@
       <if test="deadDate != null">
         dead_date = #{deadDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="fileNumber != null">
+        file_number = #{fileNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -599,7 +609,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      file_number = #{fileNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

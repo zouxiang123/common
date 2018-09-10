@@ -68,14 +68,12 @@ public class PatientHistory {
     private String mobile;
 
     /**
-     * 邮箱
-     * patient_history.email
+     * 邮箱 patient_history.email
      */
     private String email;
 
     /**
-     * 紧急联系方式
-     * patient_history.emergency_mobile
+     * 紧急联系方式 patient_history.emergency_mobile
      */
     private String emergencyMobile;
 
@@ -238,6 +236,11 @@ public class PatientHistory {
      * 更新人 patient_history.update_user_id
      */
     private Long updateUserId;
+
+    /**
+     * 档案号patient_history.file_number
+     */
+    private String fileNumber;
 
     /**
      */
@@ -877,5 +880,13 @@ public class PatientHistory {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 }
