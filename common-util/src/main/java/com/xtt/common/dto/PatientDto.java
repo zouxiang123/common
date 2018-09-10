@@ -234,6 +234,11 @@ public class PatientDto {
      */
     private Long updateUserId;
 
+    /**
+     * 档案号 patient.file_number
+     */
+    private String fileNumber;
+
     private String birthdayShow;// 出生日期显示用
     private String createDateShow; // 创建日期
     private String provinceName;
@@ -972,6 +977,14 @@ public class PatientDto {
      */
     public void setChargeType(String chargeType) {
         this.chargeType = chargeType;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 
 }

@@ -239,9 +239,14 @@ public class Patient extends MyBatisSuperModel {
      */
     private Long updateUserId;
     /**
-     * 死亡日期
+     * 死亡日期patient.dead_date
      */
     private Date deadDate;
+
+    /**
+     * 档案号patient.file_number
+     */
+    private String fileNumber;
 
     /**
      */
@@ -889,5 +894,13 @@ public class Patient extends MyBatisSuperModel {
 
     public void setDeadDate(Date deadDate) {
         this.deadDate = deadDate;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 }
