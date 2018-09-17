@@ -53,6 +53,7 @@ import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.report.service.IPatientReportService;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.SysParamUtil;
+import com.xtt.common.util.UserUtil;
 import com.xtt.common.util.excel.ExcelUtil;
 import com.xtt.common.util.excel.ExcelUtil.ExcelExportData;
 import com.xtt.platform.util.lang.StringUtil;
@@ -102,15 +103,22 @@ public class PatientReportController {
     public Map<String, Object> getReportData(ReportParameterPO reportParameterPO) {
         Integer ageRange = reportParameterPO.getAgeRange();
         Integer dialysisAgeRange = reportParameterPO.getDialysisAgeRange();
+        Integer ageIntervalBeg = reportParameterPO.getAgeIntervalBeg();
+        Integer ageIntervalEnd = reportParameterPO.getAgeIntervalEnd();
+        String ageGapType = reportParameterPO.getAgeGapType();
         Map<String, Object> paraMap = new HashMap<String, Object>();
         /*paraMap.put("fromDate", BusinessReportUtil.getStartOrEndDate(startDateStr, true));
         paraMap.put("toDate", BusinessReportUtil.getStartOrEndDate(endDateStr, false));*/
         paraMap.put("ageRange", ageRange);
         paraMap.put("dialysisAgeRange", dialysisAgeRange);
         paraMap.put("isTemp", reportParameterPO.getIsTemp());
-
+        paraMap.put("ageIntervalBeg", ageIntervalBeg);
+        paraMap.put("ageIntervalEnd", ageIntervalEnd);
+        paraMap.put("outcomeType", reportParameterPO.getOutcomeType());
         paraMap.put("isMedical", reportParameterPO.getMedicalTypeValue());
         paraMap.put("patientName", reportParameterPO.getPatientName());
+        paraMap.put("ageGapType", ageGapType);
+        paraMap.put("sysOwner", UserUtil.getSysOwner());
 
         // ageRangeList(年龄段统计),sexList(性别统计),dialysisRangeList(透析龄统计)
         Map<String, List<Map<String, Object>>> retMap = patientReportService.listReportData(paraMap, reportParameterPO.getPatientReportType());
@@ -118,6 +126,9 @@ public class PatientReportController {
         List<DictDto> chargeTypeList = DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE);
         if (reportParameterPO.getPatientReportType() == 1) {// 年龄段统计
             map.put("ageRangeList", retMap.get("ageRangeList"));
+        }
+        if (reportParameterPO.getPatientReportType() == 2) {// 透析龄统计
+            map.put("dialysisAgeRangeList", retMap.get("dialysisAgeRangeList"));
         }
         if (reportParameterPO.getPatientReportType() == 3) {// 性别统计
             map.put("sexList", retMap.get("sexList"));
@@ -147,14 +158,29 @@ public class PatientReportController {
     public void download(HttpServletRequest request, HttpServletResponse response, ReportParameterPO reportParameterPO) throws Exception {
         Integer ageRange = reportParameterPO.getAgeRange();
         Integer dialysisAgeRange = reportParameterPO.getDialysisAgeRange();
+        Integer ageIntervalBeg = reportParameterPO.getAgeIntervalBeg();
+        Integer ageIntervalEnd = reportParameterPO.getAgeIntervalEnd();
+        String ageGapType = reportParameterPO.getAgeGapType();
         Map<String, Object> paraMap = new HashMap<String, Object>();
+        /*paraMap.put("fromDate", BusinessReportUtil.getStartOrEndDate(startDateStr, true));
+        paraMap.put("toDate", BusinessReportUtil.getStartOrEndDate(endDateStr, false));*/
+        paraMap.put("ageRange", ageRange);
+        paraMap.put("ageGapType", ageGapType);
+        paraMap.put("ageIntervalBeg", ageIntervalBeg);
+        paraMap.put("ageIntervalEnd", ageIntervalEnd);
+        paraMap.put("outcomeType", reportParameterPO.getOutcomeType());
+        paraMap.put("dialysisAgeRange", dialysisAgeRange);
+        paraMap.put("isTemp", reportParameterPO.getPatientTempValue());
 
+        paraMap.put("isMedical", reportParameterPO.getMedicalTypeValue());
+        paraMap.put("patientName", reportParameterPO.getPatientName());
         paraMap.put("ageRange", ageRange);
         paraMap.put("dialysisAgeRange", dialysisAgeRange);
         paraMap.put("isTemp", reportParameterPO.getPatientTempValue());
 
         paraMap.put("isMedical", reportParameterPO.getMedicalTypeValue());
         paraMap.put("patientName", reportParameterPO.getPatientName());
+        paraMap.put("sysOwner", UserUtil.getSysOwner());
 
         // ageRangeList(年龄段统计),sexList(性别统计),dialysisRangeList(透析龄统计),医保信息统计
         Map<String, List<Map<String, Object>>> retMap = patientReportService.listReportData(paraMap, reportParameterPO.getPatientReportType());
