@@ -50,7 +50,9 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />    
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="culture" jdbcType="VARCHAR" property="culture" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -62,7 +64,7 @@
     spell_initials, outpatient_number, id_type, emergency_contacts, emergency_mobile2, 
     emergency_mobile3, offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, 
     barcode_path, height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
-    update_time, update_user_id
+    update_time, update_user_id,nation,culture
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -99,7 +101,7 @@
       barcode_path, height, weight, 
       serial_num, fk_tenant_id, sys_owner, 
       create_time, create_user_id, update_time, 
-      update_user_id)
+      update_user_id,nation,culture)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
@@ -115,7 +117,7 @@
       #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
       #{serialNum,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{updateUserId,jdbcType=BIGINT},#{nation,jdbcType=VARCHAR},#{culture,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -261,6 +263,12 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="culture != null">
+        culture,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -400,6 +408,12 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="culture != null">
+        #{culture,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -547,6 +561,12 @@
       <if test="deadDate != null">
         dead_date = #{deadDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="culture != null">
+        culture = #{culture,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -599,7 +619,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      nation = #{nation,jdbcType=VARCHAR},
+      culture = #{culture,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

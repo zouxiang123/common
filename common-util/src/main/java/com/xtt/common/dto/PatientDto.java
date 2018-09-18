@@ -234,6 +234,16 @@ public class PatientDto {
      */
     private Long updateUserId;
 
+    /**
+     * 民族 patient.nation
+     */
+    private String nation;
+
+    /**
+     * 文化程度 patient.culture
+     */
+    private String culture;
+
     private String birthdayShow;// 出生日期显示用
     private String createDateShow; // 创建日期
     private String provinceName;
@@ -972,6 +982,22 @@ public class PatientDto {
      */
     public void setChargeType(String chargeType) {
         this.chargeType = chargeType;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getCulture() {
+        return culture;
+    }
+
+    public void setCulture(String culture) {
+        this.culture = culture;
     }
 
 }

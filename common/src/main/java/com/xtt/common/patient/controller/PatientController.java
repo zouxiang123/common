@@ -143,6 +143,10 @@ public class PatientController {
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
         model.addObject("patientId", patientId);
         model.addObject("patient", patient);
+        // 民族
+        model.addObject("nations", DictUtil.listByPItemCode(CmDictConsts.CM_NATON));
+        // 文化程度
+        model.addObject("cultures", DictUtil.listByPItemCode(CmDictConsts.CM_CULTURE));
         // 调用第三方接口地址(获取病患基本信息)
         String ifPath = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.URL_IF_PATIENT);
         model.addObject(CmDictConsts.URL_IF_PATIENT, ifPath + UserUtil.getTenantId());

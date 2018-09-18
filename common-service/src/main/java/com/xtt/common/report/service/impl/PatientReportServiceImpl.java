@@ -104,7 +104,18 @@ public class PatientReportServiceImpl implements IPatientReportService {
             retMap.put("medicalList", medicalList);
         }
 
-        if (reportType == 1) {
+        if (reportType == 5) {
+            // nationList
+            List<Map<String, Object>> nationList = patientReportMapper.selectPatientNation(map);
+            retMap.put("nationList", nationList);
+        }
+        if (reportType == 6) {
+            // cultureList
+            List<Map<String, Object>> cultureList = patientReportMapper.selectPatientCulture(map);
+            retMap.put("cultureList", cultureList);
+        }
+
+        if (reportType == 1 || reportType == 2) {
             // 平均年龄
             List<Map<String, Object>> avgMap = patientReportMapper.listAvgAge(UserUtil.getTenantId(), map.get("isTemp"));
             retMap.put("avgMap", avgMap);

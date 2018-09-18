@@ -137,6 +137,12 @@ public class PatientReportController {
             map.put("medicalList", retMap.get("medicalList"));
             map.put("medicalTitleList", chargeTypeList);// 标题
         }
+        if (reportParameterPO.getPatientReportType() == 5) { // 民族
+            map.put("nationList", retMap.get("nationList"));
+        }
+        if (reportParameterPO.getPatientReportType() == 6) {// 文化程度
+            map.put("cultureList", retMap.get("cultureList"));
+        }
         if (reportParameterPO.getPatientReportType() == 1 || reportParameterPO.getPatientReportType() == 2) {
             List<Map<String, Object>> avgMapList = retMap.get("avgMap");
             if (avgMapList.size() > 0 && avgMapList.get(0) != null) {
@@ -219,7 +225,38 @@ public class PatientReportController {
             dataList.add(map);
             lhMap.put("年龄段统计", dataList);
         }
-
+        if (reportParameterPO.getPatientReportType() == 2) {// 透析龄统计
+            columNames.add(new String[] { "透析龄", "数量", "占比" });
+            fieldNames.add(new String[] { "dialysisAge", "count", "percent" });
+            int totalCount = 0;// 总数量
+            List<Map<String, Object>> dialysisRangeList = retMap.get("dialysisAgeRangeList");
+            // 先遍历获取整个数量
+            for (int j = 0; j < dialysisRangeList.size(); j++) {
+                totalCount += Integer.parseInt(dialysisRangeList.get(j).get("value") + "");
+            }
+            Map<String, Object> map;
+            for (int j = 0; j < dialysisRangeList.size(); j++) {
+                map = new HashMap<String, Object>();
+                map.put("sex", "合计");
+                map.put("count", totalCount);
+                map.put("percent", "100%");
+                String count = dialysisRangeList.get(j).get("value") + "";
+                // 占据比例
+                Double percent = (double) (Integer.parseInt(count) / Double.parseDouble(totalCount + ""));
+                Double upNum = (double) ((int) Math.round(percent * 10000));// 四舍五入
+                String newPercent = (int) (upNum / 100) + "." + (int) (upNum % 100);
+                map.put("dialysisAge", dialysisRangeList.get(j).get("name"));
+                map.put("count", dialysisRangeList.get(j).get("value"));
+                map.put("percent", newPercent + "%");
+                dataList.add(map);
+            }
+            map = new HashMap<String, Object>();
+            map.put("dialysisAge", "合计");
+            map.put("count", totalCount);
+            map.put("percent", "100%");
+            dataList.add(map);
+            lhMap.put("透析龄统计", dataList);
+        }
         if (reportParameterPO.getPatientReportType() == 3) {
             columNames.add(new String[] { "透析龄", "数量", "占比" });
             fieldNames.add(new String[] { "sex", "count", "percent" });
@@ -250,6 +287,66 @@ public class PatientReportController {
             lhMap.put("性别统计", dataList);
         }
 
+        // *****************************************************
+        if (reportParameterPO.getPatientReportType() == 5) {
+            columNames.add(new String[] { "民族", "数量", "占比" });
+            fieldNames.add(new String[] { "nation", "count", "percent" });
+            List<Map<String, Object>> nationList = retMap.get("nationList");
+            int totalCount = 0;// 总数量
+            // 先遍历获取整个数量
+            for (int j = 0; j < nationList.size(); j++) {
+                totalCount += Integer.parseInt(nationList.get(j).get("value") + "");
+            }
+            Map<String, Object> map;
+            for (int j = 0; j < nationList.size(); j++) {
+                map = new HashMap<String, Object>();
+                String count = nationList.get(j).get("value") + "";
+                // 占据比例
+                Double percent = (double) (Integer.parseInt(count) / Double.parseDouble(totalCount + ""));
+                Double upNum = (double) ((int) Math.round(percent * 10000));// 四舍五入
+                String newPercent = (int) (upNum / 100) + "." + (int) (upNum % 100);
+                map.put("nation", nationList.get(j).get("name"));
+                map.put("count", nationList.get(j).get("value"));
+                map.put("percent", newPercent + "%");
+                dataList.add(map);
+            }
+            map = new HashMap<String, Object>();
+            map.put("nation", "合计");
+            map.put("count", totalCount);
+            map.put("percent", "100%");
+            dataList.add(map);
+            lhMap.put("民族统计", dataList);
+        }
+        if (reportParameterPO.getPatientReportType() == 6) {
+            columNames.add(new String[] { "文化程度", "数量", "占比" });
+            fieldNames.add(new String[] { "culture", "count", "percent" });
+            List<Map<String, Object>> cultureList = retMap.get("cultureList");
+            int totalCount = 0;// 总数量
+            // 先遍历获取整个数量
+            for (int j = 0; j < cultureList.size(); j++) {
+                totalCount += Integer.parseInt(cultureList.get(j).get("value") + "");
+            }
+            Map<String, Object> map;
+            for (int j = 0; j < cultureList.size(); j++) {
+                map = new HashMap<String, Object>();
+                String count = cultureList.get(j).get("value") + "";
+                // 占据比例
+                Double percent = (double) (Integer.parseInt(count) / Double.parseDouble(totalCount + ""));
+                Double upNum = (double) ((int) Math.round(percent * 10000));// 四舍五入
+                String newPercent = (int) (upNum / 100) + "." + (int) (upNum % 100);
+                map.put("culture", cultureList.get(j).get("name"));
+                map.put("count", cultureList.get(j).get("value"));
+                map.put("percent", newPercent + "%");
+                dataList.add(map);
+            }
+            map = new HashMap<String, Object>();
+            map.put("culture", "合计");
+            map.put("count", totalCount);
+            map.put("percent", "100%");
+            dataList.add(map);
+            lhMap.put("文化程度统计", dataList);
+        }
+        // *****************************************************
         ExcelExportData setInfo = new ExcelExportData();
 
         setInfo.setDataMap(lhMap);
@@ -257,7 +354,7 @@ public class PatientReportController {
         setInfo.setColumnNames(columNames);
         List<Map<String, Object>> avgMapList = null;
         Map<String, Object> avgMap = null;
-        if (reportParameterPO.getPatientReportType() == 1) {
+        if (reportParameterPO.getPatientReportType() == 1 || reportParameterPO.getPatientReportType() == 2) {
             avgMapList = retMap.get("avgMap");
             avgMap = avgMapList.get(0);
         }
@@ -266,6 +363,10 @@ public class PatientReportController {
         if (reportParameterPO.getPatientReportType() == 1) {
             setInfo.setTitles(new String[] { "年龄段统计(平均年龄：" + String.format("%.0f", avgMap.get("avgAge")) + ")" });
             ExcelUtil.export2Stream(request, response, setInfo, "年龄段统计.xls");
+        }
+        if (reportParameterPO.getPatientReportType() == 2) {
+            setInfo.setTitles(new String[] { "透析龄统计(平均透析龄：" + String.format("%.0f", avgMap.get("avgDialysisAge")) + ")" });
+            ExcelUtil.export2Stream(request, response, setInfo, "透析龄统计.xls");
         }
         if (reportParameterPO.getPatientReportType() == 3) {
             setInfo.setTitles(new String[] { "性别统计", });
@@ -285,6 +386,15 @@ public class PatientReportController {
                 valueList.add(valueMap);
             }
             downloadMedicalReport(response, valueList, count);
+        }
+
+        if (reportParameterPO.getPatientReportType() == 5) {
+            setInfo.setTitles(new String[] { "民族统计", });
+            ExcelUtil.export2Stream(request, response, setInfo, "民族统计.xls");
+        }
+        if (reportParameterPO.getPatientReportType() == 6) {
+            setInfo.setTitles(new String[] { "文化程度统计", });
+            ExcelUtil.export2Stream(request, response, setInfo, "文化程度统计.xls");
         }
 
     }

@@ -239,9 +239,18 @@ public class Patient extends MyBatisSuperModel {
      */
     private Long updateUserId;
     /**
-     * 死亡日期
+     * 死亡日期patient.dead_date
      */
     private Date deadDate;
+    /**
+     * 民族patient.nation
+     */
+    private String nation;
+
+    /**
+     * 文化程度patient.culture
+     */
+    private String culture;
 
     /**
      */
@@ -889,5 +898,21 @@ public class Patient extends MyBatisSuperModel {
 
     public void setDeadDate(Date deadDate) {
         this.deadDate = deadDate;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getCulture() {
+        return culture;
+    }
+
+    public void setCulture(String culture) {
+        this.culture = culture;
     }
 }
