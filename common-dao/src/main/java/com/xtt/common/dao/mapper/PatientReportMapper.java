@@ -66,4 +66,24 @@ public interface PatientReportMapper {
      * 
      */
     public List<Map<String, Object>> selectPatientDialysisAgeRange(Map<String, Object> map);
+
+    /**
+     * 患者民族统计报表
+     * 
+     * @Title: selectPatientNation
+     * @param map
+     * @return
+     *
+     */
+    public List<Map<String, Object>> selectPatientNation(Map<String, Object> map);
+
+    /***
+     * 患者文化程度统计报表
+     * 
+     * @Title: selectPatientCulture
+     * @param map
+     * @return
+     *
+     */
+    public List<Map<String, Object>> selectPatientCulture(Map<String, Object> map);
 }
