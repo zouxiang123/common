@@ -9,6 +9,7 @@
 package com.xtt.common.conf.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.model.CmDictDiagnosis;
+import com.xtt.common.dao.po.CmDictDiagnosisPO;
 import com.xtt.common.diagnosis.service.IDictDiagnosisService;
 
 @Controller
@@ -66,6 +68,23 @@ public class DictDiagnosisController {
     public Map<String, Object> delItem(String itemCode) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(CommonConstants.STATUS, dictDiagnosisService.deleteByItemCode(itemCode));
+        return map;
+    }
+
+    /**
+     * 获取原发病诊断节点
+     * 
+     * @Title: getTreeByPItemCode
+     * @return
+     *
+     */
+    @RequestMapping("getTreeByPItemCode")
+    @ResponseBody
+    public Map<String, Object> getTreeByPItemCode() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<CmDictDiagnosisPO> dictDiagnosisList = dictDiagnosisService.selectReportTreeList("LC");
+        map.put("dictDiagnosisList", dictDiagnosisList);
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
     }
 }

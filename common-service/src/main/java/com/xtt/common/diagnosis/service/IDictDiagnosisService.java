@@ -65,4 +65,24 @@ public interface IDictDiagnosisService {
      *
      */
     List<CmDictDiagnosisPO> selectTreeList(String pItemCode);
+
+    /**
+     * 根据itemCode获取父节点的信息
+     * 
+     * @Title: selectPInfo
+     * @param itemCode
+     * @return
+     *
+     */
+    CmDictDiagnosisPO selectPInfo(String itemCode);
+
+    /**
+     * 根据指定父节点获取节点下的树结构，如果获取所有pItemCode参数为null即可
+     * 
+     * @Title: selectReportTreeList
+     * @param pItemCode
+     * @return
+     *
+     */
+    List<CmDictDiagnosisPO> selectReportTreeList(String pItemCode);
 }

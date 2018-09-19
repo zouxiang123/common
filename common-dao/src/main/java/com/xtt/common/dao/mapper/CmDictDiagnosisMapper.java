@@ -30,4 +30,14 @@ public interface CmDictDiagnosisMapper {
      *
      */
     List<CmDictDiagnosisPO> selectByCondition(CmDictDiagnosisPO record);
+
+    /**
+     * 根据itemCode获取父节点的信息
+     * 
+     * @Title: selectPInfo
+     * @param itemCode
+     * @return
+     *
+     */
+    CmDictDiagnosisPO selectPInfo(String itemCode);
 }

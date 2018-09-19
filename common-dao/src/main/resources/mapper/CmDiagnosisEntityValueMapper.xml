@@ -281,4 +281,101 @@
     delete from cm_diagnosis_entity_value
     where fk_entity_id = #{entityId,jdbcType=BIGINT}
   </delete> 
+  
+  <!-- 原发病年度统计 -->
+  <select id="countYearDiagnosisByCondition"  parameterType="map" resultType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+    SELECT
+        COUNT(cdev.id) count,
+        cdd.item_name itemName,
+        cdd.item_code itemCode,
+        cdd.item_name_value itemNameValue
+    FROM
+        cm_diagnosis_entity_value cdev
+      LEFT   JOIN cm_dict_diagnosis cdd ON cdd.item_code = cdev.item_code 
+      LEFT   JOIN patient p ON cdev.fk_patient_id = p.id
+      LEFT   JOIN cm_diagnosis_hist cdh ON cdev.fk_patient_id = cdh.fk_patient_id
+        WHERE cdev.item_code in  <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
+        AND DATE_FORMAT(cdev.create_time, '%Y')=#{year}
+        AND cdev.fk_tenant_id = #{tenantId}
+      <if test="sex !=null and sex!=''">
+        AND p.sex = #{sex}
+      </if>
+      <if test="isTemp !=null and isTemp!=''">
+          AND p.is_temp =#{isTemp}
+      </if>
+      <if test="sql!=null and sql!=''">
+           ${sql}
+      </if>
+    GROUP BY cdd.item_code
+    ORDER BY count DESC
+  </select>
+  
+  <!-- 获取本年发病率最高的原发病的itemcode  -->
+  <select id="getItemCodeByYear"  resultType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+        SELECT
+             rs.item_code itemCode,
+             rs.item_name itemName
+        FROM
+            (
+                SELECT
+                    cdd.item_code,
+                    cdd.item_name
+                FROM
+                    cm_dict_diagnosis cdd
+                INNER JOIN (
+                    SELECT
+                        COUNT(id) cnt,
+                        item_code
+                    FROM
+                        cm_diagnosis_entity_value
+                    WHERE
+                        DATE_FORMAT(create_time, '%Y') = DATE_FORMAT(NOW(), '%Y') 
+                        and fk_tenant_id = #{tenantId}
+                    GROUP BY
+                        item_code
+                ) result ON cdd.item_code = result.item_code and cdd.item_code like CONCAT('LC','%')
+                ORDER BY
+                    result.cnt DESC,
+                    cdd.item_level,
+                    cdd.order_by
+            ) rs
+        LIMIT 1
+  </select>
+  
+  <!-- 单一原发病统计  -->
+  <select id="countByCondtion" parameterType="map" resultType="com.xtt.common.dao.po.CmDiagnosisEntityValuePO">
+        SELECT
+            COUNT(cdev.id) count,
+            DATE_FORMAT(cdev.create_time, '%Y') YEAR,
+            cdd.item_name itemName,
+            cdev.item_code itemCode
+        FROM
+                cm_diagnosis_entity_value cdev
+        LEFT JOIN cm_dict_diagnosis cdd ON cdd.item_code = cdev.item_code
+        LEFT JOIN patient p ON cdev.fk_patient_id = p.id       
+        AND p.fk_tenant_id = #{tenantId}
+        LEFT JOIN cm_diagnosis_hist cdh ON cdev.fk_patient_id = cdh.fk_patient_id
+        WHERE
+            cdev.item_code = #{diagonsisItemCode}
+        AND cdev.fk_tenant_id = #{tenantId}
+        AND DATE_FORMAT(cdev.create_time, '%Y')  &gt;= #{startDate}
+        AND DATE_FORMAT(cdev.create_time, '%Y')  &lt;= #{endDate}
+      <if test="sex !=null and sex!=''">
+           AND p.sex = #{sex}
+      </if>
+      <if test="isTemp !=null and isTemp!=''">
+          AND p.is_temp =#{isTemp}
+      </if>
+      <if test="sql!=null and sql!=''">
+           ${sql}
+      </if>
+        GROUP BY
+            year
+        ORDER BY year
+  </select>
+  
+  <!-- 统计指定年份的所有的原发病的数量 -->
+  <select id="countAllDiagnosis"  resultType="java.lang.Integer">   
+     SELECT COUNT(*)  FROM cm_diagnosis_entity_value WHERE DATE_FORMAT(create_time,'%Y')=#{year}  AND fk_tenant_id=#{tenantId}   AND item_code like CONCAT('LC','%')
+  </select>
 </mapper>

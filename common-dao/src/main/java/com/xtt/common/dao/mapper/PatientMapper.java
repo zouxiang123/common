@@ -1,6 +1,7 @@
 package com.xtt.common.dao.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -143,4 +144,14 @@ public interface PatientMapper {
      *
      */
     List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO);
+
+    /**
+     * 查询诊断患者
+     * 
+     * @Title: listDiagnosisPatientByCondtion
+     * @param map
+     * @return
+     *
+     */
+    List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map);
 }

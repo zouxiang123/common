@@ -10,6 +10,7 @@ package com.xtt.common.patient.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -396,5 +397,11 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO) {
         return patientMapper.listDeadPatients(patientCountPO);
+    }
+
+    @Override
+    public List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map) {
+
+        return patientMapper.listDiagnosisPatientByCondtion(map);
     }
 }
