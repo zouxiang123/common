@@ -52,6 +52,13 @@ public class PatientPO extends Patient {
 
     private List<String> assaylist;// 化验项名字显示
 
+    private String itemName; // 原发病item_name
+    private String itemCode;// 原发病item_code
+    private String registerTime;// 该患者原发病登记时间
+    private String content;// 备注
+
+    private Boolean isEnable;// 是否已转归，使用此字段时查询需有租户id和所属系统
+
     public List<PatientCardPO> getPatientCardList() {
         return patientCardList;
     }
@@ -280,6 +287,46 @@ public class PatientPO extends Patient {
 
     public void setAssaylist(List<String> assaylist) {
         this.assaylist = assaylist;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    public String getItemCode() {
+        return itemCode;
+    }
+
+    public void setItemCode(String itemCode) {
+        this.itemCode = itemCode;
+    }
+
+    public String getRegisterTime() {
+        return registerTime;
+    }
+
+    public void setRegisterTime(String registerTime) {
+        this.registerTime = registerTime;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Boolean getIsEnable() {
+        return isEnable;
+    }
+
+    public void setIsEnable(Boolean isEnable) {
+        this.isEnable = isEnable;
     }
 
 }

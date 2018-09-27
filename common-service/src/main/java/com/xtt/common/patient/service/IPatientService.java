@@ -9,6 +9,7 @@
 package com.xtt.common.patient.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.xtt.common.dao.model.Patient;
 import com.xtt.common.dao.po.PatientCardPO;
@@ -204,4 +205,14 @@ public interface IPatientService {
      *
      */
     public List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO);
+
+    /**
+     * 查询诊断患者
+     * 
+     * @Title: listDiagnosisPatientByCondtion
+     * @param map
+     * @return
+     *
+     */
+    List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map);
 }

@@ -631,6 +631,7 @@
 	  <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
 	  <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
 	</resultMap>
     
     <!-- 自定义 -->
@@ -900,5 +901,43 @@
         group BY t.id         
         ORDER BY
             t.dead_date DESC
+    </select>
+    
+    <resultMap id="ResultMap" type="com.xtt.common.dao.po.PatientPO" extends="ExtendResultMap">
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="registerTime" jdbcType="INTEGER" property="registerTime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+    
+    <!-- 查询该年的原发病详情 -->
+    <select id="listDiagnosisPatientByCondtion"   parameterType="map" resultMap="ResultMap">
+        SELECT
+              p.`name`,
+              cdd.item_name,
+              cdd.item_code,
+              DATE_FORMAT(cdev.create_time, '%Y-%m-%d') registerTime,
+              cdev.content 
+        FROM
+            cm_diagnosis_entity_value cdev
+                INNER JOIN cm_dict_diagnosis cdd ON cdev.item_code=cdd.item_code
+        INNER JOIN patient p ON cdev.fk_patient_id = p.id  AND cdev.fk_tenant_id = #{tenantId}        
+        LEFT JOIN cm_diagnosis_hist cdh ON p.id = cdh.fk_patient_id
+        WHERE
+         DATE_FORMAT(cdev.create_time, '%Y')=#{year}
+          AND p.fk_tenant_id = #{tenantId}
+          <if test="diagonsisItemCodes!=null">
+          AND  cdev.item_code in <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
+          </if>
+         <if test="sex!=null and sex!=''">
+         AND p.sex = #{sex}
+         </if>
+         <if test="isTemp!=null and isTemp!=''">
+         AND p.is_temp = #{isTemp}
+         </if>
+        <if test="sql!=null and sql!=''">
+           ${sql}
+      </if>
+        AND cdd.item_code LIKE 'LC%'
     </select>
 </mapper>
