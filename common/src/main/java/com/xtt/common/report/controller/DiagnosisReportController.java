@@ -391,8 +391,10 @@ public class DiagnosisReportController {
             // 第一次加载
             // 先查询本年度最多的原发病种类
             cmDictDiagnosis = cmDiagnosisEntityValueService.getItemCodeByYear();
-            map.put("diagonsisItemCode", cmDictDiagnosis.getItemCode());// 原发病类型
-            reportParameterPO.setDiagonsisItemCode(cmDictDiagnosis.getItemCode());
+            if (cmDictDiagnosis != null) {
+                map.put("diagonsisItemCode", cmDictDiagnosis.getItemCode());// 原发病类型
+                reportParameterPO.setDiagonsisItemCode(cmDictDiagnosis.getItemCode());
+            }
         } else {
             map.put("diagonsisItemCode", reportParameterPO.getDiagonsisItemCode());// 原发病类型
         }
@@ -409,18 +411,20 @@ public class DiagnosisReportController {
         /**
          * 如果子节点 的itemname为其他 itemName=自己+父节点
          */
-        if (cmDictDiagnosisPO.getItemName().equals("其他") || cmDictDiagnosisPO.getItemName().equals("原因不明")) {
-            if (cmDictDiagnosisPO.getpItemName().equals("造成原因")) {
-                CmDictDiagnosisPO pPCmDictDiagnosisPO = dictDiagnosisService.selectPInfo(cmDictDiagnosisPO.getpItemCode()); // 再获取父节点的信息
-                cmDictDiagnosisPO.setItemName(pPCmDictDiagnosisPO.getpItemName() + "——" + cmDictDiagnosisPO.getpItemName() + "——"
-                                + cmDictDiagnosisPO.getItemName());
-            } else {
-                cmDictDiagnosisPO.setItemName(cmDictDiagnosisPO.getpItemName() + "——" + cmDictDiagnosisPO.getItemName());
+        if (cmDictDiagnosisPO != null) {
+            if (cmDictDiagnosisPO.getItemName().equals("其他") || cmDictDiagnosisPO.getItemName().equals("原因不明")) {
+                if (cmDictDiagnosisPO.getpItemName().equals("造成原因")) {
+                    CmDictDiagnosisPO pPCmDictDiagnosisPO = dictDiagnosisService.selectPInfo(cmDictDiagnosisPO.getpItemCode()); // 再获取父节点的信息
+                    cmDictDiagnosisPO.setItemName(pPCmDictDiagnosisPO.getpItemName() + "——" + cmDictDiagnosisPO.getpItemName() + "——"
+                                    + cmDictDiagnosisPO.getItemName());
+                } else {
+                    cmDictDiagnosisPO.setItemName(cmDictDiagnosisPO.getpItemName() + "——" + cmDictDiagnosisPO.getItemName());
+                }
             }
+            resultMap.put("itemName", cmDictDiagnosisPO.getItemName());
+            resultMap.put("itemCode", cmDictDiagnosisPO.getItemCode());
         }
         resultMap.put("data", reportData);
-        resultMap.put("itemName", cmDictDiagnosisPO.getItemName());
-        resultMap.put("itemCode", cmDictDiagnosisPO.getItemCode());
         resultMap.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return resultMap;
     }
