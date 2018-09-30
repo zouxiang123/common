@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 import com.xtt.common.api.DiagnosisApi;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.common.service.ISysLogService;
+import com.xtt.common.conf.service.ICmDictIcdService;
 import com.xtt.common.constants.CmDiagnosisConstants;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
@@ -88,6 +89,8 @@ public class PatientDiagnosisController {
     private ICmDiagnosisHistTumourService cmDiagnosisHistTumourService;
     @Autowired
     private ISysLogService sysLogService;
+    @Autowired
+    private ICmDictIcdService cmDictIcdService;
 
     /**
      * 
@@ -742,20 +745,29 @@ public class PatientDiagnosisController {
                     }
                 }
             }
-            if (valueList.size() == 0) {
+            if (valueList.size() == 0 && (diagnosisEntity.getFkDictIcdId() == null || diagnosisEntity.getFkDictIcdId().length == 0)) {
                 map.put("message", "当前提交的数据为空！");
                 map.put("status", CommonConstants.WARNING);
                 return map;
             }
-            diagnosisEntity.setValueList(valueList);
+            if (valueList.size() > 0) {
+                diagnosisEntity.setValueList(valueList);
+                cmDiagnosisHistEntityService.saveItem(diagnosisEntity);
+                map.put("message", "保存成功！");
+                map.put("status", CommonConstants.SUCCESS);
+            }
+
         } else {
-            map.put("message", "当前提交的数据为空！");
-            map.put("status", CommonConstants.WARNING);
-            return map;
+            // 判断icd数据也为空的时候才提示
+            if (diagnosisEntity.getFkDictIcdId().length == 0) {
+                map.put("message", "当前提交的数据为空！");
+                map.put("status", CommonConstants.WARNING);
+                return map;
+            }
         }
-        cmDiagnosisHistEntityService.saveItem(diagnosisEntity);
-        map.put("message", "保存成功！");
-        map.put("status", CommonConstants.SUCCESS);
+
+        // 保存icd
+        cmDictIcdService.save(diagnosisEntity, map);
         insertDiagnosisLog(diagnosisEntity.getFkPatientId(), "诊断" + diagnosisEntity.getItemName(), action);
         return map;
     }
