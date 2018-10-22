@@ -168,5 +168,8 @@
     <if test="itemName != null and itemName!=''">
         and item_name like concat('%',#{itemName,jdbcType=VARCHAR},'%')
     </if>
+    <if test="itemCode != null and itemCode!=''">
+        and item_Code like concat('%',#{itemCode,jdbcType=VARCHAR},'%')
+    </if>
   </select>
 </mapper>
