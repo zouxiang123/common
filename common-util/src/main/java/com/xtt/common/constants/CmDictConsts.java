@@ -165,4 +165,8 @@ public class CmDictConsts {
      */
     public static final String CM_CULTURE = "standard_of_culture";
 
+    /**
+     * 药品观察类型
+     */
+    public static final String DRUGS_TYPE = "drugs_type";
 }
