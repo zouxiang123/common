@@ -342,7 +342,7 @@
             report_ex_assay ass
         left join patient p on p.id=ass.fk_patient_id
         <if test="isTemp != null and isTemp != ''">
-            JOIN hd_patient_extend hd_p ON hd_p.id = p.id AND hd_p.fk_tenant_id = #{fkTenantId} and hd_p.is_temp in(#{isTemp})
+            JOIN patient hd_p ON hd_p.id = p.id AND hd_p.fk_tenant_id = #{fkTenantId} and hd_p.is_temp in(#{isTemp})
         </if>
         WHERE
             ass.fk_tenant_id = #{fkTenantId}
@@ -365,7 +365,7 @@
             report_ex_assay ass
         left join patient p on p.id=ass.fk_patient_id
         <if test="isTemp != null and isTemp != ''">
-            JOIN hd_patient_extend hd_p ON hd_p.id = p.id AND hd_p.fk_tenant_id = #{fkTenantId} and hd_p.is_temp in(#{isTemp})
+            JOIN patient hd_p ON hd_p.id = p.id AND hd_p.fk_tenant_id = #{fkTenantId} and hd_p.is_temp in(#{isTemp})
         </if>
         WHERE
             ass.fk_tenant_id = #{fkTenantId}
