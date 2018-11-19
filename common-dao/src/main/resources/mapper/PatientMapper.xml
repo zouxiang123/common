@@ -469,7 +469,7 @@
   </resultMap>
   <!-- 根据自定义条件查询数据 -->
   <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientPO" resultMap="POResultMap">
-    select p.*, DATE_FORMAT(IFNULL(hd_p.deathday,NOW()), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(IFNULL(hd_p.deathday,NOW()), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+    select p.*, DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
         , pv.`name` province_name
         , county.`name` county_name
         , po.fk_tenant_id, po.sys_owner, po.is_enable, GROUP_CONCAT(DISTINCT po.sys_owner) AS multiSysOwner, GROUP_CONCAT(DISTINCT po.fk_tenant_id) AS multiTenantId
@@ -477,7 +477,6 @@
     JOIN patient_owner po ON po.fk_patient_id = p.id
     LEFT JOIN province pv on p.province = pv.id
     LEFT JOIN county on p.county = county.id
-    LEFT JOIN hd_patient_extend hd_p on hd_p.id = p.id
     <where>
       <if test="name != null and name != ''">
         p.name like concat('%', #{name} ,'%')
