@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppPatientParamMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppPatientParam">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_user_id" jdbcType="BIGINT" property="fkUserId" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_desc" jdbcType="VARCHAR" property="itemDesc" />
+    <result column="item_value" jdbcType="VARCHAR" property="itemValue" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_user_id, item_code, item_name, item_desc, item_value, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_param
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_patient_param
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppPatientParam">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_param (id, fk_user_id, item_code, 
+      item_name, item_desc, item_value, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkUserId,jdbcType=BIGINT}, #{itemCode,jdbcType=VARCHAR}, 
+      #{itemName,jdbcType=VARCHAR}, #{itemDesc,jdbcType=VARCHAR}, #{itemValue,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppPatientParam">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkUserId != null">
+        fk_user_id,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="itemDesc != null">
+        item_desc,
+      </if>
+      <if test="itemValue != null">
+        item_value,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkUserId != null">
+        #{fkUserId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null">
+        #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppPatientParam">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_param
+    <set>
+      <if test="fkUserId != null">
+        fk_user_id = #{fkUserId,jdbcType=BIGINT},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemDesc != null">
+        item_desc = #{itemDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null">
+        item_value = #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppPatientParam">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_param
+    set fk_user_id = #{fkUserId,jdbcType=BIGINT},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      item_desc = #{itemDesc,jdbcType=VARCHAR},
+      item_value = #{itemValue,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据条件查询 -->
+  <select id="listByCond" parameterType="com.xtt.common.dao.model.AppPatientParam" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_param
+    <where>
+        <if test="itemCode != null and itemCode != ''">
+            and item_code = #{itemCode,jdbcType=VARCHAR}
+        </if>
+        <if test="fkUserId != null">
+            and fk_user_id = #{fkUserId,jdbcType=BIGINT}
+        </if>
+    </where>
+  </select>
+  <!-- 根据唯一索引删除 -->
+  <delete id="deleteByUniquekey">
+    delete from app_patient_param
+    where fk_user_id = #{fkUserId,jdbcType=BIGINT}
+      and item_code = #{itemCode,jdbcType=VARCHAR}
+  </delete>
+  
+</mapper>

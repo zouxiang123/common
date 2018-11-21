@@ -44,7 +44,9 @@ public class CommonConstants {
     public static final String REPETITION = "4";
     /** 错误提示key */
     public static final String ERROR_MESSAGE = "errmsg";// 血透错误提示信息
-    public static final String RS = "rs";// 血透错误提示信息
+
+    /** 返回结果 */
+    public static final String RS = "rs";// 返回结果
     /*--------------------状态提示相关 end --------------------*/
 
     /*--------------------系统日志相关 start --------------------*/
@@ -90,6 +92,8 @@ public class CommonConstants {
     public static final String USER_NON_PERMISSION = "user_non_permission";
     /** api有权限集合 */
     public static final String API_PERMISSION = "api_permission";
+    /** api没有权限集合 */
+    public static final String API_NON_PERMISSION = "api_non_permission";
     /*--------------------cache 相关常量 end --------------------*/
     /*--------------------角色相关常量 start --------------------*/
     /** 用户类型-普通用户 */
@@ -104,6 +108,10 @@ public class CommonConstants {
     public static final String ROLE_DOCTOR = "2";
     /** 角色-护士 */
     public static final String ROLE_NURSE = "3";
+    /** 角色-普通患者 */
+    public static final String ROLE_PATIENT_GENERAL = "100";
+    /** 角色-普通患者 */
+    public static final String ROLE_NURSE_GENERAL = "200";
     /** 角色-工程师 */
     public static final String ROLE_ENGINEER = "4";
     /** 角色-其它 */
@@ -226,10 +234,26 @@ public class CommonConstants {
     /**
      * 返回json数据格式配置
      */
-    public static SerializerFeature[] BASEJSONCONFIG = { SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty,
+    public static final SerializerFeature[] BASEJSONCONFIG = { SerializerFeature.WriteMapNullValue, SerializerFeature.WriteNullStringAsEmpty,
             SerializerFeature.WriteNullBooleanAsFalse };
     /**
-     * app推送数据
+     * <<<<<<< HEAD ======= 图片路径
+     */
+    public static final String BASE_IMAGE_PATH = "images";
+    /**
+     * app系统所属 患者端
+     */
+    public static final String APP_OWNER_P = "P";
+    /**
+     * app系统所属 医护端 医生
+     */
+    public static final String APP_OWNER_D = "D";
+    /**
+     * app系统所属 医护端 护士
+     */
+    public static final String APP_OWNER_N = "N";
+    /**
+     * >>>>>>> refs/remotes/origin/hdApp_dev app推送数据
      */
     public static final String APP_PUSH = "02";
     /**

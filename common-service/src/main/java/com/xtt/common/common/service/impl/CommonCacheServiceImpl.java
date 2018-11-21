@@ -22,12 +22,17 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.xtt.common.cache.AppDictCache;
+import com.xtt.common.cache.AppPatientParamCache;
 import com.xtt.common.cache.CmDictCache;
 import com.xtt.common.cache.FamilyInitialCache;
 import com.xtt.common.cache.FormulaCache;
 import com.xtt.common.cache.PatientCache;
 import com.xtt.common.cache.TenantAuthorityCache;
 import com.xtt.common.cache.UserCache;
+import com.xtt.common.common.service.IAppDictService;
+import com.xtt.common.common.service.IAppHospitalAddressService;
+import com.xtt.common.common.service.IAppPatientParamService;
 import com.xtt.common.common.service.ICmDictService;
 import com.xtt.common.common.service.ICmFormNodesService;
 import com.xtt.common.common.service.ICommonCacheService;
@@ -37,16 +42,24 @@ import com.xtt.common.common.service.ISysTenantService;
 import com.xtt.common.conf.service.ICmFormulaConfService;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dao.model.AppHospitalAddress;
+import com.xtt.common.dao.model.AppMenu;
+import com.xtt.common.dao.model.AppOwner;
+import com.xtt.common.dao.model.AppPatientParam;
+import com.xtt.common.dao.model.AppRole;
 import com.xtt.common.dao.model.FamilyInitial;
 import com.xtt.common.dao.model.SysObj;
-import com.xtt.common.dao.model.SysRole;
 import com.xtt.common.dao.model.SysTenant;
+import com.xtt.common.dao.po.AppDictPO;
+import com.xtt.common.dao.po.AppPatientAccountPO;
 import com.xtt.common.dao.po.CmDictPO;
 import com.xtt.common.dao.po.CmFormPO;
 import com.xtt.common.dao.po.CmFormulaConfPO;
-import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.SysParamPO;
 import com.xtt.common.dao.po.SysUserPO;
+import com.xtt.common.dto.AppDictDto;
+import com.xtt.common.dto.AppMenuDto;
+import com.xtt.common.dto.AppPatientParamDto;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.dto.FamilyInitialDto;
 import com.xtt.common.dto.FormDto;
@@ -56,9 +69,10 @@ import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.dto.SysParamDto;
 import com.xtt.common.dto.SysUserDto;
 import com.xtt.common.form.service.ICmFormService;
-import com.xtt.common.patient.service.IPatientService;
+import com.xtt.common.patient.service.IAppOwnerService;
+import com.xtt.common.patient.service.IAppPatientAccountService;
+import com.xtt.common.patient.service.IAppRoleService;
 import com.xtt.common.permission.PermissionCache;
-import com.xtt.common.user.service.IRoleService;
 import com.xtt.common.user.service.IUserService;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.DynamicFormUtil;
@@ -77,9 +91,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     @Autowired
     private ICmDictService cmDictService;
     @Autowired
-    private IRoleService roleService;
-    @Autowired
-    private IPatientService patientService;
+    private IAppPatientAccountService patientService;
     @Autowired
     private ICmFormNodesService cmFormNodesService;
     @Autowired
@@ -92,6 +104,16 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     private ICmFormulaConfService cmFormulaConfService;
     @Autowired
     private IFamilyInitialService familyInitialService;
+    @Autowired
+    private IAppRoleService appRoleService;
+    @Autowired
+    private IAppHospitalAddressService hospitalAddressService;
+    @Autowired
+    private IAppOwnerService appOwnerService;
+    @Autowired
+    private IAppDictService appDictService;
+    @Autowired
+    private IAppPatientParamService appPatientParamService;
 
     @Override
     public void cacheDict(Integer tenantId) {
@@ -126,16 +148,33 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
     }
 
     @Override
-    public void cachePermission(Integer tenantId) {
-        Map<String, List<SysObjDto>> map = new HashMap<>();
-        RedisCacheUtil.delete(tenantId + PermissionCache.ALL_SYS_OBJ_KEY);
-        RedisCacheUtil.deletePattern(PermissionCache.getKey(tenantId, null));
+    public void cachePermission(String appSysOwner) {
+        Map<String, List<AppMenuDto>> map = new HashMap<>();
+        RedisCacheUtil.delete(appSysOwner + PermissionCache.ALL_SYS_OBJ_KEY);
         String[] types = { "1", "2" };
-        map.put(tenantId + PermissionCache.ALL_SYS_OBJ_KEY, convertSysObjList(roleService.getAllMenuList(types, null)));
-        List<SysRole> list = roleService.getRoleListByTenantId(tenantId, null);
-        for (SysRole sysRole : list) {
-            Long[] roleIds = { sysRole.getId() };
-            map.put(PermissionCache.getKey(tenantId, sysRole.getId()), convertSysObjList(roleService.getMenuListByRoleId(roleIds, types)));
+        map.put(appSysOwner + PermissionCache.ALL_SYS_OBJ_KEY, convertAppMenuList(appRoleService.listAllMenuList(types, appSysOwner)));
+        // 角色权限
+        RedisCacheUtil.deletePattern(PermissionCache.getKey(appSysOwner, null));
+        List<AppRole> list = appRoleService.listByAppOwner(appSysOwner);
+        for (AppRole appRole : list) {
+            Long[] roleIds = { appRole.getId() };
+            map.put(PermissionCache.getKey(appSysOwner, appRole.getId()), convertAppMenuList(appRoleService.listMenuListByRoleId(roleIds, types)));
+        }
+        // 系统权限
+        RedisCacheUtil.deletePattern(PermissionCache.getOwnerKey(appSysOwner, null));
+        List<AppOwner> ownerList = appOwnerService.listByCond(null);
+        for (AppOwner entity : ownerList) {
+            map.put(PermissionCache.getOwnerKey(appSysOwner, entity.getSysOwner()),
+                            convertAppMenuList(appRoleService.listMenuListBySysOwner(types, appSysOwner, entity.getSysOwner())));
+        }
+        // 医院权限
+        RedisCacheUtil.deletePattern(PermissionCache.getHospitalKey(appSysOwner, null));
+        AppHospitalAddress hpAddress = new AppHospitalAddress();
+        hpAddress.setIsEnable(true);
+        List<AppHospitalAddress> hospitalList = hospitalAddressService.listByCond(hpAddress);
+        for (AppHospitalAddress entity : hospitalList) {
+            map.put(PermissionCache.getHospitalKey(appSysOwner, entity.getFkTenantId()),
+                            convertAppMenuList(appRoleService.listMenuListByHospital(types, entity.getFkTenantId())));
         }
         PermissionCache.cacheAll(map);
     }
@@ -168,14 +207,41 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         return tempList;
     }
 
+    /**
+     * 将sysObj对象转成缓存的SysObjDto
+     *
+     * @Title: convertCmSysObjList
+     * @param list
+     * @return
+     * @throws Exception
+     * @throws IllegalAccessException
+     *
+     */
+    public static List<AppMenuDto> convertAppMenuList(List<AppMenu> list) {
+        List<AppMenuDto> tempList = new ArrayList<AppMenuDto>();
+        if (list != null && !list.isEmpty()) {
+            AppMenuDto appMenuDto;
+            try {
+                for (AppMenu entity : list) {// 缓存有需要的数据
+                    appMenuDto = new AppMenuDto();
+                    org.apache.commons.beanutils.BeanUtils.copyProperties(appMenuDto, entity);
+                    tempList.add(appMenuDto);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        }
+        return tempList;
+    }
+
     @Override
     public void cachePatient() {
         RedisCacheUtil.deletePattern(PatientCache.getKey(null));
-        List<PatientPO> list = patientService.listAll();
+        List<AppPatientAccountPO> list = patientService.listAll();
         if (CollectionUtils.isNotEmpty(list)) {
             List<PatientDto> cacheObjs = new ArrayList<>(list.size());
             PatientDto toObj;
-            for (PatientPO obj : list) {
+            for (AppPatientAccountPO obj : list) {
                 toObj = new PatientDto();
                 BeanUtils.copyProperties(obj, toObj);
                 cacheObjs.add(toObj);
@@ -265,6 +331,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         LOGGER.info("******************** start cache data ***********");
         long start = System.currentTimeMillis();
         cacheAuthority();
+        cachePermission(CommonConstants.APP_OWNER_P);
         List<SysTenant> tenantList = sysTenantService.listAllEnable();
         if (CollectionUtils.isNotEmpty(tenantList)) {
             SysTenant tenant;
@@ -276,7 +343,7 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
                 // second cache dict
                 cacheDict(tenant.getId());
                 // third cache permission
-                cachePermission(tenant.getId());
+                // cachePermission(tenant.getId());
                 // cache dynamic form
                 cacheDynamicFormNode(tenant.getId(), null);
                 // cache formula data
@@ -340,6 +407,38 @@ public class CommonCacheServiceImpl implements ICommonCacheService {
         for (SysTenant st : tenantList) {
             String content = st.getLicense();
             cacheAuthority(content);
+        }
+    }
+
+    @Override
+    public void cacheAppDict() {
+        AppDictCache.clear();
+        List<AppDictPO> list = appDictService.listByCond(null);
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<AppDictDto> dicts = new ArrayList<>(list.size());
+            AppDictDto cDict;
+            for (AppDictPO dict : list) {
+                cDict = new AppDictDto();
+                BeanUtils.copyProperties(dict, cDict);
+                dicts.add(cDict);
+            }
+            AppDictCache.cacheALL(dicts);
+        }
+    }
+
+    @Override
+    public void cacheAppUserParam() {
+        AppPatientParamCache.clear();
+        List<AppPatientParam> list = appPatientParamService.listByCond(null);
+        if (CollectionUtils.isNotEmpty(list)) {
+            List<AppPatientParamDto> dicts = new ArrayList<AppPatientParamDto>(list.size());
+            AppPatientParamDto cDict;
+            for (AppPatientParam dict : list) {
+                cDict = new AppPatientParamDto();
+                BeanUtils.copyProperties(dict, cDict);
+                dicts.add(cDict);
+            }
+            AppPatientParamCache.cacheALL(dicts);
         }
     }
 }

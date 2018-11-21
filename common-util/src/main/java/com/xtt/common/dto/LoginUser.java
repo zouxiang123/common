@@ -36,6 +36,7 @@ public class LoginUser {
     private Integer age;
     private String mobile;
     private Date birthday;
+    private String appSysOwner;// app所属系统 P:患者端
 
     private String statementSkin;// 用户报表皮肤
 
@@ -237,6 +238,14 @@ public class LoginUser {
 
     public void setStatementSkin(String statementSkin) {
         this.statementSkin = statementSkin;
+    }
+
+    public String getAppSysOwner() {
+        return appSysOwner;
+    }
+
+    public void setAppSysOwner(String appSysOwner) {
+        this.appSysOwner = appSysOwner;
     }
 
 }

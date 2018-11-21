@@ -13,7 +13,7 @@ import com.xtt.platform.util.lang.StringUtil;
 public class ContextAuthCache implements ContextAuthFactory {
     private static ContextAuthCache instance;
     public static final int REDIS_DB = 8;
-    private static final long TIMEOUT = 120 * 60 * 1000;
+    private static final long TIMEOUT = 20 * 60 * 1000;
     private static final String TOKEN_STRATEGY = (String) PropertiesUtil.getContextProperty("tokenStrategy");
 
     public ContextAuthCache() {
@@ -31,8 +31,13 @@ public class ContextAuthCache implements ContextAuthFactory {
             return (String) request.getAttribute(CommonConstants.COOKIE_TOKEN);
         } else {// get form api token strategy
             String token = request.getHeader(CommonConstants.API_TOKEN);
+            // 保证第一班的api部分接口能用 token从参数中获取
             if (token == null) {
                 token = request.getParameter(CommonConstants.API_TOKEN);
+            }
+            // 保证api的前端页面能用 token从cookie_token中取
+            if (token == null) {
+                return (String) request.getAttribute(CommonConstants.COOKIE_TOKEN);
             }
             return token;
         }

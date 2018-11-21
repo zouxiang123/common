@@ -22,6 +22,12 @@ public class ContextAuthUtil {
         refreshAuth(auth);
     }
 
+    public static void putAuth(String key, Object value, String token) {
+        Map<String, Object> auth = factory.getAuth(token);
+        auth.put(key, value);
+        refreshAuth(auth, token);
+    }
+
     public static void refreshLiveTime() {
         factory.refreshLiveTime(null, null);
     }
@@ -52,6 +58,10 @@ public class ContextAuthUtil {
 
     public static void refreshAuth(Map<String, Object> auth) {
         factory.addAuth(null, auth);
+    }
+
+    public static void refreshAuth(Map<String, Object> auth, String token) {
+        factory.addAuth(token, auth);
     }
 
     public static Map<String, Object> getAuth(String token) {

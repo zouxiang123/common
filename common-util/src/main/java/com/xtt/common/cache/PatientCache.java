@@ -25,7 +25,7 @@ public class PatientCache {
     private static final Logger LOGGER = LoggerFactory.getLogger(PatientCache.class);
 
     public static String getKey(Long id) {
-        return "patient" + (id == null ? "*" : id);
+        return "appPatient" + (id == null ? "*" : id);
     }
 
     public static void cacheAll(List<PatientDto> list) {

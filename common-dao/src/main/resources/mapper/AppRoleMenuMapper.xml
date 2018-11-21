@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppRoleMenuMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppRoleMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_role_id" jdbcType="BIGINT" property="fkRoleId" />
+    <result column="fk_menu_key" jdbcType="VARCHAR" property="fkMenuKey" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_role_id, fk_menu_key, create_time, create_user_id, update_time, update_user_id, 
+    fk_tenant_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_role_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_role_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppRoleMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_role_menu (id, fk_role_id, fk_menu_key, 
+      create_time, create_user_id, update_time, 
+      update_user_id, fk_tenant_id)
+    values (#{id,jdbcType=BIGINT}, #{fkRoleId,jdbcType=BIGINT}, #{fkMenuKey,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppRoleMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_role_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkRoleId != null">
+        fk_role_id,
+      </if>
+      <if test="fkMenuKey != null">
+        fk_menu_key,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkRoleId != null">
+        #{fkRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="fkMenuKey != null">
+        #{fkMenuKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppRoleMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_role_menu
+    <set>
+      <if test="fkRoleId != null">
+        fk_role_id = #{fkRoleId,jdbcType=BIGINT},
+      </if>
+      <if test="fkMenuKey != null">
+        fk_menu_key = #{fkMenuKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppRoleMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_role_menu
+    set fk_role_id = #{fkRoleId,jdbcType=BIGINT},
+      fk_menu_key = #{fkMenuKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据角色id和key删除  -->
+  <delete id="deleteByRoleIdAndType">
+    DELETE FROM app_role_menu WHERE fk_role_id = #{roleId} AND fk_menu_key IN
+    (SELECT s.key FROM app_menu s WHERE s.type IN 
+        <foreach collection="types" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    )
+    </delete>
+    <!-- 批量插入 -->
+  <insert id="insertBatch">
+    insert into app_role_menu (id, fk_role_id, fk_menu_key, 
+      create_time, create_user_id, update_time, 
+      update_user_id, fk_tenant_id)
+    values 
+    <foreach collection="menus" item="item" index="index" separator=",">
+    (#{item.id,jdbcType=BIGINT}, #{item.fkRoleId,jdbcType=BIGINT}, #{item.fkMenuKey,jdbcType=VARCHAR}, 
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=BIGINT}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+      #{item.updateUserId,jdbcType=BIGINT}, #{item.fkTenantId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <!-- 根据角色id批量删除对象 -->
+  <delete id="batchDeleteByRoleIds">
+    DELETE from app_role_menu WHERE fk_role_id IN 
+    <foreach collection="array" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </delete>
+  <!-- 根据角色id删除对象 -->
+  <delete id="deleteByRoleId">
+    delete from app_role_menu where fk_role_id=#{roleId,jdbcType=BIGINT};
+  </delete>
+</mapper>

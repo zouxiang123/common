@@ -8,13 +8,13 @@
  */
 package com.xtt.common.conf.vo;
 
-import com.xtt.common.dao.model.SysRole;
+import com.xtt.common.dao.model.AppRole;
 
 public class RoleListVO {
     private Long[] checkedMenuIds;
     private Long menuRoleId;
     private Long[] delRoleIds;
-    private SysRole[] roles;
+    private AppRole[] roles;
     private String sysOwner;
 
     public Long[] getCheckedMenuIds() {
@@ -41,20 +41,20 @@ public class RoleListVO {
         this.delRoleIds = delRoleIds;
     }
 
-    public SysRole[] getRoles() {
-        return roles;
-    }
-
-    public void setRoles(SysRole[] roles) {
-        this.roles = roles;
-    }
-
     public String getSysOwner() {
         return sysOwner;
     }
 
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    public AppRole[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(AppRole[] roles) {
+        this.roles = roles;
     }
 
 }

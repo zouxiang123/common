@@ -10,7 +10,7 @@ package com.xtt.common.permission;
 
 import java.util.List;
 
-import com.xtt.common.dto.SysObjDto;
+import com.xtt.common.dto.AppMenuDto;
 
 public interface IPermissionFactory {
     /**
@@ -21,7 +21,7 @@ public interface IPermissionFactory {
      * @return
      *
      */
-    List<SysObjDto> getPermissionList(Long[] roleIds);
+    List<AppMenuDto> getPermissionList(Long[] roleIds);
 
     /**
      * 当前角色没有权限的菜单
@@ -31,7 +31,7 @@ public interface IPermissionFactory {
      * @return
      *
      */
-    List<SysObjDto> getNonPermissionList(Long[] roleIds);
+    List<AppMenuDto> getNonPermissionList(Long[] roleIds);
 
     /**
      * 根据用户角色ID获取所有有权限的接口菜单
@@ -41,7 +41,7 @@ public interface IPermissionFactory {
      * @return
      *
      */
-    List<SysObjDto> getApiPermissionList(Long[] roleIds);
+    List<AppMenuDto> getApiPermissionList(Long[] roleIds);
 
     /**
      * 当前角色没有权限的接口菜单
@@ -51,5 +51,5 @@ public interface IPermissionFactory {
      * @return
      *
      */
-    List<SysObjDto> getApiNonPermissionList(Long[] roleIds);
+    List<AppMenuDto> getApiNonPermissionList(Long[] roleIds);
 }

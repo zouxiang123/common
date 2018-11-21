@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppRoleMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppRole">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="app_sys_owner" jdbcType="VARCHAR" property="appSysOwner" />
+    <result column="constant_type" jdbcType="INTEGER" property="constantType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, parent_id, name, description, fk_tenant_id, app_sys_owner, constant_type, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_role
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_role
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppRole">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_role (id, parent_id, name, 
+      description, fk_tenant_id, app_sys_owner, 
+      constant_type, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{appSysOwner,jdbcType=VARCHAR}, 
+      #{constantType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppRole">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_role
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="appSysOwner != null">
+        app_sys_owner,
+      </if>
+      <if test="constantType != null">
+        constant_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appSysOwner != null">
+        #{appSysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="constantType != null">
+        #{constantType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppRole">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_role
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="appSysOwner != null">
+        app_sys_owner = #{appSysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="constantType != null">
+        constant_type = #{constantType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppRole">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_role
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      app_sys_owner = #{appSysOwner,jdbcType=VARCHAR},
+      constant_type = #{constantType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据appowner获取所有角色 -->
+  <select id="listByAppOwner" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_role
+    <where>
+        <if test="appOwner != null and appOwner != ''">
+            and app_sys_owner = #{appOwner,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  <!-- 根据roleIds 批量删除角色数据 -->
+  <delete id="batchDeleteByRoleIds">
+    DELETE from app_role WHERE constant_type is null AND id IN 
+    <foreach collection="array" item="item" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </delete>
+</mapper>

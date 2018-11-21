@@ -19,6 +19,22 @@ public interface ICommonCacheService {
     public void cacheDict(Integer tenantId);
 
     /**
+     * 缓存字典表数据
+     * 
+     * @Title: cacheDict
+     *
+     */
+    public void cacheAppDict();
+
+    /**
+     * 缓存用户配置
+     * 
+     * @Title: cacheDict
+     *
+     */
+    public void cacheAppUserParam();
+
+    /**
      * 缓存系统参数数据
      * 
      * @Title: cacheSysParam
@@ -31,9 +47,10 @@ public interface ICommonCacheService {
      * 
      * @Title: cachePermission
      * @param tenantId
+     * @throws Exception
      *
      */
-    public void cachePermission(Integer tenantId);
+    public void cachePermission(String appSysOwner);
 
     /**
      * 缓存患者数据

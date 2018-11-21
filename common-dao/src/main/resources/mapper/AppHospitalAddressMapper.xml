@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppHospitalAddressMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppHospitalAddress">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="spell_initials" jdbcType="VARCHAR" property="spellInitials" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="hd_url" jdbcType="VARCHAR" property="hdUrl" />
+    <result column="bg_image" jdbcType="VARCHAR" property="bgImage" />
+    <result column="group_flag" jdbcType="BIT" property="groupFlag" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="order_by" jdbcType="INTEGER" property="orderBy" />
+    <result column="check_connect" jdbcType="BIT" property="checkConnect" />
+    <result column="pull_and_Push" jdbcType="VARCHAR" property="pullAndPush" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, name, spell_initials, url, hd_url, bg_image, group_flag, is_enable, order_by, 
+    check_connect, pull_and_Push, create_time, create_user_id, update_time, update_user_id, 
+    fk_tenant_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_hospital_address
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_hospital_address
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppHospitalAddress">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_hospital_address (id, name, spell_initials, 
+      url, hd_url, bg_image, 
+      group_flag, is_enable, order_by, 
+      check_connect, pull_and_Push, create_time, 
+      create_user_id, update_time, update_user_id, 
+      fk_tenant_id)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{spellInitials,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{hdUrl,jdbcType=VARCHAR}, #{bgImage,jdbcType=VARCHAR}, 
+      #{groupFlag,jdbcType=BIT}, #{isEnable,jdbcType=BIT}, #{orderBy,jdbcType=INTEGER}, 
+      #{checkConnect,jdbcType=BIT}, #{pullAndPush,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{fkTenantId,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppHospitalAddress">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_hospital_address
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="spellInitials != null">
+        spell_initials,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="hdUrl != null">
+        hd_url,
+      </if>
+      <if test="bgImage != null">
+        bg_image,
+      </if>
+      <if test="groupFlag != null">
+        group_flag,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="orderBy != null">
+        order_by,
+      </if>
+      <if test="checkConnect != null">
+        check_connect,
+      </if>
+      <if test="pullAndPush != null">
+        pull_and_Push,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="spellInitials != null">
+        #{spellInitials,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="hdUrl != null">
+        #{hdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImage != null">
+        #{bgImage,jdbcType=VARCHAR},
+      </if>
+      <if test="groupFlag != null">
+        #{groupFlag,jdbcType=BIT},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="orderBy != null">
+        #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="checkConnect != null">
+        #{checkConnect,jdbcType=BIT},
+      </if>
+      <if test="pullAndPush != null">
+        #{pullAndPush,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppHospitalAddress">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_hospital_address
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="spellInitials != null">
+        spell_initials = #{spellInitials,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="hdUrl != null">
+        hd_url = #{hdUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="bgImage != null">
+        bg_image = #{bgImage,jdbcType=VARCHAR},
+      </if>
+      <if test="groupFlag != null">
+        group_flag = #{groupFlag,jdbcType=BIT},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="orderBy != null">
+        order_by = #{orderBy,jdbcType=INTEGER},
+      </if>
+      <if test="checkConnect != null">
+        check_connect = #{checkConnect,jdbcType=BIT},
+      </if>
+      <if test="pullAndPush != null">
+        pull_and_Push = #{pullAndPush,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppHospitalAddress">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_hospital_address
+    set name = #{name,jdbcType=VARCHAR},
+      spell_initials = #{spellInitials,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      hd_url = #{hdUrl,jdbcType=VARCHAR},
+      bg_image = #{bgImage,jdbcType=VARCHAR},
+      group_flag = #{groupFlag,jdbcType=BIT},
+      is_enable = #{isEnable,jdbcType=BIT},
+      order_by = #{orderBy,jdbcType=INTEGER},
+      check_connect = #{checkConnect,jdbcType=BIT},
+      pull_and_Push = #{pullAndPush,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <!-- 获取所有可用的医院  -->
+  <select id="listByCond" parameterType="com.xtt.common.dao.model.AppHospitalAddress" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_hospital_address
+    <where>
+        <if test="name != null">
+            and name like concat('%', #{name}, '%')
+        </if>
+        <if test="url != null">
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="groupFlag != null">
+            and group_flag = #{groupFlag,jdbcType=BIT}
+        </if>
+        <if test="isEnable != null">
+            and is_enable = #{isEnable,jdbcType=BIT}
+        </if>
+        <if test="checkConnect != null">
+            and check_connect = #{checkConnect,jdbcType=BIT}
+        </if>
+        <if test="pullAndPush != null">
+            and pull_and_push = #{pullAndPush,jdbcType=VARCHAR}
+        </if>
+    </where>
+    order by spell_initials,order_by
+  </select>
+</mapper>

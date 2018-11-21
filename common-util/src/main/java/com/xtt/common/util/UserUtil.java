@@ -16,8 +16,8 @@ import java.util.Objects;
 import org.apache.commons.lang.StringUtils;
 
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dto.AppMenuDto;
 import com.xtt.common.dto.LoginUser;
-import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.permission.UserUtilContext;
 import com.xtt.platform.util.lang.StringUtil;
 
@@ -190,6 +190,21 @@ public class UserUtil {
     }
 
     /**
+     * 获取app用户所属系统
+     * 
+     * @Title: getAppSysOwner
+     * @return
+     *
+     */
+    public static String getAppSysOwner() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user != null) {
+            return user.getAppSysOwner();
+        }
+        return null;
+    }
+
+    /**
      * 设置当前角色的权限的菜单到用户Cache
      * 
      * @Title: setPermission
@@ -226,7 +241,7 @@ public class UserUtil {
      * @return
      *
      */
-    public static List<SysObjDto> getPermissionList() {
+    public static List<AppMenuDto> getPermissionList() {
         return UserUtilContext.getPermissionList();
     }
 
@@ -239,7 +254,7 @@ public class UserUtil {
      * @return
      * 
      */
-    public static List<SysObjDto> getNonPermissionList() {
+    public static List<AppMenuDto> getNonPermissionList() {
         return UserUtilContext.getNonPermissionList();
     }
 
@@ -259,6 +274,36 @@ public class UserUtil {
     }
 
     /**
+     * 设置有API权限的菜单到cache
+     * 
+     * @Title: setApiPermissionList
+     * @return
+     * 
+     */
+    public static void setApiPermissionList(String roleId, String token) {
+        if (StringUtils.isNotEmpty(roleId)) {
+            UserUtilContext.setApiPermissionList(convertRoleToArray(roleId), token);
+        } else {
+            UserUtilContext.setApiPermissionList(null, token);
+        }
+    }
+
+    /**
+     * 设置有API权限的菜单到cache
+     * 
+     * @Title: setApiPermissionList
+     * @return
+     * 
+     */
+    public static void setApiNonPermissionList(String roleId, String token) {
+        if (StringUtils.isNotEmpty(roleId)) {
+            UserUtilContext.setApiNonPermissionList(convertRoleToArray(roleId), token);
+        } else {
+            UserUtilContext.setApiNonPermissionList(null, token);
+        }
+    }
+
+    /**
      * 获取有API权限的菜单
      * 
      * @Title: getApiPermissionList
@@ -267,6 +312,17 @@ public class UserUtil {
      */
     public static String getApiPermissionList() {
         return UserUtilContext.getApiPermissionList();
+    }
+
+    /**
+     * 获取有API权限的菜单
+     * 
+     * @Title: getApiPermissionList
+     * @return
+     * 
+     */
+    public static String getApiNonPermissionList() {
+        return UserUtilContext.getApiNonPermissionList();
     }
 
     private static Long[] convertRoleToArray(String roleId) {
@@ -343,6 +399,21 @@ public class UserUtil {
             return null;
         }
         return StringUtil.stripToNull(user.getMultiTenant());
+    }
+
+    /**
+     * 获取多个所属系统
+     * 
+     * @Title: getMultiSysOwner
+     * @return
+     *
+     */
+    public static String getMultiSysOwner() {
+        LoginUser user = UserUtilContext.getLoginUser();
+        if (user == null) {
+            return null;
+        }
+        return StringUtil.stripToNull(user.getMultiSysOwner());
     }
 
     /**
