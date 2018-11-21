@@ -292,7 +292,7 @@
 		AND p.item_code = #{itemCode}
 	</if>
 	<if test="dateValue != null and dateValue != ''">
-		AND P.date_type = #{dateType}
+		AND p.date_type = #{dateType}
 		<if test="dateType == 'm'.toString()">
 			AND p.assay_month = #{dateValue}
 		</if>
