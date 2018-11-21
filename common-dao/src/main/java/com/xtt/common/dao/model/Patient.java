@@ -253,6 +253,11 @@ public class Patient extends MyBatisSuperModel {
     private String culture;
 
     /**
+     * 档案号patient.file_number
+     */
+    private String fileNumber;
+
+    /**
      */
     public Long getId() {
         return id;
@@ -914,5 +919,13 @@ public class Patient extends MyBatisSuperModel {
 
     public void setCulture(String culture) {
         this.culture = culture;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 }
