@@ -15,8 +15,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import com.xtt.common.constants.CommonConstants;
+import com.xtt.common.dto.AppMenuDto;
 import com.xtt.common.dto.LoginUser;
-import com.xtt.common.dto.SysObjDto;
 import com.xtt.common.util.ContextAuthUtil;
 import com.xtt.common.util.HttpServletUtil;
 import com.xtt.common.util.PermissionUtil;
@@ -37,7 +37,7 @@ public class UserUtilContext {
         if (hisToken != null && !"1".equals(isAllowLoginAgain)) {
             ContextAuthUtil.delAuth(hisToken);
         }
-        ContextAuthUtil.setAccount2Token(loginUser.getAccount(), token);
+        // ContextAuthUtil.setAccount2Token(loginUser.getAccount(), token);
         ContextAuthUtil.setAccount2Token(loginUser.getTenantId() + loginUser.getAccount(), token);
         HashMap<String, Object> auth = new HashMap<String, Object>();
         auth.put(CommonConstants.LOGIN_USER, loginUser);
@@ -131,12 +131,32 @@ public class UserUtilContext {
         }
     }
 
-    public static List<SysObjDto> getPermissionList() {
+    public static void setApiPermissionList(Long[] roleIds, String token) {
+        if (roleIds == null) {
+            ContextAuthUtil.putAuth(CommonConstants.API_PERMISSION, null, token);
+        } else {
+            String[] needFields = { "key", "name", "url", "menuType" };
+            ContextAuthUtil.putAuth(CommonConstants.API_PERMISSION,
+                            PermissionUtil.covertToStr(PermissionUtil.getApiPermissionList(roleIds), needFields), token);
+        }
+    }
+
+    public static void setApiNonPermissionList(Long[] roleIds, String token) {
+        if (roleIds == null) {
+            ContextAuthUtil.putAuth(CommonConstants.API_NON_PERMISSION, null, token);
+        } else {
+            String[] needFields = { "key", "name", "url", "menuType" };
+            ContextAuthUtil.putAuth(CommonConstants.API_NON_PERMISSION,
+                            PermissionUtil.covertToStr(PermissionUtil.getApiNonPermissionList(roleIds), needFields), token);
+        }
+    }
+
+    public static List<AppMenuDto> getPermissionList() {
         Map<String, Object> auth = ContextAuthUtil.getAuth();
         return PermissionUtil.covertToList((String) auth.get(CommonConstants.USER_PERMISSION));
     }
 
-    public static List<SysObjDto> getNonPermissionList() {
+    public static List<AppMenuDto> getNonPermissionList() {
         Map<String, Object> auth = ContextAuthUtil.getAuth();
         return PermissionUtil.covertToList((String) auth.get(CommonConstants.USER_NON_PERMISSION));
     }
@@ -144,6 +164,11 @@ public class UserUtilContext {
     public static String getApiPermissionList() {
         Map<String, Object> auth = ContextAuthUtil.getAuth();
         return (String) auth.get(CommonConstants.API_PERMISSION);
+    }
+
+    public static String getApiNonPermissionList() {
+        Map<String, Object> auth = ContextAuthUtil.getAuth();
+        return (String) auth.get(CommonConstants.API_NON_PERMISSION);
     }
 
     public static void setThreadTenant(Integer tenantId, String sysOwner) {

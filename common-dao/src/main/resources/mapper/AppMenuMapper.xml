@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppMenuMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="key" jdbcType="VARCHAR" property="key" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="p_code" jdbcType="VARCHAR" property="pCode" />
+    <result column="app_sys_owner" jdbcType="VARCHAR" property="appSysOwner" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="menu_type" jdbcType="VARCHAR" property="menuType" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, `key`, name, description, url, code, p_code, app_sys_owner, type, menu_type, create_time, 
+    create_user_id, update_time, update_user_id, fk_tenant_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_menu
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_menu
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_menu (id, key, name, 
+      description, url, code, 
+      p_code, app_sys_owner, type, 
+      menu_type, create_time, create_user_id, 
+      update_time, update_user_id, fk_tenant_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{pCode,jdbcType=VARCHAR}, #{appSysOwner,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{menuType,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{fkTenantId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_menu
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="key != null">
+        key,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="pCode != null">
+        p_code,
+      </if>
+      <if test="appSysOwner != null">
+        app_sys_owner,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="menuType != null">
+        menu_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="key != null">
+        #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null">
+        #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appSysOwner != null">
+        #{appSysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_menu
+    <set>
+      <if test="key != null">
+        key = #{key,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="pCode != null">
+        p_code = #{pCode,jdbcType=VARCHAR},
+      </if>
+      <if test="appSysOwner != null">
+        app_sys_owner = #{appSysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="menuType != null">
+        menu_type = #{menuType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppMenu">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_menu
+    set key = #{key,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      p_code = #{pCode,jdbcType=VARCHAR},
+      app_sys_owner = #{appSysOwner,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      menu_type = #{menuType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 获取版本下所有的菜单 -->
+  <select id="listAllMenuList" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_menu
+    <where>
+        <if test="appSysOwner != null and appSysOwner != ''">
+            and app_sys_owner = #{appSysOwner,jdbcType=VARCHAR}
+        </if>
+        <if test="types != null">
+            and type in
+            <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </where>
+    ORDER BY p_code,code
+  </select>
+  <!-- 根据角色Id获取该角色下所有的菜单 -->
+  <select id="listMenuListByRoleId" resultMap="BaseResultMap">
+    select 
+    a1.*
+    from app_menu a1
+    inner join app_role_menu a2 on a1.key=a2.fk_menu_key
+    <where>
+        <if test="types != null">
+            and a1.type in
+            <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="roleIds != null">
+            and a2.fk_role_id in
+            <foreach close=")" collection="roleIds" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </where>
+    ORDER BY a1.p_code,a1.code
+  </select>
+  <!-- 根据sysOwner获取该角色下所有的菜单 -->
+  <select id="listMenuListBySysOwner" resultMap="BaseResultMap">
+    select 
+    a1.*
+    from app_menu a1
+    inner join app_owner_menu a2 on a1.key=a2.fk_menu_key
+    <where>
+        <if test="types != null">
+            and a1.type in
+            <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="sysOwner != null">
+            and a2.fk_sys_owner = #{sysOwner}
+        </if>
+    </where>
+    ORDER BY a1.p_code,a1.code
+  </select>
+  <!-- 根据医院获取所有的菜单 -->
+  <select id="listMenuListByHospital" resultMap="BaseResultMap">
+    select 
+    a1.*
+    from app_menu a1
+    inner join app_hospital_menu a2 on a1.key=a2.fk_menu_key
+    <where>
+        <if test="types != null">
+            and a1.type in
+            <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="fkHospitalId != null">
+            and a2.fk_hospital_id = #{fkHospitalId}
+        </if>
+    </where>
+    ORDER BY a1.p_code,a1.code
+  </select>
+  <!-- 根据id列表查询数据 -->
+  <select id="selectByIds" resultMap="BaseResultMap">
+      select * from app_menu where id in 
+      <foreach close=")" collection="array" item="item" open="(" separator=",">
+        #{item}
+    </foreach>
+  </select>
+  <!-- 通过type和key 查询对象 -->
+  <select id="selectByKey" resultMap="BaseResultMap">
+    select * from app_menu where `key` = #{key,jdbcType=VARCHAR}
+    <if test="types != null">
+        and type in
+        <foreach close=")" collection="types" index="index" item="item" open="(" separator=",">
+            #{item}
+        </foreach>
+    </if>
+  </select>
+</mapper>

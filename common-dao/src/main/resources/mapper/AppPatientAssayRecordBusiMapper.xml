@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppPatientAssayRecordBusiMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppPatientAssayRecordBusi">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="origin_id" jdbcType="BIGINT" property="originId" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="inspection_id" jdbcType="VARCHAR" property="inspectionId" />
+    <result column="group_id" jdbcType="VARCHAR" property="groupId" />
+    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="result" jdbcType="VARCHAR" property="result" />
+    <result column="result_actual" jdbcType="DECIMAL" property="resultActual" />
+    <result column="value_unit" jdbcType="VARCHAR" property="valueUnit" />
+    <result column="result_tips" jdbcType="VARCHAR" property="resultTips" />
+    <result column="reference" jdbcType="VARCHAR" property="reference" />
+    <result column="assay_month" jdbcType="VARCHAR" property="assayMonth" />
+    <result column="assay_date" jdbcType="DATE" property="assayDate" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, origin_id, fk_patient_id, inspection_id, group_id, group_name, item_code, item_name, 
+    result, result_actual, value_unit, result_tips, reference, assay_month, assay_date, 
+    sys_owner, fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_assay_record_busi
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_patient_assay_record_busi
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppPatientAssayRecordBusi">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_assay_record_busi (id, origin_id, fk_patient_id, 
+      inspection_id, group_id, group_name, 
+      item_code, item_name, result, 
+      result_actual, value_unit, result_tips, 
+      reference, assay_month, assay_date, 
+      sys_owner, fk_tenant_id, create_time, 
+      create_user_id, update_time, update_user_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{originId,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, 
+      #{inspectionId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
+      #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, 
+      #{resultActual,jdbcType=DECIMAL}, #{valueUnit,jdbcType=VARCHAR}, #{resultTips,jdbcType=VARCHAR}, 
+      #{reference,jdbcType=VARCHAR}, #{assayMonth,jdbcType=VARCHAR}, #{assayDate,jdbcType=DATE}, 
+      #{sysOwner,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppPatientAssayRecordBusi">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_assay_record_busi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="originId != null">
+        origin_id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="inspectionId != null">
+        inspection_id,
+      </if>
+      <if test="groupId != null">
+        group_id,
+      </if>
+      <if test="groupName != null">
+        group_name,
+      </if>
+      <if test="itemCode != null">
+        item_code,
+      </if>
+      <if test="itemName != null">
+        item_name,
+      </if>
+      <if test="result != null">
+        result,
+      </if>
+      <if test="resultActual != null">
+        result_actual,
+      </if>
+      <if test="valueUnit != null">
+        value_unit,
+      </if>
+      <if test="resultTips != null">
+        result_tips,
+      </if>
+      <if test="reference != null">
+        reference,
+      </if>
+      <if test="assayMonth != null">
+        assay_month,
+      </if>
+      <if test="assayDate != null">
+        assay_date,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="originId != null">
+        #{originId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="inspectionId != null">
+        #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="resultActual != null">
+        #{resultActual,jdbcType=DECIMAL},
+      </if>
+      <if test="valueUnit != null">
+        #{valueUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="resultTips != null">
+        #{resultTips,jdbcType=VARCHAR},
+      </if>
+      <if test="reference != null">
+        #{reference,jdbcType=VARCHAR},
+      </if>
+      <if test="assayMonth != null">
+        #{assayMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="assayDate != null">
+        #{assayDate,jdbcType=DATE},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppPatientAssayRecordBusi">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_assay_record_busi
+    <set>
+      <if test="originId != null">
+        origin_id = #{originId,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="inspectionId != null">
+        inspection_id = #{inspectionId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null">
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupName != null">
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemCode != null">
+        item_code = #{itemCode,jdbcType=VARCHAR},
+      </if>
+      <if test="itemName != null">
+        item_name = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="resultActual != null">
+        result_actual = #{resultActual,jdbcType=DECIMAL},
+      </if>
+      <if test="valueUnit != null">
+        value_unit = #{valueUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="resultTips != null">
+        result_tips = #{resultTips,jdbcType=VARCHAR},
+      </if>
+      <if test="reference != null">
+        reference = #{reference,jdbcType=VARCHAR},
+      </if>
+      <if test="assayMonth != null">
+        assay_month = #{assayMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="assayDate != null">
+        assay_date = #{assayDate,jdbcType=DATE},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppPatientAssayRecordBusi">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_assay_record_busi
+    set origin_id = #{originId,jdbcType=BIGINT},
+      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      inspection_id = #{inspectionId,jdbcType=VARCHAR},
+      group_id = #{groupId,jdbcType=VARCHAR},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      item_code = #{itemCode,jdbcType=VARCHAR},
+      item_name = #{itemName,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      result_actual = #{resultActual,jdbcType=DECIMAL},
+      value_unit = #{valueUnit,jdbcType=VARCHAR},
+      result_tips = #{resultTips,jdbcType=VARCHAR},
+      reference = #{reference,jdbcType=VARCHAR},
+      assay_month = #{assayMonth,jdbcType=VARCHAR},
+      assay_date = #{assayDate,jdbcType=DATE},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- user define -->
+  <resultMap type="com.xtt.common.dao.po.AppPatientAssayRecordBusiPO" id="POResultMap" extends="BaseResultMap">
+     <result column="value_type" jdbcType="BIGINT" property="valueType" />
+     <result column="min_value" jdbcType="DECIMAL" property="minValue" />
+    <result column="max_value" jdbcType="DECIMAL" property="maxValue" /> 
+  </resultMap>
+  <!-- 常用列，主表别名需叫parb -->
+  <sql id="Common_Column_List">
+    parb.fk_patient_id, parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result, parb.result_actual, parb.value_unit, 
+    parb.result_tips, parb.dia_ab_flag, parb.assay_month, parb.assay_date, parb.req_id, parb.sample_time, parb.report_time, parb.reference
+  </sql>
+  <!-- 查询化验列表（APP用） -->
+    <select id="listApiAssayList" resultType="java.util.Map">
+        SELECT
+        parb.assay_date assayDate,
+        GROUP_CONCAT(case when parb.result_tips ='1' then null else parb.item_name end SEPARATOR '、') exceptionName
+        FROM patient_assay_record_busi parb
+        <where>
+            <if test="patientId != null and patientId != ''">
+                parb.fk_patient_id=#{patientId}
+            </if>
+            <if test="startDate != null">
+                and parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
+            </if>
+            <if test="endDate != null">
+                and parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
+            </if>
+        </where>
+        GROUP BY assay_date
+        ORDER BY assay_date desc
+    </select>
+    <!-- 根据患者、日期查询化验项(api用) -->
+    <select id="listApiAssayItems" resultMap="BaseResultMap">
+        SELECT parb.group_id, parb.group_name, parb.item_code, parb.item_name, parb.result,
+            CONCAT(IFNULL(parb.reference, ''), IFNULL(parb.value_unit, '') ) reference, parb.result_tips
+        FROM patient_assay_record_busi parb
+        WHERE parb.fk_patient_id = #{patientId} and parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
+        ORDER BY parb.group_id, parb.item_code
+    </select>
+    <!-- 根据自定义条件查询常用项 -->
+    <select id="listByCondition" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
+        select
+        <include refid="Common_Column_List" />
+        ,parb.id
+        ,parb.sample_class
+        ,parb.fk_tenant_id
+        ,parb.create_user_id
+        ,parb.inspection_id
+        from patient_assay_record_busi parb  
+        <where>
+            <if test="reqId != null">
+               and parb.req_id = #{reqId}
+            </if>
+            <if test="fkPatientId != null">
+               and parb.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="groupId != null">
+                AND parb.group_id = #{groupId}
+            </if>
+            <if test="groupName != null">
+                AND parb.group_name = #{groupName}
+            </if>
+            <if test="itemCode != null">
+                AND parb.item_code = #{itemCode}
+            </if>
+            <if test="itemName != null">
+                AND parb.item_name = #{itemName}
+            </if>
+            <if test="result != null">
+                AND parb.result = #{result}
+            </if>
+            <if test="resultActual != null">
+                AND parb.result_actual = #{resultActual}
+            </if>
+            <if test="valueUnit != null">
+                AND parb.value_unit = #{valueUnit}
+            </if>
+            <if test="resultTips != null">
+                AND parb.result_tips = #{resultTips}
+            </if>
+            <if test="inspectionId != null">
+                AND parb.inspection_id = #{inspectionId}
+            </if>
+            <if test="diaAbFlag != null">
+                AND parb.dia_ab_flag = #{diaAbFlag}
+            </if>
+            <if test="assayMonth != null">
+                AND parb.assay_month = #{assayMonth}
+            </if>
+            <if test="assayDate != null">
+                AND parb.assay_date = DATE(#{assayDate,jdbcType=DATE})
+            </if>
+            <if test="flage != null">
+                AND parb.flage = #{flage,jdbcType=BIT}
+            </if>
+            <if test="groupTenant != null and groupTenant != ''">
+                AND parb.fk_tenant_id in (${groupTenant})
+            </if>
+            <if test="fkTenantId != null">
+                AND parb.fk_tenant_id = ${fkTenantId}
+            </if>
+            <if test="patientIds !=null and patientIds.size()>0">
+                AND parb.fk_patient_id in
+                <foreach collection="patientIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="itemCodes !=null and itemCodes.size()>0">
+                AND parb.item_code in
+                <foreach collection="itemCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="startDate != null">
+                AND parb.assay_date &gt;= DATE(#{startDate,jdbcType=DATE})
+            </if>
+            <if test="endDate != null">
+                AND parb.assay_date &lt;= DATE(#{endDate,jdbcType=DATE})
+            </if>
+            <if test="multResultTips != null">
+                AND parb.result_tips in
+                <foreach close=")" collection="multResultTips" item="item" open="(" separator=",">#{item}</foreach>
+            </if>
+            <if test="sampleTime != null">
+                AND parb.sample_time = #{sampleTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="startCreateTime != null">
+                AND parb.create_time &gt;= #{startCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="endCreateTime != null">
+                AND parb.create_time &lt;= #{endCreateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="fkDictCode != null">
+                AND ahd.fk_dict_code = #{fkDictCode }
+            </if>
+            <if test="fkDictUk != null and fkDictUk != ''">
+                AND ahd.fk_dict_uk = #{fkDictUk }
+            </if>
+            
+            <if test="fkDictCodes != null and fkDictCodes.size() >0">
+                AND ahd.fk_dict_code in  <foreach collection="fkDictCodes" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+            <if test="ids !=null and ids.size()>0">
+                AND parb.id in
+                <foreach collection="ids" item="item" separator="," open="(" close=")">#{item}</foreach>
+            </if>
+        </where>
+       <choose>
+            <when test="queryOrderBy == 1">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date DESC
+            </when>
+            <when test="queryOrderBy == 2">
+               ORDER BY parb.fk_patient_id,parb.item_code,parb.assay_date ASC
+            </when>
+            <when test="queryOrderBy == 3">
+               ORDER BY parb.fk_patient_id,ahd.fk_dict_code,parb.sample_time ASC
+            </when>
+            <otherwise>
+               ORDER BY parb.assay_date ASC
+            </otherwise>
+        </choose>
+    </select>
+</mapper>

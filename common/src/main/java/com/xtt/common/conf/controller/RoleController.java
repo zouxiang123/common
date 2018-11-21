@@ -90,7 +90,7 @@ public class RoleController {
     @ResponseBody
     public Map<String, Object> saveRole(@RequestBody RoleListVO roleList) {
         Map<String, Object> map = new HashMap<>();
-        map.put("status", roleService.saveRoleList(roleList.getDelRoleIds(), roleList.getRoles(), roleList.getSysOwner()));
+        // map.put("status", roleService.saveRoleList(roleList.getDelRoleIds(), roleList.getRoles(), roleList.getSysOwner()));
         commonCacheService.cachePermission(UserUtil.getTenantId());// 刷新缓存
         return map;
     }

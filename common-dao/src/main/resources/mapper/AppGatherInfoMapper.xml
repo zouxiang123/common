@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppGatherInfoMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppGatherInfo">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="class_name" jdbcType="VARCHAR" property="className" />
+    <result column="last_gather_time" jdbcType="TIMESTAMP" property="lastGatherTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, class_name, last_gather_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_gather_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_gather_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppGatherInfo">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_gather_info (id, class_name, last_gather_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{className,jdbcType=VARCHAR}, #{lastGatherTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppGatherInfo">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_gather_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="className != null">
+        class_name,
+      </if>
+      <if test="lastGatherTime != null">
+        last_gather_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="className != null">
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="lastGatherTime != null">
+        #{lastGatherTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppGatherInfo">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_gather_info
+    <set>
+      <if test="className != null">
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="lastGatherTime != null">
+        last_gather_time = #{lastGatherTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppGatherInfo">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_gather_info
+    set class_name = #{className,jdbcType=VARCHAR},
+      last_gather_time = #{lastGatherTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- getByClassName -->
+  <select id="getByClassName" parameterType="com.xtt.common.dao.model.AppGatherInfo" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_gather_info
+    <where>
+        <if test="className != null and className != ''">
+            and class_name = #{className,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+</mapper>

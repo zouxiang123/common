@@ -15,9 +15,11 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xtt.common.constants.CommonConstants;
-import com.xtt.common.dto.SysObjDto;
+import com.xtt.common.dto.AppMenuDto;
 import com.xtt.common.permission.PermissionCache;
 import com.xtt.platform.util.io.JsonUtil;
 import com.xtt.platform.util.lang.StringUtil;
@@ -34,7 +36,7 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static List<SysObjDto> getPermissionList(Long[] roleIds) {
+    public static List<AppMenuDto> getPermissionList(Long[] roleIds) {
         return permissionFactory.getPermissionList(roleIds);
     }
 
@@ -46,7 +48,7 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static List<SysObjDto> getNonPermissionList(Long[] roleIds) {
+    public static List<AppMenuDto> getNonPermissionList(Long[] roleIds) {
         return permissionFactory.getNonPermissionList(roleIds);
     }
 
@@ -58,7 +60,7 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static List<SysObjDto> getApiPermissionList(Long[] roleIds) {
+    public static List<AppMenuDto> getApiPermissionList(Long[] roleIds) {
         return permissionFactory.getApiPermissionList(roleIds);
     }
 
@@ -70,7 +72,7 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static List<SysObjDto> getApiNonPermissionList(Long[] roleIds) {
+    public static List<AppMenuDto> getApiNonPermissionList(Long[] roleIds) {
         return permissionFactory.getApiNonPermissionList(roleIds);
     }
 
@@ -84,7 +86,7 @@ public class PermissionUtil {
      *
      */
     public static boolean hasPermission(String url, Map<String, Object> authMap) {
-        List<SysObjDto> list = authMap != null ? covertToList((String) authMap.get(CommonConstants.USER_NON_PERMISSION))
+        List<AppMenuDto> list = authMap != null ? covertToList((String) authMap.get(CommonConstants.USER_NON_PERMISSION))
                         : UserUtil.getNonPermissionList();
         if (CollectionUtils.isEmpty(list)) // role has all permission
             return true;
@@ -103,7 +105,7 @@ public class PermissionUtil {
             realPath = realPath.substring(0, realPath.length() - 1);
         }
         String[] urlArr;
-        for (SysObjDto s : list) {
+        for (AppMenuDto s : list) {
             if (StringUtil.isNotBlank(s.getUrl())) {
                 urlArr = s.getUrl().split(",");// 一个key可能存在多个url
                 for (int i = 0; i < urlArr.length; i++) {
@@ -123,7 +125,7 @@ public class PermissionUtil {
      * @returns 权限中的url地址
      */
     public static String getUrlByKey(String key) {
-        SysObjDto obj = getObjByKey(key);
+        AppMenuDto obj = getObjByKey(key);
         if (obj != null) {
             if (StringUtil.isNotBlank(obj.getUrl())) {
                 if (obj.getUrl().indexOf(",") > -1) {// 如果一个权限对应多个url，默认获取第一个
@@ -146,11 +148,11 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static SysObjDto getObjByKey(String key) {
+    public static AppMenuDto getObjByKey(String key) {
         if (StringUtil.isNotBlank(key)) {
-            List<SysObjDto> list = UserUtil.getPermissionList();
+            List<AppMenuDto> list = UserUtil.getPermissionList();
             if (CollectionUtils.isNotEmpty(list)) {
-                for (SysObjDto obj : list) {
+                for (AppMenuDto obj : list) {
                     if (key.equals(obj.getKey())) {
                         return obj;
                     }
@@ -169,7 +171,7 @@ public class PermissionUtil {
      *
      */
     public static String getUrlByPcode(String code) {
-        SysObjDto obj = getObjByPcode(code);
+        AppMenuDto obj = getObjByPcode(code);
         if (obj != null) {
             if (obj.getUrl().indexOf(",") > -1) {// 如果一个权限对应多个url，默认获取第一个
                 return obj.getUrl().split(",")[0];
@@ -186,11 +188,11 @@ public class PermissionUtil {
      * @param val
      * @returns permission Object
      */
-    public static SysObjDto getObjByPcode(String code) {
+    public static AppMenuDto getObjByPcode(String code) {
         if (StringUtil.isNotBlank(code)) {
-            List<SysObjDto> list = UserUtil.getPermissionList();
+            List<AppMenuDto> list = UserUtil.getPermissionList();
             if (CollectionUtils.isNotEmpty(list)) {
-                for (SysObjDto obj : list) {
+                for (AppMenuDto obj : list) {
                     if (code.equals(obj.getpCode())) {
                         if (StringUtil.isBlank(obj.getUrl())) {// 如果不存在url，获取其子节点的url
                             return getObjByPcode(obj.getCode());
@@ -212,9 +214,26 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static String covertToStr(List<SysObjDto> list) {
+    public static String covertToStr(List<AppMenuDto> list) {
         if (list != null && !list.isEmpty()) {
             return JsonUtil.AllJsonUtil().toJson(list);
+        }
+        return null;
+    }
+
+    /**
+     * 将SysObjDtoList转为JSONStr
+     * 
+     * @Title: covertToStr
+     * @param list
+     * @return
+     *
+     */
+    public static String covertToStr(List<AppMenuDto> list, String[] needFields) {
+        if (list != null && !list.isEmpty()) {
+            SimplePropertyPreFilter filter = new SimplePropertyPreFilter(AppMenuDto.class, needFields);
+            String resultStr = JSON.toJSONString(list, filter, CommonConstants.BASEJSONCONFIG);
+            return resultStr;
         }
         return null;
     }
@@ -227,11 +246,11 @@ public class PermissionUtil {
      * @return
      *
      */
-    public static List<SysObjDto> covertToList(String jsonStr) {
-        List<SysObjDto> list = null;
+    public static List<AppMenuDto> covertToList(String jsonStr) {
+        List<AppMenuDto> list = null;
         if (StringUtil.isNotBlank(jsonStr)) {
             try {
-                list = JsonUtil.AllJsonUtil().fromJson(jsonStr, new TypeReference<List<SysObjDto>>() {
+                list = JsonUtil.AllJsonUtil().fromJson(jsonStr, new TypeReference<List<AppMenuDto>>() {
                 });
             } catch (Exception e) {
                 LOGGER.warn("convert json str failed ", e);

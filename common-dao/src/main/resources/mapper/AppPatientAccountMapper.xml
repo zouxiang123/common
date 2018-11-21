@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.AppPatientAccountMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.AppPatientAccount">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="sib_name" jdbcType="VARCHAR" property="sibName" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="is_sib" jdbcType="VARCHAR" property="isSib" />
+    <result column="relationship" jdbcType="VARCHAR" property="relationship" />
+    <result column="is_enable" jdbcType="BIT" property="isEnable" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, account, password, fk_patient_id, sib_name, tel, is_sib, relationship, is_enable, 
+    fk_tenant_id, create_time, create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_account
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_patient_account
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.AppPatientAccount">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_account (id, account, password, 
+      fk_patient_id, sib_name, tel, 
+      is_sib, relationship, is_enable, 
+      fk_tenant_id, create_time, create_user_id, 
+      update_time, update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{fkPatientId,jdbcType=BIGINT}, #{sibName,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR}, 
+      #{isSib,jdbcType=VARCHAR}, #{relationship,jdbcType=VARCHAR}, #{isEnable,jdbcType=BIT}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AppPatientAccount">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_account
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="sibName != null">
+        sib_name,
+      </if>
+      <if test="tel != null">
+        tel,
+      </if>
+      <if test="isSib != null">
+        is_sib,
+      </if>
+      <if test="relationship != null">
+        relationship,
+      </if>
+      <if test="isEnable != null">
+        is_enable,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="sibName != null">
+        #{sibName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="isSib != null">
+        #{isSib,jdbcType=VARCHAR},
+      </if>
+      <if test="relationship != null">
+        #{relationship,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.AppPatientAccount">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_account
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="sibName != null">
+        sib_name = #{sibName,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="isSib != null">
+        is_sib = #{isSib,jdbcType=VARCHAR},
+      </if>
+      <if test="relationship != null">
+        relationship = #{relationship,jdbcType=VARCHAR},
+      </if>
+      <if test="isEnable != null">
+        is_enable = #{isEnable,jdbcType=BIT},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.AppPatientAccount">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_account
+    set account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      sib_name = #{sibName,jdbcType=VARCHAR},
+      tel = #{tel,jdbcType=VARCHAR},
+      is_sib = #{isSib,jdbcType=VARCHAR},
+      relationship = #{relationship,jdbcType=VARCHAR},
+      is_enable = #{isEnable,jdbcType=BIT},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+    <resultMap extends="BaseResultMap" id="ExtendResultMap" type="com.xtt.common.dao.po.AppPatientAccountPO">
+        <result column="countSubAccount" jdbcType="INTEGER" property="countSubAccount" />
+        <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+        <result column="barcode_path" jdbcType="VARCHAR" property="barcodePath" />
+    </resultMap>
+  <!-- 通过手机号查询患者信息个数 -->
+    <select id="getCountByMobile" resultType="java.lang.Integer">
+        select count(*) from app_patient_account
+        <where>
+            <if test="mobile!=null and mobile!=''">
+                and tel = #{mobile}
+            </if>
+            <if test="fkPatientId!=null">
+                and fk_patient_id != #{fkPatientId,jdbcType=BIGINT}
+            </if>
+        </where>
+    </select>
+  <!-- 根据手机号查询患者账户 -->
+    <select id="getByMobile" resultMap="BaseResultMap">
+        select 
+        <include refid="Base_Column_List" />
+        from app_patient_account
+        <where>
+            <if test="mobile!=null and mobile!=''">
+                and tel = #{mobile}
+            </if>
+        </where>
+    </select>
+    <!-- app集团患者登录 -->
+    <select id="login" resultMap="ExtendResultMap">
+        SELECT
+        pa.*, p.image_path,
+        p.barcode_path,
+        p.sex,
+        po.sys_owner as sysOwner,
+        group_concat(distinct po.fk_tenant_id) as multiTenantId,
+        group_concat(distinct po.sys_owner) as multiSysOwner,
+        group_concat(c1.id) as roleId,group_concat(c11.parent_id) as parentRoleId,
+        DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+        FROM app_patient_account pa
+        INNER JOIN app_patient p ON pa.fk_patient_id = p.id
+        inner join app_patient_owner po on po.fk_patient_id=p.id
+        LEFT JOIN app_patient_role c1 ON pa.fk_patient_id=c1.fk_patient_id
+        LEFT JOIN app_role c11 on c1.fk_role_id=c11.id
+        WHERE pa.account = #{account}
+         AND pa.PASSWORD = #{password}
+         and pa.fk_tenant_id = #{fkTenantId} 
+         limit 1
+    </select>
+    
+    <!-- 管理员登录 -->
+    <select id="loginToAdmin" resultMap="ExtendResultMap">
+        SELECT
+        pa.*,group_concat(c1.id) as roleId,group_concat(c11.parent_id) as parentRoleId
+        FROM app_patient_account pa
+         LEFT JOIN app_patient_role c1 ON pa.fk_patient_id=c1.fk_patient_id
+        LEFT JOIN app_role c11 on c1.fk_role_id=c11.id
+        WHERE pa.account = #{account}
+         AND pa.PASSWORD = #{password} 
+         and c11.parent_id=1 
+         <if test="fkTenantId !=null">
+            and pa.fk_tenant_id = #{fkTenantId}
+         </if>
+    </select>
+    <select id="countSubAccount" resultType="java.lang.Integer">
+        select count(1)
+        from app_patient_account pa
+        where 
+            pa.fk_patient_id=#{fkPatientId}
+            and is_sib = 1
+            and pa.is_enable=1
+    </select>
+    
+    <select id="selectSubAccount" resultMap="ExtendResultMap">
+        select <include refid="Base_Column_List" />
+        from app_patient_account
+        where 
+            fk_patient_id = #{fkPatientId}
+            and is_sib = 1
+            and is_enable=1
+    </select>
+    <select id="selectByCondition" parameterType="com.xtt.common.dao.po.AppPatientAccountPO" resultMap="ExtendResultMap">
+        select pa.*, p.sex
+        from app_patient_account pa left join app_patient p on pa.is_sib = 0 and pa.fk_patient_id=p.id
+        <where>
+            <if test="account != null">
+              pa.account = #{account}
+            </if>
+            <if test="password != null">
+              AND pa.password = #{password}
+            </if>
+            <if test="sibName != null">
+              AND pa.sib_name = #{sibName}
+            </if>
+            <if test="tel != null">
+              AND pa.tel = #{tel}
+            </if>
+            <if test="isSib != null">
+              AND pa.is_sib = #{isSib}
+            </if>
+            <if test="fkPatientId != null">
+              AND pa.fk_patient_id = #{fkPatientId}
+            </if>
+            <if test="isEnable != null">
+              AND pa.is_enable = #{isEnable}
+            </if>
+            <if test="fkTenantId != null">
+              AND pa.fk_tenant_id = #{fkTenantId}
+            </if>
+        </where> 
+    </select>
+    <!-- 查询app所有账户 -->
+    <select id="listAll" resultMap="ExtendResultMap">
+        SELECT
+        pa.*, p.image_path,
+        p.barcode_path,
+        p.sex,
+        p.name,
+        po.sys_owner as sysOwner,
+        DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+        FROM app_patient_account pa
+        INNER JOIN app_patient p ON pa.fk_patient_id = p.id
+        INNER join app_patient_owner po on po.fk_patient_id=p.id
+    </select> 
+    <!-- 根据患者登录账户查询所有的租户号 -->
+    <select id="listTenantByAccount" resultMap="ExtendResultMap">
+        SELECT pa.account,p.`name` as patientName,c1.fk_tenant_id,c11.`name` as fkTenantName,c11.url,c11.hd_url as hdUrl,c11.bg_image as bgImage,c11.group_flag as groupFlag,c11.id as hospitalId
+        FROM app_patient_account pa left join app_patient p on pa.is_sib = 0 and pa.fk_patient_id=p.id
+        LEFT JOIN app_patient_owner c1 on c1.fk_patient_id=pa.fk_patient_id
+        LEFT JOIN app_hospital_address c11 on c11.fk_tenant_id=c1.fk_tenant_id
+        WHERE pa.account=#{account}
+    </select>
+    <!-- 根据条件查询app所有账户 -->
+    <select id="listByCond" parameterType="com.xtt.common.dao.po.AppPatientAccountPO" resultMap="ExtendResultMap">
+        SELECT
+        pa.*, p.image_path,
+        p.barcode_path,
+        p.sex,
+        p.name,
+        po.sys_owner as sysOwner,
+        GROUP_CONCAT(c11.`name`) roleName,
+        GROUP_CONCAT(c11.id) roleIds,
+        DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(p.birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(p.birthday, '00-%m-%d')) AS age
+        FROM app_patient_account pa 
+        INNER JOIN app_patient p ON pa.fk_patient_id = p.id
+        INNER join app_patient_owner po on po.fk_patient_id=p.id
+        LEFT JOIN app_patient_role c1 on c1.fk_patient_id=p.id
+        LEFT JOIN app_role c11 on c1.fk_role_id=c11.id
+        <where>
+            <if test="tel != null and tel != ''">
+                and pa.tel like concat('%', #{tel} ,'%')
+            </if>
+            <if test="isSib != null">
+                AND pa.is_sib = #{isSib}
+            </if>
+            <if test="name != null and name != ''">
+                and (p.name like concat('%', #{name} ,'%') or p.spell_initials like concat('%', #{name} ,'%') )
+            </if>
+            <if test="fkTenantId != null">
+                and pa.fk_tenant_id = #{fkTenantId}
+            </if>
+            <if test="sysOwner != null">
+                and po.sys_owner = #{sysOwner}
+            </if>
+            <if test="fkRoleId != null">
+                <if test="fkRoleId == 100 or fkRoleId == 200 ">
+                    and (c11.id = #{fkRoleId} or c11.id is null)
+                </if>
+                <if test="fkRoleId != 100 and fkRoleId != 200">
+                    and c11.id = #{fkRoleId}
+                </if>
+            </if>
+        </where>
+        GROUP BY pa.id
+    </select>
+</mapper>
