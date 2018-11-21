@@ -53,6 +53,7 @@
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />    
     <result column="nation" jdbcType="VARCHAR" property="nation" />
     <result column="culture" jdbcType="VARCHAR" property="culture" />
+    <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -64,7 +65,7 @@
     spell_initials, outpatient_number, id_type, emergency_contacts, emergency_mobile2, 
     emergency_mobile3, offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, 
     barcode_path, height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
-    update_time, update_user_id,nation,culture
+    update_time, update_user_id,nation,culture,file_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -101,7 +102,7 @@
       barcode_path, height, weight, 
       serial_num, fk_tenant_id, sys_owner, 
       create_time, create_user_id, update_time, 
-      update_user_id,nation,culture)
+      update_user_id,nation,culture,file_number)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
@@ -117,7 +118,7 @@
       #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
       #{serialNum,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT},#{nation,jdbcType=VARCHAR},#{culture,jdbcType=VARCHAR})
+      #{updateUserId,jdbcType=BIGINT},#{nation,jdbcType=VARCHAR},#{culture,jdbcType=VARCHAR},#{fileNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -269,6 +270,9 @@
       <if test="culture != null">
         culture,
       </if>
+      <if test="fileNumber != null">
+        file_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -414,6 +418,9 @@
       </if>
       <if test="culture != null">
         #{culture,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNumber != null">
+        #{fileNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -567,6 +574,9 @@
       <if test="culture != null">
         culture = #{culture,jdbcType=VARCHAR},
       </if>
+      <if test="fileNumber != null">
+        file_number = #{fileNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -621,7 +631,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       nation = #{nation,jdbcType=VARCHAR},
-      culture = #{culture,jdbcType=VARCHAR}
+      culture = #{culture,jdbcType=VARCHAR},
+      file_number = #{fileNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

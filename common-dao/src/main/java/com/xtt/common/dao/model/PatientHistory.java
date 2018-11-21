@@ -248,6 +248,11 @@ public class PatientHistory {
     private String culture;
 
     /**
+     * 档案号patient_history.file_number
+     */
+    private String fileNumber;
+
+    /**
      */
     public Long getId() {
         return id;
@@ -901,5 +906,13 @@ public class PatientHistory {
 
     public void setCulture(String culture) {
         this.culture = culture;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 }

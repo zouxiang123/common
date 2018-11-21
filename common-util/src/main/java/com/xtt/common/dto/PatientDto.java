@@ -262,6 +262,8 @@ public class PatientDto {
      */
     private String multiTenantId;
 
+    private String fileNumber;
+
     /**
      */
     public Long getId() {
@@ -998,6 +1000,14 @@ public class PatientDto {
 
     public void setCulture(String culture) {
         this.culture = culture;
+    }
+
+    public String getFileNumber() {
+        return fileNumber;
+    }
+
+    public void setFileNumber(String fileNumber) {
+        this.fileNumber = fileNumber;
     }
 
 }
