@@ -46,4 +46,8 @@ public class PatientAssayDictionaryServiceImpl implements IPatientAssayDictionar
         return list;
     }
 
+    @Override
+    public List<PatientAssayDictionaryPO> listByCondition(PatientAssayDictionaryPO record) {
+        return patientAssayDictionaryMapper.listByCondition(record);
+    }
 }

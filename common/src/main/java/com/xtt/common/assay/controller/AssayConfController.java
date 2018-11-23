@@ -29,7 +29,7 @@ public class AssayConfController {
      */
     @RequestMapping("adminView")
     public String adminView() {
-        return "assay/assay_conf_admin";
+        return "/cm/assay/assay_conf_admin";
     }
 
     /**
@@ -41,7 +41,7 @@ public class AssayConfController {
      */
     @RequestMapping("view")
     public String view() {
-        return "assay/assay_conf";
+        return "/cm/assay/assay_conf";
     }
 
     /**

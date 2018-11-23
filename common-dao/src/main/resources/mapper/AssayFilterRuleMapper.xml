@@ -19,6 +19,7 @@
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="assay_date_type" jdbcType="VARCHAR" property="assayDateType" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -26,7 +27,7 @@
     -->
     id, category, group_name, item_code, keyword_before, keyword_after, item_count_before, 
     item_count_after, interval_day, fk_tenant_id, create_time, create_user_id, update_time, 
-    update_user_id
+    update_user_id,assay_date_type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -52,12 +53,12 @@
       item_code, keyword_before, keyword_after, 
       item_count_before, item_count_after, interval_day, 
       fk_tenant_id, create_time, create_user_id, 
-      update_time, update_user_id)
+      update_time, update_user_id,assay_date_type)
     values (#{id,jdbcType=BIGINT}, #{category,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
       #{itemCode,jdbcType=VARCHAR}, #{keywordBefore,jdbcType=VARCHAR}, #{keywordAfter,jdbcType=VARCHAR}, 
       #{itemCountBefore,jdbcType=INTEGER}, #{itemCountAfter,jdbcType=INTEGER}, #{intervalDay,jdbcType=INTEGER}, 
       #{fkTenantId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{assayDateType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.AssayFilterRule">
     <!--
@@ -107,6 +108,9 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="assayDateType != null">
+        assay_date_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -150,6 +154,9 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="assayDateType != null">
+        #{assayDateType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -198,6 +205,9 @@
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=BIGINT},
       </if>
+      <if test="assayDateType != null">
+        assay_date_type= #{assayDateType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -218,7 +228,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      assay_date_type= #{assayDateType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
      <!-- user define -->

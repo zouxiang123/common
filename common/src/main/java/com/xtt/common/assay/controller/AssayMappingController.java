@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,8 @@ import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.AssayHospDictPO;
 import com.xtt.common.dao.po.PatientAssayDictionaryPO;
 import com.xtt.common.util.DictUtil;
+import com.xtt.common.util.UserUtil;
+import com.xtt.platform.util.http.HttpResult;
 
 @Controller
 @RequestMapping("/assay/assayMapping/")
@@ -104,6 +107,52 @@ public class AssayMappingController {
         map.put("items", list);
         map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
         return map;
+    }
+
+    /**
+     * 获取血透字典列表
+     * 
+     * @Title: getXttDictList
+     * @return
+     */
+    @RequestMapping("getXttDictList")
+    @ResponseBody
+    public HttpResult getXttDictList(PatientAssayDictionaryPO record) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        List<PatientAssayDictionaryPO> list = patientAssayDictionaryService.listByCondition(record);
+        result.setRs(list);
+        return result;
+    }
+
+    /**
+     * 自动关联
+     * 
+     * @Title: autoMapping
+     * @return
+     */
+    @RequestMapping("autoMapping")
+    @ResponseBody
+    public HttpResult autoMapping() {
+        HttpResult result = HttpResult.getSuccessInstance();
+        assayHospDictService.autoMappingDict(UserUtil.getTenantId());
+        return result;
+    }
+
+    /**
+     * 建立映射关系
+     * 
+     */
+    @RequestMapping("mapping")
+    @ResponseBody
+    public HttpResult mapping(AssayHospDictPO record) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        if (StringUtils.isEmpty(record.getFkDictCode()) || CollectionUtils.isEmpty(record.getIds())) {
+            result.setStatus(HttpResult.WARNING);
+            result.setErrmsg("需要建立关联的双方不能为空");
+            return result;
+        }
+        assayHospDictService.saveMappingDictByIds(record);
+        return result;
     }
 
 }

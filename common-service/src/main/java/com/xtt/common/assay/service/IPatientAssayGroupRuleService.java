@@ -74,4 +74,24 @@ public interface IPatientAssayGroupRuleService {
      */
     void deleteByItemCode(String itemCode);
 
+    /**
+     * 根据itemCode获取对应的分组规则
+     * 
+     * @Title: listByItemCode
+     * @param itemCode
+     * @return
+     *
+     */
+    List<PatientAssayGroupRulePO> listByItemCode(String itemCode);
+
+    /**
+     * 保存化验分组规则
+     * 
+     * @Title: saveGroupRule
+     * @param ruleList
+     * @param assayHospDict
+     *
+     */
+    void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, AssayHospDictPO assayHospDict);
+
 }

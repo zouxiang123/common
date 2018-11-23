@@ -24,6 +24,7 @@
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="is_fix" jdbcType="BIT" property="isFix" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.xtt.common.dao.model.PatientAssayDictionary" extends="BaseResultMap" >
     <!--
@@ -41,7 +42,7 @@
     -->
     id, group_id, group_name, item_code, item_name, value_type, min_value, max_value, 
     other_value, unit, order_by, is_enable, operator_id, create_time, create_user_id, 
-    update_time, update_user_id
+    update_time, update_user_id,is_fix
   </sql>
   <sql id="Blob_Column_List" >
     <!--
@@ -84,15 +85,15 @@
       min_value, max_value, other_value, 
       unit, order_by, is_enable, 
       operator_id, create_time, create_user_id, 
-      update_time, update_user_id, method
+      update_time, update_user_id, method,is_fix
       )
     values (#{id,jdbcType=BIGINT}, #{groupId,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, 
       #{itemCode,jdbcType=VARCHAR}, #{itemName,jdbcType=VARCHAR}, #{valueType,jdbcType=INTEGER}, 
       #{minValue,jdbcType=DECIMAL}, #{maxValue,jdbcType=DECIMAL}, #{otherValue,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{orderBy,jdbcType=INTEGER}, #{isEnable,jdbcType=BIT}, 
       #{operatorId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{method,jdbcType=LONGVARCHAR},
+      #{isFix,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" >
     <!--
@@ -156,6 +157,9 @@
       <if test="method != null" >
         method,
       </if>
+      <if test="isFix != null" >
+        is_fix,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -212,6 +216,9 @@
       <if test="method != null" >
         #{method,jdbcType=LONGVARCHAR},
       </if>
+      <if test="isFix != null" >
+        #{isFix,jdbcType=BIT},
+      </if>     
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" >
@@ -273,6 +280,9 @@
       <if test="method != null" >
         method = #{method,jdbcType=LONGVARCHAR},
       </if>
+      <if test="isFix != null" >
+        is_fix=#{isFix,jdbcType=BIT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -299,7 +309,8 @@
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},
-      method = #{method,jdbcType=LONGVARCHAR}
+      method = #{method,jdbcType=LONGVARCHAR},
+      is_fix= #{isFix,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" >
@@ -324,7 +335,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      is_fix=#{isFix,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
   
@@ -388,6 +400,46 @@
 	      <if test="isEnable != null" >
 	        and pad.is_enable = #{isEnable}
 	      </if>
+      </where>
+  </select>
+  
+  <!-- 根据自定义条件查询数据 -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.model.PatientAssayDictionary" resultMap="POResultMap">
+      select pad.* from patient_assay_dictionary pad
+      <where>
+          <if test="groupId != null">
+            pad.group_id = #{group_id}
+          </if>
+          <if test="groupName != null">
+            and pad.group_name = #{groupName}
+          </if>
+          <if test="itemCode != null">
+            and pad.item_code =#{itemCode}
+          </if>
+          <if test="itemName != null">
+            and pad.item_name =#{itemName}
+          </if>
+          <if test="valueType != null">
+            and pad.value_type = #{valueType}
+          </if>
+          <if test="minValue != null">
+            and pad.min_value = #{minValue}
+          </if>
+          <if test="maxValue != null">
+            and pad.max_value = #{maxValue}
+          </if>
+          <if test="otherValue != null">
+            and pad.other_value = #{otherValue}
+          </if>
+          <if test="unit != null">
+            and pad.unit = #{unit}
+          </if>
+          <if test="orderBy != null">
+            and pad.order_by = #{orderBy}
+          </if>
+          <if test="isFix != null">
+            and pad.is_fix = #{isFix}
+          </if>
       </where>
   </select>
 </mapper>

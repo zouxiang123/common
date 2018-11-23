@@ -10,6 +10,7 @@ package com.xtt.common.dao.po;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.xtt.common.dao.model.AssayHospDict;
 
@@ -35,6 +36,8 @@ public class AssayHospDictPO extends AssayHospDict {
     private String itemCodeShow;
 
     private Collection<String> itemCodes;
+
+    private List<Long> ids;
 
     public String getOldItemCode() {
         return oldItemCode;
@@ -170,6 +173,14 @@ public class AssayHospDictPO extends AssayHospDict {
 
     public void setItemCodes(Collection<String> itemCodes) {
         this.itemCodes = itemCodes;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 
 }

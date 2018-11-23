@@ -740,4 +740,12 @@
         GROUP BY t.item_code,t.item_name
         ORDER BY t.item_code
     </select>
+    
+    <!-- 如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去 -->
+    <select id="autoMappingDict">
+        UPDATE assay_hosp_dict d
+        LEFT JOIN patient_assay_dictionary ad ON (ad.item_code = d.item_code OR ad.item_name = d.item_name)
+        SET d.fk_dict_code = ad.item_code, d.fk_dict_name = ad.item_name, d.fk_dict_uk= CONCAT(ad.item_code,#{ukSuffix})
+        WHERE d.fk_dict_code is null;
+    </select>
 </mapper>

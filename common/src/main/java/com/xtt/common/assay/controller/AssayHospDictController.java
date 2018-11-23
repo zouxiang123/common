@@ -6,6 +6,7 @@ package com.xtt.common.assay.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,7 +53,7 @@ public class AssayHospDictController {
      */
     @RequestMapping("manualView")
     public ModelAndView manualView() {
-        ModelAndView model = new ModelAndView("cm/assay/patient_assay_record_maintain");
+        ModelAndView model = new ModelAndView("cm/assay/assay_dict_manual");
         model.addAllObjects(listAllManualAdd());
         return model;
     }
@@ -297,4 +298,83 @@ public class AssayHospDictController {
         map.put("status", CommonConstants.SUCCESS);
         return map;
     }
+
+    /**
+     * 手动添加化验项
+     * 
+     * @param record
+     * @return
+     */
+    @RequestMapping("saveDict")
+    @ResponseBody
+    public HttpResult saveDict(AssayHospDictPO record) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        if (StringUtil.isBlank(record.getItemCode()) || StringUtil.isBlank(record.getGroupId())) {
+            result.setStatus(HttpResult.WARNING);
+            result.setErrmsg("化验项编号及化验单名称不能为空");
+            return result;
+        }
+        boolean needCheck = true;
+        if (StringUtil.isNotBlank(record.getOldItemCode()) && Objects.equals(record.getItemCode(), record.getOldItemCode())) {// 更新操作,但没有变更itemCode
+            needCheck = false;
+        }
+        if (needCheck) {
+            record.setFkTenantId(UserUtil.getTenantId());
+            if (assayHospDictService.queryByItemCodeandGroupId(record) > 0) {// 判断当前分组下itemCode是否存在
+                result.setStatus(HttpResult.WARNING);
+                result.setErrmsg("化验单存在相同的化验项");
+                return result;
+            }
+            // 检测项目代号是否与his系统重复
+            record.setIsAuto(true);
+            if (assayHospDictService.queryByItemCode(record) > 0) {
+                result.setStatus(HttpResult.WARNING);
+                result.setErrmsg("HIS系统中已存在对应的itemCode：" + record.getItemCode());
+                return result;
+            }
+        }
+        if (StringUtil.isNotBlank(record.getOldItemCode())) {
+            assayHospDictService.updateAssay(record);
+        } else {
+            record.setIsAuto(false);
+            DataUtil.setAllSystemFieldValue(record);
+            assayHospDictService.insertManual(record);
+        }
+        return result;
+    }
+
+    /**
+     * 根据组id和itemCode查询数据
+     * 
+     * @Title: getByItemCode
+     * @param groupId
+     * @param itemCode
+     * @return
+     *
+     */
+    @RequestMapping("getByGroupIdAndItemCode")
+    @ResponseBody
+    public HttpResult getByItemCode(String groupId, String itemCode) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        AssayHospDictPO record = new AssayHospDictPO();
+        record.setGroupId(groupId);
+        record.setItemCode(itemCode);
+        result.setRs(assayHospDictService.getByGroupIdAndItemCode(record));
+        return result;
+    }
+
+    /**
+     * 根据分组id和itemCode删除化验单数据
+     * 
+     * @param id
+     * @return
+     */
+    @RequestMapping("deleteByGroupIdAndCode")
+    @ResponseBody
+    public HttpResult deleteByGroupIdAndCode(AssayHospDictPO record) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        assayHospDictGroupMappingService.deleteByGroupIdAndItemCode(record.getGroupId(), record.getItemCode(), UserUtil.getTenantId());
+        return result;
+    }
+
 }

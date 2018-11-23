@@ -12,7 +12,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -189,11 +191,11 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
 
     @Override
     public void updateAssay(AssayHospDictPO record) {
-        // itemCode 没有更新时
-        if (StringUtil.equals(record.getItemCode(), record.getOldItemCode())) {
-            this.updateDictHospital(record);
-        } else { // 更新了itemCode
-            this.updateDictHospital(record);
+        DataUtil.setUpdateSystemFieldValue(record);
+        updateDictHospital(record);
+        if (!Objects.equals(record.getItemCode(), record.getOldItemCode())) {// itemCode发生了变更，删除原有对应关系，重新建立code和分组的对应关系
+            // 删除对应关系
+            assayHospDictGroupMappingService.deleteByGroupIdAndItemCode(record.getGroupId(), record.getOldItemCode(), UserUtil.getTenantId());
             // 新增对应关系
             AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
             assayHospDictGroupMapping.setFkGroupId(record.getGroupId());
@@ -201,8 +203,7 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
             assayHospDictGroupMapping.setFkTenantId(UserUtil.getTenantId());
             DataUtil.setSystemFieldValue(assayHospDictGroupMapping);
             assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
-            // 删除对应关系
-            assayHospDictGroupMappingService.deleteByGroupIdAndItemCode(record.getGroupId(), record.getOldItemCode(), UserUtil.getTenantId());
+
         }
 
     }
@@ -250,4 +251,45 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         return assayHospDictMapper.listProcessedItemCodeRec(record);
     }
 
+    @Override
+    public void autoMappingDict(Integer tenantId) {
+        assayHospDictMapper.autoMappingDict(tenantId, CommonConstants.DICT_UK_SUFFIX);
+    }
+
+    @Override
+    public void saveMappingDictByIds(AssayHospDictPO record) {
+        if (CollectionUtils.isNotEmpty(record.getIds()) && StringUtil.isNotBlank(record.getFkDictCode())) {
+            String ukCode = record.getFkDictCode().concat(CommonConstants.DICT_UK_SUFFIX);
+            for (Long id : record.getIds()) {
+                AssayHospDict updateRec = new AssayHospDict();
+                updateRec.setId(id);
+                updateRec.setFkDictCode(record.getFkDictCode());
+                updateRec.setFkDictName(record.getFkDictName());
+                updateRec.setFkDictUk(ukCode);
+                updateRec.setScalingFactor(record.getScalingFactor());
+                updateRec.setUpdateTime(new Date());
+                updateRec.setUpdateUserId(UserUtil.getLoginUserId());
+                assayHospDictMapper.updateByPrimaryKeySelective(updateRec);
+            }
+        }
+    }
+
+    @Override
+    public void insertManual(AssayHospDictPO record) {
+        // 判断当前itemCode是否已存在，如果存在，则只插入关联关系，否则两者均插入
+        AssayHospDictPO old = getByItemCode(record.getItemCode());
+        if (old == null) {
+            assayHospDictMapper.insertSelective(record);
+        } else {// 更新动作
+            record.setId(old.getId());
+            DataUtil.setUpdateSystemFieldValue(record);
+            assayHospDictMapper.updateByPrimaryKeySelective(record);
+        }
+        AssayHospDictGroupMapping assayHospDictGroupMapping = new AssayHospDictGroupMapping();
+        assayHospDictGroupMapping.setFkItemCode(record.getItemCode());
+        assayHospDictGroupMapping.setFkGroupId(record.getGroupId());
+        assayHospDictGroupMapping.setFkTenantId(UserUtil.getTenantId());
+        DataUtil.setSystemFieldValue(assayHospDictGroupMapping);
+        assayHospDictGroupMappingService.insert(assayHospDictGroupMapping);
+    }
 }

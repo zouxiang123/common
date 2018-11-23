@@ -251,4 +251,15 @@ public interface AssayHospDictMapper {
      *
      */
     List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
+
+    /**
+     * 自动建立和fkDictCode之间的关联 <note>如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去</note>
+     * 
+     * @Title: autoMappingDict
+     * @param tenantId
+     * @param ukSuffix
+     *            唯一标识后缀
+     *
+     */
+    void autoMappingDict(@Param("fkTenantId") Integer tenantId, @Param("ukSuffix") String ukSuffix);
 }

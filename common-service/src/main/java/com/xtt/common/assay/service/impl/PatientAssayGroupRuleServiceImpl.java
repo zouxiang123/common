@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -231,5 +232,54 @@ public class PatientAssayGroupRuleServiceImpl implements IPatientAssayGroupRuleS
     @Override
     public void deleteByItemCode(String itemCode) {
         patientAssayGroupRuleMapper.deleteByItemCode(itemCode, UserUtil.getTenantId());
+    }
+
+    @Override
+    public List<PatientAssayGroupRulePO> listByItemCode(String itemCode) {
+        return patientAssayGroupRuleMapper.selectByItemCode(itemCode, UserUtil.getTenantId());
+    }
+
+    /**
+     * 添加化验检查分组
+     */
+    @Override
+    public void saveGroupRule(List<PatientAssayGroupRulePO> ruleList, AssayHospDictPO assayHospDict) {
+        if (CollectionUtils.isNotEmpty(ruleList)) {// 过滤minValue 为null的值
+            ruleList = ruleList.stream().filter(rule -> rule.getMinValue() != null).collect(Collectors.toList());
+            // 排序
+            ruleList.sort((o1, o2) -> {
+                return o1.getMinValue().compareTo(o2.getMinValue());
+            });
+        }
+        // 租户ID
+        Integer tenantId = UserUtil.getTenantId();
+        // 用户ID
+        Long userId = UserUtil.getLoginUserId();
+        List<String> itemCodes = assayHospDictService.listSimilarItemCode(assayHospDict.getItemCode(), tenantId);
+        if (CollectionUtils.isEmpty(itemCodes)) {
+            itemCodes = new ArrayList<>(1);
+            itemCodes.add(assayHospDict.getItemCode());
+        }
+        // 同步分组规则到同类组中的其它itemCode
+        for (String code : itemCodes) {
+            // 删除patientAssayGroupRule的itemCode 的值
+            deleteByItemCode(code);
+            // 添加patientAssayGroupRule
+            if (CollectionUtils.isNotEmpty(ruleList)) {
+                insertGroupRule(ruleList, code, tenantId, userId);
+            }
+            AssayHospDictPO dict = assayHospDictService.getByItemCode(code);
+            if (dict != null) {
+                AssayHospDictPO dictRecord = assayHospDict;// 当前更新的项目
+                Long dictId = dictRecord.getId();
+                if (Objects.equals(dict.getId(), dictId)) {// 更新本条记录，设置其是否置顶，是否置顶标识不同步
+                    dict.setIsTop(dictRecord.getIsTop());
+                }
+                dict.setPersonalMaxValue(dictRecord.getPersonalMaxValue());
+                dict.setPersonalMinValue(dictRecord.getPersonalMinValue());
+                // 修改DictHospitalLab表
+                assayHospDictService.updateSomeValue(dict);
+            }
+        }
     }
 }

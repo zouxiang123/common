@@ -7,15 +7,18 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xtt.common.assay.service.IAssayHospDictService;
 import com.xtt.common.assay.service.IPatientAssayGroupRuleService;
 import com.xtt.common.assay.vo.PatientAssayGroupRuleListVO;
 import com.xtt.common.assay.vo.SortComparatorImpl;
 import com.xtt.common.constants.CommonConstants;
 import com.xtt.common.dao.po.PatientAssayGroupRulePO;
+import com.xtt.platform.util.http.HttpResult;
 
 @Controller
 @RequestMapping("/assay/patientAssayGroupRule")
@@ -23,6 +26,8 @@ public class PatientAssayGroupRuleController {
 
     @Autowired
     private IPatientAssayGroupRuleService patientAssayGroupRuleService;
+    @Autowired
+    private IAssayHospDictService assayHospDictService;
 
     /**
      * 跳转到化验配置规则
@@ -121,5 +126,44 @@ public class PatientAssayGroupRuleController {
         // 排序再返回到前台
         Collections.sort(patientAssayGroupRulePOListBySelect, new SortComparatorImpl());
         return patientAssayGroupRulePOListBySelect;
+    }
+
+    /**
+     * 查询所有的化验分组规则
+     * 
+     * @return
+     */
+    @RequestMapping("getGroupRuleByItemCode")
+    @ResponseBody
+    public HttpResult getGroupRuleByItemCode(String itemCode) {
+        HttpResult result = HttpResult.getSuccessInstance();
+        List<PatientAssayGroupRulePO> list = patientAssayGroupRuleService.listByItemCode(itemCode);
+        result.setRs(list);
+        return result;
+    }
+
+    /**
+     * 保存检查项规则
+     * 
+     * @param saveRule
+     */
+    @RequestMapping(value = "saveRule")
+    @ResponseBody
+    public Map<String, String> saveRule(@RequestBody PatientAssayGroupRuleListVO tempvo) throws Exception {
+        // AssayHospDictPO old = assayHospDictService.getById(tempvo.getAssayHospDict().getId());
+        patientAssayGroupRuleService.saveGroupRule(tempvo.getPatientAssayGroupRuleList(), tempvo.getAssayHospDict());
+        // 置顶项发生变更,重新生成置顶项报表数据
+        /*if (!Objects.equals(old.getIsTop(), tempvo.getAssayHospDict().getIsTop())) {
+            LoginUser user = UserUtil.getLoginUser();
+            new Thread(() -> {
+                UserUtil.setThreadLoginUser(user);
+                List<String> itemCodes = new ArrayList<>(1);
+                itemCodes.add(old.getItemCode());
+                commonAssayReportController.insertAuto(null, user.getTenantId(), itemCodes);
+            }).start();
+        }*/
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(CommonConstants.STATUS, CommonConstants.SUCCESS);
+        return map;
     }
 }
