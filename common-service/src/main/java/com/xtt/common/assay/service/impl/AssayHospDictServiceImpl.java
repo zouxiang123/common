@@ -245,4 +245,9 @@ public class AssayHospDictServiceImpl implements IAssayHospDictService {
         return assayHospDictMapper.listItemCodeByDictCcode(dict.getFkDictCode(), tenantId);
     }
 
+    @Override
+    public List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record) {
+        return assayHospDictMapper.listProcessedItemCodeRec(record);
+    }
+
 }

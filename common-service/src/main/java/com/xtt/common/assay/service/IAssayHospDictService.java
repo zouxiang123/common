@@ -268,4 +268,13 @@ public interface IAssayHospDictService {
 
     List<String> listSimilarItemCode(String itemCode, Integer tenantId);
 
+    /**
+     * 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code）
+     * 
+     * @Title: listProcessedItemCodeRec
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
+
 }
