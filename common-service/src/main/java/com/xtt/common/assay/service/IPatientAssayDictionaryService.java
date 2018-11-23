@@ -41,4 +41,12 @@ public interface IPatientAssayDictionaryService {
      */
     PatientAssayDictionaryPO getByItemCode(String itemCode);
 
+    /**
+     * 根据条件获取检查项
+     * 
+     * @Title: listByCondition
+     * @return
+     *
+     */
+    List<PatientAssayDictionaryPO> listByCondition(PatientAssayDictionaryPO record);
 }

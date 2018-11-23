@@ -231,7 +231,7 @@ public interface AssayHospDictMapper {
      *
      */
     AssayHospDictPO getById(Long id);
-    
+
     /**
      * 通过患者化验单字典表外键 查询项目编码
      * 
@@ -242,4 +242,24 @@ public interface AssayHospDictMapper {
      *
      */
     List<String> listItemCodeByDictCcode(@Param("fkDictCode") String dictCode, @Param("fkTenantId") Integer tenantId);
+
+    /**
+     * 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code）
+     * 
+     * @Title: listProcessedItemCodeRec
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
+
+    /**
+     * 自动建立和fkDictCode之间的关联 <note>如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去</note>
+     * 
+     * @Title: autoMappingDict
+     * @param tenantId
+     * @param ukSuffix
+     *            唯一标识后缀
+     *
+     */
+    void autoMappingDict(@Param("fkTenantId") Integer tenantId, @Param("ukSuffix") String ukSuffix);
 }

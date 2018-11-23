@@ -708,4 +708,44 @@
     <select id="listItemCodeByDictCcode" resultType="java.lang.String">
         SELECT item_code from assay_hosp_dict where fk_dict_code = #{fkDictCode} and fk_tenant_id = #{fkTenantId}
     </select>
+    
+    <!-- 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code） -->
+    <select id="listProcessedItemCodeRec" resultMap="POResultMap">
+        SELECT t.item_code,t.item_name,MAX(t.unit) unit
+            , MAX(t.group_name) groupName, MAX(t.group_id) groupId
+        FROM (
+            SELECT 
+                CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahd.item_code ELSE ahd.fk_dict_uk END item_code
+                ,CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahd.item_name ELSE ahd.fk_dict_name END item_name
+                , ahd.unit
+                , CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahdg.group_name ELSE pad.group_name END group_name
+                , CASE WHEN ahd.fk_dict_code is null or ahd.fk_dict_code = '' THEN ahdg.group_id ELSE pad.group_id END group_id
+            FROM assay_hosp_dict ahd 
+            JOIN assay_hosp_dict_group_mapping ahdgm on ahd.item_code = ahdgm.fk_item_code and ahd.fk_tenant_id = ahdgm.fk_tenant_id
+            JOIN assay_hosp_dict_group ahdg on ahdg.group_id = ahdgm.fk_group_id and ahdg.fk_tenant_id = ahdgm.fk_tenant_id
+            LEFT JOIN patient_assay_dictionary pad on ahd.fk_dict_code = pad.item_code
+            <where>
+                <if test="fkTenantId != null">
+                    ahd.fk_tenant_id = #{fkTenantId}
+                </if>
+                <if test="isTop != null">
+                    and ahd.is_top = #{isTop}
+                </if>
+                <if test="itemCodes != null and itemCodes.size() &gt;0">
+                    and ahd.item_code in
+                    <foreach close=")" collection="itemCodes" item="item" open="(" separator=",">#{item}</foreach>
+                </if>
+            </where>
+        ) t
+        GROUP BY t.item_code,t.item_name
+        ORDER BY t.item_code
+    </select>
+    
+    <!-- 如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去 -->
+    <select id="autoMappingDict">
+        UPDATE assay_hosp_dict d
+        LEFT JOIN patient_assay_dictionary ad ON (ad.item_code = d.item_code OR ad.item_name = d.item_name)
+        SET d.fk_dict_code = ad.item_code, d.fk_dict_name = ad.item_name, d.fk_dict_uk= CONCAT(ad.item_code,#{ukSuffix})
+        WHERE d.fk_dict_code is null;
+    </select>
 </mapper>

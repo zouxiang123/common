@@ -395,4 +395,20 @@
             </if>
         </where>
     </select>
+    
+    <!--查询化验项提醒数量 -->
+    <select id="countByCondition" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(id) from patient_assay_class
+        <where>
+            <if test="fkTenantId != null">
+                fk_tenant_id = #{fkTenantId}
+            </if>
+        </where>
+    </select>
+    
+    <!-- 删除表中所有的数据 -->
+    <delete id="deleteByCondition" parameterType="com.xtt.common.dao.model.PatientAssayClass">
+        delete from patient_assay_class
+        where fk_tenant_id = #{fkTenantId}
+    </delete>
 </mapper>

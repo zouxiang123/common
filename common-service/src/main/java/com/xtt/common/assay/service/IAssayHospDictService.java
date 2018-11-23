@@ -268,4 +268,39 @@ public interface IAssayHospDictService {
 
     List<String> listSimilarItemCode(String itemCode, Integer tenantId);
 
+    /**
+     * 查询处理过itemCode的记录（如果存在fk_dict_code，则itemCode为fk_dict_uk,否则为item_code）
+     * 
+     * @Title: listProcessedItemCodeRec
+     * @return
+     *
+     */
+    List<AssayHospDictPO> listProcessedItemCodeRec(AssayHospDictPO record);
+
+    /**
+     * 自动建立和fkDictCode之间的关联 <note>如果itemCode或者itemName和血透的字典表数据一致，则自动映射过去</note>
+     * 
+     * @Title: autoMappingDict
+     * @param tenantId
+     *
+     */
+    public void autoMappingDict(Integer tenantId);
+
+    /**
+     * 根据ids建立映射关系
+     * 
+     * @Title: saveMappingDictByIds
+     * @param record
+     * 
+     */
+    void saveMappingDictByIds(AssayHospDictPO assayHospDict);
+
+    /**
+     * 手动录入化验项
+     * 
+     * @param record
+     * @return
+     */
+    void insertManual(AssayHospDictPO record);
+
 }
