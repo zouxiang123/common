@@ -260,4 +260,7 @@ public class CommonConstants {
      * app拉取数据
      */
     public static final String APP_PULL = "01";
+
+    /** 临床诊断 */
+    public static final String LC = "LC";
 }

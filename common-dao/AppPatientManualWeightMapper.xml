@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.hdApp.dao.mapper.AppPatientManualWeightMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.hdApp.dao.model.AppPatientManualWeight">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="fk_patient_id" jdbcType="BIGINT" property="fkPatientId" />
+    <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="record_date" jdbcType="TIMESTAMP" property="recordDate" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, fk_patient_id, sys_owner, fk_tenant_id, record_date, weight, create_time, create_user_id, 
+    update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_manual_weight
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from app_patient_manual_weight
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.hdApp.dao.model.AppPatientManualWeight">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_manual_weight (id, fk_patient_id, sys_owner, 
+      fk_tenant_id, record_date, weight, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{fkPatientId,jdbcType=BIGINT}, #{sysOwner,jdbcType=VARCHAR}, 
+      #{fkTenantId,jdbcType=INTEGER}, #{recordDate,jdbcType=TIMESTAMP}, #{weight,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.hdApp.dao.model.AppPatientManualWeight">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into app_patient_manual_weight
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="fkPatientId != null">
+        fk_patient_id,
+      </if>
+      <if test="sysOwner != null">
+        sys_owner,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="recordDate != null">
+        record_date,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="fkPatientId != null">
+        #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="sysOwner != null">
+        #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="recordDate != null">
+        #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.hdApp.dao.model.AppPatientManualWeight">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_manual_weight
+    <set>
+      <if test="fkPatientId != null">
+        fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      </if>
+      <if test="sysOwner != null">
+        sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="recordDate != null">
+        record_date = #{recordDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.hdApp.dao.model.AppPatientManualWeight">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update app_patient_manual_weight
+    set fk_patient_id = #{fkPatientId,jdbcType=BIGINT},
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      record_date = #{recordDate,jdbcType=TIMESTAMP},
+      weight = #{weight,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 自定义 -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.hdApp.dao.po.OutsideHospitalPO"></resultMap>
+  <!-- 根据对象查询数据 -->
+  <select id="listByCondition" parameterType="com.xtt.hdApp.dao.po.AppPatientManualWeightPO" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from app_patient_manual_weight
+    where 
+        fk_patient_id = #{fkPatientId}
+      <if test="fkTenantId != null">
+        and fk_tenant_id = #{fkTenantId,jdbcType=INTEGER}
+      </if>
+      <if test="recordDate != null">
+        and record_date = #{recordDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="recordDateStr != null and recordDateStr != ''">
+        and DATE_FORMAT(record_date,'%Y-%m-%d') = #{recordDateStr}
+      </if>
+      <if test="startRecordDateStr != null and startRecordDateStr != ''">
+        and DATE_FORMAT(record_date,'%Y-%m-%d') &gt;= #{startRecordDateStr}
+      </if>
+      <if test="endRecordDateStr != null and endRecordDateStr != ''">
+        and DATE_FORMAT(record_date,'%Y-%m-%d') &lt;= #{endRecordDateStr}
+      </if>
+      <if test="weight != null">
+        and weight = #{weight,jdbcType=DECIMAL}
+      </if>
+      <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUserId != null">
+        and create_user_id = #{createUserId,jdbcType=BIGINT}
+      </if>
+      <if test="updateTime != null">
+        and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateUserId != null">
+        and update_user_id = #{updateUserId,jdbcType=BIGINT}
+      </if>
+      order by record_date
+  </select>
+  <!-- 根据对象查询数据 -->
+  <select id="listWeightGroup" parameterType="com.xtt.hdApp.dao.po.OutsideHospitalPO" resultMap="POResultMap">
+    SELECT * from
+    (select date_format(c1.record_date,'%Y-%m-%d') as recordDateStr,c1.weight,c1.fk_patient_id
+        from app_patient_manual_weight c1 
+        where c1.fk_patient_id=#{fkPatientId} 
+        <if test="startDateStr!=null and startDateStr!=''">
+            and DATE_FORMAT(c1.record_date,'%Y-%m-%d')&gt;=#{startDateStr}
+        </if>
+        <if test="endDateStr!=null and endDateStr!=''">
+            and DATE_FORMAT(c1.record_date,'%Y-%m-%d') &lt;=#{endDateStr}
+        </if>
+        order by c1.record_date desc
+        ) a1
+        GROUP BY recordDateStr 
+  </select>
+  <!-- 根据日期查询上一次的体重 -->
+  <select id="selectLastWeightGroupByDate" parameterType="com.xtt.hdApp.dao.po.OutsideHospitalPO" resultMap="POResultMap">
+    SELECT  date_format(a1.record_date,'%Y-%m-%d') as recordDateStr,a1.weight,a1.fk_patient_id
+        from app_patient_manual_weight a1 
+        where a1.fk_patient_id=#{fkPatientId} 
+        <if test="startDateStr!=null and startDateStr!=''">
+            and DATE_FORMAT(a1.record_date,'%Y-%m-%d')&gt;=#{startDateStr}
+        </if>
+        GROUP BY a1.fk_patient_id,date_format(a1.record_date,'%Y-%m-%d') 
+        limit 1
+  </select>
+</mapper>
