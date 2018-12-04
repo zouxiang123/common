@@ -935,4 +935,23 @@
     AND ahd.fk_dict_uk= #{itemCode}
     order BY parb.assay_date DESC LIMIT 1
   </select>
+  <!-- 根据条件查询 -->
+  <select id="listByCond" parameterType="com.xtt.common.dao.po.PatientAssayRecordBusiPO" resultMap="POResultMap">
+    select a1.id, a1.fk_patient_id, a1.item_code, a1.item_name, a1.result, a1.result_actual, a1.result_tips,a1.assay_date
+    from patient_assay_record_busi a1
+    <where>
+        <if test="startCreateTimeStr != null and startCreateTimeStr != ''">
+            AND a1.create_time &gt;= #{startCreateTimeStr}
+        </if>
+        <if test="endCreateTimeStr != null and endCreateTimeStr != ''">
+            AND a1.create_time &lt;= #{endCreateTimeStr}
+        </if>
+        <if test="fkTenantId != null">
+            AND a1.fk_tenant_id = #{fkTenantId}
+        </if>
+        <if test="hasPropConfIItemCode != null and hasPropConfIItemCode==true">
+            AND EXISTS(select 1 from patient_assay_prop_conf c1 where a1.item_code=c1.item_code and a1.fk_tenant_id=c1.fk_tenant_id)
+        </if>
+    </where>
+  </select>
 </mapper>

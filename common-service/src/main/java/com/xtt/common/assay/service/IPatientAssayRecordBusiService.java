@@ -350,4 +350,13 @@ public interface IPatientAssayRecordBusiService {
      */
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId);
 
+    /**
+     * 根据条件查询
+     * 
+     * @Title: listByCond
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query);
 }
