@@ -53,4 +53,8 @@ public class CmSysParamConsts {
      * app地址
      */
     public static final String HD_APP_ADDR = "hdAppAddr";
+    /**
+     * 化验是否关联宣教计划
+     */
+    public static final String PROP_AUTO_PUSH = "propAutoPush";
 }

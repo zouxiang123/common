@@ -476,4 +476,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         }
     }
 
+    @Override
+    public List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query) {
+        return patientAssayRecordBusiMapper.listByCond(query);
+    }
 }

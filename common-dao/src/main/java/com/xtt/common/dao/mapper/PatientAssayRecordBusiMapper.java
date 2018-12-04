@@ -252,4 +252,14 @@ public interface PatientAssayRecordBusiMapper {
      *
      */
     List<PatientAssayRecordBusi> getByNewestAssayRecordBusi(PatientAssayRecordBusi busiRecord);
+
+    /**
+     * 根据条件查询
+     * 
+     * @Title: listByCond
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query);
 }
