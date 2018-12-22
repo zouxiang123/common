@@ -37,6 +37,8 @@ public class SysUserDto {
     private String sexShow;
     private String mobileShow;
     private String skin;
+    private String speciality;
+    private String summary;
 
     public Long getId() {
         return id;
@@ -208,6 +210,22 @@ public class SysUserDto {
 
     public void setSkin(String skin) {
         this.skin = skin;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
 }

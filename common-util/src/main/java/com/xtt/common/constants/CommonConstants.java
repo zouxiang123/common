@@ -39,7 +39,9 @@ public class CommonConstants {
     public static final String SYS_LOG_TYPE_3 = "3";// 诊断
     public static final String SYS_LOG_TYPE_4 = "4";// 其它
 
-    public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/xtt" : "/home/publish/xtt";
+    //public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/xtt" : "/home/publish/xtt";
+    
+    public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/cdaims" : "/home/publish/cdaims";
     public static final String ANNOUNCEMENT_FILE_PATH = "announcement";
     public static final String IMAGE_FILE_PATH = "images";
     public static final String IMAGE_FILE_PATH_PATIENT = "patient";

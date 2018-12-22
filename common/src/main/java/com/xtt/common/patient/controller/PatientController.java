@@ -218,14 +218,14 @@ public class PatientController {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/";
-        if (id == null) {
+        if (StringUtil.isBlank(id)) {
             String newFilename = "/patient/" + System.currentTimeMillis() + ".png";
             FileUtil.uploadFile(image, path + newFilename);
             BusinessCommonUtil.compressPic(path, newFilename);
             map.put("status", CommonConstants.SUCCESS);
             map.put("filepath", "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + newFilename);
         } else {
-            String newFilename = "/patient/" + id + ".png";
+            String newFilename = "/patient/" + id + "/" + System.currentTimeMillis() + ".png";
             FileUtil.uploadFile(image, path + newFilename);
             BusinessCommonUtil.compressPic(path, newFilename);
             map.put("status", CommonConstants.SUCCESS);

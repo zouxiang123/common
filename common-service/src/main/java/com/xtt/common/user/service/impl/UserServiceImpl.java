@@ -145,13 +145,15 @@ public class UserServiceImpl implements IUserService {
             user.setPassword(CommonConstants.DEFAULT_PASSWORD);// 设置默认密码
             sysUserMapper.insert(user);
             associationRole(user.getRoleId(), user.getId());// 创建关联数据
-            // 新增用户创建默认头像
-            Long timeStamp = System.currentTimeMillis();
-            String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
-                            + "/" + user.getId() + ".png";
-            String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
-            BusinessCommonUtil.combineImage(name, newFilename);
-            user.setImagePath(newFilename + "?t=" + timeStamp);
+            if (StringUtils.isEmpty(user.getImagePath())) {
+                // 新增用户创建默认头像
+                Long timeStamp = System.currentTimeMillis();
+                String newFilename = "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + CommonConstants.USER_IMAGE_FILE_PATH
+                                + "/" + user.getId() + ".png";
+                String name = user.getName().length() >= 2 ? user.getName().substring(user.getName().length() - 2) : user.getName();
+                BusinessCommonUtil.combineImage(name, newFilename);
+                user.setImagePath(newFilename + "?t=" + timeStamp);
+            }
             updateByPrimaryKeySelective(user);
         }
         return CommonConstants.SUCCESS;
