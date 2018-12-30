@@ -13,6 +13,7 @@ import java.util.Map;
 
 import com.xtt.common.dao.po.PatientOutcomeReport;
 import com.xtt.common.dao.po.ReportParameterPO;
+import com.xtt.common.dao.po.TotPO;
 
 public interface IPatientOutcomeReportService {
     /**
@@ -34,5 +35,15 @@ public interface IPatientOutcomeReportService {
      *
      */
     public Map<String, Object> getReportData(ReportParameterPO reportParameterPO);
+
+    /**
+     * 获取当前年份之前的所有转归患者
+     * 
+     * @Title: getTotList
+     * @param yearStr
+     * @return
+     *
+     */
+    List<TotPO> listTotByYear(String yearStr);
 
 }

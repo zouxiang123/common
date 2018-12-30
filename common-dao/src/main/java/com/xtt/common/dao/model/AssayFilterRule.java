@@ -77,6 +77,11 @@ public class AssayFilterRule {
     private Long updateUserId;
 
     /**
+     * 化验时间取样品时间或报告时间 assay_filter_rule.assay_date_type
+     */
+    private String assayDateType;
+
+    /**
      * 主键
      */
     public Long getId() {
@@ -270,5 +275,13 @@ public class AssayFilterRule {
      */
     public void setUpdateUserId(Long updateUserId) {
         this.updateUserId = updateUserId;
+    }
+
+    public String getAssayDateType() {
+        return assayDateType;
+    }
+
+    public void setAssayDateType(String assayDateType) {
+        this.assayDateType = assayDateType;
     }
 }

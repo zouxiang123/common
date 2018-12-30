@@ -148,7 +148,7 @@ public interface IPatientAssayRecordBusiService {
      * @return
      *
      */
-    List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode);
+    List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode, String fromSource);
 
     /**
      * 查询所有化验月份
@@ -350,4 +350,13 @@ public interface IPatientAssayRecordBusiService {
      */
     public PatientAssayInspectioidBack getInspectioidBack(String inspectionId, Long patientId, String diaAbFlag, Integer tenantId);
 
+    /**
+     * 根据条件查询
+     * 
+     * @Title: listByCond
+     * @param query
+     * @return
+     *
+     */
+    List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query);
 }

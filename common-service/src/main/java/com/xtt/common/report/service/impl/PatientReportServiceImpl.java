@@ -37,19 +37,52 @@ public class PatientReportServiceImpl implements IPatientReportService {
 
         String sql = "";
         if (reportType == 1) {
-            int ageRange = Integer.parseInt(map.get("ageRange").toString());
-            int to = ageRange;
-            if (ageRange < 100) {
-                for (int from = 0; to < 100; from = to + 1, to += ageRange) {
-                    sql += "    when age >=" + from + " and age <=" + to + " then '" + from + "-" + to + "'";
+            String ageGapType = (String) map.get("ageGapType");
+            if ("1".equals(ageGapType)) {// 均匀年龄段
+                int ageRange = Integer.parseInt(map.get("ageRange").toString());
+                int to = ageRange;
+                if (ageRange < 100) {
+                    for (int from = 0; to < 100; from = to + 1, to += ageRange) {
+                        sql += "    when age >=" + from + " and age <=" + to + " then '" + from + "-" + to + "'";
+                    }
+                    sql += "    else '" + (to - ageRange) + "以上'";
+                } else {// 年龄段大于等于100按：0到年龄段统计
+                    sql += "   when age >= 0 and age <=" + ageRange + " then '0-" + ageRange + "' else '" + ageRange + "以上' ";
                 }
-                sql += "    else '" + (to - ageRange) + "以上'";
-            } else {// 年龄段大于等于100按：0到年龄段统计
-                sql += "   when age >= 0 and age <=" + ageRange + " then '0-" + ageRange + "' else '" + ageRange + "以上' ";
+            } else if ("0".equals(ageGapType)) {
+                int begin = (int) map.get("ageIntervalBeg");
+                int end = (int) map.get("ageIntervalEnd");
+                sql += " when age >=" + begin + " and age <=" + end + " then '" + begin + "-" + end + "' else '非" + begin + "-" + end + "年龄段'";
             }
             map.put("whenAgeRange", sql);
             List<Map<String, Object>> ageRangeList = patientReportMapper.listAgeRange(map);
             retMap.put("ageRangeList", ageRangeList);
+        }
+
+        if (reportType == 2) {
+            String ageGapType = (String) map.get("ageGapType");
+            if ("1".equals(ageGapType)) {// 均匀年龄段
+                // dialysisAgeRangeList(透析龄统计)
+                int dialysisAgeRange = Integer.parseInt(map.get("dialysisAgeRange").toString());
+                sql = "";
+                int to = dialysisAgeRange;
+                if (dialysisAgeRange <= 50) {
+                    for (int from = 0; to < 50; from = to + 1, to += dialysisAgeRange) {
+                        sql += "    when dialysisAge >=" + from + " and dialysisAge <=" + to + " then '" + from + "-" + to + "'";
+                    }
+                    sql += "    else '其他'";
+                } else {// 透析年龄大于等于50按：0到透析年龄统计
+                    sql += "   when dialysisAge >= 0 and dialysisAge <=" + dialysisAgeRange + " then '0-" + dialysisAgeRange + "' else '其他' ";
+                }
+            } else if ("0".equals(ageGapType)) {
+                int begin = (int) map.get("ageIntervalBeg");
+                int end = (int) map.get("ageIntervalEnd");
+                sql += " when dialysisAge >=" + begin + " and dialysisAge <=" + end + " then '" + begin + "-" + end + "' else '非" + begin + "-" + end
+                                + "透析年龄段'";
+            }
+            map.put("whenDialysisAgeRange", sql);
+            List<Map<String, Object>> dialysisAgeRangeList = patientReportMapper.selectPatientDialysisAgeRange(map);
+            retMap.put("dialysisAgeRangeList", dialysisAgeRangeList);
         }
 
         if (reportType == 3) {
@@ -71,7 +104,18 @@ public class PatientReportServiceImpl implements IPatientReportService {
             retMap.put("medicalList", medicalList);
         }
 
-        if (reportType == 1) {
+        if (reportType == 5) {
+            // nationList
+            List<Map<String, Object>> nationList = patientReportMapper.selectPatientNation(map);
+            retMap.put("nationList", nationList);
+        }
+        if (reportType == 6) {
+            // cultureList
+            List<Map<String, Object>> cultureList = patientReportMapper.selectPatientCulture(map);
+            retMap.put("cultureList", cultureList);
+        }
+
+        if (reportType == 1 || reportType == 2) {
             // 平均年龄
             List<Map<String, Object>> avgMap = patientReportMapper.listAvgAge(UserUtil.getTenantId(), map.get("isTemp"));
             retMap.put("avgMap", avgMap);

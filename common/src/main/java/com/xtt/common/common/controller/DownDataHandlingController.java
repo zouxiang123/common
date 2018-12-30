@@ -27,6 +27,7 @@ import com.xtt.common.constants.IApiConst;
 import com.xtt.common.dao.model.PatientAssayConf;
 import com.xtt.common.patient.service.IPatientService;
 import com.xtt.common.report.controller.AssayReportController;
+import com.xtt.common.report.service.IPatientAssayNewstService;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.http.HttpResult;
 import com.xtt.platform.util.time.DateFormatUtil;
@@ -47,6 +48,8 @@ public class DownDataHandlingController {
     private PatientAssayRecordController patientAssayRecordController;
     @Autowired
     private IPatientAssayConfService patientAssayConfService;
+    @Autowired
+    private IPatientAssayNewstService patientAssayNewstService;
 
     /**
      * 数据下载完调用接口
@@ -96,6 +99,9 @@ public class DownDataHandlingController {
                         LOGGER.info("===================== hand all assay report data =====================");
                         assayReportController.insertAutoHistory(tenantId, null, po.getSysOwner());
                     }
+                    LOGGER.info("===================== hand all assay newst report data =====================");
+                    // 每日自动更新患者最新-次化验数据
+                    patientAssayNewstService.insertAuto(tenantId);
                 }
                 LOGGER.info("===================== end of hand create_time {} assay record , total cost {} ms============", dateStr,
                                 System.currentTimeMillis() - start);

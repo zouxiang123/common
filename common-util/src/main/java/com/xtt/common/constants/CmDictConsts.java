@@ -154,4 +154,19 @@ public class CmDictConsts {
      * 工程师：维修商家
      */
     public static final String ENG_MAINTAIN_MERCHANT = "eng_maintain_merchant";
+
+    /**
+     * 民族
+     */
+    public static final String CM_NATON = "nation";
+
+    /**
+     * 文化程度
+     */
+    public static final String CM_CULTURE = "standard_of_culture";
+
+    /**
+     * 药品观察类型
+     */
+    public static final String DRUGS_TYPE = "drugs_type";
 }

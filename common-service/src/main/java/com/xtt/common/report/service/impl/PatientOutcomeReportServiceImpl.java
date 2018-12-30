@@ -8,7 +8,10 @@
  */
 package com.xtt.common.report.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,17 +25,21 @@ import org.springframework.stereotype.Service;
 import com.xtt.common.constants.CmDictConsts;
 import com.xtt.common.dao.mapper.PatientOutcomeReportMapper;
 import com.xtt.common.dao.po.PatientOutcomeReport;
+import com.xtt.common.dao.po.PatientOutcomeReportPO;
 import com.xtt.common.dao.po.ReportParameterPO;
+import com.xtt.common.dao.po.TotPO;
 import com.xtt.common.dto.DictDto;
 import com.xtt.common.report.service.IPatientOutcomeReportService;
 import com.xtt.common.util.DictUtil;
 import com.xtt.common.util.UserUtil;
 import com.xtt.platform.util.time.DateFormatUtil;
+import com.xtt.platform.util.time.DateUtil;
 
 @Service
 public class PatientOutcomeReportServiceImpl implements IPatientOutcomeReportService {
     @Autowired
     private PatientOutcomeReportMapper patientOutcomeReportMapper;
+    public static final String OUTCOME_TYPE_PD = "PD";// 转归类型PD
 
     @Override
     public List<PatientOutcomeReport> listByCondition(PatientOutcomeReport record) {
@@ -190,5 +197,65 @@ public class PatientOutcomeReportServiceImpl implements IPatientOutcomeReportSer
                 totalRowList.add(getCellMap(colCodes[i], count + ""));
             }
         }
+    }
+
+    /**
+     * 查询当前年份之前的所有转归患者
+     */
+    public List<TotPO> listTotByYear(String yearStr) {
+        Integer tenantId = UserUtil.getTenantId();
+        PatientOutcomeReportPO p = new PatientOutcomeReportPO();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(DateUtil.parseDate(yearStr, "yyyy"));
+        cal.add(Calendar.YEAR, 1);
+        p.setCatheterDate(cal.getTime());
+        p.setFkTenantId(tenantId);
+        p.setType(OUTCOME_TYPE_PD);
+        List<PatientOutcomeReportPO> list = patientOutcomeReportMapper.listTotByYear(p);
+        // 腹膜炎发生次数
+        Integer count = patientOutcomeReportMapper.countTots(p);
+        return initTotList(list, yearStr, count);
+    }
+
+    /**
+     * 数据重组
+     * 
+     * @Title: initPeritonitisList
+     * @param list
+     * @param yearStr
+     * @return
+     *
+     */
+    public List<TotPO> initTotList(List<PatientOutcomeReportPO> list, String yearStr, Integer count) {
+        if (CollectionUtils.isNotEmpty(list) && count > 0) {
+            List<TotPO> pr = new ArrayList<TotPO>();
+            String[] months = new String[13];
+            for (int i = 1; i < months.length; i++) {
+                TotPO p = new TotPO();
+                p.setYearMonth(yearStr + "-" + (i < 10 ? "0" + i : i));
+                Date currentYearMonth = DateUtil.parseDate(p.getYearMonth(), "yyyy-MM");
+                // 当前日期腹膜炎患者治疗透析总月份
+                int currentCountMonths = 0;
+                for (int j = 0; j < list.size(); j++) {
+                    PatientOutcomeReportPO pc = list.get(j);
+                    // 当前日期大于置管日期
+                    if (currentYearMonth.after(pc.getCatheterDate())) {
+                        // 转归日期
+                        Date outDate = pc.getOutComeDate().after(currentYearMonth) ? currentYearMonth : pc.getOutComeDate();
+                        // 透析月份
+                        int m = (outDate.getYear() - pc.getCatheterDate().getYear()) * 12 + (outDate.getMonth() - pc.getCatheterDate().getMonth())
+                                        + 1;
+                        currentCountMonths += m;
+                    }
+                }
+                double num = (float) currentCountMonths / count;
+                p.setValue(new BigDecimal(num).setScale(2, BigDecimal.ROUND_HALF_UP));
+                pr.add(p);
+            }
+            return pr;
+        }
+
+        return null;
+
     }
 }

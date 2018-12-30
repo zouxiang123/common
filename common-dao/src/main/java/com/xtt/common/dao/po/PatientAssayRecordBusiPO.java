@@ -50,6 +50,18 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
     private String endDateStr;
     private Date startCreateTime;
     private Date endCreateTime;
+    private String fkDictUk;
+    private Boolean hasPropConfIItemCode;// 是否关联宣教智能推送配置
+    private String startCreateTimeStr;// 开始时间
+    private String endCreateTimeStr;// 结束时间
+
+    public String getFkDictUk() {
+        return fkDictUk;
+    }
+
+    public void setFkDictUk(String fkDictUk) {
+        this.fkDictUk = fkDictUk;
+    }
 
     public Integer getValueType() {
         return valueType;
@@ -221,5 +233,29 @@ public class PatientAssayRecordBusiPO extends PatientAssayRecordBusi {
 
     public void setEndCreateTime(Date endCreateTime) {
         this.endCreateTime = endCreateTime;
+    }
+
+    public String getStartCreateTimeStr() {
+        return startCreateTimeStr;
+    }
+
+    public void setStartCreateTimeStr(String startCreateTimeStr) {
+        this.startCreateTimeStr = startCreateTimeStr;
+    }
+
+    public String getEndCreateTimeStr() {
+        return endCreateTimeStr;
+    }
+
+    public void setEndCreateTimeStr(String endCreateTimeStr) {
+        this.endCreateTimeStr = endCreateTimeStr;
+    }
+
+    public Boolean getHasPropConfIItemCode() {
+        return hasPropConfIItemCode;
+    }
+
+    public void setHasPropConfIItemCode(Boolean hasPropConfIItemCode) {
+        this.hasPropConfIItemCode = hasPropConfIItemCode;
     }
 }

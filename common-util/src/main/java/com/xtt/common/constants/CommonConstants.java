@@ -39,7 +39,9 @@ public class CommonConstants {
     public static final String SYS_LOG_TYPE_3 = "3";// 诊断
     public static final String SYS_LOG_TYPE_4 = "4";// 其它
 
-    public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/xtt" : "/home/publish/xtt";
+    //public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/xtt" : "/home/publish/xtt";
+    
+    public static final String BASE_PATH = System.getProperty("os.name").toLowerCase().startsWith("win") ? "c:/cdaims" : "/home/publish/cdaims";
     public static final String ANNOUNCEMENT_FILE_PATH = "announcement";
     public static final String IMAGE_FILE_PATH = "images";
     public static final String IMAGE_FILE_PATH_PATIENT = "patient";
@@ -181,6 +183,14 @@ public class CommonConstants {
      * 转归类型：3死亡
      */
     public static String PATIENT_OUTCOME_TYPE_DEAD = "3";
+
+    /** 字典唯一后缀常量 */
+    public static final String DICT_UK_SUFFIX = "_xttsuffix";
+    public static final Integer REPORT_EX_STATUS_INIT = 0;
+    /**
+     * 异常提醒_异常_检验结果
+     */
+    public static final Integer REPORT_EX_ASSAY = 2;
 
     /**
      * 初始化请求路径相关参数

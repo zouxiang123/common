@@ -126,11 +126,58 @@ public class DictDiagnosisServiceImpl implements IDictDiagnosisService {
                 }
             }
             for (CmDictDiagnosisPO t : trees) {
-                if (StringUtils.isNoneBlank(t.getpItemCode()) && t.getpItemCode().equals(tree.getItemCode())) {
+                if (StringUtils.isNotBlank(t.getpItemCode()) && t.getpItemCode().equals(tree.getItemCode())) {
                     if (tree.getChildrens() == null) {
                         List<CmDictDiagnosisPO> myChildrens = new ArrayList<CmDictDiagnosisPO>();
                         myChildrens.add(t);
                         tree.setChildrens(myChildrens);
+                    } else {
+                        tree.getChildrens().add(t);
+                    }
+                }
+            }
+        }
+        return rootTrees;
+    }
+
+    @Override
+    public CmDictDiagnosisPO selectPInfo(String itemCode) {
+        return cmDictDiagnosisMapper.selectPInfo(itemCode);
+    }
+
+    /**
+     * 根据指定父节点获取节点下的树结构，如果获取所有pItemCode参数为null即可
+     * 
+     * @Title: selectReportTreeList
+     * @param pItemCode
+     * @return
+     *
+     */
+    @Override
+    public List<CmDictDiagnosisPO> selectReportTreeList(String pItemCode) {
+        // 获取所有tree数据
+        CmDictDiagnosisPO dictDiagnosis = new CmDictDiagnosisPO();
+        // dictDiagnosis.setIsLeaf(false); // 获取所有有效树字典数据
+        List<CmDictDiagnosisPO> trees = this.selectByCondition(dictDiagnosis);
+        // 定义一个空的rootTrees集合，存储树结构
+        List<CmDictDiagnosisPO> rootTrees = Lists.newArrayList();
+        for (CmDictDiagnosisPO tree : trees) {
+            if (StringUtils.isNotBlank(pItemCode)) {
+                if (StringUtils.isNotBlank(tree.getpItemCode()) && pItemCode.equals(tree.getpItemCode())) {
+                    rootTrees.add(tree);
+                }
+            } else {
+                if (StringUtils.isBlank(tree.getpItemCode())) {
+                    rootTrees.add(tree);
+                }
+            }
+            for (CmDictDiagnosisPO t : trees) {
+                if (StringUtils.isNotBlank(t.getpItemCode()) && t.getpItemCode().equals(tree.getItemCode())) {
+                    if (tree.getChildrens() == null) {
+                        List<CmDictDiagnosisPO> myChildrens = new ArrayList<CmDictDiagnosisPO>();
+                        myChildrens.add(t);
+                        tree.setChildrens(myChildrens);
+                        tree.setChildren(myChildrens);
                     } else {
                         tree.getChildrens().add(t);
                     }

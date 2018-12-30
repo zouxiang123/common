@@ -10,6 +10,7 @@ package com.xtt.common.patient.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -34,8 +35,10 @@ import com.xtt.common.dao.model.PatientHistory;
 import com.xtt.common.dao.model.PatientOwner;
 import com.xtt.common.dao.po.PatientAssayResultPO;
 import com.xtt.common.dao.po.PatientCardPO;
+import com.xtt.common.dao.po.PatientCountPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.PatientSerialNumberPO;
+import com.xtt.common.dto.LoginUser;
 import com.xtt.common.dto.PatientDto;
 import com.xtt.common.patient.service.IPatientCardService;
 import com.xtt.common.patient.service.IPatientOwnerService;
@@ -160,9 +163,15 @@ public class PatientServiceImpl implements IPatientService {
             });
             patientCardService.saveBatch(cards);
         }
-
-        // 下载该患者的所有的第三方数据
-        patientThirdSerice.callInterfacePro(patient.getId(), IDownConst.DOWN_TYPE_PT_ALL_INFO, patient.getSysOwner());
+        Integer tenantId= UserUtil.getTenantId();
+        LoginUser user=UserUtil.getLoginUser();
+        // 异步下载该患者的所有的第三方数据
+        new Thread(()->{
+        	UserUtil.setThreadTenant(tenantId);
+        	UserUtil.setLoginUser(user);
+        	patientThirdSerice.callInterfacePro(patient.getId(), IDownConst.DOWN_TYPE_PT_ALL_INFO, patient.getSysOwner());
+        }).start();
+        
     }
 
     private void updatePatientSerialNum(Patient patient) {
@@ -390,5 +399,16 @@ public class PatientServiceImpl implements IPatientService {
     @Override
     public List<PatientPO> listByNameOrInitials(String param, Integer tenantId) {
         return patientMapper.listByNameOrInitials(param, tenantId, UserUtil.getSysOwner());
+    }
+
+    @Override
+    public List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO) {
+        return patientMapper.listDeadPatients(patientCountPO);
+    }
+
+    @Override
+    public List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map) {
+
+        return patientMapper.listDiagnosisPatientByCondtion(map);
     }
 }

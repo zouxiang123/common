@@ -50,7 +50,10 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />    
+    <result column="nation" jdbcType="VARCHAR" property="nation" />
+    <result column="culture" jdbcType="VARCHAR" property="culture" />
+    <result column="file_number" jdbcType="VARCHAR" property="fileNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -62,7 +65,7 @@
     spell_initials, outpatient_number, id_type, emergency_contacts, emergency_mobile2, 
     emergency_mobile3, offset, is_temp, dialysis_times, patient_type, blood_abo, blood_rh, 
     barcode_path, height, weight, serial_num, fk_tenant_id, sys_owner, create_time, create_user_id, 
-    update_time, update_user_id
+    update_time, update_user_id,nation,culture,file_number
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -99,7 +102,7 @@
       barcode_path, height, weight, 
       serial_num, fk_tenant_id, sys_owner, 
       create_time, create_user_id, update_time, 
-      update_user_id)
+      update_user_id,nation,culture,file_number)
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{imagePath,jdbcType=VARCHAR}, 
@@ -115,7 +118,7 @@
       #{barcodePath,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
       #{serialNum,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, #{sysOwner,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT})
+      #{updateUserId,jdbcType=BIGINT},#{nation,jdbcType=VARCHAR},#{culture,jdbcType=VARCHAR},#{fileNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.Patient">
     <!--
@@ -261,6 +264,15 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
+      <if test="nation != null">
+        nation,
+      </if>
+      <if test="culture != null">
+        culture,
+      </if>
+      <if test="fileNumber != null">
+        file_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -400,6 +412,15 @@
       </if>
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="nation != null">
+        #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="culture != null">
+        #{culture,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNumber != null">
+        #{fileNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -547,6 +568,15 @@
       <if test="deadDate != null">
         dead_date = #{deadDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="nation != null">
+        nation = #{nation,jdbcType=VARCHAR},
+      </if>
+      <if test="culture != null">
+        culture = #{culture,jdbcType=VARCHAR},
+      </if>
+      <if test="fileNumber != null">
+        file_number = #{fileNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -599,7 +629,10 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT}
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      nation = #{nation,jdbcType=VARCHAR},
+      culture = #{culture,jdbcType=VARCHAR},
+      file_number = #{fileNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -609,7 +642,14 @@
 	  <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
 	  <result column="county_name" jdbcType="VARCHAR" property="countyName" />
 	  <result column="age" jdbcType="INTEGER" property="age" />
+      <result column="is_enable" jdbcType="VARCHAR" property="isEnable" />
 	</resultMap>
+    
+    <!-- 自定义 -->
+    <resultMap extends="BaseResultMap" id="PatientCountResultMap" type="com.xtt.common.dao.po.PatientCountPO">
+      <result column="reason" jdbcType="VARCHAR" property="reason" /> 
+      <result column="record_date" jdbcType="DATE" property="recordDate" />     
+    </resultMap>
 	
 	<select id="selectByCondition" parameterType="com.xtt.common.dao.model.Patient" resultMap="ExtendResultMap">
 		select p.*
@@ -846,5 +886,69 @@
         <if test="param != null and param !=''">
             and (p.name like CONCAT('%',#{param},'%') or p.spell_initials LIKE CONCAT('%',#{param},'%'))
         </if>
+    </select>
+    
+    <!-- 死亡患者查询 -->
+    <select id="listDeadPatients" parameterType="com.xtt.common.dao.po.PatientCountPO" resultMap="PatientCountResultMap">       
+        SELECT
+            t.id,
+            t.`name`,
+            t.sex,
+            t.birthday,
+            po.reason,
+            po.record_date,
+            po.fk_patient_id
+        FROM
+            patient t
+        LEFT JOIN patient_outcome po ON po.fk_patient_id = t.id
+        WHERE
+            po.fk_tenant_id = #{fkTenantId}
+        <if test="sysOwner != null and sysOwner != ''">
+            and po.sys_owner = #{sysOwner}
+        </if>
+        <if test="type != null and type != ''">
+            and po.type = #{type}
+        </if>        
+        group BY t.id         
+        ORDER BY
+            t.dead_date DESC
+    </select>
+    
+    <resultMap id="ResultMap" type="com.xtt.common.dao.po.PatientPO" extends="ExtendResultMap">
+    <result column="item_name" jdbcType="VARCHAR" property="itemName" />
+    <result column="item_code" jdbcType="VARCHAR" property="itemCode" />
+    <result column="registerTime" jdbcType="INTEGER" property="registerTime" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+  </resultMap>
+    
+    <!-- 查询该年的原发病详情 -->
+    <select id="listDiagnosisPatientByCondtion"   parameterType="map" resultMap="ResultMap">
+        SELECT
+              p.`name`,
+              cdd.item_name,
+              cdd.item_code,
+              DATE_FORMAT(cdev.create_time, '%Y-%m-%d') registerTime,
+              cdev.content 
+        FROM
+            cm_diagnosis_entity_value cdev
+                INNER JOIN cm_dict_diagnosis cdd ON cdev.item_code=cdd.item_code
+        INNER JOIN patient p ON cdev.fk_patient_id = p.id  AND cdev.fk_tenant_id = #{tenantId}        
+        LEFT JOIN cm_diagnosis_hist cdh ON p.id = cdh.fk_patient_id
+        WHERE
+         DATE_FORMAT(cdev.create_time, '%Y')=#{year}
+          AND p.fk_tenant_id = #{tenantId}
+          <if test="diagonsisItemCodes!=null">
+          AND  cdev.item_code in <foreach collection="diagonsisItemCodes" index="index" item="item" open="(" separator="," close=")">#{item}</foreach>      
+          </if>
+         <if test="sex!=null and sex!=''">
+         AND p.sex = #{sex}
+         </if>
+         <if test="isTemp!=null and isTemp!=''">
+         AND p.is_temp = #{isTemp}
+         </if>
+        <if test="sql!=null and sql!=''">
+           ${sql}
+      </if>
+        AND cdd.item_code LIKE 'LC%'
     </select>
 </mapper>

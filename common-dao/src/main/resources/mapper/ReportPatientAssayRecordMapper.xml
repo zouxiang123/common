@@ -215,19 +215,28 @@
 			, p.result
 	        , p.fk_patient_id fkPatientId
 		FROM report_patient_assay_record p
-		INNER JOIN patient pa ON p.fk_patient_id = pa.id 
-        <if test="patientLabelId != null">
+		INNER JOIN patient pa ON p.fk_patient_id = pa.id
+        <if test="isOutComeValue !=null">
+            left join patient_owner powner on pa.id=powner.fk_patient_id and pa.sys_owner=powner.sys_owner and pa.fk_tenant_id= powner.fk_tenant_id        
+        </if>        
+        <if test="patientLabelId != null and patientLabelId.length !=0">
           INNER JOIN patient_label_ref plf ON pa.id = plf.fk_patient_id and plf.fk_tenant_id = p.fk_tenant_id and plf.sys_owner = pa.sys_owner
         </if>
 		WHERE p.fk_tenant_id = #{fkTenantId}
 		AND p.result is not null
 		AND p.item_code = #{itemCode}
-		AND p.assay_year = #{assayYear,jdbcType=VARCHAR}
-	   <if test="patientLabelId != null">
-         AND plf.fk_label_id=#{patientLabelId}
+		AND p.assay_year = #{assayYear,jdbcType=VARCHAR}        
+	   <if test="patientLabelId != null and patientLabelId.length !=0">         
+         AND plf.fk_label_id in 
+         <foreach collection="patientLabelId" item="item"  open="(" separator="," close=")">  
+            #{item}  
+         </foreach> 
        </if>
        <if test="sysOwner != null">
           AND pa.sys_owner = #{sysOwner}
+       </if>
+       <if test="isOutComeValue !=null">
+          AND powner.is_enable=#{isOutComeValue,jdbcType=BIT}
        </if>
 	) a
 	<!-- AND p.date_type = #{dateType} -->
@@ -275,7 +284,7 @@
 		, pa.`name` as patientName
 	FROM report_patient_assay_record p
 	INNER JOIN patient pa ON pa.id = p.fk_patient_id
-  	<if test="patientLabelId != null">
+  	<if test="patientLabelId != null and patientLabelId.length !=0">
 	  INNER JOIN patient_label_ref plf ON pa.id = plf.fk_patient_id and plf.fk_tenant_id = p.fk_tenant_id and plf.sys_owner = pa.sys_owner
   	</if>
 	WHERE p.fk_tenant_id = #{fkTenantId} AND p.result is not null 
@@ -283,17 +292,20 @@
 		AND p.item_code = #{itemCode}
 	</if>
 	<if test="dateValue != null and dateValue != ''">
-		AND P.date_type = #{dateType}
+		AND p.date_type = #{dateType}
 		<if test="dateType == 'm'.toString()">
 			AND p.assay_month = #{dateValue}
 		</if>
 		<if test="dateType == 's'.toString()">
 			AND p.assay_season = #{dateValue}
 		</if>
-	</if>
-	<if test="patientLabelId != null">
-	  AND plf.fk_label_id=#{patientLabelId}
-	</if>
+	</if>	
+    <if test="patientLabelId != null and patientLabelId.length !=0">         
+         AND plf.fk_label_id in 
+         <foreach collection="patientLabelId" item="item"  open="(" separator="," close=")">  
+            #{item}  
+         </foreach> 
+       </if>
     <if test="sysOwner != null">
       AND pa.sys_owner = #{sysOwner}
     </if>

@@ -9,25 +9,37 @@
 		FROM (
 		SELECT DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d')) AS age
 		FROM patient p
+        left join patient_owner po on p.id=po.fk_patient_id
 		WHERE p.fk_tenant_id = #{tenantId} and p.del_flag = 0
 		<if test="isTemp !=null">
 			AND p.is_temp = #{isTemp}
-		</if>
+		</if>        
+        <if test="outcomeType != null and outcomeType =='0'.toString()">
+            AND po.sys_owner = #{sysOwner}
+        </if>        
+        <if test="outcomeType != null and outcomeType =='1'.toString()">
+            AND po.sys_owner != #{sysOwner}
+        </if>
 		) t
 		GROUP BY name
 	</select>
 	<!-- 平均年龄 -->
 	<select id="listAvgAge" resultType="java.util.LinkedHashMap">
 		select
-		ROUND(AVG(
-		DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d'))
-		)) AS avgAge
-		FROM patient p
-		WHERE p.fk_tenant_id = #{tenantId}
-		and p.del_flag = 0
-		<if test="isTemp !=null">
-			AND p.is_temp = #{isTemp}
-		</if>
+            ROUND(AVG(
+                DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(birthday, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(birthday, '00-%m-%d'))
+            )) AS avgAge,
+            ROUND(AVG(
+                DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cdh.first_treatment_date, '%Y') - (DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(cdh.first_treatment_date, '00-%m-%d'))
+            )) AS avgDialysisAge
+        from 
+            patient p         
+        left join cm_diagnosis_hist cdh on p.id=cdh.fk_patient_id AND cdh.fk_tenant_id = #{tenantId}
+        WHERE
+            p.del_flag = 0
+            <if test="isTemp !=null and isTemp!=''">
+                AND p.is_temp IN (#{isTemp})
+            </if>
 	</select>
 
 	<!-- 性别统计 -->
@@ -36,11 +48,18 @@
 		from (
 			select p.sex from
 			patient p
+            left join patient_owner po on p.id=po.fk_patient_id
 			WHERE p.fk_tenant_id = #{tenantId}
 			and p.del_flag = 0
 			<if test="isTemp !=null">
 				AND p.is_temp = #{isTemp}
 			</if>
+            <if test="outcomeType != null and outcomeType =='0'.toString()">
+                AND po.sys_owner = #{sysOwner}
+            </if>        
+            <if test="outcomeType != null and outcomeType =='1'.toString()">
+                AND po.sys_owner != #{sysOwner}
+            </if>
 		) t
 		group by name
 	</select>
@@ -48,17 +67,103 @@
 	 <!-- 医保信息统计 -->
 	<select id="listMedical" resultType="java.util.LinkedHashMap">
 		SELECT `name` patientName, charge_type chargeType, serial_num serialNum
-		FROM patient 
-		WHERE fk_tenant_id = #{tenantId} and del_flag = 0
+		FROM patient p 
+        left join patient_owner po on p.id=po.fk_patient_id
+		WHERE p.fk_tenant_id = #{tenantId} and del_flag = 0
 		<if test="patientName != null and patientName != ''">
-			and `name` like concat('%',#{patientName},'%')
+			and p.`name` like concat('%',#{patientName},'%')
 		</if>
 		<if test="isMedical != null and isMedical != ''">
-			and charge_type IN (#{isMedical})
+			and p.charge_type IN (#{isMedical})
 		</if>
 		<if test="isTemp !=null">
-			AND is_temp = #{isTemp}
+			AND p.is_temp = #{isTemp}
 		</if>
-		order by serial_num
+        <if test="outcomeType != null and outcomeType =='0'.toString()">
+            AND po.sys_owner = #{sysOwner}
+        </if>        
+        <if test="outcomeType != null and outcomeType =='1'.toString()">
+            AND po.sys_owner != #{sysOwner}
+        </if>
+		order by p.serial_num
 	</select>
+    
+    <!-- 透析龄统计 -->
+    <select id="selectPatientDialysisAgeRange" resultType="java.util.LinkedHashMap">
+        SELECT
+            count(*) value,
+            CASE
+                ${whenDialysisAgeRange}
+            END name
+        FROM
+            (
+                select
+                    DATE_FORMAT(NOW(), '%Y') - DATE_FORMAT(cdh.first_treatment_date, '%Y') - (
+                                        DATE_FORMAT(NOW(), '00-%m-%d') &lt; DATE_FORMAT(cdh.first_treatment_date, '00-%m-%d')
+                                    ) AS dialysisAge
+                from 
+                    patient p 
+                left join patient_owner po ON p.id=po.fk_patient_id AND p.fk_tenant_id = #{tenantId}
+                left join cm_diagnosis_hist cdh on p.id=cdh.fk_patient_id AND cdh.fk_tenant_id = #{tenantId}
+                WHERE
+                    p.del_flag = 0
+                    <if test="isTemp !=null and isTemp!=''">
+                        AND p.is_temp IN (#{isTemp})
+                    </if>
+                    <if test="outcomeType != null and outcomeType =='0'.toString()">
+                        AND po.sys_owner = #{sysOwner}
+                    </if>        
+                    <if test="outcomeType != null and outcomeType =='1'.toString()">
+                        AND po.sys_owner != #{sysOwner}
+                    </if>
+            ) t
+        GROUP BY
+            name
+        ORDER BY dialysisAge
+    </select>
+    
+    <!-- 民族统计 -->
+    <select id="selectPatientNation" resultType="java.util.LinkedHashMap">
+        SELECT
+            IFNULL(p.nation, '不详') name,
+            COUNT(p.id) value
+        FROM
+            patient p
+        left join patient_owner po ON p.id=po.fk_patient_id AND p.fk_tenant_id = #{tenantId}
+        WHERE
+           p.del_flag = 0
+           <if test="isTemp !=null and isTemp!=''">
+             AND p.is_temp IN (#{isTemp})
+           </if>
+           <if test="outcomeType != null and outcomeType =='0'.toString()">
+                AND po.sys_owner = #{sysOwner}
+            </if>        
+            <if test="outcomeType != null and outcomeType =='1'.toString()">
+                AND po.sys_owner != #{sysOwner}
+            </if>
+        GROUP BY
+            p.nation
+    </select>
+      <!-- 文化程度统计 -->
+     <select id="selectPatientCulture" resultType="java.util.LinkedHashMap">
+            SELECT
+                IFNULL(p.culture, '不详') name,
+                COUNT(p.id) value
+            FROM
+                patient p
+            left join patient_owner po ON p.id=po.fk_patient_id AND p.fk_tenant_id = #{tenantId}
+            WHERE
+             p.del_flag = 0
+            <if test="isTemp !=null and isTemp!=''">
+              AND hpe.is_temp IN (#{isTemp})
+            </if>
+            <if test="outcomeType != null and outcomeType =='0'.toString()">
+                AND po.sys_owner = #{sysOwner}
+            </if>        
+            <if test="outcomeType != null and outcomeType =='1'.toString()">
+                AND po.sys_owner != #{sysOwner}
+            </if>
+            GROUP BY
+                p.culture
+    </select>
 </mapper>

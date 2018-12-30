@@ -43,10 +43,12 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
     private Integer groupIndex;// -1：全部，其余和分组规则匹配
     private String groupShow;// 分组值
     private String batchNo;// 批次号
-    private Long patientLabelId; // 标签编号
+    private Long[] patientLabelId; // 标签编号
     private Long fkUserId; // 用户编号
     private Collection<String> itemCodes;// 多个itemCode编号
     private String sysOwner;
+
+    private Boolean isOutComeValue;// 转归患者值,1:未转归
 
     public String getSqlCondition() {
         return sqlCondition;
@@ -242,11 +244,11 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
         this.batchNo = batchNo;
     }
 
-    public Long getPatientLabelId() {
+    public Long[] getPatientLabelId() {
         return patientLabelId;
     }
 
-    public void setPatientLabelId(Long patientLabelId) {
+    public void setPatientLabelId(Long[] patientLabelId) {
         this.patientLabelId = patientLabelId;
     }
 
@@ -272,6 +274,14 @@ public class ReportPatientAssayRecordPO extends ReportPatientAssayRecord {
 
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
+    }
+
+    public Boolean getIsOutComeValue() {
+        return isOutComeValue;
+    }
+
+    public void setIsOutComeValue(Boolean isOutComeValue) {
+        this.isOutComeValue = isOutComeValue;
     }
 
 }

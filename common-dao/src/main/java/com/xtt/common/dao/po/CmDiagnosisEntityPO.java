@@ -26,6 +26,8 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
     private String operatorName;
     private String itemName;
     private String createTimeShow;
+    private Long[] fkDictIcdId;
+    private Long icdId;
 
     /**
      * Entity对应的Value集合
@@ -103,6 +105,22 @@ public class CmDiagnosisEntityPO extends CmDiagnosisEntity {
 
     public void setItemCodes(Collection<String> itemCodes) {
         this.itemCodes = itemCodes;
+    }
+
+    public Long[] getFkDictIcdId() {
+        return fkDictIcdId;
+    }
+
+    public void setFkDictIcdId(Long[] fkDictIcdId) {
+        this.fkDictIcdId = fkDictIcdId;
+    }
+
+    public Long getIcdId() {
+        return icdId;
+    }
+
+    public void setIcdId(Long icdId) {
+        this.icdId = icdId;
     }
 
 }

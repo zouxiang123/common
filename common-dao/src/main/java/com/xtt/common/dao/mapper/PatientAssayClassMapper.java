@@ -102,4 +102,32 @@ public interface PatientAssayClassMapper {
      */
     PatientAssayClass getByFkAssayGroupConfId(Long fkAssayGroupConfId);
 
+    /**
+     * 根据自定义条件查询数据
+     * 
+     * @Title: listByCondiction
+     * @param record
+     * @return
+     *
+     */
+    List<PatientAssayClassPO> listByCondition(PatientAssayClass assayClassQuery);
+
+    /**
+     * 查询化验项提醒数量
+     * 
+     * @Title: countByCondition
+     * @param fkTenantId
+     * @return
+     *
+     */
+    int countByCondition(@Param(value = "fkTenantId") Integer fkTenantId);
+
+    /**
+     * 根据自定义条件删除数据
+     * 
+     * @Title: deleteByCondition
+     * @param record
+     *
+     */
+    void deleteByCondition(PatientAssayClass record);
 }

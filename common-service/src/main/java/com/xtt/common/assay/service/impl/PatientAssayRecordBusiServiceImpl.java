@@ -136,8 +136,13 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
     }
 
     @Override
-    public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode) {
-        Set<String> groupItemCodes = assayGroupService.listGroupItemCodes(itemCode, UserUtil.getTenantId());
+    public List<Map<String, Object>> listForPersonReport(Long patientId, Date startDate, Date endDate, String itemCode, String fromSource) {
+        List<String> groupItemCodes = null;
+        if ("stage_summary".equals(fromSource)) {
+            groupItemCodes = assayHospDictService.listItemCodeByDictCcode(itemCode, UserUtil.getTenantId());
+        } else {
+            groupItemCodes = assayHospDictService.listSimilarItemCode(itemCode, UserUtil.getTenantId());
+        }
         if (CollectionUtils.isNotEmpty(groupItemCodes)) {
             itemCode = null;
         }
@@ -471,4 +476,8 @@ public class PatientAssayRecordBusiServiceImpl implements IPatientAssayRecordBus
         }
     }
 
+    @Override
+    public List<PatientAssayRecordBusiPO> listByCond(PatientAssayRecordBusiPO query) {
+        return patientAssayRecordBusiMapper.listByCond(query);
+    }
 }

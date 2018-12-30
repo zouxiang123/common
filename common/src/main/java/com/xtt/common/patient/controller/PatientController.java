@@ -9,6 +9,9 @@
 package com.xtt.common.patient.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -41,6 +44,7 @@ import com.xtt.common.dao.model.PatientCard;
 import com.xtt.common.dao.model.Province;
 import com.xtt.common.dao.po.CmQueryPO;
 import com.xtt.common.dao.po.PatientCardPO;
+import com.xtt.common.dao.po.PatientCountPO;
 import com.xtt.common.dao.po.PatientPO;
 import com.xtt.common.dao.po.PatientSerialNumberPO;
 import com.xtt.common.dto.SysParamDto;
@@ -139,6 +143,10 @@ public class PatientController {
         model.addObject("chargeTypes", DictUtil.listByPItemCode(CmDictConsts.PATIENT_CHARGE_TYPE));
         model.addObject("patientId", patientId);
         model.addObject("patient", patient);
+        // 民族
+        model.addObject("nations", DictUtil.listByPItemCode(CmDictConsts.CM_NATON));
+        // 文化程度
+        model.addObject("cultures", DictUtil.listByPItemCode(CmDictConsts.CM_CULTURE));
         // 调用第三方接口地址(获取病患基本信息)
         String ifPath = DictUtil.getItemName(CmDictConsts.URL, CmDictConsts.URL_IF_PATIENT);
         model.addObject(CmDictConsts.URL_IF_PATIENT, ifPath + UserUtil.getTenantId());
@@ -210,14 +218,14 @@ public class PatientController {
         HashMap<String, Object> map = new HashMap<String, Object>();
 
         String path = CommonConstants.BASE_PATH + "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/";
-        if (id == null) {
+        if (StringUtil.isBlank(id)) {
             String newFilename = "/patient/" + System.currentTimeMillis() + ".png";
             FileUtil.uploadFile(image, path + newFilename);
             BusinessCommonUtil.compressPic(path, newFilename);
             map.put("status", CommonConstants.SUCCESS);
             map.put("filepath", "/" + UserUtil.getTenantId() + "/" + CommonConstants.IMAGE_FILE_PATH + "/" + newFilename);
         } else {
-            String newFilename = "/patient/" + id + ".png";
+            String newFilename = "/patient/" + id + "/" + System.currentTimeMillis() + ".png";
             FileUtil.uploadFile(image, path + newFilename);
             BusinessCommonUtil.compressPic(path, newFilename);
             map.put("status", CommonConstants.SUCCESS);
@@ -408,6 +416,53 @@ public class PatientController {
         m.put("sysOwner", UserUtil.getSysOwner());
         PushUtil.pushAppData(m, CommonConstants.APP_PUSH_PATIENT);
         return CommonConstants.SUCCESS;
+
+    }
+
+    @RequestMapping("countPatient")
+    public ModelAndView view(String sysOwner) {
+        ModelAndView model = new ModelAndView("/cm/patient/patient_count_list");
+        model.addObject("sysOwner", sysOwner);
+        model.addObject("ownerId", UserUtil.getLoginUserId());
+        return model;
+    }
+
+    @RequestMapping("countPatientList")
+    @ResponseBody
+    public HttpResult countPatientList(PatientCountPO patientCount) {
+        HttpResult rs = HttpResult.getSuccessInstance();
+        // 查询死亡患者
+        patientCount.setFkTenantId(UserUtil.getTenantId());
+        List<PatientCountPO> listAll = patientService.listDeadPatients(patientCount);
+        patientCount.setIspaging(true);
+        List<PatientCountPO> list = patientService.listDeadPatients(patientCount);
+        patientCount.setPatientCount(listAll.size());// 死亡患者数量
+        List<PatientCountPO> manList = new ArrayList<PatientCountPO>();// 男患者数量
+        List<PatientCountPO> woManList = new ArrayList<PatientCountPO>();// 女患者数量
+        listAll.forEach(p -> {
+            if (Objects.equals(p.getSex(), "M")) {// 男
+                manList.add(p);
+            } else {
+                woManList.add(p);
+            }
+        });
+        patientCount.setManCnt(manList.size());
+        // 男占比
+        BigDecimal manPer = listAll.size() != 0
+                        ? new BigDecimal(new BigDecimal(manList.size()).doubleValue() / new BigDecimal(listAll.size()).doubleValue() * 100)
+                                        .setScale(2, RoundingMode.HALF_UP)
+                        : new BigDecimal(0.00);
+        // 女占比
+        BigDecimal woManPer = listAll.size() != 0
+                        ? new BigDecimal(new BigDecimal(woManList.size()).doubleValue() / new BigDecimal(listAll.size()).doubleValue() * 100)
+                                        .setScale(2, RoundingMode.HALF_UP)
+                        : new BigDecimal(0.00);
+        patientCount.setManPer(manPer);
+        patientCount.setWomanCnt(woManList.size());
+        patientCount.setWomanPer(woManPer);
+        patientCount.setResults(list);
+        rs.setRs(patientCount);
+        return rs;
 
     }
 }

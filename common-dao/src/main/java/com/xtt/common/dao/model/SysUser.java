@@ -129,6 +129,16 @@ public class SysUser {
      * sys_user.sys_owner
      */
     private String sysOwner;
+    
+    /**
+     * sys_user.speciality
+     */
+    private String speciality;
+    
+    /**
+     * sys_user.sys_owner
+     */
+    private String summary;
 
     /**
      */
@@ -419,4 +429,20 @@ public class SysUser {
     public void setSysOwner(String sysOwner) {
         this.sysOwner = sysOwner;
     }
+
+	public String getSpeciality() {
+		return speciality;
+	}
+
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
 }

@@ -70,4 +70,29 @@
         </if>
         GROUP BY d.item_code,d.item_name,DATE_FORMAT(r.record_date,'%Y-%m')
   </select>
+  
+   <!-- user define -->
+  <resultMap extends="BaseResultMap" id="POResultMap" type="com.xtt.common.dao.po.PatientOutcomeReportPO">    
+       <result column="catheter_date" jdbcType="DATE" property="catheterDate" />
+       <result column="outcome_date" jdbcType="DATE" property="outComeDate" />       
+  </resultMap>
+    <select id="listTotByYear" parameterType="com.xtt.common.dao.po.PatientOutcomeReportPO" resultMap="POResultMap">
+    select * from(
+        select min(pc.catheter_date) catheter_date,max(pout.record_date) outcome_date,pout.fk_patient_id from patient_outcome pout 
+        INNER JOIN pd_catheter pc on pout.fk_patient_id=pc.fk_patient_id
+        where pout.type !=#{type} and pout.fk_tenant_id=#{fkTenantId}
+        GROUP BY pout.fk_patient_id)a
+    <where>
+    <if test="catheterDate !=null">
+    <![CDATA[    
+        a.catheter_date <= #{catheterDate}
+        ]]>
+    </if>
+    </where>
+    </select>
+    
+    <select id="countTots" parameterType="com.xtt.common.dao.po.PatientOutcomeReportPO" resultType="java.lang.Integer">
+        select count(id) from patient_outcome pc where pc.type!=#{type}
+    </select>
+  
 </mapper>

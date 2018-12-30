@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xtt.common.dao.mapper.ReportExConfigMapper">
+  <resultMap id="BaseResultMap" type="com.xtt.common.dao.model.ReportExConfig">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="ex_type" jdbcType="INTEGER" property="exType" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="before_config_json" jdbcType="VARCHAR" property="beforeConfigJson" />
+    <result column="after_config_json" jdbcType="VARCHAR" property="afterConfigJson" />
+    <result column="fk_tenant_id" jdbcType="INTEGER" property="fkTenantId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="BIGINT" property="createUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    id, ex_type, status, before_config_json, after_config_json, fk_tenant_id, create_time, 
+    create_user_id, update_time, update_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from report_ex_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    delete from report_ex_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.xtt.common.dao.model.ReportExConfig">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into report_ex_config (id, ex_type, status, 
+      before_config_json, after_config_json, fk_tenant_id, 
+      create_time, create_user_id, update_time, 
+      update_user_id)
+    values (#{id,jdbcType=BIGINT}, #{exType,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{beforeConfigJson,jdbcType=VARCHAR}, #{afterConfigJson,jdbcType=VARCHAR}, #{fkTenantId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xtt.common.dao.model.ReportExConfig">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    insert into report_ex_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="exType != null">
+        ex_type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="beforeConfigJson != null">
+        before_config_json,
+      </if>
+      <if test="afterConfigJson != null">
+        after_config_json,
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="exType != null">
+        #{exType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConfigJson != null">
+        #{beforeConfigJson,jdbcType=VARCHAR},
+      </if>
+      <if test="afterConfigJson != null">
+        #{afterConfigJson,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xtt.common.dao.model.ReportExConfig">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update report_ex_config
+    <set>
+      <if test="exType != null">
+        ex_type = #{exType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="beforeConfigJson != null">
+        before_config_json = #{beforeConfigJson,jdbcType=VARCHAR},
+      </if>
+      <if test="afterConfigJson != null">
+        after_config_json = #{afterConfigJson,jdbcType=VARCHAR},
+      </if>
+      <if test="fkTenantId != null">
+        fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xtt.common.dao.model.ReportExConfig">
+    <!--
+      WARNING - @mbggenerated, do not modify!
+    -->
+    update report_ex_config
+    set ex_type = #{exType,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      before_config_json = #{beforeConfigJson,jdbcType=VARCHAR},
+      after_config_json = #{afterConfigJson,jdbcType=VARCHAR},
+      fk_tenant_id = #{fkTenantId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <!-- 根据日期获取异常提醒配置内容 -->
+  <select id="listByCondition" parameterType="com.xtt.common.dao.model.ReportExConfig" resultMap="BaseResultMap">
+    select * from report_ex_config where fk_tenant_id = ${fkTenantId} and ex_type = ${exType} and `status` = ${status}
+  </select>
+  <update id="updateByStatus" >
+    update report_ex_config set `status` = ${status} where fk_tenant_id = ${tenantId} and id in
+    <foreach collection="ids" item="item" open="(" separator="," close=")">
+        #{item.id}
+    </foreach>
+  </update>
+</mapper>

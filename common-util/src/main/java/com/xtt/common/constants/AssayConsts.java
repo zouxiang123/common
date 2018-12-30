@@ -1,4 +1,5 @@
 /**   
+
  * @Title: AssayConsts.java 
  * @Package com.xtt.common.constants
  * Copyright: Copyright (c) 2015
@@ -66,4 +67,50 @@ public class AssayConsts {
      */
     public static final Integer VALUE_TYPE_NUMBER = 1;
 
+    /** 字典唯一后缀常量 */
+    public static final String DICT_UK_SUFFIX = "_xttsuffix";
+
+    /**
+     * 异常提醒_异常情况下为1
+     */
+    public static final Integer REPORT_EX_TRUE = 1;
+    /**
+     * 异常提醒_正常情况下为0
+     */
+    public static final Integer REPORT_EX_FALSE = 0;
+
+    /**
+     * 异常提醒_异常_检验结果
+     */
+    public static final Integer REPORT_EX_ASSAY = 2;
+
+    public static final Integer REPORT_EX_STATUS_INIT = 0;
+    public static final Integer REPORT_EX_STATUS_RUN = 1;
+    public static final Integer REPORT_EX_STATUS_INSTALL = 2;
+
+    /**
+     * 异常 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String UNUSUAL_CODE = "2";
+    /**
+     * 异常 name
+     */
+    public static final String UNUSUAL_NAME = "异常";
+
+    /**
+     * 高 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String HIGH_CODE = "3";
+    /**
+     * 高 name
+     */
+    public static final String HIGH_NAME = "高";
+    /**
+     * 低 code 检查结果提示(1:正常;2:无法识别的异常;3:偏高;4:偏低)
+     */
+    public static final String LOW_CODE = "4";
+    /**
+     * 低 name
+     */
+    public static final String LOW_NAME = "低";
 }

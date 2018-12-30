@@ -1,11 +1,13 @@
 package com.xtt.common.dao.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.xtt.common.dao.model.Patient;
+import com.xtt.common.dao.po.PatientCountPO;
 import com.xtt.common.dao.po.PatientPO;
 
 @Repository
@@ -132,4 +134,24 @@ public interface PatientMapper {
      *
      */
     List<PatientPO> listByNameOrInitials(@Param("param") String param, @Param("fkTenantId") Integer tenantId, @Param("sysOwner") String sysOwner);
+
+    /**
+     * 死亡患者列表
+     * 
+     * @Title: selectDeadPatients
+     * @param patientCountPO
+     * @return
+     *
+     */
+    List<PatientCountPO> listDeadPatients(PatientCountPO patientCountPO);
+
+    /**
+     * 查询诊断患者
+     * 
+     * @Title: listDiagnosisPatientByCondtion
+     * @param map
+     * @return
+     *
+     */
+    List<PatientPO> listDiagnosisPatientByCondtion(Map<String, Object> map);
 }

@@ -65,6 +65,27 @@ public class ReportParameterPO {
 
     private Boolean isTemp;// 是否临时患者
 
+    // 非均匀年龄段 区间值
+    private Integer ageIntervalBeg;
+    private Integer ageIntervalEnd;
+    // 是否均匀年龄段
+    private String ageGapType;
+    private String outcomeType;// 是否转归
+
+    private String sex;// 性别
+
+    private String diagonsisItemCode; // 原发病种类
+    private String[] diagonsisItemCodes;// 原发病种类
+
+    private Integer maxAge;// 最大年龄
+    private Integer minAge;// 最小年龄
+
+    private Integer maxDialysisAge;// 最大透析龄
+    private Integer minDialysisAge;// 最小透析龄
+
+    private String itemName; // 最大透析龄
+    private String itemYear;// 原发病年
+
     public String getYear() {
         return year;
     }
@@ -344,4 +365,115 @@ public class ReportParameterPO {
         this.isTemp = isTemp;
     }
 
+    public Integer getAgeIntervalBeg() {
+        return ageIntervalBeg;
+    }
+
+    public void setAgeIntervalBeg(Integer ageIntervalBeg) {
+        this.ageIntervalBeg = ageIntervalBeg;
+    }
+
+    public Integer getAgeIntervalEnd() {
+        return ageIntervalEnd;
+    }
+
+    public void setAgeIntervalEnd(Integer ageIntervalEnd) {
+        this.ageIntervalEnd = ageIntervalEnd;
+    }
+
+    public String getAgeGapType() {
+        return ageGapType;
+    }
+
+    public void setAgeGapType(String ageGapType) {
+        this.ageGapType = ageGapType;
+    }
+
+    public String getOutcomeType() {
+        return outcomeType;
+    }
+
+    public void setOutcomeType(String outcomeType) {
+        this.outcomeType = outcomeType;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public Long getcDictionaryId() {
+        return cDictionaryId;
+    }
+
+    public void setcDictionaryId(Long cDictionaryId) {
+        this.cDictionaryId = cDictionaryId;
+    }
+
+    public Integer getMaxAge() {
+        return maxAge;
+    }
+
+    public void setMaxAge(Integer maxAge) {
+        this.maxAge = maxAge;
+    }
+
+    public Integer getMinAge() {
+        return minAge;
+    }
+
+    public void setMinAge(Integer minAge) {
+        this.minAge = minAge;
+    }
+
+    public Integer getMaxDialysisAge() {
+        return maxDialysisAge;
+    }
+
+    public void setMaxDialysisAge(Integer maxDialysisAge) {
+        this.maxDialysisAge = maxDialysisAge;
+    }
+
+    public Integer getMinDialysisAge() {
+        return minDialysisAge;
+    }
+
+    public void setMinDialysisAge(Integer minDialysisAge) {
+        this.minDialysisAge = minDialysisAge;
+    }
+
+    public String[] getDiagonsisItemCodes() {
+        return diagonsisItemCodes;
+    }
+
+    public void setDiagonsisItemCodes(String[] diagonsisItemCodes) {
+        this.diagonsisItemCodes = diagonsisItemCodes;
+    }
+
+    public String getDiagonsisItemCode() {
+        return diagonsisItemCode;
+    }
+
+    public void setDiagonsisItemCode(String diagonsisItemCode) {
+        this.diagonsisItemCode = diagonsisItemCode;
+    }
+
+    public String getItemYear() {
+        return itemYear;
+    }
+
+    public void setItemYear(String itemYear) {
+        this.itemYear = itemYear;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 }

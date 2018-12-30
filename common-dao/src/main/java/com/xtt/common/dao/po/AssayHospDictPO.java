@@ -10,6 +10,7 @@ package com.xtt.common.dao.po;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import com.xtt.common.dao.model.AssayHospDict;
 
@@ -30,6 +31,13 @@ public class AssayHospDictPO extends AssayHospDict {
     private String groupName; // 组名称
     private String reqId; // 申请单号
     private String oldItemCode; // 历史itemcode
+
+    // 显示用itemCode,如果是血透唯一标识的item_code，去除其后缀
+    private String itemCodeShow;
+
+    private Collection<String> itemCodes;
+
+    private List<Long> ids;
 
     public String getOldItemCode() {
         return oldItemCode;
@@ -149,6 +157,30 @@ public class AssayHospDictPO extends AssayHospDict {
 
     public void setFkPatientId(Long fkPatientId) {
         this.fkPatientId = fkPatientId;
+    }
+
+    public String getItemCodeShow() {
+        return itemCodeShow;
+    }
+
+    public void setItemCodeShow(String itemCodeShow) {
+        this.itemCodeShow = itemCodeShow;
+    }
+
+    public Collection<String> getItemCodes() {
+        return itemCodes;
+    }
+
+    public void setItemCodes(Collection<String> itemCodes) {
+        this.itemCodes = itemCodes;
+    }
+
+    public List<Long> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 
 }

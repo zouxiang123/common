@@ -26,6 +26,8 @@
     <result column="update_user_id" jdbcType="BIGINT" property="updateUserId" />
     <result column="subscribe" jdbcType="VARCHAR" property="subscribe" />
     <result column="sys_owner" jdbcType="VARCHAR" property="sysOwner" />
+    <result column="speciality" jdbcType="VARCHAR" property="speciality" />
+    <result column="summary" jdbcType="VARCHAR" property="summary" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -33,7 +35,7 @@
     -->
     id, account, name, initial, password, image_path, autograph_path, sex, birthday, 
     position, mobile, sub_phone, skin, del_flag, fk_tenant_id, create_time, create_user_id, 
-    update_time, update_user_id, subscribe, sys_owner
+    update_time, update_user_id, subscribe, sys_owner,speciality,summary
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--
@@ -61,7 +63,7 @@
       position, mobile, sub_phone, 
       skin, del_flag, fk_tenant_id, 
       create_time, create_user_id, update_time, 
-      update_user_id, subscribe, sys_owner
+      update_user_id, subscribe, sys_owner,speciality,summary
       )
     values (#{id,jdbcType=BIGINT}, #{account,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{initial,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
@@ -69,7 +71,8 @@
       #{position,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{subPhone,jdbcType=VARCHAR}, 
       #{skin,jdbcType=VARCHAR}, #{delFlag,jdbcType=BIT}, #{fkTenantId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{subscribe,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR}
+      #{updateUserId,jdbcType=BIGINT}, #{subscribe,jdbcType=VARCHAR}, #{sysOwner,jdbcType=VARCHAR},
+      #{speciality,jdbcType=VARCHAR},#{summary,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.xtt.common.dao.model.SysUser">
@@ -141,6 +144,12 @@
       <if test="sysOwner != null">
         sys_owner,
       </if>
+      <if test="speciality != null">
+        speciality,
+      </if>
+      <if test="summary != null">
+        summary,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -205,6 +214,12 @@
       </if>
       <if test="sysOwner != null">
         #{sysOwner,jdbcType=VARCHAR},
+      </if>
+      <if test="speciality != null">
+        #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        #{summary,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -274,6 +289,12 @@
       <if test="sysOwner != null">
         sys_owner = #{sysOwner,jdbcType=VARCHAR},
       </if>
+      <if test="speciality != null">
+        speciality = #{speciality,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null">
+        summary = #{summary,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -301,7 +322,9 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       subscribe = #{subscribe,jdbcType=VARCHAR},
-      sys_owner = #{sysOwner,jdbcType=VARCHAR}
+      sys_owner = #{sysOwner,jdbcType=VARCHAR},
+      speciality = #{speciality,jdbcType=VARCHAR},
+      summary = #{summary,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 	
@@ -364,6 +387,7 @@
 	<select id="selectUserWithFilter" parameterType="com.xtt.common.dao.model.SysUser" resultMap="ExtendResultMap"> 
 		SELECT
 			u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,GROUP_CONCAT(r.`name`) as roleName,GROUP_CONCAT(r.`id`) as roleId,u.del_flag
+            ,u.image_path
 		FROM
 			sys_user u
 		 JOIN sys_user2role sr ON sr.fk_user_id = u.id
@@ -381,6 +405,9 @@
 		<if test="sysOwner != null and sysOwner != ''">
 	      	AND find_in_set(#{sysOwner},u.sys_owner)
 	     </if>
+         <if test="search != null and search != ''">
+            AND (u.account like CONCAT("%",#{search,jdbcType=VARCHAR},"%") or u.name like CONCAT("%",#{search,jdbcType=VARCHAR},"%") or u.mobile like CONCAT("%",#{search,jdbcType=VARCHAR},"%"))
+         </if>
 		GROUP BY u.id,u.account,u.birthday,u.mobile,u.`name`,u.sub_phone,u.skin,u.del_flag
 		ORDER BY u.del_flag,u.id ASC
 	</select>

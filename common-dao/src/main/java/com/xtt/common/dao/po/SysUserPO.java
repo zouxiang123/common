@@ -21,6 +21,8 @@ public class SysUserPO extends SysUser {
     private String mobileShow;
 
     private Integer value;// 统计值
+    
+    private String search;
 
     public String getRoleName() {
         return roleName;
@@ -105,5 +107,13 @@ public class SysUserPO extends SysUser {
     public void setValue(Integer value) {
         this.value = value;
     }
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
+	}
 
 }
